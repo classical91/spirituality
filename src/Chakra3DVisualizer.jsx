@@ -298,7 +298,7 @@ function ChakraOrb({ chakra, selected, onClick }) {
   );
 }
 
-function BodyModel({ selectedId, setSelectedId, rotate }) {
+function BodyModel({ selectedId, onOrbClick, rotate }) {
   const selected = chakras.find((item) => item.id === selectedId) || chakras[3];
 
   return (
@@ -321,7 +321,7 @@ function BodyModel({ selectedId, setSelectedId, rotate }) {
         <div className="absolute left-1/2 top-[24px] h-[405px] w-px -translate-x-1/2 bg-gradient-to-b from-purple-400 via-cyan-300 to-red-400 opacity-70" />
 
         {chakras.map((chakra) => (
-          <ChakraOrb key={chakra.id} chakra={chakra} selected={selectedId === chakra.id} onClick={() => setSelectedId(chakra.id)} />
+          <ChakraOrb key={chakra.id} chakra={chakra} selected={selectedId === chakra.id} onClick={() => onOrbClick(chakra.id)} />
         ))}
       </div>
 
@@ -664,7 +664,7 @@ export default function Chakra3DVisualizer() {
               Interactive 3D-style chakra map
             </div>
             <h1 className="max-w-3xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">Chakra Visualizer</h1>
-            <p className="mt-4 max-w-2xl text-base leading-relaxed text-slate-300 sm:text-lg">
+            <p className="mt-4 hidden max-w-2xl text-base leading-relaxed text-slate-300 sm:block sm:text-lg">
               Explore the seven main chakras through a rotating body model, quick meaning cards, and full expanded explanation pages. This is a wellness and spiritual reflection tool, not medical advice.
             </p>
           </div>
@@ -682,9 +682,13 @@ export default function Chakra3DVisualizer() {
 
         <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div className="space-y-4">
-            <BodyModel selectedId={selectedId} setSelectedId={setSelectedId} rotate={rotate} />
+            <BodyModel
+              selectedId={selectedId}
+              onOrbClick={(id) => { setSelectedId(id); setExpandedOpen(true); }}
+              rotate={rotate}
+            />
 
-            <section className="rounded-[1.75rem] border border-white/10 bg-white/10 p-4 text-white backdrop-blur-xl">
+            <section className="hidden rounded-[1.75rem] border border-white/10 bg-white/10 p-4 text-white backdrop-blur-xl lg:block">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-200">
                 <IconBadge label="☼" className="h-7 w-7 rounded-xl text-sm" />
                 Chakra Selector
@@ -707,11 +711,13 @@ export default function Chakra3DVisualizer() {
             </section>
           </div>
 
-          <DetailPanel
-            chakra={selectedChakra}
-            onOpenAffirmations={() => setAffirmationOpen(true)}
-            onOpenExpanded={() => setExpandedOpen(true)}
-          />
+          <div className="hidden lg:block">
+            <DetailPanel
+              chakra={selectedChakra}
+              onOpenAffirmations={() => setAffirmationOpen(true)}
+              onOpenExpanded={() => setExpandedOpen(true)}
+            />
+          </div>
         </div>
       </section>
 
