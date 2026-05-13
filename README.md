@@ -1,16 +1,38 @@
-# React + Vite
+# Chakra 3D Visualizer
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+An interactive seven-chakra wellness tool built with Vite, React, and Tailwind CSS v4.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+- **3D-style rotating body model** — click any orb to select a chakra
+- **Detail panel** — location, element, and balanced-state summary per chakra
+- **Affirmation window** — five grounded identity affirmations per chakra
+- **Expanded explanation page** — overview, balanced/underactive/overactive patterns, body-mind reflection, pros, watch-outs, practices, and journal prompts
+- **Stretch image references** — Google Images search links for yoga poses and stretches
+- **Chakra selector grid** — jump between chakras without using the body model
+- **Pause / Rotate 3D toggle** — freeze or resume the sway and aura-ring animations
 
-## React Compiler
+## Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+| Tool | Purpose |
+|------|---------|
+| [Vite](https://vite.dev/) | Dev server and build |
+| [React](https://react.dev/) | UI components |
+| [Tailwind CSS v4](https://tailwindcss.com/) | Utility styling via `@tailwindcss/vite` |
 
-## Expanding the ESLint configuration
+## Getting started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+```bash
+npm install
+npm run dev
+```
+
+Production build:
+
+```bash
+npm run build
+```
+
+## Disclaimer
+
+Chakra language is used here as a symbolic wellness framework for reflection — not as medical diagnosis or treatment.
