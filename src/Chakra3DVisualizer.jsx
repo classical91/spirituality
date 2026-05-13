@@ -509,28 +509,57 @@ function DetailPanel({ chakra, onOpenExpanded, onOpenAffirmations }) {
   );
 }
 
-function ExpandedChakraPage({ chakra, onClose, onSelect }) {
+function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
+  const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
+  const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
+  const nextChakra = chakras[(currentIndex + 1) % chakras.length];
+
   return (
     <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/95 px-4 py-5 text-white backdrop-blur-xl sm:px-6 lg:px-10">
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(168,85,247,0.18),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(6,182,212,0.14),transparent_26%),radial-gradient(circle_at_50%_95%,rgba(239,68,68,0.12),transparent_32%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl">
         <div className="sticky top-0 z-20 -mx-4 mb-6 border-b border-white/10 bg-slate-950/75 px-4 py-4 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
-          <div className="mx-auto flex max-w-6xl flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-            <div className="flex items-center gap-3">
-              <span className="h-4 w-4 rounded-full" style={{ background: chakra.color, boxShadow: `0 0 24px ${chakra.glow}` }} />
-              <div>
-                <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Expanded chakra page</p>
-                <h2 className="text-xl font-bold">{chakra.name}</h2>
+          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+            <div className="flex items-center gap-2">
+              <button
+                type="button"
+                onClick={() => onSelect(prevChakra.id)}
+                aria-label={`Previous: ${prevChakra.name}`}
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/10 text-lg font-bold transition hover:bg-white/20 active:scale-95"
+              >
+                ‹
+              </button>
+              <div className="flex items-center gap-2 px-1">
+                <span className="h-3 w-3 shrink-0 rounded-full" style={{ background: chakra.color, boxShadow: `0 0 14px ${chakra.glow}` }} />
+                <h2 className="text-base font-bold sm:text-xl">{chakra.name}</h2>
               </div>
+              <button
+                type="button"
+                onClick={() => onSelect(nextChakra.id)}
+                aria-label={`Next: ${nextChakra.name}`}
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-2xl border border-white/10 bg-white/10 text-lg font-bold transition hover:bg-white/20 active:scale-95"
+              >
+                ›
+              </button>
             </div>
-            <button
-              type="button"
-              onClick={onClose}
-              className="rounded-2xl border border-white/10 bg-white/10 px-5 py-3 font-semibold text-white transition hover:bg-white/15 active:scale-95"
-            >
-              Close page
-            </button>
+            <div className="flex shrink-0 items-center gap-2">
+              <button
+                type="button"
+                onClick={onOpenAffirmations}
+                className="hidden rounded-2xl border border-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/10 active:scale-95 sm:block"
+                style={{ borderColor: `${chakra.color}55` }}
+              >
+                Affirmations
+              </button>
+              <button
+                type="button"
+                onClick={onClose}
+                className="rounded-2xl border border-white/10 bg-white/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/20 active:scale-95"
+              >
+                Close
+              </button>
+            </div>
           </div>
         </div>
 
@@ -636,6 +665,24 @@ function ExpandedChakraPage({ chakra, onClose, onSelect }) {
           </div>
         </section>
 
+        <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:justify-center">
+          <button
+            type="button"
+            onClick={onOpenAffirmations}
+            className="w-full rounded-2xl border border-white/15 px-6 py-4 text-base font-semibold text-white transition hover:bg-white/10 active:scale-95 sm:hidden"
+            style={{ borderColor: `${chakra.color}66`, background: `${chakra.color}18` }}
+          >
+            Open affirmations
+          </button>
+          <button
+            type="button"
+            onClick={onClose}
+            className="w-full rounded-2xl border border-white/15 bg-white/10 px-6 py-4 text-base font-semibold text-white transition hover:bg-white/20 active:scale-95"
+          >
+            ← Back to body map
+          </button>
+        </div>
+
         <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-slate-400">
           Chakra language is used here as a symbolic wellness framework for reflection, not as medical diagnosis or treatment. Use it to organize self-awareness, not to replace qualified care.
         </p>
@@ -659,11 +706,11 @@ export default function Chakra3DVisualizer() {
       <section className="relative z-10 mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
           <div>
-            <div className="mb-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-slate-200 backdrop-blur-md">
+            <div className="mb-3 hidden items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-slate-200 backdrop-blur-md sm:inline-flex">
               <span>◎</span>
               Interactive 3D-style chakra map
             </div>
-            <h1 className="max-w-3xl text-4xl font-black tracking-tight sm:text-5xl lg:text-6xl">Chakra Visualizer</h1>
+            <h1 className="max-w-3xl text-2xl font-black tracking-tight sm:text-4xl sm:text-5xl lg:text-6xl">Chakra Visualizer</h1>
             <p className="mt-4 hidden max-w-2xl text-base leading-relaxed text-slate-300 sm:block sm:text-lg">
               Explore the seven main chakras through a rotating body model, quick meaning cards, and full expanded explanation pages. This is a wellness and spiritual reflection tool, not medical advice.
             </p>
@@ -730,6 +777,7 @@ export default function Chakra3DVisualizer() {
           chakra={selectedChakra}
           onClose={() => setExpandedOpen(false)}
           onSelect={(id) => setSelectedId(id)}
+          onOpenAffirmations={() => setAffirmationOpen(true)}
         />
       )}
     </main>
