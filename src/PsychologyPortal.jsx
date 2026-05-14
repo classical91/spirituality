@@ -4,6 +4,7 @@ const tabs = [
   { id: "overview", label: "Overview", icon: "◈" },
   { id: "frameworks", label: "All Frameworks", icon: "▣" },
   { id: "powerstack", label: "Power Stack", icon: "✦" },
+  { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
 ];
 
 const frameworks = [
@@ -622,6 +623,231 @@ export default function PsychologyPortal({ onBack }) {
                 </div>
               </div>
             )}
+            {/* VITAMINS & MINERALS */}
+            {activeTab === "nutrients" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Psychophysiology" title="Vitamins & Minerals">
+                  This page maps how nutrients support body systems that influence mood, attention, energy, stress resilience, sleep, and neurochemical balance.
+                </SectionHeader>
+
+                {/* Nutrient map */}
+                <div>
+                  <p className="mb-5 text-sm leading-7 text-slate-400">
+                    Vitamins and minerals do not "create a mood" by themselves. They help the body run the systems that mood depends on: energy production, oxygen transport, nerve signaling, sleep rhythm, stress recovery, and neurotransmitter synthesis.
+                  </p>
+                  <div className="grid gap-4 lg:grid-cols-3 lg:items-stretch">
+                    {/* Left column */}
+                    <div className="flex flex-col gap-4">
+                      {[
+                        { label: "Vitamins", tone: "emerald", text: "B vitamins, vitamin D, vitamin C, and folate support energy metabolism, nerve function, immune tone, and neurotransmitter-related pathways." },
+                        { label: "Minerals", tone: "violet", text: "Magnesium, iron, zinc, iodine, selenium, calcium, sodium, and potassium support nerve firing, oxygen delivery, muscle tension, thyroid function, and stress response." },
+                        { label: "Food + Rhythm", tone: "gold", text: "Nutrients work best with steady meals, hydration, sleep, sunlight, movement, and recovery — not as isolated quick fixes." },
+                      ].map(({ label, tone, text }) => {
+                        const colors = { emerald: "border-emerald-400/20 bg-emerald-500/5", violet: "border-violet-400/20 bg-violet-500/5", gold: "border-amber-400/20 bg-amber-500/5" };
+                        const headings = { emerald: "text-emerald-300", violet: "text-violet-300", gold: "text-amber-300" };
+                        return (
+                          <div key={label} className={`rounded-2xl border p-5 ${colors[tone]}`}>
+                            <h4 className={`mb-2 text-base font-bold ${headings[tone]}`}>{label}</h4>
+                            <p className="text-sm leading-6 text-slate-300">{text}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+
+                    {/* Center orb */}
+                    <div className="flex min-h-[280px] items-center justify-center rounded-3xl border border-amber-300/20 bg-[radial-gradient(circle_at_50%_35%,rgba(216,169,72,.2),transparent_50%),radial-gradient(circle_at_35%_65%,rgba(169,145,217,.15),transparent_50%),linear-gradient(135deg,rgba(255,255,255,.04),rgba(255,255,255,.01))] p-8 text-center">
+                      <div>
+                        <div className="mb-3 text-4xl font-black text-white">Psycho&shy;physiology</div>
+                        <p className="text-sm leading-7 text-slate-300">Nutrition influences the body signals your mind reads: energy, calm, tension, clarity, fatigue, motivation, and emotional stability.</p>
+                      </div>
+                    </div>
+
+                    {/* Right column */}
+                    <div className="flex flex-col gap-4">
+                      {[
+                        { label: "Neurochemical Themes", tone: "sky", text: "Dopamine, serotonin, GABA, norepinephrine, acetylcholine, and oxytocin are supported indirectly through sleep, amino acids, micronutrients, stress regulation, and lifestyle." },
+                        { label: "Deficiency-Like Signals", tone: "rose", text: "Low energy, low mood, brain fog, irritability, poor sleep, muscle tension, and anxious activation can overlap with nutrient issues, stress, or medical factors." },
+                        { label: "Action Layer", tone: "teal", text: "Track patterns, improve food quality, avoid megadosing, and use labs or professional guidance when symptoms are persistent or intense." },
+                      ].map(({ label, tone, text }) => {
+                        const colors = { sky: "border-sky-400/20 bg-sky-500/5", rose: "border-rose-400/20 bg-rose-500/5", teal: "border-teal-400/20 bg-teal-500/5" };
+                        const headings = { sky: "text-sky-300", rose: "text-rose-300", teal: "text-teal-300" };
+                        return (
+                          <div key={label} className={`rounded-2xl border p-5 ${colors[tone]}`}>
+                            <h4 className={`mb-2 text-base font-bold ${headings[tone]}`}>{label}</h4>
+                            <p className="text-sm leading-6 text-slate-300">{text}</p>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Core nutrient cards */}
+                <div>
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300/80">Core nutrient cards</div>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {[
+                      { name: "Magnesium", text: "Supports muscle and nerve function, energy production, and relaxation themes. Connects to tension, sleep, GABA-like calm, and stress recovery." },
+                      { name: "B6", text: "Supports neurotransmitter-related metabolism. Bridges food, mood, serotonin, dopamine, GABA, and energy regulation." },
+                      { name: "B12", text: "Supports nerve health, red blood cell formation, and energy. Connects to fatigue, brain fog, mood stability, and cognitive clarity." },
+                      { name: "Folate", text: "Works with B12 in methylation and cell function. Belongs near mood steadiness, cognition, and nervous-system support." },
+                      { name: "Vitamin D", text: "Supports bones, muscles, immune function, and nerve communication. Belongs in sunlight, mood rhythm, and seasonal well-being." },
+                      { name: "Iron", text: "Supports oxygen transport and energy. Connects to fatigue, focus, exercise capacity, and oxygen delivery to muscles and brain." },
+                      { name: "Zinc", text: "Supports immune function, repair, and many enzyme systems. Belongs near resilience, recovery, and neurochemical support." },
+                      { name: "Iodine", text: "Supports thyroid hormone production, which influences energy, temperature regulation, metabolism, and mental pace." },
+                      { name: "Selenium", text: "Supports thyroid-related and antioxidant systems. Fits the recovery, metabolism, and stress-buffering side of the map." },
+                      { name: "Calcium", text: "Supports bones, muscle contraction, and nerve signaling. Belongs in the body-signal layer, not just bone health." },
+                      { name: "Sodium + Potassium", text: "Electrolytes that support fluid balance, nerve impulses, and muscle function. Connect to hydration, energy, headaches, and exercise recovery." },
+                      { name: "Vitamin C", text: "Supports antioxidant protection, collagen formation, and iron absorption. Belongs near recovery, immune tone, and stress resilience." },
+                    ].map(({ name, text }) => (
+                      <div key={name} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <h4 className="mb-2 text-sm font-bold text-white">{name}</h4>
+                        <p className="text-xs leading-5 text-slate-400">{text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Neurochemical table */}
+                <div>
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300/80">Neurochemical integration</div>
+                  <p className="mb-5 text-sm leading-7 text-slate-400">
+                    This does not mean one nutrient equals one neurotransmitter. Certain nutrients support the body conditions and biochemical pathways that help those systems function.
+                  </p>
+                  <div className="overflow-x-auto rounded-3xl border border-white/10">
+                    <table className="w-full text-sm">
+                      <thead>
+                        <tr className="border-b border-white/10 bg-white/5">
+                          <th className="p-4 text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Neurochemical</th>
+                          <th className="p-4 text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Nutrient Support</th>
+                          <th className="p-4 text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400 hidden md:table-cell">Body-State</th>
+                          <th className="p-4 text-left text-xs font-bold uppercase tracking-[0.2em] text-slate-400 hidden lg:table-cell">Portal Use</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {[
+                          { chem: "Dopamine", nutrients: "B vitamins, iron, protein-rich meals, magnesium, zinc", body: "Motivation, drive, reward, energy, goal pursuit", use: "Goals, push-ups, steps, and productivity rituals." },
+                          { chem: "Serotonin", nutrients: "Vitamin D, B6, folate, magnesium, sunlight, balanced meals", body: "Mood steadiness, emotional resilience, satisfaction", use: "Gratitude, sunlight, mood tracking, daily rhythm." },
+                          { chem: "GABA", nutrients: "Magnesium, B6, steady blood sugar, calming evening routine", body: "Calm, relaxation, reducing overactivation", use: "Breathwork, sleep rhythm, detachment, down-regulation." },
+                          { chem: "Norepinephrine", nutrients: "Iron, B vitamins, hydration, electrolytes, adequate calories", body: "Alertness, attention, readiness, energy", use: "Focus blocks, work sprints, biking, movement activation." },
+                          { chem: "Acetylcholine", nutrients: "B vitamins, choline-rich foods, magnesium, sleep support", body: "Learning, memory, cognition, mental sharpness", use: "Personal development, learning, journaling, skill-building." },
+                          { chem: "Oxytocin", nutrients: "Not a supplement target — supported by connection, safety, touch, trust, and stress regulation", body: "Bonding, trust, belonging, emotional warmth", use: "Relationships, compassion rituals, giving." },
+                        ].map(({ chem, nutrients, body, use }) => (
+                          <tr key={chem} className="border-b border-white/[0.06] bg-white/[0.02] last:border-b-0">
+                            <td className="p-4 font-semibold text-white">{chem}</td>
+                            <td className="p-4 leading-5 text-slate-300">{nutrients}</td>
+                            <td className="p-4 leading-5 text-slate-400 hidden md:table-cell">{body}</td>
+                            <td className="p-4 leading-5 text-slate-400 hidden lg:table-cell">{use}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* Psychophysiology patterns */}
+                <div>
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300/80">Psychophysiology patterns</div>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {[
+                      { title: "Energy + Motivation", desc: "When energy is low, mindset work can feel harder. Links fatigue-like states to sleep, iron, B vitamins, hydration, and movement — not only lack of discipline.", pills: ["Iron", "B12", "B6", "Hydration", "Electrolytes", "Steps"], tone: "amber" },
+                      { title: "Calm + Sleep", desc: "Evening regulation is a body-state issue. Connects calm to magnesium, breathwork, sleep rhythm, light timing, and emotional detachment.", pills: ["Magnesium", "Vitamin D rhythm", "Long exhale", "GABA theme", "Journal release"], tone: "teal" },
+                      { title: "Focus + Cognitive Clarity", desc: "Clarity is a combination of oxygen delivery, blood sugar rhythm, neurotransmitter support, rest, and environment design.", pills: ["B12", "Folate", "Iron", "Acetylcholine", "Covey Q2"], tone: "sky" },
+                    ].map(({ title, desc, pills, tone }) => {
+                      const pillColors = { amber: "border-amber-400/20 bg-amber-300/10 text-amber-200", teal: "border-teal-400/20 bg-teal-300/10 text-teal-200", sky: "border-sky-400/20 bg-sky-300/10 text-sky-200" };
+                      return (
+                        <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                          <h4 className="mb-2 text-sm font-bold text-white">{title}</h4>
+                          <p className="mb-4 text-xs leading-5 text-slate-400">{desc}</p>
+                          <div className="flex flex-wrap gap-2">
+                            {pills.map((p) => (
+                              <span key={p} className={`inline-flex rounded-full border px-2 py-0.5 text-xs font-medium ${pillColors[tone]}`}>{p}</span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Food-first support */}
+                <div>
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300/80">Food-first support</div>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                      <h4 className="mb-4 text-sm font-bold text-white">Mineral-Focused Plate</h4>
+                      <div className="space-y-3">
+                        {[
+                          { name: "Magnesium", foods: "Leafy greens, legumes, nuts, seeds, whole grains.", label: "Calm" },
+                          { name: "Iron", foods: "Meat, seafood, beans, lentils, spinach, fortified foods. Pair plant iron with vitamin C.", label: "Energy" },
+                          { name: "Zinc", foods: "Seafood, meat, beans, nuts, seeds, dairy, whole grains.", label: "Repair" },
+                        ].map(({ name, foods, label }) => (
+                          <div key={name} className="flex items-start justify-between gap-3 border-t border-white/[0.06] pt-3 first:border-t-0 first:pt-0">
+                            <div>
+                              <p className="text-xs font-bold text-slate-200">{name}</p>
+                              <p className="text-xs leading-5 text-slate-500">{foods}</p>
+                            </div>
+                            <span className="shrink-0 text-xs font-bold text-emerald-400">{label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                      <h4 className="mb-4 text-sm font-bold text-white">Vitamin-Focused Plate</h4>
+                      <div className="space-y-3">
+                        {[
+                          { name: "B Vitamins", foods: "Eggs, fish, dairy, meat, legumes, leafy greens, fortified foods.", label: "Nerves" },
+                          { name: "Vitamin D", foods: "Sunlight, fatty fish, fortified foods, and supplements when appropriate.", label: "Rhythm" },
+                          { name: "Vitamin C", foods: "Citrus, berries, peppers, broccoli, potatoes.", label: "Recovery" },
+                        ].map(({ name, foods, label }) => (
+                          <div key={name} className="flex items-start justify-between gap-3 border-t border-white/[0.06] pt-3 first:border-t-0 first:pt-0">
+                            <div>
+                              <p className="text-xs font-bold text-slate-200">{name}</p>
+                              <p className="text-xs leading-5 text-slate-500">{foods}</p>
+                            </div>
+                            <span className="shrink-0 text-xs font-bold text-amber-400">{label}</span>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+
+                    <div className="rounded-2xl border border-rose-400/20 bg-rose-500/5 p-5">
+                      <h4 className="mb-3 text-sm font-bold text-rose-300">Safety Note</h4>
+                      <p className="mb-4 text-xs leading-5 text-slate-300">
+                        This page is educational. Persistent fatigue, low mood, anxiety, numbness, tingling, dizziness, or major sleep problems deserve proper medical evaluation.
+                      </p>
+                      <p className="text-xs leading-5 text-slate-400">
+                        Avoid megadosing supplements. Some nutrients, including iron and vitamin D, can be harmful in excess or interact with conditions and medications.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Daily ritual */}
+                <div>
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-cyan-300/80">Daily mineral + vitamin ritual</div>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {[
+                      { time: "Morning", text: "Hydrate, get light exposure, eat a nutrient-dense meal if not fasting, and use movement to cue dopamine/norepinephrine-style activation." },
+                      { time: "Midday", text: "Use a balanced meal, steps, electrolytes if needed, and focused work to support energy, cognition, and motivation." },
+                      { time: "Evening", text: "Shift toward magnesium-rich foods, slower breathing, lower stimulation, journaling, and sleep rhythm to support calm." },
+                    ].map(({ time, text }) => (
+                      <div key={time} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-300/70">{time}</p>
+                        <p className="text-sm leading-6 text-slate-300">{text}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Quote */}
+                <blockquote className="rounded-2xl border border-white/10 bg-white/[0.03] px-6 py-5 text-sm italic leading-7 text-slate-400">
+                  "Nutrients are not the whole story, but they help give the nervous system the materials it needs to tell a steadier story."
+                </blockquote>
+              </div>
+            )}
+
           </section>
         </main>
       </div>
