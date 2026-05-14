@@ -225,6 +225,16 @@ function BlockageWindow({ chakra, onClose }) {
         </div>
 
         <div className="space-y-5 p-5 sm:p-6">
+          {chakra.gland && (
+            <div className="flex items-center gap-4 rounded-[1.5rem] border border-cyan-300/20 bg-cyan-300/10 p-4">
+              <div className="grid h-10 w-10 shrink-0 place-items-center rounded-xl border border-white/15 bg-white/10 text-lg">⚕</div>
+              <div>
+                <p className="text-xs uppercase tracking-[0.2em] text-cyan-200/70">Associated endocrine gland</p>
+                <p className="mt-0.5 font-semibold text-white">{chakra.gland}</p>
+              </div>
+            </div>
+          )}
+
           {chakra.blockageCauses && (
             <div className="rounded-[1.5rem] border border-rose-300/20 bg-rose-300/10 p-5">
               <h3 className="mb-4 text-lg font-bold text-rose-100">What typically causes this blockage</h3>
@@ -287,7 +297,7 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
           </div>
         </div>
 
-        <div className="grid gap-3 sm:grid-cols-3">
+        <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Location</p>
             <p className="mt-2 font-medium">{chakra.location}</p>
@@ -309,6 +319,12 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
               </>
             )}
           </div>
+          {chakra.gland && (
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Gland</p>
+              <p className="mt-2 font-medium">{chakra.gland}</p>
+            </div>
+          )}
         </div>
 
         <div className="mt-5 rounded-3xl border border-white/10 bg-slate-950/40 p-5">
@@ -433,7 +449,7 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                   )}
                   <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/80">{chakra.theme}</p>
                 </div>
-                <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">
+                <div className="mt-8 grid gap-3 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
                   <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
                     <p className="text-xs uppercase tracking-[0.2em] text-white/55">Location</p>
                     <p className="mt-2 font-semibold">{chakra.location}</p>
@@ -455,6 +471,12 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                       </>
                     )}
                   </div>
+                  {chakra.gland && (
+                    <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/55">Gland</p>
+                      <p className="mt-2 font-semibold">{chakra.gland}</p>
+                    </div>
+                  )}
                 </div>
               </div>
             </div>

@@ -12,6 +12,7 @@ export const hinduChakras = [
     planet: "Ketu",
     planetGlyph: "☋",
     mantra: "I understand",
+    gland: "Pineal gland",
     theme: "Purpose, faith, spiritual connection",
     balanced: "A quiet sense of trust, perspective, and connection to something greater than the ego.",
     affirmations: [
@@ -67,6 +68,7 @@ export const hinduChakras = [
     planet: "Saturn",
     planetGlyph: "♄",
     mantra: "I see",
+    gland: "Pituitary gland",
     theme: "Insight, imagination, intuition",
     balanced: "Clear inner vision without becoming trapped in overthinking or fantasy.",
     affirmations: [
@@ -122,6 +124,7 @@ export const hinduChakras = [
     planet: "Mercury",
     planetGlyph: "☿",
     mantra: "I speak",
+    gland: "Thyroid gland",
     theme: "Expression, truth, communication",
     balanced: "Speaking honestly without forcing, hiding, or over-explaining yourself.",
     affirmations: [
@@ -177,6 +180,7 @@ export const hinduChakras = [
     planet: "Venus",
     planetGlyph: "♀",
     mantra: "I love",
+    gland: "Thymus",
     theme: "Love, compassion, forgiveness",
     balanced: "Open-hearted love with boundaries, not self-abandonment.",
     affirmations: [
@@ -232,6 +236,7 @@ export const hinduChakras = [
     planet: "Mars",
     planetGlyph: "♂",
     mantra: "I do",
+    gland: "Adrenal glands & Pancreas",
     theme: "Confidence, willpower, identity",
     balanced: "A steady sense of self-worth and direction without needing to dominate.",
     affirmations: [
@@ -287,6 +292,7 @@ export const hinduChakras = [
     planet: "Moon",
     planetGlyph: "☽",
     mantra: "I feel",
+    gland: "Gonads (ovaries / testes)",
     theme: "Emotion, pleasure, creativity",
     balanced: "Feeling emotions and desire without being ruled by them.",
     affirmations: [
@@ -342,6 +348,7 @@ export const hinduChakras = [
     planet: "Saturn",
     planetGlyph: "♄",
     mantra: "I am",
+    gland: "Adrenal glands",
     theme: "Safety, stability, survival",
     balanced: "A grounded sense of safety, presence, and physical stability.",
     affirmations: [
