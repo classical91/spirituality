@@ -1,1 +1,6 @@
 @import "tailwindcss";
+
+@keyframes chakraSway {
+  0%, 100% { transform: perspective(900px) rotateY(0deg); }
+  50% { transform: perspective(900px) rotateY(9deg); }
+}

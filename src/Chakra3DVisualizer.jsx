@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import { useMemo, useState, useEffect } from "react";
 import { hinduChakras } from "./data/hinduChakras";
 import { raChakras } from "./data/raChakras";
 import { baileyChakras } from "./data/baileyChakras";
@@ -18,13 +18,9 @@ function youtubeSearchUrl(query) {
 }
 
 function openExternalUrl(url) {
-  const openedWindow = window.open(url, "_blank");
-  if (openedWindow) {
-    openedWindow.opener = null;
-    openedWindow.focus();
-    return;
-  }
-  window.location.href = url;
+  const openedWindow = window.open(url, "_blank", "noopener,noreferrer");
+  if (openedWindow) openedWindow.focus();
+  else window.location.href = url;
 }
 
 function IconBadge({ label, className = "" }) {
@@ -109,12 +105,6 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
         </div>
       </div>
 
-      <style>{`
-        @keyframes chakraSway {
-          0%, 100% { transform: perspective(900px) rotateY(0deg); }
-          50% { transform: perspective(900px) rotateY(9deg); }
-        }
-      `}</style>
     </div>
   );
 }
@@ -173,8 +163,20 @@ function StretchImageLinks({ chakra, compact = false }) {
 }
 
 function PlanetInfoModal({ chakra, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/80 px-4 backdrop-blur-md" onClick={onClose}>
+    <div
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/80 px-4 backdrop-blur-md"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${chakra.planet} planet information`}
+      onClick={onClose}
+    >
       <div
         className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-white/15 bg-slate-900 shadow-2xl"
         onClick={(e) => e.stopPropagation()}
@@ -207,8 +209,19 @@ function PlanetInfoModal({ chakra, onClose }) {
 }
 
 function AffirmationWindow({ chakra, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl">
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${chakra.name} affirmations`}
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(255,255,255,0.12),transparent_28%),radial-gradient(circle_at_70%_90%,rgba(59,130,246,0.12),transparent_30%)]" />
 
       <section className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl">
@@ -245,8 +258,19 @@ function AffirmationWindow({ chakra, onClose }) {
 }
 
 function BlockageWindow({ chakra, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl">
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${chakra.name} blockage explorer`}
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(239,68,68,0.14),transparent_28%),radial-gradient(circle_at_75%_85%,rgba(168,85,247,0.12),transparent_30%)]" />
 
       <section className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl">
@@ -428,8 +452,19 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
   const nextChakra = chakras[(currentIndex + 1) % chakras.length];
 
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
   return (
-    <div className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/95 px-4 py-5 text-white backdrop-blur-xl sm:px-6 lg:px-10">
+    <div
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/95 px-4 py-5 text-white backdrop-blur-xl sm:px-6 lg:px-10"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${chakra.name} expanded explanation`}
+    >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(168,85,247,0.18),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(6,182,212,0.14),transparent_26%),radial-gradient(circle_at_50%_95%,rgba(239,68,68,0.12),transparent_32%)]" />
 
       <div className="relative z-10 mx-auto max-w-6xl">
@@ -740,7 +775,10 @@ export default function Chakra3DVisualizer() {
           <div>
             <h1 className="max-w-3xl text-2xl font-black tracking-tight sm:text-4xl lg:text-5xl">Chakra Visualizer</h1>
             <p className="mt-2 hidden max-w-2xl text-base leading-relaxed text-slate-300 sm:block sm:text-lg">
-              Explore the seven energy centers through three distinct spiritual frameworks. This is a reflection tool, not medical advice.
+              Explore the seven energy centers through three distinct spiritual frameworks.
+            </p>
+            <p className="mt-3 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-400">
+              ⚠ Educational tool only — not medical advice. Consult a healthcare professional for any health concerns.
             </p>
 
             <div className="mt-4 flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 p-1 w-fit">
