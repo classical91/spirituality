@@ -30,18 +30,18 @@ const signs = [
 ];
 
 const houses = [
-  { name: "1st House", symbol: "1", keywords: "identity, body, first impression", meaning: "The 1st House shows identity, body, appearance, first impressions, and how someone approaches life.", beginner: "This is the doorway of the chart.", deeper: "Planets here are visible and strongly tied to self-expression, instinct, and embodiment.", watch: "Do not confuse the 1st House with the entire personality. It is the entry point.", example: "Mars in the 1st House may make someone direct, active, and physically expressive." },
-  { name: "2nd House", symbol: "2", keywords: "money, values, self-worth", meaning: "The 2nd House shows money, possessions, values, stability, resources, and self-worth.", beginner: "This is the house of what you value.", deeper: "It reveals how someone builds security and relates to material and emotional worth.", watch: "It is not only money. It also shows inner value.", example: "Venus in the 2nd House may value comfort, beauty, and financial steadiness." },
-  { name: "3rd House", symbol: "3", keywords: "communication, learning, siblings", meaning: "The 3rd House shows communication, thinking, siblings, local environment, learning, and everyday movement.", beginner: "This is the house of the mind in daily life.", deeper: "It shows how someone speaks, learns, observes, and interacts with nearby surroundings.", watch: "It is more practical and local than the 9th House.", example: "Mercury in the 3rd House may make communication central." },
-  { name: "4th House", symbol: "4", keywords: "home, family, roots", meaning: "The 4th House shows home, family, emotional roots, ancestry, private life, and inner foundation.", beginner: "This is the emotional base.", deeper: "It shows what someone comes from and what they need to feel internally rooted.", watch: "This house may be private and not obvious to others.", example: "Moon in the 4th House may strongly need home and emotional safety." },
-  { name: "5th House", symbol: "5", keywords: "romance, creativity, pleasure", meaning: "The 5th House shows romance, creativity, play, self-expression, children, joy, and pleasure.", beginner: "This is the house of creative life.", deeper: "It reveals how someone expresses joy, desire, playfulness, and personal artistry.", watch: "It is romance and pleasure, but not necessarily long-term partnership. That is more 7th House.", example: "Venus in the 5th House may love romance, beauty, and playful affection." },
-  { name: "6th House", symbol: "6", keywords: "work, health, routines", meaning: "The 6th House shows daily work, habits, service, health routines, skill-building, and maintenance.", beginner: "This is the house of daily systems.", deeper: "It shows how someone manages life through routines, improvement, and practical responsibility.", watch: "It can become overwork or self-criticism if imbalanced.", example: "Saturn in the 6th House may need disciplined routines." },
-  { name: "7th House", symbol: "7", keywords: "partnership, marriage, mirrors", meaning: "The 7th House shows one-to-one relationships, marriage, contracts, projection, and partnership dynamics.", beginner: "This is the house of partnership.", deeper: "It shows what someone seeks, meets, or learns through important others.", watch: "Planets here can be projected onto partners until owned consciously.", example: "Moon in the 7th House may need emotional connection through partnership." },
-  { name: "8th House", symbol: "8", keywords: "intimacy, transformation, shared resources", meaning: "The 8th House shows intimacy, trust, shared resources, secrets, psychology, death/rebirth, and transformation.", beginner: "This is the house of deep bonding and transformation.", deeper: "It reveals vulnerability, merging, emotional risk, and what changes someone from the inside.", watch: "It can feel intense, private, or hard to control.", example: "Pluto in the 8th House may intensify intimacy and psychological transformation." },
-  { name: "9th House", symbol: "9", keywords: "beliefs, travel, higher learning", meaning: "The 9th House shows beliefs, philosophy, religion, higher education, travel, law, and meaning.", beginner: "This is the house of worldview.", deeper: "It shows how someone searches for truth, wisdom, and broader perspective.", watch: "Belief can become dogma if not questioned.", example: "Jupiter in the 9th House may love travel, teaching, and spiritual learning." },
-  { name: "10th House", symbol: "10", keywords: "career, reputation, public life", meaning: "The 10th House shows career, public image, reputation, achievement, authority, and visible direction.", beginner: "This is the house of public life.", deeper: "It shows how someone is seen, what they build, and the role they may grow into.", watch: "It is not only a job. It can show vocation, reputation, and responsibility.", example: "Sun in the 10th House may seek recognition through achievement." },
-  { name: "11th House", symbol: "11", keywords: "friends, networks, future vision", meaning: "The 11th House shows friendships, groups, communities, networks, hopes, and future-oriented goals.", beginner: "This is the house of community.", deeper: "It shows belonging, collective vision, social ideals, and long-range dreams.", watch: "It can become detached from personal intimacy if overemphasized.", example: "Saturn in the 11th House may take friendship and community seriously." },
-  { name: "12th House", symbol: "12", keywords: "subconscious, solitude, hidden patterns", meaning: "The 12th House shows the subconscious, solitude, dreams, endings, hidden enemies, spirituality, and unseen patterns.", beginner: "This is the hidden house.", deeper: "It reveals what operates behind the scenes: dreams, fears, spiritual sensitivity, and unconscious material.", watch: "It can feel vague until reflected through solitude, therapy, dreams, or spiritual practice.", example: "Neptune in the 12th House may heighten dreams and spiritual sensitivity." },
+  { name: "1st House", symbol: "1", latin: "Vita", latinMeaning: "Life", modernTitle: "House of Self", keywords: "identity, body, first impression", meaning: "The 1st House shows identity, body, appearance, first impressions, and how someone approaches life.", beginner: "This is the doorway of the chart.", deeper: "Planets here are visible and strongly tied to self-expression, instinct, and embodiment.", watch: "Do not confuse the 1st House with the entire personality. It is the entry point.", example: "Mars in the 1st House may make someone direct, active, and physically expressive." },
+  { name: "2nd House", symbol: "2", latin: "Lucrum", latinMeaning: "Gain", modernTitle: "House of Value", keywords: "money, values, self-worth", meaning: "The 2nd House shows money, possessions, values, stability, resources, and self-worth.", beginner: "This is the house of what you value.", deeper: "It reveals how someone builds security and relates to material and emotional worth.", watch: "It is not only money. It also shows inner value.", example: "Venus in the 2nd House may value comfort, beauty, and financial steadiness." },
+  { name: "3rd House", symbol: "3", latin: "Fratres", latinMeaning: "Siblings", modernTitle: "House of Sharing", keywords: "communication, learning, siblings", meaning: "The 3rd House shows communication, thinking, siblings, local environment, learning, and everyday movement.", beginner: "This is the house of the mind in daily life.", deeper: "It shows how someone speaks, learns, observes, and interacts with nearby surroundings.", watch: "It is more practical and local than the 9th House.", example: "Mercury in the 3rd House may make communication central." },
+  { name: "4th House", symbol: "4", latin: "Genitor", latinMeaning: "Parent", modernTitle: "House of Home and Family", keywords: "home, family, roots", meaning: "The 4th House shows home, family, emotional roots, ancestry, private life, and inner foundation.", beginner: "This is the emotional base.", deeper: "It shows what someone comes from and what they need to feel internally rooted.", watch: "This house may be private and not obvious to others.", example: "Moon in the 4th House may strongly need home and emotional safety." },
+  { name: "5th House", symbol: "5", latin: "Nati", latinMeaning: "Children", modernTitle: "House of Pleasure", keywords: "romance, creativity, pleasure", meaning: "The 5th House shows romance, creativity, play, self-expression, children, joy, and pleasure.", beginner: "This is the house of creative life.", deeper: "It reveals how someone expresses joy, desire, playfulness, and personal artistry.", watch: "It is romance and pleasure, but not necessarily long-term partnership. That is more 7th House.", example: "Venus in the 5th House may love romance, beauty, and playful affection." },
+  { name: "6th House", symbol: "6", latin: "Valetudo", latinMeaning: "Health", modernTitle: "House of Health", keywords: "work, health, routines", meaning: "The 6th House shows daily work, habits, service, health routines, skill-building, and maintenance.", beginner: "This is the house of daily systems.", deeper: "It shows how someone manages life through routines, improvement, and practical responsibility.", watch: "It can become overwork or self-criticism if imbalanced.", example: "Saturn in the 6th House may need disciplined routines." },
+  { name: "7th House", symbol: "7", latin: "Uxor", latinMeaning: "Spouse", modernTitle: "House of Balance", keywords: "partnership, marriage, mirrors", meaning: "The 7th House shows one-to-one relationships, marriage, contracts, projection, and partnership dynamics.", beginner: "This is the house of partnership.", deeper: "It shows what someone seeks, meets, or learns through important others.", watch: "Planets here can be projected onto partners until owned consciously.", example: "Moon in the 7th House may need emotional connection through partnership." },
+  { name: "8th House", symbol: "8", latin: "Mors", latinMeaning: "Death", modernTitle: "House of Transformation", keywords: "intimacy, transformation, shared resources", meaning: "The 8th House shows intimacy, trust, shared resources, secrets, psychology, death/rebirth, and transformation.", beginner: "This is the house of deep bonding and transformation.", deeper: "It reveals vulnerability, merging, emotional risk, and what changes someone from the inside.", watch: "It can feel intense, private, or hard to control.", example: "Pluto in the 8th House may intensify intimacy and psychological transformation." },
+  { name: "9th House", symbol: "9", latin: "Iter", latinMeaning: "Passage", modernTitle: "House of Purpose", keywords: "beliefs, travel, higher learning", meaning: "The 9th House shows beliefs, philosophy, religion, higher education, travel, law, and meaning.", beginner: "This is the house of worldview.", deeper: "It shows how someone searches for truth, wisdom, and broader perspective.", watch: "Belief can become dogma if not questioned.", example: "Jupiter in the 9th House may love travel, teaching, and spiritual learning." },
+  { name: "10th House", symbol: "10", latin: "Regnum", latinMeaning: "Kingdom", modernTitle: "House of Enterprise", keywords: "career, reputation, public life", meaning: "The 10th House shows career, public image, reputation, achievement, authority, and visible direction.", beginner: "This is the house of public life.", deeper: "It shows how someone is seen, what they build, and the role they may grow into.", watch: "It is not only a job. It can show vocation, reputation, and responsibility.", example: "Sun in the 10th House may seek recognition through achievement." },
+  { name: "11th House", symbol: "11", latin: "Benefacta", latinMeaning: "Benefits", modernTitle: "House of Blessings", keywords: "friends, networks, future vision", meaning: "The 11th House shows friendships, groups, communities, networks, hopes, and future-oriented goals.", beginner: "This is the house of community.", deeper: "It shows belonging, collective vision, social ideals, and long-range dreams.", watch: "It can become detached from personal intimacy if overemphasized.", example: "Saturn in the 11th House may take friendship and community seriously." },
+  { name: "12th House", symbol: "12", latin: "Carcer", latinMeaning: "Prison / Liberation", modernTitle: "House of Sacrifice", keywords: "subconscious, solitude, hidden patterns", meaning: "The 12th House shows the subconscious, solitude, dreams, endings, hidden enemies, spirituality, and unseen patterns.", beginner: "This is the hidden house.", deeper: "It reveals what operates behind the scenes: dreams, fears, spiritual sensitivity, and unconscious material.", watch: "It can feel vague until reflected through solitude, therapy, dreams, or spiritual practice.", example: "Neptune in the 12th House may heighten dreams and spiritual sensitivity." },
 ];
 
 const aspects = [
@@ -59,6 +59,36 @@ const formulas = [
   { name: "Alchemy Layer", title: "The Alchemy Layer", subtitle: "A symbolic system connecting the seven classical planets with seven metals.", sections: [["Sun → Gold", "Radiance, royalty, life force, centeredness, incorruptibility, and conscious identity."], ["Moon → Silver", "Reflection, intuition, emotion, cycles, memory, receptivity, and inner life."], ["Mercury → Quicksilver", "Movement, language, exchange, intelligence, adaptability, and transformation."], ["Venus → Copper", "Attraction, beauty, sensuality, connection, harmony, and relational magnetism."], ["Mars → Iron", "Force, action, blood, weapons, assertion, courage, conflict, and effort."], ["Jupiter → Tin", "Expansion, blessing, law, wisdom, abundance, generosity, and growth."], ["Saturn → Lead", "Weight, time, mortality, limitation, endurance, discipline, and slow mastery."], ["How to use it", "Do not make this the first layer. Use it after the normal chart meaning to deepen the symbolism, imagery, and spiritual interpretation."]] },
 ];
 
+const angles = [
+  { name: "Ascendant", abbr: "AC / ASC", symbol: "↑", keywords: "first impression, outer self, chart doorway", sections: [["What it is", "The sign rising on the eastern horizon at the moment of birth. It marks the 1st House cusp and sets the entire house structure."], ["Beginner meaning", "The outer doorway. How you instinctively enter the world and how others first perceive you."], ["Deeper layer", "It shapes the habitual orientation to life: body language, first reactions, and the lens filtering all other planets. Because it determines house positions, birth time accuracy matters — the Ascendant shifts every two hours."], ["Watch for", "Do not reduce it to a mask or performance. The Ascendant is instinctive and embodied — a real part of the self, not a facade."], ["Also called", "Rising Sign. Abbreviated AC or ASC."], ["Example", "Sagittarius Rising may approach life with openness and forward motion, even when the Sun sign is more reserved."]] },
+  { name: "Descendant", abbr: "DC / DSC", symbol: "↓", keywords: "partnership, projection, what we seek in others", sections: [["What it is", "Always directly opposite the Ascendant. If the Ascendant is Aries, the Descendant is Libra. It marks the cusp of the 7th House."], ["Beginner meaning", "The partnership doorway. What you are drawn to in others, what you attract, and what you may project outward."], ["Deeper layer", "The Descendant often describes qualities less developed in the self. We seek them in partners before recognizing them within. Integrating the Descendant means owning those qualities rather than always looking for them externally."], ["Watch for", "Planets near the Descendant can show both what we want in close relationships and what we habitually project onto others."], ["Also called", "DC, DSC. The opposition point of the Ascendant."], ["Example", "Libra Descendant (Aries Rising) may seek balance and diplomacy in others — or come to discover those qualities need development within."]] },
+  { name: "Midheaven", abbr: "MC", symbol: "⬆", keywords: "career, vocation, public reputation, life direction", sections: [["What it is", "The highest point in the natal chart. It marks the cusp of the 10th House and is the most publicly visible part of the chart."], ["Beginner meaning", "Career, achievement, and public image. What you are known for and what you are building toward in the world."], ["Deeper layer", "The MC shows vocation (not just job title), authority and father patterns shaping life direction, and the reputation that grows over time. It is a direction of development, not a fixed career outcome."], ["Watch for", "Do not reduce it to a job title. The MC also speaks to calling, contribution, and how someone is seen at their most visible."], ["Also called", "MC, Medium Coeli (Latin: middle of the sky)."], ["Example", "Capricorn MC may develop earned authority, long-term structure, and respected achievement as a life direction."]] },
+  { name: "Imum Coeli", abbr: "IC", symbol: "⬇", keywords: "roots, private foundation, ancestry, inner home", sections: [["What it is", "Always directly opposite the Midheaven. It marks the cusp of the 4th House and is the lowest, most private point of the chart."], ["Beginner meaning", "The private root. Emotional foundation, family of origin, ancestry, and the inner home carried within."], ["Deeper layer", "The IC shows what you come from — conditioning, family patterns, early environment. It is the foundation from which the Midheaven rises. Planets near the IC are deeply personal and often invisible to others until close intimacy is established."], ["Watch for", "The IC is interior. It tends to be felt privately rather than seen by others, and becomes most visible in close relationships or periods of deep introspection."], ["Also called", "IC, Imum Coeli (Latin: bottom of the sky), Nadir."], ["Example", "Cancer IC may carry deep emotional roots, strong ancestral sensitivity, and a need for private sanctuary."]] },
+];
+
+const dignityTerms = [
+  { name: "Domicile", symbol: "♾", keywords: "planet at home, full strength, natural expression", sections: [["What it means", "A planet is in domicile when it occupies a sign it naturally rules. Here the planet operates freely and at full strength. There is a natural alignment between how the planet wants to function and what the sign provides."], ["Traditional term", "Also called rulership. A planet rules its domicile sign."], ["How to read it", "Domicile does not guarantee ease. It means the planet has full resources available and the energy is unfiltered and direct."], ["Example", "Venus in Taurus (its domicile) expresses love, beauty, and pleasure with ease, stability, and sensual richness."]] },
+  { name: "Detriment", symbol: "⊖", keywords: "opposite domicile, awkward expression, growth through challenge", sections: [["What it means", "A planet is in detriment when it occupies the sign opposite its domicile. The sign's energy can work against the planet's natural mode of expression."], ["How to read it", "Detriment is not simply weakness. It creates tension, challenge, and the need for conscious development. The planet must work harder to express itself authentically."], ["Watch for", "Many placements in detriment produce unusual depth, compensatory strengths, or a distinct style precisely because the energy is not effortless."], ["Example", "Mars in Libra (detriment — Libra opposes Aries) may struggle with direct assertion, but can develop refined, diplomatic courage and thoughtful action."]] },
+  { name: "Exaltation", symbol: "△", keywords: "honored, elevated expression, heightened quality", sections: [["What it means", "A planet is exalted when it occupies a specific sign where it is honored and operates at an elevated, refined level. Each planet has one traditional exaltation sign."], ["How to read it", "Exaltation shows a heightened, sometimes idealized expression of the planet's energy. The quality is rarefied or elevated above the everyday."], ["Watch for", "Exaltation can tip toward excess — too elevated or disconnected from grounded reality. It is strength with a note of caution about over-refinement."], ["Example", "Moon exalted in Taurus expresses emotional sensitivity with stability, patience, and sensory richness."]] },
+  { name: "Fall", symbol: "▽", keywords: "opposite exaltation, diminished expression, requires extra effort", sections: [["What it means", "A planet is in fall when it occupies the sign opposite its exaltation. The planet operates in diminished or challenged conditions — the environment does not honor its natural expression."], ["How to read it", "Fall does not mean broken. It means the planet works with less support. Its expression may be subdued, redirected, or refined through difficulty."], ["Watch for", "Fall placements can produce depth and unusual skill. The planet is not absent — it is working harder in less favorable conditions."], ["Example", "Moon in fall in Scorpio must navigate emotional intensity and depth — challenging, but capable of profound emotional intelligence and resilience."]] },
+];
+
+const dignityTable = [
+  { planet: "Sun", symbol: "☉", domicile: "Leo", detriment: "Aquarius", exaltation: "Aries", fall: "Libra" },
+  { planet: "Moon", symbol: "☽", domicile: "Cancer", detriment: "Capricorn", exaltation: "Taurus", fall: "Scorpio" },
+  { planet: "Mercury", symbol: "☿", domicile: "Gemini, Virgo", detriment: "Sagittarius, Pisces", exaltation: "Virgo", fall: "Pisces" },
+  { planet: "Venus", symbol: "♀", domicile: "Taurus, Libra", detriment: "Scorpio, Aries", exaltation: "Pisces", fall: "Virgo" },
+  { planet: "Mars", symbol: "♂", domicile: "Aries, Scorpio", detriment: "Libra, Taurus", exaltation: "Capricorn", fall: "Cancer" },
+  { planet: "Jupiter", symbol: "♃", domicile: "Sagittarius, Pisces", detriment: "Gemini, Virgo", exaltation: "Cancer", fall: "Capricorn" },
+  { planet: "Saturn", symbol: "♄", domicile: "Capricorn, Aquarius", detriment: "Cancer, Leo", exaltation: "Libra", fall: "Aries" },
+  { planet: "Uranus", symbol: "♅", domicile: "Aquarius", detriment: "Leo", exaltation: "—", fall: "—" },
+  { planet: "Neptune", symbol: "♆", domicile: "Pisces", detriment: "Virgo", exaltation: "—", fall: "—" },
+  { planet: "Pluto", symbol: "♇", domicile: "Scorpio", detriment: "Taurus", exaltation: "—", fall: "—" },
+];
+
+const configurations = [
+  { name: "Stellium", symbol: "⊞", keywords: "concentration, dominant theme, focused emphasis", sections: [["What it is", "Three or more planets grouped in the same sign or house, creating a concentration of energy in one area of the chart."], ["Beginner meaning", "When several planets cluster together, that sign or house becomes a dominant theme in the personality and life."], ["Deeper layer", "A stellium in a sign intensifies the qualities of that sign across multiple planets. A stellium in a house makes that life area a central, often complex focus. The planets interact closely and reinforce each other — they are difficult to separate."], ["Watch for", "Concentration can mean imbalance as well as strength. One area of life dominates while others may be quieter. The sign or house with a stellium often requires the most conscious attention."], ["Example", "Sun, Mercury, and Venus in Scorpio creates intense, private, psychologically deep energy across identity, thinking, and love. Three planets in the 7th House makes relationships a central and complex life theme."]] },
+];
 
 const glossary = [
   ["Planet", "The part of the psyche or life function being described."],
@@ -94,6 +124,9 @@ function getData(type, name) {
     const formula = formulas.find(item => item.name === name);
     return { name: formula.title, symbol: '✦', keywords: 'learning system', meaning: formula.subtitle, sections: formula.sections };
   }
+  if (type === 'angle') return findByName(angles, name);
+  if (type === 'dignity') return findByName(dignityTerms, name);
+  if (type === 'configuration') return findByName(configurations, name);
   return null;
 }
 
@@ -184,7 +217,7 @@ export default function NatalChartDecoder({ onBack }) {
     return glossary.filter(([term, def]) => term.toLowerCase().includes(q) || def.toLowerCase().includes(q));
   }, [glossaryQuery]);
 
-  const tabs = ['overview', 'planets', 'correspondences', 'houses', 'signs', 'aspects', 'glossary'];
+  const tabs = ['overview', 'planets', 'correspondences', 'houses', 'signs', 'aspects', 'concepts', 'glossary'];
 
   return (
     <div className="natal-decoder-body">
@@ -307,6 +340,7 @@ export default function NatalChartDecoder({ onBack }) {
                   <div className="symbol">{item.symbol}</div>
                   <span className="tag">house</span>
                   <h3>{item.name}</h3>
+                  <p style={{ fontSize: '.8rem', color: 'var(--gold)', fontStyle: 'italic', marginBottom: '6px' }}>{item.latin} · {item.latinMeaning} · {item.modernTitle}</p>
                   <p>{item.keywords}</p>
                   <button className="learn-btn" onClick={() => openInfo('house', item.name)}>Open explanation</button>
                 </article>
@@ -340,6 +374,79 @@ export default function NatalChartDecoder({ onBack }) {
                 </article>
               ))}
             </div>
+          )}
+
+          {activeTab === 'concepts' && (
+            <>
+              <div className="notice">
+                These are structural concepts that sit above the basic planet/sign/house formula. The four angles anchor the chart spatially. Dignities show where each planet is most and least at home. Patterns like stelliums show concentrated emphasis in one area.
+              </div>
+
+              <div className="section-label">The Four Angles</div>
+              <div className="grid grid-4">
+                {angles.map(item => (
+                  <article key={item.name} className="card library-card">
+                    <div className="symbol">{item.symbol}</div>
+                    <span className="tag">{item.abbr}</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.keywords}</p>
+                    <button className="learn-btn" onClick={() => openInfo('angle', item.name)}>Open explanation</button>
+                  </article>
+                ))}
+              </div>
+
+              <div className="section-label" style={{ marginTop: '28px' }}>Planetary Dignities</div>
+              <div className="grid grid-4">
+                {dignityTerms.map(item => (
+                  <article key={item.name} className="card library-card">
+                    <div className="symbol">{item.symbol}</div>
+                    <span className="tag">dignity</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.keywords}</p>
+                    <button className="learn-btn" onClick={() => openInfo('dignity', item.name)}>Open explanation</button>
+                  </article>
+                ))}
+              </div>
+
+              <div className="dignity-table-wrap">
+                <h4>Dignity reference table</h4>
+                <table className="dignity-table">
+                  <thead>
+                    <tr>
+                      <th>Planet</th>
+                      <th>Domicile</th>
+                      <th>Detriment</th>
+                      <th>Exaltation</th>
+                      <th>Fall</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {dignityTable.map(row => (
+                      <tr key={row.planet}>
+                        <td>{row.symbol} {row.planet}</td>
+                        <td>{row.domicile}</td>
+                        <td>{row.detriment}</td>
+                        <td>{row.exaltation}</td>
+                        <td>{row.fall}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+
+              <div className="section-label" style={{ marginTop: '28px' }}>Chart Patterns</div>
+              <div className="grid grid-3">
+                {configurations.map(item => (
+                  <article key={item.name} className="card library-card">
+                    <div className="symbol">{item.symbol}</div>
+                    <span className="tag">pattern</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.keywords}</p>
+                    <button className="learn-btn" onClick={() => openInfo('configuration', item.name)}>Open explanation</button>
+                  </article>
+                ))}
+              </div>
+            </>
           )}
 
           {activeTab === 'glossary' && (
