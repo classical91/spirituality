@@ -1,255 +1,13 @@
 import React, { useMemo, useState } from "react";
+import { hinduChakras } from "./data/hinduChakras";
+import { raChakras } from "./data/raChakras";
+import { baileyChakras } from "./data/baileyChakras";
 
-const chakras = [
-  {
-    id: "crown",
-    name: "Crown Chakra",
-    sanskrit: "Sahasrara",
-    location: "Top of head",
-    color: "#A855F7",
-    glow: "rgba(168, 85, 247, 0.5)",
-    y: "6%",
-    x: "50%",
-    element: "Consciousness",
-    theme: "Purpose, faith, spiritual connection",
-    balanced: "A quiet sense of trust, perspective, and connection to something greater than the ego.",
-    affirmations: [
-      "I am connected to a wisdom greater than fear.",
-      "I trust life while staying grounded in my choices.",
-      "I release the need to control everything.",
-      "I am open to guidance, clarity, and peace.",
-      "My life has meaning beyond temporary uncertainty."
-    ],
-    overview:
-      "The Crown Chakra is often described as the center of spiritual connection, meaning, surrender, and higher awareness. In a practical sense, it represents your relationship with purpose, faith, wisdom, and the feeling that life has a bigger pattern beyond immediate fear or control.",
-    balancedState:
-      "When balanced, this chakra can feel like peace, trust, humility, and inner spaciousness. You may feel less desperate to force outcomes and more able to move through life with clarity, patience, and a wider perspective.",
-    underactive:
-      "When underactive, a person may feel disconnected from purpose, spiritually numb, cynical, isolated, or trapped in material concerns only. It can feel like life has no deeper meaning or that everything depends only on control and effort.",
-    overactive:
-      "When overactive, it may show up as spiritual bypassing, detachment from real responsibilities, superiority, obsession with signs, or using spirituality to avoid grief, anger, fear, money, work, health, or relationships.",
-    bodyMind:
-      "As a reflection tool, this chakra points to how safe you feel surrendering control. It is less about escaping the world and more about being present in the world without making your ego carry everything alone.",
-    practices: ["Silent meditation", "Prayer or contemplation", "Gratitude practice", "Spending time in nature", "Letting go of the need to know everything"],
-    prompts: ["Where am I trying to control what I need to trust?", "What gives my life meaning beyond fear?", "What would humility look like today?"],
-    pros: ["Supports meaning and purpose", "Encourages humility and perspective", "Helps soften over-control"],
-    cons: ["Can become escapism", "May create spiritual pressure", "Can disconnect you from body and emotions"],
-  },
-  {
-    id: "third-eye",
-    name: "Third Eye Chakra",
-    sanskrit: "Ajna",
-    location: "Forehead / brow",
-    color: "#6366F1",
-    glow: "rgba(99, 102, 241, 0.5)",
-    y: "18%",
-    x: "50%",
-    element: "Light",
-    theme: "Insight, imagination, intuition",
-    balanced: "Clear inner vision without becoming trapped in overthinking or fantasy.",
-    affirmations: [
-      "I see clearly without spiraling into fear.",
-      "My intuition is calm, steady, and grounded.",
-      "I can separate facts from stories.",
-      "My inner vision guides me without controlling me.",
-      "I trust clarity more than mental noise."
-    ],
-    overview:
-      "The Third Eye Chakra represents perception, intuition, imagination, pattern recognition, and inner vision. It is the part of the chakra system linked with seeing beyond the surface, noticing patterns, and understanding what your inner world is trying to show you.",
-    balancedState:
-      "When balanced, it can feel like calm insight. You can reflect without spiraling, imagine without escaping, and trust your perception without needing constant reassurance. You are able to observe your thoughts instead of being swallowed by them.",
-    underactive:
-      "When underactive, you may feel mentally foggy, disconnected from intuition, overly dependent on outside opinions, or unable to imagine a better direction. It may also show up as doubting yourself even when something feels obvious.",
-    overactive:
-      "When overactive, it may become obsessive analysis, paranoia, fantasy loops, constant symbol-chasing, or confusing fear with intuition. This is where imagination becomes noisy instead of clarifying.",
-    bodyMind:
-      "As a reflection tool, this chakra asks whether your inner vision is helping you see clearly or pulling you into mental movies. A balanced third eye does not need drama to feel certain.",
-    practices: ["Mindfulness journaling", "Visualization with grounding", "Reducing information overload", "Dream journaling", "Naming facts versus assumptions"],
-    prompts: ["Am I seeing clearly or filling in blanks?", "What is the fact, and what is the story?", "What would calm intuition say?"],
-    pros: ["Improves self-reflection", "Supports decision clarity", "Builds imagination and pattern recognition"],
-    cons: ["Can turn into over-analyzing", "May create paranoia if ungrounded", "Can confuse intuition with fear"],
-  },
-  {
-    id: "throat",
-    name: "Throat Chakra",
-    sanskrit: "Vishuddha",
-    location: "Throat / neck",
-    color: "#06B6D4",
-    glow: "rgba(6, 182, 212, 0.5)",
-    y: "30%",
-    x: "50%",
-    element: "Sound / Ether",
-    theme: "Expression, truth, communication",
-    balanced: "Speaking honestly without forcing, hiding, or over-explaining yourself.",
-    affirmations: [
-      "My voice is clear, calm, and worthy of being heard.",
-      "I can speak truth without forcing understanding.",
-      "I express myself with honesty and respect.",
-      "I do not need to over-explain my reality.",
-      "My words align with my inner truth."
-    ],
-    overview:
-      "The Throat Chakra represents expression, truth, communication, honesty, listening, and the ability to give your inner world a clear voice. It is not only about speaking; it is also about knowing when silence is honest and when silence is self-abandonment.",
-    balancedState:
-      "When balanced, you can express yourself without panic, manipulation, performance, or over-explaining. You can say what you mean, ask for what you need, and listen without immediately defending yourself.",
-    underactive:
-      "When underactive, you may hold back, swallow your needs, fear being misunderstood, avoid difficult conversations, or feel like your voice does not matter. This can create resentment because the truth stays trapped inside.",
-    overactive:
-      "When overactive, it may show as talking over others, bluntness without care, explaining too much, arguing to be seen, or using words to control how people perceive you.",
-    bodyMind:
-      "As a reflection tool, this chakra asks whether your words are aligned with your truth. The goal is not to say everything. The goal is to speak from steadiness instead of fear.",
-    practices: ["Speaking one honest sentence", "Voice notes", "Singing or humming", "Boundary scripts", "Active listening"],
-    prompts: ["What am I afraid to say clearly?", "Where am I over-explaining instead of trusting myself?", "What truth can I speak without attacking?"],
-    pros: ["Helps express needs clearly", "Supports honest communication", "Reduces people-pleasing"],
-    cons: ["Can become bluntness without compassion", "May trigger over-talking", "Can feel blocked when emotions are suppressed"],
-  },
-  {
-    id: "heart",
-    name: "Heart Chakra",
-    sanskrit: "Anahata",
-    location: "Center of chest",
-    color: "#22C55E",
-    glow: "rgba(34, 197, 94, 0.5)",
-    y: "43%",
-    x: "50%",
-    element: "Air",
-    theme: "Love, compassion, forgiveness",
-    balanced: "Open-hearted love with boundaries, not self-abandonment.",
-    affirmations: [
-      "My love includes me, my peace, and my boundaries.",
-      "I can stay open without abandoning myself.",
-      "I give and receive love with steadiness.",
-      "I am worthy of safe, mutual connection.",
-      "My heart is warm, wise, and protected."
-    ],
-    overview:
-      "The Heart Chakra represents love, compassion, emotional warmth, forgiveness, grief, connection, and the ability to stay open without losing yourself. It is often seen as the bridge between the lower survival-based chakras and the higher awareness-based chakras.",
-    balancedState:
-      "When balanced, love feels steady rather than desperate. You can care deeply while still having boundaries. You can forgive without excusing harm, connect without chasing, and be warm without abandoning your own needs.",
-    underactive:
-      "When underactive, you may feel guarded, numb, bitter, lonely, or afraid of vulnerability. Love can feel unsafe, so the heart protects itself through distance, sarcasm, suspicion, or emotional shutdown.",
-    overactive:
-      "When overactive, it may show as over-giving, rescuing, tolerating poor treatment, confusing intensity for love, or making your worth depend on whether someone chooses you.",
-    bodyMind:
-      "As a reflection tool, this chakra asks whether your love includes you. A balanced heart is not just open to others; it is also loyal to your own peace, dignity, and emotional safety.",
-    practices: ["Self-compassion practice", "Loving-kindness meditation", "Forgiveness without self-abandonment", "Healthy boundaries", "Breathwork focused on the chest"],
-    prompts: ["Does my love include my boundaries?", "Am I giving from fullness or fear?", "Where do I need compassion without excusing harm?"],
-    pros: ["Encourages compassion", "Supports forgiveness and repair", "Helps build deeper connection"],
-    cons: ["Can become over-giving", "May confuse love with tolerating harm", "Can create attachment if boundaries are weak"],
-  },
-  {
-    id: "solar",
-    name: "Solar Plexus Chakra",
-    sanskrit: "Manipura",
-    location: "Upper stomach",
-    color: "#FACC15",
-    glow: "rgba(250, 204, 21, 0.5)",
-    y: "56%",
-    x: "50%",
-    element: "Fire",
-    theme: "Confidence, willpower, identity",
-    balanced: "A steady sense of self-worth and direction without needing to dominate.",
-    affirmations: [
-      "I trust my power and use it with wisdom.",
-      "I act from self-respect, not fear.",
-      "I am capable, disciplined, and steady.",
-      "My confidence does not need to prove itself.",
-      "I choose actions that honor my identity."
-    ],
-    overview:
-      "The Solar Plexus Chakra represents confidence, willpower, identity, self-respect, discipline, and personal power. It is the inner fire that helps you choose, act, commit, protect your boundaries, and stand in your own authority.",
-    balancedState:
-      "When balanced, you feel capable without needing to prove yourself. You can make decisions, take action, tolerate discomfort, and respect yourself without becoming controlling or aggressive.",
-    underactive:
-      "When underactive, you may feel powerless, indecisive, passive, ashamed, overly dependent on approval, or afraid to take up space. You may know what you want but struggle to act on it.",
-    overactive:
-      "When overactive, it may become domination, anger, ego battles, perfectionism, pressure, image-management, or needing to win to feel safe.",
-    bodyMind:
-      "As a reflection tool, this chakra asks whether your power is clean. Real confidence does not need to overpower others. It feels like self-trust, responsibility, and steady action.",
-    practices: ["Small daily commitments", "Core strengthening", "Decision practice", "Boundary setting", "Doing one hard thing without drama"],
-    prompts: ["Where am I giving away my power?", "What action would self-respect take?", "Am I acting from confidence or control?"],
-    pros: ["Supports confidence and action", "Strengthens boundaries", "Helps decision-making"],
-    cons: ["Can become control or pride", "May intensify anger", "Can turn self-improvement into pressure"],
-  },
-  {
-    id: "sacral",
-    name: "Sacral Chakra",
-    sanskrit: "Svadhisthana",
-    location: "Lower abdomen",
-    color: "#FB923C",
-    glow: "rgba(251, 146, 60, 0.5)",
-    y: "70%",
-    x: "50%",
-    element: "Water",
-    theme: "Emotion, pleasure, creativity",
-    balanced: "Feeling emotions and desire without being ruled by them.",
-    affirmations: [
-      "My emotions can move through me safely.",
-      "I honor desire without being controlled by it.",
-      "I allow creativity, pleasure, and play to flow.",
-      "I can feel deeply and still choose wisely.",
-      "My emotional world is alive, honest, and balanced."
-    ],
-    overview:
-      "The Sacral Chakra represents emotion, pleasure, desire, intimacy, creativity, play, and your ability to move with life. It is connected symbolically to water because emotions and desire are not meant to be frozen or forced; they are meant to move.",
-    balancedState:
-      "When balanced, you can enjoy pleasure without losing yourself, feel emotions without drowning in them, and create without needing perfection. Desire becomes information, not a command.",
-    underactive:
-      "When underactive, you may feel emotionally numb, creatively blocked, disconnected from pleasure, ashamed of desire, or overly rigid. Life can feel flat, dry, or mechanical.",
-    overactive:
-      "When overactive, it may become impulsiveness, addiction to intensity, emotional flooding, chasing validation, sexual confusion, or using pleasure to avoid pain.",
-    bodyMind:
-      "As a reflection tool, this chakra asks whether your desire is flowing cleanly or trying to fill an emotional wound. Balanced sacral energy is alive, creative, playful, and emotionally honest.",
-    practices: ["Creative expression", "Dance or fluid movement", "Emotional journaling", "Healthy pleasure rituals", "Naming desires without immediately acting on them"],
-    prompts: ["What am I feeling under the desire?", "Where do I need more play?", "Am I choosing pleasure or escaping discomfort?"],
-    pros: ["Supports creativity", "Helps emotional flow", "Rebuilds pleasure and play"],
-    cons: ["Can become impulsive", "May over-focus on pleasure", "Can stir old emotional wounds"],
-  },
-  {
-    id: "root",
-    name: "Root Chakra",
-    sanskrit: "Muladhara",
-    location: "Base of spine",
-    color: "#EF4444",
-    glow: "rgba(239, 68, 68, 0.5)",
-    y: "84%",
-    x: "50%",
-    element: "Earth",
-    theme: "Safety, stability, survival",
-    balanced: "A grounded sense of safety, presence, and physical stability.",
-    affirmations: [
-      "I am safe in my body and present in this moment.",
-      "I build stability through simple daily actions.",
-      "The ground supports me as I move through life.",
-      "I choose calm, structure, and consistency.",
-      "I belong here, and I can trust my foundation."
-    ],
-    overview:
-      "The Root Chakra represents safety, stability, survival, grounding, consistency, money basics, home, body, and the sense that you can exist here without constantly bracing. It is the foundation of the whole system.",
-    balancedState:
-      "When balanced, you feel more present, steady, practical, and connected to the body. You can handle ordinary responsibilities without feeling like life is always an emergency.",
-    underactive:
-      "When underactive, you may feel scattered, anxious, unsafe, unstable, disconnected from the body, or unable to build routines. It can feel like you are floating without a base.",
-    overactive:
-      "When overactive, it may become rigidity, fear of change, survival obsession, hoarding, control around security, or staying in situations only because they feel familiar.",
-    bodyMind:
-      "As a reflection tool, this chakra asks whether your foundation supports you. Grounding is not just calm breathing; it is also sleep, food, movement, money habits, clean space, and reliable routines.",
-    practices: ["Walking", "Strength training", "Cleaning your space", "Budget basics", "Consistent sleep and meals", "Barefoot grounding when safe"],
-    prompts: ["What would make my body feel safer today?", "Where do I need more structure?", "Am I choosing stability or just familiarity?"],
-    pros: ["Supports calm and grounding", "Builds consistency", "Helps the body feel safer"],
-    cons: ["Can become rigid or fear-based", "May over-focus on survival", "Can keep you stuck in comfort zones"],
-  },
+const SYSTEMS = [
+  { id: "hindu", label: "Hindu", fullLabel: "Hindu / Traditional", data: hinduChakras, aspectLabel: "Element" },
+  { id: "ra", label: "Ra", fullLabel: "Ra / Law of One", data: raChakras, aspectLabel: "Aspect" },
+  { id: "bailey", label: "Bailey", fullLabel: "Alice Bailey", data: baileyChakras, aspectLabel: "Ray" },
 ];
-
-const chakraStretchLinks = {
-  crown: ["crown chakra yoga poses", "sahasrara chakra meditation posture", "crown chakra stretches"],
-  "third-eye": ["third eye chakra yoga poses", "ajna chakra stretches", "child pose third eye chakra"],
-  throat: ["throat chakra yoga poses", "neck stretches throat chakra", "vishuddha chakra stretches"],
-  heart: ["heart chakra yoga poses", "chest opening stretches heart chakra", "anahata chakra stretches"],
-  solar: ["solar plexus chakra yoga poses", "core stretches manipura chakra", "solar plexus opening stretches"],
-  sacral: ["sacral chakra yoga poses", "hip opening stretches sacral chakra", "svadhisthana chakra stretches"],
-  root: ["root chakra yoga poses", "grounding yoga poses root chakra", "muladhara chakra stretches"],
-};
 
 function googleImageUrl(query) {
   return "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(query);
@@ -257,13 +15,11 @@ function googleImageUrl(query) {
 
 function openExternalUrl(url) {
   const openedWindow = window.open(url, "_blank");
-
   if (openedWindow) {
     openedWindow.opener = null;
     openedWindow.focus();
     return;
   }
-
   window.location.href = url;
 }
 
@@ -298,7 +54,7 @@ function ChakraOrb({ chakra, selected, onClick }) {
   );
 }
 
-function BodyModel({ selectedId, onOrbClick, rotate }) {
+function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
   const selected = chakras.find((item) => item.id === selectedId) || chakras[3];
 
   return (
@@ -369,17 +125,15 @@ function MiniList({ title, items, tone = "white" }) {
 }
 
 function StretchImageLinks({ chakra, compact = false }) {
-  const searches = chakraStretchLinks[chakra.id] || [chakra.name + " stretches"];
+  const searches = chakra.stretchLinks || [chakra.name + " stretches"];
 
   return (
     <section className={`${compact ? "mt-4" : "mt-6"} rounded-[1.75rem] border border-cyan-300/15 bg-cyan-300/10 p-6 backdrop-blur-xl`}>
-      <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <IconBadge label="↗" className="h-8 w-8 text-cyan-100" />
-          <div>
-            <h3 className="text-xl font-bold">Stretch image references</h3>
-            <p className="mt-1 text-sm text-slate-300">External Google Images searches for visual stretch ideas.</p>
-          </div>
+      <div className="mb-4 flex items-center gap-3">
+        <IconBadge label="↗" className="h-8 w-8 text-cyan-100" />
+        <div>
+          <h3 className="text-xl font-bold">Stretch image references</h3>
+          <p className="mt-1 text-sm text-slate-300">External Google Images searches for visual stretch ideas.</p>
         </div>
       </div>
 
@@ -427,10 +181,7 @@ function AffirmationWindow({ chakra, onClose }) {
 
         <div className="grid gap-3 p-5 sm:p-6">
           {chakra.affirmations.map((affirmation, index) => (
-            <div
-              key={affirmation}
-              className="rounded-[1.5rem] border border-white/10 bg-slate-950/35 p-5 shadow-lg"
-            >
+            <div key={affirmation} className="rounded-[1.5rem] border border-white/10 bg-slate-950/35 p-5 shadow-lg">
               <p className="mb-2 text-xs uppercase tracking-[0.2em] text-slate-500">Affirmation {index + 1}</p>
               <p className="text-lg font-semibold leading-relaxed text-slate-50">{affirmation}</p>
             </div>
@@ -441,13 +192,13 @@ function AffirmationWindow({ chakra, onClose }) {
   );
 }
 
-function DetailPanel({ chakra, onOpenExpanded, onOpenAffirmations }) {
+function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations }) {
   return (
     <div className="space-y-4">
       <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-xl">
         <div className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <p className="mb-2 text-sm font-medium text-slate-300">{chakra.sanskrit}</p>
+            {chakra.subtitle && <p className="mb-2 text-sm font-medium text-slate-300">{chakra.subtitle}</p>}
             <h2 className="text-3xl font-bold tracking-tight">{chakra.name}</h2>
             <p className="mt-2 text-slate-300">{chakra.theme}</p>
           </div>
@@ -462,8 +213,8 @@ function DetailPanel({ chakra, onOpenExpanded, onOpenAffirmations }) {
             <p className="mt-2 font-medium">{chakra.location}</p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Element</p>
-            <p className="mt-2 font-medium">{chakra.element}</p>
+            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{system.aspectLabel}</p>
+            <p className="mt-2 font-medium">{chakra.aspect}</p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">State</p>
@@ -488,7 +239,6 @@ function DetailPanel({ chakra, onOpenExpanded, onOpenAffirmations }) {
           >
             Open affirmations first
           </button>
-
           <button
             type="button"
             onClick={onOpenExpanded}
@@ -509,7 +259,7 @@ function DetailPanel({ chakra, onOpenExpanded, onOpenAffirmations }) {
   );
 }
 
-function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
+function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations }) {
   const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
   const nextChakra = chakras[(currentIndex + 1) % chakras.length];
@@ -569,7 +319,7 @@ function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(255,255,255,0.22),transparent_28%)]" />
               <div className="relative z-10 flex h-full min-h-[300px] flex-col justify-between">
                 <div>
-                  <p className="mb-2 text-sm font-medium text-white/75">{chakra.sanskrit}</p>
+                  {chakra.subtitle && <p className="mb-2 text-sm font-medium text-white/75">{chakra.subtitle}</p>}
                   <h1 className="text-4xl font-black tracking-tight sm:text-5xl">{chakra.name}</h1>
                   <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/80">{chakra.theme}</p>
                 </div>
@@ -579,12 +329,12 @@ function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
                     <p className="mt-2 font-semibold">{chakra.location}</p>
                   </div>
                   <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/55">Element</p>
-                    <p className="mt-2 font-semibold">{chakra.element}</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/55">{system.aspectLabel}</p>
+                    <p className="mt-2 font-semibold">{chakra.aspect}</p>
                   </div>
                   <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/55">Lens</p>
-                    <p className="mt-2 font-semibold">Mind + spirit</p>
+                    <p className="text-xs uppercase tracking-[0.2em] text-white/55">System</p>
+                    <p className="mt-2 font-semibold">{system.fullLabel}</p>
                   </div>
                 </div>
               </div>
@@ -645,8 +395,8 @@ function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
 
         <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/10 p-5 backdrop-blur-xl">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
-            <h3 className="text-lg font-bold">Jump to another chakra</h3>
-            <p className="text-sm text-slate-400">Switch pages without closing the expanded view.</p>
+            <h3 className="text-lg font-bold">Jump to another center</h3>
+            <p className="text-sm text-slate-400">Switch without closing the expanded view.</p>
           </div>
           <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-7">
             {chakras.map((item) => (
@@ -659,7 +409,7 @@ function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
                 }`}
               >
                 <span className="mb-2 block h-3 w-3 rounded-full" style={{ background: item.color, boxShadow: `0 0 18px ${item.glow}` }} />
-                <span className="block font-semibold leading-tight">{item.name.replace(" Chakra", "")}</span>
+                <span className="block font-semibold leading-tight">{item.name.replace(" Chakra", "").replace(" Center", "").replace(" Ray", "")}</span>
               </button>
             ))}
           </div>
@@ -684,7 +434,7 @@ function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
         </div>
 
         <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-slate-400">
-          Chakra language is used here as a symbolic wellness framework for reflection, not as medical diagnosis or treatment. Use it to organize self-awareness, not to replace qualified care.
+          These frameworks are used here as symbolic tools for reflection and self-awareness — not as medical diagnosis or treatment.
         </p>
       </div>
     </div>
@@ -692,11 +442,25 @@ function ExpandedChakraPage({ chakra, onClose, onSelect, onOpenAffirmations }) {
 }
 
 export default function Chakra3DVisualizer() {
+  const [systemId, setSystemId] = useState("hindu");
   const [selectedId, setSelectedId] = useState("heart");
   const [rotate, setRotate] = useState(true);
   const [expandedOpen, setExpandedOpen] = useState(false);
   const [affirmationOpen, setAffirmationOpen] = useState(false);
-  const selectedChakra = useMemo(() => chakras.find((item) => item.id === selectedId) || chakras[3], [selectedId]);
+
+  const system = SYSTEMS.find((s) => s.id === systemId);
+  const chakras = system.data;
+  const selectedChakra = useMemo(
+    () => chakras.find((item) => item.id === selectedId) || chakras[3],
+    [chakras, selectedId]
+  );
+
+  function handleSystemChange(id) {
+    setSystemId(id);
+    setSelectedId("heart");
+    setExpandedOpen(false);
+    setAffirmationOpen(false);
+  }
 
   return (
     <main className="relative min-h-screen overflow-hidden bg-slate-950 px-4 py-6 text-white sm:px-6 lg:px-10">
@@ -706,20 +470,33 @@ export default function Chakra3DVisualizer() {
       <section className="relative z-10 mx-auto max-w-7xl">
         <div className="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
           <div>
-            <div className="mb-3 hidden items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm text-slate-200 backdrop-blur-md sm:inline-flex">
-              <span>◎</span>
-              Interactive 3D-style chakra map
-            </div>
-            <h1 className="max-w-3xl text-2xl font-black tracking-tight sm:text-4xl sm:text-5xl lg:text-6xl">Chakra Visualizer</h1>
-            <p className="mt-4 hidden max-w-2xl text-base leading-relaxed text-slate-300 sm:block sm:text-lg">
-              Explore the seven main chakras through a rotating body model, quick meaning cards, and full expanded explanation pages. This is a wellness and spiritual reflection tool, not medical advice.
+            <h1 className="max-w-3xl text-2xl font-black tracking-tight sm:text-4xl lg:text-5xl">Chakra Visualizer</h1>
+            <p className="mt-2 hidden max-w-2xl text-base leading-relaxed text-slate-300 sm:block sm:text-lg">
+              Explore the seven energy centers through three distinct spiritual frameworks. This is a reflection tool, not medical advice.
             </p>
+
+            <div className="mt-4 flex items-center gap-1 rounded-2xl border border-white/10 bg-white/5 p-1 w-fit">
+              {SYSTEMS.map((s) => (
+                <button
+                  key={s.id}
+                  type="button"
+                  onClick={() => handleSystemChange(s.id)}
+                  className={`rounded-xl px-4 py-2 text-sm font-semibold transition ${
+                    systemId === s.id
+                      ? "bg-white text-slate-950 shadow"
+                      : "text-slate-300 hover:text-white"
+                  }`}
+                >
+                  {s.label}
+                </button>
+              ))}
+            </div>
           </div>
 
           <div className="flex flex-wrap gap-3">
             <button
               type="button"
-              onClick={() => setRotate((value) => !value)}
+              onClick={() => setRotate((v) => !v)}
               className="rounded-2xl bg-white px-5 py-4 font-semibold text-slate-950 shadow-xl transition hover:bg-slate-200 active:scale-95"
             >
               {rotate ? "Pause 3D" : "Rotate 3D"}
@@ -730,6 +507,7 @@ export default function Chakra3DVisualizer() {
         <div className="grid gap-6 lg:grid-cols-[0.95fr_1.05fr] lg:items-start">
           <div className="space-y-4">
             <BodyModel
+              chakras={chakras}
               selectedId={selectedId}
               onOrbClick={(id) => { setSelectedId(id); setExpandedOpen(true); }}
               rotate={rotate}
@@ -738,7 +516,7 @@ export default function Chakra3DVisualizer() {
             <section className="hidden rounded-[1.75rem] border border-white/10 bg-white/10 p-4 text-white backdrop-blur-xl lg:block">
               <div className="mb-3 flex items-center gap-2 text-sm font-semibold text-slate-200">
                 <IconBadge label="☼" className="h-7 w-7 rounded-xl text-sm" />
-                Chakra Selector
+                Center Selector
               </div>
               <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 lg:grid-cols-2 xl:grid-cols-4">
                 {chakras.map((chakra) => (
@@ -751,7 +529,9 @@ export default function Chakra3DVisualizer() {
                     }`}
                   >
                     <span className="mb-2 block h-3 w-3 rounded-full" style={{ background: chakra.color, boxShadow: `0 0 18px ${chakra.glow}` }} />
-                    <span className="block font-semibold leading-tight">{chakra.name.replace(" Chakra", "")}</span>
+                    <span className="block font-semibold leading-tight">
+                      {chakra.name.replace(" Chakra", "").replace(" Center", "").replace(" Ray", "")}
+                    </span>
                   </button>
                 ))}
               </div>
@@ -761,6 +541,7 @@ export default function Chakra3DVisualizer() {
           <div className="hidden lg:block">
             <DetailPanel
               chakra={selectedChakra}
+              system={system}
               onOpenAffirmations={() => setAffirmationOpen(true)}
               onOpenExpanded={() => setExpandedOpen(true)}
             />
@@ -775,6 +556,8 @@ export default function Chakra3DVisualizer() {
       {expandedOpen && (
         <ExpandedChakraPage
           chakra={selectedChakra}
+          chakras={chakras}
+          system={system}
           onClose={() => setExpandedOpen(false)}
           onSelect={(id) => setSelectedId(id)}
           onOpenAffirmations={() => setAffirmationOpen(true)}

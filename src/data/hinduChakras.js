@@ -1,0 +1,247 @@
+export const hinduChakras = [
+  {
+    id: "crown",
+    name: "Crown Chakra",
+    subtitle: "Sahasrara",
+    location: "Top of head",
+    color: "#A855F7",
+    glow: "rgba(168, 85, 247, 0.5)",
+    y: "6%",
+    x: "50%",
+    aspect: "Consciousness",
+    theme: "Purpose, faith, spiritual connection",
+    balanced: "A quiet sense of trust, perspective, and connection to something greater than the ego.",
+    affirmations: [
+      "I am connected to a wisdom greater than fear.",
+      "I trust life while staying grounded in my choices.",
+      "I release the need to control everything.",
+      "I am open to guidance, clarity, and peace.",
+      "My life has meaning beyond temporary uncertainty.",
+    ],
+    overview:
+      "The Crown Chakra is often described as the center of spiritual connection, meaning, surrender, and higher awareness. In a practical sense, it represents your relationship with purpose, faith, wisdom, and the feeling that life has a bigger pattern beyond immediate fear or control.",
+    balancedState:
+      "When balanced, this chakra can feel like peace, trust, humility, and inner spaciousness. You may feel less desperate to force outcomes and more able to move through life with clarity, patience, and a wider perspective.",
+    underactive:
+      "When underactive, a person may feel disconnected from purpose, spiritually numb, cynical, isolated, or trapped in material concerns only. It can feel like life has no deeper meaning or that everything depends only on control and effort.",
+    overactive:
+      "When overactive, it may show up as spiritual bypassing, detachment from real responsibilities, superiority, obsession with signs, or using spirituality to avoid grief, anger, fear, money, work, health, or relationships.",
+    bodyMind:
+      "As a reflection tool, this chakra points to how safe you feel surrendering control. It is less about escaping the world and more about being present in the world without making your ego carry everything alone.",
+    practices: ["Silent meditation", "Prayer or contemplation", "Gratitude practice", "Spending time in nature", "Letting go of the need to know everything"],
+    prompts: ["Where am I trying to control what I need to trust?", "What gives my life meaning beyond fear?", "What would humility look like today?"],
+    pros: ["Supports meaning and purpose", "Encourages humility and perspective", "Helps soften over-control"],
+    cons: ["Can become escapism", "May create spiritual pressure", "Can disconnect you from body and emotions"],
+    stretchLinks: ["crown chakra yoga poses", "sahasrara chakra meditation posture", "crown chakra stretches"],
+  },
+  {
+    id: "third-eye",
+    name: "Third Eye Chakra",
+    subtitle: "Ajna",
+    location: "Forehead / brow",
+    color: "#6366F1",
+    glow: "rgba(99, 102, 241, 0.5)",
+    y: "18%",
+    x: "50%",
+    aspect: "Light",
+    theme: "Insight, imagination, intuition",
+    balanced: "Clear inner vision without becoming trapped in overthinking or fantasy.",
+    affirmations: [
+      "I see clearly without spiraling into fear.",
+      "My intuition is calm, steady, and grounded.",
+      "I can separate facts from stories.",
+      "My inner vision guides me without controlling me.",
+      "I trust clarity more than mental noise.",
+    ],
+    overview:
+      "The Third Eye Chakra represents perception, intuition, imagination, pattern recognition, and inner vision. It is the part of the chakra system linked with seeing beyond the surface, noticing patterns, and understanding what your inner world is trying to show you.",
+    balancedState:
+      "When balanced, it can feel like calm insight. You can reflect without spiraling, imagine without escaping, and trust your perception without needing constant reassurance. You are able to observe your thoughts instead of being swallowed by them.",
+    underactive:
+      "When underactive, you may feel mentally foggy, disconnected from intuition, overly dependent on outside opinions, or unable to imagine a better direction. It may also show up as doubting yourself even when something feels obvious.",
+    overactive:
+      "When overactive, it may become obsessive analysis, paranoia, fantasy loops, constant symbol-chasing, or confusing fear with intuition. This is where imagination becomes noisy instead of clarifying.",
+    bodyMind:
+      "As a reflection tool, this chakra asks whether your inner vision is helping you see clearly or pulling you into mental movies. A balanced third eye does not need drama to feel certain.",
+    practices: ["Mindfulness journaling", "Visualization with grounding", "Reducing information overload", "Dream journaling", "Naming facts versus assumptions"],
+    prompts: ["Am I seeing clearly or filling in blanks?", "What is the fact, and what is the story?", "What would calm intuition say?"],
+    pros: ["Improves self-reflection", "Supports decision clarity", "Builds imagination and pattern recognition"],
+    cons: ["Can turn into over-analyzing", "May create paranoia if ungrounded", "Can confuse intuition with fear"],
+    stretchLinks: ["third eye chakra yoga poses", "ajna chakra stretches", "child pose third eye chakra"],
+  },
+  {
+    id: "throat",
+    name: "Throat Chakra",
+    subtitle: "Vishuddha",
+    location: "Throat / neck",
+    color: "#06B6D4",
+    glow: "rgba(6, 182, 212, 0.5)",
+    y: "30%",
+    x: "50%",
+    aspect: "Sound / Ether",
+    theme: "Expression, truth, communication",
+    balanced: "Speaking honestly without forcing, hiding, or over-explaining yourself.",
+    affirmations: [
+      "My voice is clear, calm, and worthy of being heard.",
+      "I can speak truth without forcing understanding.",
+      "I express myself with honesty and respect.",
+      "I do not need to over-explain my reality.",
+      "My words align with my inner truth.",
+    ],
+    overview:
+      "The Throat Chakra represents expression, truth, communication, honesty, listening, and the ability to give your inner world a clear voice. It is not only about speaking; it is also about knowing when silence is honest and when silence is self-abandonment.",
+    balancedState:
+      "When balanced, you can express yourself without panic, manipulation, performance, or over-explaining. You can say what you mean, ask for what you need, and listen without immediately defending yourself.",
+    underactive:
+      "When underactive, you may hold back, swallow your needs, fear being misunderstood, avoid difficult conversations, or feel like your voice does not matter. This can create resentment because the truth stays trapped inside.",
+    overactive:
+      "When overactive, it may show as talking over others, bluntness without care, explaining too much, arguing to be seen, or using words to control how people perceive you.",
+    bodyMind:
+      "As a reflection tool, this chakra asks whether your words are aligned with your truth. The goal is not to say everything. The goal is to speak from steadiness instead of fear.",
+    practices: ["Speaking one honest sentence", "Voice notes", "Singing or humming", "Boundary scripts", "Active listening"],
+    prompts: ["What am I afraid to say clearly?", "Where am I over-explaining instead of trusting myself?", "What truth can I speak without attacking?"],
+    pros: ["Helps express needs clearly", "Supports honest communication", "Reduces people-pleasing"],
+    cons: ["Can become bluntness without compassion", "May trigger over-talking", "Can feel blocked when emotions are suppressed"],
+    stretchLinks: ["throat chakra yoga poses", "neck stretches throat chakra", "vishuddha chakra stretches"],
+  },
+  {
+    id: "heart",
+    name: "Heart Chakra",
+    subtitle: "Anahata",
+    location: "Center of chest",
+    color: "#22C55E",
+    glow: "rgba(34, 197, 94, 0.5)",
+    y: "43%",
+    x: "50%",
+    aspect: "Air",
+    theme: "Love, compassion, forgiveness",
+    balanced: "Open-hearted love with boundaries, not self-abandonment.",
+    affirmations: [
+      "My love includes me, my peace, and my boundaries.",
+      "I can stay open without abandoning myself.",
+      "I give and receive love with steadiness.",
+      "I am worthy of safe, mutual connection.",
+      "My heart is warm, wise, and protected.",
+    ],
+    overview:
+      "The Heart Chakra represents love, compassion, emotional warmth, forgiveness, grief, connection, and the ability to stay open without losing yourself. It is often seen as the bridge between the lower survival-based chakras and the higher awareness-based chakras.",
+    balancedState:
+      "When balanced, love feels steady rather than desperate. You can care deeply while still having boundaries. You can forgive without excusing harm, connect without chasing, and be warm without abandoning your own needs.",
+    underactive:
+      "When underactive, you may feel guarded, numb, bitter, lonely, or afraid of vulnerability. Love can feel unsafe, so the heart protects itself through distance, sarcasm, suspicion, or emotional shutdown.",
+    overactive:
+      "When overactive, it may show as over-giving, rescuing, tolerating poor treatment, confusing intensity for love, or making your worth depend on whether someone chooses you.",
+    bodyMind:
+      "As a reflection tool, this chakra asks whether your love includes you. A balanced heart is not just open to others; it is also loyal to your own peace, dignity, and emotional safety.",
+    practices: ["Self-compassion practice", "Loving-kindness meditation", "Forgiveness without self-abandonment", "Healthy boundaries", "Breathwork focused on the chest"],
+    prompts: ["Does my love include my boundaries?", "Am I giving from fullness or fear?", "Where do I need compassion without excusing harm?"],
+    pros: ["Encourages compassion", "Supports forgiveness and repair", "Helps build deeper connection"],
+    cons: ["Can become over-giving", "May confuse love with tolerating harm", "Can create attachment if boundaries are weak"],
+    stretchLinks: ["heart chakra yoga poses", "chest opening stretches heart chakra", "anahata chakra stretches"],
+  },
+  {
+    id: "solar",
+    name: "Solar Plexus Chakra",
+    subtitle: "Manipura",
+    location: "Upper stomach",
+    color: "#FACC15",
+    glow: "rgba(250, 204, 21, 0.5)",
+    y: "56%",
+    x: "50%",
+    aspect: "Fire",
+    theme: "Confidence, willpower, identity",
+    balanced: "A steady sense of self-worth and direction without needing to dominate.",
+    affirmations: [
+      "I trust my power and use it with wisdom.",
+      "I act from self-respect, not fear.",
+      "I am capable, disciplined, and steady.",
+      "My confidence does not need to prove itself.",
+      "I choose actions that honor my identity.",
+    ],
+    overview:
+      "The Solar Plexus Chakra represents confidence, willpower, identity, self-respect, discipline, and personal power. It is the inner fire that helps you choose, act, commit, protect your boundaries, and stand in your own authority.",
+    balancedState:
+      "When balanced, you feel capable without needing to prove yourself. You can make decisions, take action, tolerate discomfort, and respect yourself without becoming controlling or aggressive.",
+    underactive:
+      "When underactive, you may feel powerless, indecisive, passive, ashamed, overly dependent on approval, or afraid to take up space. You may know what you want but struggle to act on it.",
+    overactive:
+      "When overactive, it may become domination, anger, ego battles, perfectionism, pressure, image-management, or needing to win to feel safe.",
+    bodyMind:
+      "As a reflection tool, this chakra asks whether your power is clean. Real confidence does not need to overpower others. It feels like self-trust, responsibility, and steady action.",
+    practices: ["Small daily commitments", "Core strengthening", "Decision practice", "Boundary setting", "Doing one hard thing without drama"],
+    prompts: ["Where am I giving away my power?", "What action would self-respect take?", "Am I acting from confidence or control?"],
+    pros: ["Supports confidence and action", "Strengthens boundaries", "Helps decision-making"],
+    cons: ["Can become control or pride", "May intensify anger", "Can turn self-improvement into pressure"],
+    stretchLinks: ["solar plexus chakra yoga poses", "core stretches manipura chakra", "solar plexus opening stretches"],
+  },
+  {
+    id: "sacral",
+    name: "Sacral Chakra",
+    subtitle: "Svadhisthana",
+    location: "Lower abdomen",
+    color: "#FB923C",
+    glow: "rgba(251, 146, 60, 0.5)",
+    y: "70%",
+    x: "50%",
+    aspect: "Water",
+    theme: "Emotion, pleasure, creativity",
+    balanced: "Feeling emotions and desire without being ruled by them.",
+    affirmations: [
+      "My emotions can move through me safely.",
+      "I honor desire without being controlled by it.",
+      "I allow creativity, pleasure, and play to flow.",
+      "I can feel deeply and still choose wisely.",
+      "My emotional world is alive, honest, and balanced.",
+    ],
+    overview:
+      "The Sacral Chakra represents emotion, pleasure, desire, intimacy, creativity, play, and your ability to move with life. It is connected symbolically to water because emotions and desire are not meant to be frozen or forced; they are meant to move.",
+    balancedState:
+      "When balanced, you can enjoy pleasure without losing yourself, feel emotions without drowning in them, and create without needing perfection. Desire becomes information, not a command.",
+    underactive:
+      "When underactive, you may feel emotionally numb, creatively blocked, disconnected from pleasure, ashamed of desire, or overly rigid. Life can feel flat, dry, or mechanical.",
+    overactive:
+      "When overactive, it may become impulsiveness, addiction to intensity, emotional flooding, chasing validation, sexual confusion, or using pleasure to avoid pain.",
+    bodyMind:
+      "As a reflection tool, this chakra asks whether your desire is flowing cleanly or trying to fill an emotional wound. Balanced sacral energy is alive, creative, playful, and emotionally honest.",
+    practices: ["Creative expression", "Dance or fluid movement", "Emotional journaling", "Healthy pleasure rituals", "Naming desires without immediately acting on them"],
+    prompts: ["What am I feeling under the desire?", "Where do I need more play?", "Am I choosing pleasure or escaping discomfort?"],
+    pros: ["Supports creativity", "Helps emotional flow", "Rebuilds pleasure and play"],
+    cons: ["Can become impulsive", "May over-focus on pleasure", "Can stir old emotional wounds"],
+    stretchLinks: ["sacral chakra yoga poses", "hip opening stretches sacral chakra", "svadhisthana chakra stretches"],
+  },
+  {
+    id: "root",
+    name: "Root Chakra",
+    subtitle: "Muladhara",
+    location: "Base of spine",
+    color: "#EF4444",
+    glow: "rgba(239, 68, 68, 0.5)",
+    y: "84%",
+    x: "50%",
+    aspect: "Earth",
+    theme: "Safety, stability, survival",
+    balanced: "A grounded sense of safety, presence, and physical stability.",
+    affirmations: [
+      "I am safe in my body and present in this moment.",
+      "I build stability through simple daily actions.",
+      "The ground supports me as I move through life.",
+      "I choose calm, structure, and consistency.",
+      "I belong here, and I can trust my foundation.",
+    ],
+    overview:
+      "The Root Chakra represents safety, stability, survival, grounding, consistency, money basics, home, body, and the sense that you can exist here without constantly bracing. It is the foundation of the whole system.",
+    balancedState:
+      "When balanced, you feel more present, steady, practical, and connected to the body. You can handle ordinary responsibilities without feeling like life is always an emergency.",
+    underactive:
+      "When underactive, you may feel scattered, anxious, unsafe, unstable, disconnected from the body, or unable to build routines. It can feel like you are floating without a base.",
+    overactive:
+      "When overactive, it may become rigidity, fear of change, survival obsession, hoarding, control around security, or staying in situations only because they feel familiar.",
+    bodyMind:
+      "As a reflection tool, this chakra asks whether your foundation supports you. Grounding is not just calm breathing; it is also sleep, food, movement, money habits, clean space, and reliable routines.",
+    practices: ["Walking", "Strength training", "Cleaning your space", "Budget basics", "Consistent sleep and meals", "Barefoot grounding when safe"],
+    prompts: ["What would make my body feel safer today?", "Where do I need more structure?", "Am I choosing stability or just familiarity?"],
+    pros: ["Supports calm and grounding", "Builds consistency", "Helps the body feel safer"],
+    cons: ["Can become rigid or fear-based", "May over-focus on survival", "Can keep you stuck in comfort zones"],
+    stretchLinks: ["root chakra yoga poses", "grounding yoga poses root chakra", "muladhara chakra stretches"],
+  },
+];
