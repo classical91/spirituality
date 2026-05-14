@@ -864,6 +864,7 @@ export default function Chakra3DVisualizer({ onBack }) {
             />
           </div>
         </div>
+
       </section>
 
       {affirmationOpen && (
