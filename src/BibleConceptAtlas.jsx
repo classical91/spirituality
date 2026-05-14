@@ -8,6 +8,7 @@ const tabs = [
   { id: "inferno", label: "Dante Inferno", icon: "◉" },
   { id: "demons", label: "Demonology", icon: "♆" },
   { id: "map", label: "Sin Map", icon: "⌁" },
+  { id: "wheel", label: "Soul · Spirit · Body", icon: "◈" },
 ];
 
 const commandments = [
@@ -460,6 +461,180 @@ const demons = [
   },
 ];
 
+const wheelSoulIssues = [
+  {
+    id: 1,
+    title: "Inferiority",
+    family: "Soul · Personality",
+    scripture: "Romans 15:7",
+    summary: "A deep-seated sense of being less than others, fundamentally defective, or unworthy of love and belonging.",
+    root: "Identity anchored in performance, comparison, or wounds received — rather than in being received by God.",
+    spiritAnswer: "Acceptance: God receives us as we are in Christ, not on the basis of merit (Romans 15:7; Ephesians 1:6).",
+    soulEffect: "Projects outward as people-pleasing, withdrawal, or chronic comparison with others.",
+  },
+  {
+    id: 2,
+    title: "Insecurity",
+    family: "Soul · Personality",
+    scripture: "Romans 8:38–39",
+    summary: "Chronic anxiety about one's standing, relationships, or future — a restless inability to feel safe.",
+    root: "Trust anchored in changeable things — approval, achievement, health — rather than in God's unchanging character.",
+    spiritAnswer: "Security: nothing in all creation can separate us from the love of God in Christ Jesus (Romans 8:38–39).",
+    soulEffect: "Drives controlling behavior, fear of abandonment, and constant reassurance-seeking.",
+  },
+  {
+    id: 3,
+    title: "Inadequacy",
+    family: "Soul · Personality",
+    scripture: "2 Corinthians 3:5",
+    summary: "A felt inability to meet the demands of life, God, or others — a sense that one does not have what it takes.",
+    root: "Living under law (self-effort) rather than grace. Trying to generate strength from within rather than receiving it from God.",
+    spiritAnswer: "Assurance: our adequacy comes from God, not from ourselves (2 Corinthians 3:5; Philippians 4:13).",
+    soulEffect: "Produces avoidance, perfectionism, and paralysis in the face of responsibility.",
+  },
+  {
+    id: 4,
+    title: "Guilt",
+    family: "Soul · Personality",
+    scripture: "1 John 1:9",
+    summary: "Real guilt arises from actual sin and needs confession and forgiveness. Imaginary guilt arises from false accusation or perfectionism and needs truth, not penance.",
+    root: "Real guilt: unconfessed sin. Imaginary guilt: a false standard replacing God's actual word about the person.",
+    spiritAnswer: "Salvation: real sin is fully forgiven through Christ's atoning work. Truth from Scripture displaces false guilt.",
+    note: "The diagram distinguishes Real (Sin) guilt from Imaginary guilt — a critical pastoral and psychological distinction.",
+  },
+  {
+    id: 5,
+    title: "Worry, Doubts, and Fears",
+    family: "Soul · Personality",
+    scripture: "Philippians 4:6–7",
+    summary: "Persistent cognitive and emotional distress about self, God, others, or the future — including anxious questioning of salvation, God's love, or one's own worth.",
+    root: "A spirit not yet resting in God's sovereign care continually generates anxious soul patterns. Doubts flourish where assurance is absent.",
+    spiritAnswer: "Assurance and Security together: 'be anxious for nothing; the peace of God guards heart and mind' (Philippians 4:6–7).",
+    soulEffect: "Manifests in the mind as fantasy or paranoia and in the body as tension, insomnia, and hypertension.",
+  },
+];
+
+const wheelMindPatterns = [
+  {
+    title: "Fantasy",
+    tag: "Mind",
+    family: "Soul · Mind Pattern",
+    summary: "Habitual escape from present reality through imagination — often a response to unbearable pain, boredom, or lack of identity.",
+    connection: "Rooted in inadequacy and insecurity; the mind constructs a world where those wounds do not exist.",
+  },
+  {
+    title: "Paranoia",
+    tag: "Mind",
+    family: "Soul · Mind Pattern",
+    summary: "Disordered suspicion; perceiving threat and ill intent where little or none exists.",
+    connection: "Rooted in insecurity and fear; the threat-detection system remains chronically activated.",
+  },
+  {
+    title: "Obsessive Thoughts",
+    tag: "Mind",
+    family: "Soul · Mind Pattern",
+    summary: "Intrusive, recurring thought patterns that cannot be dismissed by willpower alone.",
+    connection: "Often rooted in guilt, inadequacy, or fear. The mind loops around what remains unresolved.",
+  },
+  {
+    title: "Psychoses",
+    tag: "Mind",
+    family: "Soul · Mind Pattern",
+    summary: "Severe disconnection from shared reality; may include hallucinations or profound disorganization.",
+    connection: "The most extreme expression of a mind unable to integrate interior experience. Requires clinical care alongside spiritual support.",
+  },
+];
+
+const wheelEmotions = [
+  {
+    title: "Depression",
+    tag: "Emotion",
+    family: "Soul · Emotional Pattern",
+    summary: "Collapsed emotional energy, pervasive hopelessness, and inability to feel pleasure or purpose.",
+    connection: "Often rooted in guilt, inferiority, and a sense of being cut off from God's love or forgiveness.",
+  },
+  {
+    title: "Anxiety",
+    tag: "Emotion",
+    family: "Soul · Emotional Pattern",
+    summary: "Anticipatory dread and hyper-vigilant threat response — the emotional experience of insecurity and fear.",
+    connection: "Directly connected to worry and doubts at the soul level; expressed in the body as tension, palpitations, and insomnia.",
+  },
+];
+
+const wheelSpiritRealities = [
+  {
+    id: 1,
+    title: "Salvation",
+    family: "Spirit · Foundation",
+    scripture: "Romans 10:9–10; Ephesians 2:8–9",
+    summary: "The foundational reality: sin forgiven, spiritual death reversed, new life in Christ begun. Salvation is the entry point of all spiritual renewal.",
+    soulEffect: "Directly addresses real guilt. The atonement is God's answer to actual sin — not performance, not self-punishment.",
+    bodyEffect: "Removes the chronic burden of unresolved guilt that drives psychosomatic stress.",
+  },
+  {
+    id: 2,
+    title: "Assurance",
+    family: "Spirit · Confidence",
+    scripture: "1 John 5:13; Romans 8:16",
+    summary: "The settled confidence that salvation is secure, that God's word about you is true, and that the Spirit himself bears witness with your spirit.",
+    soulEffect: "Counters doubt, fear, inadequacy, and the recurring question 'Am I really saved / loved / enough?'",
+    bodyEffect: "Reduces the chronic activation of doubt-driven anxiety that produces physical stress symptoms.",
+  },
+  {
+    id: 3,
+    title: "Security",
+    family: "Spirit · Stability",
+    scripture: "Romans 8:38–39; John 10:28–29",
+    summary: "The unshakeable knowledge that nothing — death, life, angels, powers, present, or future — can separate us from God's love in Christ.",
+    soulEffect: "Directly displaces insecurity, chronic worry, and fear at the soul level.",
+    bodyEffect: "The body can release its vigilance posture when the spirit rests in unbreakable security.",
+  },
+  {
+    id: 4,
+    title: "Acceptance",
+    family: "Spirit · Identity",
+    scripture: "Romans 15:7; Ephesians 1:6",
+    summary: "God has received and welcomed us fully in Christ — not on the basis of performance, appearance, or comparison with others.",
+    soulEffect: "Speaks directly to inferiority and the false self built on approval-seeking.",
+    bodyEffect: "Relieves the physiological toll of chronic striving for acceptance.",
+  },
+  {
+    id: 5,
+    title: "Total Commitment",
+    family: "Spirit · Integration",
+    scripture: "Romans 12:1",
+    summary: "Offering the whole self — body, soul, and spirit — as a living sacrifice to God. This is the integrating act that aligns all three dimensions of the person.",
+    soulEffect: "When the will yields fully to God, the soul's disordered patterns lose their governing power.",
+    bodyEffect: "The body offered to God as a living sacrifice becomes a vessel for life rather than a container of unresolved stress.",
+    note: "Romans 12:1 is the scripture cited on the original wheel diagram at the peak of the Spirit dimension.",
+  },
+];
+
+const wheelBodySymptoms = [
+  { title: "Tension Headache / Migraine", category: "Neurological", family: "Body · Psychosomatic", summary: "Chronic muscle tension in the scalp, neck, and shoulders from sustained stress posture produces headaches and migraines.", soulLink: "Most commonly linked to worry, fear, and inadequacy." },
+  { title: "Nervous Stomach / Peptic Ulcer", category: "Gastrointestinal", family: "Body · Psychosomatic", summary: "The enteric nervous system is highly stress-sensitive. Anxiety and unresolved guilt produce excess acid and gastrointestinal distress.", soulLink: "Linked to anxiety, guilt, and chronic worry." },
+  { title: "Hives, Skin Rashes, Allergies", category: "Dermatological / Immune", family: "Body · Psychosomatic", summary: "Stress hormones suppress immune regulation; inflammatory skin conditions often spike during periods of emotional distress.", soulLink: "Linked to anxiety, fear, and insecurity." },
+  { title: "Asthma", category: "Respiratory", family: "Body · Psychosomatic", summary: "Emotional distress is a recognized trigger for asthma attacks, particularly in those with underlying airway sensitivity.", soulLink: "Fear and anxiety constrict breathing — both physiologically and symbolically." },
+  { title: "Some Arthritis", category: "Musculoskeletal", family: "Body · Psychosomatic", summary: "Some forms of arthritis have significant stress-mediated inflammatory components. The body holds tension in joints and connective tissue.", soulLink: "Hostility, suppressed anger, and chronic frustration can contribute." },
+  { title: "Spastic Colon / IBS", category: "Gastrointestinal", family: "Body · Psychosomatic", summary: "Irritable bowel syndrome is strongly correlated with anxiety and emotional dysregulation. The gut-brain axis is highly sensitive to psychological state.", soulLink: "Linked to worry, anxiety, and unresolved emotional conflict." },
+  { title: "Heart Palpitations", category: "Cardiovascular", family: "Body · Psychosomatic", summary: "Stress hormones (cortisol, adrenaline) increase heart rate and can produce the subjective sensation of pounding or irregular heartbeat.", soulLink: "Fear and anxiety directly activate the autonomic cardiovascular stress response." },
+  { title: "Respiratory Ailments", category: "Respiratory", family: "Body · Psychosomatic", summary: "Shallow, rapid breathing from chronic anxiety reduces oxygen exchange and can lead to repeated respiratory infections.", soulLink: "Linked to chronic worry and fear." },
+  { title: "Compulsive Eating", category: "Behavioral", family: "Body · Psychosomatic", summary: "Food used as comfort, numbing, or self-punishment — a behavioral manifestation of soul pain seeking relief through the body.", soulLink: "Linked to inadequacy, inferiority, guilt, and depression." },
+  { title: "Fatigue", category: "Systemic", family: "Body · Psychosomatic", summary: "Chronic psychological burden produces cortisol dysregulation and systemic exhaustion — even without physical overexertion.", soulLink: "The body tires of carrying what the soul has not been able to release." },
+  { title: "Insomnia", category: "Sleep", family: "Body · Psychosomatic", summary: "Racing thoughts, guilt, and fear prevent the nervous system from downshifting into restorative sleep.", soulLink: "Worry, guilt, and anxiety keep the mind activated at night." },
+  { title: "Escape in Sleep (Hypersomnia)", category: "Sleep", family: "Body · Psychosomatic", summary: "Excessive sleep as withdrawal from pain — using unconsciousness to avoid the unbearable weight of soul distress.", soulLink: "Often linked to depression, inferiority, and a sense of hopelessness." },
+  { title: "Hypertension", category: "Cardiovascular", family: "Body · Psychosomatic", summary: "Chronic activation of the stress response sustains elevated blood pressure, increasing cardiovascular risk over time.", soulLink: "Sustained insecurity, fear, and hostility maintain the body in a high-alert state." },
+];
+
+const wheelConnectionMap = [
+  { soul: "Inferiority", spirit: "Acceptance", scripture: "Romans 15:7; Ephesians 1:6" },
+  { soul: "Insecurity", spirit: "Security", scripture: "Romans 8:38–39; John 10:28–29" },
+  { soul: "Inadequacy", spirit: "Assurance", scripture: "2 Corinthians 3:5; Philippians 4:13" },
+  { soul: "Guilt (Real & Imaginary)", spirit: "Salvation", scripture: "1 John 1:9; Romans 8:1" },
+  { soul: "Worry, Doubts & Fears", spirit: "Assurance + Security", scripture: "Philippians 4:6–7; Romans 8:16" },
+];
+
 const sinMap = sins.map((sin) => ({
   sin: sin.title,
   antidote: sin.antidote,
@@ -813,7 +988,7 @@ function DetailModal({ item, onClose, type, onPray }) {
         <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <Pill tone={type === "demons" ? "red" : type === "virtues" ? "green" : type === "inferno" ? "violet" : "gold"}>{type}</Pill>
+              <Pill tone={type === "demons" ? "red" : type === "virtues" ? "green" : type === "inferno" ? "violet" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold"}>{type}</Pill>
               <h2 className="mt-3 text-2xl font-bold text-white">{item.circle ? `Circle ${item.circle}: ${heading}` : heading}</h2>
             </div>
             <div className="flex shrink-0 gap-2">
@@ -858,14 +1033,14 @@ function ConceptCard({ item, type, onOpen, onPray }) {
   const title = item.title || item.name;
   const subtitle = item.short || item.family || item.sin || item.category || item.tradition;
   const body = item.summary || item.focus || item.distortion || item.meaning || item.association;
-  const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : "gold";
+  const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold";
   const prayers = getPrayers(item, type);
 
   return (
     <div className="group relative h-full rounded-3xl border border-white/10 bg-white/[0.04] shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
       <button onClick={() => onOpen(item, type)} className="block w-full p-5 text-left">
         <div className="mb-4 flex items-center justify-between gap-3">
-          <Pill tone={tone}>{item.scripture || item.latin || item.opposite || item.sin || (item.circle ? `Circle ${item.circle}` : type)}</Pill>
+          <Pill tone={tone}>{item.scripture || item.category || item.tag || item.latin || item.opposite || item.sin || (item.circle ? `Circle ${item.circle}` : type)}</Pill>
           <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
         </div>
         <h3 className="text-lg font-bold text-white">{item.circle ? `${item.circle}. ${title}` : title}</h3>
@@ -1001,6 +1176,110 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
     );
   }
 
+  if (tabId === "wheel") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Christian counseling framework" title="Soul · Spirit · Body Wheel">
+          From <em>Handbook to Happiness</em> (Charles R. Solomon), this wheel diagram maps how unresolved soul patterns — inferiority, guilt, fear — produce body symptoms, and how Spirit realities in Christ directly address each soul disorder.
+        </SectionHeader>
+
+        <div className="mb-6 rounded-3xl border border-sky-300/20 bg-sky-500/10 p-5 text-sm leading-7 text-sky-50/90">
+          <strong>Source:</strong> Part I of <em>Handbook to Happiness and You — A Spiritual Clinic</em> by Charles R. Solomon. This is a Christian counseling framework for personal reflection and spiritual care, not a medical diagnosis tool. Always consult a qualified physician for physical or mental health concerns.
+        </div>
+
+        <div className="mb-8 grid gap-4 lg:grid-cols-3">
+          <div className="rounded-3xl border border-amber-300/25 bg-amber-500/10 p-6">
+            <Pill tone="gold">Soul · Personality</Pill>
+            <h3 className="mt-4 text-2xl font-black text-white">Soul</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">The inner life of mind, will, and emotions. When the spirit is not anchored in Christ, soul patterns become disordered — producing inferiority, insecurity, guilt, and fear.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Inferiority", "Insecurity", "Inadequacy", "Guilt", "Worry & Fears"].map((s) => <Pill key={s} tone="gold">{s}</Pill>)}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-sky-300/25 bg-sky-500/10 p-6">
+            <Pill tone="blue">Spirit · Redemption</Pill>
+            <h3 className="mt-4 text-2xl font-black text-white">Spirit</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">The deepest part of the person — the capacity for God-relationship. When yielded to Christ, the spirit becomes the source from which soul and body are renewed.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Salvation", "Assurance", "Security", "Acceptance", "Total Commitment"].map((s) => <Pill key={s} tone="blue">{s}</Pill>)}
+            </div>
+            <p className="mt-3 text-xs text-sky-200/60">Romans 12:1</p>
+          </div>
+          <div className="rounded-3xl border border-emerald-300/25 bg-emerald-500/10 p-6">
+            <Pill tone="green">Body · Psychosomatic</Pill>
+            <h3 className="mt-4 text-2xl font-black text-white">Body</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">The body bears the weight of what the soul cannot process. Unresolved soul pain — guilt, fear, hostility — produces measurable physical symptoms through the stress response.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Tension / Migraine", "Insomnia", "Hypertension", "Fatigue", "Palpitations"].map((s) => <Pill key={s} tone="green">{s}</Pill>)}
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">Soul · Personality</div>
+          <h3 className="mb-4 text-2xl font-black text-white">The 5 Soul Issues</h3>
+          <GridView items={searchable.wheelSoulIssues} type="wheel-soul" onOpen={openModal} onPray={openPrayer} />
+        </div>
+
+        <div className="mb-8 grid gap-6 md:grid-cols-2">
+          <div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">Soul · Mind Patterns</div>
+            <div className="grid gap-3">
+              {searchable.wheelMindPatterns.map((item) => (
+                <ConceptCard key={item.title} item={item} type="wheel-mind" onOpen={openModal} onPray={openPrayer} />
+              ))}
+            </div>
+          </div>
+          <div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">Soul · Emotional Patterns</div>
+            <div className="grid gap-3">
+              {searchable.wheelEmotions.map((item) => (
+                <ConceptCard key={item.title} item={item} type="wheel-emotion" onOpen={openModal} onPray={openPrayer} />
+              ))}
+              <div className="rounded-2xl border border-amber-300/15 bg-amber-500/5 p-4 text-sm leading-6 text-slate-300">
+                <strong className="text-amber-200">Flow patterns:</strong> Unresolved soul issues channel outward as <em>Hostility</em> (toward others) and <em>Frustration</em> (at circumstances) — depicted in the original diagram as arrows pointing back inward to the self.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-sky-300/80">Spirit · Redemptive Realities</div>
+          <h3 className="mb-4 text-2xl font-black text-white">The 5 Spirit Realities</h3>
+          <GridView items={searchable.wheelSpirit} type="wheel-spirit" onOpen={openModal} onPray={openPrayer} />
+        </div>
+
+        <div className="mb-8">
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-emerald-300/80">Body · Psychosomatic Symptoms</div>
+          <h3 className="mb-4 text-2xl font-black text-white">Body Manifestations</h3>
+          <div className="mb-4 rounded-3xl border border-emerald-300/20 bg-emerald-500/10 p-5 text-sm leading-7 text-emerald-50/90">
+            These physical symptoms are recognized psychosomatic patterns — real physiological suffering produced by chronic psychological and spiritual stress. This framework is for spiritual reflection only; all health concerns require qualified medical care.
+          </div>
+          <GridView items={searchable.wheelBody} type="wheel-body" onOpen={openModal} onPray={openPrayer} />
+        </div>
+
+        <div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-white/60">Integration</div>
+          <h3 className="mb-4 text-2xl font-black text-white">Soul Issue → Spirit Answer</h3>
+          <div className="overflow-hidden rounded-3xl border border-white/10">
+            <div className="hidden grid-cols-3 gap-0 border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300 lg:grid">
+              <div className="p-4">Soul Issue</div>
+              <div className="p-4">Spirit Reality (Answer)</div>
+              <div className="p-4">Key Scripture</div>
+            </div>
+            {wheelConnectionMap.map((row) => (
+              <div key={row.soul} className="grid gap-0 border-b border-white/10 bg-white/[0.03] last:border-b-0 lg:grid-cols-3">
+                <div className="p-4"><Pill tone="gold">{row.soul}</Pill></div>
+                <div className="p-4 text-sm font-semibold text-sky-100">{row.spirit}</div>
+                <div className="p-4 text-sm leading-6 text-slate-300">{row.scripture}</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return null;
 }
 
@@ -1028,6 +1307,11 @@ export default function BibleConceptAtlas({ onBack }) {
       sins: filterItems(sins),
       inferno: filterItems(inferno),
       demons: filterItems(demons),
+      wheelSoulIssues: filterItems(wheelSoulIssues),
+      wheelMindPatterns: filterItems(wheelMindPatterns),
+      wheelEmotions: filterItems(wheelEmotions),
+      wheelSpirit: filterItems(wheelSpiritRealities),
+      wheelBody: filterItems(wheelBodySymptoms),
     };
   }, [query]);
 
