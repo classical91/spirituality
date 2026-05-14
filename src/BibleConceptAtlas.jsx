@@ -906,11 +906,115 @@ function GridView({ items, type, onOpen, onPray }) {
   );
 }
 
+function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
+  if (tabId === "commandments") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Bible foundation" title="The 10 Commandments">
+          A clean card view for Exodus 20, with each commandment translated into a moral focus, a reflection question, linked virtue, and linked sin pattern.
+        </SectionHeader>
+        <GridView items={searchable.commandments} type="commandments" onOpen={openModal} onPray={openPrayer} />
+      </div>
+    );
+  }
+
+  if (tabId === "virtues") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Character formation" title="Virtues as antidotes">
+          Includes the seven heavenly virtues plus major cardinal/theological virtues so the app has more depth than only "sin vs punishment."
+        </SectionHeader>
+        <GridView items={searchable.virtues} type="virtues" onOpen={openModal} onPray={openPrayer} />
+      </div>
+    );
+  }
+
+  if (tabId === "sins") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Distorted desire" title="The 7 Deadly Sins">
+          Each sin is framed as a good desire bent out of order. This makes it easier to study psychologically, spiritually, and symbolically.
+        </SectionHeader>
+        <GridView items={searchable.sins} type="sins" onOpen={openModal} onPray={openPrayer} />
+      </div>
+    );
+  }
+
+  if (tabId === "inferno") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Literary layer" title="Dante's Inferno circles">
+          Dante's Inferno is not a simple Bible chart. It is medieval Christian poetry with symbolic punishments, moral categories, and a dramatic descent through disordered love.
+        </SectionHeader>
+        <div className="grid gap-4 lg:grid-cols-3">
+          <div className="rounded-3xl border border-violet-300/20 bg-violet-500/10 p-5 lg:col-span-1">
+            <h3 className="text-lg font-bold text-white">Descent logic</h3>
+            <p className="mt-3 text-sm leading-7 text-slate-300">Dante moves from less deliberate disorders of appetite into deeper forms of malice: heresy, violence, fraud, and treachery. The bottom is not fire, but frozen betrayal.</p>
+          </div>
+          <div className="lg:col-span-2">
+            <GridView items={searchable.inferno} type="inferno" onOpen={openModal} onPray={openPrayer} />
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (tabId === "demons") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Association layer" title="Demonology associations">
+          These cards are best treated as historical/literary association maps. Binsfeld's seven-princes scheme maps demons to the seven deadly sins, while other biblical names belong to separate symbolic categories.
+        </SectionHeader>
+        <div className="mb-6 rounded-3xl border border-red-300/20 bg-red-500/10 p-5 text-sm leading-7 text-red-50/90">
+          <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
+        </div>
+        <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
+      </div>
+    );
+  }
+
+  if (tabId === "map") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Comparison mode" title="Sin → virtue → commandment → Dante → demonology">
+          This is the page that makes the whole system click. It turns the lists into a relationship map.
+        </SectionHeader>
+        <div className="overflow-hidden rounded-3xl border border-white/10">
+          <div className="hidden grid-cols-5 gap-0 border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300 lg:grid">
+            <div className="p-4">Sin</div>
+            <div className="p-4">Antidote</div>
+            <div className="p-4">Commandment Watch</div>
+            <div className="p-4">Dante Layer</div>
+            <div className="p-4">Demonology</div>
+          </div>
+          {sinMap.map((row) => (
+            <div key={row.sin} className="grid gap-0 border-b border-white/10 bg-white/[0.03] last:border-b-0 lg:grid-cols-5">
+              <div className="p-4"><Pill tone="red">{row.sin}</Pill><p className="mt-3 text-xs leading-5 text-slate-400">{row.watch}</p></div>
+              <div className="p-4 text-sm font-semibold text-emerald-100">{row.antidote}</div>
+              <div className="p-4 text-sm leading-6 text-slate-300">{row.commandment}</div>
+              <div className="p-4 text-sm leading-6 text-slate-300">{row.dante}</div>
+              <div className="p-4 text-sm font-semibold text-red-100">{row.demon}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
+
+  return null;
+}
+
+const BG = "min-h-screen bg-[radial-gradient(circle_at_top_left,#3b1d05,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100";
+
 export default function BibleConceptAtlas({ onBack }) {
-  const [activeTab, setActiveTab] = useState("overview");
+  const [subPage, setSubPage] = useState(null);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [prayerModal, setPrayerModal] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [subPage]);
 
   const searchable = useMemo(() => {
     const lower = query.trim().toLowerCase();
@@ -935,8 +1039,71 @@ export default function BibleConceptAtlas({ onBack }) {
     setPrayerModal({ prayers, title, type });
   };
 
+  const navigateTo = (tabId) => {
+    setSubPage(tabId);
+    setQuery("");
+  };
+
+  const goHome = () => {
+    setSubPage(null);
+    setQuery("");
+  };
+
+  // Sub-page view
+  if (subPage) {
+    const tab = tabs.find((t) => t.id === subPage);
+    return (
+      <div className={BG}>
+        <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
+          <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
+            <button
+              onClick={goHome}
+              className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
+            >
+              ← Sacred Moral Atlas
+            </button>
+            <span className="text-xs text-slate-500">{tab.icon} {tab.label}</span>
+          </div>
+        </div>
+
+        <div className="mx-auto max-w-7xl px-4 py-8">
+          <section className="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl backdrop-blur-xl">
+            <div className="p-6 md:p-8">
+              <div className="flex flex-col gap-3 md:flex-row">
+                <input
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  placeholder="Search concepts..."
+                  className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-amber-300/60"
+                />
+                <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
+                  Clear
+                </button>
+              </div>
+            </div>
+          </section>
+
+          <section className="rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
+            <SectionPageContent tabId={subPage} searchable={searchable} openModal={openModal} openPrayer={openPrayer} />
+          </section>
+        </div>
+
+        <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
+        {prayerModal && (
+          <PrayerModal
+            prayers={prayerModal.prayers}
+            title={prayerModal.title}
+            type={prayerModal.type}
+            onClose={() => setPrayerModal(null)}
+          />
+        )}
+      </div>
+    );
+  }
+
+  // Home / overview view
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#3b1d05,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100">
+    <div className={BG}>
       {onBack && (
         <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
           <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
@@ -944,7 +1111,7 @@ export default function BibleConceptAtlas({ onBack }) {
               onClick={onBack}
               className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
             >
-              ← Back to Chakra Visualizer
+              ← Back to Home
             </button>
             <span className="text-xs text-slate-500">Sacred Moral Atlas</span>
           </div>
@@ -964,13 +1131,16 @@ export default function BibleConceptAtlas({ onBack }) {
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
-                  onClick={() => setActiveTab(tab.id)}
+                  onClick={() => tab.id !== "overview" && navigateTo(tab.id)}
                   className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm transition ${
-                    activeTab === tab.id ? "bg-white text-slate-950 shadow-lg" : "text-slate-300 hover:bg-white/10 hover:text-white"
+                    tab.id === "overview"
+                      ? "bg-white text-slate-950 shadow-lg"
+                      : "text-slate-300 hover:bg-white/10 hover:text-white"
                   }`}
                 >
                   <span className="text-lg">{tab.icon}</span>
                   <span className="font-semibold">{tab.label}</span>
+                  {tab.id !== "overview" && <span className="ml-auto opacity-40">→</span>}
                 </button>
               ))}
             </div>
@@ -995,148 +1165,50 @@ export default function BibleConceptAtlas({ onBack }) {
                 <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">A frontend for moral patterns, spiritual symbolism, and mythic associations.</h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">Use this like an interactive study board: click a card, compare a sin to its antidote virtue, trace commandments into inner patterns, then optionally view Dante and demonology as symbolic/literary layers.</p>
               </div>
-
-              <div className="mt-6 flex flex-col gap-3 md:flex-row">
-                <input
-                  value={query}
-                  onChange={(event) => setQuery(event.target.value)}
-                  placeholder="Search pride, Sabbath, Lucifer, greed, Dante, chastity..."
-                  className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-amber-300/60"
-                />
-                <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
-                  Clear
-                </button>
-              </div>
             </div>
           </section>
 
           <section className="mt-6 rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
-            {activeTab === "overview" && (
-              <div>
-                <SectionHeader eyebrow="Start here" title="The whole structure at a glance">
-                  Think of this app as four layers: commandments show sacred boundaries, virtues show formed character, sins show distorted desire, and Dante/demonology show symbolic imagination around those distortions.
-                </SectionHeader>
-                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-                  {[
-                    ["10", "Commandments", "Outer law and inner allegiance", "gold"],
-                    ["12", "Virtues", "Antidotes and character formation", "green"],
-                    ["7", "Deadly Sins", "Distorted desire patterns", "red"],
-                    ["9", "Inferno Circles", "Dante's symbolic moral descent", "violet"],
-                  ].map(([num, label, text, tone]) => (
-                    <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                      <Pill tone={tone}>{label}</Pill>
-                      <div className="mt-5 text-5xl font-black text-white">{num}</div>
-                      <p className="mt-3 text-sm leading-6 text-slate-300">{text}</p>
-                    </div>
-                  ))}
+            <SectionHeader eyebrow="Start here" title="The whole structure at a glance">
+              Think of this app as four layers: commandments show sacred boundaries, virtues show formed character, sins show distorted desire, and Dante/demonology show symbolic imagination around those distortions.
+            </SectionHeader>
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+              {[
+                ["10", "Commandments", "Outer law and inner allegiance", "gold"],
+                ["12", "Virtues", "Antidotes and character formation", "green"],
+                ["7", "Deadly Sins", "Distorted desire patterns", "red"],
+                ["9", "Inferno Circles", "Dante's symbolic moral descent", "violet"],
+              ].map(([num, label, text, tone]) => (
+                <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                  <Pill tone={tone}>{label}</Pill>
+                  <div className="mt-5 text-5xl font-black text-white">{num}</div>
+                  <p className="mt-3 text-sm leading-6 text-slate-300">{text}</p>
                 </div>
+              ))}
+            </div>
 
-                <div className="mt-6 grid gap-4 lg:grid-cols-2">
-                  <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                    <h3 className="text-xl font-bold text-white">Best user flow</h3>
-                    <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-                      <li><strong className="text-white">1.</strong> Start with a commandment.</li>
-                      <li><strong className="text-white">2.</strong> Open the related sin pattern.</li>
-                      <li><strong className="text-white">3.</strong> Compare it to the antidote virtue.</li>
-                      <li><strong className="text-white">4.</strong> Optionally view Dante/demonology as symbolic imagination.</li>
-                    </ol>
-                  </div>
-                  <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                    <h3 className="text-xl font-bold text-white">Good extra pages to add next</h3>
-                    <div className="mt-4 flex flex-wrap gap-2">
-                      <Pill>Scripture lookup</Pill>
-                      <Pill>Timeline of demonology</Pill>
-                      <Pill>Compare traditions</Pill>
-                      <Pill>Glossary</Pill>
-                      <Pill>Reflection journal</Pill>
-                      <Pill>Mind map graph</Pill>
-                    </div>
-                  </div>
+            <div className="mt-6 grid gap-4 lg:grid-cols-2">
+              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                <h3 className="text-xl font-bold text-white">Best user flow</h3>
+                <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+                  <li><strong className="text-white">1.</strong> Start with a commandment.</li>
+                  <li><strong className="text-white">2.</strong> Open the related sin pattern.</li>
+                  <li><strong className="text-white">3.</strong> Compare it to the antidote virtue.</li>
+                  <li><strong className="text-white">4.</strong> Optionally view Dante/demonology as symbolic imagination.</li>
+                </ol>
+              </div>
+              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                <h3 className="text-xl font-bold text-white">Good extra pages to add next</h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  <Pill>Scripture lookup</Pill>
+                  <Pill>Timeline of demonology</Pill>
+                  <Pill>Compare traditions</Pill>
+                  <Pill>Glossary</Pill>
+                  <Pill>Reflection journal</Pill>
+                  <Pill>Mind map graph</Pill>
                 </div>
               </div>
-            )}
-
-            {activeTab === "commandments" && (
-              <div>
-                <SectionHeader eyebrow="Bible foundation" title="The 10 Commandments">
-                  A clean card view for Exodus 20, with each commandment translated into a moral focus, a reflection question, linked virtue, and linked sin pattern.
-                </SectionHeader>
-                <GridView items={searchable.commandments} type="commandments" onOpen={openModal} onPray={openPrayer} />
-              </div>
-            )}
-
-            {activeTab === "virtues" && (
-              <div>
-                <SectionHeader eyebrow="Character formation" title="Virtues as antidotes">
-                  Includes the seven heavenly virtues plus major cardinal/theological virtues so the app has more depth than only "sin vs punishment."
-                </SectionHeader>
-                <GridView items={searchable.virtues} type="virtues" onOpen={openModal} onPray={openPrayer} />
-              </div>
-            )}
-
-            {activeTab === "sins" && (
-              <div>
-                <SectionHeader eyebrow="Distorted desire" title="The 7 Deadly Sins">
-                  Each sin is framed as a good desire bent out of order. This makes it easier to study psychologically, spiritually, and symbolically.
-                </SectionHeader>
-                <GridView items={searchable.sins} type="sins" onOpen={openModal} onPray={openPrayer} />
-              </div>
-            )}
-
-            {activeTab === "inferno" && (
-              <div>
-                <SectionHeader eyebrow="Literary layer" title="Dante's Inferno circles">
-                  Dante's Inferno is not a simple Bible chart. It is medieval Christian poetry with symbolic punishments, moral categories, and a dramatic descent through disordered love.
-                </SectionHeader>
-                <div className="grid gap-4 lg:grid-cols-3">
-                  <div className="rounded-3xl border border-violet-300/20 bg-violet-500/10 p-5 lg:col-span-1">
-                    <h3 className="text-lg font-bold text-white">Descent logic</h3>
-                    <p className="mt-3 text-sm leading-7 text-slate-300">Dante moves from less deliberate disorders of appetite into deeper forms of malice: heresy, violence, fraud, and treachery. The bottom is not fire, but frozen betrayal.</p>
-                  </div>
-                  <div className="lg:col-span-2">
-                    <GridView items={searchable.inferno} type="inferno" onOpen={openModal} onPray={openPrayer} />
-                  </div>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "demons" && (
-              <div>
-                <SectionHeader eyebrow="Association layer" title="Demonology associations">
-                  These cards are best treated as historical/literary association maps. Binsfeld's seven-princes scheme maps demons to the seven deadly sins, while other biblical names belong to separate symbolic categories.
-                </SectionHeader>
-                <div className="mb-6 rounded-3xl border border-red-300/20 bg-red-500/10 p-5 text-sm leading-7 text-red-50/90">
-                  <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
-                </div>
-                <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
-              </div>
-            )}
-
-            {activeTab === "map" && (
-              <div>
-                <SectionHeader eyebrow="Comparison mode" title="Sin → virtue → commandment → Dante → demonology">
-                  This is the page that makes the whole system click. It turns the lists into a relationship map.
-                </SectionHeader>
-                <div className="overflow-hidden rounded-3xl border border-white/10">
-                  <div className="hidden grid-cols-5 gap-0 border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300 lg:grid">
-                    <div className="p-4">Sin</div>
-                    <div className="p-4">Antidote</div>
-                    <div className="p-4">Commandment Watch</div>
-                    <div className="p-4">Dante Layer</div>
-                    <div className="p-4">Demonology</div>
-                  </div>
-                  {sinMap.map((row) => (
-                    <div key={row.sin} className="grid gap-0 border-b border-white/10 bg-white/[0.03] last:border-b-0 lg:grid-cols-5">
-                      <div className="p-4"><Pill tone="red">{row.sin}</Pill><p className="mt-3 text-xs leading-5 text-slate-400">{row.watch}</p></div>
-                      <div className="p-4 text-sm font-semibold text-emerald-100">{row.antidote}</div>
-                      <div className="p-4 text-sm leading-6 text-slate-300">{row.commandment}</div>
-                      <div className="p-4 text-sm leading-6 text-slate-300">{row.dante}</div>
-                      <div className="p-4 text-sm font-semibold text-red-100">{row.demon}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            )}
+            </div>
           </section>
         </main>
       </div>
