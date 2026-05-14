@@ -90,17 +90,6 @@ const configurations = [
   { name: "Stellium", symbol: "⊞", keywords: "concentration, dominant theme, focused emphasis", sections: [["What it is", "Three or more planets grouped in the same sign or house, creating a concentration of energy in one area of the chart."], ["Beginner meaning", "When several planets cluster together, that sign or house becomes a dominant theme in the personality and life."], ["Deeper layer", "A stellium in a sign intensifies the qualities of that sign across multiple planets. A stellium in a house makes that life area a central, often complex focus. The planets interact closely and reinforce each other — they are difficult to separate."], ["Watch for", "Concentration can mean imbalance as well as strength. One area of life dominates while others may be quieter. The sign or house with a stellium often requires the most conscious attention."], ["Example", "Sun, Mercury, and Venus in Scorpio creates intense, private, psychologically deep energy across identity, thinking, and love. Three planets in the 7th House makes relationships a central and complex life theme."]] },
 ];
 
-const placements = [
-  { planet: "Sun", sign: "Leo", house: "10th House", aspect: "Trine", partner: "Jupiter", summary: "Identity wants visibility, creativity, and recognition through career or public expression." },
-  { planet: "Moon", sign: "Scorpio", house: "7th House", aspect: "Square", partner: "Saturn", summary: "Emotional needs are deep and bonded, but partnership may bring lessons around trust, vulnerability, and emotional safety." },
-  { planet: "Mercury", sign: "Gemini", house: "3rd House", aspect: "Conjunction", partner: "Venus", summary: "The mind is quick, verbal, and relational. Communication may be charming, curious, and socially adaptive." },
-  { planet: "Venus", sign: "Cancer", house: "5th House", aspect: "Opposition", partner: "Pluto", summary: "Love seeks emotional tenderness and romance, but attraction can become intense, consuming, or transformative." },
-  { planet: "Mars", sign: "Aries", house: "1st House", aspect: "Sextile", partner: "Mercury", summary: "Action is direct, fast, and self-led. Words and decisions may come with urgency and courage." },
-  { planet: "Jupiter", sign: "Sagittarius", house: "9th House", aspect: "Trine", partner: "Sun", summary: "Growth comes through faith, study, travel, teaching, and expanding personal meaning." },
-  { planet: "Saturn", sign: "Capricorn", house: "11th House", aspect: "Square", partner: "Moon", summary: "Community, long-term goals, and friendships may require patience, structure, and emotional maturity." },
-  { planet: "Neptune", sign: "Pisces", house: "1st House", aspect: "Trine", partner: "Moon", summary: "The outer presence may feel sensitive, imaginative, spiritual, or difficult to define clearly." },
-];
-
 const glossary = [
   ["Planet", "The part of the psyche or life function being described."],
   ["Sign", "The style or behavior of a planet."],
@@ -200,8 +189,6 @@ function ModalContent({ type, data }) {
 export default function NatalChartDecoder({ onBack }) {
   const [activeTab, setActiveTab] = useState('overview');
   const [modal, setModal] = useState(null);
-  const [activePlacement, setActivePlacement] = useState(0);
-  const [builder, setBuilder] = useState({ planet: 'Moon', sign: 'Scorpio', house: '7th House', aspect: 'Square' });
   const [glossaryQuery, setGlossaryQuery] = useState('');
 
   useEffect(() => {
@@ -230,18 +217,7 @@ export default function NatalChartDecoder({ onBack }) {
     return glossary.filter(([term, def]) => term.toLowerCase().includes(q) || def.toLowerCase().includes(q));
   }, [glossaryQuery]);
 
-  const placement = placements[activePlacement];
-  const pPlanet = findByName(planets, placement.planet);
-  const pSign = findByName(signs, placement.sign);
-  const pHouse = findByName(houses, placement.house);
-  const pAspect = findByName(aspects, placement.aspect);
-
-  const bPlanet = findByName(planets, builder.planet);
-  const bSign = findByName(signs, builder.sign);
-  const bHouse = findByName(houses, builder.house);
-  const bAspect = findByName(aspects, builder.aspect);
-
-  const tabs = ['overview', 'chart', 'builder', 'planets', 'correspondences', 'houses', 'signs', 'aspects', 'concepts', 'glossary'];
+  const tabs = ['overview', 'planets', 'correspondences', 'houses', 'signs', 'aspects', 'concepts', 'glossary'];
 
   return (
     <div className="natal-decoder-body">
@@ -325,138 +301,6 @@ export default function NatalChartDecoder({ onBack }) {
             </div>
           )}
 
-          {activeTab === 'chart' && (
-            <div className="chart-layout">
-              <article className="card chart-stage">
-                <span className="tag">Interactive demo chart</span>
-                <h3>Click a planet on the wheel</h3>
-                <p>The side panel updates with a complete placement explanation. Then each part opens its own popup.</p>
-                <div className="wheel-wrap">
-                  <div className="aspect-line" style={{ transform: 'rotate(24deg)' }} />
-                  <div className="aspect-line" style={{ transform: 'rotate(82deg)' }} />
-                  <div className="aspect-line" style={{ transform: 'rotate(146deg)' }} />
-                  <div className="aspect-line" style={{ transform: 'rotate(214deg)' }} />
-                  <div className="aspect-line" style={{ transform: 'rotate(302deg)' }} />
-                  <div className="center-orb">Natal<br />Chart</div>
-                  {signs.map((sign, index) => {
-                    const angle = ((index * 30) - 75) * Math.PI / 180;
-                    const x = 50 + Math.cos(angle) * 46;
-                    const y = 50 + Math.sin(angle) * 46;
-                    return (
-                      <button key={sign.name} className="sign-label" style={{ left: `${x}%`, top: `${y}%` }} onClick={() => openInfo('sign', sign.name)}>
-                        {sign.symbol}
-                      </button>
-                    );
-                  })}
-                  {placements.map((p, index) => {
-                    const planet = findByName(planets, p.planet);
-                    const angle = ((index * 360 / placements.length) - 90) * Math.PI / 180;
-                    const x = 50 + Math.cos(angle) * 38;
-                    const y = 50 + Math.sin(angle) * 38;
-                    return (
-                      <button
-                        key={p.planet}
-                        className={`orbit-btn${activePlacement === index ? ' active' : ''}`}
-                        style={{ left: `${x}%`, top: `${y}%`, transform: 'translate(-50%, -50%)' }}
-                        aria-label={`${p.planet} in ${p.sign}`}
-                        onClick={() => setActivePlacement(index)}
-                      >
-                        <div>
-                          <div className="planet-symbol">{planet.symbol}</div>
-                          <div className="planet-name">{p.planet}</div>
-                        </div>
-                      </button>
-                    );
-                  })}
-                </div>
-              </article>
-              <article className="card detail-card">
-                <div className="placement-header">
-                  <div>
-                    <span className="tag">Selected placement</span>
-                    <h3>{placement.planet} in {placement.sign}</h3>
-                    <p>{placement.house} · {placement.aspect} {placement.partner}</p>
-                  </div>
-                  <div className="planet-badge">{pPlanet.symbol}</div>
-                </div>
-                <p>{placement.summary}</p>
-                <div className="decode-grid">
-                  <div className="decode-row"><strong>Planet: {placement.planet}</strong><p>{pPlanet.meaning}</p></div>
-                  <div className="decode-row"><strong>Metal: {pPlanet.metal}</strong><p>{pPlanet.symbolicBridge}</p></div>
-                  <div className="decode-row"><strong>Sign: {placement.sign}</strong><p>{pSign.meaning}</p></div>
-                  <div className="decode-row"><strong>House: {placement.house}</strong><p>{pHouse.meaning}</p></div>
-                  <div className="decode-row"><strong>Aspect: {placement.aspect} {placement.partner}</strong><p>{pAspect.meaning}</p></div>
-                </div>
-                <div className="explain-buttons">
-                  <button className="learn-btn" onClick={() => openInfo('planet', placement.planet)}>Explain {placement.planet}</button>
-                  <button className="learn-btn" onClick={() => openInfo('sign', placement.sign)}>Explain {placement.sign}</button>
-                  <button className="learn-btn" onClick={() => openInfo('house', placement.house)}>Explain {placement.house}</button>
-                  <button className="learn-btn" onClick={() => openInfo('aspect', placement.aspect)}>Explain {placement.aspect}</button>
-                </div>
-                <div className="formula-box">
-                  <strong>Readable formula</strong>
-                  <p>{placement.planet} is the &quot;what,&quot; {placement.sign} is the &quot;how,&quot; {placement.house} is the &quot;where,&quot; {placement.aspect} {placement.partner} shows the modifying relationship, and {pPlanet.metal} adds the symbolic/alchemical layer.</p>
-                </div>
-              </article>
-            </div>
-          )}
-
-          {activeTab === 'builder' && (
-            <div className="builder-layout">
-              <article className="card">
-                <span className="tag">Build a meaning</span>
-                <h3>Placement Builder</h3>
-                <p>Pick a planet, sign, house, and aspect. The result includes the alchemical correspondence when available.</p>
-                <div className="control-stack">
-                  <div>
-                    <label htmlFor="planetSelect">Planet</label>
-                    <select id="planetSelect" value={builder.planet} onChange={e => setBuilder(b => ({ ...b, planet: e.target.value }))}>
-                      {planets.map(item => <option key={item.name} value={item.name}>{item.symbol} {item.name}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="signSelect">Sign</label>
-                    <select id="signSelect" value={builder.sign} onChange={e => setBuilder(b => ({ ...b, sign: e.target.value }))}>
-                      {signs.map(item => <option key={item.name} value={item.name}>{item.symbol} {item.name}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="houseSelect">House</label>
-                    <select id="houseSelect" value={builder.house} onChange={e => setBuilder(b => ({ ...b, house: e.target.value }))}>
-                      {houses.map(item => <option key={item.name} value={item.name}>{item.name}</option>)}
-                    </select>
-                  </div>
-                  <div>
-                    <label htmlFor="aspectSelect">Aspect</label>
-                    <select id="aspectSelect" value={builder.aspect} onChange={e => setBuilder(b => ({ ...b, aspect: e.target.value }))}>
-                      {aspects.map(item => <option key={item.name} value={item.name}>{item.symbol} {item.name}</option>)}
-                    </select>
-                  </div>
-                </div>
-              </article>
-              <article className="card">
-                <span className="tag">Generated interpretation</span>
-                <h3 className="result-title">{bPlanet.name} in {bSign.name}<br />{bHouse.name}</h3>
-                <p>This combines <strong>{bPlanet.name}</strong>, which represents {bPlanet.keywords}, with <strong>{bSign.name}</strong>, which expresses as {bSign.keywords}. Because it is in the <strong>{bHouse.name}</strong>, this energy shows up through {bHouse.keywords}. The <strong>{bAspect.name}</strong> adds the pattern of {bAspect.keywords}.</p>
-                <div className="small-grid">
-                  <div className="small-box"><strong>Planet</strong><p>{bPlanet.name}: {bPlanet.keywords}</p></div>
-                  <div className="small-box"><strong>Metal</strong><p>{bPlanet.metal}: {bPlanet.metalSymbol}</p></div>
-                  <div className="small-box"><strong>Sign</strong><p>{bSign.name}: {bSign.keywords}</p></div>
-                  <div className="small-box"><strong>House</strong><p>{bHouse.name}: {bHouse.keywords}</p></div>
-                </div>
-                <div className="explain-buttons">
-                  <button className="learn-btn" onClick={() => openInfo('planet', bPlanet.name)}>Explain {bPlanet.name}</button>
-                  <button className="learn-btn" onClick={() => openInfo('sign', bSign.name)}>Explain {bSign.name}</button>
-                  <button className="learn-btn" onClick={() => openInfo('house', bHouse.name)}>Explain {bHouse.name}</button>
-                  <button className="learn-btn" onClick={() => openInfo('aspect', bAspect.name)}>Explain {bAspect.name}</button>
-                </div>
-                <div className="formula-box">
-                  <strong>Simplified reading</strong>
-                  <p>Your {bPlanet.name} energy expresses itself in a {bSign.name} way, especially through the life area of the {bHouse.name}. The {bAspect.name} adds its dynamic, while {bPlanet.metal} deepens the symbolism.</p>
-                </div>
-              </article>
-            </div>
-          )}
 
           {activeTab === 'planets' && (
             <div className="grid grid-4">
