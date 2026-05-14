@@ -53,6 +53,23 @@ export default function HomePage({ onNavigate }) {
       glowColor: 'rgba(120,53,15,0.35)',
       hoverBorder: 'rgba(251,191,36,0.4)',
     },
+    {
+      id: 'psychology',
+      icon: '◈',
+      badge: 'Psychology Portal',
+      badgeColor: 'rgba(6,182,212,0.12)',
+      badgeBorder: 'rgba(6,182,212,0.30)',
+      badgeText: '#a5f3fc',
+      title: 'Psychology\nPortal',
+      description: 'Ten frameworks for identity work, relationship reflection, and living from the end — Self-Schema, Attachment Theory, CBT, Stoicism, and more.',
+      keywords: ['Identity', 'Attachment', 'Somatic', 'Stoicism'],
+      cta: 'Enter Portal',
+      ctaColor: '#67e8f9',
+      iconBg: 'linear-gradient(135deg, rgba(6,182,212,0.35), rgba(30,27,75,0.3))',
+      iconBorder: 'rgba(6,182,212,0.35)',
+      glowColor: 'rgba(6,182,212,0.20)',
+      hoverBorder: 'rgba(6,182,212,0.45)',
+    },
   ];
 
   return (
@@ -143,7 +160,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Three tools for exploring inner symbolism, spiritual tradition, and the language of the cosmos.
+          Four tools for exploring inner symbolism, spiritual tradition, psychology, and the language of the cosmos.
         </p>
 
         {/* Portal cards */}
