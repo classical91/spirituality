@@ -469,6 +469,325 @@ const sinMap = sins.map((sin) => ({
   watch: sin.watch,
 }));
 
+const prayerData = {
+  commandments: {
+    "No other gods before God": [
+      "Lord, reveal where I have placed something created above you in my heart. Be the center from which all my other loyalties flow. You alone are worthy of my ultimate trust.",
+      "Father, when lesser things compete for my devotion, remind me of your faithfulness. Free me from giving to any created thing the authority that belongs to you alone.",
+      "Holy God, root me in love for you so deep that nothing else can claim the throne of my life. Let my devotion be sincere, not performed.",
+    ],
+    "Do not make idols": [
+      "Lord, show me where I have reduced you to something manageable—a formula, tradition, or image I can control. Lead me back to living encounter with the God who cannot be contained.",
+      "Father, forgive me for creating idols out of productivity, image, security, or approval. Let nothing I build or possess become my substitute for you.",
+      "Holy God, I want to relate to truth directly, not worship a symbol of it. Free me from the comfort of a God I have made in my own image.",
+    ],
+    "Do not misuse God's name": [
+      "Lord, give me integrity between what I confess and how I live. Let me not use sacred words to cover selfish motives or impress others. May my speech flow from genuine encounter with you.",
+      "Father, forgive my careless, manipulative, or false use of holy language. Teach me to hold sacred words with reverence and to speak truth even when it costs me.",
+      "Holy God, let my vows be few and faithful. Give me the wisdom to speak carefully and the courage to mean what I say.",
+    ],
+    "Remember the Sabbath": [
+      "Lord, teach me to stop striving and trust that your work continues when mine pauses. Restore the sacred rhythm of ceasing and beginning.",
+      "Father, in my Sabbath rest, meet me. Let rest be not just absence of work but presence with you, with those I love, and with the beauty of what you have made.",
+      "God of rest, forgive the pride that says everything depends on my effort. I return to you as a child returns home. You are enough; I am enough in you.",
+    ],
+    "Honor your father and mother": [
+      "Lord, give me a generous heart toward those who carried life to me. Where there is gratitude, let me express it. Where there is wound, give me wisdom to hold honor and healthy boundaries together.",
+      "Father, I lift to you the complexity of family. Help me respect what is worthy, protect what is sacred, and grow into the person you are calling me to be.",
+      "God of generations, thank you for the people who shaped me. Help me honor what gave me life while keeping wise discernment about harm.",
+    ],
+    "Do not murder": [
+      "Lord, guard my heart against the roots of contempt. Show me where hatred is forming and bring conviction before it becomes destruction. Make me a carrier of mercy.",
+      "Father, teach me to see every person as bearing your image. When I am tempted to cruelty, remind me that the one before me is someone you love.",
+      "Holy God, where anger burns in me, teach me the difference between righteous action and destructive rage. Let my anger serve justice, not violence.",
+    ],
+    "Do not commit adultery": [
+      "Lord, guard my eyes, imagination, and desire from turning another person into an object. Help me to be fully present to the commitments I have made.",
+      "Father, in a world of constant temptation, give me the grace to see beauty without consuming it, and to desire without betraying trust.",
+      "God of faithfulness, help me treat intimacy as sacred and protect the trust that was given to me. Let my desire serve covenant.",
+    ],
+    "Do not steal": [
+      "Lord, give me respect for what belongs to others—their possessions, labor, time, and dignity. Forgive the subtle thefts I have committed in thought, word, and action.",
+      "Father, where I have taken what was not given, give me the courage to make it right and to hold generosity above accumulation.",
+      "God of justice, heal me from the anxious need to take. Teach me to receive my portion with gratitude and trust you as my provision.",
+    ],
+    "Do not bear false witness": [
+      "Lord, make me a truthful person. Where I have distorted reality to protect myself or harm another, convict me. Let my words serve truth even when honesty is costly.",
+      "Father, give me the courage to speak honestly. Help me not reshape events for my advantage or stay silent when my silence allows injustice.",
+      "Holy God, guard my speech from gossip, spin, and selective truth. Let my words reveal reality rather than manipulate it.",
+    ],
+    "Do not covet": [
+      "Lord, heal the comparison that poisons my joy. When I see another's blessing and feel diminished, remind me of your specific provision for my life.",
+      "Father, teach me to desire good things without resenting the person who has them. Free me from the lie that their gain is my loss.",
+      "God of abundance, root me in contentment without killing holy desire. Teach me to rejoice in another's flourishing as a sign that goodness is real and available.",
+    ],
+  },
+  virtues: {
+    "Humility": [
+      "Lord, give me the grace to see myself truthfully: loved, finite, and dependent. Where I have exaggerated my worth, correct me; where I have dismissed it, restore me.",
+      "Father, free me from the exhausting need to be seen as great. Let me receive my limits without shame, give my gifts without pride, and secure my identity in you.",
+      "Holy God, teach me to receive correction without collapse, give credit without needing the stage, and learn from those who seem lesser than me.",
+    ],
+    "Charity": [
+      "Lord, fill me with love that gives without calculating. Purify my generosity from performance and use, and let it become a genuine gift to the people before me.",
+      "Father, guard my giving from self-abandonment. Teach me to give freely from what I have and sacrificially when the moment demands. Let love guide my hands.",
+      "God of love, you gave everything when we were still far from you. May that same love move through me—not because it earns approval, but because it is my true nature in you.",
+    ],
+    "Chastity": [
+      "Lord, teach me to hold desire with reverence. Where I have reduced a person to an object of feeling or fantasy, restore in me the sight that sees each person as wholly sacred.",
+      "Father, integrate my desire with love and truth. Teach me that ordered love is not restriction but a fullness that honors the person before me.",
+      "Holy God, give me eyes to see beauty without grasping it, hands to love without possessing, and a heart to remain faithful to what I have promised.",
+    ],
+    "Gratitude": [
+      "Lord, open my eyes to the gifts I walk past daily. Teach me to name what I have received before reaching for what I do not yet have.",
+      "Father, where envy has poisoned my ability to enjoy my own life, heal me. Let someone else's blessing become a reason for my joy rather than my resentment.",
+      "God of all good gifts, every breath, every beauty, every relationship is yours on loan to me. Teach me to receive life with open hands and hold it with gratitude.",
+    ],
+    "Temperance": [
+      "Lord, give me the ability to enjoy without being ruled by what I enjoy. Teach me the pause before excess and the awareness of what is nourishing versus what is numbing.",
+      "Father, free me from appetite that has become master. Where consumption has become compulsion, bring healing and restore my ability to stop and to say no.",
+      "Holy God, in a world of endless more, give me the courage of enough. Let me enjoy good things as gifts rather than as escapes.",
+    ],
+    "Patience": [
+      "Lord, teach me the strength that does not need to discharge instantly. When I am wronged or frustrated, give me space between the trigger and the response.",
+      "Father, where I have caused harm through impatient words, show me and give me courage to repair it. Slow me down enough to listen before I respond.",
+      "Holy God, you are patient with me beyond all reason. Let me carry that patience toward others. Let mercy not be weakness but the deepest form of strength.",
+    ],
+    "Diligence": [
+      "Lord, give me faithful effort toward what is good. On days when motivation is absent, help me act from commitment rather than from feeling alone.",
+      "Father, guard my work from burnout and from valuing productivity above people. Teach me to work as worship, rest as trust, and serve without needing recognition.",
+      "Holy God, you have given me gifts meant to be used for your kingdom. Give me courage to be faithful with what I have been given and not to bury it out of fear.",
+    ],
+    "Prudence": [
+      "Lord, give me clear judgment. Before I act, help me see consequences, consider context, and check my timing. Protect me from impulsive decisions and paralysing overthinking.",
+      "Father, let wisdom govern my choices. Teach me to seek counsel, pray before acting, and trust the slow discernment you often speak through.",
+      "Holy God, you know the end from the beginning. Give me wisdom—not just cleverness, but true judgment about what is good, right, and serves the people before me.",
+    ],
+    "Justice": [
+      "Lord, give me the courage to act with justice. Teach me to give God, others, and myself what is rightly due. Where I have withheld what was owed, show me and help me make it right.",
+      "Father, justice and mercy belong together. Guard me from cold correctness that forgets the person, and from warm sympathy that refuses to name wrong.",
+      "God of justice, you are the standard by which all justice is measured. Make me an instrument of your righteousness in the places where I have influence.",
+    ],
+    "Fortitude": [
+      "Lord, give me the courage to remain faithful to the good under pressure. When the right action is costly or lonely, strengthen my resolve. Let fear be present without being in charge.",
+      "Father, teach me the difference between courage and recklessness. Help me act from love and principle, not from impulse or pride.",
+      "Holy God, you have not given me a spirit of fear, but of power, love, and sound judgment. Let that spirit be active in me when the moment calls for more than I have alone.",
+    ],
+    "Faith": [
+      "Lord, increase my faith. Where I cling to certainty and resist trust, open my hands. Let me act from faith rather than only from proof.",
+      "Father, faith is not the absence of doubt but the choice to keep facing you through the questions. Meet me in the fog where I cannot yet see clearly.",
+      "Holy God, you are trustworthy beyond all the evidence I can gather. Teach me to rest in your faithfulness rather than in my own understanding.",
+    ],
+    "Hope": [
+      "Lord, restore hope where despair has taken hold. Remind me that goodness and redemption remain possible—for me, for others, for this world.",
+      "Father, hope is not passive fantasy; it requires faithful movement. Give me the grace to act as though what you have promised is real, even when circumstances say otherwise.",
+      "God of all hope, ground my hope in the resurrection—not in outcomes I control, but in the One who transforms death into life. That is the hope I need.",
+    ],
+  },
+  sins: {
+    "Pride": [
+      "Lord, I confess the places in me that need to be seen, admired, and unchallenged. Humble me not by destruction but by love. Show me how beautiful dependence on you truly is.",
+      "Father, where my identity has inflated beyond truth, gently restore perspective. Teach me that I am beloved without being supreme. Let me receive correction without feeling erased.",
+      "Holy God, pride at its root is fear that I am not enough without being extraordinary. Heal that fear. Let your love be the ground of my worth so I do not need to earn it through superiority.",
+    ],
+    "Greed": [
+      "Lord, heal me from the anxiety that drives accumulation. Where I trust my security more in what I have than in who you are, reveal my idolatry. Teach me the freedom of holding things lightly.",
+      "Father, forgive me for treating people as resources. Open my eyes to see their dignity and need. Teach me generosity that flows from trust, not hoarding that flows from fear.",
+      "God of abundance, you have promised to provide. Teach me to receive my portion with gratitude, give freely beyond comfort, and trust that enough is genuinely enough.",
+    ],
+    "Lust": [
+      "Lord, purify my desire. Where I have turned a person into an object of fantasy or pleasure, forgive me. Restore in me the sight that sees each person as wholly sacred.",
+      "Father, teach me that integrated desire is not shame but wholeness. Let intimacy remain sacred, covenant remain central, and the dignity of the person before me be protected by love.",
+      "Holy God, free me from desire that has become compulsion. Where lust has taken root, bring healing and teach me reverence for the body—mine and others'—as your temple.",
+    ],
+    "Envy": [
+      "Lord, heal the comparison that poisons my joy. When I see another's blessing and feel diminished, restore my own sense of calling. Their good is not my loss.",
+      "Father, envy can hide beneath critique or concern. Show me where resentment lurks, and teach me to genuinely rejoice when someone I envy flourishes.",
+      "God of every good gift, help me trust your specific provision for my life without needing to compare it to another's. Let gratitude displace the resentment that has grown.",
+    ],
+    "Gluttony": [
+      "Lord, teach me to receive pleasure as gift without becoming its servant. Where appetite has become master, restore healthy measure and the ability to stop.",
+      "Father, I confess using consumption to numb discomfort rather than face it. Teach me to seek comfort in relationship and prayer rather than in excess.",
+      "Holy God, you created the body for good. Restore in me a healthy relationship with appetite. Let enjoyment remain joy, not compulsion, and let my body serve your purposes well.",
+    ],
+    "Wrath": [
+      "Lord, heal the places where pain has become permission to harm. Teach me to feel anger honestly without letting it become contempt or cruelty.",
+      "Father, teach me to grieve without revenge, confront without contempt, and act without hatred. Show me where cold resentment has settled in my heart.",
+      "Holy God, you are slow to anger and abounding in love. Teach me that same quality. Let my anger serve justice, not become a permission slip for cruelty.",
+    ],
+    "Sloth": [
+      "Lord, awaken in me what acedia has put to sleep. Where I have grown passive toward my own good and the needs of others, stir me. Teach me the next honest action.",
+      "Father, sloth is a heaviness of soul that resists the weight of love. Lift that heaviness from me. Remind me that you placed gifts in me the world needs, and avoidance is its own kind of harm.",
+      "Holy God, give me the courage to take up the weight of love again. Help me do the next faithful thing rather than waiting for perfect motivation. Let faithfulness be my worship.",
+    ],
+  },
+  inferno: {
+    1: [
+      "Lord, I pray for all who have known natural virtue without knowing you fully. May your mercy reach every sincere heart that sought truth and beauty as well as it knew how.",
+      "Father, guard me from presuming that goodness is mine alone or that you are absent where I do not expect you. Teach me to recognize your image in all who bear it.",
+      "Holy God, the longing of Limbo is the longing of every heart seeking meaning without your full light. Meet every such heart. Let no sincere seeker remain at the threshold forever.",
+    ],
+    2: [
+      "Lord, I pray for all whose consuming desire left destruction in its wake. Have mercy on love that lost its form. Restore in the living what was broken.",
+      "Father, the restless winds of Circle 2 speak of passion never stilled. Teach me to find my rest in you, that desire might serve relationship rather than drive me past what is sacred.",
+      "Holy God, where disordered passion has touched me or those I love, bring healing, restoration, and new order. You made us for love; restore what has been bent.",
+    ],
+    3: [
+      "Lord, I pray for all whose appetite for comfort left them buried in excess. May mercy reach the hungry soul that sought to fill itself with what could never satisfy. Only you are that satisfaction.",
+      "Father, the cold rain and mire of Circle 3 show what excess actually produces—not pleasure but emptiness. Teach me to receive good things as sacrament, not as compensation for what is missing.",
+      "Holy God, deliver the living from consumption that numbs the soul. Where I have filled a spiritual need with a physical substitute, reveal the real need and meet it with your presence.",
+    ],
+    4: [
+      "Lord, I pray for all who made accumulation the work of their life. May mercy reach every heart that confused wealth with worth. Teach the living to give before giving becomes impossible.",
+      "Father, the souls of Circle 4 push heavy weights in both directions—hoarding and wasting both distort the right use of goods. Teach me generosity that is neither compulsive nor anxious.",
+      "Holy God, free the living from the anxiety that drives accumulation. Give us courage to hold wealth as stewardship and find security in you rather than in what we own.",
+    ],
+    5: [
+      "Lord, I pray for all who carried unresolved anger to their final moment. May your mercy be greater than the rage. Bring peace where resentment froze.",
+      "Father, the fighting above the Styx and the choking below describe what wrath does—it destroys both the one who acts and the one who suppresses. Teach me to process anger before it becomes violence or poison.",
+      "Holy God, where destructive anger lives in me or those I love, bring your healing. Teach us to grieve honestly, confront truthfully, and forgive—not as permission for the harm, but as freedom for ourselves.",
+    ],
+    6: [
+      "Lord, guard me from placing my own understanding above truth. Where I have built my faith around comfort or the need to be right, humble me and correct me gently.",
+      "Father, the fiery tombs of Circle 6 describe ultimate self-deception about what is real. Give me the humility to remain teachable and love truth more than my version of it.",
+      "Holy God, keep me close to your word, your people, and correction. Let my faith serve life rather than self. Teach me to hold conviction with genuine openness.",
+    ],
+    7: [
+      "Lord, I pray for all who chose destruction—of others, of themselves, of what was sacred. Have mercy beyond our capacity for violence. Restore in the living a reverence for life.",
+      "Father, where I have used force to dominate, harm, or control, convict me and set me on a different path. Let Circle 7's imagery move me toward protection, not exploitation.",
+      "Holy God, protect the vulnerable from the violent. Give wisdom to those in positions of power. Let the cycle of harm stop with someone willing to pay the cost of not passing it forward.",
+    ],
+    8: [
+      "Lord, guard me from subtle corruptions—manipulation, hypocrisy, flattery, and broken trust. Where I have used cleverness to benefit myself at another's expense, bring me to honest account.",
+      "Father, the ten ditches of Malebolge describe the many forms betrayal of speech and trust can take. Give me integrity in every layer of my life—in public and private, in word and action.",
+      "Holy God, you hate deceit because it destroys the trust that holds human life together. Give me the courage to be transparent, the humility to own my errors, and the integrity to build trust rather than exploit it.",
+    ],
+    9: [
+      "Lord, I pray for all who chose to betray what was most trusted. May your mercy reach even the frozen bottom. And guard me from the slow drift toward betrayal in my own heart.",
+      "Father, Cocytus teaches that the coldest sin is deliberate betrayal of love. Where I have grown cold toward what I once cherished, warm me again. Restore faithful love where ice has formed.",
+      "Holy God, you remained faithful even when we betrayed you. Teach me to hold trust as sacred, honor commitments as covenants, and never treat love as a strategy.",
+    ],
+  },
+  demons: {
+    "Lucifer": [
+      "Lord, I renounce the spirit of pride that claims its own sufficiency. Wherever I have refused correction, demanded superiority, or placed myself above accountability, I confess it and return to dependence on you.",
+      "Father, the fall of pride is the fall of one who could not receive being as gift. Teach me to receive my existence, gifts, and calling as given rather than earned. Let gratitude replace self-exaltation.",
+      "Holy God, where Lucifer's logic lives in me—the need to be supreme and self-created—expose it with your light. Replace it with the freedom of humility and the peace of a creature loved by its Creator.",
+    ],
+    "Mammon": [
+      "Lord, I confess every place where wealth or security has become my functional god. I cannot serve two masters. Show me where Mammon has taken the loyalty that belongs to you alone.",
+      "Father, the spirit of Mammon says security comes from accumulation and worth is measured by what I have. Speak the truth against that lie: I am secure in you, and my worth is already established.",
+      "Holy God, free me from the fear that drives me to accumulate beyond need. Let generosity be an act of warfare against the spirit of greed. Teach me to give as a declaration that you are my provider.",
+    ],
+    "Asmodeus": [
+      "Lord, I pray for all bound by possessive, consuming, or destructive desire. Where disordered passion has brought harm to me or others, I bring it before you for cleansing, healing, and reordering.",
+      "Father, Asmodeus is the spirit of desire that destroys what it claims to love. Teach me desire that honors, protects, and serves the dignity of the person. Let intimacy be covenant, not consumption.",
+      "Holy God, integrate my desire with love and truth. Where lust has formed in me, replace it with reverence. Let the body remain sacred and desire remain servant to genuine love.",
+    ],
+    "Leviathan": [
+      "Lord, I renounce the twisting, envious spirit that poisons my ability to rejoice in another's good. Where Leviathan's chaos lives in me—comparing, resenting, undermining—bring your peace.",
+      "Father, envy is a particular kind of suffering: it takes what could be shared joy and turns it into personal diminishment. Heal that distortion in me. Their flourishing is not my loss.",
+      "Holy God, the sea monster of chaos cannot stand before you. Wherever the spirit of Leviathan has created rivalry or resentment in my relationships, rebuke it and restore peace.",
+    ],
+    "Beelzebub / Beelzebul": [
+      "Lord, I pray against every spirit of corruption and excess. Where appetite has become a ruling power in my life, I renounce its mastery and return it to its proper place.",
+      "Father, Beelzebub is lord of flies—a spirit of decay and corruption, of appetite run to waste. Clean what has grown foul in me. Restore what has been spoiled by excess.",
+      "Holy God, where I have given the enemy a foothold through physical excess, I close that door with repentance and invite your restoring Spirit to make me whole.",
+    ],
+    "Satan": [
+      "Lord, I submit to you and resist the accuser. Where the adversarial spirit of contempt and rage has operated through me, I confess it. Teach me the difference between righteous resistance and destructive anger.",
+      "Father, Satan in his role as accuser uses truth as a weapon rather than a path to healing. Guard me from the spirit of accusation—toward others and toward myself. Replace it with the spirit of intercession.",
+      "Holy God, the adversary's final defeat is already declared. I stand on that victory against every spirit of opposition and destructive wrath. Let my anger serve your justice, not the enemy's agenda.",
+    ],
+    "Belphegor": [
+      "Lord, I renounce the spirit of comfortable avoidance and wasted potential. Where acedia has settled in my soul—making me passive toward my own good and the needs of others—stir me awake.",
+      "Father, Belphegor is the demon of easy comfort that slowly drains purpose. Wherever that spirit has made its home in me through procrastination or spiritual heaviness, I invite your awakening.",
+      "Holy God, give me the courage to take up the weight of love again. Wake what has gone to sleep in me. Let faithfulness be a fire, not a burden.",
+    ],
+    "Abaddon / Apollyon": [
+      "Lord, I pray against every spirit of destruction and every force working toward the undoing of life, hope, and goodness. You hold the keys of death and Hades, and nothing is beyond your authority.",
+      "Father, Abaddon is the angel of the abyss—a symbol of irreversible destruction. Protect all that I love from the spirit of destruction. Let nothing good in my life or calling be lost to the abyss.",
+      "Holy God, even at the edge of the abyss, you are present. Where destruction has already come—in loss, grief, or despair—meet us there. Let Apollyon not have the final word. Your restoration does.",
+    ],
+    "Legion": [
+      "Lord, I pray for all who are fragmented, divided, and lost to themselves—all who feel they are many voices with no center. Speak as you spoke on the Gerasene shore: a word of order, release, and restoration.",
+      "Father, Legion describes a person no longer self-commanding. Where I have lost my center through sin, trauma, or scattered living, call me back to integration. Restore my capacity to choose myself and return to you.",
+      "Holy God, you did not turn away from the one possessed by Legion—you came toward him. Let that compassion reach everyone today who feels held by forces stronger than themselves. Speak, and let order be restored.",
+    ],
+    "Azazel": [
+      "Lord, I bring the weight of what I have carried—sins laid on me by others, guilt that belongs elsewhere, shame that has become my identity. Let the scapegoat pattern end here. You have already carried it.",
+      "Father, Azazel carries the image of sins sent into the wilderness. You, the true Lamb, have fulfilled that image. Teach me to release what is not mine to carry and to receive the absolution you have already provided.",
+      "Holy God, the wilderness is not beyond your reach. Whether I carry my own guilt or the projected guilt of others, teach me the difference, help me set down what is not mine, and receive your complete forgiveness.",
+    ],
+  },
+};
+
+function getPrayers(item, type) {
+  const key = item.title || item.name || item.circle;
+  return prayerData[type]?.[key] || null;
+}
+
+function PrayerModal({ prayers, title, type, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  if (!prayers) return null;
+
+  const accentClass =
+    type === "virtues" ? "text-emerald-300/70" :
+    type === "sins" ? "text-red-400/70" :
+    type === "inferno" ? "text-violet-300/70" :
+    type === "demons" ? "text-red-400/70" :
+    "text-amber-300/70";
+
+  const borderAccent =
+    type === "virtues" ? "border-emerald-400/20 bg-emerald-500/5" :
+    type === "sins" ? "border-red-400/20 bg-red-500/5" :
+    type === "inferno" ? "border-violet-400/20 bg-violet-500/5" :
+    type === "demons" ? "border-red-400/20 bg-red-500/5" :
+    "border-amber-300/20 bg-amber-300/5";
+
+  return (
+    <div
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/90 px-4 backdrop-blur-md"
+      role="dialog"
+      aria-modal="true"
+      onClick={onClose}
+    >
+      <div
+        className="max-h-[88vh] w-full max-w-xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 px-6 py-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className={`text-xs font-bold uppercase tracking-[0.3em] ${accentClass}`}>Prayers</p>
+              <h2 className="mt-1 text-xl font-black text-white">{title}</h2>
+            </div>
+            <button
+              className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+              onClick={onClose}
+            >
+              Close
+            </button>
+          </div>
+        </div>
+        <div className="space-y-4 p-6">
+          {prayers.map((prayer, i) => (
+            <div key={i} className={`rounded-2xl border p-5 ${borderAccent}`}>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Prayer {i + 1}</p>
+              <p className="text-sm leading-7 text-slate-200">{prayer}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function Pill({ children, tone = "default" }) {
   const tones = {
     default: "border-white/10 bg-white/5 text-slate-200",
@@ -481,11 +800,12 @@ function Pill({ children, tone = "default" }) {
   return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
 
-function DetailModal({ item, onClose, type }) {
+function DetailModal({ item, onClose, type, onPray }) {
   if (!item) return null;
 
   const entries = Object.entries(item).filter(([key]) => !["id", "title", "name", "circle"].includes(key));
   const heading = item.title || item.name || `Circle ${item.circle}`;
+  const prayers = getPrayers(item, type);
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
@@ -496,9 +816,19 @@ function DetailModal({ item, onClose, type }) {
               <Pill tone={type === "demons" ? "red" : type === "virtues" ? "green" : type === "inferno" ? "violet" : "gold"}>{type}</Pill>
               <h2 className="mt-3 text-2xl font-bold text-white">{item.circle ? `Circle ${item.circle}: ${heading}` : heading}</h2>
             </div>
-            <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>
-              Close
-            </button>
+            <div className="flex shrink-0 gap-2">
+              {prayers && (
+                <button
+                  className="rounded-full border border-amber-300/30 bg-amber-300/10 px-4 py-2 text-sm font-semibold text-amber-100 transition hover:bg-amber-300/20"
+                  onClick={() => onPray(item, type)}
+                >
+                  ✦ Pray
+                </button>
+              )}
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>
+                Close
+              </button>
+            </div>
           </div>
         </div>
         <div className="space-y-4 p-5">
@@ -509,27 +839,50 @@ function DetailModal({ item, onClose, type }) {
             </div>
           ))}
         </div>
+        {prayers && (
+          <div className="border-t border-white/10 p-5">
+            <button
+              className="w-full rounded-2xl border border-amber-300/20 bg-amber-300/5 py-4 text-sm font-semibold text-amber-100 transition hover:bg-amber-300/10"
+              onClick={() => onPray(item, type)}
+            >
+              ✦ Open Prayers for {heading}
+            </button>
+          </div>
+        )}
       </div>
     </div>
   );
 }
 
-function ConceptCard({ item, type, onOpen }) {
+function ConceptCard({ item, type, onOpen, onPray }) {
   const title = item.title || item.name;
   const subtitle = item.short || item.family || item.sin || item.category || item.tradition;
   const body = item.summary || item.focus || item.distortion || item.meaning || item.association;
   const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : "gold";
+  const prayers = getPrayers(item, type);
 
   return (
-    <button onClick={() => onOpen(item, type)} className="group h-full rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
-      <div className="mb-4 flex items-center justify-between gap-3">
-        <Pill tone={tone}>{item.scripture || item.latin || item.opposite || item.sin || (item.circle ? `Circle ${item.circle}` : type)}</Pill>
-        <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
-      </div>
-      <h3 className="text-lg font-bold text-white">{item.circle ? `${item.circle}. ${title}` : title}</h3>
-      {subtitle && <p className="mt-1 text-sm text-slate-400">{subtitle}</p>}
-      <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-300">{body}</p>
-    </button>
+    <div className="group relative h-full rounded-3xl border border-white/10 bg-white/[0.04] shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
+      <button onClick={() => onOpen(item, type)} className="block w-full p-5 text-left">
+        <div className="mb-4 flex items-center justify-between gap-3">
+          <Pill tone={tone}>{item.scripture || item.latin || item.opposite || item.sin || (item.circle ? `Circle ${item.circle}` : type)}</Pill>
+          <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+        </div>
+        <h3 className="text-lg font-bold text-white">{item.circle ? `${item.circle}. ${title}` : title}</h3>
+        {subtitle && <p className="mt-1 text-sm text-slate-400">{subtitle}</p>}
+        <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-300">{body}</p>
+      </button>
+      {prayers && (
+        <div className="border-t border-white/[0.06] px-5 pb-4 pt-3">
+          <button
+            onClick={(e) => { e.stopPropagation(); onPray(item, type); }}
+            className="w-full rounded-xl border border-amber-300/20 bg-amber-300/5 py-2 text-xs font-semibold text-amber-200/80 transition hover:bg-amber-300/10 hover:text-amber-100"
+          >
+            ✦ Pray
+          </button>
+        </div>
+      )}
+    </div>
   );
 }
 
@@ -543,24 +896,24 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
-function GridView({ items, type, onOpen }) {
+function GridView({ items, type, onOpen, onPray }) {
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {items.map((item, index) => (
-        <ConceptCard key={`${type}-${item.title || item.name}-${index}`} item={item} type={type} onOpen={onOpen} />
+        <ConceptCard key={`${type}-${item.title || item.name}-${index}`} item={item} type={type} onOpen={onOpen} onPray={onPray} />
       ))}
     </div>
   );
 }
 
-function SectionPageContent({ tabId, searchable, openModal }) {
+function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
   if (tabId === "commandments") {
     return (
       <div>
         <SectionHeader eyebrow="Bible foundation" title="The 10 Commandments">
           A clean card view for Exodus 20, with each commandment translated into a moral focus, a reflection question, linked virtue, and linked sin pattern.
         </SectionHeader>
-        <GridView items={searchable.commandments} type="commandments" onOpen={openModal} />
+        <GridView items={searchable.commandments} type="commandments" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -571,7 +924,7 @@ function SectionPageContent({ tabId, searchable, openModal }) {
         <SectionHeader eyebrow="Character formation" title="Virtues as antidotes">
           Includes the seven heavenly virtues plus major cardinal/theological virtues so the app has more depth than only "sin vs punishment."
         </SectionHeader>
-        <GridView items={searchable.virtues} type="virtues" onOpen={openModal} />
+        <GridView items={searchable.virtues} type="virtues" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -582,7 +935,7 @@ function SectionPageContent({ tabId, searchable, openModal }) {
         <SectionHeader eyebrow="Distorted desire" title="The 7 Deadly Sins">
           Each sin is framed as a good desire bent out of order. This makes it easier to study psychologically, spiritually, and symbolically.
         </SectionHeader>
-        <GridView items={searchable.sins} type="sins" onOpen={openModal} />
+        <GridView items={searchable.sins} type="sins" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -599,7 +952,7 @@ function SectionPageContent({ tabId, searchable, openModal }) {
             <p className="mt-3 text-sm leading-7 text-slate-300">Dante moves from less deliberate disorders of appetite into deeper forms of malice: heresy, violence, fraud, and treachery. The bottom is not fire, but frozen betrayal.</p>
           </div>
           <div className="lg:col-span-2">
-            <GridView items={searchable.inferno} type="inferno" onOpen={openModal} />
+            <GridView items={searchable.inferno} type="inferno" onOpen={openModal} onPray={openPrayer} />
           </div>
         </div>
       </div>
@@ -615,7 +968,7 @@ function SectionPageContent({ tabId, searchable, openModal }) {
         <div className="mb-6 rounded-3xl border border-red-300/20 bg-red-500/10 p-5 text-sm leading-7 text-red-50/90">
           <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
         </div>
-        <GridView items={searchable.demons} type="demons" onOpen={openModal} />
+        <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -657,6 +1010,7 @@ export default function BibleConceptAtlas({ onBack }) {
   const [subPage, setSubPage] = useState(null);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
+  const [prayerModal, setPrayerModal] = useState(null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -678,6 +1032,12 @@ export default function BibleConceptAtlas({ onBack }) {
   }, [query]);
 
   const openModal = (item, type) => setModal({ item, type });
+  const openPrayer = (item, type) => {
+    const prayers = getPrayers(item, type);
+    if (!prayers) return;
+    const title = item.title || item.name || `Circle ${item.circle}`;
+    setPrayerModal({ prayers, title, type });
+  };
 
   const navigateTo = (tabId) => {
     setSubPage(tabId);
@@ -724,11 +1084,19 @@ export default function BibleConceptAtlas({ onBack }) {
           </section>
 
           <section className="rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
-            <SectionPageContent tabId={subPage} searchable={searchable} openModal={openModal} />
+            <SectionPageContent tabId={subPage} searchable={searchable} openModal={openModal} openPrayer={openPrayer} />
           </section>
         </div>
 
-        <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} />
+        <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
+        {prayerModal && (
+          <PrayerModal
+            prayers={prayerModal.prayers}
+            title={prayerModal.title}
+            type={prayerModal.type}
+            onClose={() => setPrayerModal(null)}
+          />
+        )}
       </div>
     );
   }
@@ -845,7 +1213,15 @@ export default function BibleConceptAtlas({ onBack }) {
         </main>
       </div>
 
-      <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} />
+      <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
+      {prayerModal && (
+        <PrayerModal
+          prayers={prayerModal.prayers}
+          title={prayerModal.title}
+          type={prayerModal.type}
+          onClose={() => setPrayerModal(null)}
+        />
+      )}
     </div>
   );
 }
