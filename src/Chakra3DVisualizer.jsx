@@ -172,6 +172,40 @@ function StretchImageLinks({ chakra, compact = false }) {
   );
 }
 
+function PlanetInfoModal({ chakra, onClose }) {
+  return (
+    <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/80 px-4 backdrop-blur-md" onClick={onClose}>
+      <div
+        className="relative w-full max-w-md overflow-hidden rounded-[2rem] border border-white/15 bg-slate-900 shadow-2xl"
+        onClick={(e) => e.stopPropagation()}
+      >
+        <div className="p-6" style={{ background: `linear-gradient(135deg, ${chakra.glow}, rgba(15,23,42,0.85))` }}>
+          <div className="flex items-center gap-4">
+            <span className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-white/20 bg-white/10 text-3xl">
+              {chakra.planetGlyph}
+            </span>
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-white/55">Vedic planet</p>
+              <h3 className="text-2xl font-black">{chakra.planet}</h3>
+              <p className="text-sm text-white/65">{chakra.name}</p>
+            </div>
+          </div>
+        </div>
+        <div className="p-6">
+          <p className="leading-relaxed text-slate-200">{chakra.planetInfo}</p>
+          <button
+            type="button"
+            onClick={onClose}
+            className="mt-6 w-full rounded-2xl border border-white/10 bg-white/10 py-3 font-semibold text-white transition hover:bg-white/20 active:scale-95"
+          >
+            Close
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 function AffirmationWindow({ chakra, onClose }) {
   return (
     <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl">
@@ -290,7 +324,7 @@ function BlockageWindow({ chakra, onClose }) {
   );
 }
 
-function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpenBlockage }) {
+function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpenBlockage, onOpenPlanet }) {
   return (
     <div className="space-y-4">
       <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-xl">
@@ -320,19 +354,21 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
             <p className="text-xs uppercase tracking-[0.2em] text-slate-400">{system.aspectLabel}</p>
             <p className="mt-2 font-medium">{chakra.aspect}</p>
           </div>
-          <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            {chakra.planet ? (
-              <>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Planet</p>
-                <p className="mt-2 font-medium">{chakra.planetGlyph} {chakra.planet}</p>
-              </>
-            ) : (
-              <>
-                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">State</p>
-                <p className="mt-2 font-medium">Balanced</p>
-              </>
-            )}
-          </div>
+          {chakra.planet ? (
+            <button
+              type="button"
+              onClick={chakra.planetInfo ? onOpenPlanet : undefined}
+              className={`rounded-2xl border border-white/10 bg-white/5 p-4 text-left w-full transition ${chakra.planetInfo ? "hover:bg-white/10 active:scale-[0.98] cursor-pointer" : ""}`}
+            >
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Planet {chakra.planetInfo && <span className="ml-1 text-white/30">↗</span>}</p>
+              <p className="mt-2 font-medium">{chakra.planetGlyph} {chakra.planet}</p>
+            </button>
+          ) : (
+            <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
+              <p className="text-xs uppercase tracking-[0.2em] text-slate-400">State</p>
+              <p className="mt-2 font-medium">Balanced</p>
+            </div>
+          )}
           {chakra.gland && (
             <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
               <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Gland</p>
@@ -387,7 +423,7 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
   );
 }
 
-function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage }) {
+function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage, onOpenPlanet }) {
   const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
   const nextChakra = chakras[(currentIndex + 1) % chakras.length];
@@ -475,19 +511,21 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                     <p className="text-xs uppercase tracking-[0.2em] text-white/55">{system.aspectLabel}</p>
                     <p className="mt-2 font-semibold">{chakra.aspect}</p>
                   </div>
-                  <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
-                    {chakra.planet ? (
-                      <>
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/55">Planet</p>
-                        <p className="mt-2 font-semibold">{chakra.planetGlyph} {chakra.planet}</p>
-                      </>
-                    ) : (
-                      <>
-                        <p className="text-xs uppercase tracking-[0.2em] text-white/55">System</p>
-                        <p className="mt-2 font-semibold">{system.fullLabel}</p>
-                      </>
-                    )}
-                  </div>
+                  {chakra.planet ? (
+                    <button
+                      type="button"
+                      onClick={chakra.planetInfo ? onOpenPlanet : undefined}
+                      className={`rounded-2xl border border-white/15 bg-slate-950/30 p-4 text-left w-full transition ${chakra.planetInfo ? "hover:bg-white/10 active:scale-[0.98] cursor-pointer" : ""}`}
+                    >
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/55">Planet {chakra.planetInfo && <span className="ml-1 text-white/30">↗</span>}</p>
+                      <p className="mt-2 font-semibold">{chakra.planetGlyph} {chakra.planet}</p>
+                    </button>
+                  ) : (
+                    <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
+                      <p className="text-xs uppercase tracking-[0.2em] text-white/55">System</p>
+                      <p className="mt-2 font-semibold">{system.fullLabel}</p>
+                    </div>
+                  )}
                   {chakra.gland && (
                     <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
                       <p className="text-xs uppercase tracking-[0.2em] text-white/55">Gland</p>
@@ -674,6 +712,7 @@ export default function Chakra3DVisualizer() {
   const [expandedOpen, setExpandedOpen] = useState(false);
   const [affirmationOpen, setAffirmationOpen] = useState(false);
   const [blockageOpen, setBlockageOpen] = useState(false);
+  const [planetOpen, setPlanetOpen] = useState(false);
 
   const system = SYSTEMS.find((s) => s.id === systemId);
   const chakras = system.data;
@@ -688,6 +727,7 @@ export default function Chakra3DVisualizer() {
     setExpandedOpen(false);
     setAffirmationOpen(false);
     setBlockageOpen(false);
+    setPlanetOpen(false);
   }
 
   return (
@@ -773,6 +813,7 @@ export default function Chakra3DVisualizer() {
               onOpenAffirmations={() => setAffirmationOpen(true)}
               onOpenExpanded={() => setExpandedOpen(true)}
               onOpenBlockage={() => setBlockageOpen(true)}
+              onOpenPlanet={() => setPlanetOpen(true)}
             />
           </div>
         </div>
@@ -791,11 +832,16 @@ export default function Chakra3DVisualizer() {
           onSelect={(id) => setSelectedId(id)}
           onOpenAffirmations={() => setAffirmationOpen(true)}
           onOpenBlockage={() => setBlockageOpen(true)}
+          onOpenPlanet={() => setPlanetOpen(true)}
         />
       )}
 
       {blockageOpen && (
         <BlockageWindow chakra={selectedChakra} onClose={() => setBlockageOpen(false)} />
+      )}
+
+      {planetOpen && (
+        <PlanetInfoModal chakra={selectedChakra} onClose={() => setPlanetOpen(false)} />
       )}
     </main>
   );
