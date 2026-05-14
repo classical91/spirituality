@@ -82,12 +82,19 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
       </div>
 
       <div className="absolute bottom-5 left-5 right-5 rounded-3xl border border-white/10 bg-slate-950/75 p-4 text-white shadow-xl backdrop-blur-md">
-        <div className="flex items-center gap-3">
-          <span className="h-4 w-4 rounded-full" style={{ background: selected.color, boxShadow: `0 0 24px ${selected.glow}` }} />
-          <div>
-            <p className="text-sm font-semibold leading-none">{selected.name}</p>
-            <p className="mt-1 text-xs text-slate-300">{selected.location}</p>
+        <div className="flex items-center justify-between gap-3">
+          <div className="flex items-center gap-3">
+            <span className="h-4 w-4 shrink-0 rounded-full" style={{ background: selected.color, boxShadow: `0 0 24px ${selected.glow}` }} />
+            <div>
+              <p className="text-sm font-semibold leading-none">{selected.name}</p>
+              <p className="mt-1 text-xs text-slate-300">{selected.location}</p>
+            </div>
           </div>
+          {selected.mantra && (
+            <span className="shrink-0 rounded-xl border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold italic text-white/80">
+              {selected.mantra}
+            </span>
+          )}
         </div>
       </div>
 
@@ -200,6 +207,9 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations }) {
           <div>
             {chakra.subtitle && <p className="mb-2 text-sm font-medium text-slate-300">{chakra.subtitle}</p>}
             <h2 className="text-3xl font-bold tracking-tight">{chakra.name}</h2>
+            {chakra.mantra && (
+              <p className="mt-1 text-lg font-semibold italic" style={{ color: chakra.color }}>{chakra.mantra}</p>
+            )}
             <p className="mt-2 text-slate-300">{chakra.theme}</p>
           </div>
           <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-white/20 text-2xl" style={{ background: chakra.color, boxShadow: `0 0 38px ${chakra.glow}` }}>
@@ -330,6 +340,9 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                 <div>
                   {chakra.subtitle && <p className="mb-2 text-sm font-medium text-white/75">{chakra.subtitle}</p>}
                   <h1 className="text-4xl font-black tracking-tight sm:text-5xl">{chakra.name}</h1>
+                  {chakra.mantra && (
+                    <p className="mt-2 text-2xl font-bold italic text-white/90 sm:text-3xl">{chakra.mantra}</p>
+                  )}
                   <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/80">{chakra.theme}</p>
                 </div>
                 <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1 xl:grid-cols-3">

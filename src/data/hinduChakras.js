@@ -11,6 +11,7 @@ export const hinduChakras = [
     aspect: "Consciousness",
     planet: "Ketu",
     planetGlyph: "☋",
+    mantra: "I understand",
     theme: "Purpose, faith, spiritual connection",
     balanced: "A quiet sense of trust, perspective, and connection to something greater than the ego.",
     affirmations: [
@@ -48,6 +49,7 @@ export const hinduChakras = [
     aspect: "Light",
     planet: "Saturn",
     planetGlyph: "♄",
+    mantra: "I see",
     theme: "Insight, imagination, intuition",
     balanced: "Clear inner vision without becoming trapped in overthinking or fantasy.",
     affirmations: [
@@ -85,6 +87,7 @@ export const hinduChakras = [
     aspect: "Sound / Ether",
     planet: "Mercury",
     planetGlyph: "☿",
+    mantra: "I speak",
     theme: "Expression, truth, communication",
     balanced: "Speaking honestly without forcing, hiding, or over-explaining yourself.",
     affirmations: [
@@ -122,6 +125,7 @@ export const hinduChakras = [
     aspect: "Air",
     planet: "Venus",
     planetGlyph: "♀",
+    mantra: "I love",
     theme: "Love, compassion, forgiveness",
     balanced: "Open-hearted love with boundaries, not self-abandonment.",
     affirmations: [
@@ -159,6 +163,7 @@ export const hinduChakras = [
     aspect: "Fire",
     planet: "Mars",
     planetGlyph: "♂",
+    mantra: "I do",
     theme: "Confidence, willpower, identity",
     balanced: "A steady sense of self-worth and direction without needing to dominate.",
     affirmations: [
@@ -196,6 +201,7 @@ export const hinduChakras = [
     aspect: "Water",
     planet: "Moon",
     planetGlyph: "☽",
+    mantra: "I feel",
     theme: "Emotion, pleasure, creativity",
     balanced: "Feeling emotions and desire without being ruled by them.",
     affirmations: [
@@ -233,6 +239,7 @@ export const hinduChakras = [
     aspect: "Earth",
     planet: "Saturn",
     planetGlyph: "♄",
+    mantra: "I am",
     theme: "Safety, stability, survival",
     balanced: "A grounded sense of safety, presence, and physical stability.",
     affirmations: [
