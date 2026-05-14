@@ -740,7 +740,7 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
   );
 }
 
-export default function Chakra3DVisualizer() {
+export default function Chakra3DVisualizer({ onBack }) {
   const [systemId, setSystemId] = useState("hindu");
   const [selectedId, setSelectedId] = useState("heart");
   const [rotate, setRotate] = useState(true);
@@ -800,6 +800,15 @@ export default function Chakra3DVisualizer() {
           </div>
 
           <div className="flex flex-wrap gap-3">
+            {onBack && (
+              <button
+                type="button"
+                onClick={onBack}
+                className="rounded-2xl border border-white/20 bg-white/10 px-5 py-4 font-semibold text-white shadow-xl backdrop-blur-md transition hover:bg-white/20 active:scale-95"
+              >
+                ← Home
+              </button>
+            )}
             <button
               type="button"
               onClick={() => setRotate((v) => !v)}
