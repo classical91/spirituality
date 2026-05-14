@@ -217,8 +217,17 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations }) {
             <p className="mt-2 font-medium">{chakra.aspect}</p>
           </div>
           <div className="rounded-2xl border border-white/10 bg-white/5 p-4">
-            <p className="text-xs uppercase tracking-[0.2em] text-slate-400">State</p>
-            <p className="mt-2 font-medium">Balanced</p>
+            {chakra.planet ? (
+              <>
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Planet</p>
+                <p className="mt-2 font-medium">{chakra.planetGlyph} {chakra.planet}</p>
+              </>
+            ) : (
+              <>
+                <p className="text-xs uppercase tracking-[0.2em] text-slate-400">State</p>
+                <p className="mt-2 font-medium">Balanced</p>
+              </>
+            )}
           </div>
         </div>
 
@@ -333,8 +342,17 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                     <p className="mt-2 font-semibold">{chakra.aspect}</p>
                   </div>
                   <div className="rounded-2xl border border-white/15 bg-slate-950/30 p-4">
-                    <p className="text-xs uppercase tracking-[0.2em] text-white/55">System</p>
-                    <p className="mt-2 font-semibold">{system.fullLabel}</p>
+                    {chakra.planet ? (
+                      <>
+                        <p className="text-xs uppercase tracking-[0.2em] text-white/55">Planet</p>
+                        <p className="mt-2 font-semibold">{chakra.planetGlyph} {chakra.planet}</p>
+                      </>
+                    ) : (
+                      <>
+                        <p className="text-xs uppercase tracking-[0.2em] text-white/55">System</p>
+                        <p className="mt-2 font-semibold">{system.fullLabel}</p>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>

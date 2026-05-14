@@ -9,6 +9,8 @@ export const hinduChakras = [
     y: "6%",
     x: "50%",
     aspect: "Consciousness",
+    planet: "Ketu",
+    planetGlyph: "☋",
     theme: "Purpose, faith, spiritual connection",
     balanced: "A quiet sense of trust, perspective, and connection to something greater than the ego.",
     affirmations: [
@@ -44,6 +46,8 @@ export const hinduChakras = [
     y: "18%",
     x: "50%",
     aspect: "Light",
+    planet: "Saturn",
+    planetGlyph: "♄",
     theme: "Insight, imagination, intuition",
     balanced: "Clear inner vision without becoming trapped in overthinking or fantasy.",
     affirmations: [
@@ -79,6 +83,8 @@ export const hinduChakras = [
     y: "30%",
     x: "50%",
     aspect: "Sound / Ether",
+    planet: "Mercury",
+    planetGlyph: "☿",
     theme: "Expression, truth, communication",
     balanced: "Speaking honestly without forcing, hiding, or over-explaining yourself.",
     affirmations: [
@@ -114,6 +120,8 @@ export const hinduChakras = [
     y: "43%",
     x: "50%",
     aspect: "Air",
+    planet: "Venus",
+    planetGlyph: "♀",
     theme: "Love, compassion, forgiveness",
     balanced: "Open-hearted love with boundaries, not self-abandonment.",
     affirmations: [
@@ -149,6 +157,8 @@ export const hinduChakras = [
     y: "56%",
     x: "50%",
     aspect: "Fire",
+    planet: "Mars",
+    planetGlyph: "♂",
     theme: "Confidence, willpower, identity",
     balanced: "A steady sense of self-worth and direction without needing to dominate.",
     affirmations: [
@@ -184,6 +194,8 @@ export const hinduChakras = [
     y: "70%",
     x: "50%",
     aspect: "Water",
+    planet: "Moon",
+    planetGlyph: "☽",
     theme: "Emotion, pleasure, creativity",
     balanced: "Feeling emotions and desire without being ruled by them.",
     affirmations: [
@@ -219,6 +231,8 @@ export const hinduChakras = [
     y: "84%",
     x: "50%",
     aspect: "Earth",
+    planet: "Saturn",
+    planetGlyph: "♄",
     theme: "Safety, stability, survival",
     balanced: "A grounded sense of safety, presence, and physical stability.",
     affirmations: [
