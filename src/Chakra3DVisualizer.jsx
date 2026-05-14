@@ -13,6 +13,10 @@ function googleImageUrl(query) {
   return "https://www.google.com/search?tbm=isch&q=" + encodeURIComponent(query);
 }
 
+function youtubeSearchUrl(query) {
+  return "https://www.youtube.com/results?search_query=" + encodeURIComponent(query);
+}
+
 function openExternalUrl(url) {
   const openedWindow = window.open(url, "_blank");
   if (openedWindow) {
@@ -520,7 +524,18 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
             </div>
             <div className="p-6 space-y-6">
               <div>
-                <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-400">Harmonic frequencies (432 Hz tuning)</p>
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <p className="text-xs uppercase tracking-[0.2em] text-slate-400">Harmonic frequencies (432 Hz tuning)</p>
+                  {chakra.frequencyVideoQuery && (
+                    <button
+                      type="button"
+                      onClick={() => openExternalUrl(youtubeSearchUrl(chakra.frequencyVideoQuery))}
+                      className="flex shrink-0 items-center gap-1.5 rounded-xl border border-red-400/30 bg-red-500/10 px-3 py-1.5 text-xs font-semibold text-red-200 transition hover:bg-red-500/20 active:scale-95"
+                    >
+                      ▶ Watch on YouTube
+                    </button>
+                  )}
+                </div>
                 <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
                   {chakra.frequencies.map((f) => (
                     <div key={f} className="rounded-2xl border border-white/10 bg-slate-950/40 p-3 text-center">
