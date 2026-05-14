@@ -94,11 +94,18 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
               <p className="mt-1 text-xs text-slate-300">{selected.location}</p>
             </div>
           </div>
-          {selected.mantra && (
-            <span className="shrink-0 rounded-xl border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold italic text-white/80">
-              {selected.mantra}
-            </span>
-          )}
+          <div className="flex shrink-0 flex-col items-end gap-1">
+            {selected.colorMeaning && (
+              <span className="rounded-xl px-3 py-1 text-xs font-bold" style={{ background: `${selected.color}33`, color: selected.color }}>
+                {selected.colorMeaning}
+              </span>
+            )}
+            {selected.mantra && (
+              <span className="rounded-xl border border-white/15 bg-white/10 px-3 py-1 text-xs font-semibold italic text-white/80">
+                {selected.mantra}
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
@@ -294,6 +301,9 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
             {chakra.mantra && (
               <p className="mt-1 text-lg font-semibold italic" style={{ color: chakra.color }}>{chakra.mantra}</p>
             )}
+            {chakra.colorMeaning && (
+              <p className="mt-1 text-sm font-semibold uppercase tracking-widest" style={{ color: chakra.color, opacity: 0.75 }}>{chakra.colorMeaning}</p>
+            )}
             <p className="mt-2 text-slate-300">{chakra.theme}</p>
           </div>
           <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl border border-white/20 text-2xl" style={{ background: chakra.color, boxShadow: `0 0 38px ${chakra.glow}` }}>
@@ -450,6 +460,9 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                   <h1 className="text-4xl font-black tracking-tight sm:text-5xl">{chakra.name}</h1>
                   {chakra.mantra && (
                     <p className="mt-2 text-2xl font-bold italic text-white/90 sm:text-3xl">{chakra.mantra}</p>
+                  )}
+                  {chakra.colorMeaning && (
+                    <p className="mt-1 text-sm font-bold uppercase tracking-widest text-white/60">{chakra.colorMeaning}</p>
                   )}
                   <p className="mt-4 max-w-xl text-lg leading-relaxed text-white/80">{chakra.theme}</p>
                 </div>
