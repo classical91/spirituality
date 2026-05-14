@@ -36,6 +36,23 @@ export default function HomePage({ onNavigate }) {
       glowColor: 'rgba(251,191,36,0.18)',
       hoverBorder: 'rgba(251,191,36,0.45)',
     },
+    {
+      id: 'biblical',
+      icon: '✠',
+      badge: 'Sacred Moral Atlas',
+      badgeColor: 'rgba(251,191,36,0.12)',
+      badgeBorder: 'rgba(251,191,36,0.28)',
+      badgeText: '#fef3c7',
+      title: 'Biblical\nConcepts',
+      description: 'Explore the 10 Commandments, 7 Deadly Sins, virtues, Dante\'s Inferno, and demonology as an interactive study board.',
+      keywords: ['Commandments', 'Virtues', 'Deadly Sins', 'Dante'],
+      cta: 'Enter Portal',
+      ctaColor: '#fde68a',
+      iconBg: 'linear-gradient(135deg, rgba(120,53,15,0.6), rgba(30,27,75,0.4))',
+      iconBorder: 'rgba(251,191,36,0.3)',
+      glowColor: 'rgba(120,53,15,0.35)',
+      hoverBorder: 'rgba(251,191,36,0.4)',
+    },
   ];
 
   return (
@@ -126,7 +143,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Two tools for exploring inner symbolism, spiritual tradition, and the language of the cosmos.
+          Three tools for exploring inner symbolism, spiritual tradition, and the language of the cosmos.
         </p>
 
         {/* Portal cards */}
