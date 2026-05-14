@@ -512,6 +512,54 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
           </div>
         </section>
 
+        {chakra.frequencies && (
+          <section className="mt-6 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 backdrop-blur-xl">
+            <div className="border-b border-white/10 px-6 py-4">
+              <h3 className="text-xl font-bold">432 Hz Alchemical &amp; Cosmic</h3>
+              <p className="mt-1 text-sm text-slate-400">Sound frequencies, alchemical process, and classical correspondences.</p>
+            </div>
+            <div className="p-6 space-y-6">
+              <div>
+                <p className="mb-3 text-xs uppercase tracking-[0.2em] text-slate-400">Harmonic frequencies (432 Hz tuning)</p>
+                <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+                  {chakra.frequencies.map((f) => (
+                    <div key={f} className="rounded-2xl border border-white/10 bg-slate-950/40 p-3 text-center">
+                      <p className="text-xs text-slate-400">♩</p>
+                      <p className="mt-1 text-sm font-semibold text-white">{f}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                <div className="rounded-2xl border border-indigo-300/15 bg-indigo-300/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-indigo-200/70">Alchemical process</p>
+                  <p className="mt-2 font-semibold">{chakra.alchemical}</p>
+                </div>
+                <div className="rounded-2xl border border-indigo-300/15 bg-indigo-300/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-indigo-200/70">Sense</p>
+                  <p className="mt-2 font-semibold">{chakra.sense}</p>
+                </div>
+                <div className="rounded-2xl border border-indigo-300/15 bg-indigo-300/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-indigo-200/70">Quality</p>
+                  <p className="mt-2 font-semibold">{chakra.quality}</p>
+                </div>
+                <div className="rounded-2xl border border-violet-300/15 bg-violet-300/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-violet-200/70">Day of the week</p>
+                  <p className="mt-2 font-semibold">{chakra.dayOfWeek}</p>
+                </div>
+                <div className="rounded-2xl border border-violet-300/15 bg-violet-300/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-violet-200/70">Archangel</p>
+                  <p className="mt-2 font-semibold">{chakra.archangel}</p>
+                </div>
+                <div className="rounded-2xl border border-violet-300/15 bg-violet-300/10 p-4">
+                  <p className="text-xs uppercase tracking-[0.2em] text-violet-200/70">Zodiac</p>
+                  <p className="mt-2 font-semibold">{chakra.zodiacGlyph} {chakra.zodiac}</p>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         <section className="mt-6 grid gap-4 lg:grid-cols-3">
           <MiniList title="Pros" items={chakra.pros} tone="green" />
           <MiniList title="Watch-outs" items={chakra.cons} tone="amber" />
