@@ -199,7 +199,77 @@ function AffirmationWindow({ chakra, onClose }) {
   );
 }
 
-function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations }) {
+function BlockageWindow({ chakra, onClose }) {
+  return (
+    <div className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_25%_15%,rgba(239,68,68,0.14),transparent_28%),radial-gradient(circle_at_75%_85%,rgba(168,85,247,0.12),transparent_30%)]" />
+
+      <section className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl">
+        <div className="p-6 sm:p-8" style={{ background: `linear-gradient(135deg, rgba(239,68,68,0.25), rgba(15,23,42,0.75))` }}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="mb-2 text-xs uppercase tracking-[0.25em] text-white/60">Blockage explorer</p>
+              <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{chakra.name}</h2>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75">
+                Understanding what creates a blockage can help you meet it with clarity rather than force.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-2xl border border-white/15 bg-slate-950/30 px-4 py-3 font-semibold text-white transition hover:bg-slate-950/50 active:scale-95"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-5 p-5 sm:p-6">
+          {chakra.blockageCauses && (
+            <div className="rounded-[1.5rem] border border-rose-300/20 bg-rose-300/10 p-5">
+              <h3 className="mb-4 text-lg font-bold text-rose-100">What typically causes this blockage</h3>
+              <ul className="space-y-3">
+                {chakra.blockageCauses.map((cause) => (
+                  <li key={cause} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm leading-relaxed text-slate-100">
+                    {cause}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {chakra.physicalSigns && (
+            <div className="rounded-[1.5rem] border border-amber-300/20 bg-amber-300/10 p-5">
+              <h3 className="mb-4 text-lg font-bold text-amber-100">Physical signs in the body</h3>
+              <ul className="space-y-3">
+                {chakra.physicalSigns.map((sign) => (
+                  <li key={sign} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm leading-relaxed text-slate-100">
+                    {sign}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {chakra.rootQuestions && (
+            <div className="rounded-[1.5rem] border border-violet-300/20 bg-violet-300/10 p-5">
+              <h3 className="mb-4 text-lg font-bold text-violet-100">Root questions to sit with</h3>
+              <ul className="space-y-3">
+                {chakra.rootQuestions.map((q) => (
+                  <li key={q} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm italic leading-relaxed text-slate-100">
+                    {q}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpenBlockage }) {
   return (
     <div className="space-y-4">
       <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-xl">
@@ -256,15 +326,24 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations }) {
             className="rounded-2xl border border-white/15 px-5 py-4 font-semibold text-white shadow-xl transition hover:brightness-110 active:scale-[0.99]"
             style={{ background: chakra.color, boxShadow: `0 0 26px ${chakra.glow}` }}
           >
-            Open affirmations first
+            Open affirmations
           </button>
           <button
             type="button"
             onClick={onOpenExpanded}
             className="rounded-2xl border border-white/15 bg-white px-5 py-4 font-semibold text-slate-950 shadow-xl transition hover:bg-slate-200 active:scale-[0.99]"
           >
-            Open full explanation page
+            Full explanation page
           </button>
+          {chakra.blockageCauses && (
+            <button
+              type="button"
+              onClick={onOpenBlockage}
+              className="rounded-2xl border border-rose-300/30 bg-rose-300/10 px-5 py-4 font-semibold text-white shadow-xl transition hover:bg-rose-300/20 active:scale-[0.99] sm:col-span-2"
+            >
+              Explore blockages
+            </button>
+          )}
         </div>
 
         <StretchImageLinks chakra={chakra} compact />
@@ -278,7 +357,7 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations }) {
   );
 }
 
-function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations }) {
+function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage }) {
   const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
   const nextChakra = chakras[(currentIndex + 1) % chakras.length];
@@ -321,6 +400,15 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
               >
                 Affirmations
               </button>
+              {chakra.blockageCauses && (
+                <button
+                  type="button"
+                  onClick={onOpenBlockage}
+                  className="hidden rounded-2xl border border-rose-300/30 bg-rose-300/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-300/20 active:scale-95 sm:block"
+                >
+                  Blockages
+                </button>
+              )}
               <button
                 type="button"
                 onClick={onClose}
@@ -455,6 +543,15 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
           >
             Open affirmations
           </button>
+          {chakra.blockageCauses && (
+            <button
+              type="button"
+              onClick={onOpenBlockage}
+              className="w-full rounded-2xl border border-rose-300/30 bg-rose-300/10 px-6 py-4 text-base font-semibold text-white transition hover:bg-rose-300/20 active:scale-95 sm:hidden"
+            >
+              Explore blockages
+            </button>
+          )}
           <button
             type="button"
             onClick={onClose}
@@ -478,6 +575,7 @@ export default function Chakra3DVisualizer() {
   const [rotate, setRotate] = useState(true);
   const [expandedOpen, setExpandedOpen] = useState(false);
   const [affirmationOpen, setAffirmationOpen] = useState(false);
+  const [blockageOpen, setBlockageOpen] = useState(false);
 
   const system = SYSTEMS.find((s) => s.id === systemId);
   const chakras = system.data;
@@ -491,6 +589,7 @@ export default function Chakra3DVisualizer() {
     setSelectedId("heart");
     setExpandedOpen(false);
     setAffirmationOpen(false);
+    setBlockageOpen(false);
   }
 
   return (
@@ -575,6 +674,7 @@ export default function Chakra3DVisualizer() {
               system={system}
               onOpenAffirmations={() => setAffirmationOpen(true)}
               onOpenExpanded={() => setExpandedOpen(true)}
+              onOpenBlockage={() => setBlockageOpen(true)}
             />
           </div>
         </div>
@@ -592,7 +692,12 @@ export default function Chakra3DVisualizer() {
           onClose={() => setExpandedOpen(false)}
           onSelect={(id) => setSelectedId(id)}
           onOpenAffirmations={() => setAffirmationOpen(true)}
+          onOpenBlockage={() => setBlockageOpen(true)}
         />
+      )}
+
+      {blockageOpen && (
+        <BlockageWindow chakra={selectedChakra} onClose={() => setBlockageOpen(false)} />
       )}
     </main>
   );

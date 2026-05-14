@@ -36,6 +36,23 @@ export const hinduChakras = [
     pros: ["Supports meaning and purpose", "Encourages humility and perspective", "Helps soften over-control"],
     cons: ["Can become escapism", "May create spiritual pressure", "Can disconnect you from body and emotions"],
     stretchLinks: ["crown chakra yoga poses", "sahasrara chakra meditation posture", "crown chakra stretches"],
+    blockageCauses: [
+      "Spiritual disillusionment or religious wounds that severed trust in a larger pattern",
+      "Prolonged grief or crisis that stripped away all sense of meaning or purpose",
+      "Environments that mocked faith, philosophy, or inner life as weakness",
+      "Chronic pressure or overwork that left no space for perspective beyond survival",
+    ],
+    physicalSigns: [
+      "Recurring headaches or migraines concentrated at the crown",
+      "Sensitivity to light, sound, or sensory overload",
+      "Brain fog and difficulty accessing calm or clarity",
+      "Disrupted sleep and disconnection from the body",
+    ],
+    rootQuestions: [
+      "When did I stop believing that life had a larger pattern?",
+      "What would I need to trust in order to feel less alone in this?",
+      "What am I protecting myself from by staying cynical or closed?",
+    ],
   },
   {
     id: "third-eye",
@@ -74,6 +91,23 @@ export const hinduChakras = [
     pros: ["Improves self-reflection", "Supports decision clarity", "Builds imagination and pattern recognition"],
     cons: ["Can turn into over-analyzing", "May create paranoia if ungrounded", "Can confuse intuition with fear"],
     stretchLinks: ["third eye chakra yoga poses", "ajna chakra stretches", "child pose third eye chakra"],
+    blockageCauses: [
+      "Having your perception repeatedly dismissed, gaslighted, or invalidated",
+      "Growing up in environments where trusting intuition was punished or mocked",
+      "Chronic anxiety that turned imagination into constant threat-scanning",
+      "Information overload with no stillness or space to process inner knowing",
+    ],
+    physicalSigns: [
+      "Pressure or tension between the eyebrows and across the forehead",
+      "Sinus congestion and eye strain or fatigue",
+      "Difficulty concentrating or holding a clear thought",
+      "Recurring nightmares or disturbed dream states",
+    ],
+    rootQuestions: [
+      "Who taught me not to trust what I saw or felt?",
+      "What am I afraid to look at clearly right now?",
+      "Where am I choosing noise and distraction over my own knowing?",
+    ],
   },
   {
     id: "throat",
@@ -112,6 +146,23 @@ export const hinduChakras = [
     pros: ["Helps express needs clearly", "Supports honest communication", "Reduces people-pleasing"],
     cons: ["Can become bluntness without compassion", "May trigger over-talking", "Can feel blocked when emotions are suppressed"],
     stretchLinks: ["throat chakra yoga poses", "neck stretches throat chakra", "vishuddha chakra stretches"],
+    blockageCauses: [
+      "Being silenced or punished for speaking honestly as a child",
+      "Environments where telling the truth felt unsafe or met with anger",
+      "Repeatedly swallowing anger, grief, or needs to keep the peace",
+      "Chronic people-pleasing that made silence feel like the only safe option",
+    ],
+    physicalSigns: [
+      "Tightness, soreness, or a lump-like sensation in the throat",
+      "Jaw clenching, teeth grinding, or TMJ tension",
+      "Neck stiffness and upper shoulder holding",
+      "Voice going quiet, trembling, or disappearing under pressure",
+    ],
+    rootQuestions: [
+      "What have I been afraid to say out loud, even to myself?",
+      "Who taught me that my voice was too much or not enough?",
+      "What truth am I still protecting others from hearing?",
+    ],
   },
   {
     id: "heart",
@@ -150,6 +201,23 @@ export const hinduChakras = [
     pros: ["Encourages compassion", "Supports forgiveness and repair", "Helps build deeper connection"],
     cons: ["Can become over-giving", "May confuse love with tolerating harm", "Can create attachment if boundaries are weak"],
     stretchLinks: ["heart chakra yoga poses", "chest opening stretches heart chakra", "anahata chakra stretches"],
+    blockageCauses: [
+      "Unprocessed grief, loss, or betrayal that closed the heart as protection",
+      "Abandonment or rejection that made vulnerability feel dangerous",
+      "Learning early that love was conditional on performance or compliance",
+      "Giving so much for so long that staying open felt like having nothing left",
+    ],
+    physicalSigns: [
+      "Chest tightness, constriction, or a heavy feeling over the sternum",
+      "Shallow breathing and difficulty taking a full, open breath",
+      "Chronic upper back and shoulder tension, as if bracing against the world",
+      "Immune system sensitivity and frequent illness during emotional stress",
+    ],
+    rootQuestions: [
+      "When did keeping people out feel safer than letting them in?",
+      "What am I still grieving that I have not fully acknowledged?",
+      "Where did I learn that loving others means abandoning myself?",
+    ],
   },
   {
     id: "solar",
@@ -188,6 +256,23 @@ export const hinduChakras = [
     pros: ["Supports confidence and action", "Strengthens boundaries", "Helps decision-making"],
     cons: ["Can become control or pride", "May intensify anger", "Can turn self-improvement into pressure"],
     stretchLinks: ["solar plexus chakra yoga poses", "core stretches manipura chakra", "solar plexus opening stretches"],
+    blockageCauses: [
+      "Chronic shame, humiliation, or ridicule that made self-assertion feel unsafe",
+      "Controlling environments that removed your autonomy or decision-making",
+      "Being told repeatedly that you were incapable, wrong, or too much",
+      "Perfectionism conditioning that made every action feel like a test of worth",
+    ],
+    physicalSigns: [
+      "Digestive tension, discomfort, or a knotted feeling in the upper abdomen",
+      "Nausea or stomach upset that spikes under pressure or conflict",
+      "A collapsed or braced posture, as if making yourself smaller",
+      "Adrenal fatigue and difficulty sustaining energy throughout the day",
+    ],
+    rootQuestions: [
+      "When did I first start believing I was not capable or worthy?",
+      "Whose voice is still running in the background telling me I am not enough?",
+      "Where am I handing my power to others without realizing I have a choice?",
+    ],
   },
   {
     id: "sacral",
@@ -226,6 +311,23 @@ export const hinduChakras = [
     pros: ["Supports creativity", "Helps emotional flow", "Rebuilds pleasure and play"],
     cons: ["Can become impulsive", "May over-focus on pleasure", "Can stir old emotional wounds"],
     stretchLinks: ["sacral chakra yoga poses", "hip opening stretches sacral chakra", "svadhisthana chakra stretches"],
+    blockageCauses: [
+      "Emotional suppression in childhood where feeling deeply was unwelcome or punished",
+      "Shame around desire, pleasure, or intimacy absorbed from family or culture",
+      "Creative expression that was criticized, dismissed, or never encouraged",
+      "Trauma stored in the hips and lower body that froze emotional flow",
+    ],
+    physicalSigns: [
+      "Chronic tightness or pain in the hips, pelvis, and lower back",
+      "Emotional flatness, numbness, or a mechanical feeling in daily life",
+      "Creative blocks and difficulty accessing inspiration or play",
+      "Disconnection from physical pleasure and enjoyment of ordinary experience",
+    ],
+    rootQuestions: [
+      "What emotions was I not allowed to feel growing up?",
+      "Where did I learn that desire or pleasure was dangerous or shameful?",
+      "What would it feel like to simply enjoy being in my own body?",
+    ],
   },
   {
     id: "root",
@@ -264,5 +366,22 @@ export const hinduChakras = [
     pros: ["Supports calm and grounding", "Builds consistency", "Helps the body feel safer"],
     cons: ["Can become rigid or fear-based", "May over-focus on survival", "Can keep you stuck in comfort zones"],
     stretchLinks: ["root chakra yoga poses", "grounding yoga poses root chakra", "muladhara chakra stretches"],
+    blockageCauses: [
+      "Early instability around safety, housing, money, or consistent caregiving",
+      "Growing up in chronic crisis or threat environments that kept the nervous system on alert",
+      "Abandonment or emotional unavailability that made the world feel unreliable",
+      "Intergenerational survival stress passed down through family patterns and beliefs",
+    ],
+    physicalSigns: [
+      "Chronic tension or pain in the legs, knees, ankles, or feet",
+      "Persistent fatigue and difficulty feeling rested even after sleep",
+      "A floating, unanchored feeling as if nothing is solid beneath you",
+      "Immune dysregulation and adrenal exhaustion from prolonged hypervigilance",
+    ],
+    rootQuestions: [
+      "When did the world first feel like a place I could not safely rest in?",
+      "What does genuine security actually look and feel like for me?",
+      "What would it mean to finally feel at home in my own body and life?",
+    ],
   },
 ];
