@@ -57,37 +57,155 @@ function ChakraOrb({ chakra, selected, onClick }) {
 function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
   const selected = chakras.find((item) => item.id === selectedId) || chakras[3];
 
+  const primaryRays  = [0, 22, 45, 67, 90, 112, 135, 157];
+  const secondaryRays = [11, 33, 56, 78, 101, 123, 146, 168];
+
   return (
-    <div className="relative mx-auto flex min-h-[560px] w-full max-w-[430px] items-center justify-center overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/45 p-8 shadow-2xl backdrop-blur-xl">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.16),transparent_34%),radial-gradient(circle_at_50%_80%,rgba(59,130,246,0.12),transparent_38%)]" />
-      <div className="absolute left-8 top-8 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">3D Aura Field</div>
+    <div
+      className="relative mx-auto flex min-h-[560px] w-full max-w-[430px] items-center justify-center overflow-hidden rounded-[2rem] shadow-2xl"
+      style={{ background: '#04060f', border: '1px solid rgba(168,85,247,0.18)' }}
+    >
+      {/* Deep cosmic background */}
+      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 130% 110% at 50% 50%, #0d0630 0%, #04060f 60%)' }} />
 
-      <div className={`absolute h-[470px] w-[270px] rounded-full border border-cyan-200/20 ${rotate ? "animate-[spin_12s_linear_infinite]" : ""}`} />
-      <div className={`absolute h-[430px] w-[230px] rounded-full border border-fuchsia-200/10 ${rotate ? "animate-[spin_16s_linear_infinite]" : ""}`} />
-      <div className="absolute h-[500px] w-[40px] rounded-full bg-cyan-300/5 blur-2xl" />
+      {/* Selected-chakra outer aura */}
+      <div className="absolute inset-0 transition-all duration-700" style={{
+        background: `radial-gradient(ellipse 60% 80% at 50% 42%, ${selected.color}30 0%, ${selected.color}12 45%, transparent 70%)`,
+        filter: 'blur(12px)',
+      }} />
 
+      {/* Persistent rainbow aura column */}
+      <div className="absolute pointer-events-none" style={{
+        top: '4%', bottom: '4%', left: '50%',
+        transform: 'translateX(-50%)',
+        width: '200px',
+        background: 'linear-gradient(180deg, rgba(168,85,247,0.18) 0%, rgba(99,102,241,0.14) 14%, rgba(6,182,212,0.14) 28%, rgba(34,197,94,0.18) 42%, rgba(250,204,21,0.14) 56%, rgba(251,146,60,0.14) 70%, rgba(239,68,68,0.18) 84%)',
+        filter: 'blur(22px)',
+        borderRadius: '50%',
+      }} />
+
+      {/* Primary energy rays */}
+      {primaryRays.map((deg) => (
+        <div key={`pr-${deg}`} className="absolute pointer-events-none" style={{
+          top: '38%', left: '50%',
+          width: '340px', height: '1.5px',
+          transform: `translate(-50%, -50%) rotate(${deg}deg)`,
+          background: `linear-gradient(90deg, transparent 0%, ${selected.color}25 30%, ${selected.color}55 50%, ${selected.color}25 70%, transparent 100%)`,
+          transition: 'background 0.6s ease',
+        }} />
+      ))}
+
+      {/* Secondary softer rays */}
+      {secondaryRays.map((deg) => (
+        <div key={`sr-${deg}`} className="absolute pointer-events-none" style={{
+          top: '38%', left: '50%',
+          width: '260px', height: '1px',
+          transform: `translate(-50%, -50%) rotate(${deg}deg)`,
+          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)',
+        }} />
+      ))}
+
+      {/* Label */}
+      <div className="absolute left-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium text-white/40"
+           style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}>
+        Energy Body
+      </div>
+
+      {/* Figure */}
       <div className={`relative h-[500px] w-[220px] ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
-        <div className="absolute left-1/2 top-0 h-[82px] w-[82px] -translate-x-1/2 rounded-full border border-white/20 bg-gradient-to-b from-white/25 to-white/5 shadow-[inset_0_0_35px_rgba(255,255,255,0.12)]" />
-        <div className="absolute left-1/2 top-[82px] h-[245px] w-[126px] -translate-x-1/2 rounded-[48%_48%_38%_38%] border border-white/20 bg-gradient-to-b from-white/20 to-white/5 shadow-[inset_0_0_45px_rgba(255,255,255,0.08)]" />
-        <div className="absolute left-[18px] top-[115px] h-[185px] w-[30px] rotate-6 rounded-full border border-white/15 bg-white/5" />
-        <div className="absolute right-[18px] top-[115px] h-[185px] w-[30px] -rotate-6 rounded-full border border-white/15 bg-white/5" />
-        <div className="absolute left-[62px] top-[314px] h-[176px] w-[34px] rounded-full border border-white/15 bg-white/5" />
-        <div className="absolute right-[62px] top-[314px] h-[176px] w-[34px] rounded-full border border-white/15 bg-white/5" />
 
-        <div className="absolute left-1/2 top-[24px] h-[405px] w-px -translate-x-1/2 bg-gradient-to-b from-purple-400 via-cyan-300 to-red-400 opacity-70" />
+        {/* Head aura halo */}
+        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none" style={{
+          top: '-14px', width: '116px', height: '116px',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(168,85,247,0.2) 45%, transparent 72%)',
+          filter: 'blur(10px)', borderRadius: '50%',
+        }} />
 
+        {/* Head */}
+        <div className="absolute left-1/2 top-0 -translate-x-1/2" style={{
+          width: '78px', height: '78px', borderRadius: '50%',
+          background: 'radial-gradient(circle at 38% 32%, rgba(255,255,255,0.5) 0%, rgba(210,200,255,0.3) 35%, rgba(120,90,220,0.18) 65%, transparent 100%)',
+          border: '1px solid rgba(200,190,255,0.3)',
+          boxShadow: '0 0 32px rgba(168,85,247,0.5), 0 0 60px rgba(168,85,247,0.2), inset 0 0 20px rgba(255,255,255,0.12)',
+        }} />
+
+        {/* Torso */}
+        <div className="absolute left-1/2 -translate-x-1/2" style={{
+          top: '78px', width: '116px', height: '238px',
+          borderRadius: '44% 44% 36% 36%',
+          background: 'linear-gradient(180deg, rgba(168,85,247,0.28) 0%, rgba(99,102,241,0.22) 14%, rgba(6,182,212,0.22) 28%, rgba(34,197,94,0.26) 44%, rgba(250,204,21,0.2) 60%, rgba(251,146,60,0.2) 74%, rgba(239,68,68,0.24) 100%)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          boxShadow: '0 0 40px rgba(6,182,212,0.18), inset 0 0 28px rgba(255,255,255,0.05)',
+        }} />
+
+        {/* Left arm */}
+        <div className="absolute pointer-events-none" style={{
+          top: '96px', left: '10px',
+          width: '28px', height: '172px', borderRadius: '14px',
+          transform: 'rotate(8deg)',
+          background: 'linear-gradient(180deg, rgba(168,85,247,0.32) 0%, rgba(6,182,212,0.22) 50%, rgba(34,197,94,0.16) 100%)',
+          border: '1px solid rgba(255,255,255,0.09)',
+          boxShadow: '0 0 14px rgba(99,102,241,0.25)',
+        }} />
+
+        {/* Right arm */}
+        <div className="absolute pointer-events-none" style={{
+          top: '96px', right: '10px',
+          width: '28px', height: '172px', borderRadius: '14px',
+          transform: 'rotate(-8deg)',
+          background: 'linear-gradient(180deg, rgba(168,85,247,0.32) 0%, rgba(6,182,212,0.22) 50%, rgba(34,197,94,0.16) 100%)',
+          border: '1px solid rgba(255,255,255,0.09)',
+          boxShadow: '0 0 14px rgba(99,102,241,0.25)',
+        }} />
+
+        {/* Left leg */}
+        <div className="absolute pointer-events-none" style={{
+          top: '302px', left: '58px',
+          width: '36px', height: '188px', borderRadius: '18px',
+          background: 'linear-gradient(180deg, rgba(251,146,60,0.22) 0%, rgba(239,68,68,0.28) 100%)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          boxShadow: '0 0 14px rgba(239,68,68,0.18)',
+        }} />
+
+        {/* Right leg */}
+        <div className="absolute pointer-events-none" style={{
+          top: '302px', right: '58px',
+          width: '36px', height: '188px', borderRadius: '18px',
+          background: 'linear-gradient(180deg, rgba(251,146,60,0.22) 0%, rgba(239,68,68,0.28) 100%)',
+          border: '1px solid rgba(255,255,255,0.07)',
+          boxShadow: '0 0 14px rgba(239,68,68,0.18)',
+        }} />
+
+        {/* Spine glow (blurred) */}
+        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none" style={{
+          top: '18px', height: '398px', width: '14px',
+          background: 'linear-gradient(180deg, rgba(168,85,247,0.5) 0%, rgba(99,102,241,0.4) 14%, rgba(6,182,212,0.45) 28%, rgba(34,197,94,0.5) 42%, rgba(250,204,21,0.4) 56%, rgba(251,146,60,0.4) 70%, rgba(239,68,68,0.5) 84%)',
+          filter: 'blur(5px)', borderRadius: '7px',
+        }} />
+
+        {/* Spine line (sharp) */}
+        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none" style={{
+          top: '18px', height: '398px', width: '3px',
+          background: 'linear-gradient(180deg, #a855f7 0%, #6366f1 14%, #06b6d4 28%, #22c55e 42%, #facc15 56%, #fb923c 70%, #ef4444 84%)',
+          boxShadow: '0 0 10px rgba(168,85,247,0.7), 0 0 20px rgba(6,182,212,0.4)',
+          borderRadius: '2px',
+        }} />
+
+        {/* Chakra orbs */}
         {chakras.map((chakra) => (
           <ChakraOrb key={chakra.id} chakra={chakra} selected={selectedId === chakra.id} onClick={() => onOrbClick(chakra.id)} />
         ))}
       </div>
 
-      <div className="absolute bottom-5 left-5 right-5 rounded-3xl border border-white/10 bg-slate-950/75 p-4 text-white shadow-xl backdrop-blur-md">
+      {/* Bottom info bar */}
+      <div className="absolute bottom-5 left-5 right-5 z-10 rounded-3xl p-4 text-white shadow-xl backdrop-blur-md"
+           style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(4,6,15,0.88)' }}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="h-4 w-4 shrink-0 rounded-full" style={{ background: selected.color, boxShadow: `0 0 24px ${selected.glow}` }} />
             <div>
               <p className="text-sm font-semibold leading-none">{selected.name}</p>
-              <p className="mt-1 text-xs text-slate-300">{selected.location}</p>
+              <p className="mt-1 text-xs text-slate-400">{selected.location}</p>
             </div>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-1">
@@ -104,7 +222,6 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
