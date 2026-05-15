@@ -7,8 +7,6 @@ const tabs = [
   { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
   { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
   { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
-  { id: 'mindbodyspirit',   icon: '◎', label: 'Mind-Body-Spirit' },
-  { id: 'journal',          icon: '✦', label: 'Journal' },
 ];
 
 /* ─────────────────────────────────────────
@@ -733,6 +731,66 @@ function PhysicalActivity() {
         'Improves sleep when practiced before bed',
       ],
     },
+    {
+      name: 'Meditation', icon: '🧠',
+      benefits: [
+        'Thickens the prefrontal cortex — the seat of focus and decision-making',
+        'Lowers cortisol and baseline stress levels over time',
+        'Improves emotional regulation and reduces reactivity',
+        'Enhances sleep quality and reduces insomnia',
+        'Linked to reduced anxiety, depression, and chronic pain',
+      ],
+    },
+    {
+      name: 'Drinking Water (warm vs cold)', icon: '💧',
+      benefits: [
+        'Warm water aids digestion, stimulates gut motility, and soothes the throat',
+        'Cold water boosts alertness and helps cool the body during exercise',
+        'Both support kidney function, toxin removal, and joint lubrication',
+        'Even mild dehydration impairs focus, mood, and short-term memory',
+        'Morning hydration kick-starts metabolism and flushes overnight waste',
+      ],
+    },
+    {
+      name: 'Face Massage (self)', icon: '✋',
+      benefits: [
+        'Stimulates lymphatic drainage, reducing puffiness and toxin buildup',
+        'Increases blood circulation, giving skin a natural glow',
+        'Relaxes jaw, forehead, and temple tension linked to stress',
+        'Activates acupressure points associated with headache relief',
+        'Signals the nervous system to shift into a parasympathetic (calm) state',
+      ],
+    },
+    {
+      name: 'Cold Showers', icon: '🚿',
+      benefits: [
+        'Surges norepinephrine by up to 300% — sharpens focus and lifts mood',
+        'Improves circulation as blood vessels dilate after the cold ends',
+        'Reduces muscle inflammation and speeds recovery after exercise',
+        'Builds deliberate stress tolerance and mental resilience',
+        'Activates brown fat thermogenesis, supporting metabolic health',
+      ],
+    },
+    {
+      name: 'Getting Sunlight', icon: '☀️',
+      benefits: [
+        'Triggers serotonin production — regulates mood, appetite, and sleep',
+        'Drives vitamin D synthesis, essential for immunity and bone strength',
+        'Morning light anchors the circadian rhythm for deeper nighttime sleep',
+        'Reduces risk of seasonal depression and low-energy states',
+        'Lowers blood pressure via nitric oxide release in the skin',
+      ],
+    },
+    {
+      name: 'Smiling', icon: '😊',
+      benefits: [
+        'Activates facial feedback — even a mild smile reduces perceived stress',
+        'Releases dopamine, serotonin, and endorphins, lifting mood immediately',
+        'Lowers heart rate during stressful situations',
+        'Signals safety to the social nervous system, improving relationships',
+        'Genuine smiling (Duchenne) is associated with longer lifespan in studies',
+      ],
+    },
   ];
 
   return (
@@ -740,7 +798,7 @@ function PhysicalActivity() {
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Physical Activity</div>
         <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Health Benefits by Practice</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Evidence-based benefits of ten key physical practices — the body as the foundation of inner balance.</p>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Evidence-based benefits of physical and daily practices — the body as the foundation of inner balance.</p>
       </div>
 
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -766,7 +824,7 @@ function PhysicalActivity() {
           >
             <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, paddingRight: 16, paddingTop: 2 }}>
               <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>{activity.icon}</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.3 }}>{activity.name}</span>
+              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--deep)', lineHeight: 1.3 }}>{activity.name}</span>
             </div>
             <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
               {activity.benefits.map((b, j) => (
@@ -818,8 +876,6 @@ export default function InnerBalanceAtlas({ onBack, onNavigate }) {
     neurotransmitters:<Neurotransmitters />,
     mooduplift:       <MoodUplift />,
     physicalactivity: <PhysicalActivity />,
-    mindbodyspirit:   <PlaceholderSection title="Mind-Body-Spirit" icon="◎" description="Explore the deep connection between your mind, body, and spirit — how each shapes and supports the others." />,
-    journal:          <PlaceholderSection title="Journal" icon="✦" description="A space for daily reflection, intentions, and tracking your inner balance over time." />,
   };
 
   return (
