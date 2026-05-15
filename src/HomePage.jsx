@@ -87,6 +87,23 @@ export default function HomePage({ onNavigate }) {
       glowColor: 'rgba(122,171,121,0.22)',
       hoverBorder: 'rgba(122,171,121,0.48)',
     },
+    {
+      id: 'frameworks',
+      icon: '✦',
+      badge: 'Framework Atlas',
+      badgeColor: 'rgba(124,92,255,0.14)',
+      badgeBorder: 'rgba(124,92,255,0.32)',
+      badgeText: '#c9b8ff',
+      title: 'Framework\nAtlas',
+      description: '35 frameworks from authors, psychologists, strategists, and designers — searchable cards, detail modals, category pages, and a 3D model lab.',
+      keywords: ['Mental Models', 'Strategy', 'Psychology', 'Learning'],
+      cta: 'Enter Portal',
+      ctaColor: '#c9b8ff',
+      iconBg: 'linear-gradient(135deg, rgba(124,92,255,0.38), rgba(0,214,255,0.18))',
+      iconBorder: 'rgba(124,92,255,0.4)',
+      glowColor: 'rgba(124,92,255,0.22)',
+      hoverBorder: 'rgba(124,92,255,0.48)',
+    },
   ];
 
   return (
@@ -177,7 +194,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Five tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, and whole-system well-being.
+          Six tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, and the world's best thinking frameworks.
         </p>
 
         {/* Portal cards */}
