@@ -71,18 +71,18 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
       className="relative mx-auto flex min-h-[560px] w-full max-w-[430px] items-center justify-center overflow-hidden rounded-[2rem] shadow-2xl"
       style={{ background: '#030510', border: '1px solid rgba(168,85,247,0.15)' }}
     >
-      {/* Energy field background image */}
+      {/* Chakra body photo background */}
       <div className="absolute inset-0" style={{
-        backgroundImage: 'url("/assets/chakra-body-energy-field.png")',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        opacity: 0.55,
-        filter: 'saturate(1.3) contrast(1.05)',
+        backgroundImage: 'url("/assets/chakra-body-photo.jpg")',
+        backgroundSize: 'contain',
+        backgroundPosition: 'center top',
+        backgroundRepeat: 'no-repeat',
+        opacity: 0.92,
       }} />
 
-      {/* Dark overlay so the SVG figure stays legible */}
+      {/* Light overlay for depth */}
       <div className="absolute inset-0" style={{
-        background: 'radial-gradient(ellipse 160% 140% at 50% 42%, rgba(9,5,62,0.55) 0%, rgba(3,5,16,0.72) 65%)',
+        background: 'radial-gradient(ellipse 160% 140% at 50% 42%, rgba(9,5,62,0.30) 0%, rgba(3,5,16,0.50) 85%)',
       }} />
 
       {/* Selected-chakra ambient aura */}
@@ -109,16 +109,8 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
         Energy Body
       </div>
 
-      {/* Figure container — seated lotus pose */}
-      <div className={`relative h-[500px] w-[240px] ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
-
-        {/* Photo body */}
-        <img
-          src="/assets/chakra-body-photo.jpg"
-          alt="Chakra energy body"
-          className="absolute inset-0 h-full w-full object-contain pointer-events-none"
-          style={{ filter: 'drop-shadow(0 0 8px rgba(180,215,255,0.5))' }}
-        />
+      {/* Figure container — full size for orb percentage positioning */}
+      <div className={`absolute inset-0 ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
 
         {/* Chakra orbs */}
         {chakras.map((chakra) => (
