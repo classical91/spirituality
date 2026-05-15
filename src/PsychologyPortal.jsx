@@ -386,7 +386,7 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
-export default function PsychologyPortal({ onBack }) {
+export default function PsychologyPortal({ onBack, onNavigate }) {
   const [activeTab, setActiveTab] = useState("overview");
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
@@ -458,6 +458,19 @@ export default function PsychologyPortal({ onBack }) {
                 );
               })}
             </div>
+
+            {onNavigate && (
+              <button
+                onClick={() => onNavigate('innerbalance')}
+                className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-left text-sm text-slate-300 transition hover:bg-white/10 hover:text-white"
+              >
+                <span className="text-lg">◍</span>
+                <div>
+                  <div className="font-semibold text-white">InnerBalance Atlas</div>
+                  <div className="text-xs text-slate-500">Explore the biological side →</div>
+                </div>
+              </button>
+            )}
           </div>
         </aside>
 

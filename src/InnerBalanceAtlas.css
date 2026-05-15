@@ -183,6 +183,40 @@
   margin-bottom: 6px;
 }
 
+.iba-crosslink-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: rgba(169,145,217,0.08);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.iba-crosslink-btn:hover {
+  background: rgba(169,145,217,0.16);
+  border-color: rgba(169,145,217,0.3);
+}
+.iba-crosslink-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  color: var(--lavender);
+}
+.iba-crosslink-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep);
+}
+.iba-crosslink-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
 /* ── main content ── */
 .iba-main {
   flex: 1;
