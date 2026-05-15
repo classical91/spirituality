@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { hinduChakras } from "./data/hinduChakras";
 import { raChakras } from "./data/raChakras";
 import { baileyChakras } from "./data/baileyChakras";
@@ -447,6 +447,70 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
   );
 }
 
+function BalanceIndicator({ chakra }) {
+  const [checked, setChecked] = useState({});
+
+  const toggle = useCallback((i) => {
+    setChecked((prev) => ({ ...prev, [i]: !prev[i] }));
+  }, []);
+
+  const score = chakra.selfAssessment.filter((_, i) => checked[i]).length;
+  const total = chakra.selfAssessment.length;
+  const pct = Math.round((score / total) * 100);
+
+  const signal =
+    score === total ? { label: "Well balanced", color: "#22c55e" } :
+    score >= total * 0.6 ? { label: "Mostly balanced", color: "#86efac" } :
+    score >= total * 0.3 ? { label: "Needs attention", color: "#fbbf24" } :
+    { label: "Blocked or underactive", color: "#f87171" };
+
+  return (
+    <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-xl font-bold">Balance Indicator</h3>
+          <p className="mt-1 text-sm text-slate-400">Check each statement that feels true for you right now.</p>
+        </div>
+        <div className="shrink-0 text-right">
+          <div className="text-2xl font-black" style={{ color: signal.color }}>{score}/{total}</div>
+          <div className="text-xs font-semibold" style={{ color: signal.color }}>{signal.label}</div>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-5 h-2 overflow-hidden rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full transition-all duration-500"
+          style={{ width: `${pct}%`, background: signal.color, boxShadow: `0 0 10px ${signal.color}66` }}
+        />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        {chakra.selfAssessment.map((q, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => toggle(i)}
+            className="flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-950/30 p-4 text-left transition hover:bg-white/10 active:scale-[0.99]"
+          >
+            <span
+              className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-xs font-bold transition"
+              style={{
+                borderColor: checked[i] ? chakra.color : "rgba(255,255,255,0.25)",
+                background: checked[i] ? chakra.color : "transparent",
+                boxShadow: checked[i] ? `0 0 10px ${chakra.glow}` : "none",
+              }}
+            >
+              {checked[i] ? "✓" : ""}
+            </span>
+            <span className="text-sm leading-relaxed text-slate-200">{q}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage, onOpenPlanet }) {
   const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
@@ -682,6 +746,61 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
             ))}
           </div>
         </section>
+
+        {/* Crystals & Stones */}
+        {chakra.crystals && (
+          <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+            <h3 className="mb-4 text-xl font-bold">Crystals &amp; Stones</h3>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {chakra.crystals.map((c) => (
+                <div key={c.name} className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: chakra.color, boxShadow: `0 0 8px ${chakra.glow}` }} />
+                    <p className="text-sm font-bold text-white">{c.name}</p>
+                  </div>
+                  <p className="text-xs leading-relaxed text-slate-300">{c.property}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Healing Foods & Essential Oils */}
+        {(chakra.foods || chakra.essentialOils) && (
+          <section className="mt-6 grid gap-4 lg:grid-cols-2">
+            {chakra.foods && (
+              <div className="rounded-[1.75rem] border border-emerald-300/15 bg-emerald-300/10 p-6 backdrop-blur-xl">
+                <h3 className="mb-4 text-xl font-bold">Healing Foods</h3>
+                <div className="flex flex-wrap gap-2">
+                  {chakra.foods.map((f) => (
+                    <span key={f} className="rounded-xl border border-white/15 bg-slate-950/30 px-3 py-1.5 text-sm font-medium text-slate-100">{f}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {chakra.essentialOils && (
+              <div className="rounded-[1.75rem] border border-amber-300/15 bg-amber-300/10 p-6 backdrop-blur-xl">
+                <h3 className="mb-4 text-xl font-bold">Essential Oils</h3>
+                <div className="flex flex-col gap-3">
+                  {chakra.essentialOils.map((o) => (
+                    <div key={o.name} className="flex gap-3">
+                      <span className="mt-0.5 shrink-0 text-amber-200 text-sm">◆</span>
+                      <div>
+                        <span className="text-sm font-bold text-white">{o.name} </span>
+                        <span className="text-sm text-slate-300">{o.use}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Balance Indicator */}
+        {chakra.selfAssessment && (
+          <BalanceIndicator chakra={chakra} />
+        )}
 
         <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/10 p-5 backdrop-blur-xl">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
