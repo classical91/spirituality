@@ -737,12 +737,10 @@ function PhysicalActivity() {
 
   return (
     <div style={{ display: 'grid', gap: 28 }}>
-      <div className="iba-hero">
-        <div>
-          <h2>Physical Activity &amp; Health Benefits</h2>
-          <p>Evidence-based benefits of ten key physical practices — the body as the foundation of inner balance.</p>
-        </div>
-        <div className="iba-hero-art" />
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Physical Activity</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Health Benefits by Practice</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Evidence-based benefits of ten key physical practices — the body as the foundation of inner balance.</p>
       </div>
 
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
