@@ -71,23 +71,6 @@ export default function HomePage({ onNavigate }) {
       hoverBorder: 'rgba(6,182,212,0.45)',
     },
     {
-      id: 'nutrients',
-      icon: '◍',
-      badge: 'Psychophysiology',
-      badgeColor: 'rgba(52,211,153,0.12)',
-      badgeBorder: 'rgba(52,211,153,0.3)',
-      badgeText: '#a7f3d0',
-      title: 'Vitamins &\nMinerals',
-      description: 'Map how nutrients support mood, attention, energy, stress resilience, sleep, and neurochemical balance through body-state science.',
-      keywords: ['Nutrients', 'Neurochemistry', 'Energy', 'Sleep'],
-      cta: 'Enter Portal',
-      ctaColor: '#6ee7b7',
-      iconBg: 'linear-gradient(135deg, rgba(52,211,153,0.35), rgba(16,185,129,0.15))',
-      iconBorder: 'rgba(52,211,153,0.38)',
-      glowColor: 'rgba(52,211,153,0.2)',
-      hoverBorder: 'rgba(52,211,153,0.45)',
-    },
-    {
       id: 'innerbalance',
       icon: '◍',
       badge: 'InnerBalance Atlas',
@@ -194,7 +177,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Six tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, psychophysiology, and whole-system well-being.
+          Five tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, and whole-system well-being.
         </p>
 
         {/* Portal cards */}
