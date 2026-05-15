@@ -7,6 +7,9 @@ const tabs = [
   { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
   { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
   { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
+  { id: 'sleep',            icon: '🌙', label: 'Sleep' },
+  { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
+  { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
 ];
 
 /* ─────────────────────────────────────────
@@ -629,166 +632,220 @@ function MoodUplift() {
 /* ─────────────────────────────────────────
    PHYSICAL ACTIVITY
 ───────────────────────────────────────── */
+function ActivityTable({ groups }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+      {groups.map(group => (
+        <div key={group.label} className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+          <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+            <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>{group.label}</span>
+          </div>
+          {group.items.map((activity, i) => (
+            <div key={activity.name} style={{
+              display: 'grid', gridTemplateColumns: '200px 1fr',
+              padding: '16px 20px',
+              borderBottom: i < group.items.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+            }}>
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, paddingRight: 16, paddingTop: 2 }}>
+                <span style={{ fontSize: '1.2rem', lineHeight: 1 }}>{activity.icon}</span>
+                <span style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', lineHeight: 1.3 }}>{activity.name}</span>
+              </div>
+              <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 4 }}>
+                {activity.benefits.map((b, j) => (
+                  <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.55 }}>
+                    <span style={{ color: 'var(--sage)', fontSize: '0.6rem', marginTop: 5, flexShrink: 0 }}>◆</span>
+                    {b}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      ))}
+    </div>
+  );
+}
+
 function PhysicalActivity() {
-  const activities = [
+  const groups = [
     {
-      name: 'Walking (10k steps)', icon: '🚶',
-      benefits: [
-        'Lowers blood pressure and resting heart rate',
-        'Improves mood and reduces anxiety via endorphin release',
-        'Strengthens bones and reduces osteoporosis risk',
-        'Boosts creative thinking and mental clarity',
-        'Regulates blood sugar and supports weight management',
+      label: 'Movement',
+      items: [
+        {
+          name: 'Walking (10k steps)', icon: '🚶',
+          benefits: [
+            'Lowers blood pressure and resting heart rate',
+            'Improves mood and reduces anxiety via endorphin release',
+            'Strengthens bones and reduces osteoporosis risk',
+            'Boosts creative thinking and mental clarity',
+            'Regulates blood sugar and supports weight management',
+          ],
+        },
+        {
+          name: 'Running / Jogging', icon: '🏃',
+          benefits: [
+            'Strengthens the heart and improves VO2 max',
+            'Releases endorphins and BDNF ("brain fertilizer") for mood and memory',
+            'Burns significant calories and supports healthy weight',
+            'Builds resilience in tendons, ligaments, and bones',
+            'Linked to longer lifespan and reduced cancer risk',
+          ],
+        },
+        {
+          name: 'Cycling / Biking', icon: '🚴',
+          benefits: [
+            'Excellent low-impact cardiovascular workout',
+            'Builds leg strength without stressing joints',
+            'Reduces risk of heart disease and type 2 diabetes',
+            'Improves lung capacity and aerobic fitness',
+            'Lowers cortisol levels and stress over time',
+          ],
+        },
+        {
+          name: 'Swimming', icon: '🏊',
+          benefits: [
+            'Full-body workout engaging all major muscle groups',
+            'Zero impact — ideal for joint issues or recovery',
+            'Improves flexibility and range of motion',
+            'Enhances lung efficiency and breath control',
+            'Proven to reduce symptoms of depression and anxiety',
+          ],
+        },
+        {
+          name: 'Push-ups', icon: '💪',
+          benefits: [
+            'Builds chest, shoulder, and tricep strength with no equipment',
+            'Engages core stabilizers and improves posture',
+            'Elevates resting metabolism by building lean muscle',
+            'Improves bone density in the upper body',
+            'High rep sets provide cardiovascular conditioning',
+          ],
+        },
+        {
+          name: 'Weight Training', icon: '🏋️',
+          benefits: [
+            'Increases muscle mass and basal metabolic rate',
+            'Improves insulin sensitivity and blood sugar control',
+            'Strengthens bones, reducing fracture risk significantly',
+            'Boosts testosterone and growth hormone naturally',
+            'Improves functional strength for daily activities',
+          ],
+        },
+        {
+          name: 'Yoga / Stretching', icon: '🧘',
+          benefits: [
+            'Reduces cortisol and activates the parasympathetic nervous system',
+            'Improves flexibility, balance, and joint health',
+            'Relieves chronic back pain and muscle tension',
+            'Enhances body awareness and mind-body connection',
+            'Shown to lower blood pressure and improve sleep quality',
+          ],
+        },
       ],
     },
     {
-      name: 'Cycling / Biking', icon: '🚴',
-      benefits: [
-        'Excellent low-impact cardiovascular workout',
-        'Builds leg strength without stressing joints',
-        'Reduces risk of heart disease and type 2 diabetes',
-        'Improves lung capacity and aerobic fitness',
-        'Lowers cortisol levels and stress over time',
+      label: 'Recovery',
+      items: [
+        {
+          name: 'Sauna', icon: '🧖',
+          benefits: [
+            'Improves cardiovascular health comparable to moderate exercise',
+            'Flushes toxins through deep sweating',
+            'Reduces muscle soreness and speeds recovery',
+            'Triggers heat shock proteins that repair damaged cells',
+            'Regular use linked to lower risk of dementia and Alzheimer\'s',
+          ],
+        },
+        {
+          name: 'Cold Exposure / Cold Shower', icon: '🧊',
+          benefits: [
+            'Dramatically boosts norepinephrine (focus, mood, alertness)',
+            'Activates brown fat, increasing metabolic rate',
+            'Strengthens immune response over time',
+            'Reduces inflammation and muscle soreness',
+            'Builds mental resilience and stress tolerance',
+          ],
+        },
+        {
+          name: 'Face Massage (self)', icon: '✋',
+          benefits: [
+            'Stimulates lymphatic drainage, reducing puffiness and toxin buildup',
+            'Increases blood circulation, giving skin a natural glow',
+            'Relaxes jaw, forehead, and temple tension linked to stress',
+            'Activates acupressure points associated with headache relief',
+            'Signals the nervous system to shift into a parasympathetic (calm) state',
+          ],
+        },
       ],
     },
     {
-      name: 'Swimming', icon: '🏊',
-      benefits: [
-        'Full-body workout engaging all major muscle groups',
-        'Zero impact — ideal for joint issues or recovery',
-        'Improves flexibility and range of motion',
-        'Enhances lung efficiency and breath control',
-        'Proven to reduce symptoms of depression and anxiety',
+      label: 'Daily Habits',
+      items: [
+        {
+          name: 'Getting Sunlight', icon: '☀️',
+          benefits: [
+            'Triggers serotonin production — regulates mood, appetite, and sleep',
+            'Drives vitamin D synthesis, essential for immunity and bone strength',
+            'Morning light anchors the circadian rhythm for deeper nighttime sleep',
+            'Reduces risk of seasonal depression and low-energy states',
+            'Lowers blood pressure via nitric oxide release in the skin',
+          ],
+        },
+        {
+          name: 'Drinking Water (warm vs cold)', icon: '💧',
+          benefits: [
+            'Warm water aids digestion, stimulates gut motility, and soothes the throat',
+            'Cold water boosts alertness and helps cool the body during exercise',
+            'Both support kidney function, toxin removal, and joint lubrication',
+            'Even mild dehydration impairs focus, mood, and short-term memory',
+            'Morning hydration kick-starts metabolism and flushes overnight waste',
+          ],
+        },
+        {
+          name: 'Cold Showers', icon: '🚿',
+          benefits: [
+            'Surges norepinephrine by up to 300% — sharpens focus and lifts mood',
+            'Improves circulation as blood vessels dilate after the cold ends',
+            'Reduces muscle inflammation and speeds recovery after exercise',
+            'Builds deliberate stress tolerance and mental resilience',
+            'Activates brown fat thermogenesis, supporting metabolic health',
+          ],
+        },
+        {
+          name: 'Smiling', icon: '😊',
+          benefits: [
+            'Activates facial feedback — even a mild smile reduces perceived stress',
+            'Releases dopamine, serotonin, and endorphins, lifting mood immediately',
+            'Lowers heart rate during stressful situations',
+            'Signals safety to the social nervous system, improving relationships',
+            'Genuine smiling (Duchenne) is associated with longer lifespan in studies',
+          ],
+        },
       ],
     },
     {
-      name: 'Sauna', icon: '🧖',
-      benefits: [
-        'Improves cardiovascular health comparable to moderate exercise',
-        'Flushes toxins through deep sweating',
-        'Reduces muscle soreness and speeds recovery',
-        'Triggers heat shock proteins that repair damaged cells',
-        'Regular use linked to lower risk of dementia and Alzheimer\'s',
-      ],
-    },
-    {
-      name: 'Push-ups', icon: '💪',
-      benefits: [
-        'Builds chest, shoulder, and tricep strength with no equipment',
-        'Engages core stabilizers and improves posture',
-        'Elevates resting metabolism by building lean muscle',
-        'Improves bone density in the upper body',
-        'High rep sets provide cardiovascular conditioning',
-      ],
-    },
-    {
-      name: 'Cold Exposure / Cold Shower', icon: '🧊',
-      benefits: [
-        'Dramatically boosts norepinephrine (focus, mood, alertness)',
-        'Activates brown fat, increasing metabolic rate',
-        'Strengthens immune response over time',
-        'Reduces inflammation and muscle soreness',
-        'Builds mental resilience and stress tolerance',
-      ],
-    },
-    {
-      name: 'Yoga / Stretching', icon: '🧘',
-      benefits: [
-        'Reduces cortisol and activates the parasympathetic nervous system',
-        'Improves flexibility, balance, and joint health',
-        'Relieves chronic back pain and muscle tension',
-        'Enhances body awareness and mind-body connection',
-        'Shown to lower blood pressure and improve sleep quality',
-      ],
-    },
-    {
-      name: 'Running / Jogging', icon: '🏃',
-      benefits: [
-        'Strengthens the heart and improves VO2 max',
-        'Releases endorphins and BDNF ("brain fertilizer") for mood and memory',
-        'Burns significant calories and supports healthy weight',
-        'Builds resilience in tendons, ligaments, and bones',
-        'Linked to longer lifespan and reduced cancer risk',
-      ],
-    },
-    {
-      name: 'Weight Training', icon: '🏋️',
-      benefits: [
-        'Increases muscle mass and basal metabolic rate',
-        'Improves insulin sensitivity and blood sugar control',
-        'Strengthens bones, reducing fracture risk significantly',
-        'Boosts testosterone and growth hormone naturally',
-        'Improves functional strength for daily activities',
-      ],
-    },
-    {
-      name: 'Breathwork', icon: '🌬️',
-      benefits: [
-        'Activates the vagus nerve, calming the nervous system',
-        'Lowers blood pressure within minutes of practice',
-        'Improves oxygen-CO₂ balance and lung efficiency',
-        'Reduces panic, anxiety, and stress acutely',
-        'Improves sleep when practiced before bed',
-      ],
-    },
-    {
-      name: 'Meditation', icon: '🧠',
-      benefits: [
-        'Thickens the prefrontal cortex — the seat of focus and decision-making',
-        'Lowers cortisol and baseline stress levels over time',
-        'Improves emotional regulation and reduces reactivity',
-        'Enhances sleep quality and reduces insomnia',
-        'Linked to reduced anxiety, depression, and chronic pain',
-      ],
-    },
-    {
-      name: 'Drinking Water (warm vs cold)', icon: '💧',
-      benefits: [
-        'Warm water aids digestion, stimulates gut motility, and soothes the throat',
-        'Cold water boosts alertness and helps cool the body during exercise',
-        'Both support kidney function, toxin removal, and joint lubrication',
-        'Even mild dehydration impairs focus, mood, and short-term memory',
-        'Morning hydration kick-starts metabolism and flushes overnight waste',
-      ],
-    },
-    {
-      name: 'Face Massage (self)', icon: '✋',
-      benefits: [
-        'Stimulates lymphatic drainage, reducing puffiness and toxin buildup',
-        'Increases blood circulation, giving skin a natural glow',
-        'Relaxes jaw, forehead, and temple tension linked to stress',
-        'Activates acupressure points associated with headache relief',
-        'Signals the nervous system to shift into a parasympathetic (calm) state',
-      ],
-    },
-    {
-      name: 'Cold Showers', icon: '🚿',
-      benefits: [
-        'Surges norepinephrine by up to 300% — sharpens focus and lifts mood',
-        'Improves circulation as blood vessels dilate after the cold ends',
-        'Reduces muscle inflammation and speeds recovery after exercise',
-        'Builds deliberate stress tolerance and mental resilience',
-        'Activates brown fat thermogenesis, supporting metabolic health',
-      ],
-    },
-    {
-      name: 'Getting Sunlight', icon: '☀️',
-      benefits: [
-        'Triggers serotonin production — regulates mood, appetite, and sleep',
-        'Drives vitamin D synthesis, essential for immunity and bone strength',
-        'Morning light anchors the circadian rhythm for deeper nighttime sleep',
-        'Reduces risk of seasonal depression and low-energy states',
-        'Lowers blood pressure via nitric oxide release in the skin',
-      ],
-    },
-    {
-      name: 'Smiling', icon: '😊',
-      benefits: [
-        'Activates facial feedback — even a mild smile reduces perceived stress',
-        'Releases dopamine, serotonin, and endorphins, lifting mood immediately',
-        'Lowers heart rate during stressful situations',
-        'Signals safety to the social nervous system, improving relationships',
-        'Genuine smiling (Duchenne) is associated with longer lifespan in studies',
+      label: 'Mental Practices',
+      items: [
+        {
+          name: 'Meditation', icon: '🧠',
+          benefits: [
+            'Thickens the prefrontal cortex — the seat of focus and decision-making',
+            'Lowers cortisol and baseline stress levels over time',
+            'Improves emotional regulation and reduces reactivity',
+            'Enhances sleep quality and reduces insomnia',
+            'Linked to reduced anxiety, depression, and chronic pain',
+          ],
+        },
+        {
+          name: 'Breathwork', icon: '🌬️',
+          benefits: [
+            'Activates the vagus nerve, calming the nervous system',
+            'Lowers blood pressure within minutes of practice',
+            'Improves oxygen-CO₂ balance and lung efficiency',
+            'Reduces panic, anxiety, and stress acutely',
+            'Improves sleep when practiced before bed',
+          ],
+        },
       ],
     },
   ];
@@ -798,42 +855,237 @@ function PhysicalActivity() {
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Physical Activity</div>
         <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Health Benefits by Practice</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Evidence-based benefits of physical and daily practices — the body as the foundation of inner balance.</p>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Evidence-based benefits of physical and daily practices — grouped by type.</p>
+      </div>
+      <ActivityTable groups={groups} />
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   SLEEP
+───────────────────────────────────────── */
+function Sleep() {
+  const cycles = [
+    { stage: 'NREM Stage 1', duration: '1–7 min', role: 'Light sleep; the transition from wakefulness. Easy to wake. Body temperature drops.' },
+    { stage: 'NREM Stage 2', duration: '10–25 min', role: 'Heart rate slows, body temperature drops further. Memory consolidation begins. Sleep spindles protect sleep depth.' },
+    { stage: 'NREM Stage 3 (Deep)', duration: '20–40 min', role: 'Physical repair — tissue growth, immune strengthening, hormone release (HGH). Hardest to wake from.' },
+    { stage: 'REM Sleep', duration: '10–60 min', role: 'Emotional processing, creativity, and memory integration. Brain is nearly as active as waking. Dreams occur.' },
+  ];
+
+  const disruptors = [
+    { factor: 'Blue light (screens)', effect: 'Suppresses melatonin production for up to 2 hours, delaying sleep onset.' },
+    { factor: 'Caffeine', effect: 'Half-life of ~6 hours — a 3pm coffee still has 50% caffeine in your system at 9pm.' },
+    { factor: 'Alcohol', effect: 'Fragments sleep architecture and suppresses REM sleep, reducing emotional recovery.' },
+    { factor: 'Irregular schedule', effect: 'Disrupts the circadian rhythm, reducing sleep quality even if total hours are the same.' },
+    { factor: 'Room temperature too warm', effect: 'Core body temperature must drop ~1°C to initiate sleep. Warm rooms resist this.' },
+    { factor: 'Stress / high cortisol', effect: 'Cortisol and sleep are inversely linked — chronic stress reduces deep sleep stages.' },
+  ];
+
+  const enhancers = [
+    { practice: 'Consistent wake time', benefit: 'Anchors the circadian clock more powerfully than bedtime.' },
+    { practice: 'Cool room (16–19°C)', benefit: 'Supports the core temperature drop needed for deep sleep onset.' },
+    { practice: 'Morning sunlight', benefit: 'Sets the circadian timer — improves sleep timing 12–16 hours later.' },
+    { practice: 'No caffeine after 12–1pm', benefit: 'Allows adenosine (sleep pressure) to rebuild fully by evening.' },
+    { practice: 'Wind-down routine', benefit: 'Signals the nervous system to shift from sympathetic to parasympathetic mode.' },
+    { practice: 'Dark, quiet room', benefit: 'Even small amounts of light during sleep reduce melatonin and deep sleep.' },
+    { practice: 'Magnesium glycinate', benefit: 'Supports GABA and relaxation pathways; improves sleep depth and onset.' },
+  ];
+
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '180px 1fr',
+    padding: '14px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Sleep</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of Rest</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Sleep is the most powerful recovery tool available — shaping memory, immunity, mood, and metabolism every night.</p>
+      </div>
+
+      {/* Sleep cycles */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Sleep Stages (one ~90-min cycle)</span>
+        </div>
+        {cycles.map((c, i) => (
+          <div key={c.stage} style={rowStyle(i, cycles)}>
+            <div style={{ paddingRight: 16, paddingTop: 2 }}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)' }}>{c.stage}</div>
+              <div style={{ fontSize: '0.78rem', color: 'var(--sage)', marginTop: 2 }}>{c.duration}</div>
+            </div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{c.role}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Disruptors */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What Disrupts Sleep</span>
+        </div>
+        {disruptors.map((d, i) => (
+          <div key={d.factor} style={rowStyle(i, disruptors)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{d.factor}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.effect}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Enhancers */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What Improves Sleep</span>
+        </div>
+        {enhancers.map((e, i) => (
+          <div key={e.practice} style={rowStyle(i, enhancers)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{e.practice}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{e.benefit}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   NUTRITION
+───────────────────────────────────────── */
+function Nutrition() {
+  const categories = [
+    {
+      label: 'Brain & Mood Foods',
+      items: [
+        { food: 'Fatty fish (salmon, sardines)', benefit: 'Rich in omega-3 DHA — builds brain cell membranes, reduces neuroinflammation, supports serotonin signalling.' },
+        { food: 'Eggs', benefit: 'Choline for acetylcholine production (memory, focus). B12 and folate for methylation and mood stability.' },
+        { food: 'Dark chocolate (70%+)', benefit: 'Flavonoids boost cerebral blood flow. Triggers endorphin and serotonin release. Magnesium for calm.' },
+        { food: 'Leafy greens (spinach, kale)', benefit: 'Folate, magnesium, and vitamin K support brain function, mood, and neural protection.' },
+        { food: 'Berries', benefit: 'Anthocyanins reduce oxidative stress in the brain. Linked to slower cognitive decline and better memory.' },
+      ],
+    },
+    {
+      label: 'Nervous System Support',
+      items: [
+        { food: 'Bananas', benefit: 'Tryptophan + B6 combo directly supports serotonin synthesis. Potassium supports nerve impulses.' },
+        { food: 'Avocado', benefit: 'Healthy fats support myelin sheath integrity. Folate and potassium reduce stress and blood pressure.' },
+        { food: 'Nuts & seeds', benefit: 'Magnesium (nervous system calm), zinc (neurotransmitter cofactor), and omega-3s in walnuts.' },
+        { food: 'Fermented foods (yogurt, kimchi)', benefit: 'Gut microbiome diversity directly influences serotonin production (90% made in the gut).' },
+        { food: 'Oats', benefit: 'Slow-release carbs stabilise blood sugar — preventing cortisol spikes. B vitamins for energy metabolism.' },
+      ],
+    },
+    {
+      label: 'Energy & Recovery',
+      items: [
+        { food: 'Sweet potatoes', benefit: 'Complex carbs replenish glycogen. Vitamin A, C, and potassium support recovery and immune function.' },
+        { food: 'Lean protein (chicken, legumes)', benefit: 'Amino acids are precursors to dopamine (tyrosine) and serotonin (tryptophan). Essential for tissue repair.' },
+        { food: 'Beets', benefit: 'Nitrates boost nitric oxide — improves blood flow, endurance, and oxygen delivery to muscles.' },
+        { food: 'Green tea', benefit: 'L-theanine + caffeine combo: calm alertness without the anxiety spike of coffee alone.' },
+        { food: 'Water', benefit: 'Even 1–2% dehydration reduces cognitive performance by up to 10%. Essential for every metabolic process.' },
+      ],
+    },
+    {
+      label: 'What to Limit',
+      items: [
+        { food: 'Ultra-processed foods', benefit: 'Disrupt gut microbiome, spike blood sugar, and are linked to higher rates of depression and anxiety.' },
+        { food: 'Refined sugar', benefit: 'Causes blood sugar crashes that trigger cortisol and adrenaline, creating anxiety and fatigue cycles.' },
+        { food: 'Excess alcohol', benefit: 'Depletes B vitamins, disrupts sleep architecture, and suppresses serotonin and GABA production.' },
+        { food: 'Trans fats', benefit: 'Promote neuroinflammation and are associated with increased risk of depression and cognitive decline.' },
+      ],
+    },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Nutrition</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Eat for Your Nervous System</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Food is information for the brain and body. What you eat shapes your neurotransmitters, hormones, and energy every day.</p>
+      </div>
+      <ActivityTable groups={categories.map(c => ({
+        label: c.label,
+        items: c.items.map(item => ({ name: item.food, icon: '', benefits: [item.benefit] })),
+      }))} />
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   STRESS & RECOVERY
+───────────────────────────────────────── */
+function StressRecovery() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '190px 1fr',
+    padding: '14px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  const acuteTools = [
+    { tool: 'Physiological sigh', how: 'Double inhale through nose, long exhale through mouth. Fastest known way to lower heart rate acutely.' },
+    { tool: 'Cold water on face/wrists', how: 'Activates the dive reflex — slows heart rate within seconds via vagus nerve stimulation.' },
+    { tool: '4-7-8 breathing', how: 'Inhale 4s, hold 7s, exhale 8s. Activates the parasympathetic system and drops cortisol quickly.' },
+    { tool: 'Grounding (feet on earth)', how: 'Direct skin contact with the ground reduces cortisol and inflammatory markers within 30 minutes.' },
+    { tool: '5-4-3-2-1 sensory reset', how: 'Name 5 things you see, 4 hear, 3 touch, 2 smell, 1 taste. Interrupts the stress loop via present-moment focus.' },
+  ];
+
+  const chronicTools = [
+    { tool: 'HRV training', how: 'Heart rate variability biofeedback builds long-term vagal tone — your physiological stress resilience.' },
+    { tool: 'Regular exercise', how: 'Lowers baseline cortisol, raises stress threshold. Consistent movement is the most effective chronic stress reducer.' },
+    { tool: 'Sleep prioritisation', how: 'Sleep debt elevates cortisol the next day by 15–20%. Recovery is impossible without adequate sleep.' },
+    { tool: 'Social connection', how: 'Oxytocin from meaningful connection directly counteracts cortisol. Loneliness is as stressful as physical threat.' },
+    { tool: 'Journaling', how: 'Expressive writing reduces psychological distress and lowers cortisol by externalising and processing stress.' },
+    { tool: 'Time in nature', how: 'Forest environments lower cortisol, blood pressure, and adrenaline. Even 20 minutes produces measurable effects.' },
+  ];
+
+  const hrvMarkers = [
+    { marker: 'High HRV', meaning: 'Greater adaptability, resilience, and recovery capacity. Associated with better cardiovascular and mental health.' },
+    { marker: 'Low HRV', meaning: 'Reduced vagal tone — body is under stress, over-trained, or under-recovered. Signal to rest.' },
+    { marker: 'HRV trend down', meaning: 'Accumulating stress load. Prioritise recovery before adding more training or demands.' },
+    { marker: 'HRV trend up', meaning: 'Adaptation and recovery in progress. Body is responding well to your current lifestyle.' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Stress & Recovery</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Managing the Stress Response</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Here are the tools for both acute relief and long-term resilience.</p>
       </div>
 
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
-        {/* Header row */}
-        <div style={{
-          display: 'grid', gridTemplateColumns: '200px 1fr',
-          padding: '10px 20px',
-          borderBottom: '1px solid rgba(255,255,255,0.07)',
-          background: 'rgba(255,255,255,0.03)',
-        }}>
-          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Practice</span>
-          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Health Benefits</span>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Acute Stress Relief (works in minutes)</span>
         </div>
+        {acuteTools.map((t, i) => (
+          <div key={t.tool} style={rowStyle(i, acuteTools)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{t.tool}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{t.how}</p>
+          </div>
+        ))}
+      </div>
 
-        {activities.map((activity, i) => (
-          <div
-            key={activity.name}
-            style={{
-              display: 'grid', gridTemplateColumns: '200px 1fr',
-              padding: '18px 20px',
-              borderBottom: i < activities.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
-            }}
-          >
-            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, paddingRight: 16, paddingTop: 2 }}>
-              <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>{activity.icon}</span>
-              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--deep)', lineHeight: 1.3 }}>{activity.name}</span>
-            </div>
-            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
-              {activity.benefits.map((b, j) => (
-                <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.55 }}>
-                  <span style={{ color: 'var(--sage)', fontSize: '0.65rem', marginTop: 5, flexShrink: 0 }}>◆</span>
-                  {b}
-                </li>
-              ))}
-            </ul>
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Chronic Stress Resilience (long-term)</span>
+        </div>
+        {chronicTools.map((t, i) => (
+          <div key={t.tool} style={rowStyle(i, chronicTools)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{t.tool}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{t.how}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>HRV — Reading Your Recovery</span>
+        </div>
+        {hrvMarkers.map((h, i) => (
+          <div key={h.marker} style={rowStyle(i, hrvMarkers)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{h.marker}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.meaning}</p>
           </div>
         ))}
       </div>
@@ -876,6 +1128,9 @@ export default function InnerBalanceAtlas({ onBack, onNavigate }) {
     neurotransmitters:<Neurotransmitters />,
     mooduplift:       <MoodUplift />,
     physicalactivity: <PhysicalActivity />,
+    sleep:            <Sleep />,
+    nutrition:        <Nutrition />,
+    stress:           <StressRecovery />,
   };
 
   return (
