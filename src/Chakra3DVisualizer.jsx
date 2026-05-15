@@ -57,51 +57,40 @@ function ChakraOrb({ chakra, selected, onClick }) {
 function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
   const selected = chakras.find((item) => item.id === selectedId) || chakras[3];
 
-  const primaryRays  = [0, 22, 45, 67, 90, 112, 135, 157];
-  const secondaryRays = [11, 33, 56, 78, 101, 123, 146, 168];
+  const rings = [
+    { r: 130, color: 'rgba(168,85,247,0.30)', blur: 8 },
+    { r: 195, color: 'rgba(99,102,241,0.22)', blur: 10 },
+    { r: 265, color: 'rgba(6,182,212,0.20)', blur: 12 },
+    { r: 340, color: 'rgba(34,197,94,0.16)', blur: 14 },
+    { r: 420, color: 'rgba(250,204,21,0.12)', blur: 16 },
+    { r: 505, color: 'rgba(239,68,68,0.09)', blur: 18 },
+  ];
 
   return (
     <div
       className="relative mx-auto flex min-h-[560px] w-full max-w-[430px] items-center justify-center overflow-hidden rounded-[2rem] shadow-2xl"
-      style={{ background: '#04060f', border: '1px solid rgba(168,85,247,0.18)' }}
+      style={{ background: '#030510', border: '1px solid rgba(168,85,247,0.15)' }}
     >
       {/* Deep cosmic background */}
-      <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 130% 110% at 50% 50%, #0d0630 0%, #04060f 60%)' }} />
+      <div className="absolute inset-0" style={{
+        background: 'radial-gradient(ellipse 160% 140% at 50% 42%, #09053e 0%, #030510 65%)',
+      }} />
 
-      {/* Selected-chakra outer aura */}
+      {/* Selected-chakra ambient aura */}
       <div className="absolute inset-0 transition-all duration-700" style={{
-        background: `radial-gradient(ellipse 60% 80% at 50% 42%, ${selected.color}30 0%, ${selected.color}12 45%, transparent 70%)`,
-        filter: 'blur(12px)',
+        background: `radial-gradient(ellipse 50% 65% at 50% 40%, ${selected.color}22 0%, ${selected.color}0c 55%, transparent 78%)`,
+        filter: 'blur(18px)',
       }} />
 
-      {/* Persistent rainbow aura column */}
-      <div className="absolute pointer-events-none" style={{
-        top: '4%', bottom: '4%', left: '50%',
-        transform: 'translateX(-50%)',
-        width: '200px',
-        background: 'linear-gradient(180deg, rgba(168,85,247,0.18) 0%, rgba(99,102,241,0.14) 14%, rgba(6,182,212,0.14) 28%, rgba(34,197,94,0.18) 42%, rgba(250,204,21,0.14) 56%, rgba(251,146,60,0.14) 70%, rgba(239,68,68,0.18) 84%)',
-        filter: 'blur(22px)',
-        borderRadius: '50%',
-      }} />
-
-      {/* Primary energy rays */}
-      {primaryRays.map((deg) => (
-        <div key={`pr-${deg}`} className="absolute pointer-events-none" style={{
+      {/* Concentric rings centered at heart level */}
+      {rings.map((ring, i) => (
+        <div key={i} className="absolute pointer-events-none" style={{
           top: '38%', left: '50%',
-          width: '340px', height: '1.5px',
-          transform: `translate(-50%, -50%) rotate(${deg}deg)`,
-          background: `linear-gradient(90deg, transparent 0%, ${selected.color}25 30%, ${selected.color}55 50%, ${selected.color}25 70%, transparent 100%)`,
-          transition: 'background 0.6s ease',
-        }} />
-      ))}
-
-      {/* Secondary softer rays */}
-      {secondaryRays.map((deg) => (
-        <div key={`sr-${deg}`} className="absolute pointer-events-none" style={{
-          top: '38%', left: '50%',
-          width: '260px', height: '1px',
-          transform: `translate(-50%, -50%) rotate(${deg}deg)`,
-          background: 'linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.06) 35%, rgba(255,255,255,0.16) 50%, rgba(255,255,255,0.06) 65%, transparent 100%)',
+          width: `${ring.r * 2}px`, height: `${ring.r * 2}px`,
+          transform: 'translate(-50%, -50%)',
+          borderRadius: '50%',
+          border: `1px solid ${ring.color}`,
+          boxShadow: `0 0 ${ring.blur}px ${ring.color}, inset 0 0 ${ring.blur}px ${ring.color}`,
         }} />
       ))}
 
@@ -111,85 +100,182 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
         Energy Body
       </div>
 
-      {/* Figure */}
-      <div className={`relative h-[500px] w-[220px] ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
+      {/* Figure container — seated lotus pose */}
+      <div className={`relative h-[500px] w-[240px] ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
 
-        {/* Head aura halo */}
-        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none" style={{
-          top: '-14px', width: '116px', height: '116px',
-          background: 'radial-gradient(circle, rgba(255,255,255,0.18) 0%, rgba(168,85,247,0.2) 45%, transparent 72%)',
-          filter: 'blur(10px)', borderRadius: '50%',
+        {/* Crown aura halo */}
+        <div className="absolute left-1/2 pointer-events-none" style={{
+          top: '2%', transform: 'translate(-50%, -50%)',
+          width: '140px', height: '140px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.24) 0%, rgba(168,85,247,0.32) 38%, transparent 70%)',
+          filter: 'blur(14px)',
         }} />
 
-        {/* Head */}
-        <div className="absolute left-1/2 top-0 -translate-x-1/2" style={{
-          width: '78px', height: '78px', borderRadius: '50%',
-          background: 'radial-gradient(circle at 38% 32%, rgba(255,255,255,0.5) 0%, rgba(210,200,255,0.3) 35%, rgba(120,90,220,0.18) 65%, transparent 100%)',
-          border: '1px solid rgba(200,190,255,0.3)',
-          boxShadow: '0 0 32px rgba(168,85,247,0.5), 0 0 60px rgba(168,85,247,0.2), inset 0 0 20px rgba(255,255,255,0.12)',
-        }} />
+        {/* SVG lattice figure */}
+        <svg
+          width="100%" height="100%"
+          viewBox="0 0 240 500"
+          className="absolute inset-0 pointer-events-none"
+          style={{ filter: 'drop-shadow(0 0 5px rgba(180,215,255,0.55))' }}
+        >
+          <defs>
+            <filter id="lotusGlow">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="lotusGlowStrong">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="lotusSpine" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stopColor="#a855f7"/>
+              <stop offset="17%"  stopColor="#6366f1"/>
+              <stop offset="33%"  stopColor="#06b6d4"/>
+              <stop offset="50%"  stopColor="#22c55e"/>
+              <stop offset="66%"  stopColor="#facc15"/>
+              <stop offset="83%"  stopColor="#fb923c"/>
+              <stop offset="100%" stopColor="#ef4444"/>
+            </linearGradient>
+            <linearGradient id="lotusLegWarm" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stopColor="rgba(250,204,21,0.7)"/>
+              <stop offset="60%"  stopColor="rgba(239,68,68,0.6)"/>
+              <stop offset="100%" stopColor="rgba(180,40,40,0.4)"/>
+            </linearGradient>
+          </defs>
 
-        {/* Torso */}
-        <div className="absolute left-1/2 -translate-x-1/2" style={{
-          top: '78px', width: '116px', height: '238px',
-          borderRadius: '44% 44% 36% 36%',
-          background: 'linear-gradient(180deg, rgba(168,85,247,0.28) 0%, rgba(99,102,241,0.22) 14%, rgba(6,182,212,0.22) 28%, rgba(34,197,94,0.26) 44%, rgba(250,204,21,0.2) 60%, rgba(251,146,60,0.2) 74%, rgba(239,68,68,0.24) 100%)',
-          border: '1px solid rgba(255,255,255,0.1)',
-          boxShadow: '0 0 40px rgba(6,182,212,0.18), inset 0 0 28px rgba(255,255,255,0.05)',
-        }} />
+          {/* ─── Head ─── */}
+          <circle cx="120" cy="65" r="43"
+            stroke="rgba(210,228,255,0.78)" strokeWidth="1.3" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Inner head ellipse */}
+          <ellipse cx="120" cy="65" rx="28" ry="20"
+            stroke="rgba(180,210,255,0.25)" strokeWidth="0.7" fill="none"
+          />
+          {/* Eye line */}
+          <line x1="86" y1="62" x2="154" y2="62"
+            stroke="rgba(200,220,255,0.22)" strokeWidth="0.7"
+          />
+          {/* Brow line */}
+          <line x1="92" y1="51" x2="148" y2="51"
+            stroke="rgba(200,220,255,0.18)" strokeWidth="0.6"
+          />
+          {/* Crown vertical */}
+          <line x1="120" y1="23" x2="120" y2="108"
+            stroke="rgba(200,220,255,0.16)" strokeWidth="0.6"
+          />
 
-        {/* Left arm */}
-        <div className="absolute pointer-events-none" style={{
-          top: '96px', left: '10px',
-          width: '28px', height: '172px', borderRadius: '14px',
-          transform: 'rotate(8deg)',
-          background: 'linear-gradient(180deg, rgba(168,85,247,0.32) 0%, rgba(6,182,212,0.22) 50%, rgba(34,197,94,0.16) 100%)',
-          border: '1px solid rgba(255,255,255,0.09)',
-          boxShadow: '0 0 14px rgba(99,102,241,0.25)',
-        }} />
+          {/* ─── Neck ─── */}
+          <line x1="120" y1="108" x2="120" y2="132"
+            stroke="rgba(210,228,255,0.72)" strokeWidth="1.5"
+            filter="url(#lotusGlow)"
+          />
+          <line x1="112" y1="110" x2="110" y2="131"
+            stroke="rgba(200,220,255,0.35)" strokeWidth="0.8"
+          />
+          <line x1="128" y1="110" x2="130" y2="131"
+            stroke="rgba(200,220,255,0.35)" strokeWidth="0.8"
+          />
 
-        {/* Right arm */}
-        <div className="absolute pointer-events-none" style={{
-          top: '96px', right: '10px',
-          width: '28px', height: '172px', borderRadius: '14px',
-          transform: 'rotate(-8deg)',
-          background: 'linear-gradient(180deg, rgba(168,85,247,0.32) 0%, rgba(6,182,212,0.22) 50%, rgba(34,197,94,0.16) 100%)',
-          border: '1px solid rgba(255,255,255,0.09)',
-          boxShadow: '0 0 14px rgba(99,102,241,0.25)',
-        }} />
+          {/* ─── Collar / shoulders ─── */}
+          <path d="M62,140 Q120,128 178,140"
+            stroke="rgba(210,228,255,0.72)" strokeWidth="1.3" fill="none"
+            filter="url(#lotusGlow)"
+          />
 
-        {/* Left leg */}
-        <div className="absolute pointer-events-none" style={{
-          top: '302px', left: '58px',
-          width: '36px', height: '188px', borderRadius: '18px',
-          background: 'linear-gradient(180deg, rgba(251,146,60,0.22) 0%, rgba(239,68,68,0.28) 100%)',
-          border: '1px solid rgba(255,255,255,0.07)',
-          boxShadow: '0 0 14px rgba(239,68,68,0.18)',
-        }} />
+          {/* ─── Left arm (outer side) ─── */}
+          <path d="M64,142 Q38,205 44,295"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Left hand resting on knee */}
+          <path d="M44,295 Q50,305 63,308"
+            stroke="rgba(180,215,255,0.55)" strokeWidth="1.1" fill="none"
+          />
 
-        {/* Right leg */}
-        <div className="absolute pointer-events-none" style={{
-          top: '302px', right: '58px',
-          width: '36px', height: '188px', borderRadius: '18px',
-          background: 'linear-gradient(180deg, rgba(251,146,60,0.22) 0%, rgba(239,68,68,0.28) 100%)',
-          border: '1px solid rgba(255,255,255,0.07)',
-          boxShadow: '0 0 14px rgba(239,68,68,0.18)',
-        }} />
+          {/* ─── Right arm (outer side) ─── */}
+          <path d="M176,142 Q202,205 196,295"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Right hand resting on knee */}
+          <path d="M196,295 Q190,305 177,308"
+            stroke="rgba(180,215,255,0.55)" strokeWidth="1.1" fill="none"
+          />
 
-        {/* Spine glow (blurred) */}
-        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none" style={{
-          top: '18px', height: '398px', width: '14px',
-          background: 'linear-gradient(180deg, rgba(168,85,247,0.5) 0%, rgba(99,102,241,0.4) 14%, rgba(6,182,212,0.45) 28%, rgba(34,197,94,0.5) 42%, rgba(250,204,21,0.4) 56%, rgba(251,146,60,0.4) 70%, rgba(239,68,68,0.5) 84%)',
-          filter: 'blur(5px)', borderRadius: '7px',
-        }} />
+          {/* ─── Torso outline ─── */}
+          {/* Left side */}
+          <path d="M74,146 Q66,225 70,315"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Right side */}
+          <path d="M166,146 Q174,225 170,315"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
 
-        {/* Spine line (sharp) */}
-        <div className="absolute left-1/2 -translate-x-1/2 pointer-events-none" style={{
-          top: '18px', height: '398px', width: '3px',
-          background: 'linear-gradient(180deg, #a855f7 0%, #6366f1 14%, #06b6d4 28%, #22c55e 42%, #facc15 56%, #fb923c 70%, #ef4444 84%)',
-          boxShadow: '0 0 10px rgba(168,85,247,0.7), 0 0 20px rgba(6,182,212,0.4)',
-          borderRadius: '2px',
-        }} />
+          {/* Torso horizontal lattice lines */}
+          <line x1="96"  y1="170" x2="144" y2="170" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="88"  y1="192" x2="152" y2="192" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="82"  y1="214" x2="158" y2="214" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="78"  y1="236" x2="162" y2="236" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="76"  y1="260" x2="164" y2="260" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="77"  y1="284" x2="163" y2="284" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+
+          {/* Hip line */}
+          <path d="M64,312 Q120,322 176,312"
+            stroke="rgba(180,215,255,0.42)" strokeWidth="1" fill="none"
+          />
+
+          {/* ─── Lotus legs ─── */}
+          {/* Left leg crossing over to right knee */}
+          <path d="M72,315 Q120,340 186,328"
+            stroke="url(#lotusLegWarm)" strokeWidth="1.3" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Left knee bump (right side) */}
+          <path d="M186,328 Q198,348 193,366"
+            stroke="rgba(251,146,60,0.65)" strokeWidth="1.2" fill="none"
+          />
+          {/* Left foot resting (right side) */}
+          <path d="M168,366 Q192,376 196,368"
+            stroke="rgba(239,68,68,0.55)" strokeWidth="1" fill="none"
+          />
+
+          {/* Right leg (underneath, crossing to left knee) */}
+          <path d="M168,315 Q120,338 54,326"
+            stroke="url(#lotusLegWarm)" strokeWidth="1.1" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Right knee bump (left side) */}
+          <path d="M54,326 Q42,346 47,364"
+            stroke="rgba(251,146,60,0.58)" strokeWidth="1.1" fill="none"
+          />
+          {/* Right foot resting (left side) */}
+          <path d="M72,364 Q48,374 44,366"
+            stroke="rgba(239,68,68,0.48)" strokeWidth="1" fill="none"
+          />
+
+          {/* Leg inner lattice */}
+          <line x1="60"  y1="340" x2="180" y2="340" stroke="rgba(250,204,21,0.10)" strokeWidth="0.6"/>
+          <line x1="52"  y1="358" x2="188" y2="358" stroke="rgba(239,68,68,0.12)" strokeWidth="0.6"/>
+
+          {/* Base / ground shadow */}
+          <path d="M35,378 Q120,394 205,378"
+            stroke="rgba(180,215,255,0.28)" strokeWidth="0.9" fill="none"
+          />
+          <path d="M55,382 Q120,400 185,382"
+            stroke="rgba(120,180,255,0.10)" strokeWidth="3.5" fill="none"
+            style={{ filter: 'blur(5px)' }}
+          />
+
+          {/* ─── Spine (rainbow) ─── */}
+          <line x1="120" y1="22" x2="120" y2="315"
+            stroke="url(#lotusSpine)" strokeWidth="1.6"
+            filter="url(#lotusGlowStrong)"
+          />
+        </svg>
 
         {/* Chakra orbs */}
         {chakras.map((chakra) => (
@@ -199,7 +285,7 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
 
       {/* Bottom info bar */}
       <div className="absolute bottom-5 left-5 right-5 z-10 rounded-3xl p-4 text-white shadow-xl backdrop-blur-md"
-           style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(4,6,15,0.88)' }}>
+           style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(3,5,16,0.90)' }}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="h-4 w-4 shrink-0 rounded-full" style={{ background: selected.color, boxShadow: `0 0 24px ${selected.glow}` }} />
