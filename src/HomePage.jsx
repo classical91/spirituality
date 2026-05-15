@@ -87,6 +87,23 @@ export default function HomePage({ onNavigate }) {
       glowColor: 'rgba(52,211,153,0.2)',
       hoverBorder: 'rgba(52,211,153,0.45)',
     },
+    {
+      id: 'innerbalance',
+      icon: '◍',
+      badge: 'InnerBalance Atlas',
+      badgeColor: 'rgba(122,171,121,0.14)',
+      badgeBorder: 'rgba(122,171,121,0.32)',
+      badgeText: '#bbf7d0',
+      title: 'InnerBalance\nAtlas',
+      description: 'Understand your mind, body & spirit — nervous system, neurotransmitters, mood uplift, psychophysiology, and daily well-being in one place.',
+      keywords: ['Dashboard', 'Neurotransmitters', 'Mood', 'Well-Being'],
+      cta: 'Enter Portal',
+      ctaColor: '#86efac',
+      iconBg: 'linear-gradient(135deg, rgba(122,171,121,0.38), rgba(216,169,72,0.18))',
+      iconBorder: 'rgba(122,171,121,0.4)',
+      glowColor: 'rgba(122,171,121,0.22)',
+      hoverBorder: 'rgba(122,171,121,0.48)',
+    },
   ];
 
   return (
@@ -177,7 +194,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Five tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, and psychophysiology.
+          Six tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, psychophysiology, and whole-system well-being.
         </p>
 
         {/* Portal cards */}
