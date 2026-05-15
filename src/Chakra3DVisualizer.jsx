@@ -1,4 +1,4 @@
-import { useMemo, useState, useEffect } from "react";
+import { useMemo, useState, useEffect, useCallback } from "react";
 import { hinduChakras } from "./data/hinduChakras";
 import { raChakras } from "./data/raChakras";
 import { baileyChakras } from "./data/baileyChakras";
@@ -57,37 +57,250 @@ function ChakraOrb({ chakra, selected, onClick }) {
 function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
   const selected = chakras.find((item) => item.id === selectedId) || chakras[3];
 
+  const rings = [
+    { r: 130, color: 'rgba(168,85,247,0.30)', blur: 8 },
+    { r: 195, color: 'rgba(99,102,241,0.22)', blur: 10 },
+    { r: 265, color: 'rgba(6,182,212,0.20)', blur: 12 },
+    { r: 340, color: 'rgba(34,197,94,0.16)', blur: 14 },
+    { r: 420, color: 'rgba(250,204,21,0.12)', blur: 16 },
+    { r: 505, color: 'rgba(239,68,68,0.09)', blur: 18 },
+  ];
+
   return (
-    <div className="relative mx-auto flex min-h-[560px] w-full max-w-[430px] items-center justify-center overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950/45 p-8 shadow-2xl backdrop-blur-xl">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(255,255,255,0.16),transparent_34%),radial-gradient(circle_at_50%_80%,rgba(59,130,246,0.12),transparent_38%)]" />
-      <div className="absolute left-8 top-8 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs text-slate-300">3D Aura Field</div>
+    <div
+      className="relative mx-auto flex min-h-[560px] w-full max-w-[430px] items-center justify-center overflow-hidden rounded-[2rem] shadow-2xl"
+      style={{ background: '#030510', border: '1px solid rgba(168,85,247,0.15)' }}
+    >
+      {/* Energy field background image */}
+      <div className="absolute inset-0" style={{
+        backgroundImage: 'url("/assets/chakra-body-energy-field.png")',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        opacity: 0.55,
+        filter: 'saturate(1.3) contrast(1.05)',
+      }} />
 
-      <div className={`absolute h-[470px] w-[270px] rounded-full border border-cyan-200/20 ${rotate ? "animate-[spin_12s_linear_infinite]" : ""}`} />
-      <div className={`absolute h-[430px] w-[230px] rounded-full border border-fuchsia-200/10 ${rotate ? "animate-[spin_16s_linear_infinite]" : ""}`} />
-      <div className="absolute h-[500px] w-[40px] rounded-full bg-cyan-300/5 blur-2xl" />
+      {/* Dark overlay so the SVG figure stays legible */}
+      <div className="absolute inset-0" style={{
+        background: 'radial-gradient(ellipse 160% 140% at 50% 42%, rgba(9,5,62,0.55) 0%, rgba(3,5,16,0.72) 65%)',
+      }} />
 
-      <div className={`relative h-[500px] w-[220px] ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
-        <div className="absolute left-1/2 top-0 h-[82px] w-[82px] -translate-x-1/2 rounded-full border border-white/20 bg-gradient-to-b from-white/25 to-white/5 shadow-[inset_0_0_35px_rgba(255,255,255,0.12)]" />
-        <div className="absolute left-1/2 top-[82px] h-[245px] w-[126px] -translate-x-1/2 rounded-[48%_48%_38%_38%] border border-white/20 bg-gradient-to-b from-white/20 to-white/5 shadow-[inset_0_0_45px_rgba(255,255,255,0.08)]" />
-        <div className="absolute left-[18px] top-[115px] h-[185px] w-[30px] rotate-6 rounded-full border border-white/15 bg-white/5" />
-        <div className="absolute right-[18px] top-[115px] h-[185px] w-[30px] -rotate-6 rounded-full border border-white/15 bg-white/5" />
-        <div className="absolute left-[62px] top-[314px] h-[176px] w-[34px] rounded-full border border-white/15 bg-white/5" />
-        <div className="absolute right-[62px] top-[314px] h-[176px] w-[34px] rounded-full border border-white/15 bg-white/5" />
+      {/* Selected-chakra ambient aura */}
+      <div className="absolute inset-0 transition-all duration-700" style={{
+        background: `radial-gradient(ellipse 50% 65% at 50% 40%, ${selected.color}22 0%, ${selected.color}0c 55%, transparent 78%)`,
+        filter: 'blur(18px)',
+      }} />
 
-        <div className="absolute left-1/2 top-[24px] h-[405px] w-px -translate-x-1/2 bg-gradient-to-b from-purple-400 via-cyan-300 to-red-400 opacity-70" />
+      {/* Concentric rings centered at heart level */}
+      {rings.map((ring, i) => (
+        <div key={i} className="absolute pointer-events-none" style={{
+          top: '38%', left: '50%',
+          width: `${ring.r * 2}px`, height: `${ring.r * 2}px`,
+          transform: 'translate(-50%, -50%)',
+          borderRadius: '50%',
+          border: `1px solid ${ring.color}`,
+          boxShadow: `0 0 ${ring.blur}px ${ring.color}, inset 0 0 ${ring.blur}px ${ring.color}`,
+        }} />
+      ))}
 
+      {/* Label */}
+      <div className="absolute left-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium text-white/40"
+           style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}>
+        Energy Body
+      </div>
+
+      {/* Figure container — seated lotus pose */}
+      <div className={`relative h-[500px] w-[240px] ${rotate ? "animate-[chakraSway_7s_ease-in-out_infinite]" : ""}`}>
+
+        {/* Crown aura halo */}
+        <div className="absolute left-1/2 pointer-events-none" style={{
+          top: '2%', transform: 'translate(-50%, -50%)',
+          width: '140px', height: '140px', borderRadius: '50%',
+          background: 'radial-gradient(circle, rgba(255,255,255,0.24) 0%, rgba(168,85,247,0.32) 38%, transparent 70%)',
+          filter: 'blur(14px)',
+        }} />
+
+        {/* SVG lattice figure */}
+        <svg
+          width="100%" height="100%"
+          viewBox="0 0 240 500"
+          className="absolute inset-0 pointer-events-none"
+          style={{ filter: 'drop-shadow(0 0 5px rgba(180,215,255,0.55))' }}
+        >
+          <defs>
+            <filter id="lotusGlow">
+              <feGaussianBlur stdDeviation="2.5" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <filter id="lotusGlowStrong">
+              <feGaussianBlur stdDeviation="4" result="blur"/>
+              <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+            </filter>
+            <linearGradient id="lotusSpine" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stopColor="#a855f7"/>
+              <stop offset="17%"  stopColor="#6366f1"/>
+              <stop offset="33%"  stopColor="#06b6d4"/>
+              <stop offset="50%"  stopColor="#22c55e"/>
+              <stop offset="66%"  stopColor="#facc15"/>
+              <stop offset="83%"  stopColor="#fb923c"/>
+              <stop offset="100%" stopColor="#ef4444"/>
+            </linearGradient>
+            <linearGradient id="lotusLegWarm" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%"   stopColor="rgba(250,204,21,0.7)"/>
+              <stop offset="60%"  stopColor="rgba(239,68,68,0.6)"/>
+              <stop offset="100%" stopColor="rgba(180,40,40,0.4)"/>
+            </linearGradient>
+          </defs>
+
+          {/* ─── Head ─── */}
+          <circle cx="120" cy="65" r="43"
+            stroke="rgba(210,228,255,0.78)" strokeWidth="1.3" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Inner head ellipse */}
+          <ellipse cx="120" cy="65" rx="28" ry="20"
+            stroke="rgba(180,210,255,0.25)" strokeWidth="0.7" fill="none"
+          />
+          {/* Eye line */}
+          <line x1="86" y1="62" x2="154" y2="62"
+            stroke="rgba(200,220,255,0.22)" strokeWidth="0.7"
+          />
+          {/* Brow line */}
+          <line x1="92" y1="51" x2="148" y2="51"
+            stroke="rgba(200,220,255,0.18)" strokeWidth="0.6"
+          />
+          {/* Crown vertical */}
+          <line x1="120" y1="23" x2="120" y2="108"
+            stroke="rgba(200,220,255,0.16)" strokeWidth="0.6"
+          />
+
+          {/* ─── Neck ─── */}
+          <line x1="120" y1="108" x2="120" y2="132"
+            stroke="rgba(210,228,255,0.72)" strokeWidth="1.5"
+            filter="url(#lotusGlow)"
+          />
+          <line x1="112" y1="110" x2="110" y2="131"
+            stroke="rgba(200,220,255,0.35)" strokeWidth="0.8"
+          />
+          <line x1="128" y1="110" x2="130" y2="131"
+            stroke="rgba(200,220,255,0.35)" strokeWidth="0.8"
+          />
+
+          {/* ─── Collar / shoulders ─── */}
+          <path d="M62,140 Q120,128 178,140"
+            stroke="rgba(210,228,255,0.72)" strokeWidth="1.3" fill="none"
+            filter="url(#lotusGlow)"
+          />
+
+          {/* ─── Left arm (outer side) ─── */}
+          <path d="M64,142 Q38,205 44,295"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Left hand resting on knee */}
+          <path d="M44,295 Q50,305 63,308"
+            stroke="rgba(180,215,255,0.55)" strokeWidth="1.1" fill="none"
+          />
+
+          {/* ─── Right arm (outer side) ─── */}
+          <path d="M176,142 Q202,205 196,295"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Right hand resting on knee */}
+          <path d="M196,295 Q190,305 177,308"
+            stroke="rgba(180,215,255,0.55)" strokeWidth="1.1" fill="none"
+          />
+
+          {/* ─── Torso outline ─── */}
+          {/* Left side */}
+          <path d="M74,146 Q66,225 70,315"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Right side */}
+          <path d="M166,146 Q174,225 170,315"
+            stroke="rgba(180,215,255,0.62)" strokeWidth="1.2" fill="none"
+            filter="url(#lotusGlow)"
+          />
+
+          {/* Torso horizontal lattice lines */}
+          <line x1="96"  y1="170" x2="144" y2="170" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="88"  y1="192" x2="152" y2="192" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="82"  y1="214" x2="158" y2="214" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="78"  y1="236" x2="162" y2="236" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="76"  y1="260" x2="164" y2="260" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+          <line x1="77"  y1="284" x2="163" y2="284" stroke="rgba(180,215,255,0.17)" strokeWidth="0.7"/>
+
+          {/* Hip line */}
+          <path d="M64,312 Q120,322 176,312"
+            stroke="rgba(180,215,255,0.42)" strokeWidth="1" fill="none"
+          />
+
+          {/* ─── Lotus legs ─── */}
+          {/* Left leg crossing over to right knee */}
+          <path d="M72,315 Q120,340 186,328"
+            stroke="url(#lotusLegWarm)" strokeWidth="1.3" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Left knee bump (right side) */}
+          <path d="M186,328 Q198,348 193,366"
+            stroke="rgba(251,146,60,0.65)" strokeWidth="1.2" fill="none"
+          />
+          {/* Left foot resting (right side) */}
+          <path d="M168,366 Q192,376 196,368"
+            stroke="rgba(239,68,68,0.55)" strokeWidth="1" fill="none"
+          />
+
+          {/* Right leg (underneath, crossing to left knee) */}
+          <path d="M168,315 Q120,338 54,326"
+            stroke="url(#lotusLegWarm)" strokeWidth="1.1" fill="none"
+            filter="url(#lotusGlow)"
+          />
+          {/* Right knee bump (left side) */}
+          <path d="M54,326 Q42,346 47,364"
+            stroke="rgba(251,146,60,0.58)" strokeWidth="1.1" fill="none"
+          />
+          {/* Right foot resting (left side) */}
+          <path d="M72,364 Q48,374 44,366"
+            stroke="rgba(239,68,68,0.48)" strokeWidth="1" fill="none"
+          />
+
+          {/* Leg inner lattice */}
+          <line x1="60"  y1="340" x2="180" y2="340" stroke="rgba(250,204,21,0.10)" strokeWidth="0.6"/>
+          <line x1="52"  y1="358" x2="188" y2="358" stroke="rgba(239,68,68,0.12)" strokeWidth="0.6"/>
+
+          {/* Base / ground shadow */}
+          <path d="M35,378 Q120,394 205,378"
+            stroke="rgba(180,215,255,0.28)" strokeWidth="0.9" fill="none"
+          />
+          <path d="M55,382 Q120,400 185,382"
+            stroke="rgba(120,180,255,0.10)" strokeWidth="3.5" fill="none"
+            style={{ filter: 'blur(5px)' }}
+          />
+
+          {/* ─── Spine (rainbow) ─── */}
+          <line x1="120" y1="22" x2="120" y2="315"
+            stroke="url(#lotusSpine)" strokeWidth="1.6"
+            filter="url(#lotusGlowStrong)"
+          />
+        </svg>
+
+        {/* Chakra orbs */}
         {chakras.map((chakra) => (
           <ChakraOrb key={chakra.id} chakra={chakra} selected={selectedId === chakra.id} onClick={() => onOrbClick(chakra.id)} />
         ))}
       </div>
 
-      <div className="absolute bottom-5 left-5 right-5 rounded-3xl border border-white/10 bg-slate-950/75 p-4 text-white shadow-xl backdrop-blur-md">
+      {/* Bottom info bar */}
+      <div className="absolute bottom-5 left-5 right-5 z-10 rounded-3xl p-4 text-white shadow-xl backdrop-blur-md"
+           style={{ border: '1px solid rgba(255,255,255,0.08)', background: 'rgba(3,5,16,0.90)' }}>
         <div className="flex items-center justify-between gap-3">
           <div className="flex items-center gap-3">
             <span className="h-4 w-4 shrink-0 rounded-full" style={{ background: selected.color, boxShadow: `0 0 24px ${selected.glow}` }} />
             <div>
               <p className="text-sm font-semibold leading-none">{selected.name}</p>
-              <p className="mt-1 text-xs text-slate-300">{selected.location}</p>
+              <p className="mt-1 text-xs text-slate-400">{selected.location}</p>
             </div>
           </div>
           <div className="flex shrink-0 flex-col items-end gap-1">
@@ -104,7 +317,6 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
           </div>
         </div>
       </div>
-
     </div>
   );
 }
@@ -447,6 +659,70 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
   );
 }
 
+function BalanceIndicator({ chakra }) {
+  const [checked, setChecked] = useState({});
+
+  const toggle = useCallback((i) => {
+    setChecked((prev) => ({ ...prev, [i]: !prev[i] }));
+  }, []);
+
+  const score = chakra.selfAssessment.filter((_, i) => checked[i]).length;
+  const total = chakra.selfAssessment.length;
+  const pct = Math.round((score / total) * 100);
+
+  const signal =
+    score === total ? { label: "Well balanced", color: "#22c55e" } :
+    score >= total * 0.6 ? { label: "Mostly balanced", color: "#86efac" } :
+    score >= total * 0.3 ? { label: "Needs attention", color: "#fbbf24" } :
+    { label: "Blocked or underactive", color: "#f87171" };
+
+  return (
+    <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+      <div className="mb-5 flex items-start justify-between gap-4">
+        <div>
+          <h3 className="text-xl font-bold">Balance Indicator</h3>
+          <p className="mt-1 text-sm text-slate-400">Check each statement that feels true for you right now.</p>
+        </div>
+        <div className="shrink-0 text-right">
+          <div className="text-2xl font-black" style={{ color: signal.color }}>{score}/{total}</div>
+          <div className="text-xs font-semibold" style={{ color: signal.color }}>{signal.label}</div>
+        </div>
+      </div>
+
+      {/* Progress bar */}
+      <div className="mb-5 h-2 overflow-hidden rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full transition-all duration-500"
+          style={{ width: `${pct}%`, background: signal.color, boxShadow: `0 0 10px ${signal.color}66` }}
+        />
+      </div>
+
+      <div className="flex flex-col gap-3">
+        {chakra.selfAssessment.map((q, i) => (
+          <button
+            key={i}
+            type="button"
+            onClick={() => toggle(i)}
+            className="flex items-start gap-3 rounded-2xl border border-white/10 bg-slate-950/30 p-4 text-left transition hover:bg-white/10 active:scale-[0.99]"
+          >
+            <span
+              className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-md border text-xs font-bold transition"
+              style={{
+                borderColor: checked[i] ? chakra.color : "rgba(255,255,255,0.25)",
+                background: checked[i] ? chakra.color : "transparent",
+                boxShadow: checked[i] ? `0 0 10px ${chakra.glow}` : "none",
+              }}
+            >
+              {checked[i] ? "✓" : ""}
+            </span>
+            <span className="text-sm leading-relaxed text-slate-200">{q}</span>
+          </button>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage, onOpenPlanet }) {
   const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
@@ -682,6 +958,61 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
             ))}
           </div>
         </section>
+
+        {/* Crystals & Stones */}
+        {chakra.crystals && (
+          <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/5 p-6 backdrop-blur-xl">
+            <h3 className="mb-4 text-xl font-bold">Crystals &amp; Stones</h3>
+            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+              {chakra.crystals.map((c) => (
+                <div key={c.name} className="rounded-2xl border border-white/10 bg-slate-950/30 p-4">
+                  <div className="mb-2 flex items-center gap-2">
+                    <span className="h-2.5 w-2.5 rounded-full shrink-0" style={{ background: chakra.color, boxShadow: `0 0 8px ${chakra.glow}` }} />
+                    <p className="text-sm font-bold text-white">{c.name}</p>
+                  </div>
+                  <p className="text-xs leading-relaxed text-slate-300">{c.property}</p>
+                </div>
+              ))}
+            </div>
+          </section>
+        )}
+
+        {/* Healing Foods & Essential Oils */}
+        {(chakra.foods || chakra.essentialOils) && (
+          <section className="mt-6 grid gap-4 lg:grid-cols-2">
+            {chakra.foods && (
+              <div className="rounded-[1.75rem] border border-emerald-300/15 bg-emerald-300/10 p-6 backdrop-blur-xl">
+                <h3 className="mb-4 text-xl font-bold">Healing Foods</h3>
+                <div className="flex flex-wrap gap-2">
+                  {chakra.foods.map((f) => (
+                    <span key={f} className="rounded-xl border border-white/15 bg-slate-950/30 px-3 py-1.5 text-sm font-medium text-slate-100">{f}</span>
+                  ))}
+                </div>
+              </div>
+            )}
+            {chakra.essentialOils && (
+              <div className="rounded-[1.75rem] border border-amber-300/15 bg-amber-300/10 p-6 backdrop-blur-xl">
+                <h3 className="mb-4 text-xl font-bold">Essential Oils</h3>
+                <div className="flex flex-col gap-3">
+                  {chakra.essentialOils.map((o) => (
+                    <div key={o.name} className="flex gap-3">
+                      <span className="mt-0.5 shrink-0 text-amber-200 text-sm">◆</span>
+                      <div>
+                        <span className="text-sm font-bold text-white">{o.name} </span>
+                        <span className="text-sm text-slate-300">{o.use}</span>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+          </section>
+        )}
+
+        {/* Balance Indicator */}
+        {chakra.selfAssessment && (
+          <BalanceIndicator chakra={chakra} />
+        )}
 
         <section className="mt-6 rounded-[1.75rem] border border-white/10 bg-white/10 p-5 backdrop-blur-xl">
           <div className="mb-4 flex flex-wrap items-center justify-between gap-3">

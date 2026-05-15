@@ -1,0 +1,460 @@
+.nutrients-page {
+  --gold: #d8a948;
+  --sage: #7aab79;
+  --lavender: #a991d9;
+  --blue: #5b9bd5;
+  --rose: #d97060;
+  --deep: #2d4a47;
+  --muted: #7a8f89;
+  --line: rgba(0, 0, 0, 0.09);
+
+  min-height: 100vh;
+  background: #f5f1eb;
+  color: var(--deep);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+}
+
+/* ── back bar ── */
+.nutrients-back-bar {
+  position: sticky;
+  top: 0;
+  z-index: 40;
+  background: rgba(245, 241, 235, 0.88);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.nutrients-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.7);
+  color: var(--deep);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+
+.nutrients-back-btn:hover {
+  background: rgba(255, 255, 255, 0.95);
+}
+
+.nutrients-back-bar span {
+  font-size: 12px;
+  color: var(--muted);
+}
+
+/* ── page container ── */
+.nutrients-page .page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 24px 80px;
+  display: grid;
+  gap: 32px;
+}
+
+/* ── hero ── */
+.nutrients-page .hero {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.nutrients-page .hero h2 {
+  margin: 0 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(22px, 4vw, 32px);
+  font-weight: 500;
+  color: var(--deep);
+  line-height: 1.2;
+}
+
+.nutrients-page .hero p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.65;
+  font-size: 15px;
+  max-width: 560px;
+}
+
+.nutrients-page .hero-art {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background:
+    radial-gradient(circle at 40% 40%, rgba(216, 169, 72, 0.3), transparent 60%),
+    radial-gradient(circle at 65% 65%, rgba(169, 145, 217, 0.22), transparent 55%),
+    conic-gradient(from 0deg, var(--gold), var(--sage), var(--lavender), var(--blue), var(--gold));
+  opacity: 0.55;
+}
+
+/* ── card ── */
+.nutrients-page .card {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 24px;
+  padding: 28px;
+}
+
+.nutrients-page .card h3 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--deep);
+}
+
+.nutrients-page .sub {
+  margin: 0 0 20px;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.65;
+}
+
+.nutrients-page .info {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid var(--muted);
+  color: var(--muted);
+  font-size: 11px;
+  font-style: normal;
+  vertical-align: middle;
+  margin-left: 6px;
+  cursor: default;
+}
+
+/* ── section title ── */
+.nutrients-page .section-title {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  padding: 4px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ── nutrient map ── */
+.nutrient-map {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.map-column {
+  display: grid;
+  gap: 14px;
+}
+
+.map-card {
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  padding: 18px;
+  min-height: 116px;
+}
+
+.map-card h4 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--deep);
+  font-size: 20px;
+  font-weight: 500;
+}
+
+.map-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 14px;
+}
+
+.map-center {
+  min-height: 360px;
+  border-radius: 28px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(216, 169, 72, 0.26);
+  background:
+    radial-gradient(circle at 50% 35%, rgba(216, 169, 72, 0.26), transparent 22%),
+    radial-gradient(circle at 35% 62%, rgba(169, 145, 217, 0.18), transparent 28%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(246, 251, 248, 0.78));
+}
+
+.map-center::before {
+  content: "";
+  position: absolute;
+  width: 180px;
+  height: 180px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255, 255, 255, 0.96), rgba(255, 255, 255, 0.25)),
+    conic-gradient(from 0deg, var(--gold), var(--sage), var(--lavender), var(--blue), var(--gold));
+  opacity: 0.72;
+  box-shadow: 0 0 0 26px rgba(216, 169, 72, 0.06);
+}
+
+.map-center div {
+  position: relative;
+  z-index: 1;
+}
+
+.map-center strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 32px;
+  font-weight: 500;
+  color: var(--deep);
+  margin-bottom: 10px;
+  line-height: 1.1;
+}
+
+.map-center span {
+  display: block;
+  color: var(--muted);
+  line-height: 1.55;
+  max-width: 300px;
+}
+
+/* ── mini grid ── */
+.nutrients-page .mini-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 14px;
+}
+
+.nutrients-page .mini {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.nutrients-page .mini h4 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--deep);
+}
+
+.nutrients-page .mini p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ── nutrient table ── */
+.nutrient-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.nutrient-table th {
+  text-align: left;
+  color: #7a8f89;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0 12px;
+}
+
+.nutrient-table td {
+  background: rgba(255, 255, 255, 0.72);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 14px 12px;
+  color: #496a65;
+  font-size: 14px;
+  line-height: 1.45;
+  vertical-align: top;
+}
+
+.nutrient-table td:first-child {
+  border-left: 1px solid var(--line);
+  border-radius: 15px 0 0 15px;
+  color: var(--deep);
+  font-weight: 700;
+}
+
+.nutrient-table td:last-child {
+  border-right: 1px solid var(--line);
+  border-radius: 0 15px 15px 0;
+}
+
+/* ── pill row ── */
+.nutrients-page .pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 14px;
+}
+
+.nutrients-page .pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: rgba(255, 255, 255, 0.72);
+  color: var(--deep);
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 500;
+}
+
+/* ── three-column grid ── */
+.nutrients-page .grid.three {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ── bottom grid ── */
+.nutrients-page .bottom-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+/* ── list ── */
+.nutrients-page .list {
+  display: grid;
+  gap: 10px;
+  margin-top: 16px;
+}
+
+.nutrients-page .list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 13px 16px;
+}
+
+.nutrients-page .list-item div {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.nutrients-page .list-item strong {
+  font-size: 14px;
+  color: var(--deep);
+  font-weight: 600;
+}
+
+.nutrients-page .list-item span {
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+.nutrients-page .list-item b {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--gold);
+  white-space: nowrap;
+  align-self: center;
+}
+
+/* ── note ── */
+.nutrients-page .note {
+  margin-top: 12px;
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+/* ── warning card ── */
+.warning-card {
+  border-left: 4px solid var(--rose);
+  background: rgba(250, 236, 232, 0.72);
+}
+
+/* ── demo ── */
+.nutrients-page .demo {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.nutrients-page .demo-step {
+  background: rgba(255, 255, 255, 0.72);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 22px;
+}
+
+.nutrients-page .demo-step h4 {
+  margin: 0 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--deep);
+}
+
+.nutrients-page .demo-step p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+/* ── quote ── */
+.nutrients-page .quote {
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  padding: 16px 0 8px;
+}
+
+/* ── responsive ── */
+@media (max-width: 1100px) {
+  .nutrient-map {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 780px) {
+  .nutrients-page .grid.three,
+  .nutrients-page .bottom-grid,
+  .nutrients-page .demo {
+    grid-template-columns: 1fr;
+  }
+
+  .nutrients-page .hero {
+    flex-direction: column;
+  }
+
+  .nutrients-page .hero-art {
+    display: none;
+  }
+}

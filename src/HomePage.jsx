@@ -53,6 +53,57 @@ export default function HomePage({ onNavigate }) {
       glowColor: 'rgba(120,53,15,0.35)',
       hoverBorder: 'rgba(251,191,36,0.4)',
     },
+    {
+      id: 'psychology',
+      icon: '◈',
+      badge: 'Psychology Portal',
+      badgeColor: 'rgba(6,182,212,0.12)',
+      badgeBorder: 'rgba(6,182,212,0.30)',
+      badgeText: '#a5f3fc',
+      title: 'Psychology\nPortal',
+      description: 'Ten frameworks for identity work, relationship reflection, and living from the end — Self-Schema, Attachment Theory, CBT, Stoicism, and more.',
+      keywords: ['Identity', 'Attachment', 'Somatic', 'Stoicism'],
+      cta: 'Enter Portal',
+      ctaColor: '#67e8f9',
+      iconBg: 'linear-gradient(135deg, rgba(6,182,212,0.35), rgba(30,27,75,0.3))',
+      iconBorder: 'rgba(6,182,212,0.35)',
+      glowColor: 'rgba(6,182,212,0.20)',
+      hoverBorder: 'rgba(6,182,212,0.45)',
+    },
+    {
+      id: 'innerbalance',
+      icon: '◍',
+      badge: 'InnerBalance Atlas',
+      badgeColor: 'rgba(122,171,121,0.14)',
+      badgeBorder: 'rgba(122,171,121,0.32)',
+      badgeText: '#bbf7d0',
+      title: 'InnerBalance\nAtlas',
+      description: 'Understand your mind, body & spirit — nervous system, neurotransmitters, mood uplift, psychophysiology, and daily well-being in one place.',
+      keywords: ['Dashboard', 'Neurotransmitters', 'Mood', 'Well-Being'],
+      cta: 'Enter Portal',
+      ctaColor: '#86efac',
+      iconBg: 'linear-gradient(135deg, rgba(122,171,121,0.38), rgba(216,169,72,0.18))',
+      iconBorder: 'rgba(122,171,121,0.4)',
+      glowColor: 'rgba(122,171,121,0.22)',
+      hoverBorder: 'rgba(122,171,121,0.48)',
+    },
+    {
+      id: 'frameworks',
+      icon: '✦',
+      badge: 'Framework Atlas',
+      badgeColor: 'rgba(124,92,255,0.14)',
+      badgeBorder: 'rgba(124,92,255,0.32)',
+      badgeText: '#c9b8ff',
+      title: 'Framework\nAtlas',
+      description: '35 frameworks from authors, psychologists, strategists, and designers — searchable cards, detail modals, category pages, and a 3D model lab.',
+      keywords: ['Mental Models', 'Strategy', 'Psychology', 'Learning'],
+      cta: 'Enter Portal',
+      ctaColor: '#c9b8ff',
+      iconBg: 'linear-gradient(135deg, rgba(124,92,255,0.38), rgba(0,214,255,0.18))',
+      iconBorder: 'rgba(124,92,255,0.4)',
+      glowColor: 'rgba(124,92,255,0.22)',
+      hoverBorder: 'rgba(124,92,255,0.48)',
+    },
   ];
 
   return (
@@ -143,7 +194,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Three tools for exploring inner symbolism, spiritual tradition, and the language of the cosmos.
+          Six tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, and the world's best thinking frameworks.
         </p>
 
         {/* Portal cards */}

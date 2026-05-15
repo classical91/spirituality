@@ -1,0 +1,792 @@
+.iba {
+  --gold: #d8a948;
+  --sage: #7aab79;
+  --lavender: #a991d9;
+  --blue: #5b9bd5;
+  --rose: #d97060;
+  --deep: #2d4a47;
+  --muted: #7a8f89;
+  --line: rgba(0, 0, 0, 0.09);
+  --bg: #f5f1eb;
+  --card: rgba(255, 255, 255, 0.78);
+  --sidebar-w: 220px;
+
+  min-height: 100vh;
+  background: var(--bg);
+  color: var(--deep);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+  display: flex;
+  flex-direction: column;
+}
+
+/* ── top bar ── */
+.iba-topbar {
+  position: sticky;
+  top: 0;
+  z-index: 50;
+  background: rgba(245, 241, 235, 0.92);
+  backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.iba-back-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--deep);
+  padding: 7px 14px;
+  border-radius: 999px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s;
+}
+.iba-back-btn:hover { background: #fff; }
+
+.iba-topbar-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep);
+  letter-spacing: 0.01em;
+}
+.iba-topbar-sub {
+  font-size: 12px;
+  color: var(--muted);
+  margin-left: 2px;
+}
+
+/* ── body layout ── */
+.iba-body {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+}
+
+/* ── sidebar ── */
+.iba-sidebar {
+  width: var(--sidebar-w);
+  flex-shrink: 0;
+  padding: 24px 14px;
+  border-right: 1px solid var(--line);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  position: sticky;
+  top: 45px;
+  height: calc(100vh - 45px);
+  overflow-y: auto;
+  background: rgba(245, 241, 235, 0.6);
+}
+
+.iba-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 10px 18px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 8px;
+}
+
+.iba-logo-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  background: linear-gradient(135deg, rgba(216,169,72,0.35), rgba(122,171,121,0.25));
+  border: 1px solid rgba(216,169,72,0.3);
+  display: grid;
+  place-items: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.iba-logo-text {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.iba-logo-name {
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--deep);
+  letter-spacing: -0.01em;
+}
+
+.iba-logo-sub {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--gold);
+}
+
+.iba-nav-btn {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 9px 12px;
+  border-radius: 12px;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.18s;
+}
+
+.iba-nav-btn:hover {
+  background: rgba(255,255,255,0.6);
+  color: var(--deep);
+}
+
+.iba-nav-btn.active {
+  background: var(--card);
+  border-color: var(--line);
+  color: var(--deep);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.06);
+}
+
+.iba-nav-icon {
+  font-size: 16px;
+  width: 20px;
+  text-align: center;
+  flex-shrink: 0;
+}
+
+.iba-intention {
+  margin-top: auto;
+  padding: 14px;
+  border-radius: 16px;
+  background: linear-gradient(135deg, rgba(122,171,121,0.18), rgba(216,169,72,0.12));
+  border: 1px solid rgba(122,171,121,0.25);
+  font-size: 12px;
+  color: var(--muted);
+  line-height: 1.55;
+}
+
+.iba-intention strong {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--sage);
+  margin-bottom: 6px;
+}
+
+.iba-crosslink-btn {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 10px;
+  padding: 12px 14px;
+  border-radius: 16px;
+  border: 1px solid rgba(0,0,0,0.09);
+  background: rgba(169,145,217,0.08);
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: background 0.18s ease, border-color 0.18s ease;
+}
+.iba-crosslink-btn:hover {
+  background: rgba(169,145,217,0.16);
+  border-color: rgba(169,145,217,0.3);
+}
+.iba-crosslink-icon {
+  font-size: 1.3rem;
+  flex-shrink: 0;
+  color: var(--lavender);
+}
+.iba-crosslink-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--deep);
+}
+.iba-crosslink-sub {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── main content ── */
+.iba-main {
+  flex: 1;
+  padding: 36px 36px 60px;
+  overflow-y: auto;
+  display: grid;
+  gap: 28px;
+  align-content: start;
+}
+
+/* ── page hero ── */
+.iba-hero {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.iba-hero h2 {
+  margin: 0 0 10px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: clamp(22px, 3.5vw, 34px);
+  font-weight: 500;
+  color: var(--deep);
+  line-height: 1.15;
+}
+
+.iba-hero p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 15px;
+  line-height: 1.65;
+  max-width: 560px;
+}
+
+.iba-hero-art {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background:
+    radial-gradient(circle at 40% 40%, rgba(216,169,72,0.32), transparent 58%),
+    radial-gradient(circle at 65% 65%, rgba(169,145,217,0.22), transparent 55%),
+    conic-gradient(from 0deg, var(--gold), var(--sage), var(--lavender), var(--blue), var(--gold));
+  opacity: 0.5;
+}
+
+/* ── section label ── */
+.iba-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--muted);
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--line);
+}
+
+/* ── card ── */
+.iba-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 22px;
+  padding: 24px;
+}
+
+.iba-card h3 {
+  margin: 0 0 6px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--deep);
+}
+
+.iba-card .iba-sub {
+  margin: 0 0 18px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ── grid helpers ── */
+.iba-grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.iba-grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.iba-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+.iba-auto { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 14px; }
+
+/* ── mini card ── */
+.iba-mini {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 18px;
+}
+
+.iba-mini h4 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--deep);
+}
+
+.iba-mini p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.6;
+}
+
+/* ── system map ── */
+.iba-system-map {
+  display: grid;
+  grid-template-columns: 1fr 1.1fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.iba-map-col { display: grid; gap: 14px; }
+
+.iba-map-node {
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 16px;
+}
+
+.iba-map-node h4 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.iba-map-node ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.iba-map-node ul li {
+  font-size: 13px;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.iba-map-node ul li::before {
+  content: "◦";
+  color: var(--gold);
+}
+
+.iba-map-center {
+  border-radius: 24px;
+  display: grid;
+  place-items: center;
+  text-align: center;
+  padding: 24px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid rgba(216,169,72,0.28);
+  background:
+    radial-gradient(circle at 50% 38%, rgba(216,169,72,0.22), transparent 24%),
+    radial-gradient(circle at 35% 62%, rgba(169,145,217,0.16), transparent 28%),
+    linear-gradient(135deg, rgba(255,255,255,0.9), rgba(246,251,248,0.8));
+}
+
+.iba-map-center::before {
+  content: "";
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background:
+    radial-gradient(circle, rgba(255,255,255,0.95), rgba(255,255,255,0.2)),
+    conic-gradient(from 0deg, var(--gold), var(--sage), var(--lavender), var(--blue), var(--gold));
+  opacity: 0.65;
+  box-shadow: 0 0 0 20px rgba(216,169,72,0.06);
+}
+
+.iba-map-center-content {
+  position: relative;
+  z-index: 1;
+}
+
+.iba-map-center-content strong {
+  display: block;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--deep);
+  margin-bottom: 8px;
+  line-height: 1.2;
+}
+
+.iba-map-center-content span {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.55;
+  max-width: 180px;
+}
+
+/* ── neuro cards ── */
+.iba-neuro-card {
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 18px;
+}
+
+.iba-neuro-card h4 {
+  margin: 0 0 4px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 500;
+}
+
+.iba-neuro-card .iba-neuro-theme {
+  font-size: 12px;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.iba-neuro-row {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 6px;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.iba-neuro-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  min-width: 52px;
+  padding-top: 1px;
+}
+
+.iba-neuro-val { color: var(--muted); }
+
+/* ── color accents on neuro labels ── */
+.lbl-dopamine  { color: #9b6dd6; }
+.lbl-serotonin { color: var(--blue); }
+.lbl-gaba      { color: var(--sage); }
+.lbl-norepi    { color: #d08a40; }
+.lbl-acetyl    { color: #5b9eb5; }
+.lbl-oxytocin  { color: var(--rose); }
+
+/* ── nutrient map (reused from vitamins page) ── */
+.iba-nutrient-map {
+  display: grid;
+  grid-template-columns: 1fr 1.05fr 1fr;
+  gap: 16px;
+  align-items: stretch;
+}
+
+.iba-nutrient-col { display: grid; gap: 14px; }
+
+.iba-nutrient-card {
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 18px;
+  min-height: 110px;
+}
+
+.iba-nutrient-card h4 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  color: var(--deep);
+  font-size: 18px;
+  font-weight: 500;
+}
+
+.iba-nutrient-card p {
+  margin: 0;
+  color: var(--muted);
+  line-height: 1.55;
+  font-size: 13px;
+}
+
+/* ── nutrient table ── */
+.iba-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0 10px;
+}
+
+.iba-table th {
+  text-align: left;
+  color: var(--muted);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  padding: 0 12px;
+}
+
+.iba-table td {
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+  padding: 13px 12px;
+  color: #496a65;
+  font-size: 13px;
+  line-height: 1.45;
+  vertical-align: top;
+}
+
+.iba-table td:first-child {
+  border-left: 1px solid var(--line);
+  border-radius: 14px 0 0 14px;
+  color: var(--deep);
+  font-weight: 700;
+}
+
+.iba-table td:last-child {
+  border-right: 1px solid var(--line);
+  border-radius: 0 14px 14px 0;
+}
+
+/* ── pills ── */
+.iba-pill-row { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 14px; }
+
+.iba-pill {
+  display: inline-flex;
+  align-items: center;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--deep);
+  padding: 5px 13px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+/* ── list items ── */
+.iba-list { display: grid; gap: 10px; }
+
+.iba-list-item {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 12px 16px;
+}
+
+.iba-list-item-body { display: flex; flex-direction: column; gap: 3px; }
+.iba-list-item-body strong { font-size: 13px; color: var(--deep); font-weight: 600; }
+.iba-list-item-body span  { font-size: 12px; color: var(--muted); line-height: 1.5; }
+.iba-list-tag { font-size: 11px; font-weight: 700; color: var(--gold); white-space: nowrap; align-self: center; }
+
+/* ── warning card ── */
+.iba-warning {
+  border-left: 4px solid var(--rose);
+  background: rgba(250,236,232,0.72) !important;
+}
+
+/* ── demo steps ── */
+.iba-demo { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; }
+
+.iba-demo-step {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  padding: 20px;
+}
+
+.iba-demo-step h4 {
+  margin: 0 0 8px;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--deep);
+}
+
+.iba-demo-step p { margin: 0; color: var(--muted); font-size: 13px; line-height: 1.6; }
+
+/* ── quote ── */
+.iba-quote {
+  text-align: center;
+  font-family: Georgia, "Times New Roman", serif;
+  font-size: 16px;
+  font-style: italic;
+  color: var(--muted);
+  line-height: 1.7;
+  margin: 0;
+  padding: 8px 0;
+}
+
+/* ── balance donut (CSS-only) ── */
+.iba-balance-ring {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: conic-gradient(
+    var(--sage) 0% 22%,
+    var(--blue) 22% 42%,
+    var(--lavender) 42% 63%,
+    var(--gold) 63% 85%,
+    #5bbfb5 85% 100%
+  );
+  display: grid;
+  place-items: center;
+  margin: 0 auto 16px;
+}
+
+.iba-balance-ring-inner {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--bg);
+  display: grid;
+  place-items: center;
+  text-align: center;
+}
+
+.iba-balance-score {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--deep);
+  line-height: 1;
+}
+
+.iba-balance-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+.iba-balance-legend { display: grid; gap: 6px; }
+
+.iba-balance-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: 12px;
+}
+
+.iba-balance-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.iba-balance-name { color: var(--muted); flex: 1; margin-left: 8px; }
+.iba-balance-val  { font-weight: 700; color: var(--deep); }
+
+/* ── daily rhythm timeline ── */
+.iba-rhythm {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 12px;
+  position: relative;
+  padding-top: 8px;
+}
+
+.iba-rhythm-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 8px;
+}
+
+.iba-rhythm-dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  border: 2px solid var(--card);
+  box-shadow: 0 0 0 2px var(--line);
+  flex-shrink: 0;
+}
+
+.iba-rhythm-time {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--deep);
+}
+
+.iba-rhythm-chems {
+  font-size: 11px;
+  color: var(--muted);
+  line-height: 1.5;
+}
+
+/* ── tool list ── */
+.iba-tool-list { display: grid; gap: 8px; }
+
+.iba-tool-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid var(--line);
+  border-radius: 13px;
+  font-size: 13px;
+}
+
+.iba-tool-row-left { display: flex; flex-direction: column; gap: 2px; }
+.iba-tool-row-left strong { color: var(--deep); font-size: 13px; }
+.iba-tool-row-left span  { color: var(--muted); font-size: 11px; }
+.iba-tool-arrow { color: var(--muted); font-size: 14px; }
+
+/* ── uplift plan ── */
+.iba-plan-block {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 16px;
+  background: rgba(255,255,255,0.5);
+}
+
+.iba-plan-time {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 10px;
+}
+
+.iba-plan-time strong { font-size: 14px; color: var(--deep); }
+.iba-plan-time span  { font-size: 11px; color: var(--muted); }
+
+.iba-plan-items { display: flex; flex-direction: column; gap: 6px; }
+
+.iba-plan-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.iba-plan-item::before { content: "◦"; color: var(--sage); }
+
+/* ── stat chips ── */
+.iba-chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; }
+
+.iba-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  padding: 7px 14px;
+  border-radius: 12px;
+  font-size: 13px;
+  color: var(--deep);
+}
+
+.iba-chip-icon { font-size: 15px; }
+.iba-chip-label { color: var(--muted); font-size: 11px; display: block; }
+.iba-chip-val   { font-weight: 700; }
+
+/* ── responsive ── */
+@media (max-width: 900px) {
+  .iba-sidebar { display: none; }
+  .iba-system-map, .iba-nutrient-map { grid-template-columns: 1fr; }
+  .iba-grid-3, .iba-grid-4, .iba-demo { grid-template-columns: 1fr; }
+  .iba-grid-2 { grid-template-columns: 1fr; }
+  .iba-rhythm { grid-template-columns: repeat(3, 1fr); }
+  .iba-main { padding: 20px 16px 48px; }
+}
