@@ -2,12 +2,13 @@ import { useState } from 'react';
 import './InnerBalanceAtlas.css';
 
 const tabs = [
-  { id: 'dashboard',       icon: '⌂', label: 'Dashboard' },
-  { id: 'psychophysiology',icon: '◍', label: 'Psychophysiology Map' },
-  { id: 'neurotransmitters',icon:'⌁', label: 'Neurotransmitters' },
-  { id: 'mooduplift',      icon: '◑', label: 'Mood Uplift' },
-  { id: 'mindbodyspirit',  icon: '◎', label: 'Mind-Body-Spirit' },
-  { id: 'journal',         icon: '✦', label: 'Journal' },
+  { id: 'dashboard',        icon: '⌂', label: 'Dashboard' },
+  { id: 'psychophysiology', icon: '◍', label: 'Psychophysiology Map' },
+  { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
+  { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
+  { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
+  { id: 'mindbodyspirit',   icon: '◎', label: 'Mind-Body-Spirit' },
+  { id: 'journal',          icon: '✦', label: 'Journal' },
 ];
 
 /* ─────────────────────────────────────────
@@ -628,6 +629,163 @@ function MoodUplift() {
 }
 
 /* ─────────────────────────────────────────
+   PHYSICAL ACTIVITY
+───────────────────────────────────────── */
+function PhysicalActivity() {
+  const activities = [
+    {
+      name: 'Walking (10k steps)', icon: '🚶',
+      benefits: [
+        'Lowers blood pressure and resting heart rate',
+        'Improves mood and reduces anxiety via endorphin release',
+        'Strengthens bones and reduces osteoporosis risk',
+        'Boosts creative thinking and mental clarity',
+        'Regulates blood sugar and supports weight management',
+      ],
+    },
+    {
+      name: 'Cycling / Biking', icon: '🚴',
+      benefits: [
+        'Excellent low-impact cardiovascular workout',
+        'Builds leg strength without stressing joints',
+        'Reduces risk of heart disease and type 2 diabetes',
+        'Improves lung capacity and aerobic fitness',
+        'Lowers cortisol levels and stress over time',
+      ],
+    },
+    {
+      name: 'Swimming', icon: '🏊',
+      benefits: [
+        'Full-body workout engaging all major muscle groups',
+        'Zero impact — ideal for joint issues or recovery',
+        'Improves flexibility and range of motion',
+        'Enhances lung efficiency and breath control',
+        'Proven to reduce symptoms of depression and anxiety',
+      ],
+    },
+    {
+      name: 'Sauna', icon: '🧖',
+      benefits: [
+        'Improves cardiovascular health comparable to moderate exercise',
+        'Flushes toxins through deep sweating',
+        'Reduces muscle soreness and speeds recovery',
+        'Triggers heat shock proteins that repair damaged cells',
+        'Regular use linked to lower risk of dementia and Alzheimer\'s',
+      ],
+    },
+    {
+      name: 'Push-ups', icon: '💪',
+      benefits: [
+        'Builds chest, shoulder, and tricep strength with no equipment',
+        'Engages core stabilizers and improves posture',
+        'Elevates resting metabolism by building lean muscle',
+        'Improves bone density in the upper body',
+        'High rep sets provide cardiovascular conditioning',
+      ],
+    },
+    {
+      name: 'Cold Exposure / Cold Shower', icon: '🧊',
+      benefits: [
+        'Dramatically boosts norepinephrine (focus, mood, alertness)',
+        'Activates brown fat, increasing metabolic rate',
+        'Strengthens immune response over time',
+        'Reduces inflammation and muscle soreness',
+        'Builds mental resilience and stress tolerance',
+      ],
+    },
+    {
+      name: 'Yoga / Stretching', icon: '🧘',
+      benefits: [
+        'Reduces cortisol and activates the parasympathetic nervous system',
+        'Improves flexibility, balance, and joint health',
+        'Relieves chronic back pain and muscle tension',
+        'Enhances body awareness and mind-body connection',
+        'Shown to lower blood pressure and improve sleep quality',
+      ],
+    },
+    {
+      name: 'Running / Jogging', icon: '🏃',
+      benefits: [
+        'Strengthens the heart and improves VO2 max',
+        'Releases endorphins and BDNF ("brain fertilizer") for mood and memory',
+        'Burns significant calories and supports healthy weight',
+        'Builds resilience in tendons, ligaments, and bones',
+        'Linked to longer lifespan and reduced cancer risk',
+      ],
+    },
+    {
+      name: 'Weight Training', icon: '🏋️',
+      benefits: [
+        'Increases muscle mass and basal metabolic rate',
+        'Improves insulin sensitivity and blood sugar control',
+        'Strengthens bones, reducing fracture risk significantly',
+        'Boosts testosterone and growth hormone naturally',
+        'Improves functional strength for daily activities',
+      ],
+    },
+    {
+      name: 'Breathwork', icon: '🌬️',
+      benefits: [
+        'Activates the vagus nerve, calming the nervous system',
+        'Lowers blood pressure within minutes of practice',
+        'Improves oxygen-CO₂ balance and lung efficiency',
+        'Reduces panic, anxiety, and stress acutely',
+        'Improves sleep when practiced before bed',
+      ],
+    },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div className="iba-hero">
+        <div>
+          <h2>Physical Activity &amp; Health Benefits</h2>
+          <p>Evidence-based benefits of ten key physical practices — the body as the foundation of inner balance.</p>
+        </div>
+        <div className="iba-hero-art" />
+      </div>
+
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        {/* Header row */}
+        <div style={{
+          display: 'grid', gridTemplateColumns: '200px 1fr',
+          padding: '10px 20px',
+          borderBottom: '1px solid rgba(255,255,255,0.07)',
+          background: 'rgba(255,255,255,0.03)',
+        }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Practice</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Health Benefits</span>
+        </div>
+
+        {activities.map((activity, i) => (
+          <div
+            key={activity.name}
+            style={{
+              display: 'grid', gridTemplateColumns: '200px 1fr',
+              padding: '18px 20px',
+              borderBottom: i < activities.length - 1 ? '1px solid rgba(255,255,255,0.05)' : 'none',
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 10, paddingRight: 16, paddingTop: 2 }}>
+              <span style={{ fontSize: '1.3rem', lineHeight: 1 }}>{activity.icon}</span>
+              <span style={{ fontSize: '0.9rem', fontWeight: 700, color: 'var(--text)', lineHeight: 1.3 }}>{activity.name}</span>
+            </div>
+            <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 5 }}>
+              {activity.benefits.map((b, j) => (
+                <li key={j} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.55 }}>
+                  <span style={{ color: 'var(--sage)', fontSize: '0.65rem', marginTop: 5, flexShrink: 0 }}>◆</span>
+                  {b}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    PLACEHOLDER SECTIONS
 ───────────────────────────────────────── */
 function PlaceholderSection({ title, icon, description }) {
@@ -661,6 +819,7 @@ export default function InnerBalanceAtlas({ onBack, onNavigate }) {
     psychophysiology: <PsychophysiologyMap />,
     neurotransmitters:<Neurotransmitters />,
     mooduplift:       <MoodUplift />,
+    physicalactivity: <PhysicalActivity />,
     mindbodyspirit:   <PlaceholderSection title="Mind-Body-Spirit" icon="◎" description="Explore the deep connection between your mind, body, and spirit — how each shapes and supports the others." />,
     journal:          <PlaceholderSection title="Journal" icon="✦" description="A space for daily reflection, intentions, and tracking your inner balance over time." />,
   };
