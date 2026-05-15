@@ -53,6 +53,23 @@ export default function HomePage({ onNavigate }) {
       glowColor: 'rgba(120,53,15,0.35)',
       hoverBorder: 'rgba(251,191,36,0.4)',
     },
+    {
+      id: 'nutrients',
+      icon: '◍',
+      badge: 'Psychophysiology',
+      badgeColor: 'rgba(52,211,153,0.12)',
+      badgeBorder: 'rgba(52,211,153,0.3)',
+      badgeText: '#a7f3d0',
+      title: 'Vitamins &\nMinerals',
+      description: 'Map how nutrients support mood, attention, energy, stress resilience, sleep, and neurochemical balance through body-state science.',
+      keywords: ['Nutrients', 'Neurochemistry', 'Energy', 'Sleep'],
+      cta: 'Enter Portal',
+      ctaColor: '#6ee7b7',
+      iconBg: 'linear-gradient(135deg, rgba(52,211,153,0.35), rgba(16,185,129,0.15))',
+      iconBorder: 'rgba(52,211,153,0.38)',
+      glowColor: 'rgba(52,211,153,0.2)',
+      hoverBorder: 'rgba(52,211,153,0.45)',
+    },
   ];
 
   return (
@@ -143,7 +160,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Three tools for exploring inner symbolism, spiritual tradition, and the language of the cosmos.
+          Four tools for exploring inner symbolism, spiritual tradition, the cosmos, and psychophysiology.
         </p>
 
         {/* Portal cards */}
