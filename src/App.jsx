@@ -13,8 +13,8 @@ export default function App() {
   if (page === 'chakra')       return <Chakra3DVisualizer onBack={() => setPage('home')} />;
   if (page === 'astrology')    return <NatalChartDecoder onBack={() => setPage('home')} />;
   if (page === 'biblical')     return <BibleConceptAtlas onBack={() => setPage('home')} />;
-  if (page === 'psychology')   return <PsychologyPortal onBack={() => setPage('home')} />;
-  if (page === 'innerbalance') return <InnerBalanceAtlas onBack={() => setPage('home')} />;
+  if (page === 'psychology')   return <PsychologyPortal onBack={() => setPage('home')} onNavigate={setPage} />;
+  if (page === 'innerbalance') return <InnerBalanceAtlas onBack={() => setPage('home')} onNavigate={setPage} />;
   if (page === 'frameworks')   return <FrameworkAtlas onBack={() => setPage('home')} />;
   return <HomePage onNavigate={setPage} />;
 }

@@ -653,7 +653,7 @@ function PlaceholderSection({ title, icon, description }) {
 /* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
-export default function InnerBalanceAtlas({ onBack }) {
+export default function InnerBalanceAtlas({ onBack, onNavigate }) {
   const [activeTab, setActiveTab] = useState('dashboard');
 
   const content = {
@@ -698,6 +698,19 @@ export default function InnerBalanceAtlas({ onBack }) {
             <strong>Daily Intention</strong>
             I choose balance, awareness and compassion.
           </div>
+
+          {onNavigate && (
+            <button
+              className="iba-crosslink-btn"
+              onClick={() => onNavigate('psychology')}
+            >
+              <span className="iba-crosslink-icon">◈</span>
+              <div>
+                <div className="iba-crosslink-title">Psychology Portal</div>
+                <div className="iba-crosslink-sub">Explore the frameworks side →</div>
+              </div>
+            </button>
+          )}
         </aside>
 
         <main className="iba-main">
