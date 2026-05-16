@@ -1543,6 +1543,16 @@ export default function BibleConceptAtlas({ onBack }) {
                 </div>
                 <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">A frontend for moral patterns, spiritual symbolism, and mythic associations.</h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">Use this like an interactive study board: click a card, compare a sin to its antidote virtue, trace commandments into inner patterns, then optionally view Dante and demonology as symbolic/literary layers.</p>
+                <button
+                  onClick={() => {
+                    const all = prayerThemesCategories.flatMap((c) => c.themes.map((t) => ({ title: t.title })));
+                    const pick = all[Math.floor(Math.random() * all.length)];
+                    openPrayer({ title: pick.title }, "themes");
+                  }}
+                  className="mt-6 inline-flex items-center gap-2 rounded-full border border-amber-300/25 bg-amber-300/[0.08] px-5 py-2.5 text-sm font-bold text-amber-200 transition-colors hover:border-amber-300/45 hover:bg-amber-300/15"
+                >
+                  <span>⟳</span> Surprise Me — Random Prayer
+                </button>
               </div>
             </div>
           </section>
