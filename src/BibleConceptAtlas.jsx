@@ -1459,11 +1459,27 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
   }
 
   if (tabId === "prayers") {
+    const allThemes = prayerThemesCategories.flatMap((cat) =>
+      cat.themes.map((theme) => ({ ...theme, tone: cat.tone, catLabel: cat.label }))
+    );
+    const pickRandom = () => {
+      const pick = allThemes[Math.floor(Math.random() * allThemes.length)];
+      openPrayer({ title: pick.title }, "themes");
+    };
     return (
       <div>
         <SectionHeader eyebrow="Thematic prayer" title="Prayer Themes">
           Prayers organized by spiritual posture, the Beatitudes, the Fruits of the Spirit, life seasons, and formation themes — independent of the Ten Commandments framework. Each card opens three prayers for that theme.
         </SectionHeader>
+        <div className="mb-10 flex items-center gap-4">
+          <button
+            onClick={pickRandom}
+            className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
+          >
+            <span className="text-base">⟳</span> Surprise Me
+          </button>
+          <p className="text-sm text-slate-500">Open a random prayer theme</p>
+        </div>
         <div className="space-y-12">
           {prayerThemesCategories.map((cat) => {
             const tc = toneClasses[cat.tone] || toneClasses.blue;
