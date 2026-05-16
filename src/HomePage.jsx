@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 import { getRandomPrayerTheme } from './data/prayerThemes';
+import { prayerPool } from './prayerPool';
+
+function getDailyPrayer() {
+  const now = new Date();
+  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  return prayerPool[dayOfYear % prayerPool.length];
+}
 
 function SurprisePrayerModal({ theme, onClose, onReshuffle }) {
   useEffect(() => {
@@ -297,6 +304,9 @@ export default function HomePage({ onNavigate }) {
           Six tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, and the world's best thinking frameworks.
         </p>
 
+        {/* Daily Prayer */}
+        <DailyPrayerCard />
+
         {/* Surprise Me button */}
         <button
           onClick={openSurprise}
@@ -352,6 +362,55 @@ export default function HomePage({ onNavigate }) {
         padding: '0 20px 24px',
       }}>
         No external libraries · Works offline · A spiritual reflection toolkit
+      </p>
+    </div>
+  );
+}
+
+function DailyPrayerCard() {
+  const prayer = getDailyPrayer();
+  const typeColors = {
+    'Commandment':    { border: 'rgba(251,191,36,0.28)',  bg: 'rgba(251,191,36,0.07)',  badge: 'rgba(251,191,36,0.15)',  badgeBorder: 'rgba(251,191,36,0.35)',  badgeText: '#fde68a' },
+    'Virtue':         { border: 'rgba(52,211,153,0.28)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.15)',  badgeBorder: 'rgba(52,211,153,0.35)',  badgeText: '#6ee7b7' },
+    'Deadly Sin':     { border: 'rgba(248,113,113,0.28)', bg: 'rgba(248,113,113,0.07)', badge: 'rgba(248,113,113,0.15)', badgeBorder: 'rgba(248,113,113,0.35)', badgeText: '#fca5a5' },
+    "Dante's Inferno":{ border: 'rgba(167,139,250,0.28)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.15)', badgeBorder: 'rgba(167,139,250,0.35)', badgeText: '#c4b5fd' },
+  };
+  const c = typeColors[prayer.type] || typeColors['Commandment'];
+
+  return (
+    <div style={{
+      width: '100%',
+      maxWidth: '680px',
+      marginBottom: 'clamp(20px, 4vw, 28px)',
+      borderRadius: '24px',
+      border: `1px solid ${c.border}`,
+      background: c.bg,
+      padding: 'clamp(20px, 4vw, 32px)',
+      backdropFilter: 'blur(20px)',
+      textAlign: 'left',
+    }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '14px', flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7a7096' }}>
+          ✦ Daily Prayer
+        </span>
+        <span style={{
+          background: c.badge,
+          border: `1px solid ${c.badgeBorder}`,
+          color: c.badgeText,
+          padding: '3px 10px',
+          borderRadius: '999px',
+          fontSize: '0.72rem',
+          fontWeight: 700,
+          letterSpacing: '0.04em',
+        }}>
+          {prayer.type}
+        </span>
+        <span style={{ marginLeft: 'auto', fontSize: '0.78rem', fontWeight: 700, color: c.badgeText, opacity: 0.85 }}>
+          {prayer.title}
+        </span>
+      </div>
+      <p style={{ fontSize: 'clamp(0.95rem, 2vw, 1.05rem)', lineHeight: 1.8, color: '#d4cef0', fontStyle: 'italic', margin: 0 }}>
+        "{prayer.prayer}"
       </p>
     </div>
   );
