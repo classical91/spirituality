@@ -79,6 +79,22 @@ export const prayerThemesCategories = [
       { title: "Intercession", description: "Standing before God on behalf of others." },
     ],
   },
+  {
+    id: "core-spiritual",
+    label: "Core Spiritual Themes",
+    eyebrow: "Foundational orientations of faith",
+    description: "Seven foundational postures of the believing life — faith, trust, obedience, peace, guidance, patience, and surrender. The backbone of a settled spiritual life.",
+    tone: "gold",
+    themes: [
+      { title: "Faith Without Fear", description: "Confidence in God's presence when fear would have its own way." },
+      { title: "Trust Over Control", description: "Releasing what we cannot manage into the hands of the One who can." },
+      { title: "Obedience With Ease", description: "Following God's lead without resistance, because love is the soil." },
+      { title: "Peace That Passes Understanding", description: "Calm beyond circumstance — not the absence of trouble but the presence of God." },
+      { title: "Guidance & Discernment", description: "Wisdom for the path; the ability to tell God's voice from our own." },
+      { title: "Patience & Timing", description: "Waiting in God's season when our timing argues for now." },
+      { title: "Surrender With Strength", description: "Yielding without losing self — the strongest act of trust." },
+    ],
+  },
 ];
 
 export const prayerTextByTitle = {
@@ -256,6 +272,41 @@ export const prayerTextByTitle = {
     "Lord, I stand before you on behalf of the ones I love. I bring their names, their needs, their wounds, their futures. I cannot fix what they carry — but you can. I present them to you with the hope that prayer reaches where I cannot.",
     "Father, intercession is the act of holding someone before you until something moves. Give me the perseverance and the faith to remain in prayer for others without demanding my timetable.",
     "Holy God, the Spirit intercedes for us with groanings too deep for words. Let me be a vessel of that intercession in the world. Use my prayers — however imperfect — as part of your work in the people I carry.",
+  ],
+  "Faith Without Fear": [
+    "Lord, I confess the fears that have driven my decisions. Where I have called caution by one name and fear by another, expose the difference and free me to act in faith.",
+    "Father, you have not given me a spirit of fear, but of power, love, and a sound mind. Replace anxious vigilance with confident trust. Let me walk forward today as one who knows you are present.",
+    "Holy God, do not be afraid; only believe. Speak that word into the places where my courage has gone quiet. Restore the faith that acts even when the outcome is not yet visible.",
+  ],
+  "Trust Over Control": [
+    "Lord, I lay down the illusion that I am holding everything together. You are. Forgive my exhausting attempts to manage what is yours, and teach me the rest of genuine trust.",
+    "Father, where I have tried to engineer outcomes, soften my grip. Let me trust you with my whole heart rather than leaning only on my own understanding.",
+    "Holy God, I name the situations I have been carrying as if they depended on me alone. I place each one in your hands today. Direct my paths as I trust and submit to you.",
+  ],
+  "Obedience With Ease": [
+    "Lord, your yoke is easy and your burden is light. Where I have made obedience heavy by resisting, align my heart with yours so that following becomes natural rather than forced.",
+    "Father, let love be the engine of my obedience. I do not want to obey from fear, performance, or guilt. Teach me the obedience that flows from delight in you.",
+    "Holy God, give me the quick yes — the immediate, uncomplicated obedience of one who trusts the goodness of the One who is asking. Soften my resistance and clarify your voice.",
+  ],
+  "Peace That Passes Understanding": [
+    "Lord, I bring my anxious thoughts to you in prayer, with thanksgiving. Guard my heart and mind with the peace that passes understanding, even though my situation has not yet changed.",
+    "Father, the world's peace is fragile and conditional. Yours is not. Let your peace settle over me now — deeper than reassurance, deeper than control, deeper than circumstance.",
+    "Holy God, where the storm is loud, speak peace. Where my mind is racing, still it. Let me know experientially that you are with me, and let that knowing be my rest.",
+  ],
+  "Guidance & Discernment": [
+    "Lord, if any of us lacks wisdom, let us ask of God who gives generously without reproach. I ask now. Give me wisdom for the decision before me and the situation around me.",
+    "Father, you have promised to instruct and teach me in the way I should go. Make your way clear. Quiet the voices that confuse me, and let your voice be the one I follow.",
+    "Holy God, guard me from confusing my preferences with your leading. Give me genuine discernment — the ability to tell your voice from my own, and your timing from my impatience.",
+  ],
+  "Patience & Timing": [
+    "Lord, teach me to wait without growing bitter and to move without running ahead. Let my timing align with yours rather than with my impatience.",
+    "Father, you have made everything beautiful in its time. Where I am tempted to manufacture what is not yet ready, give me peace in the waiting and trust in the unseen work.",
+    "Holy God, wait on the Lord; be of good courage, and he shall strengthen your heart. Strengthen mine. Let me wait actively — in faith, not in passivity — until your timing becomes clear.",
+  ],
+  "Surrender With Strength": [
+    "Lord, not my will, but yours be done. I yield the outcomes I have been negotiating with you. Take them. I trust your love for me more than I trust my plan for me.",
+    "Father, I present my body, soul, and spirit as a living sacrifice. Surrender is not weakness — it is the strongest act of trust I can offer you. Receive it now.",
+    "Holy God, where I have confused surrender with self-erasure, teach me the difference. To surrender to you is to become more myself, not less. Let me yield without losing who you made me to be.",
   ],
 };
 
