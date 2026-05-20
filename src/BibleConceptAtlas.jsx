@@ -1,7 +1,9 @@
 import React, { useEffect, useMemo, useState } from "react";
+import { prayerThemes } from "./data/prayerThemes";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "✦" },
+  { id: "themes", label: "Prayer Themes", icon: "✼" },
   { id: "commandments", label: "10 Commandments", icon: "✥" },
   { id: "virtues", label: "Virtues", icon: "✧" },
   { id: "sins", label: "7 Deadly Sins", icon: "☿" },
@@ -898,6 +900,9 @@ const prayerData = {
 };
 
 function getPrayers(item, type) {
+  if (item?.prayers && Array.isArray(item.prayers) && item.prayers.length) {
+    return item.prayers;
+  }
   const key = item.title || item.name || item.circle;
   return prayerData[type]?.[key] || null;
 }
@@ -978,7 +983,7 @@ function Pill({ children, tone = "default" }) {
 function DetailModal({ item, onClose, type, onPray }) {
   if (!item) return null;
 
-  const entries = Object.entries(item).filter(([key]) => !["id", "title", "name", "circle"].includes(key));
+  const entries = Object.entries(item).filter(([key]) => !["id", "title", "name", "circle", "prayers"].includes(key));
   const heading = item.title || item.name || `Circle ${item.circle}`;
   const prayers = getPrayers(item, type);
 
@@ -1031,7 +1036,7 @@ function DetailModal({ item, onClose, type, onPray }) {
 
 function ConceptCard({ item, type, onOpen, onPray }) {
   const title = item.title || item.name;
-  const subtitle = item.short || item.family || item.sin || item.category || item.tradition;
+  const subtitle = item.short || item.subtitle || item.family || item.sin || item.category || item.tradition;
   const body = item.summary || item.focus || item.distortion || item.meaning || item.association;
   const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold";
   const prayers = getPrayers(item, type);
@@ -1082,6 +1087,58 @@ function GridView({ items, type, onOpen, onPray }) {
 }
 
 function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
+  if (tabId === "themes") {
+    const populated = searchable.themes.filter((cat) => cat.themes.length > 0);
+    const empty = searchable.themes.filter((cat) => cat.themes.length === 0);
+    return (
+      <div>
+        <SectionHeader eyebrow="Prayer rhythms" title="Prayer Themes">
+          A library of guided prayers organized by season of the soul. Open a theme to read the focus, a reflection question, and three prayers you can pray right now.
+        </SectionHeader>
+
+        <div className="space-y-12">
+          {populated.map((cat) => (
+            <div key={cat.id}>
+              <div className="mb-3 flex items-baseline gap-3">
+                <span className="text-2xl text-amber-300/80">{cat.icon}</span>
+                <h3 className="text-2xl font-black text-white md:text-3xl">{cat.category}</h3>
+              </div>
+              {cat.description && (
+                <p className="mb-5 max-w-3xl text-sm leading-7 text-slate-300">{cat.description}</p>
+              )}
+              <GridView items={cat.themes} type="themes" onOpen={openModal} onPray={openPrayer} />
+            </div>
+          ))}
+
+          {empty.length > 0 && (
+            <div>
+              <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-slate-400">
+                Coming next
+              </div>
+              <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-3">
+                {empty.map((cat) => (
+                  <div
+                    key={cat.id}
+                    className="rounded-3xl border border-white/10 bg-white/[0.03] p-5"
+                  >
+                    <div className="mb-2 flex items-baseline gap-2">
+                      <span className="text-lg text-slate-400">{cat.icon}</span>
+                      <h4 className="text-base font-bold text-slate-200">{cat.category}</h4>
+                    </div>
+                    {cat.description && (
+                      <p className="text-xs leading-6 text-slate-400">{cat.description}</p>
+                    )}
+                    <p className="mt-3 text-xs italic text-slate-500">Themes coming soon.</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    );
+  }
+
   if (tabId === "commandments") {
     return (
       <div>
@@ -1301,6 +1358,13 @@ export default function BibleConceptAtlas({ onBack }) {
       if (!lower) return items;
       return items.filter((item) => JSON.stringify(item).toLowerCase().includes(lower));
     };
+    const filterThemes = (cats) => {
+      if (!lower) return cats;
+      return cats.map((cat) => ({
+        ...cat,
+        themes: cat.themes.filter((t) => JSON.stringify(t).toLowerCase().includes(lower)),
+      }));
+    };
     return {
       commandments: filterItems(commandments),
       virtues: filterItems(virtues),
@@ -1312,6 +1376,7 @@ export default function BibleConceptAtlas({ onBack }) {
       wheelEmotions: filterItems(wheelEmotions),
       wheelSpirit: filterItems(wheelSpiritRealities),
       wheelBody: filterItems(wheelBodySymptoms),
+      themes: filterThemes(prayerThemes),
     };
   }, [query]);
 
