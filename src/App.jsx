@@ -6,6 +6,7 @@ import BibleConceptAtlas from './BibleConceptAtlas';
 import PsychologyPortal from './PsychologyPortal';
 import InnerBalanceAtlas from './InnerBalanceAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
+import NevilleGoddardPortal from './NevilleGoddardPortal';
 
 export default function App() {
   const [page, setPage] = useState('home');
@@ -16,5 +17,6 @@ export default function App() {
   if (page === 'psychology')   return <PsychologyPortal onBack={() => setPage('home')} onNavigate={setPage} />;
   if (page === 'innerbalance') return <InnerBalanceAtlas onBack={() => setPage('home')} onNavigate={setPage} />;
   if (page === 'frameworks')   return <FrameworkAtlas onBack={() => setPage('home')} />;
+  if (page === 'neville')      return <NevilleGoddardPortal onBack={() => setPage('home')} />;
   return <HomePage onNavigate={setPage} />;
 }

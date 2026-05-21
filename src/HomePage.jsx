@@ -88,6 +88,23 @@ export default function HomePage({ onNavigate }) {
       hoverBorder: 'rgba(122,171,121,0.48)',
     },
     {
+      id: 'neville',
+      icon: '✧',
+      badge: 'Neville Goddard Portal',
+      badgeColor: 'rgba(139,92,246,0.14)',
+      badgeBorder: 'rgba(139,92,246,0.32)',
+      badgeText: '#ddd6fe',
+      title: 'Neville\nGoddard',
+      description: 'A visual operating system for Neville\'s work — Living in the End, SATS, Revision, Mental Diet, phrase analyzer, and state-builder tools.',
+      keywords: ['Assumption', 'Imagination', 'SATS', 'Revision'],
+      cta: 'Enter Portal',
+      ctaColor: '#c4b5fd',
+      iconBg: 'linear-gradient(135deg, rgba(139,92,246,0.4), rgba(6,182,212,0.2))',
+      iconBorder: 'rgba(139,92,246,0.4)',
+      glowColor: 'rgba(139,92,246,0.22)',
+      hoverBorder: 'rgba(139,92,246,0.48)',
+    },
+    {
       id: 'frameworks',
       icon: '✦',
       badge: 'Framework Atlas',
@@ -194,7 +211,7 @@ export default function HomePage({ onNavigate }) {
           lineHeight: 1.7,
           marginBottom: 'clamp(40px, 7vw, 64px)',
         }}>
-          Six tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, and the world's best thinking frameworks.
+          Seven tools for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, manifestation, and the world's best thinking frameworks.
         </p>
 
         {/* Portal cards */}
