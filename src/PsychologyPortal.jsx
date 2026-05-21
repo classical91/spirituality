@@ -391,6 +391,21 @@ export default function PsychologyPortal({ onBack, onNavigate }) {
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
+  const [todayCard, setTodayCard] = useState(() => {
+    try {
+      return JSON.parse(window.localStorage.getItem("nevville-today-card") || "null");
+    } catch {
+      return null;
+    }
+  });
+  const [checkins, setCheckins] = useState(() => {
+    const date = new Date().toISOString().slice(0, 10);
+    try {
+      const parsed = JSON.parse(window.localStorage.getItem("neville-checkins") || "null");
+      if (parsed?.date === date) return parsed;
+    } catch {}
+    return { date, morning: false, midday: false, night: false };
+  });
 
   const filtered = useMemo(() => {
     const lower = query.trim().toLowerCase();
@@ -400,6 +415,24 @@ export default function PsychologyPortal({ onBack, onNavigate }) {
 
   const openDetail = (item) => setModal(item);
   const openReflection = (item) => setReflectionModal(item);
+  const quickStart = () => {
+    const card = {
+      createdAt: new Date().toLocaleString(),
+      identity: "I am loved, chosen, and secure now.",
+      sats: "I hear: ‘I love being with you.’ It feels natural and done.",
+      revision: "I remember when I felt uncertain. Now I live from security.",
+      mentalDiet: "This is the old state. I return to the fulfilled one.",
+    };
+    setTodayCard(card);
+    window.localStorage.setItem("nevville-today-card", JSON.stringify(card));
+  };
+  const toggleCheckin = (slot) => {
+    setCheckins((current) => {
+      const next = { ...current, [slot]: !current[slot] };
+      window.localStorage.setItem("neville-checkins", JSON.stringify(next));
+      return next;
+    });
+  };
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#0e3a4a,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100">
@@ -536,6 +569,16 @@ export default function PsychologyPortal({ onBack, onNavigate }) {
                 </div>
 
                 <div className="mt-6 grid gap-4 lg:grid-cols-2">
+                  <div className="rounded-3xl border border-emerald-300/20 bg-emerald-400/5 p-6">
+                    <h3 className="text-xl font-bold text-white">Start here (5 minutes)</h3>
+                    <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
+                      <li><strong className="text-white">1.</strong> Choose desire: one sentence only.</li>
+                      <li><strong className="text-white">2.</strong> Choose identity: “I am already...”</li>
+                      <li><strong className="text-white">3.</strong> Loop one SATS scene for 60–90 seconds.</li>
+                      <li><strong className="text-white">4.</strong> Pick one mental diet line and carry it today.</li>
+                    </ol>
+                    <button onClick={quickStart} className="mt-5 rounded-2xl bg-white px-4 py-2 text-sm font-black text-slate-900">Generate Today Card</button>
+                  </div>
                   <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
                     <h3 className="text-xl font-bold text-white">How to use this portal</h3>
                     <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
@@ -549,6 +592,33 @@ export default function PsychologyPortal({ onBack, onNavigate }) {
                     <h3 className="text-xl font-bold text-white">The core question</h3>
                     <p className="mt-4 text-2xl font-black leading-tight text-cyan-300">"Am I acting from security or from fear?"</p>
                     <p className="mt-3 text-sm leading-6 text-slate-300">Every framework in this portal is a different angle on this one question. The goal is not to eliminate fear — it is to stop letting fear be the one making decisions.</p>
+                  </div>
+                </div>
+                <div className="mt-6 grid gap-4 lg:grid-cols-2">
+                  <div className="rounded-3xl border border-violet-300/20 bg-violet-300/5 p-6">
+                    <h3 className="text-xl font-bold text-white">Today Card</h3>
+                    {!todayCard ? <p className="mt-3 text-sm text-slate-300">Generate your quick card to pin your daily identity and practice lines.</p> : (
+                      <div className="mt-4 space-y-2 text-sm text-slate-200">
+                        <p><strong>Identity:</strong> {todayCard.identity}</p>
+                        <p><strong>SATS:</strong> {todayCard.sats}</p>
+                        <p><strong>Revision:</strong> {todayCard.revision}</p>
+                        <p><strong>Mental diet:</strong> {todayCard.mentalDiet}</p>
+                      </div>
+                    )}
+                  </div>
+                  <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
+                    <h3 className="text-xl font-bold text-white">Daily check-in</h3>
+                    <div className="mt-4 space-y-2 text-sm">
+                      {[
+                        ["morning", "Morning state set"],
+                        ["midday", "Midday reset done"],
+                        ["night", "Night SATS done"],
+                      ].map(([key, label]) => (
+                        <button key={key} onClick={() => toggleCheckin(key)} className="flex w-full items-center justify-between rounded-xl border border-white/10 bg-black/20 px-3 py-2">
+                          <span>{label}</span><span>{checkins[key] ? "✅" : "◻"}</span>
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
 
