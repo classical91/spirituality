@@ -1,5 +1,6 @@
 import { useState, useCallback, useMemo, useEffect } from 'react';
 import './NatalChartDecoder.css';
+import SafetyNote from './components/SafetyNote';
 
 const planets = [
   { name: "Sun", symbol: "☉", metal: "Gold", metalSymbol: "Au", metalMeaning: "Gold symbolizes vitality, royalty, incorruptibility, radiance, life force, and the centered self.", symbolicBridge: "Sun and gold both point to the center: the radiant, visible, life-giving principle.", keywords: "identity, vitality, confidence, purpose", meaning: "The Sun shows your core identity, life force, confidence, and the part of you that wants to become fully expressed.", beginner: "Think of the Sun as the center of the chart. It shows the main character energy.", deeper: "The Sun is not every part of your personality. It is the part that seeks coherence, direction, visibility, and conscious self-expression.", watch: "Do not reduce the whole chart to the Sun sign. It is important, but it is only one piece.", example: "Sun in Leo in the 10th House may seek recognition through creativity, leadership, or public achievement." },
@@ -249,6 +250,7 @@ export default function NatalChartDecoder({ onBack }) {
               <div className="eyebrow">✧ Astrology + alchemy learning interface</div>
               <h2>Decode the chart through <span>meaning layers.</span></h2>
               <p>This version keeps the natal chart formula simple, then adds the older symbolic layer: planets, metals, signs, houses, aspects, and popup explanations for each one.</p>
+              <SafetyNote tone="symbolic" className="mt-3" />
             </div>
             <div className="formula-card">
               <h3>The main formula</h3>
