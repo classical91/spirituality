@@ -1,4 +1,4 @@
-import React, { useMemo, useState, useEffect, useRef } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 
 const frameworks = [
   {
@@ -1619,93 +1619,60 @@ function Glossary() {
   );
 }
 
-function NavDropdown({ items, onSelect }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
+const concepts = [
+  { id: "living-end",        category: "Framework",       title: "Living in the End",     blurb: "Assume the wish fulfilled and become the version of you for whom it is already true.", color: "from-indigo-500 to-violet-500" },
+  { id: "sats",              category: "Framework",       title: "SATS",                  blurb: "The state akin to sleep: impress the subconscious with a short fulfilled scene.",     color: "from-cyan-500 to-blue-500" },
+  { id: "feeling-secret",    category: "Framework",       title: "Feeling Is the Secret", blurb: "The feeling of reality gives an assumption its power.",                                color: "from-rose-500 to-orange-500" },
+  { id: "revision",          category: "Framework",       title: "Revision",              blurb: "Rewrite the meaning of a past event so it no longer controls your present state.",     color: "from-emerald-500 to-teal-500" },
+  { id: "mental-diet",       category: "Framework",       title: "Mental Diet",           blurb: "Stop feeding thoughts that contradict the identity you are choosing.",                color: "from-amber-500 to-yellow-500" },
+  { id: "inner-conversation",category: "Framework",       title: "Inner Conversations",   blurb: "Your repeated inner conversations reveal the state you are occupying.",               color: "from-fuchsia-500 to-pink-500" },
+  { id: "diagrams",          category: "Visual",          title: "Flow Diagrams",         blurb: "Three diagrams: the assumption loop, the ladder of naturalness, and the revision path.", color: "from-violet-500 to-cyan-500" },
+  { id: "key-parallels",     category: "Modern Parallels",title: "Modern Translations",   blurb: "Modern self-development terms mapped to Neville's original language.",                color: "from-cyan-500 to-violet-500" },
+  { id: "core-principles",   category: "Foundations",     title: "Inner State Principles",blurb: "Inner state, not external images, drives manifestation.",                            color: "from-violet-500 to-blue-500" },
+  { id: "time-anchors",      category: "Awareness",       title: "Time Anchors",          blurb: "Words that collapse future simulation and past replay back into now.",                color: "from-blue-500 to-violet-500" },
+  { id: "subconscious-stack",category: "Inner Stack",     title: "Subconscious Stack",    blurb: "What the subconscious responds to strongest: feeling, identity, certainty, vividness.", color: "from-cyan-500 to-violet-500" },
+  { id: "tone-vs-state",     category: "Distinction",     title: "Tone vs State",         blurb: "Wanting vs having: which emotional tone are you actually living from?",              color: "from-amber-500 to-rose-500" },
+  { id: "bridge-states",     category: "Diagnosis",       title: "Bridge States",         blurb: "Words like 'strive', 'try', 'attract' that quietly imply you are not there yet.",     color: "from-amber-500 to-red-500" },
+  { id: "state-blockers",    category: "Diagnosis",       title: "State Blockers",        blurb: "Lack, limiting beliefs, shadows, pitfalls, straining, unbelief — and the shift.",     color: "from-rose-500 to-orange-500" },
+  { id: "phrase-analyzer",   category: "Tool",            title: "Phrase Analyzer",       blurb: "Type a phrase and see whether it lives in the end or in waiting.",                     color: "from-emerald-500 to-cyan-500" },
+  { id: "state-builder",     category: "Tool",            title: "State Builder",         blurb: "Generate a clean Neville practice card from your desire, identity, and SATS scene.",   color: "from-fuchsia-500 to-violet-500" },
+  { id: "word-verdicts",     category: "Language",        title: "Word Verdicts",         blurb: "Expect, assume, accept, know, it is done — which words close the loop?",              color: "from-cyan-500 to-violet-500" },
+  { id: "agreeing",          category: "Language",        title: "Agreement Phase",       blurb: "Inner consent: the moment you stop arguing with the desire.",                          color: "from-violet-500 to-fuchsia-500" },
+  { id: "simple-formula",    category: "Practice",        title: "Simple Formula",        blurb: "Imagine, feel, rest, receive — the quick Neville flow.",                              color: "from-slate-400 to-violet-500" },
+  { id: "power-ladder",      category: "Language",        title: "Power Ladder",          blurb: "Where 'I am', 'I have', 'I know', and 'It is done' sit on the assumption ladder.",    color: "from-amber-500 to-rose-500" },
+  { id: "demos",             category: "Examples",        title: "Demonstrations",        blurb: "Before-and-after inner-state examples for scenes, conversations, and revision.",       color: "from-emerald-500 to-cyan-500" },
+  { id: "daily-practice",    category: "Practice",        title: "Daily Practice",        blurb: "A simple Neville routine for morning, midday, and night.",                            color: "from-blue-500 to-cyan-500" },
+  { id: "glossary",          category: "Reference",       title: "Glossary",              blurb: "Neville's terms — state, assumption, naturalness, revision — translated plainly.",   color: "from-violet-500 to-blue-500" },
+];
 
-  useEffect(() => {
-    if (!open) return;
-    const handleClick = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) setOpen(false);
-    };
-    const handleKey = (event) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("keydown", handleKey);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [open]);
-
+function ConceptCard({ concept, onSelect }) {
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
-      >
-        <span>Jump to section</span>
-        <span className={`text-xs transition-transform ${open ? "rotate-180" : ""}`}>▾</span>
-      </button>
-      {open && (
-        <div
-          role="menu"
-          className="absolute right-0 z-50 mt-2 max-h-96 w-72 overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0d18]/95 p-2 shadow-2xl shadow-black/60 backdrop-blur"
-        >
-          {items.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                onSelect(item);
-                setOpen(false);
-              }}
-              className="block w-full rounded-xl px-3 py-2 text-left text-sm font-semibold text-white/75 transition hover:bg-white/[0.08] hover:text-white"
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-      )}
-    </div>
+    <button
+      type="button"
+      onClick={() => onSelect(concept.id)}
+      className="group relative overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/[0.05] p-5 text-left transition hover:-translate-y-0.5 hover:border-white/25 hover:bg-white/[0.09]"
+    >
+      <div className={`mb-4 h-2 w-24 rounded-full bg-gradient-to-r ${concept.color}`} />
+      <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-white/45">{concept.category}</p>
+      <h3 className="text-xl font-black text-white">{concept.title}</h3>
+      <p className="mt-3 text-sm leading-6 text-white/60">{concept.blurb}</p>
+      <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white/75 transition group-hover:text-white">
+        Open <span className="transition group-hover:translate-x-0.5">→</span>
+      </span>
+    </button>
   );
 }
 
-export default function NevilleGoddardPortal({ onBack }) {
-  const [activeId, setActiveId] = useState("living-end");
-  const selected = frameworks.find((item) => item.id === activeId) || frameworks[0];
-
-  const navChips = [
-    { label: "Living in the End", target: "frameworks", frameworkId: "living-end" },
-    { label: "SATS", target: "frameworks", frameworkId: "sats" },
-    { label: "Revision", target: "frameworks", frameworkId: "revision" },
-    { label: "Key Parallels", target: "key-parallels" },
-    { label: "Inner State", target: "inner-state" },
-    { label: "Time Anchors", target: "time-anchors" },
-    { label: "Subconscious Stack", target: "subconscious-stack" },
-    { label: "Tone vs State", target: "tone-vs-state" },
-    { label: "Bridge States", target: "bridge-states" },
-    { label: "State Blockers", target: "state-blockers" },
-    { label: "Phrase Analyzer", target: "phrase-analyzer" },
-    { label: "State Builder", target: "state-builder" },
-    { label: "Word Verdicts", target: "word-verdicts" },
-    { label: "Agreeing", target: "agreeing" },
-    { label: "Simple Formula", target: "simple-formula" },
-    { label: "Power Ladder", target: "power-ladder" },
-    { label: "Mental Diet", target: "frameworks", frameworkId: "mental-diet" },
-  ];
-
-  const scrollToSection = (item) => {
-    if (item.frameworkId) setActiveId(item.frameworkId);
-    window.requestAnimationFrame(() => {
-      document.getElementById(item.target)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-  };
+function NevilleHubLanding({ onBack, onSelectConcept }) {
+  const grouped = useMemo(() => {
+    const order = ["Framework", "Visual", "Modern Parallels", "Foundations", "Awareness", "Inner Stack", "Distinction", "Diagnosis", "Tool", "Language", "Practice", "Examples", "Reference"];
+    const map = new Map();
+    for (const concept of concepts) {
+      if (!map.has(concept.category)) map.set(concept.category, []);
+      map.get(concept.category).push(concept);
+    }
+    return order.filter((category) => map.has(category)).map((category) => [category, map.get(category)]);
+  }, []);
 
   return (
     <div className="min-h-screen bg-[#070713] text-white">
@@ -1724,136 +1691,140 @@ export default function NevilleGoddardPortal({ onBack }) {
         </button>
       )}
 
-      <main className="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
-        <header className="mb-8 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-10">
-          <nav className="mb-12 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div className="flex items-center gap-3">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl">✦</div>
-              <div>
-                <p className="text-sm font-black tracking-wide text-white">Neville Goddard Portal</p>
-                <p className="text-xs text-white/45">Frameworks • Demonstrations • Inner Practice</p>
-              </div>
-            </div>
-            <NavDropdown items={navChips} onSelect={scrollToSection} />
-          </nav>
-
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+      <main className="relative mx-auto max-w-7xl px-5 py-12 sm:px-8 lg:px-10">
+        <header className="mb-12 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-10">
+          <div className="flex items-center gap-3">
+            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl">✦</div>
             <div>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.45em] text-violet-200/60">Imagination Creates Reality</p>
-              <h1 className="text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
-                A visual operating system for Neville's work.
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-                Explore Neville Goddard through frameworks, visual diagrams, phrase diagnostics, state blockers, emotional tone mapping, and step-by-step demonstrations. This is built like a study dashboard for inner work: less vague mysticism, more usable structure.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#frameworks" className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]">Explore frameworks</a>
-                <a href="#demos" className="rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:bg-white/[0.1]">View demonstrations</a>
-              </div>
+              <p className="text-sm font-black tracking-wide text-white">Neville Goddard Portal</p>
+              <p className="text-xs text-white/45">Frameworks • Demonstrations • Inner Practice</p>
             </div>
+          </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-black/25 p-5">
-              <div className="rounded-[1.5rem] bg-gradient-to-br from-white/14 to-white/[0.03] p-5">
-                <div className="mb-5 flex items-center justify-between">
-                  <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Core Map</p>
-                  <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-100/80">Active</span>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    ["Assume", "Choose the fulfilled identity."],
-                    ["Feel", "Let it feel real and natural."],
-                    ["Become", "Move as the person who has it."],
-                    ["Persist", "Return when the old story appears."],
-                  ].map(([word, desc], index) => (
-                    <div key={word} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">{index + 1}</div>
-                      <div>
-                        <p className="font-black text-white">{word}</p>
-                        <p className="text-sm text-white/45">{desc}</p>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
+          <div className="mt-10 max-w-3xl">
+            <p className="mb-4 text-xs font-black uppercase tracking-[0.45em] text-violet-200/60">Imagination Creates Reality</p>
+            <h1 className="text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+              One concept per page.
+            </h1>
+            <p className="mt-6 text-lg leading-8 text-white/65">
+              Each concept is its own focused page. Pick a card to enter, study, and return.
+            </p>
           </div>
         </header>
 
-        <section id="frameworks" className="scroll-mt-8 mb-8 grid gap-5 lg:grid-cols-[0.95fr_1.45fr]">
-          <div className="grid gap-4 lg:max-h-[52rem] lg:overflow-auto lg:pr-2">
-            {frameworks.map((item) => (
-              <FrameworkCard key={item.id} item={item} active={item.id === activeId} onClick={() => setActiveId(item.id)} />
-            ))}
-          </div>
-          <SceneCanvas selected={selected} />
-        </section>
-
-        <section className="mb-8 grid gap-4">
-          {diagrams.map((diagram) => (
-            <FlowDiagram key={diagram.title} diagram={diagram} />
+        <div className="space-y-10">
+          {grouped.map(([category, items]) => (
+            <section key={category}>
+              <h2 className="mb-4 text-xs font-black uppercase tracking-[0.32em] text-white/40">{category}</h2>
+              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                {items.map((concept) => (
+                  <ConceptCard key={concept.id} concept={concept} onSelect={onSelectConcept} />
+                ))}
+              </div>
+            </section>
           ))}
-        </section>
-
-        <ModernParallels />
-        <CorePrinciples />
-        <TimeDistortionAnchors />
-        <SubconsciousResponseStack />
-        <EmotionalToneDistinction />
-        <BridgeStateDetector />
-        <StateBlockersSection />
-        <PhraseAnalyzer />
-        <StateBuilder />
-        <WordVerdictMapper />
-        <AgreeingConsentSection />
-        <SimpleFormula />
-        <PowerLadder />
-
-        <section id="demos" className="mb-8">
-          <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Demonstrations</p>
-              <h2 className="mt-2 text-3xl font-black text-white">Before and after inner-state examples</h2>
-            </div>
-            <p className="max-w-xl text-sm leading-6 text-white/55">Each demo shows the shift from wanting, fearing, or replaying lack into a clean fulfilled-state practice.</p>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {demos.map((demo) => <DemoCard key={demo.title} demo={demo} />)}
-          </div>
-        </section>
-
-        <PracticeTimeline />
-        <Glossary />
-
-        <section className="grid gap-4 lg:grid-cols-3">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 lg:col-span-2">
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Study Notes</p>
-            <h2 className="mt-2 text-3xl font-black text-white">How to read Neville without getting lost</h2>
-            <div className="mt-5 grid gap-4 md:grid-cols-3">
-              <div className="rounded-3xl bg-black/20 p-5">
-                <h3 className="font-black text-white">1. State over sentence</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">The words matter, but the state behind the words matters more. A sentence is a doorway, not the whole house.</p>
-              </div>
-              <div className="rounded-3xl bg-black/20 p-5">
-                <h3 className="font-black text-white">2. Natural over desperate</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">A fulfilled state usually feels calm, steady, and ordinary. Desperation is often the old story wearing a costume.</p>
-              </div>
-              <div className="rounded-3xl bg-black/20 p-5">
-                <h3 className="font-black text-white">3. Persist over force</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">Persistence means returning to the chosen state. It does not mean obsessing, spiraling, or micromanaging the outer world.</p>
-              </div>
-            </div>
-          </div>
-
-          <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-violet-500/20 to-cyan-500/10 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/45">Builder Idea</p>
-            <h2 className="mt-2 text-2xl font-black text-white">Next feature to add</h2>
-            <p className="mt-4 text-sm leading-7 text-white/65">
-              Add a personal State Builder form where the user enters a desire, old story, new identity, SATS scene, revision scene, and daily mental diet sentence.
-            </p>
-            <button onClick={() => document.getElementById("state-builder")?.scrollIntoView({ behavior: "smooth", block: "start" })} className="mt-6 w-full rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]">Open State Builder</button>
-          </div>
-        </section>
+        </div>
       </main>
     </div>
   );
+}
+
+function ConceptPageShell({ concept, onBack, children }) {
+  return (
+    <div className="min-h-screen bg-[#070713] text-white">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-[-10%] top-[-10%] h-[32rem] w-[32rem] rounded-full bg-violet-600/20 blur-3xl" />
+        <div className="absolute right-[-12%] top-[18%] h-[30rem] w-[30rem] rounded-full bg-cyan-500/15 blur-3xl" />
+      </div>
+
+      <button
+        onClick={onBack}
+        className="fixed left-4 top-4 z-50 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
+      >
+        ← Back to hub
+      </button>
+
+      <main className="relative mx-auto max-w-6xl px-5 py-16 sm:px-8 lg:px-10">
+        <header className="mb-8">
+          <div className={`mb-5 h-2 w-32 rounded-full bg-gradient-to-r ${concept.color}`} />
+          <p className="text-xs font-black uppercase tracking-[0.45em] text-violet-200/60">{concept.category}</p>
+          <h1 className="mt-3 text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-6xl">{concept.title}</h1>
+          <p className="mt-5 max-w-3xl text-lg leading-8 text-white/65">{concept.blurb}</p>
+        </header>
+        {children}
+      </main>
+    </div>
+  );
+}
+
+function FrameworkConceptPage({ frameworkId }) {
+  const framework = frameworks.find((item) => item.id === frameworkId) || frameworks[0];
+  return <SceneCanvas selected={framework} />;
+}
+
+function DiagramsConceptPage() {
+  return (
+    <div className="grid gap-4">
+      {diagrams.map((diagram) => <FlowDiagram key={diagram.title} diagram={diagram} />)}
+    </div>
+  );
+}
+
+function DemosConceptPage() {
+  return (
+    <div className="grid gap-4 lg:grid-cols-2">
+      {demos.map((demo) => <DemoCard key={demo.title} demo={demo} />)}
+    </div>
+  );
+}
+
+function renderConcept(conceptId) {
+  switch (conceptId) {
+    case "living-end":
+    case "sats":
+    case "feeling-secret":
+    case "revision":
+    case "mental-diet":
+    case "inner-conversation":
+      return <FrameworkConceptPage frameworkId={conceptId} />;
+    case "diagrams":           return <DiagramsConceptPage />;
+    case "key-parallels":      return <ModernParallels />;
+    case "core-principles":    return <CorePrinciples />;
+    case "time-anchors":       return <TimeDistortionAnchors />;
+    case "subconscious-stack": return <SubconsciousResponseStack />;
+    case "tone-vs-state":      return <EmotionalToneDistinction />;
+    case "bridge-states":      return <BridgeStateDetector />;
+    case "state-blockers":     return <StateBlockersSection />;
+    case "phrase-analyzer":    return <PhraseAnalyzer />;
+    case "state-builder":      return <StateBuilder />;
+    case "word-verdicts":      return <WordVerdictMapper />;
+    case "agreeing":           return <AgreeingConsentSection />;
+    case "simple-formula":     return <SimpleFormula />;
+    case "power-ladder":       return <PowerLadder />;
+    case "demos":              return <DemosConceptPage />;
+    case "daily-practice":     return <PracticeTimeline />;
+    case "glossary":           return <Glossary />;
+    default:                   return null;
+  }
+}
+
+export default function NevilleGoddardPortal({ onBack }) {
+  const [conceptId, setConceptId] = useState(null);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: "auto" });
+  }, [conceptId]);
+
+  if (conceptId) {
+    const concept = concepts.find((item) => item.id === conceptId);
+    if (concept) {
+      return (
+        <ConceptPageShell concept={concept} onBack={() => setConceptId(null)}>
+          {renderConcept(conceptId)}
+        </ConceptPageShell>
+      );
+    }
+  }
+
+  return <NevilleHubLanding onBack={onBack} onSelectConcept={setConceptId} />;
 }
