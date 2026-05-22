@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect, useRef } from "react";
 
 const frameworks = [
   {
@@ -1619,6 +1619,63 @@ function Glossary() {
   );
 }
 
+function NavDropdown({ items, onSelect }) {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+
+  useEffect(() => {
+    if (!open) return;
+    const handleClick = (event) => {
+      if (ref.current && !ref.current.contains(event.target)) setOpen(false);
+    };
+    const handleKey = (event) => {
+      if (event.key === "Escape") setOpen(false);
+    };
+    document.addEventListener("mousedown", handleClick);
+    document.addEventListener("keydown", handleKey);
+    return () => {
+      document.removeEventListener("mousedown", handleClick);
+      document.removeEventListener("keydown", handleKey);
+    };
+  }, [open]);
+
+  return (
+    <div ref={ref} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((value) => !value)}
+        aria-expanded={open}
+        aria-haspopup="menu"
+        className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
+      >
+        <span>Jump to section</span>
+        <span className={`text-xs transition-transform ${open ? "rotate-180" : ""}`}>▾</span>
+      </button>
+      {open && (
+        <div
+          role="menu"
+          className="absolute right-0 z-50 mt-2 max-h-96 w-72 overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0d18]/95 p-2 shadow-2xl shadow-black/60 backdrop-blur"
+        >
+          {items.map((item) => (
+            <button
+              key={item.label}
+              type="button"
+              role="menuitem"
+              onClick={() => {
+                onSelect(item);
+                setOpen(false);
+              }}
+              className="block w-full rounded-xl px-3 py-2 text-left text-sm font-semibold text-white/75 transition hover:bg-white/[0.08] hover:text-white"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function NevilleGoddardPortal({ onBack }) {
   const [activeId, setActiveId] = useState("living-end");
   const selected = frameworks.find((item) => item.id === activeId) || frameworks[0];
@@ -1677,17 +1734,7 @@ export default function NevilleGoddardPortal({ onBack }) {
                 <p className="text-xs text-white/45">Frameworks • Demonstrations • Inner Practice</p>
               </div>
             </div>
-            <div className="flex max-w-4xl flex-wrap gap-2 text-xs font-semibold text-white/55">
-              {navChips.map((chip) => (
-                <button
-                  key={chip.label}
-                  onClick={() => scrollToSection(chip)}
-                  className="rounded-full border border-white/10 bg-black/20 px-3 py-2 text-left transition hover:border-white/30 hover:bg-white/[0.09] hover:text-white focus:outline-none focus:ring-2 focus:ring-white/25"
-                >
-                  {chip.label}
-                </button>
-              ))}
-            </div>
+            <NavDropdown items={navChips} onSelect={scrollToSection} />
           </nav>
 
           <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
