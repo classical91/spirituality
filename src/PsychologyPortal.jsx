@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "◈" },
@@ -403,7 +403,9 @@ export default function PsychologyPortal({ onBack, onNavigate }) {
     try {
       const parsed = JSON.parse(window.localStorage.getItem("neville-checkins") || "null");
       if (parsed?.date === date) return parsed;
-    } catch {}
+    } catch {
+      // ignore corrupt storage
+    }
     return { date, morning: false, midday: false, night: false };
   });
 
