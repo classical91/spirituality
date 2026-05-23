@@ -282,7 +282,7 @@ export default function HomePage({ onNavigate }) {
             marginBottom: 'clamp(28px, 5vw, 40px)',
           }}
         >
-          Seven portals for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, manifestation, and the world's best thinking frameworks.
+          {portals.length} portals for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, manifestation, relationships, and self-mastery.
         </p>
 
         <DailyPrayerCard />
