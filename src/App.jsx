@@ -6,6 +6,7 @@ import BibleConceptAtlas from './BibleConceptAtlas';
 import PsychologyPortal from './PsychologyPortal';
 import InnerBalanceAtlas from './InnerBalanceAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
+import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -17,6 +18,7 @@ const COMPONENTS = {
   psychology: PsychologyPortal,
   innerbalance: InnerBalanceAtlas,
   frameworks: FrameworkAtlas,
+  selfconcept: SelfConceptLanguageStudio,
 };
 
 export default function App() {
