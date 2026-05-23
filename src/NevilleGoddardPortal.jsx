@@ -518,6 +518,220 @@ function getPhraseAnalysis(phrase) {
   };
 }
 
+// ─── Phrase Analyzer helpers (Self-Concept Language Studio) ───────────────
+// Pronoun-aware starters and phrase banks for the analyzer below.
+const PRONOUN_PRESETS = [
+  { id: "neutral",  label: "Neutral",  partner: "the person I love",  possessive: "" },
+  { id: "her",      label: "Her",      partner: "the woman I love",   possessive: "her" },
+  { id: "him",      label: "Him",      partner: "the man I love",     possessive: "his" },
+  { id: "them",     label: "Them",     partner: "the one I love",     possessive: "their" },
+  { id: "partner",  label: "Partner",  partner: "my partner",         possessive: "" },
+];
+
+function starterPhrasesFor(pronoun) {
+  const base = [
+    "I am chosen in love",
+    "I am loved",
+    "I am secure in love",
+    "It feels natural to be loved",
+    "Being loved feels normal to me",
+    "I have a loving relationship",
+  ];
+  if (pronoun.id === "neutral") return base;
+  if (pronoun.id === "her")     return [...base, "I am the man she loves", "I am her man", `${pronoun.possessive ? "Her" : "She"} loves me deeply`];
+  if (pronoun.id === "him")     return [...base, "I am the man he loves", "I am his man", "He loves me deeply"];
+  if (pronoun.id === "them")    return [...base, `I am loved by ${pronoun.partner}`, `${pronoun.partner} loves me deeply`];
+  if (pronoun.id === "partner") return [...base, "My partner loves me deeply", "I am loved by my partner"];
+  return base;
+}
+
+function phraseBanksFor(pronoun) {
+  const partnerPhrase = pronoun.partner;
+  return [
+    {
+      title: "I am statements",
+      tag: "Identity",
+      desc: "Use when the sentence should define who you are, not what you are chasing.",
+      examples: [
+        "I am chosen in love.",
+        "I am loved, valued, and secure.",
+        "I am the kind of person who is cherished.",
+        pronoun.id === "her"     ? "I am the man she loves." :
+        pronoun.id === "him"     ? "I am the man he loves." :
+        pronoun.id === "partner" ? "I am my partner's person." :
+                                   `I am loved by ${partnerPhrase}.`,
+      ],
+    },
+    {
+      title: "I have statements",
+      tag: "Possession / reality",
+      desc: "Use when you want the feeling or relationship to sound already present.",
+      examples: [
+        "I have a loving relationship that feels natural and secure.",
+        "I have love that is steady, warm, and mutual.",
+        `I have ${partnerPhrase} in my life.`,
+        "I have affection, closeness, and loyalty.",
+      ],
+    },
+    {
+      title: "Being statements",
+      tag: "Embodied state",
+      desc: "Use when the phrase should feel lived-in, natural, and emotionally familiar.",
+      examples: [
+        "Being loved feels natural to me.",
+        "Being chosen in love feels normal now.",
+        `Being with ${partnerPhrase} feels steady and real.`,
+        "Being emotionally secure is who I am now.",
+      ],
+    },
+  ];
+}
+
+const TRANSFORMATIONS = [
+  { before: "I want them to choose me.", after: "I am chosen in love.",                  note: "Moves from wanting to identity." },
+  { before: "I hope they love me.",      after: "I am the kind of person who is loved.", note: "Removes uncertainty and makes the role clear." },
+  { before: "I need to feel loved.",     after: "Being loved feels natural to me.",      note: "Softens neediness into embodied normalcy." },
+  { before: "Love is coming to me.",     after: "I have love that feels steady and mutual.", note: "Present possession beats future arrival." },
+];
+
+const ANALYZER_MODES = [
+  { id: "native",     label: "Native",     hint: "Most natural rewrite for what you typed." },
+  { id: "identity",   label: "Identity",   hint: "Force the sentence into 'I am' form." },
+  { id: "experience", label: "Experience", hint: "Phrase it as an embodied feeling, not a fact about you." },
+  { id: "repair",     label: "Repair",     hint: "Detect wanting / needing / hoping and rewrite from the end." },
+];
+
+function normalizePhrase(text) {
+  return text.trim().replace(/\s+/g, " ");
+}
+
+function detectCategory(text) {
+  const t = text.toLowerCase();
+  if (/^i\s+am\b|^i'm\b/.test(t))               return "I am statement";
+  if (/^i\s+have\b|^i've\b/.test(t))            return "I have statement";
+  if (/^being\b/.test(t))                       return "Being statement";
+  if (/^it\s+feels\b|^i\s+feel\b/.test(t))      return "Feeling statement";
+  return "Open phrase";
+}
+
+function checkPresentTense(text) {
+  const t = text.toLowerCase();
+  const future = /\b(will|going to|soon|someday|one day|eventually|about to|trying to|hoping to|waiting for|want to|need to)\b/.test(t);
+  const past   = /\b(was|were|had been|used to)\b/.test(t);
+  if (future) return { status: "Watch", label: "Future leaning", detail: "This points toward waiting instead of already being." };
+  if (past)   return { status: "Watch", label: "Past leaning",   detail: "This describes what happened, not what is true now." };
+  return        { status: "Good",  label: "Present tense",   detail: "This reads as happening now — clean self-concept wording." };
+}
+
+function checkPassiveVoice(text) {
+  const t = text.toLowerCase();
+  const passive   = /\b(am|is|are|was|were|be|being|been)\s+\w+(ed|en)\b/.test(t);
+  const lovedBy   = /\b(am|is|are|being)\s+loved\s+by\b/.test(t);
+  const chosenBy  = /\b(am|is|are|being)\s+chosen\s+by\b/.test(t);
+
+  if (lovedBy || chosenBy) {
+    return { status: "Okay", label: "Passive but usable", detail: "Receiving love is the point. For stronger identity, make the role direct (\"I am loved\")." };
+  }
+  if (passive) {
+    return { status: "Watch", label: "Possible passive voice", detail: "Sounds less direct. Try making yourself the clear subject." };
+  }
+  return { status: "Good", label: "Active and direct", detail: "The sentence feels clear and self-led." };
+}
+
+function detectMisalignment(text) {
+  const t = text.toLowerCase();
+  const notes = [];
+  if (/\b(want|need|hope|trying|waiting|chasing|manifesting|desperate|why won't|when will)\b/.test(t)) {
+    notes.push("Desire/absence signal detected. Try phrasing this as already natural, present, or part of your identity.");
+  }
+  if (/\b(make\s+(her|him|them)|force|control|get\s+(her|him|them)\s+to|convince\s+(her|him|them))\b/.test(t)) {
+    notes.push("Leans toward control. A cleaner phrase centers your identity, not someone else's choice.");
+  }
+  if (/\b(not\s+rejected|not\s+abandoned|not\s+ignored|no longer|stop)\b/.test(t)) {
+    notes.push("Focused on avoiding pain. Name the positive state directly — chosen, secure, loved, prioritized.");
+  }
+  return notes;
+}
+
+function nativeSuggestion(text, mode) {
+  const t = normalizePhrase(text);
+  if (!t) return "Type a sentence to get a native-sounding version.";
+  const low = t.toLowerCase();
+
+  // Repair mode: aggressively rewrite desire-based phrases.
+  if (mode === "repair") {
+    if (/\b(want|hope|trying|waiting)\b/.test(low)) {
+      if (low.includes("love")) return "I am chosen in love.";
+      if (low.includes("rich") || low.includes("money") || low.includes("wealth")) return "I am prosperous and supported by wealth.";
+      return "I am already the person for whom this is natural.";
+    }
+    if (/\bneed\b/.test(low)) return "Being this is already natural to me.";
+  }
+
+  // Identity mode: force I-am form.
+  if (mode === "identity") {
+    if (low.startsWith("i am ") || low.startsWith("i'm ")) return t.replace(/\.$/, "") + ".";
+    if (low.startsWith("being ")) return t.replace(/^being\s+/i, "I am ").replace(/\.$/, "") + ".";
+    if (low.startsWith("it feels ")) return t.replace(/^it feels\s+/i, "I am ").replace(/\.$/, "") + ".";
+    if (low.includes("love")) return "I am chosen in love.";
+    return "I am the kind of person for whom this is true.";
+  }
+
+  // Experience mode: embodied feeling.
+  if (mode === "experience") {
+    if (low.startsWith("being ")) return t.replace(/\.$/, "") + ".";
+    if (low.startsWith("i am ") || low.startsWith("i'm ")) {
+      return t.replace(/^i\s*am\s*/i, "Being ").replace(/^i'm\s+/i, "Being ").replace(/\.$/, "") + " feels natural to me.";
+    }
+    return "Being this feels natural to me.";
+  }
+
+  // Native (default): light-touch polishing.
+  if (low === "i am her man")            return "I am the man she loves.";
+  if (low === "i am his man")            return "I am the man he loves.";
+  if (low === "i am loved by my woman")  return "My woman loves me deeply.";
+  if (low === "it feels great having love") return "It feels great to have love in my life.";
+  if (low.includes("want")  && low.includes("choose")) return "I am chosen in love.";
+  if (low.includes("hope")  && low.includes("love"))   return "I am the kind of person who is loved.";
+  if (low.includes("need")  && low.includes("feel"))   return "Being loved feels natural to me.";
+  if (low.startsWith("i feel ")) return t.replace(/^i feel/i, "I am").replace(/\.$/, "") + ".";
+  return t.endsWith(".") ? t : t + ".";
+}
+
+function identityScore(text) {
+  const t = text.toLowerCase();
+  let score = 52;
+  if (/^i\s+am\b|^i'm\b/.test(t)) score += 22;
+  if (/^being\b/.test(t)) score += 18;
+  if (/^i\s+have\b|^i've\b/.test(t)) score += 14;
+  if (/\b(chosen|loved|valued|secure|cherished|wanted|prioritized|devoted|faithful)\b/.test(t)) score += 16;
+  if (/\b(want|need|hope|trying|waiting|soon|someday|one day|will|manifesting)\b/.test(t)) score -= 25;
+  if (/\bnot|never|no longer|stop\b/.test(t)) score -= 10;
+  if (t.length < 8) score -= 8;
+  return Math.max(0, Math.min(100, score));
+}
+
+const SAVED_PHRASES_KEY = "neville-saved-phrases";
+
+function readSavedPhrases() {
+  if (typeof window === "undefined") return [];
+  try {
+    const raw = JSON.parse(window.localStorage.getItem(SAVED_PHRASES_KEY) || "[]");
+    return Array.isArray(raw) ? raw : [];
+  } catch {
+    return [];
+  }
+}
+
+function writeSavedPhrases(list) {
+  if (typeof window === "undefined") return;
+  try {
+    window.localStorage.setItem(SAVED_PHRASES_KEY, JSON.stringify(list));
+  } catch {
+    // storage may be disabled — ignore
+  }
+}
+
 const simpleFormula = [
   {
     step: "1",
@@ -1225,25 +1439,82 @@ function CopyTextButton({ text, label = "Copy" }) {
 }
 
 function PhraseAnalyzer() {
-  const [phrase, setPhrase] = useState("I am attracting my woman into my life");
-  const analysis = useMemo(() => getPhraseAnalysis(phrase), [phrase]);
+  const [phrase, setPhrase] = useState("I am chosen in love");
+  const [pronounId, setPronounId] = useState("neutral");
+  const [mode, setMode] = useState("native");
+  const [saved, setSaved] = useState(() => readSavedPhrases());
+
+  const pronoun = PRONOUN_PRESETS.find((p) => p.id === pronounId) || PRONOUN_PRESETS[0];
+  const starters = useMemo(() => starterPhrasesFor(pronoun), [pronoun]);
+  const banks = useMemo(() => phraseBanksFor(pronoun), [pronoun]);
+
+  const analysis = useMemo(() => {
+    const cleaned = normalizePhrase(phrase);
+    return {
+      ...getPhraseAnalysis(cleaned),
+      cleaned,
+      category: detectCategory(cleaned),
+      tense: checkPresentTense(cleaned),
+      passive: checkPassiveVoice(cleaned),
+      misalign: detectMisalignment(cleaned),
+      native: nativeSuggestion(cleaned, mode),
+      identityScore: identityScore(cleaned),
+    };
+  }, [phrase, mode]);
 
   const checks = [
-    { label: "Identity", active: analysis.hasIdentity, good: "Starts from I AM", bad: "Not identity-based yet" },
-    { label: "Ownership", active: analysis.hasOwnership, good: "Uses possession", bad: "No direct ownership" },
-    { label: "Certainty", active: analysis.hasKnowing, good: "Carries knowing", bad: "Could use more certainty" },
-    { label: "Now", active: analysis.hasNow, good: "Anchored now", bad: "Could anchor in now" },
-    { label: "Future leak", active: analysis.hasFuture, good: "Future language detected", bad: "No obvious future leak" },
+    { label: "Identity",   active: analysis.hasIdentity,  good: "Starts from I AM",     bad: "Not identity-based yet" },
+    { label: "Ownership",  active: analysis.hasOwnership, good: "Uses possession",      bad: "No direct ownership" },
+    { label: "Certainty",  active: analysis.hasKnowing,   good: "Carries knowing",      bad: "Could use more certainty" },
+    { label: "Now",        active: analysis.hasNow,       good: "Anchored now",         bad: "Could anchor in now" },
+    { label: "Future leak",active: analysis.hasFuture,    good: "Future language detected", bad: "No obvious future leak" },
   ];
+
+  const statusStyles = {
+    Good:  "border-emerald-300/25 bg-emerald-400/15 text-emerald-100",
+    Okay:  "border-sky-300/25 bg-sky-400/15 text-sky-100",
+    Watch: "border-amber-300/25 bg-amber-400/15 text-amber-100",
+  };
+
+  const savePhrase = () => {
+    const text = analysis.native;
+    if (!text || saved.some((s) => s.text === text)) return;
+    const next = [{ text, savedAt: Date.now() }, ...saved].slice(0, 12);
+    setSaved(next);
+    writeSavedPhrases(next);
+  };
+
+  const removeSaved = (text) => {
+    const next = saved.filter((s) => s.text !== text);
+    setSaved(next);
+    writeSavedPhrases(next);
+  };
 
   return (
     <SectionShell
       id="phrase-analyzer"
-      kicker="Phrase Analyzer"
-      title="Check if a sentence is living in the end"
-      description="Type a phrase and the app checks whether it sounds like having, becoming, waiting, trying, or forcing."
+      kicker="Self-Concept Language Studio"
+      title="Turn messy inner wording into clean identity language"
+      description="Type a phrase. The studio checks present tense, passive voice, identity strength, and rewrites desire into 'I am' language."
       className="bg-gradient-to-br from-emerald-500/10 via-white/[0.05] to-cyan-500/10"
     >
+      <div className="mb-4 flex flex-wrap items-center gap-3">
+        <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">Pronoun presets</span>
+        <div className="flex flex-wrap gap-1 rounded-full border border-white/10 bg-white/5 p-1">
+          {PRONOUN_PRESETS.map((p) => (
+            <button
+              key={p.id}
+              onClick={() => setPronounId(p.id)}
+              className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                pronounId === p.id ? "bg-white text-slate-950" : "text-white/55 hover:text-white"
+              }`}
+            >
+              {p.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
           <label className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Your phrase</label>
@@ -1251,10 +1522,10 @@ function PhraseAnalyzer() {
             value={phrase}
             onChange={(event) => setPhrase(event.target.value)}
             className="mt-3 min-h-32 w-full rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-sm leading-7 text-white outline-none placeholder:text-white/30 focus:border-white/30"
-            placeholder="Example: I am attracting my woman into my life"
+            placeholder="Example: I am chosen in love"
           />
           <div className="mt-4 flex flex-wrap gap-2">
-            {["I am her man", "I have a loving relationship", "It is done", "I remember when I used to doubt love"].map((sample) => (
+            {starters.map((sample) => (
               <button
                 key={sample}
                 onClick={() => setPhrase(sample)}
@@ -1264,25 +1535,93 @@ function PhraseAnalyzer() {
               </button>
             ))}
           </div>
+
+          <div className="mt-5 flex flex-wrap items-center gap-3">
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">Rewrite mode</span>
+            <div className="flex flex-wrap gap-1 rounded-full border border-white/10 bg-white/5 p-1">
+              {ANALYZER_MODES.map((m) => (
+                <button
+                  key={m.id}
+                  onClick={() => setMode(m.id)}
+                  title={m.hint}
+                  className={`rounded-full px-3 py-1.5 text-xs font-bold transition ${
+                    mode === m.id ? "bg-white text-slate-950" : "text-white/55 hover:text-white"
+                  }`}
+                >
+                  {m.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-5 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-4">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-cyan-100">Native-sounding version</p>
+                <p className="mt-2 text-lg font-black leading-snug text-white">{analysis.native}</p>
+              </div>
+              <div className="flex gap-2">
+                <CopyTextButton text={analysis.native} />
+                <button
+                  onClick={savePhrase}
+                  className="rounded-xl border border-white/10 bg-white/[0.06] px-3 py-2 text-xs font-black text-white/60 transition hover:bg-white/[0.1] hover:text-white"
+                >
+                  Save
+                </button>
+              </div>
+            </div>
+          </div>
+
+          {saved.length > 0 && (
+            <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">Saved phrases ({saved.length})</p>
+              <ul className="mt-2 space-y-2">
+                {saved.map((s) => (
+                  <li key={s.text} className="flex items-start justify-between gap-3 text-sm text-white/80">
+                    <span className="leading-6">{s.text}</span>
+                    <button
+                      onClick={() => removeSaved(s.text)}
+                      className="rounded-md px-2 py-1 text-xs text-white/35 transition hover:text-white"
+                      aria-label="Remove saved phrase"
+                    >
+                      ✕
+                    </button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
         </div>
 
         <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/70 p-5">
           <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Verdict</p>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Verdict · {analysis.category}</p>
               <h3 className="mt-2 text-3xl font-black text-white">{analysis.verdict}</h3>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-right">
-              <p className="text-xs text-white/40">Power</p>
-              <p className="text-xl font-black text-white">{analysis.score}/100</p>
+              <p className="text-xs text-white/40">Identity</p>
+              <p className="text-xl font-black text-white">{analysis.identityScore}/100</p>
             </div>
           </div>
 
           <div className="mb-4 h-3 overflow-hidden rounded-full bg-black/30">
-            <div className="h-full rounded-full bg-white transition-all" style={{ width: `${analysis.score}%` }} />
+            <div className="h-full rounded-full bg-gradient-to-r from-cyan-400 via-violet-400 to-fuchsia-400 transition-all" style={{ width: `${analysis.identityScore}%` }} />
           </div>
 
           <div className="grid gap-3 md:grid-cols-2">
+            {[analysis.tense, analysis.passive].map((item) => (
+              <div key={item.label} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
+                <div className="flex items-center justify-between gap-2">
+                  <p className="text-sm font-black text-white">{item.label}</p>
+                  <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${statusStyles[item.status]}`}>{item.status}</span>
+                </div>
+                <p className="mt-2 text-xs leading-5 text-white/65">{item.detail}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-3 md:grid-cols-2">
             <InfoBox label="Power level" tone="cyan">{analysis.power}</InfoBox>
             <InfoBox label="End-state rewrite" tone="green">
               <div className="flex items-start justify-between gap-3">
@@ -1297,16 +1636,19 @@ function PhraseAnalyzer() {
               <div key={check.label} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
                 <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/35">{check.label}</p>
                 <p className="mt-2 text-sm leading-6 text-white/70">
-                  {check.label === "Future leak" ? (check.active ? check.good : check.bad) : (check.active ? check.good : check.bad)}
+                  {check.active ? check.good : check.bad}
                 </p>
               </div>
             ))}
           </div>
 
-          {analysis.hits.length > 0 && (
+          {(analysis.misalign.length > 0 || analysis.hits.length > 0) && (
             <div className="mt-4">
-              <InfoBox label="Detected bridge / blocker words" tone="red">
+              <InfoBox label="Misalignment notes" tone="red">
                 <div className="space-y-3">
+                  {analysis.misalign.map((note, i) => (
+                    <p key={`m-${i}`} className="text-white/70">{note}</p>
+                  ))}
                   {analysis.hits.map((hit) => (
                     <div key={hit.label}>
                       <p className="font-black text-white">{hit.label}: {hit.issue}</p>
@@ -1318,6 +1660,55 @@ function PhraseAnalyzer() {
             </div>
           )}
         </div>
+      </div>
+
+      <div className="mt-6 grid gap-5 lg:grid-cols-3">
+        {banks.map((card) => (
+          <article key={card.title} className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-5">
+            <div className="flex items-center justify-between gap-3">
+              <h4 className="text-lg font-black text-white">{card.title}</h4>
+              <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-cyan-100">{card.tag}</span>
+            </div>
+            <p className="mt-2 text-xs leading-5 text-white/50">{card.desc}</p>
+            <div className="mt-4 space-y-2">
+              {card.examples.map((example) => (
+                <div key={example} className="flex items-start justify-between gap-3 rounded-xl border border-white/10 bg-black/25 p-3">
+                  <button
+                    onClick={() => setPhrase(example.replace(/\.$/, ""))}
+                    className="min-w-0 flex-1 text-left text-sm font-semibold leading-6 text-white/85 transition hover:text-white"
+                  >
+                    {example}
+                  </button>
+                  <CopyTextButton text={example} />
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+
+      <div className="mt-6 overflow-hidden rounded-[1.5rem] border border-white/10">
+        <div className="grid grid-cols-2 border-b border-white/10 bg-white/5 text-xs font-black uppercase tracking-[0.2em] text-white/45">
+          <div className="p-3">From wanting</div>
+          <div className="border-l border-white/10 p-3">To being</div>
+        </div>
+        {TRANSFORMATIONS.map((row) => (
+          <div key={row.before} className="grid grid-cols-1 border-b border-white/10 last:border-b-0 sm:grid-cols-2">
+            <div className="bg-slate-950/50 p-3">
+              <p className="text-sm font-bold text-white/75">{row.before}</p>
+              <p className="mt-1 text-[11px] leading-4 text-white/40">{row.note}</p>
+            </div>
+            <div className="flex items-start justify-between gap-3 border-white/10 bg-cyan-300/5 p-3 sm:border-l">
+              <button
+                onClick={() => setPhrase(row.after.replace(/\.$/, ""))}
+                className="text-left text-sm font-black text-white transition hover:text-cyan-100"
+              >
+                {row.after}
+              </button>
+              <CopyTextButton text={row.after} />
+            </div>
+          </div>
+        ))}
       </div>
     </SectionShell>
   );
