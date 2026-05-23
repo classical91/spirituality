@@ -1,4 +1,6 @@
 // Portal catalog. Single source of truth for HomePage cards, routing, and search.
+import { searchSections } from './searchIndex';
+
 export const portals = [
   {
     id: 'chakra',
@@ -268,4 +270,13 @@ export function searchPortals(query) {
       .toLowerCase();
     return haystack.includes(q);
   });
+}
+
+// Cross-portal Deep Search. Returns matching portal cards AND matching
+// section entries from the curated content index.
+export function searchEverything(query) {
+  return {
+    portals: searchPortals(query),
+    sections: query.trim() ? searchSections(query) : [],
+  };
 }

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
-import { portals, portalsById, searchPortals } from './data/portals';
+import { portals, portalsById, searchEverything } from './data/portals';
 import { getRecentPortals } from './lib/storage';
 import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
@@ -161,8 +161,15 @@ export default function HomePage({ onNavigate }) {
   const openSurprise = () => setSurpriseTheme(getRandomPrayerTheme());
   const reshuffleSurprise = () => setSurpriseTheme(getRandomPrayerTheme());
 
-  const filtered = useMemo(() => searchPortals(query), [query]);
+  const { portals: filtered, sections: sectionResults } = useMemo(
+    () => searchEverything(query),
+    [query]
+  );
   const recentSet = useMemo(() => new Set(recentIds), [recentIds]);
+
+  const handleSectionPick = (entry) => {
+    onNavigate(entry.portalId, entry.section ? { section: entry.section } : undefined);
+  };
 
   const recentPortals = recentIds
     .map((id) => portalsById[id])
@@ -309,6 +316,8 @@ export default function HomePage({ onNavigate }) {
           onChange={setQuery}
           resultCount={filtered.length}
           totalCount={portals.length}
+          sectionResults={sectionResults}
+          onSectionPick={handleSectionPick}
         />
 
         {recentPortals.length > 0 && !query && (
@@ -379,7 +388,7 @@ export default function HomePage({ onNavigate }) {
               />
             ))}
           </div>
-        ) : (
+        ) : sectionResults.length === 0 ? (
           <div
             style={{
               padding: '36px 24px',
@@ -391,9 +400,9 @@ export default function HomePage({ onNavigate }) {
               width: '100%',
             }}
           >
-            No portals matched "{query}". Try a broader term — for example "shadow", "mood", or "alchemy".
+            Nothing matched "{query}". Try a broader term — for example "shadow", "mood", or "alchemy".
           </div>
-        )}
+        ) : null}
       </div>
 
       {surpriseTheme && (
