@@ -1209,7 +1209,7 @@ function CopyTextButton({ text, label = "Copy" }) {
       await navigator.clipboard.writeText(text);
       setCopied(true);
       setTimeout(() => setCopied(false), 1400);
-    } catch (error) {
+    } catch {
       setCopied(false);
     }
   };
@@ -1336,7 +1336,7 @@ function StateBuilder() {
     if (typeof window === "undefined") return [];
     try {
       return JSON.parse(window.localStorage.getItem("neville-state-builder") || "[]");
-    } catch (error) {
+    } catch {
       return [];
     }
   });
