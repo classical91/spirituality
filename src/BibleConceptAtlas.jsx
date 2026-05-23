@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react";
+import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "✦" },
@@ -7,6 +8,7 @@ const tabs = [
   { id: "sins", label: "7 Deadly Sins", icon: "☿" },
   { id: "inferno", label: "Dante Inferno", icon: "◉" },
   { id: "demons", label: "Demonology", icon: "♆" },
+  { id: "prayers", label: "Prayer Themes", icon: "✿" },
   { id: "map", label: "Sin Map", icon: "⌁" },
   { id: "wheel", label: "Soul · Spirit · Body", icon: "◈" },
 ];
@@ -895,6 +897,7 @@ const prayerData = {
       "Holy God, the wilderness is not beyond your reach. Whether I carry my own guilt or the projected guilt of others, teach me the difference, help me set down what is not mine, and receive your complete forgiveness.",
     ],
   },
+  themes: prayerTextByTitle,
 };
 
 function getPrayers(item, type) {
@@ -1081,6 +1084,55 @@ function GridView({ items, type, onOpen, onPray }) {
   );
 }
 
+const toneClasses = {
+  blue: {
+    pill: "text-sky-200 bg-sky-500/15 border border-sky-400/20",
+    border: "border-sky-400/15 hover:border-sky-400/35",
+    eyebrow: "text-sky-300/80",
+    btn: "text-sky-300/60 hover:text-sky-200",
+  },
+  gold: {
+    pill: "text-amber-200 bg-amber-500/15 border border-amber-400/20",
+    border: "border-amber-400/15 hover:border-amber-400/35",
+    eyebrow: "text-amber-300/80",
+    btn: "text-amber-300/60 hover:text-amber-200",
+  },
+  green: {
+    pill: "text-emerald-200 bg-emerald-500/15 border border-emerald-400/20",
+    border: "border-emerald-400/15 hover:border-emerald-400/35",
+    eyebrow: "text-emerald-300/80",
+    btn: "text-emerald-300/60 hover:text-emerald-200",
+  },
+  violet: {
+    pill: "text-violet-200 bg-violet-500/15 border border-violet-400/20",
+    border: "border-violet-400/15 hover:border-violet-400/35",
+    eyebrow: "text-violet-300/80",
+    btn: "text-violet-300/60 hover:text-violet-200",
+  },
+};
+
+function PrayerThemeCard({ theme, catLabel, tone, onPray }) {
+  const tc = toneClasses[tone] || toneClasses.blue;
+  const hasPrayers = !!prayerData.themes?.[theme.title];
+  return (
+    <div className={`flex flex-col rounded-2xl border bg-white/[0.03] p-5 transition-colors ${tc.border}`}>
+      <div className={`mb-3 inline-block self-start rounded-full px-2.5 py-1 text-xs font-bold uppercase tracking-[0.15em] ${tc.pill}`}>
+        {catLabel}
+      </div>
+      <h3 className="text-base font-bold text-white">{theme.title}</h3>
+      <p className="mt-1.5 flex-1 text-sm leading-6 text-slate-400">{theme.description}</p>
+      {hasPrayers && (
+        <button
+          onClick={() => onPray({ title: theme.title }, "themes")}
+          className={`mt-4 self-start text-xs font-semibold uppercase tracking-[0.2em] transition-colors ${tc.btn}`}
+        >
+          ✦ Open Prayers
+        </button>
+      )}
+    </div>
+  );
+}
+
 function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
   if (tabId === "commandments") {
     return (
@@ -1144,6 +1196,49 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
           <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
         </div>
         <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
+      </div>
+    );
+  }
+
+  if (tabId === "prayers") {
+    const allThemes = prayerThemesCategories.flatMap((cat) =>
+      cat.themes.map((theme) => ({ ...theme, tone: cat.tone, catLabel: cat.label }))
+    );
+    const pickRandom = () => {
+      const pick = allThemes[Math.floor(Math.random() * allThemes.length)];
+      openPrayer({ title: pick.title }, "themes");
+    };
+    return (
+      <div>
+        <SectionHeader eyebrow="Thematic prayer" title="Prayer Themes">
+          Prayers organized by spiritual posture, the Beatitudes, the Fruits of the Spirit, life seasons, and formation themes — independent of the Ten Commandments framework. Each card opens three prayers for that theme.
+        </SectionHeader>
+        <div className="mb-10 flex items-center gap-4">
+          <button
+            onClick={pickRandom}
+            className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
+          >
+            <span className="text-base">⟳</span> Surprise Me
+          </button>
+          <p className="text-sm text-slate-500">Open a random prayer theme</p>
+        </div>
+        <div className="space-y-12">
+          {prayerThemesCategories.map((cat) => {
+            const tc = toneClasses[cat.tone] || toneClasses.blue;
+            return (
+              <div key={cat.id}>
+                <div className={`mb-1 text-xs font-bold uppercase tracking-[0.35em] ${tc.eyebrow}`}>{cat.eyebrow}</div>
+                <h3 className="mb-2 text-2xl font-black text-white">{cat.label}</h3>
+                <p className="mb-6 max-w-2xl text-sm leading-6 text-slate-400">{cat.description}</p>
+                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                  {cat.themes.map((theme) => (
+                    <PrayerThemeCard key={theme.title} theme={theme} catLabel={cat.label} tone={cat.tone} onPray={openPrayer} />
+                  ))}
+                </div>
+              </div>
+            );
+          })}
+        </div>
       </div>
     );
   }

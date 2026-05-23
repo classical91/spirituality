@@ -1,4 +1,6 @@
 // Portal catalog. Single source of truth for HomePage cards, routing, and search.
+import { searchSections } from './searchIndex';
+
 export const portals = [
   {
     id: 'chakra',
@@ -181,6 +183,40 @@ export const portals = [
     hoverBorder: 'rgba(122,171,121,0.48)',
   },
   {
+    id: 'neville',
+    path: '/neville',
+    icon: '✧',
+    badge: 'Neville Goddard Portal',
+    badgeColor: 'rgba(139,92,246,0.14)',
+    badgeBorder: 'rgba(139,92,246,0.32)',
+    badgeText: '#ddd6fe',
+    title: 'Neville\nGoddard',
+    titleFlat: 'Neville Goddard',
+    description:
+      "A visual operating system for Neville's work — Living in the End, SATS, Revision, Mental Diet, phrase analyzer, and state-builder tools.",
+    keywords: ['Assumption', 'Imagination', 'SATS', 'Revision'],
+    searchTerms: [
+      'neville',
+      'neville goddard',
+      'manifestation',
+      'living in the end',
+      'sats',
+      'state akin to sleep',
+      'revision',
+      'mental diet',
+      'assumption',
+      'imagination',
+      'law of assumption',
+      'i am',
+    ],
+    cta: 'Enter Portal',
+    ctaColor: '#c4b5fd',
+    iconBg: 'linear-gradient(135deg, rgba(139,92,246,0.4), rgba(6,182,212,0.2))',
+    iconBorder: 'rgba(139,92,246,0.4)',
+    glowColor: 'rgba(139,92,246,0.22)',
+    hoverBorder: 'rgba(139,92,246,0.48)',
+  },
+  {
     id: 'frameworks',
     path: '/frameworks',
     icon: '✦',
@@ -234,4 +270,13 @@ export function searchPortals(query) {
       .toLowerCase();
     return haystack.includes(q);
   });
+}
+
+// Cross-portal Deep Search. Returns matching portal cards AND matching
+// section entries from the curated content index.
+export function searchEverything(query) {
+  return {
+    portals: searchPortals(query),
+    sections: query.trim() ? searchSections(query) : [],
+  };
 }
