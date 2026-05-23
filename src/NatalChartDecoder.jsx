@@ -16,18 +16,66 @@ const planets = [
 ];
 
 const signs = [
-  { name: "Aries", symbol: "♈", element: "Fire", modality: "Cardinal", ruler: "Mars", keywords: "direct, bold, fast, instinctive", meaning: "Aries acts through directness, courage, speed, independence, and initiation.", beginner: "Aries starts things.", deeper: "It wants movement, assertion, challenge, and self-directed action.", watch: "Can become impatient, reactive, or overly forceful.", example: "Mars in Aries acts quickly and directly." },
-  { name: "Taurus", symbol: "♉", element: "Earth", modality: "Fixed", ruler: "Venus", keywords: "steady, sensual, loyal, grounded", meaning: "Taurus acts through stability, pleasure, patience, loyalty, and material security.", beginner: "Taurus wants steadiness.", deeper: "It values embodiment, comfort, consistency, beauty, and preservation.", watch: "Can become stubborn, possessive, or resistant to change.", example: "Moon in Taurus may need comfort, routine, and physical calm." },
-  { name: "Gemini", symbol: "♊", element: "Air", modality: "Mutable", ruler: "Mercury", keywords: "curious, verbal, adaptable, mental", meaning: "Gemini acts through curiosity, speech, variety, learning, and quick mental movement.", beginner: "Gemini asks questions.", deeper: "It gathers information, connects ideas, names things, and adapts socially.", watch: "Can become scattered, inconsistent, or overly mental.", example: "Mercury in Gemini may think and speak quickly." },
-  { name: "Cancer", symbol: "♋", element: "Water", modality: "Cardinal", ruler: "Moon", keywords: "emotional, protective, nurturing, sensitive", meaning: "Cancer acts through care, memory, emotional protection, family, and belonging.", beginner: "Cancer protects what it loves.", deeper: "It responds through feeling, attachment, safety needs, and emotional memory.", watch: "Can become defensive, clingy, or ruled by mood.", example: "Venus in Cancer may love through tenderness and emotional care." },
-  { name: "Leo", symbol: "♌", element: "Fire", modality: "Fixed", ruler: "Sun", keywords: "expressive, proud, creative, visible", meaning: "Leo acts through creativity, confidence, warmth, performance, and heart-led expression.", beginner: "Leo wants to shine.", deeper: "It seeks recognition, joy, loyalty, and the courage to be seen.", watch: "Can become prideful, dramatic, or approval-seeking.", example: "Sun in Leo may identify with creativity and visibility." },
-  { name: "Virgo", symbol: "♍", element: "Earth", modality: "Mutable", ruler: "Mercury", keywords: "precise, helpful, analytical, practical", meaning: "Virgo acts through refinement, service, analysis, improvement, and practical care.", beginner: "Virgo improves things.", deeper: "It notices details, fixes systems, and turns chaos into usable order.", watch: "Can become critical, anxious, or perfectionistic.", example: "Mercury in Virgo may think carefully and precisely." },
-  { name: "Libra", symbol: "♎", element: "Air", modality: "Cardinal", ruler: "Venus", keywords: "balanced, relational, aesthetic, diplomatic", meaning: "Libra acts through harmony, fairness, beauty, partnership, and social awareness.", beginner: "Libra seeks balance.", deeper: "It compares, relates, negotiates, and understands life through mirrors.", watch: "Can avoid conflict or over-adjust to others.", example: "Venus in Libra may value harmony, beauty, and mutuality." },
-  { name: "Scorpio", symbol: "♏", element: "Water", modality: "Fixed", ruler: "Mars / Pluto", keywords: "intense, private, magnetic, transformative", meaning: "Scorpio acts through depth, intimacy, secrecy, emotional truth, and transformation.", beginner: "Scorpio goes deep.", deeper: "It seeks trust, psychological honesty, loyalty, and powerful emotional bonding.", watch: "Can become suspicious, controlling, or obsessive.", example: "Moon in Scorpio may feel emotions intensely and privately." },
-  { name: "Sagittarius", symbol: "♐", element: "Fire", modality: "Mutable", ruler: "Jupiter", keywords: "expansive, honest, adventurous, philosophical", meaning: "Sagittarius acts through freedom, truth, exploration, wisdom, humor, and meaning.", beginner: "Sagittarius wants expansion.", deeper: "It searches for truth, faith, experience, and a bigger worldview.", watch: "Can become blunt, restless, or avoidant of details.", example: "Jupiter in Sagittarius may grow through travel, teaching, or belief." },
-  { name: "Capricorn", symbol: "♑", element: "Earth", modality: "Cardinal", ruler: "Saturn", keywords: "disciplined, ambitious, serious, strategic", meaning: "Capricorn acts through structure, responsibility, patience, ambition, and long-term effort.", beginner: "Capricorn builds.", deeper: "It wants competence, achievement, respect, maturity, and real-world results.", watch: "Can become rigid, cold, or overly burdened.", example: "Saturn in Capricorn may create strong discipline and responsibility." },
-  { name: "Aquarius", symbol: "♒", element: "Air", modality: "Fixed", ruler: "Saturn / Uranus", keywords: "independent, future-minded, unusual, intellectual", meaning: "Aquarius acts through originality, detachment, systems, innovation, and collective awareness.", beginner: "Aquarius thinks differently.", deeper: "It questions norms, sees patterns, and values freedom of thought.", watch: "Can become detached, rebellious for its own sake, or emotionally distant.", example: "Uranus in Aquarius may intensify originality and independence." },
-  { name: "Pisces", symbol: "♓", element: "Water", modality: "Mutable", ruler: "Jupiter / Neptune", keywords: "dreamy, empathic, spiritual, imaginative", meaning: "Pisces acts through sensitivity, compassion, imagination, spirituality, and emotional merging.", beginner: "Pisces feels everything.", deeper: "It dissolves boundaries and opens the person to dreams, symbols, empathy, and transcendence.", watch: "Can become confused, escapist, or overly porous.", example: "Neptune in Pisces may intensify imagination and spiritual longing." },
+  { name: "Aries", symbol: "♈", element: "Fire", modality: "Cardinal", ruler: "Mars", keywords: "direct, bold, fast, instinctive", meaning: "Aries acts through directness, courage, speed, independence, and initiation.", beginner: "Aries starts things.", deeper: "It wants movement, assertion, challenge, and self-directed action.", watch: "Can become impatient, reactive, or overly forceful.", example: "Mars in Aries acts quickly and directly.", decans: [
+    { range: "0°–9°", subSign: "Aries", subRuler: "Mars", theme: "Pure Aries. Raw, instinctive courage and the unfiltered spark of initiation." },
+    { range: "10°–19°", subSign: "Leo", subRuler: "Sun", theme: "Aries with a Leo flavor. Bold action becomes more expressive, creative, and warm." },
+    { range: "20°–29°", subSign: "Sagittarius", subRuler: "Jupiter", theme: "Aries with a Sagittarius flavor. Action seeks meaning, adventure, and bigger truth." },
+  ] },
+  { name: "Taurus", symbol: "♉", element: "Earth", modality: "Fixed", ruler: "Venus", keywords: "steady, sensual, loyal, grounded", meaning: "Taurus acts through stability, pleasure, patience, loyalty, and material security.", beginner: "Taurus wants steadiness.", deeper: "It values embodiment, comfort, consistency, beauty, and preservation.", watch: "Can become stubborn, possessive, or resistant to change.", example: "Moon in Taurus may need comfort, routine, and physical calm.", decans: [
+    { range: "0°–9°", subSign: "Taurus", subRuler: "Venus", theme: "Pure Taurus. Sensual, grounded, and unhurried — the strongest expression of the sign." },
+    { range: "10°–19°", subSign: "Virgo", subRuler: "Mercury", theme: "Taurus with a Virgo flavor. Steadiness becomes practical, useful, and refined." },
+    { range: "20°–29°", subSign: "Capricorn", subRuler: "Saturn", theme: "Taurus with a Capricorn flavor. Stability becomes disciplined and long-building." },
+  ] },
+  { name: "Gemini", symbol: "♊", element: "Air", modality: "Mutable", ruler: "Mercury", keywords: "curious, verbal, adaptable, mental", meaning: "Gemini acts through curiosity, speech, variety, learning, and quick mental movement.", beginner: "Gemini asks questions.", deeper: "It gathers information, connects ideas, names things, and adapts socially.", watch: "Can become scattered, inconsistent, or overly mental.", example: "Mercury in Gemini may think and speak quickly.", decans: [
+    { range: "0°–9°", subSign: "Gemini", subRuler: "Mercury", theme: "Pure Gemini. Quick, curious, verbal, and mentally restless." },
+    { range: "10°–19°", subSign: "Libra", subRuler: "Venus", theme: "Gemini with a Libra flavor. Curiosity becomes social, charming, and aesthetically tuned." },
+    { range: "20°–29°", subSign: "Aquarius", subRuler: "Uranus", theme: "Gemini with an Aquarius flavor. Thinking becomes inventive, future-minded, and unconventional." },
+  ] },
+  { name: "Cancer", symbol: "♋", element: "Water", modality: "Cardinal", ruler: "Moon", keywords: "emotional, protective, nurturing, sensitive", meaning: "Cancer acts through care, memory, emotional protection, family, and belonging.", beginner: "Cancer protects what it loves.", deeper: "It responds through feeling, attachment, safety needs, and emotional memory.", watch: "Can become defensive, clingy, or ruled by mood.", example: "Venus in Cancer may love through tenderness and emotional care.", decans: [
+    { range: "0°–9°", subSign: "Cancer", subRuler: "Moon", theme: "Pure Cancer. Nurturing, protective, and emotionally instinctive." },
+    { range: "10°–19°", subSign: "Scorpio", subRuler: "Mars / Pluto", theme: "Cancer with a Scorpio flavor. Care becomes intense, private, and psychologically deep." },
+    { range: "20°–29°", subSign: "Pisces", subRuler: "Jupiter / Neptune", theme: "Cancer with a Pisces flavor. Sensitivity softens into dreamy, compassionate, mystical." },
+  ] },
+  { name: "Leo", symbol: "♌", element: "Fire", modality: "Fixed", ruler: "Sun", keywords: "expressive, proud, creative, visible", meaning: "Leo acts through creativity, confidence, warmth, performance, and heart-led expression.", beginner: "Leo wants to shine.", deeper: "It seeks recognition, joy, loyalty, and the courage to be seen.", watch: "Can become prideful, dramatic, or approval-seeking.", example: "Sun in Leo may identify with creativity and visibility.", decans: [
+    { range: "0°–9°", subSign: "Leo", subRuler: "Sun", theme: "Pure Leo. Radiant, confident, expressive, and heart-led." },
+    { range: "10°–19°", subSign: "Sagittarius", subRuler: "Jupiter", theme: "Leo with a Sagittarius flavor. Expression becomes generous, philosophical, and adventurous." },
+    { range: "20°–29°", subSign: "Aries", subRuler: "Mars", theme: "Leo with an Aries flavor. Confidence becomes bold, pioneering, and direct." },
+  ] },
+  { name: "Virgo", symbol: "♍", element: "Earth", modality: "Mutable", ruler: "Mercury", keywords: "precise, helpful, analytical, practical", meaning: "Virgo acts through refinement, service, analysis, improvement, and practical care.", beginner: "Virgo improves things.", deeper: "It notices details, fixes systems, and turns chaos into usable order.", watch: "Can become critical, anxious, or perfectionistic.", example: "Mercury in Virgo may think carefully and precisely.", decans: [
+    { range: "0°–9°", subSign: "Virgo", subRuler: "Mercury", theme: "Pure Virgo. Analytical, precise, and oriented to useful service." },
+    { range: "10°–19°", subSign: "Capricorn", subRuler: "Saturn", theme: "Virgo with a Capricorn flavor. Refinement becomes structured, ambitious, and long-game." },
+    { range: "20°–29°", subSign: "Taurus", subRuler: "Venus", theme: "Virgo with a Taurus flavor. Practicality softens into grounded, sensual, and steady." },
+  ] },
+  { name: "Libra", symbol: "♎", element: "Air", modality: "Cardinal", ruler: "Venus", keywords: "balanced, relational, aesthetic, diplomatic", meaning: "Libra acts through harmony, fairness, beauty, partnership, and social awareness.", beginner: "Libra seeks balance.", deeper: "It compares, relates, negotiates, and understands life through mirrors.", watch: "Can avoid conflict or over-adjust to others.", example: "Venus in Libra may value harmony, beauty, and mutuality.", decans: [
+    { range: "0°–9°", subSign: "Libra", subRuler: "Venus", theme: "Pure Libra. Relational, aesthetic, and diplomatic in its purest form." },
+    { range: "10°–19°", subSign: "Aquarius", subRuler: "Uranus", theme: "Libra with an Aquarius flavor. Balance becomes idealistic, inventive, and socially fair." },
+    { range: "20°–29°", subSign: "Gemini", subRuler: "Mercury", theme: "Libra with a Gemini flavor. Harmony becomes verbal, witty, and intellectually agile." },
+  ] },
+  { name: "Scorpio", symbol: "♏", element: "Water", modality: "Fixed", ruler: "Mars / Pluto", keywords: "intense, private, magnetic, transformative", meaning: "Scorpio acts through depth, intimacy, secrecy, emotional truth, and transformation.", beginner: "Scorpio goes deep.", deeper: "It seeks trust, psychological honesty, loyalty, and powerful emotional bonding.", watch: "Can become suspicious, controlling, or obsessive.", example: "Moon in Scorpio may feel emotions intensely and privately.", decans: [
+    { range: "0°–9°", subSign: "Scorpio", subRuler: "Mars / Pluto", theme: "Pure Scorpio. Intense, magnetic, and emotionally penetrating." },
+    { range: "10°–19°", subSign: "Pisces", subRuler: "Jupiter / Neptune", theme: "Scorpio with a Pisces flavor. Depth becomes psychic, dissolving, and spiritually charged." },
+    { range: "20°–29°", subSign: "Cancer", subRuler: "Moon", theme: "Scorpio with a Cancer flavor. Intensity softens into emotional protection and family-deep loyalty." },
+  ] },
+  { name: "Sagittarius", symbol: "♐", element: "Fire", modality: "Mutable", ruler: "Jupiter", keywords: "expansive, honest, adventurous, philosophical", meaning: "Sagittarius acts through freedom, truth, exploration, wisdom, humor, and meaning.", beginner: "Sagittarius wants expansion.", deeper: "It searches for truth, faith, experience, and a bigger worldview.", watch: "Can become blunt, restless, or avoidant of details.", example: "Jupiter in Sagittarius may grow through travel, teaching, or belief.", decans: [
+    { range: "0°–9°", subSign: "Sagittarius", subRuler: "Jupiter", theme: "Pure Sagittarius. Expansive, truth-seeking, and freedom-loving." },
+    { range: "10°–19°", subSign: "Aries", subRuler: "Mars", theme: "Sagittarius with an Aries flavor. Exploration becomes bold, direct, and pioneering." },
+    { range: "20°–29°", subSign: "Leo", subRuler: "Sun", theme: "Sagittarius with a Leo flavor. The search for meaning becomes charismatic, performative, and big-hearted." },
+  ] },
+  { name: "Capricorn", symbol: "♑", element: "Earth", modality: "Cardinal", ruler: "Saturn", keywords: "disciplined, ambitious, serious, strategic", meaning: "Capricorn acts through structure, responsibility, patience, ambition, and long-term effort.", beginner: "Capricorn builds.", deeper: "It wants competence, achievement, respect, maturity, and real-world results.", watch: "Can become rigid, cold, or overly burdened.", example: "Saturn in Capricorn may create strong discipline and responsibility.", decans: [
+    { range: "0°–9°", subSign: "Capricorn", subRuler: "Saturn", theme: "Pure Capricorn. Strategic, disciplined, and oriented toward earned mastery." },
+    { range: "10°–19°", subSign: "Taurus", subRuler: "Venus", theme: "Capricorn with a Taurus flavor. Discipline becomes patient, sensual, and grounded." },
+    { range: "20°–29°", subSign: "Virgo", subRuler: "Mercury", theme: "Capricorn with a Virgo flavor. Ambition becomes analytical, refined, and service-oriented." },
+  ] },
+  { name: "Aquarius", symbol: "♒", element: "Air", modality: "Fixed", ruler: "Saturn / Uranus", keywords: "independent, future-minded, unusual, intellectual", meaning: "Aquarius acts through originality, detachment, systems, innovation, and collective awareness.", beginner: "Aquarius thinks differently.", deeper: "It questions norms, sees patterns, and values freedom of thought.", watch: "Can become detached, rebellious for its own sake, or emotionally distant.", example: "Uranus in Aquarius may intensify originality and independence.", decans: [
+    { range: "0°–9°", subSign: "Aquarius", subRuler: "Saturn / Uranus", theme: "Pure Aquarius. Original, future-minded, and intellectually independent." },
+    { range: "10°–19°", subSign: "Gemini", subRuler: "Mercury", theme: "Aquarius with a Gemini flavor. Innovation becomes communicative, curious, and idea-rich." },
+    { range: "20°–29°", subSign: "Libra", subRuler: "Venus", theme: "Aquarius with a Libra flavor. Detachment warms into humanitarian, relational, justice-tuned." },
+  ] },
+  { name: "Pisces", symbol: "♓", element: "Water", modality: "Mutable", ruler: "Jupiter / Neptune", keywords: "dreamy, empathic, spiritual, imaginative", meaning: "Pisces acts through sensitivity, compassion, imagination, spirituality, and emotional merging.", beginner: "Pisces feels everything.", deeper: "It dissolves boundaries and opens the person to dreams, symbols, empathy, and transcendence.", watch: "Can become confused, escapist, or overly porous.", example: "Neptune in Pisces may intensify imagination and spiritual longing.", decans: [
+    { range: "0°–9°", subSign: "Pisces", subRuler: "Jupiter / Neptune", theme: "Pure Pisces. Dreamy, empathic, and spiritually porous." },
+    { range: "10°–19°", subSign: "Cancer", subRuler: "Moon", theme: "Pisces with a Cancer flavor. Sensitivity becomes nurturing, tender, and emotionally protective." },
+    { range: "20°–29°", subSign: "Scorpio", subRuler: "Mars / Pluto", theme: "Pisces with a Scorpio flavor. Compassion deepens into psychic, transformative, and intense." },
+  ] },
 ];
 
 const houses = [
@@ -173,6 +221,23 @@ function ModalContent({ type, data }) {
         <div className="modal-section"><h4>Deeper layer</h4><p>{data.deeper}</p></div>
         <div className="modal-section"><h4>Watch for</h4><p>{data.watch}</p></div>
         <div className="modal-section"><h4>Example</h4><p>{data.example}</p></div>
+        {data.decans && (
+          <div className="modal-section">
+            <h4>Decans (degrees within the sign)</h4>
+            <p>Each sign is divided into three 10° decans. The first decan is the purest expression of the sign. The second and third decans add the flavor of the next two signs in the same element.</p>
+            <div className="decan-list">
+              {data.decans.map(decan => (
+                <div key={decan.range} className="decan-row">
+                  <div className="decan-head">
+                    <span className="decan-range">{decan.range}</span>
+                    <span className="decan-sub">{decan.subSign} · {decan.subRuler}</span>
+                  </div>
+                  <p>{decan.theme}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </>
     );
   }
@@ -351,17 +416,29 @@ export default function NatalChartDecoder({ onBack }) {
           )}
 
           {activeTab === 'signs' && (
-            <div className="grid grid-4">
-              {signs.map(item => (
-                <article key={item.name} className="card library-card">
-                  <div className="symbol">{item.symbol}</div>
-                  <span className="tag">sign</span>
-                  <h3>{item.name}</h3>
-                  <p>{item.keywords}</p>
-                  <button className="learn-btn" onClick={() => openInfo('sign', item.name)}>Open explanation</button>
-                </article>
-              ))}
-            </div>
+            <>
+              <div className="notice">
+                Each sign spans 30°, divided into three 10° decans. The first decan (0°–9°) is the purest expression of the sign. The second decan (10°–19°) adds the flavor of the next sign in the same element. The third decan (20°–29°) adds the third sign of that element. Open any sign to see its decan breakdown.
+              </div>
+
+              <div className="grid grid-4">
+                {signs.map(item => (
+                  <article key={item.name} className="card library-card">
+                    <div className="symbol">{item.symbol}</div>
+                    <span className="tag">sign</span>
+                    <h3>{item.name}</h3>
+                    <p>{item.keywords}</p>
+                    <button className="learn-btn" onClick={() => openInfo('sign', item.name)}>Open explanation</button>
+                  </article>
+                ))}
+              </div>
+
+              <div className="anaretic-card">
+                <span className="tag">degree note</span>
+                <h3>The 29° Anaretic Degree</h3>
+                <p>The final degree of any sign (29°00′ – 29°59′) is called the anaretic or "degree of fate." It carries karmic weight, urgency, and a sense of unfinished business in that sign. Planets here often feel like a last-chance intensity — mastery, completion, or a final lesson before the energy shifts into the next sign.</p>
+              </div>
+            </>
           )}
 
           {activeTab === 'aspects' && (
