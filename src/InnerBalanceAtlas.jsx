@@ -1094,29 +1094,6 @@ function StressRecovery() {
 }
 
 /* ─────────────────────────────────────────
-   PLACEHOLDER SECTIONS
-───────────────────────────────────────── */
-function PlaceholderSection({ title, icon, description }) {
-  return (
-    <div style={{ display: 'grid', gap: 28 }}>
-      <div className="iba-hero">
-        <div>
-          <h2>{title}</h2>
-          <p>{description}</p>
-        </div>
-        <div className="iba-hero-art" />
-      </div>
-      <div className="iba-card" style={{ textAlign: 'center', padding: '48px 24px' }}>
-        <div style={{ fontSize: 48, marginBottom: 16 }}>{icon}</div>
-        <p style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.7, maxWidth: 400, margin: '0 auto' }}>
-          This section is coming soon. Content will be added here.
-        </p>
-      </div>
-    </div>
-  );
-}
-
-/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate }) {
