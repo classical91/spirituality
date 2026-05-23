@@ -8,6 +8,7 @@ import InnerBalanceAtlas from './InnerBalanceAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
 import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
 import NevilleGoddardPortal from './NevilleGoddardPortal';
+import RelationshipClarityPortal from './RelationshipClarityPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -21,6 +22,7 @@ const COMPONENTS = {
   frameworks: FrameworkAtlas,
   selfconcept: SelfConceptLanguageStudio,
   neville: NevilleGoddardPortal,
+  relationships: RelationshipClarityPortal,
 };
 
 export default function App() {
