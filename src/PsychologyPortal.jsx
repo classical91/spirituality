@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "◈" },
@@ -386,8 +386,11 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
-export default function PsychologyPortal({ onBack, onNavigate }) {
-  const [activeTab, setActiveTab] = useState("overview");
+export default function PsychologyPortal({ onBack, onNavigate, initialSection }) {
+  const validInitial = ["overview", "frameworks", "powerstack", "nutrients"].includes(initialSection)
+    ? initialSection
+    : "overview";
+  const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
@@ -403,7 +406,9 @@ export default function PsychologyPortal({ onBack, onNavigate }) {
     try {
       const parsed = JSON.parse(window.localStorage.getItem("neville-checkins") || "null");
       if (parsed?.date === date) return parsed;
-    } catch {}
+    } catch {
+      // ignore corrupt storage
+    }
     return { date, morning: false, midday: false, night: false };
   });
 

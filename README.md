@@ -1,16 +1,21 @@
-# Chakra 3D Visualizer
+# Sacred Pathways
 
-An interactive seven-chakra wellness and reflection tool built with Vite, React, and Tailwind CSS v4.
+**Spirituality, psychology & symbolic frameworks toolkit.**
 
-## Features
+Sacred Pathways is an interactive, browser-based reflection toolkit built with Vite, React, and Tailwind CSS v4. It bundles six self-contained portals into one explorable app — chakra work, natal astrology, biblical and moral atlases, psychology frameworks, whole-system well-being, and a wider framework atlas.
 
-- **3D-style rotating body model** — click any orb to select a chakra
-- **Detail panel** — location, element, and balanced-state summary per chakra
-- **Affirmation window** — five grounded identity affirmations per chakra (press Esc to close)
-- **Expanded explanation page** — overview, balanced/underactive/overactive patterns, body-mind reflection, pros, watch-outs, practices, and journal prompts (press Esc to close)
-- **Stretch image references** — Google Images search links for yoga poses and stretches
-- **Chakra selector grid** — jump between chakras without using the body model
-- **Pause / Rotate 3D toggle** — freeze or resume the sway and aura-ring animations
+## Portals
+
+| Path | Portal | What it covers |
+|------|--------|----------------|
+| `/chakra` | **Chakra Visualizer** | Seven energy centers across three traditions (Hindu, Ra / Law of One, Alice Bailey), with affirmations, blockage patterns, and stretch references. |
+| `/astrology` | **Natal Chart Decoder** | Planets, signs, houses, aspects, and the alchemical metal correspondences. |
+| `/biblical` | **Biblical Concepts** | Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, and demonology as a study board. |
+| `/psychology` | **Psychology Portal** | Ten frameworks for identity, attachment, CBT, stoicism, somatic work, and shadow integration. |
+| `/inner-balance` | **InnerBalance Atlas** | Nervous system, neurotransmitters, mood, psychophysiology, and daily well-being. |
+| `/frameworks` | **Framework Atlas** | 35 mental models and frameworks from authors, psychologists, strategists, and designers. |
+
+Each portal carries its own symbolic / wellness safety note — content is for reflection and study, not for medical, psychiatric, or spiritual diagnosis.
 
 ## Stack
 
@@ -19,6 +24,8 @@ An interactive seven-chakra wellness and reflection tool built with Vite, React,
 | [Vite](https://vite.dev/) | 8 | Dev server and build |
 | [React](https://react.dev/) | 19 | UI components |
 | [Tailwind CSS v4](https://tailwindcss.com/) | 4 | Utility styling via `@tailwindcss/vite` |
+
+No external client routing or state library — routing uses the browser History API and persistence uses `localStorage`.
 
 ## Getting started
 
@@ -34,53 +41,87 @@ npm run build      # outputs to /dist
 npm run preview    # preview the production build locally
 ```
 
+`preview` runs `vite preview --host 0.0.0.0` and respects the `PORT` env var via Vite defaults. `start` runs `serve dist -s` and respects `PORT` via the `serve` CLI defaults.
+
 ## Linting
 
 ```bash
 npm run lint
 ```
 
+## Continuous integration
+
+GitHub Actions runs `npm ci`, `npm run lint`, and `npm run build` on every push to `main` and every pull request — see `.github/workflows/ci.yml`.
+
 ## Deployment
 
-This is a fully static SPA — no server required. Deploy the `/dist` folder to any static host:
+This is a fully static SPA. Deploy `/dist` to any static host that supports SPA fallback (so that `/chakra`, `/psychology`, etc. resolve to `index.html`):
 
-- **Netlify**: drag-and-drop `/dist`, or connect via Git with build command `npm run build` and publish directory `dist`
-- **Vercel**: `vercel --prod` or connect repo; framework preset Vite
-- **GitHub Pages**: push `/dist` contents to a `gh-pages` branch
+- **Railway** — uses the included `railway.json`; `serve -s` already handles SPA fallback.
+- **Netlify** — drag-and-drop `/dist`, or connect via Git with build command `npm run build` and publish directory `dist`. Add a `_redirects` file with `/* /index.html 200` if needed.
+- **Vercel** — framework preset Vite; SPA rewrites are automatic.
+- **GitHub Pages** — push `/dist` contents to a `gh-pages` branch (note: nested routes need a 404 fallback hack).
 
 ## Project structure
 
 ```
 src/
-  data/
-    chakras.js          # all chakra content and stretch link data
-  Chakra3DVisualizer.jsx  # all UI components (single-file SPA)
-  App.jsx
+  App.jsx                    # Routing shell — maps URL → portal
+  HomePage.jsx               # Landing page with search and recents
   main.jsx
-  index.css             # Tailwind import + global keyframes
+  index.css
+  Chakra3DVisualizer.jsx
+  NatalChartDecoder.jsx
+  BibleConceptAtlas.jsx
+  PsychologyPortal.jsx
+  InnerBalanceAtlas.jsx
+  FrameworkAtlas.jsx
+  VitaminsMineralsAtlas.jsx
+  components/
+    PortalCard.jsx           # Home grid card
+    GlobalSearch.jsx         # Cross-portal search bar
+    SafetyNote.jsx           # Reusable wellness / symbolic disclaimer
+    BackButton.jsx
+  data/
+    portals.js               # Portal catalog (routes, copy, search terms)
+    hinduChakras.js
+    raChakras.js
+    baileyChakras.js
+  hooks/
+    useRoute.js              # History-API routing hook
+  lib/
+    storage.js               # localStorage helpers (recents, last portal)
 ```
+
+## Routing
+
+Each portal has a real URL (`/chakra`, `/astrology`, etc.) backed by `window.history.pushState` — back/forward buttons work, links are shareable, and unknown paths fall back to the home page.
+
+## Persistence
+
+The home page remembers the last few portals visited via `localStorage` (key prefix `sacred-pathways:`). Nothing is sent anywhere — it's local-only progress for a smoother return visit.
 
 ## Content safety
 
-Chakra language in this app is used as a **symbolic wellness framework for self-reflection only**. It is:
+Every portal carries a contextual safety note:
 
-- **Not** medical diagnosis or treatment
-- **Not** a replacement for qualified mental health or medical care
-- Intended to support self-awareness, journaling, and personal exploration
+- **Chakras / InnerBalance / Psychology** — symbolic wellness framing, not medical or psychiatric advice.
+- **Astrology** — symbolic framework for self-reflection, not prophecy or diagnosis.
+- **Biblical / Dante / demonology** — historical, literary, and symbolic study material, not religious authority.
 
 If any content raises concerns about your physical or mental health, consult a licensed healthcare professional.
 
 ## Known limitations
 
 - Content is English-only
-- No user accounts, saved state, or progress tracking
+- No user accounts; only local persistence (`localStorage`)
 - Stretch image links open Google Images — results are not curated by this app
-- No offline mode
+- No offline service worker yet
 
 ## Roadmap ideas
 
-- Add affirmation audio playback
-- Export journal prompts as PDF
-- Add more reflection lenses (astrology, seasons, doshas)
+- Favorites / saved reflections per portal
+- Journal export (PDF / Markdown)
+- More reflection lenses (seasons, doshas, Enneagram)
 - Dark/light mode toggle
 - i18n support
