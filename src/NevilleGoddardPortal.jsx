@@ -99,24 +99,6 @@ const frameworks = [
   },
 ];
 
-const diagrams = [
-  {
-    title: "The Assumption Loop",
-    subtitle: "How inner state becomes the operating system behind perception, behavior, and reflection.",
-    nodes: ["Desire", "Identity", "Feeling", "Assumption", "Action", "Reflection"],
-  },
-  {
-    title: "The Ladder of Naturalness",
-    subtitle: "The desire feels less distant as the state becomes familiar.",
-    nodes: ["Wanting", "Imagining", "Feeling", "Accepting", "Being", "Natural"],
-  },
-  {
-    title: "Revision Path",
-    subtitle: "The old emotional charge gets replaced by a new inner ending.",
-    nodes: ["Memory", "Pause", "Relax", "Rewrite", "Feel", "Release"],
-  },
-];
-
 const keyParallels = [
   {
     modern: "Mental rehearsal",
@@ -956,29 +938,6 @@ function InfoBox({ label, children, tone = "white" }) {
   );
 }
 
-function FrameworkCard({ item, active, onClick }) {
-  return (
-    <button
-      onClick={onClick}
-      className={`group w-full rounded-3xl border p-5 text-left transition-all duration-300 ${
-        active
-          ? "border-white/40 bg-white/[0.12] shadow-2xl shadow-black/30"
-          : "border-white/10 bg-white/[0.06] hover:border-white/25 hover:bg-white/[0.09]"
-      }`}
-    >
-      <div className={`mb-4 h-2 w-28 rounded-full bg-gradient-to-r ${item.color}`} />
-      <div className="flex items-start justify-between gap-4">
-        <div>
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-white/45">{item.tag}</p>
-          <h3 className="text-xl font-black text-white">{item.title}</h3>
-        </div>
-        <span className="rounded-full border border-white/10 bg-black/20 px-3 py-1 text-sm text-white/60 transition group-hover:text-white">Open</span>
-      </div>
-      <p className="mt-3 text-sm leading-6 text-white/65">{item.short}</p>
-    </button>
-  );
-}
-
 function SceneCanvas({ selected }) {
   return (
     <div className="relative overflow-hidden rounded-[2rem] border border-white/10 bg-slate-950 p-6 shadow-2xl">
@@ -1022,28 +981,6 @@ function SceneCanvas({ selected }) {
             </div>
           </div>
         </div>
-      </div>
-    </div>
-  );
-}
-
-function FlowDiagram({ diagram }) {
-  return (
-    <div className="rounded-[2rem] border border-white/10 bg-black/20 p-5">
-      <div className="mb-5">
-        <h3 className="text-lg font-black text-white">{diagram.title}</h3>
-        <p className="mt-1 text-sm text-white/55">{diagram.subtitle}</p>
-      </div>
-      <div className="grid gap-3 md:grid-cols-6">
-        {diagram.nodes.map((node, index) => (
-          <div key={node} className="relative">
-            <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-center shadow-lg">
-              <div className="mx-auto mb-3 flex h-10 w-10 items-center justify-center rounded-full bg-white text-sm font-black text-slate-950">{index + 1}</div>
-              <p className="text-sm font-bold text-white">{node}</p>
-            </div>
-            {index < diagram.nodes.length - 1 && <div className="pointer-events-none absolute left-[calc(100%-0.35rem)] top-1/2 hidden h-px w-5 bg-white/25 md:block" />}
-          </div>
-        ))}
       </div>
     </div>
   );
@@ -2010,7 +1947,88 @@ function Glossary() {
   );
 }
 
-function NavDropdown({ items, onSelect }) {
+function FrameworkPage({ frameworkId }) {
+  const selected = frameworks.find((item) => item.id === frameworkId) || frameworks[0];
+  return <SceneCanvas selected={selected} />;
+}
+
+function DemosSection() {
+  return (
+    <section className="mb-8">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Demonstrations</p>
+          <h2 className="mt-2 text-3xl font-black text-white">Before and after inner-state examples</h2>
+        </div>
+        <p className="max-w-xl text-sm leading-6 text-white/55">Each demo shows the shift from wanting, fearing, or replaying lack into a clean fulfilled-state practice.</p>
+      </div>
+      <div className="grid gap-4 lg:grid-cols-2">
+        {demos.map((demo) => <DemoCard key={demo.title} demo={demo} />)}
+      </div>
+    </section>
+  );
+}
+
+const SECTIONS = [
+  { id: "living-end", label: "Living in the End", kicker: "Framework", group: "Frameworks", short: "Assume the wish fulfilled and let your inner state match the reality already accepted within." },
+  { id: "sats", label: "SATS", kicker: "Framework", group: "Frameworks", short: "State Akin To Sleep — the drowsy threshold for impressing the subconscious." },
+  { id: "feeling-secret", label: "Feeling Is the Secret", kicker: "Framework", group: "Frameworks", short: "The feeling of reality gives an assumption its power." },
+  { id: "revision", label: "Revision", kicker: "Framework", group: "Frameworks", short: "Rewrite the meaning of a past event so it no longer controls your present state." },
+  { id: "mental-diet", label: "Mental Diet", kicker: "Framework", group: "Frameworks", short: "Stop feeding thoughts that contradict the identity you are choosing." },
+  { id: "inner-conversation", label: "Inner Conversations", kicker: "Framework", group: "Frameworks", short: "Your repeated inner conversations reveal the state you are occupying." },
+
+  { id: "key-parallels", label: "Key Parallels", kicker: "Map", group: "Maps & Distinctions", short: "Modern self-development language translated into Neville's vocabulary." },
+  { id: "inner-state", label: "Inner State", kicker: "Principle", group: "Maps & Distinctions", short: "Inner state over external images — the core principle behind every framework." },
+  { id: "tone-vs-state", label: "Tone vs State", kicker: "Distinction", group: "Maps & Distinctions", short: "How the same emotion can either support the end or secretly keep you waiting." },
+  { id: "state-blockers", label: "State Blockers", kicker: "Diagnostic", group: "Maps & Distinctions", short: "The patterns that pull you out of the fulfilled state — and how to spot them." },
+  { id: "agreeing", label: "Agreeing", kicker: "Principle", group: "Maps & Distinctions", short: "Why what you agree with becomes the state you occupy." },
+  { id: "simple-formula", label: "Simple Formula", kicker: "Method", group: "Maps & Distinctions", short: "A clean step-by-step formula for applying Neville's work." },
+  { id: "power-ladder", label: "Power Ladder", kicker: "Method", group: "Maps & Distinctions", short: "A ladder from wishing to fulfilled certainty." },
+
+  { id: "time-anchors", label: "Time Anchors", kicker: "Tool", group: "Tools", short: "Words that collapse imagined timelines back to present-state ownership." },
+  { id: "subconscious-stack", label: "Subconscious Stack", kicker: "Tool", group: "Tools", short: "What the subconscious responds to strongest — and how to optimize for it." },
+  { id: "bridge-states", label: "Bridge States", kicker: "Detector", group: "Tools", short: "Spot the words that sound productive but secretly carry effort or lack." },
+  { id: "word-verdicts", label: "Word Verdicts", kicker: "Tool", group: "Tools", short: "A verdict-by-verdict map of which words help, hurt, or stay neutral." },
+  { id: "phrase-analyzer", label: "Phrase Analyzer", kicker: "Interactive", group: "Tools", short: "Test any phrase against identity, ownership, and certainty checks." },
+  { id: "state-builder", label: "State Builder", kicker: "Interactive", group: "Tools", short: "Build a complete fulfilled-state plan: identity, scene, revision, and mental diet." },
+
+  { id: "demos", label: "Demonstrations", kicker: "Study", group: "Study", short: "Before-and-after examples showing the shift into fulfilled-state practice." },
+  { id: "practice", label: "Practice Timeline", kicker: "Study", group: "Study", short: "A simple, consistent daily Neville routine." },
+  { id: "glossary", label: "Glossary", kicker: "Study", group: "Study", short: "Searchable glossary of Neville's terms, translated plainly." },
+];
+
+const SECTION_GROUPS = ["Frameworks", "Maps & Distinctions", "Tools", "Study"];
+
+function renderSection(id) {
+  switch (id) {
+    case "living-end":
+    case "sats":
+    case "feeling-secret":
+    case "revision":
+    case "mental-diet":
+    case "inner-conversation":
+      return <FrameworkPage frameworkId={id} />;
+    case "key-parallels": return <ModernParallels />;
+    case "inner-state": return <CorePrinciples />;
+    case "tone-vs-state": return <EmotionalToneDistinction />;
+    case "state-blockers": return <StateBlockersSection />;
+    case "agreeing": return <AgreeingConsentSection />;
+    case "simple-formula": return <SimpleFormula />;
+    case "power-ladder": return <PowerLadder />;
+    case "time-anchors": return <TimeDistortionAnchors />;
+    case "subconscious-stack": return <SubconsciousResponseStack />;
+    case "bridge-states": return <BridgeStateDetector />;
+    case "word-verdicts": return <WordVerdictMapper />;
+    case "phrase-analyzer": return <PhraseAnalyzer />;
+    case "state-builder": return <StateBuilder />;
+    case "demos": return <DemosSection />;
+    case "practice": return <PracticeTimeline />;
+    case "glossary": return <Glossary />;
+    default: return null;
+  }
+}
+
+function NavDropdown({ items, onSelect, currentId }) {
   const [open, setOpen] = useState(false);
   const ref = useRef(null);
 
@@ -2039,63 +2057,74 @@ function NavDropdown({ items, onSelect }) {
         aria-haspopup="menu"
         className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
       >
-        <span>Jump to section</span>
+        <span>Browse concepts</span>
         <span className={`text-xs transition-transform ${open ? "rotate-180" : ""}`}>▾</span>
       </button>
       {open && (
         <div
           role="menu"
-          className="absolute right-0 z-50 mt-2 max-h-96 w-72 overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0d18]/95 p-2 shadow-2xl shadow-black/60 backdrop-blur"
+          className="absolute right-0 z-50 mt-2 max-h-96 w-80 overflow-y-auto rounded-2xl border border-white/15 bg-[#0b0d18]/95 p-2 shadow-2xl shadow-black/60 backdrop-blur"
         >
-          {items.map((item) => (
-            <button
-              key={item.label}
-              type="button"
-              role="menuitem"
-              onClick={() => {
-                onSelect(item);
-                setOpen(false);
-              }}
-              className="block w-full rounded-xl px-3 py-2 text-left text-sm font-semibold text-white/75 transition hover:bg-white/[0.08] hover:text-white"
-            >
-              {item.label}
-            </button>
-          ))}
+          {SECTION_GROUPS.map((group) => {
+            const groupItems = items.filter((item) => item.group === group);
+            if (!groupItems.length) return null;
+            return (
+              <div key={group} className="mb-2 last:mb-0">
+                <p className="px-3 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">{group}</p>
+                {groupItems.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    role="menuitem"
+                    onClick={() => {
+                      onSelect(item);
+                      setOpen(false);
+                    }}
+                    className={`block w-full rounded-xl px-3 py-2 text-left text-sm font-semibold transition hover:bg-white/[0.08] hover:text-white ${
+                      currentId === item.id ? "bg-white/[0.1] text-white" : "text-white/75"
+                    }`}
+                  >
+                    {item.label}
+                  </button>
+                ))}
+              </div>
+            );
+          })}
         </div>
       )}
     </div>
   );
 }
 
-export default function NevilleGoddardPortal({ onBack }) {
-  const [activeId, setActiveId] = useState("living-end");
-  const selected = frameworks.find((item) => item.id === activeId) || frameworks[0];
+function SectionCard({ section, onSelect }) {
+  return (
+    <button
+      type="button"
+      onClick={() => onSelect(section.id)}
+      className="group flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-left transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.09]"
+    >
+      <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-white/40">{section.kicker}</p>
+      <h3 className="text-xl font-black text-white">{section.label}</h3>
+      <p className="mt-3 flex-1 text-sm leading-6 text-white/65">{section.short}</p>
+      <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white/70 transition group-hover:text-white">
+        Open <span aria-hidden>→</span>
+      </span>
+    </button>
+  );
+}
 
-  const navChips = [
-    { label: "Living in the End", target: "frameworks", frameworkId: "living-end" },
-    { label: "SATS", target: "frameworks", frameworkId: "sats" },
-    { label: "Revision", target: "frameworks", frameworkId: "revision" },
-    { label: "Key Parallels", target: "key-parallels" },
-    { label: "Inner State", target: "inner-state" },
-    { label: "Time Anchors", target: "time-anchors" },
-    { label: "Subconscious Stack", target: "subconscious-stack" },
-    { label: "Tone vs State", target: "tone-vs-state" },
-    { label: "Bridge States", target: "bridge-states" },
-    { label: "State Blockers", target: "state-blockers" },
-    { label: "Phrase Analyzer", target: "phrase-analyzer" },
-    { label: "State Builder", target: "state-builder" },
-    { label: "Word Verdicts", target: "word-verdicts" },
-    { label: "Agreeing", target: "agreeing" },
-    { label: "Simple Formula", target: "simple-formula" },
-    { label: "Power Ladder", target: "power-ladder" },
-    { label: "Mental Diet", target: "frameworks", frameworkId: "mental-diet" },
-  ];
+export default function NevilleGoddardPortal({ onBack, onNavigate, initialSection }) {
+  const currentSection = initialSection ? SECTIONS.find((s) => s.id === initialSection) : null;
+  const currentIndex = currentSection ? SECTIONS.findIndex((s) => s.id === currentSection.id) : -1;
+  const prevSection = currentIndex > 0 ? SECTIONS[currentIndex - 1] : null;
+  const nextSection = currentIndex >= 0 && currentIndex < SECTIONS.length - 1 ? SECTIONS[currentIndex + 1] : null;
 
-  const scrollToSection = (item) => {
-    if (item.frameworkId) setActiveId(item.frameworkId);
-    window.requestAnimationFrame(() => {
-      document.getElementById(item.target)?.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
+  const goToSection = (id) => {
+    if (onNavigate) onNavigate("neville", { section: id });
+  };
+
+  const goToOverview = () => {
+    if (onNavigate) onNavigate("neville");
   };
 
   return (
@@ -2117,133 +2146,157 @@ export default function NevilleGoddardPortal({ onBack }) {
 
       <main className="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
         <header className="mb-8 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-10">
-          <nav className="mb-12 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div className="flex items-center gap-3">
+          <nav className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+            <button
+              type="button"
+              onClick={goToOverview}
+              className="flex items-center gap-3 text-left"
+            >
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl">✦</div>
               <div>
                 <p className="text-sm font-black tracking-wide text-white">Neville Goddard Portal</p>
-                <p className="text-xs text-white/45">Frameworks • Demonstrations • Inner Practice</p>
+                <p className="text-xs text-white/45">Frameworks • Tools • Inner Practice</p>
               </div>
-            </div>
-            <NavDropdown items={navChips} onSelect={scrollToSection} />
+            </button>
+            <NavDropdown items={SECTIONS} onSelect={(item) => goToSection(item.id)} currentId={currentSection?.id} />
           </nav>
 
-          <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+          {currentSection ? (
             <div>
-              <p className="mb-4 text-xs font-black uppercase tracking-[0.45em] text-violet-200/60">Imagination Creates Reality</p>
-              <h1 className="text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
-                A visual operating system for Neville's work.
-              </h1>
-              <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-                Explore Neville Goddard through frameworks, visual diagrams, phrase diagnostics, state blockers, emotional tone mapping, and step-by-step demonstrations. This is built like a study dashboard for inner work: less vague mysticism, more usable structure.
-              </p>
-              <div className="mt-8 flex flex-wrap gap-3">
-                <a href="#frameworks" className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]">Explore frameworks</a>
-                <a href="#demos" className="rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:bg-white/[0.1]">View demonstrations</a>
-              </div>
+              <button
+                type="button"
+                onClick={goToOverview}
+                className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-white/45 transition hover:text-white"
+              >
+                <span aria-hidden>←</span> All concepts
+              </button>
+              <p className="mb-3 text-xs font-black uppercase tracking-[0.45em] text-violet-200/60">{currentSection.group} · {currentSection.kicker}</p>
+              <h1 className="text-4xl font-black leading-[0.98] tracking-[-0.045em] text-white md:text-6xl">{currentSection.label}</h1>
+              <p className="mt-5 max-w-3xl text-base leading-7 text-white/65 md:text-lg md:leading-8">{currentSection.short}</p>
             </div>
+          ) : (
+            <div className="grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-center">
+              <div>
+                <p className="mb-4 text-xs font-black uppercase tracking-[0.45em] text-violet-200/60">Imagination Creates Reality</p>
+                <h1 className="text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
+                  A visual operating system for Neville's work.
+                </h1>
+                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
+                  Each concept is its own focused page. Pick a framework to study, a tool to practice with, or a map that translates Neville's language into something usable.
+                </p>
+              </div>
 
-            <div className="rounded-[2rem] border border-white/10 bg-black/25 p-5">
-              <div className="rounded-[1.5rem] bg-gradient-to-br from-white/14 to-white/[0.03] p-5">
-                <div className="mb-5 flex items-center justify-between">
-                  <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Core Map</p>
-                  <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-100/80">Active</span>
-                </div>
-                <div className="space-y-3">
-                  {[
-                    ["Assume", "Choose the fulfilled identity."],
-                    ["Feel", "Let it feel real and natural."],
-                    ["Become", "Move as the person who has it."],
-                    ["Persist", "Return when the old story appears."],
-                  ].map(([word, desc], index) => (
-                    <div key={word} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/20 p-4">
-                      <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">{index + 1}</div>
-                      <div>
-                        <p className="font-black text-white">{word}</p>
-                        <p className="text-sm text-white/45">{desc}</p>
+              <div className="rounded-[2rem] border border-white/10 bg-black/25 p-5">
+                <div className="rounded-[1.5rem] bg-gradient-to-br from-white/14 to-white/[0.03] p-5">
+                  <div className="mb-5 flex items-center justify-between">
+                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Core Map</p>
+                    <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-100/80">Active</span>
+                  </div>
+                  <div className="space-y-3">
+                    {[
+                      ["Assume", "Choose the fulfilled identity."],
+                      ["Feel", "Let it feel real and natural."],
+                      ["Become", "Move as the person who has it."],
+                      ["Persist", "Return when the old story appears."],
+                    ].map(([word, desc], index) => (
+                      <div key={word} className="flex items-center gap-4 rounded-2xl border border-white/10 bg-black/20 p-4">
+                        <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">{index + 1}</div>
+                        <div>
+                          <p className="font-black text-white">{word}</p>
+                          <p className="text-sm text-white/45">{desc}</p>
+                        </div>
                       </div>
-                    </div>
-                  ))}
+                    ))}
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
+          )}
         </header>
 
-        <section id="frameworks" className="scroll-mt-8 mb-8 grid gap-5 lg:grid-cols-[0.95fr_1.45fr]">
-          <div className="grid gap-4 lg:max-h-[52rem] lg:overflow-auto lg:pr-2">
-            {frameworks.map((item) => (
-              <FrameworkCard key={item.id} item={item} active={item.id === activeId} onClick={() => setActiveId(item.id)} />
-            ))}
-          </div>
-          <SceneCanvas selected={selected} />
-        </section>
+        {currentSection ? (
+          <>
+            <div className="mb-8">{renderSection(currentSection.id)}</div>
 
-        <section className="mb-8 grid gap-4">
-          {diagrams.map((diagram) => (
-            <FlowDiagram key={diagram.title} diagram={diagram} />
-          ))}
-        </section>
+            <nav className="grid gap-3 md:grid-cols-2">
+              {prevSection ? (
+                <button
+                  type="button"
+                  onClick={() => goToSection(prevSection.id)}
+                  className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-left transition hover:border-white/25 hover:bg-white/[0.09]"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/40">← Previous</p>
+                  <p className="mt-2 text-lg font-black text-white">{prevSection.label}</p>
+                </button>
+              ) : <div />}
+              {nextSection ? (
+                <button
+                  type="button"
+                  onClick={() => goToSection(nextSection.id)}
+                  className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-right transition hover:border-white/25 hover:bg-white/[0.09]"
+                >
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/40">Next →</p>
+                  <p className="mt-2 text-lg font-black text-white">{nextSection.label}</p>
+                </button>
+              ) : <div />}
+            </nav>
+          </>
+        ) : (
+          <>
+            {SECTION_GROUPS.map((group) => {
+              const groupSections = SECTIONS.filter((s) => s.group === group);
+              if (!groupSections.length) return null;
+              return (
+                <section key={group} className="mb-10">
+                  <div className="mb-5 flex items-baseline justify-between">
+                    <h2 className="text-2xl font-black text-white">{group}</h2>
+                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/35">{groupSections.length} {groupSections.length === 1 ? "concept" : "concepts"}</p>
+                  </div>
+                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+                    {groupSections.map((section) => (
+                      <SectionCard key={section.id} section={section} onSelect={goToSection} />
+                    ))}
+                  </div>
+                </section>
+              );
+            })}
 
-        <ModernParallels />
-        <CorePrinciples />
-        <TimeDistortionAnchors />
-        <SubconsciousResponseStack />
-        <EmotionalToneDistinction />
-        <BridgeStateDetector />
-        <StateBlockersSection />
-        <PhraseAnalyzer />
-        <StateBuilder />
-        <WordVerdictMapper />
-        <AgreeingConsentSection />
-        <SimpleFormula />
-        <PowerLadder />
-
-        <section id="demos" className="mb-8">
-          <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-            <div>
-              <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Demonstrations</p>
-              <h2 className="mt-2 text-3xl font-black text-white">Before and after inner-state examples</h2>
-            </div>
-            <p className="max-w-xl text-sm leading-6 text-white/55">Each demo shows the shift from wanting, fearing, or replaying lack into a clean fulfilled-state practice.</p>
-          </div>
-          <div className="grid gap-4 lg:grid-cols-2">
-            {demos.map((demo) => <DemoCard key={demo.title} demo={demo} />)}
-          </div>
-        </section>
-
-        <PracticeTimeline />
-        <Glossary />
-
-        <section className="grid gap-4 lg:grid-cols-3">
-          <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 lg:col-span-2">
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Study Notes</p>
-            <h2 className="mt-2 text-3xl font-black text-white">How to read Neville without getting lost</h2>
-            <div className="mt-5 grid gap-4 md:grid-cols-3">
-              <div className="rounded-3xl bg-black/20 p-5">
-                <h3 className="font-black text-white">1. State over sentence</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">The words matter, but the state behind the words matters more. A sentence is a doorway, not the whole house.</p>
+            <section className="grid gap-4 lg:grid-cols-3">
+              <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 lg:col-span-2">
+                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Study Notes</p>
+                <h2 className="mt-2 text-3xl font-black text-white">How to read Neville without getting lost</h2>
+                <div className="mt-5 grid gap-4 md:grid-cols-3">
+                  <div className="rounded-3xl bg-black/20 p-5">
+                    <h3 className="font-black text-white">1. State over sentence</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/58">The words matter, but the state behind the words matters more. A sentence is a doorway, not the whole house.</p>
+                  </div>
+                  <div className="rounded-3xl bg-black/20 p-5">
+                    <h3 className="font-black text-white">2. Natural over desperate</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/58">A fulfilled state usually feels calm, steady, and ordinary. Desperation is often the old story wearing a costume.</p>
+                  </div>
+                  <div className="rounded-3xl bg-black/20 p-5">
+                    <h3 className="font-black text-white">3. Persist over force</h3>
+                    <p className="mt-2 text-sm leading-6 text-white/58">Persistence means returning to the chosen state. It does not mean obsessing, spiraling, or micromanaging the outer world.</p>
+                  </div>
+                </div>
               </div>
-              <div className="rounded-3xl bg-black/20 p-5">
-                <h3 className="font-black text-white">2. Natural over desperate</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">A fulfilled state usually feels calm, steady, and ordinary. Desperation is often the old story wearing a costume.</p>
-              </div>
-              <div className="rounded-3xl bg-black/20 p-5">
-                <h3 className="font-black text-white">3. Persist over force</h3>
-                <p className="mt-2 text-sm leading-6 text-white/58">Persistence means returning to the chosen state. It does not mean obsessing, spiraling, or micromanaging the outer world.</p>
-              </div>
-            </div>
-          </div>
 
-          <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-violet-500/20 to-cyan-500/10 p-6">
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/45">Builder Idea</p>
-            <h2 className="mt-2 text-2xl font-black text-white">Next feature to add</h2>
-            <p className="mt-4 text-sm leading-7 text-white/65">
-              Add a personal State Builder form where the user enters a desire, old story, new identity, SATS scene, revision scene, and daily mental diet sentence.
-            </p>
-            <button onClick={() => document.getElementById("state-builder")?.scrollIntoView({ behavior: "smooth", block: "start" })} className="mt-6 w-full rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]">Open State Builder</button>
-          </div>
-        </section>
+              <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-violet-500/20 to-cyan-500/10 p-6">
+                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/45">Start Here</p>
+                <h2 className="mt-2 text-2xl font-black text-white">New to Neville?</h2>
+                <p className="mt-4 text-sm leading-7 text-white/65">
+                  Begin with <strong className="text-white">Living in the End</strong> — the central framework — then move into <strong className="text-white">Feeling Is the Secret</strong> and <strong className="text-white">SATS</strong> to practice it.
+                </p>
+                <button
+                  onClick={() => goToSection("living-end")}
+                  className="mt-6 w-full rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]"
+                >
+                  Open Living in the End
+                </button>
+              </div>
+            </section>
+          </>
+        )}
       </main>
     </div>
   );
