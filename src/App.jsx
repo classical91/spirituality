@@ -6,9 +6,10 @@ import BibleConceptAtlas from './BibleConceptAtlas';
 import PsychologyPortal from './PsychologyPortal';
 import InnerBalanceAtlas from './InnerBalanceAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
+import NevillePortal from './NevillePortal';
 import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
-import NevilleGoddardPortal from './NevilleGoddardPortal';
 import RelationshipClarityPortal from './RelationshipClarityPortal';
+import SexualEnergyDashboard from './SexualEnergyDashboard';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -21,8 +22,9 @@ const COMPONENTS = {
   innerbalance: InnerBalanceAtlas,
   frameworks: FrameworkAtlas,
   selfconcept: SelfConceptLanguageStudio,
-  neville: NevilleGoddardPortal,
+  neville: NevillePortal,
   relationships: RelationshipClarityPortal,
+  sexualenergy: SexualEnergyDashboard,
 };
 
 export default function App() {
@@ -30,7 +32,7 @@ export default function App() {
   const [path, navigate] = route;
   const search = route.search;
 
-  // ?section=heart → "heart"; portals that recognize it open that section.
+  // ?section=heart -> "heart"; portals that recognize it open that section.
   const initialSection = useMemo(() => {
     if (!search) return undefined;
     try {
@@ -51,7 +53,6 @@ export default function App() {
     [navigate]
   );
 
-  // Record visits and last-seen portal for the homepage "Recent" rail.
   useEffect(() => {
     const portal = portalsByPath[path];
     if (portal) {
@@ -72,7 +73,6 @@ export default function App() {
     );
   }
 
-  // Unknown routes fall back to home (after correcting the URL).
   if (path !== '/' && !portals.some((p) => p.path === path)) {
     if (typeof window !== 'undefined') {
       window.history.replaceState({}, '', '/');
