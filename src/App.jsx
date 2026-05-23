@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback, useEffect, useMemo } from 'react';
 import HomePage from './HomePage';
 import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
@@ -22,15 +22,27 @@ const COMPONENTS = {
 };
 
 export default function App() {
-  const [path, navigate] = useRoute();
+  const route = useRoute();
+  const [path, navigate] = route;
+  const search = route.search;
+
+  // ?section=heart → "heart"; portals that recognize it open that section.
+  const initialSection = useMemo(() => {
+    if (!search) return undefined;
+    try {
+      return new URLSearchParams(search).get('section') || undefined;
+    } catch {
+      return undefined;
+    }
+  }, [search]);
 
   const goHome = useCallback(() => navigate('/'), [navigate]);
 
   const goPortal = useCallback(
-    (portalId) => {
+    (portalId, { section } = {}) => {
       const portal = portalsById[portalId];
       if (!portal) return;
-      navigate(portal.path);
+      navigate(section ? `${portal.path}?section=${encodeURIComponent(section)}` : portal.path);
     },
     [navigate]
   );
@@ -47,7 +59,13 @@ export default function App() {
   const activePortal = portalsByPath[path];
   if (activePortal) {
     const Component = COMPONENTS[activePortal.id];
-    return <Component onBack={goHome} onNavigate={goPortal} />;
+    return (
+      <Component
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+      />
+    );
   }
 
   // Unknown routes fall back to home (after correcting the URL).

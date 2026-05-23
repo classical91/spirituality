@@ -897,9 +897,9 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
   );
 }
 
-export default function Chakra3DVisualizer({ onBack }) {
+export default function Chakra3DVisualizer({ onBack, initialSection }) {
   const [systemId, setSystemId] = useState("hindu");
-  const [selectedId, setSelectedId] = useState("heart");
+  const [selectedId, setSelectedId] = useState(() => initialSection || "heart");
   const [rotate, setRotate] = useState(true);
   const [expandedOpen, setExpandedOpen] = useState(false);
   const [affirmationOpen, setAffirmationOpen] = useState(false);

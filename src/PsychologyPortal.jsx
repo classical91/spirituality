@@ -386,8 +386,11 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
-export default function PsychologyPortal({ onBack, onNavigate }) {
-  const [activeTab, setActiveTab] = useState("overview");
+export default function PsychologyPortal({ onBack, onNavigate, initialSection }) {
+  const validInitial = ["overview", "frameworks", "powerstack", "nutrients"].includes(initialSection)
+    ? initialSection
+    : "overview";
+  const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);

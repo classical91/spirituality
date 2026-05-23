@@ -1096,8 +1096,9 @@ function StressRecovery() {
 /* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
-export default function InnerBalanceAtlas({ onBack, onNavigate }) {
-  const [activeTab, setActiveTab] = useState('dashboard');
+export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }) {
+  const validInitial = tabs.some((t) => t.id === initialSection) ? initialSection : 'dashboard';
+  const [activeTab, setActiveTab] = useState(validInitial);
 
   const content = {
     dashboard:        <Dashboard />,
