@@ -705,16 +705,16 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
 
   return (
     <div
-      className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/95 px-4 py-5 text-white backdrop-blur-xl sm:px-6 lg:px-10"
+      className="fixed inset-0 z-50 overflow-y-auto bg-slate-950/80 px-4 py-8 text-white backdrop-blur-xl"
       role="dialog"
       aria-modal="true"
       aria-label={`${chakra.name} expanded explanation`}
     >
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(168,85,247,0.18),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(6,182,212,0.14),transparent_26%),radial-gradient(circle_at_50%_95%,rgba(239,68,68,0.12),transparent_32%)]" />
+      <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(168,85,247,0.18),transparent_28%),radial-gradient(circle_at_85%_20%,rgba(6,182,212,0.14),transparent_26%),radial-gradient(circle_at_50%_95%,rgba(239,68,68,0.12),transparent_32%)]" />
 
-      <div className="relative z-10 mx-auto max-w-6xl">
-        <div className="sticky top-0 z-20 -mx-4 mb-6 border-b border-white/10 bg-slate-950/75 px-4 py-4 backdrop-blur-xl sm:-mx-6 sm:px-6 lg:-mx-10 lg:px-10">
-          <div className="mx-auto flex max-w-6xl items-center justify-between gap-3">
+      <div className="relative z-10 mx-auto w-full max-w-5xl overflow-hidden rounded-[2rem] border border-white/10" style={{ background: "rgb(3, 7, 30)" }}>
+        <div className="border-b border-white/10 bg-slate-950/80 px-5 py-4 backdrop-blur-xl">
+          <div className="flex items-center justify-between gap-3">
             <div className="flex items-center gap-2">
               <button
                 type="button"
@@ -774,6 +774,7 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
             </div>
           </div>
         </div>
+        <div className="px-5 pb-8 pt-6 sm:px-6">
 
         <section className="overflow-hidden rounded-[2.25rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl">
           <div className="grid gap-0 lg:grid-cols-[0.9fr_1.1fr]">
@@ -1075,6 +1076,7 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
         <p className="mx-auto mt-6 max-w-3xl text-center text-sm leading-relaxed text-slate-400">
           These frameworks are used here as symbolic tools for reflection and self-awareness — not as medical diagnosis or treatment.
         </p>
+        </div>
       </div>
     </div>
   );
