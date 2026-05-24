@@ -97,6 +97,32 @@ const concepts = [
     practice:
       "List three actual flaws you've ignored or excused. Not to weaponize — to come back to ground. You can still want someone after you see them clearly. That want is more solid than the worship version.",
   },
+  {
+    id: "trauma-bond-vs-true-love",
+    label: "Trauma Bond vs True Love",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Intensity is not the same as love — calm is not the same as boring.",
+    question: "Am I bonded to this person, or am I actually loved by them?",
+    explanation:
+      "A trauma bond is built on the cycle itself — the highs feel high because the lows were so low, and the relief of reconnection is mistaken for love. True love does not need rupture to feel real. It is steady, mutual, and chosen daily. The clearest difference is not how strong the feeling is, but what the feeling is made of.",
+    fear: [
+      "The relationship cycles through extreme highs and lows.",
+      "Important conversations are avoided, dodged, or punished.",
+      "The relationship feels like an addiction you're powerless to leave.",
+      "Calm is mistaken for boredom; chaos is mistaken for chemistry.",
+      "Your sense of worth rises and falls with their next response.",
+    ],
+    secure: [
+      "The relationship is stable and based on mutual respect.",
+      "Important conversations are a priority, not a threat.",
+      "The relationship feels like an honor, a privilege, and a choice.",
+      "Calm registers as safety, not absence.",
+      "Your worth holds steady whether the day with them was great or hard.",
+    ],
+    practice:
+      "Map the last two weeks on paper. Not the peaks — the average day. Was the average day calm and respectful, or were you bracing? Bonded relationships are loud in memory; loved relationships are quiet in the body. Trust the body's record over the highlight reel.",
+  },
 
   {
     id: "standards",
