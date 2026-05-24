@@ -732,7 +732,7 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
               <p className="mt-3 leading-relaxed text-slate-200">{chakra.diagramLevel.meaning}</p>
             </div>
             <p className="mt-4 text-xs leading-relaxed text-slate-400">
-              Chakras describe energy centers; these layers describe qualities of experience — body, feelings, mind, identity, being, attention, consciousness. The two overlap but are not the same thing.
+              Chakras describe energy centers; these layers describe qualities of experience — body → feelings → mind → "I" → existence → attention → consciousness. The two overlap but are not the same thing.
             </p>
           </section>
         )}

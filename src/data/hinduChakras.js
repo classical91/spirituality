@@ -86,7 +86,7 @@ export const hinduChakras = [
     ],
     diagramLevel: {
       level: "Consciousness",
-      meaning: "Pure awareness, the witness, spacious presence.",
+      meaning: "Awareness, higher self, witness, divine connection.",
     },
   },
   {
@@ -176,7 +176,7 @@ export const hinduChakras = [
     ],
     diagramLevel: {
       level: "Attention",
-      meaning: "Focus, observation, where awareness is directed.",
+      meaning: "Focus, perception, observation, imagination.",
     },
   },
   {
@@ -264,6 +264,10 @@ export const hinduChakras = [
       "Who taught me that my voice was too much or not enough?",
       "What truth am I still protecting others from hearing?",
     ],
+    diagramLevel: {
+      level: "Existence",
+      meaning: "Being expressed — truth, vibration, \"I exist,\" the word made visible.",
+    },
   },
   {
     id: "heart",
@@ -351,8 +355,8 @@ export const hinduChakras = [
       "Where did I learn that loving others means abandoning myself?",
     ],
     diagramLevel: {
-      level: "Existence / Being",
-      meaning: "The deeper sense of simply being — \"I am\" before any label.",
+      level: "\"I\"",
+      meaning: "The felt self — inner identity, love, connection, \"who I am in relationship.\"",
     },
   },
   {
@@ -441,8 +445,8 @@ export const hinduChakras = [
       "Where am I handing my power to others without realizing I have a choice?",
     ],
     diagramLevel: {
-      level: "\"I\" / Identity",
-      meaning: "Personal self, ego, role — \"who I think I am.\"",
+      level: "Mind",
+      meaning: "Beliefs, will, self-concept, personal power, interpretation.",
     },
   },
   {

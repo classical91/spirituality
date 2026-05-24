@@ -1117,6 +1117,15 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }
         <button className="iba-back-btn" onClick={onBack}>← Back</button>
         <span className="iba-topbar-title">InnerBalance Atlas</span>
         <span className="iba-topbar-sub">· Mind, Body &amp; Spirit</span>
+        {onNavigate && (
+          <button
+            className="iba-topbar-link"
+            onClick={() => onNavigate('psychology')}
+            aria-label="Open Psychology Portal"
+          >
+            <span aria-hidden="true">◈</span> Psychology Portal →
+          </button>
+        )}
       </div>
 
       <div className="iba-body">
