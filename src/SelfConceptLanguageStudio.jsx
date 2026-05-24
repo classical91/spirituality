@@ -80,6 +80,111 @@ const transformationExamples = [
   }
 ];
 
+const phrasebookBanks = [
+  {
+    title: "Terms of endearment",
+    tag: "Names",
+    desc: "Short, warm names that mark her as cherished and known. Choose the ones that feel honest, not performed.",
+    examples: [
+      "My love",
+      "My heart",
+      "My queen",
+      "My woman",
+      "My beloved",
+      "Beautiful",
+      "Sunshine",
+      "Sweetheart",
+      "Darling",
+      "My peace",
+      "My joy",
+      "Wifey"
+    ]
+  },
+  {
+    title: "Words of affection",
+    tag: "Affection",
+    desc: "Full sentences that name what she is to you. Used out loud, written, or as the first line of a message.",
+    examples: [
+      "I cherish you.",
+      "I adore you.",
+      "I'm devoted to you.",
+      "You are the love of my life.",
+      "I'm grateful you're mine.",
+      "I love being yours.",
+      "You feel like home.",
+      "You are my favorite person.",
+      "I'm proud to be with you.",
+      "You mean everything to me."
+    ]
+  },
+  {
+    title: "Ways to say I am with her",
+    tag: "Presence",
+    desc: "Different phrasings of the same simple truth — that you are beside her, choosing the same life.",
+    examples: [
+      "I'm here with her.",
+      "She is by my side.",
+      "I stand beside her.",
+      "We are together.",
+      "She is mine and I am hers.",
+      "I belong with her.",
+      "She has my hand.",
+      "We walk through life together.",
+      "She is next to me, always.",
+      "I move through the world with her."
+    ]
+  },
+  {
+    title: "Ways to say I draw her to me",
+    tag: "Magnetism",
+    desc: "Phrasings that name attraction as something she moves toward, rather than something you chase.",
+    examples: [
+      "She is drawn to me.",
+      "She moves toward me naturally.",
+      "She comes to me easily.",
+      "Her heart turns toward mine.",
+      "She chooses me again and again.",
+      "I am magnetic to her.",
+      "She seeks me out.",
+      "She gravitates to my warmth.",
+      "She finds her way to me."
+    ]
+  },
+  {
+    title: "Ways to say I live with her",
+    tag: "Shared life",
+    desc: "The language of a shared rhythm — ordinary days, shared mornings, a home that is ours.",
+    examples: [
+      "We share a home.",
+      "I share my days with her.",
+      "Our lives are woven together.",
+      "I wake up next to her.",
+      "We build a life together.",
+      "Our home is ours.",
+      "I do life with her.",
+      "I share my mornings, my evenings, my ordinary hours with her.",
+      "She is part of my daily rhythm."
+    ]
+  },
+  {
+    title: "Alternatives to 'with' her",
+    tag: "Variation",
+    desc: "Different prepositions and verbs that say the same thing — so 'with' isn't the only word in your vocabulary.",
+    examples: [
+      "Beside her",
+      "Alongside her",
+      "Together with her",
+      "Hand in hand with her",
+      "Close to her",
+      "Next to her",
+      "By her side",
+      "In her company",
+      "Sharing this with her",
+      "Side by side"
+    ]
+  }
+];
+
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -410,6 +515,36 @@ export default function SelfConceptLanguageStudio({ onBack }) {
               </div>
             </article>
           ))}
+        </section>
+
+        <section className="mt-10">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.25em] text-rose-200">Relationship phrasebook</p>
+              <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Ways of saying the love you live in.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Vocabulary banks for naming her, naming what you feel, and naming the shared life — without recycling the same three phrases.</p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-950">{phrasebookBanks.length} banks</span>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {phrasebookBanks.map((bank) => (
+              <article key={bank.title} className="rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 backdrop-blur-xl">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-black text-white">{bank.title}</h3>
+                  <span className="rounded-full border border-rose-300/20 bg-rose-300/10 px-3 py-1 text-xs font-bold text-rose-100">{bank.tag}</span>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-400">{bank.desc}</p>
+                <div className="mt-5 space-y-2">
+                  {bank.examples.map((example) => (
+                    <div key={example} className="group flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-3 transition hover:border-rose-300/30">
+                      <p className="text-sm font-semibold leading-6 text-slate-200">{example}</p>
+                      <CopyButton text={example} />
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[.9fr_1.1fr]">
