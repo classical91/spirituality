@@ -391,6 +391,174 @@ const concepts = [
   },
 
   {
+    id: "types-of-intimacy",
+    label: "Types of Intimacy",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Closeness lives in more places than the bedroom.",
+    inventory: true,
+    intro: "Intimacy is the felt sense of being known. It moves through many channels — and a strong relationship usually has several of them open at once.",
+    items: [
+      { name: "Emotional", note: "Sharing inner states — fear, joy, grief, hope — without performing." },
+      { name: "Physical (non-sexual)", note: "Hugs, hand-holding, cuddling, sitting close — closeness through the body." },
+      { name: "Sexual", note: "Erotic connection that is felt as mutual, safe, and chosen." },
+      { name: "Intellectual", note: "Trading ideas, debating, building arguments together without either ego getting bruised." },
+      { name: "Spiritual", note: "Sharing meaning, faith, prayer, awe, or a sense of something larger." },
+      { name: "Experiential", note: "Doing things side by side — trips, projects, ordinary errands made into a shared moment." },
+      { name: "Recreational", note: "Playing together — games, sport, hobbies, laughter for its own sake." },
+      { name: "Creative", note: "Making something together — meals, art, plans, traditions." },
+      { name: "Financial", note: "Honest visibility about money — earning, spending, saving, planning." },
+    ],
+  },
+  {
+    id: "types-of-kisses",
+    label: "Types of Kisses",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Different kisses say different things.",
+    inventory: true,
+    intro: "A kiss is a small language. The kind you give and the kind you ask for says something about where you both are.",
+    items: [
+      { name: "Peck", note: "Quick, casual — hello, goodbye, ordinary affection." },
+      { name: "Forehead kiss", note: "Protective, tender, reverent — 'you are precious to me.'" },
+      { name: "Hand kiss", note: "Courtly, formal warmth — honor and respect." },
+      { name: "Cheek kiss", note: "Warm, friendly affection — closeness without intensity." },
+      { name: "Top-of-head kiss", note: "Held close while you kiss her hair — sweet, anchoring." },
+      { name: "Neck kiss", note: "Sensual, slow, intimate — saved for private moments." },
+      { name: "Slow kiss", note: "Lingering and unhurried — full presence, no agenda." },
+      { name: "French kiss", note: "Open, deep, mutual — erotic closeness." },
+      { name: "Butterfly kiss", note: "Eyelashes brushing skin — playful and tender." },
+      { name: "Eskimo kiss", note: "Nose-to-nose rub — affection without words." },
+    ],
+  },
+  {
+    id: "forms-of-cuddling",
+    label: "Forms of Cuddling",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Closeness has more shapes than 'big spoon, little spoon.'",
+    inventory: true,
+    intro: "Different positions create different feelings of safety. Vary them and notice which ones she actually relaxes into.",
+    items: [
+      { name: "Big spoon / little spoon", note: "Classic full-body wrap — protective, warm, comforting." },
+      { name: "Head on chest", note: "She rests her head on your chest while you hold her — heartbeat as anchor." },
+      { name: "Face to face", note: "Lying on your sides, foreheads close — intimate eye contact." },
+      { name: "Lap pillow", note: "Her head on your lap while you stroke her hair." },
+      { name: "Side hug", note: "Sitting beside her with an arm around her shoulders." },
+      { name: "Hand-holding while sitting", note: "Quiet connection in a shared space." },
+      { name: "Leg over leg", note: "Lounging entwined on a couch — easy, casual closeness." },
+      { name: "Full embrace standing", note: "A long, full hug — chest to chest, no rush." },
+      { name: "Back hug", note: "Coming up behind her, arms around her waist — playful tenderness." },
+    ],
+  },
+  {
+    id: "mutual-interests",
+    label: "Mutual Interests",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Shared interests are infrastructure — the ground where ordinary days happen together.",
+    inventory: true,
+    intro: "You don't need to share everything. But a handful of real overlaps means most weeks have a built-in 'we' instead of needing to engineer one.",
+    items: [
+      { name: "Food", note: "Cooking, restaurants, cuisines you both love." },
+      { name: "Music", note: "Artists, genres, live shows, the song you each put on first." },
+      { name: "Movies & shows", note: "What you'll actually watch together — and what you'll never agree on." },
+      { name: "Travel", note: "Places you want to go, pace you like to travel at." },
+      { name: "Movement & sport", note: "Walking, gym, hiking, dance, a team you both follow." },
+      { name: "Learning", note: "Books, courses, podcasts, languages, a topic you'll go deep on together." },
+      { name: "Faith & meaning", note: "Spiritual practice, philosophy, the questions you both sit with." },
+      { name: "Creativity", note: "Making, building, decorating, projects you start together." },
+      { name: "Friends & community", note: "Shared people you both want in your lives." },
+      { name: "Family rhythm", note: "How you each relate to family — what you want to keep, what you want to change." },
+    ],
+  },
+  {
+    id: "shared-experiences",
+    label: "Shared Experiences",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Shared history is what makes a relationship feel real, not just stated.",
+    inventory: true,
+    intro: "A connection becomes a relationship through the experiences you stack up together — both the highlight reel and the quiet hours nobody else sees.",
+    items: [
+      { name: "First memories", note: "The first meeting, first date, first kiss — small, specific scenes." },
+      { name: "Ordinary days", note: "The unremarkable hours that make up most of the relationship." },
+      { name: "Hard seasons", note: "Sickness, loss, money stress — what you got through together." },
+      { name: "Holidays & rituals", note: "Birthdays, anniversaries, traditions you build year over year." },
+      { name: "Trips", note: "Time away from the routine — both planned and spontaneous." },
+      { name: "Meeting each other's people", note: "Family, close friends, the people who shape your sense of self." },
+      { name: "Milestone life events", note: "Graduations, moves, new jobs, weddings, funerals." },
+      { name: "Private jokes", note: "Stories and phrases only you two understand." },
+      { name: "Long conversations", note: "Late nights when something honest got said and remembered." },
+    ],
+  },
+  {
+    id: "milestones",
+    label: "Relationship Milestones",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Milestones aren't the relationship — they're markers of where it's been.",
+    inventory: true,
+    intro: "These are signposts, not requirements. Skipping a few doesn't mean less love; collecting them doesn't guarantee more. Notice which ones matter most to each of you.",
+    items: [
+      { name: "First meeting", note: "Where, when, and what you first noticed." },
+      { name: "First date", note: "The first time it was officially 'us, together, on purpose.'" },
+      { name: "First kiss", note: "The moment the line moved from friendly to romantic." },
+      { name: "Saying 'I love you'", note: "The first time, and who said it first." },
+      { name: "Becoming exclusive", note: "Naming the relationship as committed." },
+      { name: "Meeting families", note: "Bringing each other into the world you came from." },
+      { name: "First trip together", note: "Travel as a real compatibility test." },
+      { name: "Moving in", note: "Sharing space, chores, daily rhythm." },
+      { name: "Engagement", note: "Choosing the long version on purpose." },
+      { name: "Marriage / commitment ceremony", note: "Publicly choosing each other." },
+      { name: "Building a home together", note: "Furnishing, decorating, making it ours." },
+      { name: "Children, if chosen", note: "Becoming parents together." },
+      { name: "Major anniversaries", note: "Yearly markers of choosing each other again." },
+    ],
+  },
+  {
+    id: "gestures-of-affection",
+    label: "Gestures of Affection",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Small daily acts say more than the big ones.",
+    inventory: true,
+    intro: "Affection is built in the small acts that don't require an occasion. A few done consistently beat one grand gesture done occasionally.",
+    items: [
+      { name: "Good morning text or kiss", note: "First contact of the day, on purpose." },
+      { name: "Bringing her water without being asked", note: "Quiet care that doesn't need recognition." },
+      { name: "Warming her plate first", note: "Small honoring at the table." },
+      { name: "Hand on her back when you pass behind her", note: "Touch as 'I see you, I'm here.'" },
+      { name: "Holding her hand in public", note: "Visible chosenness." },
+      { name: "Sending a song that reminded you of her", note: "Thinking of her when she's not there." },
+      { name: "Asking how the hard thing went", note: "Remembering what's on her mind." },
+      { name: "Telling her she looks beautiful — when she's not trying to", note: "Beauty named in ordinary moments." },
+      { name: "Saying thank you for the small things", note: "Naming what she does that often goes unnamed." },
+      { name: "A long hug for no reason", note: "Closeness with no agenda." },
+    ],
+  },
+  {
+    id: "quality-time",
+    label: "Quality Time",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Quality time is presence, not just proximity.",
+    inventory: true,
+    intro: "Sitting on a couch with two phones is not quality time. These are the kinds of hours that actually build the relationship.",
+    items: [
+      { name: "Undivided attention", note: "Phones away, real eye contact, real listening." },
+      { name: "Walking together", note: "Side by side, no agenda, conversation rises naturally." },
+      { name: "Cooking together", note: "Shared task with built-in closeness." },
+      { name: "Sharing a meal without screens", note: "Eating across from each other, not next to a show." },
+      { name: "Driving somewhere together", note: "The car is one of the most underrated intimacy spaces." },
+      { name: "Lying in bed talking before sleep", note: "Honest end-of-day conversation." },
+      { name: "A shared ritual (coffee, prayer, gym, etc.)", note: "Something you do together regularly, by choice." },
+      { name: "A date with no other purpose", note: "Time set aside for the relationship itself." },
+      { name: "Doing nothing together", note: "Comfortable silence in the same room — a real test of connection." },
+    ],
+  },
+
+  {
     id: "clarity-check",
     label: "Connection Clarity Check",
     kicker: "Tool",
@@ -409,7 +577,7 @@ const concepts = [
 ];
 
 const conceptsById = Object.fromEntries(concepts.map((c) => [c.id, c]));
-const CONCEPT_GROUPS = ["Reflection", "Standards", "Communication", "Tools"];
+const CONCEPT_GROUPS = ["Reflection", "Standards", "Communication", "Inventory", "Tools"];
 
 function SectionCard({ concept, onSelect }) {
   return (
@@ -699,9 +867,33 @@ function PauseCheck() {
   );
 }
 
+function InventoryConcept({ concept }) {
+  return (
+    <div className="space-y-5">
+      <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6 md:p-8">
+        <p className="text-xs font-black uppercase tracking-[0.35em] text-rose-200/70">Inventory</p>
+        <p className="mt-4 text-2xl font-black leading-snug text-white md:text-3xl">{concept.short}</p>
+        {concept.intro && (
+          <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 md:text-lg md:leading-8">{concept.intro}</p>
+        )}
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        {concept.items.map((item) => (
+          <div key={item.name} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
+            <p className="text-base font-black text-white">{item.name}</p>
+            {item.note && <p className="mt-2 text-sm leading-6 text-white/70">{item.note}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function renderConcept(concept) {
   if (concept.interactive === "clarity-check") return <ClarityCheck />;
   if (concept.interactive === "pause-check") return <PauseCheck />;
+  if (concept.inventory) return <InventoryConcept concept={concept} />;
   return <ReflectionConcept concept={concept} />;
 }
 
