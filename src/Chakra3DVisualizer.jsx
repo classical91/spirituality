@@ -827,21 +827,53 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
             </div>
 
             <div className="p-6 sm:p-8">
-              <div className="rounded-[1.75rem] border border-white/10 bg-slate-950/35 p-6">
-                <h3 className="mb-3 text-2xl font-bold">Full explanation</h3>
-                <p className="text-base leading-relaxed text-slate-300">{chakra.overview}</p>
-              </div>
+              {chakra.deepDive ? (
+                <>
+                  <div className="rounded-[1.75rem] border border-indigo-300/25 p-6" style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.20), rgba(168,85,247,0.10))" }}>
+                    <p className="mb-1 text-xs uppercase tracking-[0.25em] text-indigo-200/80">Full explanation</p>
+                    <h3 className="mb-3 text-2xl font-bold">{chakra.deepDive.headline}</h3>
+                    <p className="text-base leading-relaxed text-slate-200">{chakra.deepDive.intro}</p>
+                    <p className="mt-4 rounded-2xl border border-white/10 bg-slate-950/35 p-4 text-sm leading-relaxed text-slate-200">
+                      <span className="mr-2 text-xs font-bold uppercase tracking-[0.18em] text-indigo-200/80">Core question</span>
+                      <span className="block pt-1 text-base font-semibold italic text-white">"{chakra.deepDive.coreQuestion}"</span>
+                    </p>
+                  </div>
 
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <div className="rounded-[1.5rem] border border-emerald-300/15 bg-emerald-300/10 p-5">
-                  <h4 className="mb-2 font-semibold text-emerald-100">When balanced</h4>
-                  <p className="text-sm leading-relaxed text-slate-200">{chakra.balancedState}</p>
-                </div>
-                <div className="rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/10 p-5">
-                  <h4 className="mb-2 font-semibold text-cyan-100">Body / mind reflection</h4>
-                  <p className="text-sm leading-relaxed text-slate-200">{chakra.bodyMind}</p>
-                </div>
-              </div>
+                  <div className="mt-4 rounded-[1.5rem] border border-white/10 bg-slate-950/30 p-5">
+                    <h4 className="mb-2 text-sm font-bold uppercase tracking-[0.2em] text-slate-400">Overview</h4>
+                    <p className="text-sm leading-relaxed text-slate-300">{chakra.overview}</p>
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-[1.5rem] border border-emerald-300/15 bg-emerald-300/10 p-5">
+                      <h4 className="mb-2 font-semibold text-emerald-100">When balanced</h4>
+                      <p className="text-sm leading-relaxed text-slate-200">{chakra.balancedState}</p>
+                    </div>
+                    <div className="rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/10 p-5">
+                      <h4 className="mb-2 font-semibold text-cyan-100">Body / mind reflection</h4>
+                      <p className="text-sm leading-relaxed text-slate-200">{chakra.bodyMind}</p>
+                    </div>
+                  </div>
+                </>
+              ) : (
+                <>
+                  <div className="rounded-[1.75rem] border border-white/10 bg-slate-950/35 p-6">
+                    <h3 className="mb-3 text-2xl font-bold">Full explanation</h3>
+                    <p className="text-base leading-relaxed text-slate-300">{chakra.overview}</p>
+                  </div>
+
+                  <div className="mt-4 grid gap-4 md:grid-cols-2">
+                    <div className="rounded-[1.5rem] border border-emerald-300/15 bg-emerald-300/10 p-5">
+                      <h4 className="mb-2 font-semibold text-emerald-100">When balanced</h4>
+                      <p className="text-sm leading-relaxed text-slate-200">{chakra.balancedState}</p>
+                    </div>
+                    <div className="rounded-[1.5rem] border border-cyan-300/15 bg-cyan-300/10 p-5">
+                      <h4 className="mb-2 font-semibold text-cyan-100">Body / mind reflection</h4>
+                      <p className="text-sm leading-relaxed text-slate-200">{chakra.bodyMind}</p>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         </section>
