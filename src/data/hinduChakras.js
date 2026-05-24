@@ -84,6 +84,10 @@ export const hinduChakras = [
       "What would I need to trust in order to feel less alone in this?",
       "What am I protecting myself from by staying cynical or closed?",
     ],
+    diagramLevel: {
+      level: "Consciousness",
+      meaning: "Pure awareness, the witness, spacious presence.",
+    },
   },
   {
     id: "third-eye",
@@ -170,6 +174,10 @@ export const hinduChakras = [
       "What am I afraid to look at clearly right now?",
       "Where am I choosing noise and distraction over my own knowing?",
     ],
+    diagramLevel: {
+      level: "Attention",
+      meaning: "Focus, observation, where awareness is directed.",
+    },
   },
   {
     id: "throat",
@@ -342,6 +350,10 @@ export const hinduChakras = [
       "What am I still grieving that I have not fully acknowledged?",
       "Where did I learn that loving others means abandoning myself?",
     ],
+    diagramLevel: {
+      level: "Existence / Being",
+      meaning: "The deeper sense of simply being — \"I am\" before any label.",
+    },
   },
   {
     id: "solar",
@@ -428,6 +440,10 @@ export const hinduChakras = [
       "Whose voice is still running in the background telling me I am not enough?",
       "Where am I handing my power to others without realizing I have a choice?",
     ],
+    diagramLevel: {
+      level: "\"I\" / Identity",
+      meaning: "Personal self, ego, role — \"who I think I am.\"",
+    },
   },
   {
     id: "sacral",
@@ -514,6 +530,10 @@ export const hinduChakras = [
       "Where did I learn that desire or pleasure was dangerous or shameful?",
       "What would it feel like to simply enjoy being in my own body?",
     ],
+    diagramLevel: {
+      level: "Feelings",
+      meaning: "Emotions, desire, pleasure, attraction, attachment.",
+    },
   },
   {
     id: "root",
@@ -600,5 +620,9 @@ export const hinduChakras = [
       "What does genuine security actually look and feel like for me?",
       "What would it mean to finally feel at home in my own body and life?",
     ],
+    diagramLevel: {
+      level: "Body",
+      meaning: "Physical safety, grounding, survival, stability.",
+    },
   },
 ];

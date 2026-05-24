@@ -447,6 +447,17 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
           <p className="leading-relaxed text-slate-300">{chakra.balanced}</p>
         </div>
 
+        {chakra.diagramLevel && (
+          <div className="mt-3 rounded-3xl border border-sky-300/20 bg-sky-300/10 p-5">
+            <div className="mb-2 flex items-center gap-2 text-sky-100">
+              <IconBadge label="◎" className="h-7 w-7 rounded-xl text-sm" />
+              <p className="font-semibold">Layer of experience</p>
+            </div>
+            <p className="text-base font-bold text-white">{chakra.diagramLevel.level}</p>
+            <p className="mt-1 text-sm leading-relaxed text-slate-300">{chakra.diagramLevel.meaning}</p>
+          </div>
+        )}
+
         <div className="mt-5 grid gap-3 sm:grid-cols-2">
           <button
             type="button"
@@ -703,6 +714,28 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
             <p className="leading-relaxed text-slate-200">{chakra.overactive}</p>
           </div>
         </section>
+
+        {chakra.diagramLevel && (
+          <section className="mt-6 rounded-[1.75rem] border border-sky-300/15 bg-sky-300/10 p-6 backdrop-blur-xl">
+            <div className="mb-4 flex items-center gap-3">
+              <IconBadge label="◎" className="h-8 w-8 text-sky-100" />
+              <div>
+                <h3 className="text-xl font-bold">Layer of experience</h3>
+                <p className="mt-1 text-sm text-slate-300">
+                  Where this center sits on the body → consciousness map of inner experience.
+                </p>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-slate-950/30 p-5">
+              <p className="text-xs uppercase tracking-[0.2em] text-sky-200/70">This chakra maps to</p>
+              <p className="mt-2 text-2xl font-black tracking-tight">{chakra.diagramLevel.level}</p>
+              <p className="mt-3 leading-relaxed text-slate-200">{chakra.diagramLevel.meaning}</p>
+            </div>
+            <p className="mt-4 text-xs leading-relaxed text-slate-400">
+              Chakras describe energy centers; these layers describe qualities of experience — body, feelings, mind, identity, being, attention, consciousness. The two overlap but are not the same thing.
+            </p>
+          </section>
+        )}
 
         {chakra.frequencies && (
           <section className="mt-6 overflow-hidden rounded-[1.75rem] border border-white/10 bg-white/5 backdrop-blur-xl">
