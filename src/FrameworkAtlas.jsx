@@ -393,6 +393,36 @@ const frameworks = [
     source:"https://www.estherperel.com/blog/mating-in-captivity"
   },
   {
+    id:"emotional-spectrum-love", title:"Emotional Spectrum in Romantic Relationships", creator:"Affective science and relationship research", category:"Communication & Relationships", model:"Spectrum", color:"rgba(56,242,155,.16)",
+    core:"A romantic relationship moves through a wide range of emotions — and emotional maturity is the capacity to hold all of them without panic.",
+    use:"When only the warm emotions feel acceptable and the harder ones feel like proof something is wrong.",
+    parts:["Warm pole: love, joy, gratitude, peace, tenderness, awe","Tension band: longing, ambivalence, disappointment, frustration","Hard pole: anger, fear, jealousy, grief","Quiet baseline: steadiness, contentment, familiarity","Healthy relationship: full spectrum, not just the highlights"],
+    trap:"Treating only the warm emotions as 'real' love and the hard ones as proof something is broken.",
+    build:"Emotion tracker that maps the relationship's weekly emotional range rather than just intensity.",
+    prompt:"Map the last month. Which emotions showed up in this relationship? Which did you let yourself feel, and which did you suppress? What does the full range tell you about the connection?",
+    source:"https://www.gottman.com/blog/the-emotion-coaching-process/"
+  },
+  {
+    id:"relationship-dynamics", title:"Relationship Dynamics", creator:"Family systems and relational psychology", category:"Communication & Relationships", model:"Pattern Model", color:"rgba(124,92,255,.16)",
+    core:"Relationships have repeating patterns — dynamics — that often outlast the issues that spark them. Naming the dynamic is the first step to changing it.",
+    use:"When the same fight or feeling keeps recurring even though the topics change.",
+    parts:["Pursuer / Distancer: one reaches, one withdraws","Over-functioner / Under-functioner: one carries, one drops","Fixer / Feeler: one solves, one needs to be felt","Parent / Child: one teaches or scolds, the other defers or rebels","Critic / Defender: one attacks, one justifies","Equal / Equal: both stay adult and accountable"],
+    trap:"Treating each fight as new, instead of seeing the underlying dynamic.",
+    build:"Pattern mapper that helps couples name their default dynamic and design a more adult one.",
+    prompt:"In your recurring conflicts, which role do you usually play? Which role does your partner play? What would it look like to step out of the dynamic — even once?",
+    source:"https://www.thebowencenter.org/introduction-eight-concepts"
+  },
+  {
+    id:"themes-of-marriage", title:"Themes of Long-Term Commitment", creator:"Relationship research (Gottman, Doherty, et al.)", category:"Communication & Relationships", model:"Theme Set", color:"rgba(0,214,255,.14)",
+    core:"Long-term commitment surfaces a recurring set of themes that every couple negotiates and renegotiates over time.",
+    use:"When marriage or long-term partnership starts to feel like a series of recurring topics rather than a single arc.",
+    parts:["Money: earning, spending, saving, security","Sex: desire, frequency, repair, change over time","Children: whether, when, how to parent","Family of origin: in-laws, holidays, loyalties","Work and ambition: career rhythm, sacrifices, support","Friendship and community: outside relationships","Faith and meaning: spiritual practice, worldview","Conflict and repair: how disagreements are handled","Roles and labor: who does what at home","Future and aging: plans, retirement, mortality"],
+    trap:"Treating themes as one-time decisions when they actually evolve over decades.",
+    build:"Theme tracker that resurfaces each topic on a healthy cadence for honest re-discussion.",
+    prompt:"Of the ten themes, which one is going well right now? Which one has been quietly avoided? Schedule one honest conversation about the avoided one this month.",
+    source:"https://www.gottman.com/blog/the-six-things-that-predict-divorce/"
+  },
+  {
     id:"bloom", title:"Bloom's Taxonomy", creator:"Benjamin Bloom and collaborators", category:"Learning & Knowledge", model:"Hierarchy", color:"rgba(0,214,255,.18)",
     core:"Learning can move from remembering and understanding toward applying, analyzing, evaluating, and creating.",
     use:"When designing lessons, notes, prompts, quizzes, or skill progression.",

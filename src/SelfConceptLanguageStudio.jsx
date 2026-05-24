@@ -182,6 +182,116 @@ const phrasebookBanks = [
       "Sharing this with her",
       "Side by side"
     ]
+  },
+  {
+    title: "Phrases for a normal relationship",
+    tag: "Everyday",
+    desc: "Ordinary, grounded sentences that describe a healthy relationship without inflating it into a fantasy.",
+    examples: [
+      "We have a normal relationship — and that's a gift.",
+      "Things are good between us.",
+      "Our love is steady, ordinary, and chosen.",
+      "We're calm together.",
+      "We're in a good place.",
+      "Things are easy with her.",
+      "We're not perfect, but we're solid.",
+      "The hard stuff gets worked through.",
+      "We're a normal couple, living a normal life, loving each other well."
+    ]
+  },
+  {
+    title: "Cherishing her",
+    tag: "Cherishing",
+    desc: "Language that names her as treasured, honored, and held with care.",
+    examples: [
+      "I cherish my woman.",
+      "She is treasured.",
+      "I treat her like the gift she is.",
+      "Her well-being matters to me, daily.",
+      "I notice her — the small things and the big ones.",
+      "She knows she's adored.",
+      "I honor her in how I speak about her.",
+      "She is held with care.",
+      "I never take her for granted."
+    ]
+  },
+  {
+    title: "Commitment with my woman",
+    tag: "Commitment",
+    desc: "Sentences that name the choice you've made and keep making.",
+    examples: [
+      "I am committed to her.",
+      "I have chosen her, and I keep choosing her.",
+      "We are in this together, long-term.",
+      "Our commitment is mutual and clear.",
+      "I'm her man, fully and openly.",
+      "I'm building a life with her.",
+      "I show up — even when it's hard.",
+      "She knows where she stands with me.",
+      "My word to her is my word."
+    ]
+  },
+  {
+    title: "Happily married",
+    tag: "Marriage",
+    desc: "Language of a settled, joyful marriage — for use when that's the state you're describing or stepping into.",
+    examples: [
+      "We are happily married.",
+      "Our marriage is a steady, joyful base.",
+      "I love being her husband.",
+      "She is my wife — and I'm grateful daily.",
+      "Our home is warm.",
+      "We chose well, and we live in that choice.",
+      "Married life feels right.",
+      "I'd choose her again, every time.",
+      "Our marriage is built to last."
+    ]
+  },
+  {
+    title: "Compatible with my woman",
+    tag: "Compatibility",
+    desc: "Language naming the structural fit — values, rhythms, vision — not just the chemistry.",
+    examples: [
+      "We are compatible — in values, rhythm, and vision.",
+      "Our lives fit well together.",
+      "We want the same things.",
+      "Our differences strengthen us; they don't divide us.",
+      "We move at a pace that works for both of us.",
+      "We have the same north star.",
+      "Our compatibility is real, not forced.",
+      "Being together feels natural and aligned."
+    ]
+  },
+  {
+    title: "Smiling with my woman",
+    tag: "Joy",
+    desc: "Phrases that name the daily lightness — the easy laughter and quiet smiles.",
+    examples: [
+      "She makes me smile.",
+      "We laugh together easily.",
+      "Our home is full of light.",
+      "Joy comes naturally between us.",
+      "She is my reason to smile.",
+      "We grin at the same things.",
+      "Being with her is a soft kind of happiness.",
+      "I smile when I think of her.",
+      "Her laugh is one of my favorite sounds."
+    ]
+  },
+  {
+    title: "Being her man",
+    tag: "Identity",
+    desc: "Identity statements for stepping into the role on purpose — boyfriend, partner, husband.",
+    examples: [
+      "I am her man, fully.",
+      "I show up as her man, every day.",
+      "Being hers is part of who I am.",
+      "I am present, attentive, and devoted in this role.",
+      "She has a real man — present, loyal, and grown.",
+      "I take pride in being hers.",
+      "I do the work of being her man — gladly.",
+      "This role suits me, and I honor it."
+    ]
   }
 ];
 
