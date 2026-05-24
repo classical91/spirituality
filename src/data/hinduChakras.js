@@ -84,6 +84,10 @@ export const hinduChakras = [
       "What would I need to trust in order to feel less alone in this?",
       "What am I protecting myself from by staying cynical or closed?",
     ],
+    diagramLevel: {
+      level: "Consciousness",
+      meaning: "Awareness, higher self, witness, divine connection.",
+    },
   },
   {
     id: "third-eye",
@@ -170,6 +174,10 @@ export const hinduChakras = [
       "What am I afraid to look at clearly right now?",
       "Where am I choosing noise and distraction over my own knowing?",
     ],
+    diagramLevel: {
+      level: "Attention",
+      meaning: "Focus, perception, observation, imagination.",
+    },
   },
   {
     id: "throat",
@@ -256,6 +264,10 @@ export const hinduChakras = [
       "Who taught me that my voice was too much or not enough?",
       "What truth am I still protecting others from hearing?",
     ],
+    diagramLevel: {
+      level: "Existence",
+      meaning: "Being expressed — truth, vibration, \"I exist,\" the word made visible.",
+    },
   },
   {
     id: "heart",
@@ -342,6 +354,10 @@ export const hinduChakras = [
       "What am I still grieving that I have not fully acknowledged?",
       "Where did I learn that loving others means abandoning myself?",
     ],
+    diagramLevel: {
+      level: "\"I\"",
+      meaning: "The felt self — inner identity, love, connection, \"who I am in relationship.\"",
+    },
   },
   {
     id: "solar",
@@ -428,6 +444,10 @@ export const hinduChakras = [
       "Whose voice is still running in the background telling me I am not enough?",
       "Where am I handing my power to others without realizing I have a choice?",
     ],
+    diagramLevel: {
+      level: "Mind",
+      meaning: "Beliefs, will, self-concept, personal power, interpretation.",
+    },
   },
   {
     id: "sacral",
@@ -514,6 +534,10 @@ export const hinduChakras = [
       "Where did I learn that desire or pleasure was dangerous or shameful?",
       "What would it feel like to simply enjoy being in my own body?",
     ],
+    diagramLevel: {
+      level: "Feelings",
+      meaning: "Emotions, desire, pleasure, attraction, attachment.",
+    },
   },
   {
     id: "root",
@@ -600,5 +624,9 @@ export const hinduChakras = [
       "What does genuine security actually look and feel like for me?",
       "What would it mean to finally feel at home in my own body and life?",
     ],
+    diagramLevel: {
+      level: "Body",
+      meaning: "Physical safety, grounding, survival, stability.",
+    },
   },
 ];
