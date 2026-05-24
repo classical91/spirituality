@@ -14,7 +14,9 @@ export default function NevillePortal({ onBack }) {
     try {
       const parsed = JSON.parse(window.localStorage.getItem('neville-checkins') || 'null');
       if (parsed?.date === date) return parsed;
-    } catch {}
+    } catch {
+      // ignore corrupt storage
+    }
     return { date, morning: false, midday: false, night: false };
   });
 
