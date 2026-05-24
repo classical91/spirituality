@@ -123,6 +123,150 @@ const concepts = [
     practice:
       "Map the last two weeks on paper. Not the peaks — the average day. Was the average day calm and respectful, or were you bracing? Bonded relationships are loud in memory; loved relationships are quiet in the body. Trust the body's record over the highlight reel.",
   },
+  {
+    id: "attracted-vs-infatuated",
+    label: "Attracted vs Infatuated",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Attraction notices a person; infatuation rehearses one.",
+    question: "Am I drawn to who they actually are, or to the version of them I keep replaying?",
+    explanation:
+      "Attraction is an honest signal — a pull toward who someone actually is, including their ordinary moments. Infatuation is a story you keep telling yourself, fed by limited information and your own longing. The first slows down to learn; the second speeds up to consume.",
+    fear: [
+      "Replaying the same few moments to keep the feeling alive.",
+      "Filling in their personality with what you wish were true.",
+      "Feeling withdrawal — anxiety, dread, scanning — when you don't hear from them.",
+      "Treating early intensity as proof of long-term fit.",
+    ],
+    secure: [
+      "Letting curiosity unfold at the pace of real information.",
+      "Liking what is actually there without inventing the rest.",
+      "Feeling steady between contacts, not in withdrawal.",
+      "Allowing time to show whether the pull matches a real fit.",
+    ],
+    practice:
+      "Write down what you actually know about them — verifiable, observed, not inferred. Then write what you're imagining. The size of the second list tells you how much is infatuation.",
+  },
+  {
+    id: "attraction-pitfalls",
+    label: "Attraction Pitfalls",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Strong attraction can be a signal about your wound, not your match.",
+    question: "What is this attraction pulling on inside me — and is it pulling toward growth or toward a familiar pain?",
+    explanation:
+      "Strong attraction is real, but it isn't always trustworthy. The same chemistry that signals 'this is the one' can be your nervous system recognizing a familiar dynamic from earlier life. The most magnetic pulls often map onto the unresolved — which is why the relationship that feels most fated can also be the most painful.",
+    fear: [
+      "Reading intensity as destiny.",
+      "Feeling 'home' in someone who is emotionally unavailable.",
+      "Being drawn to ambiguity because clarity feels boring.",
+      "Mistaking the chase for chemistry.",
+    ],
+    secure: [
+      "Treating attraction as data, not a verdict.",
+      "Noticing what someone's distance is asking you to perform.",
+      "Letting calm people be magnetic in a quieter way.",
+      "Allowing slow-build attraction to count as real.",
+    ],
+    practice:
+      "Name the three most charged attractions of your life. What did they have in common — not in personality, but in dynamic? That common dynamic is what you are actually drawn to. Decide whether it still fits the version of love you want.",
+  },
+  {
+    id: "limerence",
+    label: "Limerence",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Limerence is involuntary; love is chosen.",
+    question: "Am I in love with this person, or in love with the state I'm in when I think about them?",
+    explanation:
+      "Limerence is the intense, intrusive, often involuntary fixation that mimics love but operates more like an altered state. It feeds on uncertainty — its peaks come from any sign of reciprocation, and its lows come from any sign of withdrawal. Love can include intensity, but it doesn't require uncertainty to stay alive.",
+    fear: [
+      "Intrusive thoughts about them throughout the day.",
+      "Mood swings tied to their last message.",
+      "Idealizing them while filtering out clear incompatibilities.",
+      "Feeling the fixation grow stronger when they pull away.",
+    ],
+    secure: [
+      "Holding them in mind without rumination.",
+      "Mood staying steady regardless of their latest signal.",
+      "Seeing the full person — including incompatibilities.",
+      "Feeling more connected when they show up consistently, not when they withhold.",
+    ],
+    practice:
+      "Ask: would this feeling survive a year of clear, consistent, predictable presence from them? Limerence usually wouldn't — it needs the gap to live in. Love grows in the gap closing.",
+  },
+  {
+    id: "dating-operant-conditioning",
+    label: "Dating & Operant Conditioning",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Intermittent reinforcement is not romance — it's a slot machine.",
+    question: "Am I being trained to crave them, or being met by them?",
+    explanation:
+      "Operant conditioning describes how unpredictable rewards create the strongest behavioral hooks. Applied to dating: the partner who is sometimes warm and sometimes cold creates a stronger compulsion than the partner who is reliably warm. The pull you feel may not be love — it may be the slot-machine effect of intermittent reinforcement on your nervous system.",
+    fear: [
+      "Feeling the strongest pull right after a long silence ends.",
+      "Treating crumbs as feasts because the gap was so long.",
+      "Building tolerance — needing bigger signs of interest to feel relief.",
+      "Chasing the high of reconnection rather than the steadiness of being together.",
+    ],
+    secure: [
+      "Recognizing the pattern as conditioning, not chemistry.",
+      "Letting reliable warmth register as warmth, even when it's not dramatic.",
+      "Refusing to escalate to match someone else's intermittency.",
+      "Choosing the partner whose presence is consistent, not whose absence is dramatic.",
+    ],
+    practice:
+      "Plot the last month of contact on a calendar. Are the peaks following long droughts? If yes, the pull you feel is likely conditioning. The cure is not a bigger reward — it's choosing a different reward schedule.",
+  },
+  {
+    id: "investment-vs-vulnerability",
+    label: "Investment vs Vulnerability",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Investing is what you give them; vulnerability is what you let them see.",
+    question: "Am I pouring effort into them, or actually letting them know me?",
+    explanation:
+      "These two are often confused. Investment is about effort, time, planning, gestures — the visible work of building a connection. Vulnerability is the internal counterpart — letting yourself be seen, naming what you actually feel, risking being unliked for who you really are. You can be highly invested and still emotionally hidden. The first builds activity; only the second builds intimacy.",
+    fear: [
+      "Pouring time and energy in while staying carefully edited.",
+      "Treating effort as proof that you're 'all in.'",
+      "Hoping intensity of investment will substitute for honesty.",
+      "Feeling resentful when investment isn't met — without ever naming what you need.",
+    ],
+    secure: [
+      "Letting them see the unedited version, not just the offered one.",
+      "Naming feelings as they arise, not after they've calcified.",
+      "Risking being misunderstood in service of being known.",
+      "Investing from fullness, not as a bid for security.",
+    ],
+    practice:
+      "Sort the last week into two lists: things you did for them, and things you let them see about you. If column one is much longer than column two, the connection is heavy on investment and light on vulnerability — and that imbalance usually grows resentment over time.",
+  },
+  {
+    id: "emotional-immaturity",
+    label: "Emotional Immaturity",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Emotional maturity is the willingness to hold discomfort without making it someone else's job.",
+    question: "Can both of us sit with hard feelings, or does one of us always need them to disappear?",
+    explanation:
+      "Emotional immaturity isn't about age — it's about a relationship to discomfort. The mature version can feel anger without lashing out, hurt without retaliating, fear without controlling. The immature version externalizes — every hard feeling becomes the other person's responsibility to fix, soothe, or absorb. The most reliable predictor of a workable relationship is whether both people can stay with their own state without weaponizing it.",
+    fear: [
+      "Punishing or withdrawing instead of naming what hurt.",
+      "Stonewalling or going silent as a form of leverage.",
+      "Bringing up old wounds during unrelated arguments.",
+      "Expecting the other person to manage your mood for you.",
+    ],
+    secure: [
+      "Naming the feeling clearly: 'I'm hurt, I'm scared, I'm angry.'",
+      "Taking space without using it as a weapon.",
+      "Returning to repair instead of waiting to be pursued.",
+      "Holding your own discomfort while the other person holds theirs.",
+    ],
+    practice:
+      "After your next hard moment together, ask: did I make them responsible for managing my feeling, or did I name it and hold it myself? Note where each of you defaulted. The pattern over time is the relationship.",
+  },
 
   {
     id: "standards",
