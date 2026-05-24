@@ -386,7 +386,130 @@ function BlockageWindow({ chakra, onClose }) {
   );
 }
 
-function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpenBlockage, onOpenPlanet }) {
+const IDENTITY_MAP = [
+  { id: "root",       name: "Root",        question: "Do I have the right to be here?" },
+  { id: "sacral",     name: "Sacral",      question: "What do I feel myself to be?" },
+  { id: "solar",      name: "Solar Plexus",question: "Who am I as an individual?" },
+  { id: "heart",      name: "Heart",       question: "Am I loved / connected?" },
+  { id: "throat",     name: "Throat",      question: "Can I express what I am?" },
+  { id: "third-eye",  name: "Third Eye",   question: "What do I know to be true?" },
+  { id: "crown",      name: "Crown",       question: "What is the deeper meaning of who I am?" },
+];
+
+function DeepDiveWindow({ chakra, chakras, onClose }) {
+  useEffect(() => {
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    document.addEventListener("keydown", handler);
+    return () => document.removeEventListener("keydown", handler);
+  }, [onClose]);
+
+  const { deepDive } = chakra;
+  const shortName = chakra.name.replace(" Chakra", "").replace(" Center", "");
+
+  return (
+    <div
+      className="fixed inset-0 z-[60] flex items-center justify-center overflow-y-auto bg-slate-950/90 px-4 py-6 text-white backdrop-blur-xl"
+      role="dialog"
+      aria-modal="true"
+      aria-label={`${chakra.name} identity deep dive`}
+    >
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(99,102,241,0.14),transparent_28%),radial-gradient(circle_at_70%_90%,rgba(168,85,247,0.12),transparent_30%)]" />
+
+      <section className="relative z-10 w-full max-w-3xl overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 shadow-2xl backdrop-blur-xl">
+        <div className="p-6 sm:p-8" style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.35), rgba(15,23,42,0.68))" }}>
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <p className="mb-2 text-xs uppercase tracking-[0.25em] text-white/60">Identity deep dive</p>
+              <h2 className="text-3xl font-black tracking-tight sm:text-4xl">{chakra.name}</h2>
+              <p className="mt-2 text-sm font-semibold text-indigo-200">{deepDive.headline}</p>
+              <p className="mt-3 max-w-xl text-sm leading-relaxed text-white/75">{deepDive.intro}</p>
+            </div>
+            <button
+              type="button"
+              onClick={onClose}
+              className="rounded-2xl border border-white/15 bg-slate-950/30 px-4 py-3 font-semibold text-white transition hover:bg-slate-950/50 active:scale-95"
+            >
+              Close
+            </button>
+          </div>
+        </div>
+
+        <div className="space-y-5 p-5 sm:p-6">
+          {/* Identity map */}
+          <div className="rounded-[1.5rem] border border-indigo-300/20 bg-indigo-300/10 p-5">
+            <h3 className="mb-4 text-xs font-bold uppercase tracking-[0.2em] text-indigo-200">Identity map — all seven centers</h3>
+            <div className="space-y-2">
+              {IDENTITY_MAP.map((item) => {
+                const mapChakra = chakras.find((c) => c.id === item.id);
+                const isCurrent = item.id === chakra.id;
+                return (
+                  <div
+                    key={item.id}
+                    className={`flex items-center gap-3 rounded-2xl border p-3 ${isCurrent ? "border-white/30 bg-white/10" : "border-white/10 bg-slate-950/20"}`}
+                  >
+                    <span
+                      className="h-2.5 w-2.5 shrink-0 rounded-full"
+                      style={{ background: mapChakra?.color ?? "#6366f1", boxShadow: isCurrent ? `0 0 10px ${mapChakra?.glow}` : "none" }}
+                    />
+                    <span className={`shrink-0 text-xs font-bold ${isCurrent ? "text-white" : "text-slate-400"}`} style={{ minWidth: 78 }}>
+                      {item.name}
+                    </span>
+                    <span className={`text-sm leading-relaxed ${isCurrent ? "font-semibold text-white" : "text-slate-400"}`}>
+                      {isCurrent && <span className="mr-1" style={{ color: mapChakra?.color }}>→</span>}
+                      "{item.question}"
+                    </span>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* I am someone who... */}
+          <div className="rounded-[1.5rem] border border-white/15 bg-slate-950/30 p-5">
+            <h3 className="mb-4 text-lg font-bold">{shortName} identity is</h3>
+            <div className="space-y-3">
+              {deepDive.identityStatements.map((stmt) => (
+                <div key={stmt} className="rounded-2xl border border-white/10 bg-white/5 p-3 text-sm italic leading-relaxed text-slate-100">
+                  "{stmt}"
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm leading-relaxed text-slate-300">
+              The {shortName.toLowerCase()} chakra shapes identity through{" "}
+              <strong className="text-white">{deepDive.shapedBy}</strong>.
+            </p>
+          </div>
+
+          {/* When balanced */}
+          <div className="rounded-[1.5rem] border border-emerald-300/20 bg-emerald-300/10 p-5">
+            <h3 className="mb-4 text-lg font-bold text-emerald-100">When balanced, identity feels like</h3>
+            <div className="space-y-3">
+              {deepDive.balanced.map((stmt) => (
+                <div key={stmt} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm leading-relaxed text-slate-100">
+                  "{stmt}"
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* When blocked */}
+          <div className="rounded-[1.5rem] border border-rose-300/20 bg-rose-300/10 p-5">
+            <h3 className="mb-4 text-lg font-bold text-rose-100">When blocked, identity can feel like</h3>
+            <div className="space-y-3">
+              {deepDive.blocked.map((stmt) => (
+                <div key={stmt} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm italic leading-relaxed text-slate-100">
+                  "{stmt}"
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  );
+}
+
+function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpenBlockage, onOpenPlanet, onOpenDeepDive }) {
   return (
     <div className="space-y-4">
       <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-white/10 p-6 text-white shadow-2xl backdrop-blur-xl">
@@ -483,6 +606,15 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
               Explore blockages
             </button>
           )}
+          {chakra.deepDive && (
+            <button
+              type="button"
+              onClick={onOpenDeepDive}
+              className="rounded-2xl border border-indigo-300/30 bg-indigo-300/10 px-5 py-4 font-semibold text-white shadow-xl transition hover:bg-indigo-300/20 active:scale-[0.99] sm:col-span-2"
+            >
+              Identity deep dive
+            </button>
+          )}
         </div>
 
         <StretchImageLinks chakra={chakra} compact />
@@ -560,7 +692,7 @@ function BalanceIndicator({ chakra }) {
   );
 }
 
-function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage, onOpenPlanet }) {
+function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpenAffirmations, onOpenBlockage, onOpenPlanet, onOpenDeepDive }) {
   const currentIndex = chakras.findIndex((c) => c.id === chakra.id);
   const prevChakra = chakras[(currentIndex - 1 + chakras.length) % chakras.length];
   const nextChakra = chakras[(currentIndex + 1) % chakras.length];
@@ -621,6 +753,15 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
                   className="hidden rounded-2xl border border-rose-300/30 bg-rose-300/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-rose-300/20 active:scale-95 sm:block"
                 >
                   Blockages
+                </button>
+              )}
+              {chakra.deepDive && (
+                <button
+                  type="button"
+                  onClick={onOpenDeepDive}
+                  className="hidden rounded-2xl border border-indigo-300/30 bg-indigo-300/10 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-indigo-300/20 active:scale-95 sm:block"
+                >
+                  Identity
                 </button>
               )}
               <button
@@ -913,6 +1054,15 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
               Explore blockages
             </button>
           )}
+          {chakra.deepDive && (
+            <button
+              type="button"
+              onClick={onOpenDeepDive}
+              className="w-full rounded-2xl border border-indigo-300/30 bg-indigo-300/10 px-6 py-4 text-base font-semibold text-white transition hover:bg-indigo-300/20 active:scale-95 sm:hidden"
+            >
+              Identity deep dive
+            </button>
+          )}
           <button
             type="button"
             onClick={onClose}
@@ -938,6 +1088,7 @@ export default function Chakra3DVisualizer({ onBack, initialSection }) {
   const [affirmationOpen, setAffirmationOpen] = useState(false);
   const [blockageOpen, setBlockageOpen] = useState(false);
   const [planetOpen, setPlanetOpen] = useState(false);
+  const [deepDiveOpen, setDeepDiveOpen] = useState(false);
 
   const system = SYSTEMS.find((s) => s.id === systemId);
   const chakras = system.data;
@@ -953,6 +1104,7 @@ export default function Chakra3DVisualizer({ onBack, initialSection }) {
     setAffirmationOpen(false);
     setBlockageOpen(false);
     setPlanetOpen(false);
+    setDeepDiveOpen(false);
   }
 
   return (
@@ -1051,6 +1203,7 @@ export default function Chakra3DVisualizer({ onBack, initialSection }) {
               onOpenExpanded={() => setExpandedOpen(true)}
               onOpenBlockage={() => setBlockageOpen(true)}
               onOpenPlanet={() => setPlanetOpen(true)}
+              onOpenDeepDive={() => setDeepDiveOpen(true)}
             />
           </div>
         </div>
@@ -1071,11 +1224,16 @@ export default function Chakra3DVisualizer({ onBack, initialSection }) {
           onOpenAffirmations={() => setAffirmationOpen(true)}
           onOpenBlockage={() => setBlockageOpen(true)}
           onOpenPlanet={() => setPlanetOpen(true)}
+          onOpenDeepDive={() => setDeepDiveOpen(true)}
         />
       )}
 
       {blockageOpen && (
         <BlockageWindow chakra={selectedChakra} onClose={() => setBlockageOpen(false)} />
+      )}
+
+      {deepDiveOpen && (
+        <DeepDiveWindow chakra={selectedChakra} chakras={chakras} onClose={() => setDeepDiveOpen(false)} />
       )}
 
       {planetOpen && (
