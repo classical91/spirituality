@@ -857,6 +857,86 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
           </div>
         </section>
 
+        {chakra.deepDive && (
+          <section className="mt-6 overflow-hidden rounded-[1.75rem] border border-indigo-300/20 backdrop-blur-xl" style={{ background: "linear-gradient(135deg, rgba(99,102,241,0.18), rgba(168,85,247,0.10))" }}>
+            <div className="border-b border-white/10 p-6">
+              <p className="mb-1 text-xs uppercase tracking-[0.25em] text-indigo-200/80">Identity deep dive</p>
+              <h3 className="text-2xl font-bold">{chakra.deepDive.headline}</h3>
+              <p className="mt-3 max-w-2xl text-sm leading-relaxed text-slate-200">{chakra.deepDive.intro}</p>
+            </div>
+
+            <div className="space-y-5 p-6">
+              <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/35 p-5">
+                <h4 className="mb-3 text-xs font-bold uppercase tracking-[0.2em] text-indigo-200">Identity map — all seven centers</h4>
+                <div className="space-y-2">
+                  {IDENTITY_MAP.map((item) => {
+                    const mapChakra = chakras.find((c) => c.id === item.id);
+                    const isCurrent = item.id === chakra.id;
+                    return (
+                      <div
+                        key={item.id}
+                        className={`flex items-center gap-3 rounded-2xl border p-3 ${isCurrent ? "border-white/30 bg-white/10" : "border-white/10 bg-slate-950/20"}`}
+                      >
+                        <span
+                          className="h-2.5 w-2.5 shrink-0 rounded-full"
+                          style={{ background: mapChakra?.color ?? "#6366f1", boxShadow: isCurrent ? `0 0 10px ${mapChakra?.glow}` : "none" }}
+                        />
+                        <span className={`shrink-0 text-xs font-bold ${isCurrent ? "text-white" : "text-slate-400"}`} style={{ minWidth: 78 }}>
+                          {item.name}
+                        </span>
+                        <span className={`text-sm leading-relaxed ${isCurrent ? "font-semibold text-white" : "text-slate-400"}`}>
+                          {isCurrent && <span className="mr-1" style={{ color: mapChakra?.color }}>→</span>}
+                          "{item.question}"
+                        </span>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+
+              <div className="rounded-[1.5rem] border border-white/15 bg-slate-950/30 p-5">
+                <h4 className="mb-3 text-lg font-bold">
+                  {chakra.name.replace(" Chakra", "").replace(" Center", "")} identity is
+                </h4>
+                <div className="space-y-2">
+                  {chakra.deepDive.identityStatements.map((stmt) => (
+                    <div key={stmt} className="rounded-2xl border border-white/10 bg-white/5 p-3 text-sm italic leading-relaxed text-slate-100">
+                      "{stmt}"
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-4 text-sm leading-relaxed text-slate-300">
+                  The {chakra.name.replace(" Chakra", "").replace(" Center", "").toLowerCase()} chakra shapes identity through{" "}
+                  <strong className="text-white">{chakra.deepDive.shapedBy}</strong>.
+                </p>
+              </div>
+
+              <div className="grid gap-4 md:grid-cols-2">
+                <div className="rounded-[1.5rem] border border-emerald-300/20 bg-emerald-300/10 p-5">
+                  <h4 className="mb-3 text-base font-bold text-emerald-100">When balanced, identity feels like</h4>
+                  <div className="space-y-2">
+                    {chakra.deepDive.balanced.map((stmt) => (
+                      <div key={stmt} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm leading-relaxed text-slate-100">
+                        "{stmt}"
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-[1.5rem] border border-rose-300/20 bg-rose-300/10 p-5">
+                  <h4 className="mb-3 text-base font-bold text-rose-100">When blocked, identity can feel like</h4>
+                  <div className="space-y-2">
+                    {chakra.deepDive.blocked.map((stmt) => (
+                      <div key={stmt} className="rounded-2xl border border-white/10 bg-slate-950/25 p-3 text-sm italic leading-relaxed text-slate-100">
+                        "{stmt}"
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </section>
+        )}
+
         {chakra.diagramLevel && (
           <section className="mt-6 rounded-[1.75rem] border border-sky-300/15 bg-sky-300/10 p-6 backdrop-blur-xl">
             <div className="mb-4 flex items-center gap-3">
