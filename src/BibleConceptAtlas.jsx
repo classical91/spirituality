@@ -8,6 +8,7 @@ const tabs = [
   { id: "sins", label: "7 Deadly Sins", icon: "☿" },
   { id: "inferno", label: "Dante Inferno", icon: "◉" },
   { id: "demons", label: "Demonology", icon: "♆" },
+  { id: "angels", label: "Angelology", icon: "✸" },
   { id: "prayers", label: "Prayer Themes", icon: "✿" },
   { id: "map", label: "Sin Map", icon: "⌁" },
   { id: "wheel", label: "Soul · Spirit · Body", icon: "◈" },
@@ -463,6 +464,99 @@ const demons = [
   },
 ];
 
+const angels = [
+  {
+    name: "Michael",
+    rank: "Archangel",
+    role: "Warrior, protector, prince of Israel",
+    scripture: "Daniel 10:13, 12:1; Jude 9; Revelation 12:7",
+    association: "Spiritual warfare, divine judgment, and the protection of God's people. Michael leads the heavenly host against Satan and his angels in the final conflict of Revelation.",
+    note: "In Daniel, Michael is 'one of the chief princes' and the great prince who stands guard over Israel. In Jude 9 he does not bring a slanderous accusation even against the devil, but says 'The Lord rebuke you.'",
+    clarity: "One of only two angels named in both the Old and New Testaments. His title 'archangel' is used in Jude 9.",
+  },
+  {
+    name: "Gabriel",
+    rank: "Archangel · Messenger",
+    role: "Divine herald and announcer of redemptive history",
+    scripture: "Daniel 8:16, 9:21; Luke 1:19, 26",
+    association: "Sent to interpret Daniel's visions, to announce John the Baptist's birth to Zechariah, and to announce the Incarnation of Christ to Mary. He appears at every hinge-point of salvation history.",
+    note: "Gabriel identifies himself in Luke 1:19 as one who 'stands in the presence of God.' His appearances consistently precede or inaugurate major redemptive events.",
+    clarity: "Named in both Testaments. His consistent function as divine messenger is one of the clearest angelic roles in all of Scripture.",
+  },
+  {
+    name: "Raphael",
+    rank: "Archangel · Healer",
+    role: "Healer, guide on perilous journeys, intercessor",
+    scripture: "Tobit 12:15; Revelation 8:2 (implied among the seven)",
+    association: "In Tobit, Raphael travels with Tobias in disguise, heals Tobit's blindness, and reveals himself as 'one of the seven angels who stand ready and enter before the glory of the Lord.'",
+    note: "Raphael is named in the deuterocanonical Book of Tobit, accepted as Scripture by Catholic and Orthodox traditions but not included in the Protestant canon.",
+    clarity: "Canonical status varies by tradition. Raphael's name does not appear in the Protestant Old or New Testament. Treat this card as deuterocanonical / traditional.",
+  },
+  {
+    name: "Seraphim",
+    rank: "Order · Throne Guardians",
+    role: "Agents of holy fire, ceaseless worship before the divine throne",
+    scripture: "Isaiah 6:1–7",
+    association: "Six-winged creatures who surround the divine throne crying 'Holy, holy, holy is the LORD of hosts.' One takes a burning coal and touches Isaiah's lips — cleansing him for prophetic commission.",
+    note: "Seraphim appear only in Isaiah 6. Their name means 'burning ones.' Their primary activity is worship, not warfare. The fire imagery connects holiness with purification.",
+    clarity: "An angelic order, not an individual. Their portrayal in Isaiah 6 is the only direct biblical description of Seraphim.",
+  },
+  {
+    name: "Cherubim",
+    rank: "Order · Sacred Guardians · Throne Bearers",
+    role: "Guardians of holy thresholds, bearers of the divine glory-throne",
+    scripture: "Genesis 3:24; Exodus 25:18–22; Ezekiel 1, 10; Revelation 4",
+    association: "Placed at Eden's gate with a flaming sword. Woven in gold into the Ark of the Covenant. Ezekiel sees them as four-faced, four-winged creatures who carry the divine throne-chariot wherever the glory moves.",
+    note: "Ezekiel's cherubim (the 'living creatures') have faces of a lion, ox, human, and eagle — they are terrifying and majestic, bearing no resemblance to the chubby infant figures of Renaissance art.",
+    clarity: "The popular image of cherubim as baby angels is entirely absent from Scripture. Biblically they are fearsome guardians and throne bearers.",
+  },
+  {
+    name: "The Angel of the LORD",
+    rank: "Theophanic Figure",
+    role: "Visible, speaking representation of divine presence",
+    scripture: "Genesis 16:7–13; Exodus 3:2–6; Judges 6:11–23; Zechariah 1:11–13",
+    association: "A recurring figure who appears as an angel but speaks with divine authority, accepts worship, and in some texts is directly identified with God. Appears to Hagar, Moses, Gideon, and many others in their extremity.",
+    note: "Many theologians interpret this figure as a pre-incarnate appearance of Christ (a Christophany). The figure speaks in the first person as God and receives the worship due to God.",
+    clarity: "The precise nature of the Angel of the LORD — separate angelic being or divine appearance — is a significant theological question. The text itself is deliberately ambiguous in some passages.",
+  },
+  {
+    name: "Four Living Creatures",
+    rank: "Order · Throne Guardians",
+    role: "Representatives of creation in ceaseless throne-room worship",
+    scripture: "Ezekiel 1:5–28; Revelation 4:6–9",
+    association: "Four faces (lion, ox, human, eagle), full of eyes, living fire between them. In Revelation they never cease declaring God's holiness day or night. Early Christians read the four faces as symbols of the four Gospels.",
+    note: "Ezekiel 10 identifies these living creatures as cherubim. The 'wheels within wheels' (ophanim) move with them, suggesting the full divine throne-chariot is a complex of angelic beings and divine glory.",
+    clarity: "The cosmic and terrifying imagery of Ezekiel 1 resists neat categorization. These creatures exceed any single system of classification.",
+  },
+  {
+    name: "The Heavenly Host",
+    rank: "Corporate · Angelic Army",
+    role: "Worshippers, warriors, and servants of God's purposes",
+    scripture: "Luke 2:13–14; 2 Kings 6:15–17; Revelation 19:14",
+    association: "The vast multitude of angels who worship God, execute divine judgment, and serve his plans in creation and history. 'A multitude of the heavenly host' announced Christ's birth. Elisha's servant saw them as chariots of fire surrounding the Syrian army.",
+    note: "'LORD of hosts' (Yahweh Sabaoth) is one of the primary divine titles in Scripture — naming God as commander of the angelic army. The hosts are never independent agents; they serve his will entirely.",
+    clarity: "The heavenly host is a collective, not a hierarchy system. Scripture emphasizes their obedience and vast number rather than their internal rankings.",
+  },
+  {
+    name: "Guardian Angels",
+    rank: "Ministry · Personal Protection",
+    role: "Ministering spirits assigned to serve those who will inherit salvation",
+    scripture: "Matthew 18:10; Psalm 91:11–12; Hebrews 1:14; Acts 12:15",
+    association: "Matthew 18:10 suggests children have angels 'who always see the face of my Father in heaven.' Hebrews 1:14 defines all angels as 'ministering spirits sent to serve for the sake of those who are to inherit salvation.'",
+    note: "When Peter was released from prison and knocked at the door, those inside assumed it was 'his angel' (Acts 12:15) — suggesting the early church assumed personal angelic assignment.",
+    clarity: "Scripture affirms angelic ministry toward believers without specifying exactly how guardianship operates. The doctrine varies across Christian traditions.",
+  },
+  {
+    name: "The Commander of the LORD's Army",
+    rank: "Archangel-class · Theophanic Figure",
+    role: "Commander of the divine military host",
+    scripture: "Joshua 5:13–15",
+    association: "Appears to Joshua before the battle of Jericho with drawn sword. He answers Joshua's 'whose side are you on?' not with 'yours' but with 'I am the commander of the LORD's army.' Joshua falls in worship and removes his sandals.",
+    note: "The command to remove sandals on holy ground is the same given to Moses at the burning bush (Exodus 3:5). Many read this as a Christophany — a pre-incarnate appearance of Christ.",
+    clarity: "The figure's reception of worship and the holy-ground command distinguish this from ordinary angelic appearances, where angels typically refuse worship.",
+  },
+];
+
 const wheelSoulIssues = [
   {
     id: 1,
@@ -897,6 +991,58 @@ const prayerData = {
       "Holy God, the wilderness is not beyond your reach. Whether I carry my own guilt or the projected guilt of others, teach me the difference, help me set down what is not mine, and receive your complete forgiveness.",
     ],
   },
+  angels: {
+    "Michael": [
+      "Lord, thank you for Michael and the heavenly host who stand against every spiritual force of evil. In the battles I cannot see, remind me that the armies of heaven are engaged and that I do not fight alone.",
+      "Father, Michael does not speak on his own authority — even when confronting the devil he says 'The Lord rebuke you.' Teach me that same restraint: to act under your authority rather than my own indignation.",
+      "Holy God, the warfare Michael wages declares that Satan's accusations against your people are already answered in Christ. Let that victory be real to me today. I am not condemned; I am kept.",
+    ],
+    "Gabriel": [
+      "Lord, Gabriel announced the moments your redemption broke into history. Tune my ears to hear your word in the ordinary — the quiet messages that point toward your larger purposes for my life.",
+      "Father, Gabriel stands in your presence and goes forth at your word. Give me that same attentiveness: to wait on you before I speak, to carry only what you have actually given, and to deliver it faithfully.",
+      "Holy God, you sent Gabriel to the afraid and the surprised — to Zechariah in the temple and to Mary in Nazareth. You choose unlikely messengers and unlikely recipients. Use me however you will.",
+    ],
+    "Raphael": [
+      "Lord, Raphael's ministry is healing and guidance on difficult journeys. I bring before you every hidden wound and every path that feels uncertain. Send your healing presence into every hidden place.",
+      "Father, the tradition of Raphael carrying prayers before your throne is a beautiful image of intercession. In that spirit, I ask that my own prayers rise before you, and that you send help to those I lift by name.",
+      "Holy God, Tobias did not know his companion was an angel. Guard me from assuming your help must arrive in obvious forms. Let me recognize your guidance even when it looks completely ordinary.",
+    ],
+    "Seraphim": [
+      "Lord, the Seraphim cry 'Holy, holy, holy' without ceasing. Let that refrain echo in me — a living reminder that you are wholly other, wholly good, and worthy of everything I have.",
+      "Father, the fire of the Seraphim cleanses Isaiah's lips before his prophetic commission. Whatever in my speech is impure, careless, or dishonoring — cleanse it. Prepare me to speak only what comes from you.",
+      "Holy God, the creatures nearest your throne are overwhelmed with worship, not with knowledge or power. Teach me that closeness to you produces awe before it produces anything else. Draw me near and let your holiness undo me gently.",
+    ],
+    "Cherubim": [
+      "Lord, the Cherubim guard the threshold of sacred space — from Eden's gate to the Ark of the Covenant. I come through the one door that is open: Christ, who has made access to your presence possible.",
+      "Father, the Cherubim woven into the Ark remind me that your dwelling is not casual or common. Guard in me a holy reverence for your presence — not fear that drives me away, but awe that draws me near with care.",
+      "Holy God, Ezekiel's vision of the Cherubim carrying your glory shows that your presence moves, leads, and cannot be contained or held stationary. Follow your glory wherever it leads. Do not let me cling to where it was.",
+    ],
+    "The Angel of the LORD": [
+      "Lord, the Angel of the LORD appeared at every moment of desperate need — to Hagar in the wilderness, to Gideon by the winepress, to Elijah under the broom tree. You meet your people in their actual place, not where they think they should be.",
+      "Father, the recipients of these visits were not ready. They were afraid, exhausted, or hiding. Meet me in exactly the condition I am in. I do not need to be prepared for you. You come first.",
+      "Holy God, you appeared in ways that were only recognized after the fact — 'Surely the LORD is in this place, and I did not know it.' Open my eyes to where you have already been present in what I thought was ordinary.",
+    ],
+    "Four Living Creatures": [
+      "Lord, the four living creatures represent all creation offering itself back to you in unending worship. Let that be the posture of my life — not performance, but existence given back to the One who gave it.",
+      "Father, the creatures are 'full of eyes' — wholly attentive, wholly aware of what you are doing. Give me even a fraction of that attentiveness in prayer: to see what you are doing, to notice where you are moving.",
+      "Holy God, the living creatures have no rest day or night in their worship. I will rest — you made me for that. But let worship be the rhythm my rest returns to, not an obligation I escape as soon as I am able.",
+    ],
+    "The Heavenly Host": [
+      "Lord, the heavenly host who sang over Bethlehem were not singing for themselves. They sang because the moment the world had been waiting for had arrived. Teach me to celebrate your acts in history, not only my personal experiences of you.",
+      "Father, Elisha prayed that his servant's eyes would be opened, and he saw the horses and chariots of fire surrounding them. Open my eyes to the reality that your resources surround the very situations that terrify me.",
+      "Holy God, the hosts of heaven are not distant or neutral. They serve for the sake of those who will inherit salvation. That is me. Thank you that I am not unattended in a world that sometimes feels hostile and vast.",
+    ],
+    "Guardian Angels": [
+      "Lord, the thought that angels always see your face on behalf of your children is humbling. I am cared for at levels I cannot track or measure. Let that truth move me from anxiety to trust.",
+      "Father, Psalm 91 promises that you will command your angels to guard me in all my ways. I do not always feel guarded. Anchor me in what your word says rather than what my circumstances seem to confirm.",
+      "Holy God, your angels are ministering spirits sent to serve those who will inherit salvation. The ministry happens whether or not I see it, feel it, or acknowledge it. Thank you for the unseen help that has already been given.",
+    ],
+    "The Commander of the LORD's Army": [
+      "Lord, the Commander's answer to Joshua was neither 'I am for you' nor 'I am for your enemies' — but 'I am the commander of the LORD's army.' Remind me that you do not exist to take my side. I exist to take yours.",
+      "Father, Joshua fell face down in worship before asking what message the Commander had. Before I bring my agenda to you, let me fall down and ask: what is yours? What are your orders here?",
+      "Holy God, Joshua was told to remove his sandals — holy ground. Every encounter with your genuine presence is holy ground. Slow me down. Let me not rush past the holiness to get to the instructions.",
+    ],
+  },
   themes: prayerTextByTitle,
 };
 
@@ -919,6 +1065,7 @@ function PrayerModal({ prayers, title, type, onClose }) {
     type === "sins" ? "text-red-400/70" :
     type === "inferno" ? "text-violet-300/70" :
     type === "demons" ? "text-red-400/70" :
+    type === "angels" ? "text-cyan-300/70" :
     "text-amber-300/70";
 
   const borderAccent =
@@ -926,6 +1073,7 @@ function PrayerModal({ prayers, title, type, onClose }) {
     type === "sins" ? "border-red-400/20 bg-red-500/5" :
     type === "inferno" ? "border-violet-400/20 bg-violet-500/5" :
     type === "demons" ? "border-red-400/20 bg-red-500/5" :
+    type === "angels" ? "border-cyan-400/20 bg-cyan-500/5" :
     "border-amber-300/20 bg-amber-300/5";
 
   return (
@@ -972,6 +1120,7 @@ function Pill({ children, tone = "default" }) {
     gold: "border-amber-300/30 bg-amber-300/10 text-amber-100",
     red: "border-red-400/30 bg-red-500/10 text-red-100",
     blue: "border-sky-400/30 bg-sky-500/10 text-sky-100",
+    cyan: "border-cyan-400/30 bg-cyan-500/10 text-cyan-100",
     green: "border-emerald-400/30 bg-emerald-500/10 text-emerald-100",
     violet: "border-violet-400/30 bg-violet-500/10 text-violet-100",
   };
@@ -991,7 +1140,7 @@ function DetailModal({ item, onClose, type, onPray }) {
         <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
           <div className="flex items-start justify-between gap-4">
             <div>
-              <Pill tone={type === "demons" ? "red" : type === "virtues" ? "green" : type === "inferno" ? "violet" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold"}>{type}</Pill>
+              <Pill tone={type === "demons" ? "red" : type === "angels" ? "cyan" : type === "virtues" ? "green" : type === "inferno" ? "violet" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold"}>{type}</Pill>
               <h2 className="mt-3 text-2xl font-bold text-white">{item.circle ? `Circle ${item.circle}: ${heading}` : heading}</h2>
             </div>
             <div className="flex shrink-0 gap-2">
@@ -1036,7 +1185,7 @@ function ConceptCard({ item, type, onOpen, onPray }) {
   const title = item.title || item.name;
   const subtitle = item.short || item.family || item.sin || item.category || item.tradition;
   const body = item.summary || item.focus || item.distortion || item.meaning || item.association;
-  const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold";
+  const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : type === "angels" ? "cyan" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold";
   const prayers = getPrayers(item, type);
 
   return (
@@ -1090,6 +1239,12 @@ const toneClasses = {
     border: "border-sky-400/15 hover:border-sky-400/35",
     eyebrow: "text-sky-300/80",
     btn: "text-sky-300/60 hover:text-sky-200",
+  },
+  cyan: {
+    pill: "text-cyan-200 bg-cyan-500/15 border border-cyan-400/20",
+    border: "border-cyan-400/15 hover:border-cyan-400/35",
+    eyebrow: "text-cyan-300/80",
+    btn: "text-cyan-300/60 hover:text-cyan-200",
   },
   gold: {
     pill: "text-amber-200 bg-amber-500/15 border border-amber-400/20",
@@ -1196,6 +1351,65 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
           <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
         </div>
         <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
+      </div>
+    );
+  }
+
+  if (tabId === "angels") {
+    return (
+      <div>
+        <SectionHeader eyebrow="Heavenly messengers" title="Angelology">
+          Angels in Scripture are not the winged, glowing figures of popular imagination. They are servants, warriors, messengers, and throne guardians — powerful and often terrifying in almost every account. This section covers named angels, major angelic orders, and key theophanies.
+        </SectionHeader>
+        <div className="mb-6 rounded-3xl border border-cyan-300/20 bg-cyan-500/10 p-5 text-sm leading-7 text-cyan-50/90">
+          <strong>Design rule:</strong> Scripture names very few angels by name. Where a tradition, rank, or canonical status differs across Protestant, Catholic, and Orthodox readings, that is clearly noted on each card. The goal is accurate representation across traditions, not spiritual speculation.
+        </div>
+
+        <div className="mb-8 grid gap-4 lg:grid-cols-3">
+          <div className="rounded-3xl border border-cyan-300/25 bg-cyan-500/10 p-6">
+            <Pill tone="cyan">Named Angels</Pill>
+            <h3 className="mt-4 text-2xl font-black text-white">Individuals</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">Only Michael and Gabriel are named in both the Old and New Testaments. Raphael is named in the deuterocanonical Book of Tobit. All others in popular tradition lack direct scriptural naming.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Michael", "Gabriel", "Raphael"].map((n) => <Pill key={n} tone="cyan">{n}</Pill>)}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-sky-300/25 bg-sky-500/10 p-6">
+            <Pill tone="blue">Angelic Orders</Pill>
+            <h3 className="mt-4 text-2xl font-black text-white">Orders</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">Scripture describes distinct classes of angelic beings with different forms and functions. Seraphim, Cherubim, and the Four Living Creatures each appear in dramatic vision passages with unique descriptions.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["Seraphim", "Cherubim", "Four Living Creatures", "Heavenly Host"].map((n) => <Pill key={n} tone="blue">{n}</Pill>)}
+            </div>
+          </div>
+          <div className="rounded-3xl border border-white/20 bg-white/5 p-6">
+            <Pill>Theophanies</Pill>
+            <h3 className="mt-4 text-2xl font-black text-white">Divine Appearances</h3>
+            <p className="mt-2 text-sm leading-6 text-slate-300">Some angelic figures in Scripture receive worship and speak with divine authority — suggesting they are not ordinary angels but visible manifestations of divine presence, possibly pre-incarnate appearances of Christ.</p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["The Angel of the LORD", "The Commander of the LORD's Army"].map((n) => <Pill key={n}>{n}</Pill>)}
+            </div>
+          </div>
+        </div>
+
+        <GridView items={searchable.angels} type="angels" onOpen={openModal} onPray={openPrayer} />
+
+        <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+          <h3 className="mb-3 text-xl font-bold text-white">Key distinctions</h3>
+          <div className="grid gap-4 md:grid-cols-2">
+            {[
+              ["Angels are never independent", "In Scripture, angels consistently say 'I was sent,' receive orders, and defer all worship to God. They are servants of the divine will, not powers in their own right."],
+              ["Most angels are unnamed", "Of the vast heavenly host described in Scripture, only Michael and Gabriel are named in the canonical Protestant Bible. Be cautious of traditions that name and rank many others."],
+              ["The Angel of the LORD is unique", "Unlike regular messengers, this figure speaks as God, receives worship, and is identified with divine presence. Most theologians treat this as a distinct category."],
+              ["Angelic appearances cause fear", "The first thing angels typically say in Scripture is 'Do not be afraid' — because their appearance was terrifying, not comforting. Popular sentimentality has reversed this."],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                <p className="mb-1 text-sm font-bold text-white">{title}</p>
+                <p className="text-sm leading-6 text-slate-400">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
@@ -1402,6 +1616,7 @@ export default function BibleConceptAtlas({ onBack }) {
       sins: filterItems(sins),
       inferno: filterItems(inferno),
       demons: filterItems(demons),
+      angels: filterItems(angels),
       wheelSoulIssues: filterItems(wheelSoulIssues),
       wheelMindPatterns: filterItems(wheelMindPatterns),
       wheelEmotions: filterItems(wheelEmotions),
