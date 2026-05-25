@@ -292,6 +292,70 @@ const phrasebookBanks = [
       "I do the work of being her man — gladly.",
       "This role suits me, and I honor it."
     ]
+  },
+  {
+    title: "Attraction with my woman",
+    tag: "Attraction",
+    desc: "Language for the pull between you — her toward you, you toward her — named as a natural, living thing.",
+    examples: [
+      "She is attracted to me.",
+      "The attraction between us is real and mutual.",
+      "She finds me magnetic.",
+      "I draw her in effortlessly.",
+      "She desires me.",
+      "Our chemistry is steady — not just sparks, but a flame.",
+      "She is pulled toward me naturally.",
+      "I attract her with who I am, not with what I perform.",
+      "The pull between us is easy and alive."
+    ]
+  },
+  {
+    title: "Intimacy with my woman",
+    tag: "Intimacy",
+    desc: "Language for closeness in all its forms — emotional, physical, spiritual — as something mutual and natural.",
+    examples: [
+      "We are intimate with each other.",
+      "She is close to me — in body, heart, and spirit.",
+      "Our intimacy is safe and natural.",
+      "I am emotionally and physically close to her.",
+      "We share a closeness that feels whole.",
+      "She opens to me, and I open to her.",
+      "Our connection goes deep.",
+      "Being intimate with her feels easy and right.",
+      "We have the kind of closeness that grows over time."
+    ]
+  },
+  {
+    title: "Getting along with my woman",
+    tag: "Harmony",
+    desc: "Phrasings for the everyday ease of getting along — not dramatic love, just genuine good feeling between two people.",
+    examples: [
+      "We get along well.",
+      "Things are easy between us.",
+      "We don't have to force it.",
+      "We figure things out together, calmly.",
+      "We navigate life without unnecessary friction.",
+      "We work well together.",
+      "We disagree and repair without drama.",
+      "There's no war between us — just two people finding their way.",
+      "Getting along feels natural to us."
+    ]
+  },
+  {
+    title: "Seeing her",
+    tag: "Presence",
+    desc: "The language of noticing her — being present to who she is, how she looks, how she moves through the world.",
+    examples: [
+      "I see her.",
+      "I notice her — the real her.",
+      "I am present to who she is.",
+      "I take her in.",
+      "I appreciate what I see when I look at her.",
+      "She feels seen by me.",
+      "I pay attention to her.",
+      "I don't take her for granted — I look.",
+      "Every time I see her, I see someone worth seeing."
+    ]
   }
 ];
 

@@ -363,6 +363,30 @@ const concepts = [
     practice:
       "Ask once, clearly: 'What are we doing, and what are we building toward?' Their answer — including hesitation — is the answer. Drift is also a choice, just an unspoken one.",
   },
+  {
+    id: "companionship",
+    label: "Companionship",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Companionship is what's left when the intensity settles — and it's the best part.",
+    question: "Do I actually enjoy being with this person — or do I only want the feeling they give me?",
+    explanation:
+      "Passion can exist without companionship, and companionship can exist without grand passion. But the relationships that last are built on the quieter thing: the person whose company you actually want — when nothing's exciting, when you're tired, when you're just in a room together. Companionship is comfort without boredom, familiarity without contempt. It doesn't ask to be performed. It's just there.",
+    fear: [
+      "Staying for the highs while tolerating the person they're attached to.",
+      "Mistaking loneliness relief for genuine enjoyment of their presence.",
+      "Only feeling connected during intensity, conflict, or reunion.",
+      "Needing things to be exciting to feel like the relationship is 'working.'",
+    ],
+    secure: [
+      "Looking forward to ordinary time with them — not just events.",
+      "Being comfortable in quiet, shared space.",
+      "Enjoying who they are as a person, separate from how they make you feel.",
+      "Choosing their company when you're not chasing anything.",
+    ],
+    practice:
+      "Imagine a slow Tuesday afternoon — no plans, no agenda — just the two of you in a room. Do you feel peace, comfort, and ease? Or do you start filling silence and engineering closeness? Your honest answer is your answer.",
+  },
 
   {
     id: "standards",
@@ -483,6 +507,54 @@ const concepts = [
     ],
     practice:
       "Pick one part of yourself you've kept hidden. Share it this week. Notice their response. Their reaction to your real self is more information than a hundred 'I love you's spoken to the curated version.",
+  },
+  {
+    id: "being-together-emotionally",
+    label: "Being Together Emotionally",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Emotional togetherness is a shared state — not one person managing the other.",
+    question: "Are we emotionally present with each other, or just physically close?",
+    explanation:
+      "Emotional togetherness is different from proximity. It means both people are aware of the other's inner world, respond to it, and aren't alone in their feelings even when the feelings are hard. It's possible to sleep in the same bed and be emotionally alone. It's also possible to be apart and feel deeply together. The standard is: can I share what I'm actually going through, and do they receive it as real?",
+    fear: [
+      "Feeling alone in your emotional life while in a relationship.",
+      "Suppressing difficult feelings to protect the mood.",
+      "Carrying the emotional weight alone while they stay light.",
+      "Believing 'they're just not emotional' is a permanent reality to accept.",
+    ],
+    secure: [
+      "Knowing their actual emotional state — not just the surface version.",
+      "Feeling received when you share something real.",
+      "Moving through hard feelings together rather than in parallel.",
+      "Neither person carrying the weight alone.",
+    ],
+    practice:
+      "Once this week, share something emotionally real — not a complaint, a need, or a conflict, but something true about your inner world. Notice whether they lean in or deflect. That response is the data.",
+  },
+  {
+    id: "financial-partnership",
+    label: "Financial Partnership",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Money is one of the places where shared values either show up — or don't.",
+    question: "Do we have a shared vision for our financial life together, or are we just hoping it works out?",
+    explanation:
+      "Financial partnership isn't about having the same income or the same spending style. It's about shared values: how you treat money, what you're building toward, how you make decisions about resources, and whether you're honest about your situation. Incompatibility here is one of the most common long-term wedges in relationships — because money is tangled up with security, control, freedom, and worth. A couple doesn't have to agree on everything, but they do need to talk about it.",
+    fear: [
+      "Avoiding financial conversations to keep the mood light.",
+      "Assuming compatibility without ever checking.",
+      "Letting one person carry the financial clarity while the other stays uninvolved.",
+      "Using money (or withholding it) as control.",
+    ],
+    secure: [
+      "Talking about money early — not as a test, as a conversation.",
+      "Sharing financial goals and comparing them honestly.",
+      "Building toward something together, with shared awareness.",
+      "Making financial decisions together, without secrecy or imbalance.",
+    ],
+    practice:
+      "Have one clear money conversation — not a fight, a conversation. What do we each earn? What are we saving toward? What's our financial vision for the next 5 years? The discomfort of the question is a fraction of the cost of not asking.",
   },
   {
     id: "boundaries",
