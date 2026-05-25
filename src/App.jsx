@@ -48,6 +48,10 @@ export default function App() {
     (portalId, { section } = {}) => {
       const portal = portalsById[portalId];
       if (!portal) return;
+      if (portal.external && portal.externalUrl) {
+        window.open(portal.externalUrl, '_blank', 'noopener,noreferrer');
+        return;
+      }
       navigate(section ? `${portal.path}?section=${encodeURIComponent(section)}` : portal.path);
     },
     [navigate]
