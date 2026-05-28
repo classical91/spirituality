@@ -464,6 +464,83 @@ const demons = [
   },
 ];
 
+// Comprehensive comparative classification of the seven deadly sins and the
+// demon "princes" assigned to each by the two main historical schemes. The two
+// schemes disagree on several pairings — the table makes those divergences
+// visible rather than presenting one list as definitive doctrine.
+const demonClassification = [
+  {
+    sin: "Pride",
+    latin: "Superbia",
+    binsfeld: "Lucifer",
+    lanterne: "Lucifer",
+    virtue: "Humility",
+    dante: "Logic of the fall; Satan frozen at the center (Circle 9)",
+    agree: true,
+    note: "Both schemes agree: pride is the root rebellion, archetypally Lucifer's refusal to receive being as gift.",
+  },
+  {
+    sin: "Greed",
+    latin: "Avaritia",
+    binsfeld: "Mammon",
+    lanterne: "Mammon",
+    virtue: "Charity",
+    dante: "Circle 4 — hoarders and wasters",
+    agree: true,
+    note: "Both schemes agree: Mammon personifies wealth set up as a rival master (Matthew 6:24).",
+  },
+  {
+    sin: "Lust",
+    latin: "Luxuria",
+    binsfeld: "Asmodeus",
+    lanterne: "Asmodeus",
+    virtue: "Chastity",
+    dante: "Circle 2 — souls blown by restless winds",
+    agree: true,
+    note: "Both schemes agree: Asmodeus (from the Book of Tobit) governs disordered desire.",
+  },
+  {
+    sin: "Wrath",
+    latin: "Ira",
+    binsfeld: "Satan (Amon)",
+    lanterne: "Satan",
+    virtue: "Patience",
+    dante: "Circle 5 — the wrathful and sullen in the Styx",
+    agree: true,
+    note: "Both schemes agree: Satan, the adversary, maps to wrath — though biblically Satan is far broader than a single sin.",
+  },
+  {
+    sin: "Envy",
+    latin: "Invidia",
+    binsfeld: "Leviathan",
+    lanterne: "Beelzebub",
+    virtue: "Kindness / Gratitude",
+    dante: "Developed in Purgatorio; overlaps with coveting",
+    agree: false,
+    note: "The schemes diverge: Binsfeld assigns the chaos-beast Leviathan to envy, while the Lanterne of Light assigns Beelzebub.",
+  },
+  {
+    sin: "Gluttony",
+    latin: "Gula",
+    binsfeld: "Beelzebub",
+    lanterne: "Belphegor",
+    virtue: "Temperance",
+    dante: "Circle 3 — cold filthy rain and mire, guarded by Cerberus",
+    agree: false,
+    note: "The schemes diverge: Binsfeld names Beelzebub for gluttony, but the Lanterne of Light names Belphegor.",
+  },
+  {
+    sin: "Sloth",
+    latin: "Acedia",
+    binsfeld: "Belphegor",
+    lanterne: "Abaddon",
+    virtue: "Diligence",
+    dante: "Not a single circle; developed in medieval moral theology",
+    agree: false,
+    note: "The schemes diverge: Binsfeld assigns Belphegor to sloth, while the Lanterne of Light assigns Abaddon (Apollyon).",
+  },
+];
+
 const angels = [
   {
     name: "Michael",
@@ -1351,6 +1428,70 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
           <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
         </div>
         <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
+
+        <div className="mt-10">
+          <SectionHeader eyebrow="Classification grid" title="Seven deadly sins → demon princes">
+            A comprehensive cross-reference of the seven deadly sins and the demon "prince" assigned to each by the two most influential historical schemes: Peter Binsfeld's <em>Tractatus de confessionibus maleficorum et sagarum</em> (1589) and the earlier Lollard tract the <em>Lanterne of Light</em> (c. 1409–1410). Where the two disagree, the row is marked so you can see the tradition is not a single fixed doctrine.
+          </SectionHeader>
+
+          <div className="overflow-x-auto rounded-3xl border border-white/10">
+            <table className="w-full min-w-[760px] border-collapse text-left">
+              <thead>
+                <tr className="border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
+                  <th className="p-4 font-bold">Deadly Sin</th>
+                  <th className="p-4 font-bold">Binsfeld (1589)</th>
+                  <th className="p-4 font-bold">Lanterne of Light (c.1409)</th>
+                  <th className="p-4 font-bold">Antidote Virtue</th>
+                  <th className="p-4 font-bold">Dante's Inferno</th>
+                </tr>
+              </thead>
+              <tbody>
+                {demonClassification.map((row) => (
+                  <tr key={row.sin} className="border-b border-white/10 bg-white/[0.03] align-top last:border-b-0">
+                    <td className="p-4">
+                      <Pill tone="red">{row.sin}</Pill>
+                      <p className="mt-2 text-xs italic text-slate-500">{row.latin}</p>
+                    </td>
+                    <td className="p-4 text-sm font-semibold text-red-100">{row.binsfeld}</td>
+                    <td className="p-4 text-sm font-semibold text-red-100">
+                      {row.lanterne}
+                      {!row.agree && (
+                        <span className="ml-2 inline-flex rounded-full border border-amber-300/30 bg-amber-300/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200">
+                          differs
+                        </span>
+                      )}
+                    </td>
+                    <td className="p-4 text-sm font-semibold text-emerald-100">{row.virtue}</td>
+                    <td className="p-4 text-sm leading-6 text-slate-300">{row.dante}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="mt-6 grid gap-4 md:grid-cols-2">
+            <div className="rounded-3xl border border-emerald-300/20 bg-emerald-500/[0.07] p-5">
+              <p className="mb-2 text-sm font-bold text-emerald-100">Where the schemes agree</p>
+              <p className="text-sm leading-7 text-slate-300">
+                Pride/Lucifer, Greed/Mammon, Lust/Asmodeus, and Wrath/Satan are stable across both traditions — the four most widely attested sin-to-demon pairings.
+              </p>
+            </div>
+            <div className="rounded-3xl border border-amber-300/20 bg-amber-300/[0.07] p-5">
+              <p className="mb-2 text-sm font-bold text-amber-100">Where they diverge</p>
+              <p className="text-sm leading-7 text-slate-300">
+                Envy, Gluttony, and Sloth are assigned differently. Beelzebub shifts between gluttony and envy; Belphegor between sloth and gluttony; and Leviathan (Binsfeld) is replaced by Abaddon for sloth in the Lanterne of Light.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 space-y-2">
+            {demonClassification.filter((row) => !row.agree).map((row) => (
+              <div key={row.sin} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-7 text-slate-300">
+                <span className="font-semibold text-red-100">{row.sin}:</span> {row.note}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     );
   }
