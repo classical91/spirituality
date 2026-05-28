@@ -6,8 +6,9 @@ import BibleConceptAtlas from './BibleConceptAtlas';
 import InnerAtlas from './InnerAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
 import NevillePortal from './NevillePortal';
-import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
+import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
+import AngelologyAtlas from './AngelologyAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -18,9 +19,10 @@ const COMPONENTS = {
   biblical: BibleConceptAtlas,
   inneratlas: InnerAtlas,
   frameworks: FrameworkAtlas,
-  selfconcept: SelfConceptLanguageStudio,
   neville: NevillePortal,
+  sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
+  angelology: AngelologyAtlas,
 };
 
 export default function App() {

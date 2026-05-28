@@ -519,7 +519,7 @@ function CopyButton({ text }) {
   );
 }
 
-export default function SelfConceptLanguageStudio({ onBack }) {
+export default function SelfConceptLanguageStudio({ onBack, embedded }) {
   const [input, setInput] = useState("I am her man");
   const [mode, setMode] = useState("Identity");
 
@@ -538,17 +538,10 @@ export default function SelfConceptLanguageStudio({ onBack }) {
 
   const modes = ["Identity", "Experience", "Native", "Repair"];
 
-  return (
-    <div className="min-h-screen bg-[#070A12] text-slate-100">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute left-[-10%] top-[-10%] h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
-        <div className="absolute right-[-8%] top-[12%] h-96 w-96 rounded-full bg-fuchsia-500/20 blur-3xl" />
-        <div className="absolute bottom-[-12%] left-[35%] h-96 w-96 rounded-full bg-violet-500/10 blur-3xl" />
-      </div>
-
-      <main className="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
-        {onBack && (
-          <div className="mb-6">
+  const mainContent = (
+    <main className="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
+      {onBack && !embedded && (
+        <div className="mb-6">
             <BackButton onBack={onBack} />
           </div>
         )}
@@ -797,7 +790,21 @@ export default function SelfConceptLanguageStudio({ onBack }) {
             </div>
           </div>
         </section>
-      </main>
+    </main>
+  );
+
+  if (embedded) {
+    return <div className="text-slate-100">{mainContent}</div>;
+  }
+
+  return (
+    <div className="min-h-screen bg-[#070A12] text-slate-100">
+      <div className="pointer-events-none fixed inset-0 overflow-hidden">
+        <div className="absolute left-[-10%] top-[-10%] h-96 w-96 rounded-full bg-cyan-500/20 blur-3xl" />
+        <div className="absolute right-[-8%] top-[12%] h-96 w-96 rounded-full bg-fuchsia-500/20 blur-3xl" />
+        <div className="absolute bottom-[-12%] left-[35%] h-96 w-96 rounded-full bg-violet-500/10 blur-3xl" />
+      </div>
+      {mainContent}
     </div>
   );
 }
