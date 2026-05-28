@@ -24,28 +24,19 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }
       <button
         type="button"
         onClick={() => setShowColorPsychology(true)}
+        className="iba-nav-btn"
         style={{
           position: 'fixed',
-          right: 18,
-          bottom: 18,
-          zIndex: 80,
-          display: 'flex',
-          alignItems: 'center',
-          gap: 8,
-          border: '1px solid rgba(122,171,121,0.38)',
-          borderRadius: 999,
-          background: 'linear-gradient(135deg, rgba(122,171,121,0.95), rgba(216,169,72,0.95))',
-          color: '#102018',
-          boxShadow: '0 18px 45px rgba(0,0,0,0.22)',
-          cursor: 'pointer',
-          fontSize: 13,
-          fontWeight: 800,
-          letterSpacing: '0.01em',
-          padding: '12px 16px',
+          left: 22,
+          top: 438,
+          zIndex: 90,
+          width: 248,
+          justifyContent: 'flex-start',
+          boxShadow: '0 10px 28px rgba(0,0,0,0.14)',
         }}
         aria-label="Open Color Psychology section"
       >
-        <span aria-hidden="true">🎨</span>
+        <span className="iba-nav-icon" aria-hidden="true">🎨</span>
         Color Psychology
       </button>
     </div>
