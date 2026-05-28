@@ -7,7 +7,6 @@ import InnerAtlas from './InnerAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
-import RelationshipClarityPortal from './RelationshipClarityPortal';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import AngelologyAtlas from './AngelologyAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
@@ -22,7 +21,6 @@ const COMPONENTS = {
   frameworks: FrameworkAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
-  relationships: RelationshipClarityPortal,
   sexualenergy: SexualEnergyDashboard,
   angelology: AngelologyAtlas,
 };
@@ -83,6 +81,12 @@ export default function App() {
       window.history.replaceState({}, '', '/inner-atlas?section=psychology');
     }
     return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
+  }
+  if (path === '/relationships') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas?section=relationship-clarity');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection || 'relationship-clarity'} />;
   }
   if (path === '/inner-balance') {
     if (typeof window !== 'undefined') {
