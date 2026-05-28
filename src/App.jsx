@@ -7,9 +7,10 @@ import PsychologyPortal from './PsychologyPortal';
 import InnerBalanceAtlas from './InnerBalanceAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
 import NevillePortal from './NevillePortal';
-import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
+import SacredSystemsAtlas from './SacredSystemsAtlas';
 import RelationshipClarityPortal from './RelationshipClarityPortal';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
+import AngelologyAtlas from './AngelologyAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -21,10 +22,11 @@ const COMPONENTS = {
   psychology: PsychologyPortal,
   innerbalance: InnerBalanceAtlas,
   frameworks: FrameworkAtlas,
-  selfconcept: SelfConceptLanguageStudio,
   neville: NevillePortal,
+  sacredsystems: SacredSystemsAtlas,
   relationships: RelationshipClarityPortal,
   sexualenergy: SexualEnergyDashboard,
+  angelology: AngelologyAtlas,
 };
 
 export default function App() {
