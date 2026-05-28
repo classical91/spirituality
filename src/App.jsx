@@ -7,6 +7,7 @@ import PsychologyPortal from './PsychologyPortal';
 import InnerBalanceAtlas from './InnerBalanceAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
 import NevillePortal from './NevillePortal';
+import SacredSystemsAtlas from './SacredSystemsAtlas';
 import RelationshipClarityPortal from './RelationshipClarityPortal';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import { portals, portalsById, portalsByPath } from './data/portals';
@@ -21,6 +22,7 @@ const COMPONENTS = {
   innerbalance: InnerBalanceAtlas,
   frameworks: FrameworkAtlas,
   neville: NevillePortal,
+  sacredsystems: SacredSystemsAtlas,
   relationships: RelationshipClarityPortal,
   sexualenergy: SexualEnergyDashboard,
 };
