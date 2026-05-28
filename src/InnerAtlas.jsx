@@ -2,6 +2,7 @@ import { useState } from 'react';
 import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
+import RelationshipClarityPortal from './RelationshipClarityPortal';
 
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -12,6 +13,19 @@ const SECTION_MAP = {
   'lifestyle':             { id: 'lifestyle',             sub: 'sleep' },
   'regulation':            { id: 'regulation',            sub: null },
   'relationship-patterns': { id: 'relationship-patterns', sub: null },
+  'relationship-clarity':  { id: 'relationship-clarity',  sub: null },
+  // Legacy Relationship Clarity Portal section IDs
+  'security-vs-fear':       { id: 'relationship-clarity', sub: 'security-vs-fear' },
+  'mixed-signals':          { id: 'relationship-clarity', sub: 'mixed-signals' },
+  'chasing-vs-receiving':   { id: 'relationship-clarity', sub: 'chasing-vs-receiving' },
+  'pedestalizing':          { id: 'relationship-clarity', sub: 'pedestalizing' },
+  'standards':              { id: 'relationship-clarity', sub: 'standards' },
+  'boundaries':             { id: 'relationship-clarity', sub: 'boundaries' },
+  'devotion':               { id: 'relationship-clarity', sub: 'devotion' },
+  'honest-direct':          { id: 'relationship-clarity', sub: 'honest-direct' },
+  'texting-urges':          { id: 'relationship-clarity', sub: 'texting-urges' },
+  'clarity-check':          { id: 'relationship-clarity', sub: 'clarity-check' },
+  'pause-check':            { id: 'relationship-clarity', sub: 'pause-check' },
   // Legacy InnerBalance Atlas tab IDs
   psychophysiology:  { id: 'nervous-system',      sub: 'psychophysiology' },
   stress:            { id: 'nervous-system',      sub: 'stress' },
@@ -38,6 +52,7 @@ const PAL = {
   'lifestyle':             { c: '#fbbf24', bg: 'rgba(251,191,36,0.08)',  br: 'rgba(251,191,36,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
   'relationship-patterns': { c: '#f9a8d4', bg: 'rgba(249,168,212,0.08)', br: 'rgba(249,168,212,0.26)' },
+  'relationship-clarity':  { c: '#fb7185', bg: 'rgba(251,113,133,0.08)',  br: 'rgba(251,113,133,0.26)'  },
 };
 
 // ─── Hub section definitions ────────────────────────────────────────────────
@@ -84,6 +99,13 @@ const SECTIONS = [
     title: 'Relationship Patterns',
     description: 'Attachment, neediness, pedestalizing, ghosting wounds, emotional independence, and secure love.',
     tags: ['Attachment', 'Secure Love', 'Independence'],
+  },
+  {
+    id: 'relationship-clarity',
+    icon: '◇',
+    title: 'Relationship Clarity',
+    description: 'Mixed signals, texting urges, standards, chasing vs receiving — a dashboard for confusing moments.',
+    tags: ['Mixed Signals', 'Standards', 'Clarity'],
   },
 ];
 
@@ -513,6 +535,22 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   if (activeSection === 'relationship-patterns') {
     return <RelationshipPatterns onBack={goHub} />;
+  }
+
+  if (activeSection === 'relationship-clarity') {
+    return (
+      <RelationshipClarityPortal
+        onBack={goHub}
+        onNavigate={(id, opts) => {
+          if (id === 'relationships' || id === 'inneratlas') {
+            goHub();
+          } else {
+            onNavigate?.(id, opts);
+          }
+        }}
+        initialSection={deepSub}
+      />
+    );
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase
