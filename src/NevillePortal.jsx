@@ -27,7 +27,9 @@ function DailyAlignmentTab() {
     try {
       const parsed = JSON.parse(window.localStorage.getItem('neville-checkins') || 'null');
       if (parsed?.date === date) return parsed;
-    } catch {}
+    } catch {
+      // ignore corrupt storage
+    }
     return { date, morning: false, midday: false, night: false };
   });
 
@@ -117,7 +119,7 @@ function SATSTab() {
 
   const saveScene = (val) => {
     setScene(val);
-    try { window.localStorage.setItem('neville-sats-scene', val); } catch {}
+    try { window.localStorage.setItem('neville-sats-scene', val); } catch { /* ignore */ }
   };
 
   return (
@@ -293,7 +295,9 @@ function MentalDietTab() {
     try {
       const stored = JSON.parse(window.localStorage.getItem('neville-mental-diet') || 'null');
       if (stored?.date === date) return stored;
-    } catch {}
+    } catch {
+      // ignore corrupt storage
+    }
     return { date, count: 0 };
   });
 
