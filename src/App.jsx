@@ -3,8 +3,7 @@ import HomePage from './HomePage';
 import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
-import PsychologyPortal from './PsychologyPortal';
-import InnerBalanceAtlas from './InnerBalanceAtlas';
+import InnerAtlas from './InnerAtlas';
 import FrameworkAtlas from './FrameworkAtlas';
 import NevillePortal from './NevillePortal';
 import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
@@ -18,8 +17,7 @@ const COMPONENTS = {
   chakra: Chakra3DVisualizer,
   astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
-  psychology: PsychologyPortal,
-  innerbalance: InnerBalanceAtlas,
+  inneratlas: InnerAtlas,
   frameworks: FrameworkAtlas,
   selfconcept: SelfConceptLanguageStudio,
   neville: NevillePortal,
@@ -75,6 +73,20 @@ export default function App() {
         initialSection={initialSection}
       />
     );
+  }
+
+  // Backward-compat: old standalone routes redirect into InnerAtlas
+  if (path === '/psychology') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas?section=psychology');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
+  }
+  if (path === '/inner-balance') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
   }
 
   if (path !== '/' && !portals.some((p) => p.path === path)) {
