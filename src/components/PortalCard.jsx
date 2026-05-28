@@ -164,7 +164,7 @@ export default function PortalCard({ portal, onNavigate, recent = false }) {
               transition: 'transform 0.22s ease',
             }}
           >
-            →
+            {portal.external ? '↗' : '→'}
           </span>
         </div>
       </div>

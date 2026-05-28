@@ -80,6 +80,285 @@ const transformationExamples = [
   }
 ];
 
+const phrasebookBanks = [
+  {
+    title: "Terms of endearment",
+    tag: "Names",
+    desc: "Short, warm names that mark her as cherished and known. Choose the ones that feel honest, not performed.",
+    examples: [
+      "My love",
+      "My heart",
+      "My queen",
+      "My woman",
+      "My beloved",
+      "Beautiful",
+      "Sunshine",
+      "Sweetheart",
+      "Darling",
+      "My peace",
+      "My joy",
+      "Wifey"
+    ]
+  },
+  {
+    title: "Words of affection",
+    tag: "Affection",
+    desc: "Full sentences that name what she is to you. Used out loud, written, or as the first line of a message.",
+    examples: [
+      "I cherish you.",
+      "I adore you.",
+      "I'm devoted to you.",
+      "You are the love of my life.",
+      "I'm grateful you're mine.",
+      "I love being yours.",
+      "You feel like home.",
+      "You are my favorite person.",
+      "I'm proud to be with you.",
+      "You mean everything to me."
+    ]
+  },
+  {
+    title: "Ways to say I am with her",
+    tag: "Presence",
+    desc: "Different phrasings of the same simple truth — that you are beside her, choosing the same life.",
+    examples: [
+      "I'm here with her.",
+      "She is by my side.",
+      "I stand beside her.",
+      "We are together.",
+      "She is mine and I am hers.",
+      "I belong with her.",
+      "She has my hand.",
+      "We walk through life together.",
+      "She is next to me, always.",
+      "I move through the world with her."
+    ]
+  },
+  {
+    title: "Ways to say I draw her to me",
+    tag: "Magnetism",
+    desc: "Phrasings that name attraction as something she moves toward, rather than something you chase.",
+    examples: [
+      "She is drawn to me.",
+      "She moves toward me naturally.",
+      "She comes to me easily.",
+      "Her heart turns toward mine.",
+      "She chooses me again and again.",
+      "I am magnetic to her.",
+      "She seeks me out.",
+      "She gravitates to my warmth.",
+      "She finds her way to me."
+    ]
+  },
+  {
+    title: "Ways to say I live with her",
+    tag: "Shared life",
+    desc: "The language of a shared rhythm — ordinary days, shared mornings, a home that is ours.",
+    examples: [
+      "We share a home.",
+      "I share my days with her.",
+      "Our lives are woven together.",
+      "I wake up next to her.",
+      "We build a life together.",
+      "Our home is ours.",
+      "I do life with her.",
+      "I share my mornings, my evenings, my ordinary hours with her.",
+      "She is part of my daily rhythm."
+    ]
+  },
+  {
+    title: "Alternatives to 'with' her",
+    tag: "Variation",
+    desc: "Different prepositions and verbs that say the same thing — so 'with' isn't the only word in your vocabulary.",
+    examples: [
+      "Beside her",
+      "Alongside her",
+      "Together with her",
+      "Hand in hand with her",
+      "Close to her",
+      "Next to her",
+      "By her side",
+      "In her company",
+      "Sharing this with her",
+      "Side by side"
+    ]
+  },
+  {
+    title: "Phrases for a normal relationship",
+    tag: "Everyday",
+    desc: "Ordinary, grounded sentences that describe a healthy relationship without inflating it into a fantasy.",
+    examples: [
+      "We have a normal relationship — and that's a gift.",
+      "Things are good between us.",
+      "Our love is steady, ordinary, and chosen.",
+      "We're calm together.",
+      "We're in a good place.",
+      "Things are easy with her.",
+      "We're not perfect, but we're solid.",
+      "The hard stuff gets worked through.",
+      "We're a normal couple, living a normal life, loving each other well."
+    ]
+  },
+  {
+    title: "Cherishing her",
+    tag: "Cherishing",
+    desc: "Language that names her as treasured, honored, and held with care.",
+    examples: [
+      "I cherish my woman.",
+      "She is treasured.",
+      "I treat her like the gift she is.",
+      "Her well-being matters to me, daily.",
+      "I notice her — the small things and the big ones.",
+      "She knows she's adored.",
+      "I honor her in how I speak about her.",
+      "She is held with care.",
+      "I never take her for granted."
+    ]
+  },
+  {
+    title: "Commitment with my woman",
+    tag: "Commitment",
+    desc: "Sentences that name the choice you've made and keep making.",
+    examples: [
+      "I am committed to her.",
+      "I have chosen her, and I keep choosing her.",
+      "We are in this together, long-term.",
+      "Our commitment is mutual and clear.",
+      "I'm her man, fully and openly.",
+      "I'm building a life with her.",
+      "I show up — even when it's hard.",
+      "She knows where she stands with me.",
+      "My word to her is my word."
+    ]
+  },
+  {
+    title: "Happily married",
+    tag: "Marriage",
+    desc: "Language of a settled, joyful marriage — for use when that's the state you're describing or stepping into.",
+    examples: [
+      "We are happily married.",
+      "Our marriage is a steady, joyful base.",
+      "I love being her husband.",
+      "She is my wife — and I'm grateful daily.",
+      "Our home is warm.",
+      "We chose well, and we live in that choice.",
+      "Married life feels right.",
+      "I'd choose her again, every time.",
+      "Our marriage is built to last."
+    ]
+  },
+  {
+    title: "Compatible with my woman",
+    tag: "Compatibility",
+    desc: "Language naming the structural fit — values, rhythms, vision — not just the chemistry.",
+    examples: [
+      "We are compatible — in values, rhythm, and vision.",
+      "Our lives fit well together.",
+      "We want the same things.",
+      "Our differences strengthen us; they don't divide us.",
+      "We move at a pace that works for both of us.",
+      "We have the same north star.",
+      "Our compatibility is real, not forced.",
+      "Being together feels natural and aligned."
+    ]
+  },
+  {
+    title: "Smiling with my woman",
+    tag: "Joy",
+    desc: "Phrases that name the daily lightness — the easy laughter and quiet smiles.",
+    examples: [
+      "She makes me smile.",
+      "We laugh together easily.",
+      "Our home is full of light.",
+      "Joy comes naturally between us.",
+      "She is my reason to smile.",
+      "We grin at the same things.",
+      "Being with her is a soft kind of happiness.",
+      "I smile when I think of her.",
+      "Her laugh is one of my favorite sounds."
+    ]
+  },
+  {
+    title: "Being her man",
+    tag: "Identity",
+    desc: "Identity statements for stepping into the role on purpose — boyfriend, partner, husband.",
+    examples: [
+      "I am her man, fully.",
+      "I show up as her man, every day.",
+      "Being hers is part of who I am.",
+      "I am present, attentive, and devoted in this role.",
+      "She has a real man — present, loyal, and grown.",
+      "I take pride in being hers.",
+      "I do the work of being her man — gladly.",
+      "This role suits me, and I honor it."
+    ]
+  },
+  {
+    title: "Attraction with my woman",
+    tag: "Attraction",
+    desc: "Language for the pull between you — her toward you, you toward her — named as a natural, living thing.",
+    examples: [
+      "She is attracted to me.",
+      "The attraction between us is real and mutual.",
+      "She finds me magnetic.",
+      "I draw her in effortlessly.",
+      "She desires me.",
+      "Our chemistry is steady — not just sparks, but a flame.",
+      "She is pulled toward me naturally.",
+      "I attract her with who I am, not with what I perform.",
+      "The pull between us is easy and alive."
+    ]
+  },
+  {
+    title: "Intimacy with my woman",
+    tag: "Intimacy",
+    desc: "Language for closeness in all its forms — emotional, physical, spiritual — as something mutual and natural.",
+    examples: [
+      "We are intimate with each other.",
+      "She is close to me — in body, heart, and spirit.",
+      "Our intimacy is safe and natural.",
+      "I am emotionally and physically close to her.",
+      "We share a closeness that feels whole.",
+      "She opens to me, and I open to her.",
+      "Our connection goes deep.",
+      "Being intimate with her feels easy and right.",
+      "We have the kind of closeness that grows over time."
+    ]
+  },
+  {
+    title: "Getting along with my woman",
+    tag: "Harmony",
+    desc: "Phrasings for the everyday ease of getting along — not dramatic love, just genuine good feeling between two people.",
+    examples: [
+      "We get along well.",
+      "Things are easy between us.",
+      "We don't have to force it.",
+      "We figure things out together, calmly.",
+      "We navigate life without unnecessary friction.",
+      "We work well together.",
+      "We disagree and repair without drama.",
+      "There's no war between us — just two people finding their way.",
+      "Getting along feels natural to us."
+    ]
+  },
+  {
+    title: "Seeing her",
+    tag: "Presence",
+    desc: "The language of noticing her — being present to who she is, how she looks, how she moves through the world.",
+    examples: [
+      "I see her.",
+      "I notice her — the real her.",
+      "I am present to who she is.",
+      "I take her in.",
+      "I appreciate what I see when I look at her.",
+      "She feels seen by me.",
+      "I pay attention to her.",
+      "I don't take her for granted — I look.",
+      "Every time I see her, I see someone worth seeing."
+    ]
+  }
+];
+
 function cx(...classes) {
   return classes.filter(Boolean).join(" ");
 }
@@ -410,6 +689,36 @@ export default function SelfConceptLanguageStudio({ onBack }) {
               </div>
             </article>
           ))}
+        </section>
+
+        <section className="mt-10">
+          <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+            <div>
+              <p className="text-sm font-bold uppercase tracking-[0.25em] text-rose-200">Relationship phrasebook</p>
+              <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Ways of saying the love you live in.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Vocabulary banks for naming her, naming what you feel, and naming the shared life — without recycling the same three phrases.</p>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-950">{phrasebookBanks.length} banks</span>
+          </div>
+          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+            {phrasebookBanks.map((bank) => (
+              <article key={bank.title} className="rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 backdrop-blur-xl">
+                <div className="flex items-center justify-between gap-3">
+                  <h3 className="text-xl font-black text-white">{bank.title}</h3>
+                  <span className="rounded-full border border-rose-300/20 bg-rose-300/10 px-3 py-1 text-xs font-bold text-rose-100">{bank.tag}</span>
+                </div>
+                <p className="mt-3 text-sm leading-6 text-slate-400">{bank.desc}</p>
+                <div className="mt-5 space-y-2">
+                  {bank.examples.map((example) => (
+                    <div key={example} className="group flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-3 transition hover:border-rose-300/30">
+                      <p className="text-sm font-semibold leading-6 text-slate-200">{example}</p>
+                      <CopyButton text={example} />
+                    </div>
+                  ))}
+                </div>
+              </article>
+            ))}
+          </div>
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[.9fr_1.1fr]">

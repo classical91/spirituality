@@ -97,6 +97,296 @@ const concepts = [
     practice:
       "List three actual flaws you've ignored or excused. Not to weaponize — to come back to ground. You can still want someone after you see them clearly. That want is more solid than the worship version.",
   },
+  {
+    id: "trauma-bond-vs-true-love",
+    label: "Trauma Bond vs True Love",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Intensity is not the same as love — calm is not the same as boring.",
+    question: "Am I bonded to this person, or am I actually loved by them?",
+    explanation:
+      "A trauma bond is built on the cycle itself — the highs feel high because the lows were so low, and the relief of reconnection is mistaken for love. True love does not need rupture to feel real. It is steady, mutual, and chosen daily. The clearest difference is not how strong the feeling is, but what the feeling is made of.",
+    fear: [
+      "The relationship cycles through extreme highs and lows.",
+      "Important conversations are avoided, dodged, or punished.",
+      "The relationship feels like an addiction you're powerless to leave.",
+      "Calm is mistaken for boredom; chaos is mistaken for chemistry.",
+      "Your sense of worth rises and falls with their next response.",
+    ],
+    secure: [
+      "The relationship is stable and based on mutual respect.",
+      "Important conversations are a priority, not a threat.",
+      "The relationship feels like an honor, a privilege, and a choice.",
+      "Calm registers as safety, not absence.",
+      "Your worth holds steady whether the day with them was great or hard.",
+    ],
+    practice:
+      "Map the last two weeks on paper. Not the peaks — the average day. Was the average day calm and respectful, or were you bracing? Bonded relationships are loud in memory; loved relationships are quiet in the body. Trust the body's record over the highlight reel.",
+  },
+  {
+    id: "attracted-vs-infatuated",
+    label: "Attracted vs Infatuated",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Attraction notices a person; infatuation rehearses one.",
+    question: "Am I drawn to who they actually are, or to the version of them I keep replaying?",
+    explanation:
+      "Attraction is an honest signal — a pull toward who someone actually is, including their ordinary moments. Infatuation is a story you keep telling yourself, fed by limited information and your own longing. The first slows down to learn; the second speeds up to consume.",
+    fear: [
+      "Replaying the same few moments to keep the feeling alive.",
+      "Filling in their personality with what you wish were true.",
+      "Feeling withdrawal — anxiety, dread, scanning — when you don't hear from them.",
+      "Treating early intensity as proof of long-term fit.",
+    ],
+    secure: [
+      "Letting curiosity unfold at the pace of real information.",
+      "Liking what is actually there without inventing the rest.",
+      "Feeling steady between contacts, not in withdrawal.",
+      "Allowing time to show whether the pull matches a real fit.",
+    ],
+    practice:
+      "Write down what you actually know about them — verifiable, observed, not inferred. Then write what you're imagining. The size of the second list tells you how much is infatuation.",
+  },
+  {
+    id: "attraction-pitfalls",
+    label: "Attraction Pitfalls",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Strong attraction can be a signal about your wound, not your match.",
+    question: "What is this attraction pulling on inside me — and is it pulling toward growth or toward a familiar pain?",
+    explanation:
+      "Strong attraction is real, but it isn't always trustworthy. The same chemistry that signals 'this is the one' can be your nervous system recognizing a familiar dynamic from earlier life. The most magnetic pulls often map onto the unresolved — which is why the relationship that feels most fated can also be the most painful.",
+    fear: [
+      "Reading intensity as destiny.",
+      "Feeling 'home' in someone who is emotionally unavailable.",
+      "Being drawn to ambiguity because clarity feels boring.",
+      "Mistaking the chase for chemistry.",
+    ],
+    secure: [
+      "Treating attraction as data, not a verdict.",
+      "Noticing what someone's distance is asking you to perform.",
+      "Letting calm people be magnetic in a quieter way.",
+      "Allowing slow-build attraction to count as real.",
+    ],
+    practice:
+      "Name the three most charged attractions of your life. What did they have in common — not in personality, but in dynamic? That common dynamic is what you are actually drawn to. Decide whether it still fits the version of love you want.",
+  },
+  {
+    id: "limerence",
+    label: "Limerence",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Limerence is involuntary; love is chosen.",
+    question: "Am I in love with this person, or in love with the state I'm in when I think about them?",
+    explanation:
+      "Limerence is the intense, intrusive, often involuntary fixation that mimics love but operates more like an altered state. It feeds on uncertainty — its peaks come from any sign of reciprocation, and its lows come from any sign of withdrawal. Love can include intensity, but it doesn't require uncertainty to stay alive.",
+    fear: [
+      "Intrusive thoughts about them throughout the day.",
+      "Mood swings tied to their last message.",
+      "Idealizing them while filtering out clear incompatibilities.",
+      "Feeling the fixation grow stronger when they pull away.",
+    ],
+    secure: [
+      "Holding them in mind without rumination.",
+      "Mood staying steady regardless of their latest signal.",
+      "Seeing the full person — including incompatibilities.",
+      "Feeling more connected when they show up consistently, not when they withhold.",
+    ],
+    practice:
+      "Ask: would this feeling survive a year of clear, consistent, predictable presence from them? Limerence usually wouldn't — it needs the gap to live in. Love grows in the gap closing.",
+  },
+  {
+    id: "dating-operant-conditioning",
+    label: "Dating & Operant Conditioning",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Intermittent reinforcement is not romance — it's a slot machine.",
+    question: "Am I being trained to crave them, or being met by them?",
+    explanation:
+      "Operant conditioning describes how unpredictable rewards create the strongest behavioral hooks. Applied to dating: the partner who is sometimes warm and sometimes cold creates a stronger compulsion than the partner who is reliably warm. The pull you feel may not be love — it may be the slot-machine effect of intermittent reinforcement on your nervous system.",
+    fear: [
+      "Feeling the strongest pull right after a long silence ends.",
+      "Treating crumbs as feasts because the gap was so long.",
+      "Building tolerance — needing bigger signs of interest to feel relief.",
+      "Chasing the high of reconnection rather than the steadiness of being together.",
+    ],
+    secure: [
+      "Recognizing the pattern as conditioning, not chemistry.",
+      "Letting reliable warmth register as warmth, even when it's not dramatic.",
+      "Refusing to escalate to match someone else's intermittency.",
+      "Choosing the partner whose presence is consistent, not whose absence is dramatic.",
+    ],
+    practice:
+      "Plot the last month of contact on a calendar. Are the peaks following long droughts? If yes, the pull you feel is likely conditioning. The cure is not a bigger reward — it's choosing a different reward schedule.",
+  },
+  {
+    id: "investment-vs-vulnerability",
+    label: "Investment vs Vulnerability",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Investing is what you give them; vulnerability is what you let them see.",
+    question: "Am I pouring effort into them, or actually letting them know me?",
+    explanation:
+      "These two are often confused. Investment is about effort, time, planning, gestures — the visible work of building a connection. Vulnerability is the internal counterpart — letting yourself be seen, naming what you actually feel, risking being unliked for who you really are. You can be highly invested and still emotionally hidden. The first builds activity; only the second builds intimacy.",
+    fear: [
+      "Pouring time and energy in while staying carefully edited.",
+      "Treating effort as proof that you're 'all in.'",
+      "Hoping intensity of investment will substitute for honesty.",
+      "Feeling resentful when investment isn't met — without ever naming what you need.",
+    ],
+    secure: [
+      "Letting them see the unedited version, not just the offered one.",
+      "Naming feelings as they arise, not after they've calcified.",
+      "Risking being misunderstood in service of being known.",
+      "Investing from fullness, not as a bid for security.",
+    ],
+    practice:
+      "Sort the last week into two lists: things you did for them, and things you let them see about you. If column one is much longer than column two, the connection is heavy on investment and light on vulnerability — and that imbalance usually grows resentment over time.",
+  },
+  {
+    id: "emotional-immaturity",
+    label: "Emotional Immaturity",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Emotional maturity is the willingness to hold discomfort without making it someone else's job.",
+    question: "Can both of us sit with hard feelings, or does one of us always need them to disappear?",
+    explanation:
+      "Emotional immaturity isn't about age — it's about a relationship to discomfort. The mature version can feel anger without lashing out, hurt without retaliating, fear without controlling. The immature version externalizes — every hard feeling becomes the other person's responsibility to fix, soothe, or absorb. The most reliable predictor of a workable relationship is whether both people can stay with their own state without weaponizing it.",
+    fear: [
+      "Punishing or withdrawing instead of naming what hurt.",
+      "Stonewalling or going silent as a form of leverage.",
+      "Bringing up old wounds during unrelated arguments.",
+      "Expecting the other person to manage your mood for you.",
+    ],
+    secure: [
+      "Naming the feeling clearly: 'I'm hurt, I'm scared, I'm angry.'",
+      "Taking space without using it as a weapon.",
+      "Returning to repair instead of waiting to be pursued.",
+      "Holding your own discomfort while the other person holds theirs.",
+    ],
+    practice:
+      "After your next hard moment together, ask: did I make them responsible for managing my feeling, or did I name it and hold it myself? Note where each of you defaulted. The pattern over time is the relationship.",
+  },
+  {
+    id: "closeness-vs-compatibility",
+    label: "Closeness vs Compatibility",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Closeness is what you feel. Compatibility is what you can live with.",
+    question: "Is this connection close — or is it actually workable as a daily life?",
+    explanation:
+      "Closeness is the intensity of connection — the chemistry, the feeling of being known, the pull. Compatibility is the structural fit — values, lifestyles, rhythms, plans, beliefs. The most painful relationships are the ones where closeness is high but compatibility is low. You can feel deeply bonded to someone you cannot build a life with.",
+    fear: [
+      "Treating intense closeness as proof of fit.",
+      "Ignoring structural mismatches because the chemistry is loud.",
+      "Believing love alone will close compatibility gaps.",
+      "Confusing 'we get each other' with 'we can build together.'",
+    ],
+    secure: [
+      "Letting both closeness and compatibility count.",
+      "Naming the structural mismatches out loud, not just feeling them.",
+      "Letting compatibility be the slower, quieter signal — and trusting it.",
+      "Walking away from high-closeness, low-compatibility loops.",
+    ],
+    practice:
+      "List five things that need to be compatible for a long-term life with this person (rhythms, money, faith, family, ambition). Score each from 1 to 10. Score closeness from 1 to 10. If closeness is much higher than the compatibility average, the pain you're feeling makes sense.",
+  },
+  {
+    id: "crush-vs-love",
+    label: "Crush vs Love",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "A crush is what you feel about them. Love is what you build with them.",
+    question: "Is this a crush I'm calling love because of how strong the feeling is?",
+    explanation:
+      "Crushes live in your head — fueled by limited information, projection, and the thrill of possibility. Love lives in reality — tested by ordinary days, disappointment, repair, and choice over time. Crushes can become love if both people show up. But often a crush stays a crush even when both people pretend it's more, because the work of building never happens.",
+    fear: [
+      "Treating crush intensity as evidence of long-term love.",
+      "Investing in a crush as if it's already a relationship.",
+      "Reading their absence as longing rather than information.",
+      "Refusing to let a crush either become real or pass through.",
+    ],
+    secure: [
+      "Letting a crush be a crush without making it more.",
+      "Noticing the difference between feeling drawn and actually building.",
+      "Allowing crushes to either evolve into reciprocated love or fade naturally.",
+      "Not confusing strong feeling with mutual commitment.",
+    ],
+    practice:
+      "Write what you actually know about them versus what you imagine. If the imagination column is larger, you're in crush territory. Let it be that — crushes don't need to become anything to be valid; they just need to stay honest.",
+  },
+  {
+    id: "datable",
+    label: "Datable",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Datable isn't a vibe — it's a small set of grounded qualities you can verify.",
+    question: "Am I dating someone who is actually datable — or someone who is exciting but not available for a relationship?",
+    explanation:
+      "Datable means the person has the basic capacity for a real relationship: emotionally available, communicates honestly, has a workable life, and wants what you want. Chemistry alone doesn't make someone datable. The same energy that makes a connection thrilling can mask the structural gaps that make it impossible to build.",
+    fear: [
+      "Calling someone datable because they're charismatic.",
+      "Treating unavailability as a personality you can love through.",
+      "Believing chemistry will compensate for a non-datable life situation.",
+      "Mistaking 'we click' for 'they're ready.'",
+    ],
+    secure: [
+      "Checking for the basics — availability, honesty, workable life, aligned wants.",
+      "Letting unavailability be a no, even when the chemistry is yes.",
+      "Trusting that someone datable still feels exciting once the basics are met.",
+      "Refusing to date someone who isn't choosing what you're choosing.",
+    ],
+    practice:
+      "Run them through five questions: Are they emotionally available? Do they communicate honestly? Is their life workable? Do they want what you want? Have they shown up consistently? If you can't answer yes to most, you're not in a relationship — you're in a holding pattern.",
+  },
+  {
+    id: "courting-vs-dating",
+    label: "Courting vs Just Dating",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Courting is intentional pursuit. Dating without intent is just sharing time.",
+    question: "Are we courting toward something, or just dating for its own sake?",
+    explanation:
+      "Courting is dating with a purpose — both people show up trying to find out whether this can become a real relationship. Dating without intent is the modern default — meeting, hanging out, sleeping together, repeating, without ever asking what it's for. Courting doesn't have to be old-fashioned. It just means both people are honest about what they're looking for and willing to pursue it on purpose.",
+    fear: [
+      "Avoiding the 'what is this' conversation indefinitely.",
+      "Calling open-ended ambiguity 'taking it slow.'",
+      "Letting connection grow without ever directing it.",
+      "Fearing intent will scare them — so settling for drift.",
+    ],
+    secure: [
+      "Naming what you're dating for, out loud.",
+      "Pursuing on purpose, with calm directness.",
+      "Letting the other person's response to intent be the data.",
+      "Distinguishing between courtship and chasing — courtship is mutual.",
+    ],
+    practice:
+      "Ask once, clearly: 'What are we doing, and what are we building toward?' Their answer — including hesitation — is the answer. Drift is also a choice, just an unspoken one.",
+  },
+  {
+    id: "companionship",
+    label: "Companionship",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Companionship is what's left when the intensity settles — and it's the best part.",
+    question: "Do I actually enjoy being with this person — or do I only want the feeling they give me?",
+    explanation:
+      "Passion can exist without companionship, and companionship can exist without grand passion. But the relationships that last are built on the quieter thing: the person whose company you actually want — when nothing's exciting, when you're tired, when you're just in a room together. Companionship is comfort without boredom, familiarity without contempt. It doesn't ask to be performed. It's just there.",
+    fear: [
+      "Staying for the highs while tolerating the person they're attached to.",
+      "Mistaking loneliness relief for genuine enjoyment of their presence.",
+      "Only feeling connected during intensity, conflict, or reunion.",
+      "Needing things to be exciting to feel like the relationship is 'working.'",
+    ],
+    secure: [
+      "Looking forward to ordinary time with them — not just events.",
+      "Being comfortable in quiet, shared space.",
+      "Enjoying who they are as a person, separate from how they make you feel.",
+      "Choosing their company when you're not chasing anything.",
+    ],
+    practice:
+      "Imagine a slow Tuesday afternoon — no plans, no agenda — just the two of you in a room. Do you feel peace, comfort, and ease? Or do you start filling silence and engineering closeness? Your honest answer is your answer.",
+  },
 
   {
     id: "standards",
@@ -121,6 +411,150 @@ const concepts = [
     ],
     practice:
       "Write one sentence: 'The love I say I'm living in looks like ___.' Now read it next to how you've been treated this month. If they don't line up, the gap is the message.",
+  },
+  {
+    id: "chosen-and-wanted",
+    label: "Chosen & Wanted",
+    kicker: "Standards",
+    group: "Standards",
+    short: "You shouldn't have to audition for the role you were promised.",
+    question: "Do they choose me on purpose — or am I a default they haven't gotten around to changing?",
+    explanation:
+      "Being chosen isn't a one-time event at the beginning. It's the daily, quiet decision someone makes to keep showing up — to text first, to plan, to prioritize, to pursue. When you have to chase or remind, you're not being chosen; you're being tolerated. The cleanest love feels like both people actively pick each other.",
+    fear: [
+      "Treating their occasional presence as proof of being chosen.",
+      "Earning love through over-functioning.",
+      "Settling for being convenient and calling it 'easy.'",
+      "Reading lack of pursuit as 'they're just busy.'",
+    ],
+    secure: [
+      "Recognizing chosen as active, not passive.",
+      "Letting being chosen feel like the baseline, not the prize.",
+      "Walking away from connections where you're never pursued.",
+      "Trusting that the right person makes the choice visible.",
+    ],
+    practice:
+      "List the last five times they initiated something — a plan, a text, a touch, a kindness. If you can't easily name three, you're being received rather than chosen. The right person leaves a trail of small choices.",
+  },
+  {
+    id: "being-a-priority",
+    label: "Being a Priority",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Priority isn't what they say — it's what shows up on their actual calendar.",
+    question: "Where do I fit in the real ranking of their life — not the stated one?",
+    explanation:
+      "Everyone says they care. The truer test is what makes the cut when time, energy, and attention are limited. Real priority shows up as time held, plans protected, and tired evenings where they still want to talk. If you're consistently the thing that gets squeezed when their life gets busy, that's the answer.",
+    fear: [
+      "Accepting reassurance instead of evidence.",
+      "Settling for after-hours, after-friends, after-everything attention.",
+      "Reading promises as priority.",
+      "Believing 'next time' more than you believe what already happened.",
+    ],
+    secure: [
+      "Noticing where their time actually goes.",
+      "Letting priority be a verb — what they protect, not what they claim.",
+      "Stating clearly what being a priority would look like to you.",
+      "Trusting the calendar over the words.",
+    ],
+    practice:
+      "Map the last two weeks. How many times did they protect time for you when life got busy? How many times were you the thing that got cancelled? The ratio is the priority.",
+  },
+  {
+    id: "safety-as-standard",
+    label: "Safety as a Standard",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Safety isn't a bonus — it's the floor of any real love.",
+    question: "Can I be myself, say hard things, and make mistakes here without bracing?",
+    explanation:
+      "Emotional safety is the precondition for everything else — intimacy, vulnerability, growth, repair. It's the felt sense that you can be your full self, including the messy parts, without fear of withdrawal, punishment, or shaming. Without it, the relationship stays performative no matter how warm it looks.",
+    fear: [
+      "Editing yourself to avoid their reaction.",
+      "Walking on eggshells about specific topics or moods.",
+      "Treating their stability as more important than your honesty.",
+      "Mistaking the absence of conflict for safety.",
+    ],
+    secure: [
+      "Being able to bring hard things up without rehearsal.",
+      "Trusting that disagreement won't end the connection.",
+      "Letting your full self show up, including the parts that worry you.",
+      "Knowing that mistakes can be repaired, not weaponized.",
+    ],
+    practice:
+      "Name the three topics you avoid most with them. Is the avoidance protecting the connection, or protecting you from them? The first is care; the second is a sign safety is missing.",
+  },
+  {
+    id: "seen-and-valued",
+    label: "Being Seen & Valued",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Being seen is being known accurately. Being valued is the response to knowing.",
+    question: "Do they actually know me — and does the version they know feel valued, or merely tolerated?",
+    explanation:
+      "Being seen means the other person knows your real self — your patterns, your wounds, your gifts — without you having to keep explaining. Being valued is what happens after they see: they respond with care, interest, and protection of who you actually are. One without the other isn't enough. You can be seen and not valued (judged), or valued and not seen (loved as a fantasy).",
+    fear: [
+      "Hiding the real version to stay valued for the offered one.",
+      "Performing the version they like and resenting it.",
+      "Settling for being loved as an idea, not as a person.",
+      "Believing 'they don't know that part of me' is protection.",
+    ],
+    secure: [
+      "Letting yourself be known, including the parts that test the connection.",
+      "Receiving care that matches who you actually are.",
+      "Trusting that being seen and chosen is possible together.",
+      "Letting the response to your real self be the real data.",
+    ],
+    practice:
+      "Pick one part of yourself you've kept hidden. Share it this week. Notice their response. Their reaction to your real self is more information than a hundred 'I love you's spoken to the curated version.",
+  },
+  {
+    id: "being-together-emotionally",
+    label: "Being Together Emotionally",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Emotional togetherness is a shared state — not one person managing the other.",
+    question: "Are we emotionally present with each other, or just physically close?",
+    explanation:
+      "Emotional togetherness is different from proximity. It means both people are aware of the other's inner world, respond to it, and aren't alone in their feelings even when the feelings are hard. It's possible to sleep in the same bed and be emotionally alone. It's also possible to be apart and feel deeply together. The standard is: can I share what I'm actually going through, and do they receive it as real?",
+    fear: [
+      "Feeling alone in your emotional life while in a relationship.",
+      "Suppressing difficult feelings to protect the mood.",
+      "Carrying the emotional weight alone while they stay light.",
+      "Believing 'they're just not emotional' is a permanent reality to accept.",
+    ],
+    secure: [
+      "Knowing their actual emotional state — not just the surface version.",
+      "Feeling received when you share something real.",
+      "Moving through hard feelings together rather than in parallel.",
+      "Neither person carrying the weight alone.",
+    ],
+    practice:
+      "Once this week, share something emotionally real — not a complaint, a need, or a conflict, but something true about your inner world. Notice whether they lean in or deflect. That response is the data.",
+  },
+  {
+    id: "financial-partnership",
+    label: "Financial Partnership",
+    kicker: "Standards",
+    group: "Standards",
+    short: "Money is one of the places where shared values either show up — or don't.",
+    question: "Do we have a shared vision for our financial life together, or are we just hoping it works out?",
+    explanation:
+      "Financial partnership isn't about having the same income or the same spending style. It's about shared values: how you treat money, what you're building toward, how you make decisions about resources, and whether you're honest about your situation. Incompatibility here is one of the most common long-term wedges in relationships — because money is tangled up with security, control, freedom, and worth. A couple doesn't have to agree on everything, but they do need to talk about it.",
+    fear: [
+      "Avoiding financial conversations to keep the mood light.",
+      "Assuming compatibility without ever checking.",
+      "Letting one person carry the financial clarity while the other stays uninvolved.",
+      "Using money (or withholding it) as control.",
+    ],
+    secure: [
+      "Talking about money early — not as a test, as a conversation.",
+      "Sharing financial goals and comparing them honestly.",
+      "Building toward something together, with shared awareness.",
+      "Making financial decisions together, without secrecy or imbalance.",
+    ],
+    practice:
+      "Have one clear money conversation — not a fight, a conversation. What do we each earn? What are we saving toward? What's our financial vision for the next 5 years? The discomfort of the question is a fraction of the cost of not asking.",
   },
   {
     id: "boundaries",
@@ -221,6 +655,260 @@ const concepts = [
   },
 
   {
+    id: "types-of-intimacy",
+    label: "Types of Intimacy",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Closeness lives in more places than the bedroom.",
+    inventory: true,
+    intro: "Intimacy is the felt sense of being known. It moves through many channels — and a strong relationship usually has several of them open at once.",
+    items: [
+      { name: "Emotional", note: "Sharing inner states — fear, joy, grief, hope — without performing." },
+      { name: "Physical (non-sexual)", note: "Hugs, hand-holding, cuddling, sitting close — closeness through the body." },
+      { name: "Sexual", note: "Erotic connection that is felt as mutual, safe, and chosen." },
+      { name: "Intellectual", note: "Trading ideas, debating, building arguments together without either ego getting bruised." },
+      { name: "Spiritual", note: "Sharing meaning, faith, prayer, awe, or a sense of something larger." },
+      { name: "Experiential", note: "Doing things side by side — trips, projects, ordinary errands made into a shared moment." },
+      { name: "Recreational", note: "Playing together — games, sport, hobbies, laughter for its own sake." },
+      { name: "Creative", note: "Making something together — meals, art, plans, traditions." },
+      { name: "Financial", note: "Honest visibility about money — earning, spending, saving, planning." },
+    ],
+  },
+  {
+    id: "types-of-kisses",
+    label: "Types of Kisses",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Different kisses say different things.",
+    inventory: true,
+    intro: "A kiss is a small language. The kind you give and the kind you ask for says something about where you both are.",
+    items: [
+      { name: "Peck", note: "Quick, casual — hello, goodbye, ordinary affection." },
+      { name: "Forehead kiss", note: "Protective, tender, reverent — 'you are precious to me.'" },
+      { name: "Hand kiss", note: "Courtly, formal warmth — honor and respect." },
+      { name: "Cheek kiss", note: "Warm, friendly affection — closeness without intensity." },
+      { name: "Top-of-head kiss", note: "Held close while you kiss her hair — sweet, anchoring." },
+      { name: "Neck kiss", note: "Sensual, slow, intimate — saved for private moments." },
+      { name: "Slow kiss", note: "Lingering and unhurried — full presence, no agenda." },
+      { name: "French kiss", note: "Open, deep, mutual — erotic closeness." },
+      { name: "Butterfly kiss", note: "Eyelashes brushing skin — playful and tender." },
+      { name: "Eskimo kiss", note: "Nose-to-nose rub — affection without words." },
+    ],
+  },
+  {
+    id: "forms-of-cuddling",
+    label: "Forms of Cuddling",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Closeness has more shapes than 'big spoon, little spoon.'",
+    inventory: true,
+    intro: "Different positions create different feelings of safety. Vary them and notice which ones she actually relaxes into.",
+    items: [
+      { name: "Big spoon / little spoon", note: "Classic full-body wrap — protective, warm, comforting." },
+      { name: "Head on chest", note: "She rests her head on your chest while you hold her — heartbeat as anchor." },
+      { name: "Face to face", note: "Lying on your sides, foreheads close — intimate eye contact." },
+      { name: "Lap pillow", note: "Her head on your lap while you stroke her hair." },
+      { name: "Side hug", note: "Sitting beside her with an arm around her shoulders." },
+      { name: "Hand-holding while sitting", note: "Quiet connection in a shared space." },
+      { name: "Leg over leg", note: "Lounging entwined on a couch — easy, casual closeness." },
+      { name: "Full embrace standing", note: "A long, full hug — chest to chest, no rush." },
+      { name: "Back hug", note: "Coming up behind her, arms around her waist — playful tenderness." },
+    ],
+  },
+  {
+    id: "mutual-interests",
+    label: "Mutual Interests",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Shared interests are infrastructure — the ground where ordinary days happen together.",
+    inventory: true,
+    intro: "You don't need to share everything. But a handful of real overlaps means most weeks have a built-in 'we' instead of needing to engineer one.",
+    items: [
+      { name: "Food", note: "Cooking, restaurants, cuisines you both love." },
+      { name: "Music", note: "Artists, genres, live shows, the song you each put on first." },
+      { name: "Movies & shows", note: "What you'll actually watch together — and what you'll never agree on." },
+      { name: "Travel", note: "Places you want to go, pace you like to travel at." },
+      { name: "Movement & sport", note: "Walking, gym, hiking, dance, a team you both follow." },
+      { name: "Learning", note: "Books, courses, podcasts, languages, a topic you'll go deep on together." },
+      { name: "Faith & meaning", note: "Spiritual practice, philosophy, the questions you both sit with." },
+      { name: "Creativity", note: "Making, building, decorating, projects you start together." },
+      { name: "Friends & community", note: "Shared people you both want in your lives." },
+      { name: "Family rhythm", note: "How you each relate to family — what you want to keep, what you want to change." },
+    ],
+  },
+  {
+    id: "shared-experiences",
+    label: "Shared Experiences",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Shared history is what makes a relationship feel real, not just stated.",
+    inventory: true,
+    intro: "A connection becomes a relationship through the experiences you stack up together — both the highlight reel and the quiet hours nobody else sees.",
+    items: [
+      { name: "First memories", note: "The first meeting, first date, first kiss — small, specific scenes." },
+      { name: "Ordinary days", note: "The unremarkable hours that make up most of the relationship." },
+      { name: "Hard seasons", note: "Sickness, loss, money stress — what you got through together." },
+      { name: "Holidays & rituals", note: "Birthdays, anniversaries, traditions you build year over year." },
+      { name: "Trips", note: "Time away from the routine — both planned and spontaneous." },
+      { name: "Meeting each other's people", note: "Family, close friends, the people who shape your sense of self." },
+      { name: "Milestone life events", note: "Graduations, moves, new jobs, weddings, funerals." },
+      { name: "Private jokes", note: "Stories and phrases only you two understand." },
+      { name: "Long conversations", note: "Late nights when something honest got said and remembered." },
+    ],
+  },
+  {
+    id: "milestones",
+    label: "Relationship Milestones",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Milestones aren't the relationship — they're markers of where it's been.",
+    inventory: true,
+    intro: "These are signposts, not requirements. Skipping a few doesn't mean less love; collecting them doesn't guarantee more. Notice which ones matter most to each of you.",
+    items: [
+      { name: "First meeting", note: "Where, when, and what you first noticed." },
+      { name: "First date", note: "The first time it was officially 'us, together, on purpose.'" },
+      { name: "First kiss", note: "The moment the line moved from friendly to romantic." },
+      { name: "Saying 'I love you'", note: "The first time, and who said it first." },
+      { name: "Becoming exclusive", note: "Naming the relationship as committed." },
+      { name: "Meeting families", note: "Bringing each other into the world you came from." },
+      { name: "First trip together", note: "Travel as a real compatibility test." },
+      { name: "Moving in", note: "Sharing space, chores, daily rhythm." },
+      { name: "Engagement", note: "Choosing the long version on purpose." },
+      { name: "Marriage / commitment ceremony", note: "Publicly choosing each other." },
+      { name: "Building a home together", note: "Furnishing, decorating, making it ours." },
+      { name: "Children, if chosen", note: "Becoming parents together." },
+      { name: "Major anniversaries", note: "Yearly markers of choosing each other again." },
+    ],
+  },
+  {
+    id: "gestures-of-affection",
+    label: "Gestures of Affection",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Small daily acts say more than the big ones.",
+    inventory: true,
+    intro: "Affection is built in the small acts that don't require an occasion. A few done consistently beat one grand gesture done occasionally.",
+    items: [
+      { name: "Good morning text or kiss", note: "First contact of the day, on purpose." },
+      { name: "Bringing her water without being asked", note: "Quiet care that doesn't need recognition." },
+      { name: "Warming her plate first", note: "Small honoring at the table." },
+      { name: "Hand on her back when you pass behind her", note: "Touch as 'I see you, I'm here.'" },
+      { name: "Holding her hand in public", note: "Visible chosenness." },
+      { name: "Sending a song that reminded you of her", note: "Thinking of her when she's not there." },
+      { name: "Asking how the hard thing went", note: "Remembering what's on her mind." },
+      { name: "Telling her she looks beautiful — when she's not trying to", note: "Beauty named in ordinary moments." },
+      { name: "Saying thank you for the small things", note: "Naming what she does that often goes unnamed." },
+      { name: "A long hug for no reason", note: "Closeness with no agenda." },
+    ],
+  },
+  {
+    id: "quality-time",
+    label: "Quality Time",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Quality time is presence, not just proximity.",
+    inventory: true,
+    intro: "Sitting on a couch with two phones is not quality time. These are the kinds of hours that actually build the relationship.",
+    items: [
+      { name: "Undivided attention", note: "Phones away, real eye contact, real listening." },
+      { name: "Walking together", note: "Side by side, no agenda, conversation rises naturally." },
+      { name: "Cooking together", note: "Shared task with built-in closeness." },
+      { name: "Sharing a meal without screens", note: "Eating across from each other, not next to a show." },
+      { name: "Driving somewhere together", note: "The car is one of the most underrated intimacy spaces." },
+      { name: "Lying in bed talking before sleep", note: "Honest end-of-day conversation." },
+      { name: "A shared ritual (coffee, prayer, gym, etc.)", note: "Something you do together regularly, by choice." },
+      { name: "A date with no other purpose", note: "Time set aside for the relationship itself." },
+      { name: "Doing nothing together", note: "Comfortable silence in the same room — a real test of connection." },
+    ],
+  },
+
+  {
+    id: "forms-of-connection",
+    label: "Forms of Connection",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Not every connection is supposed to be romantic — and the romantic one needs the others to thrive.",
+    inventory: true,
+    intro: "A whole life has many kinds of connection. When too much weight rests on one relationship, the relationship buckles. These are the forms that, together, make a person feel held in the world.",
+    items: [
+      { name: "Romantic partner", note: "The chosen primary — sexual, emotional, committed." },
+      { name: "Family of origin", note: "Parents, siblings, the people you came from." },
+      { name: "Chosen family", note: "Close friends who are family in practice." },
+      { name: "Close friends", note: "A small circle that knows you over time." },
+      { name: "Wider friends", note: "The people you see often without going deep — texture of daily life." },
+      { name: "Community", note: "A group, faith, neighborhood, team — being part of something." },
+      { name: "Mentors / elders", note: "People older or wiser whose perspective shapes yours." },
+      { name: "Mentees / those you guide", note: "People you pour into — gives meaning, not just receiving." },
+      { name: "Professional", note: "Colleagues, collaborators — connection through shared work." },
+      { name: "Self", note: "The relationship that holds all the others together." },
+    ],
+  },
+  {
+    id: "emotions-of-being-together",
+    label: "Emotions of Being Together",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "The felt sense of a real relationship has its own emotional vocabulary.",
+    inventory: true,
+    intro: "These are the emotions a steady, chosen relationship tends to generate. Notice which ones are alive in yours — and which ones have gone quiet.",
+    items: [
+      { name: "Safety", note: "Nervous-system permission to be yourself." },
+      { name: "Warmth", note: "Affection that doesn't need to perform." },
+      { name: "Gratitude", note: "Quiet appreciation for their presence." },
+      { name: "Peace", note: "The absence of bracing." },
+      { name: "Joy", note: "Laughter, lightness, delight in ordinary moments." },
+      { name: "Steadiness", note: "Confidence in tomorrow." },
+      { name: "Tenderness", note: "Care without conditions." },
+      { name: "Pride", note: "A clean pride in being together." },
+      { name: "Belonging", note: "Mutual home." },
+      { name: "Hope", note: "Future tense feels good." },
+      { name: "Devotion", note: "Wanting to show up for them, repeatedly, on purpose." },
+    ],
+  },
+  {
+    id: "forms-of-playfulness",
+    label: "Forms of Playfulness",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Play is what keeps love alive after the early novelty fades.",
+    inventory: true,
+    intro: "Couples who keep playing together stay in love longer. Play is not a personality trait — it's a practice, in many forms.",
+    items: [
+      { name: "Banter", note: "Verbal teasing, inside jokes, quick-witted exchange." },
+      { name: "Physical play", note: "Tickling, wrestling, dancing in the kitchen." },
+      { name: "Games", note: "Cards, board games, video games, word games." },
+      { name: "Pranks", note: "Light, harmless surprise — the kind that ends in laughter." },
+      { name: "Everyday roleplay", note: "Silly voices, made-up characters, playful pretending." },
+      { name: "Intimate roleplay", note: "Sexual play between consenting partners." },
+      { name: "Adventure", note: "Spontaneous outings, road trips, trying new things." },
+      { name: "Creative play", note: "Cooking experiments, art, building something together." },
+      { name: "Sport / movement", note: "Playing on the same team or against each other." },
+      { name: "Storytelling", note: "Telling exaggerated stories, making each other laugh." },
+    ],
+  },
+  {
+    id: "core-beliefs-for-sex",
+    label: "Core Beliefs for Sex",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Sex works when the underlying beliefs about it are clean.",
+    inventory: true,
+    intro: "Sexual health in a relationship depends less on technique and more on shared, honest beliefs. These are the foundations that keep intimacy mutual, safe, and alive.",
+    items: [
+      { name: "Sex is for both of us", note: "Both people's pleasure and desire matter equally." },
+      { name: "Both 'yes' and 'no' are welcome", note: "Consent is honored every time, without resentment." },
+      { name: "Honesty about desire", note: "We can talk about what we want, what we don't, what we're curious about." },
+      { name: "Sex changes over time", note: "Desire, frequency, and style will shift — and we'll talk about it." },
+      { name: "Pleasure is not earned", note: "Neither person has to perform to deserve closeness." },
+      { name: "Vulnerability is part of intimacy", note: "Real sex includes emotional risk, not just physical contact." },
+      { name: "Respect doesn't pause for sex", note: "How we treat each other in bed reflects how we treat each other outside it." },
+      { name: "Sex is not a transaction", note: "Not exchanged for favors, mood management, or fear of losing the relationship." },
+      { name: "Repair after rupture matters", note: "Awkward, painful, or disconnected moments can be talked about and healed." },
+      { name: "Faithfulness is mutual", note: "What we promised to each other, we mean and live." },
+    ],
+  },
+
+  {
     id: "clarity-check",
     label: "Connection Clarity Check",
     kicker: "Tool",
@@ -239,7 +927,7 @@ const concepts = [
 ];
 
 const conceptsById = Object.fromEntries(concepts.map((c) => [c.id, c]));
-const CONCEPT_GROUPS = ["Reflection", "Standards", "Communication", "Tools"];
+const CONCEPT_GROUPS = ["Reflection", "Standards", "Communication", "Inventory", "Tools"];
 
 function SectionCard({ concept, onSelect }) {
   return (
@@ -529,9 +1217,33 @@ function PauseCheck() {
   );
 }
 
+function InventoryConcept({ concept }) {
+  return (
+    <div className="space-y-5">
+      <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6 md:p-8">
+        <p className="text-xs font-black uppercase tracking-[0.35em] text-rose-200/70">Inventory</p>
+        <p className="mt-4 text-2xl font-black leading-snug text-white md:text-3xl">{concept.short}</p>
+        {concept.intro && (
+          <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 md:text-lg md:leading-8">{concept.intro}</p>
+        )}
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        {concept.items.map((item) => (
+          <div key={item.name} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
+            <p className="text-base font-black text-white">{item.name}</p>
+            {item.note && <p className="mt-2 text-sm leading-6 text-white/70">{item.note}</p>}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 function renderConcept(concept) {
   if (concept.interactive === "clarity-check") return <ClarityCheck />;
   if (concept.interactive === "pause-check") return <PauseCheck />;
+  if (concept.inventory) return <InventoryConcept concept={concept} />;
   return <ReflectionConcept concept={concept} />;
 }
 

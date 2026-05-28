@@ -343,6 +343,86 @@ const frameworks = [
     source:"https://www.britannica.com/science/transactional-analysis"
   },
   {
+    id:"sternberg-love", title:"Sternberg's Triangular Theory of Love", creator:"Robert Sternberg", category:"Communication & Relationships", model:"Triangle", color:"rgba(255,79,216,.18)",
+    core:"Love is built from three components — intimacy, passion, and commitment — and their combinations produce different forms of love.",
+    use:"When trying to name what is present, missing, or out of balance in a romantic connection.",
+    parts:["Intimacy: closeness, warmth, connection","Passion: physical attraction, drive, romance","Commitment: choice, loyalty, long-term decision","Liking = intimacy alone","Infatuation = passion alone","Empty love = commitment alone","Romantic love = intimacy + passion","Companionate love = intimacy + commitment","Fatuous love = passion + commitment","Consummate love = all three"],
+    trap:"Treating the absence of one corner as proof the relationship is failing, instead of as information about what to grow.",
+    build:"Three-slider self-assessment that maps the relationship onto a love type and suggests what to nurture.",
+    prompt:"Rate intimacy, passion, and commitment in this relationship from 1 to 10. Which corner is highest? Which is lowest? What would it look like to grow the lowest one this month?",
+    source:"https://psycnet.apa.org/doi/10.1037/0033-295X.93.2.119"
+  },
+  {
+    id:"knapp-stages", title:"Knapp's Relational Stages", creator:"Mark L. Knapp", category:"Communication & Relationships", model:"Stage Model", color:"rgba(124,92,255,.18)",
+    core:"Relationships move through identifiable stages of coming together and (sometimes) coming apart, each with its own communication patterns.",
+    use:"When you want to locate where a relationship actually is — not where you hope or fear it is.",
+    parts:["Initiating: first impressions","Experimenting: small talk and discovery","Intensifying: opening up, more vulnerability","Integrating: identities start to merge","Bonding: public commitment","Differentiating: re-asserting individuality","Circumscribing: communication shrinks","Stagnating: going through motions","Avoiding: physical or emotional distance","Terminating: ending the connection"],
+    trap:"Skipping stages to manufacture closeness, or mistaking stagnation for stability.",
+    build:"Stage selector that maps the current connection and surfaces what tends to come next.",
+    prompt:"Which stage best describes this connection right now? Which stage was it in three months ago? What direction is the trend moving — together or apart?",
+    source:"https://www.communicationtheory.org/knapps-relational-development-model/"
+  },
+  {
+    id:"attraction-factors", title:"Factors of Interpersonal Attraction", creator:"Social psychology tradition (Berscheid, Hatfield, Festinger, et al.)", category:"Communication & Relationships", model:"Factor Set", color:"rgba(56,242,155,.18)",
+    core:"Most attraction is shaped by a small set of well-studied factors — not by mystery or fate.",
+    use:"When you want to separate genuine compatibility signals from chemistry that may not predict fit.",
+    parts:["Proximity: people you encounter often","Familiarity: repeated exposure increases liking","Similarity: shared values, lifestyle, worldview","Reciprocity: knowing someone likes you","Physical attractiveness: especially in early stages","Complementarity: traits that fit alongside yours","Arousal: shared exciting contexts can amplify attraction"],
+    trap:"Romanticizing factors like proximity and familiarity as 'destiny' when they're really just exposure.",
+    build:"Compatibility scoring tool that weighs each factor against long-term satisfaction predictors.",
+    prompt:"For each of the seven factors, rate how strong it is in this attraction. Which are strong? Which are weak? Are the strong ones the kind that predict long-term satisfaction, or the kind that fade?",
+    source:"https://www.simplypsychology.org/interpersonal-attraction.html"
+  },
+  {
+    id:"reciprocity-attraction", title:"Reciprocity of Attraction", creator:"Aron, Berscheid, and related research", category:"Communication & Relationships", model:"Mutual Process", color:"rgba(0,214,255,.18)",
+    core:"Knowing someone likes you is one of the strongest predictors of liking them back — mutual attraction is largely built, not just discovered.",
+    use:"When deciding whether to express interest, or trying to make sense of how attraction grows or fades.",
+    parts:["Initial signal: any sign of interest","Acknowledgment: the other person registers the signal","Mutual disclosure: vulnerability deepens the loop","Responsiveness: feeling understood and valued","Validation cycle: each round of warmth feeds the next","Withdrawal effect: silence or distance shuts the loop down"],
+    trap:"Withholding interest as a strategy, expecting attraction to grow in the absence of signal.",
+    build:"Loop visualizer that shows how each signal/response cycle compounds or dies.",
+    prompt:"In this connection, who is sending signal and who is responding? Is the loop building or fading? What would honest reciprocity from your side look like this week?",
+    source:"https://en.wikipedia.org/wiki/Reciprocal_liking"
+  },
+  {
+    id:"paradox-of-love", title:"Paradox of Love", creator:"Esther Perel and related thinkers", category:"Communication & Relationships", model:"Tension Model", color:"rgba(255,209,102,.16)",
+    core:"The qualities that build security in love (closeness, routine, predictability) are often opposite to the qualities that fuel desire (distance, novelty, mystery).",
+    use:"When intimacy is high but desire is low, or when passion exists only in unstable connections.",
+    parts:["Security side: closeness, comfort, knowing","Desire side: distance, novelty, otherness","Tension: each side undermines the other if maximized","Integration: brief separations, autonomy, surprise","Erotic intelligence: keeping space for the other to be other","Daily reality: this paradox is normal, not a flaw"],
+    trap:"Treating low desire in a committed relationship as proof that something is broken, when it may just be the paradox doing what it does.",
+    build:"Tension dashboard that helps couples notice when they've collapsed too far into either pole.",
+    prompt:"In this relationship, is the security pole or the desire pole stronger right now? What small experiment could introduce a healthy dose of the missing one — without threatening the other?",
+    source:"https://www.estherperel.com/blog/mating-in-captivity"
+  },
+  {
+    id:"emotional-spectrum-love", title:"Emotional Spectrum in Romantic Relationships", creator:"Affective science and relationship research", category:"Communication & Relationships", model:"Spectrum", color:"rgba(56,242,155,.16)",
+    core:"A romantic relationship moves through a wide range of emotions — and emotional maturity is the capacity to hold all of them without panic.",
+    use:"When only the warm emotions feel acceptable and the harder ones feel like proof something is wrong.",
+    parts:["Warm pole: love, joy, gratitude, peace, tenderness, awe","Tension band: longing, ambivalence, disappointment, frustration","Hard pole: anger, fear, jealousy, grief","Quiet baseline: steadiness, contentment, familiarity","Healthy relationship: full spectrum, not just the highlights"],
+    trap:"Treating only the warm emotions as 'real' love and the hard ones as proof something is broken.",
+    build:"Emotion tracker that maps the relationship's weekly emotional range rather than just intensity.",
+    prompt:"Map the last month. Which emotions showed up in this relationship? Which did you let yourself feel, and which did you suppress? What does the full range tell you about the connection?",
+    source:"https://www.gottman.com/blog/the-emotion-coaching-process/"
+  },
+  {
+    id:"relationship-dynamics", title:"Relationship Dynamics", creator:"Family systems and relational psychology", category:"Communication & Relationships", model:"Pattern Model", color:"rgba(124,92,255,.16)",
+    core:"Relationships have repeating patterns — dynamics — that often outlast the issues that spark them. Naming the dynamic is the first step to changing it.",
+    use:"When the same fight or feeling keeps recurring even though the topics change.",
+    parts:["Pursuer / Distancer: one reaches, one withdraws","Over-functioner / Under-functioner: one carries, one drops","Fixer / Feeler: one solves, one needs to be felt","Parent / Child: one teaches or scolds, the other defers or rebels","Critic / Defender: one attacks, one justifies","Equal / Equal: both stay adult and accountable"],
+    trap:"Treating each fight as new, instead of seeing the underlying dynamic.",
+    build:"Pattern mapper that helps couples name their default dynamic and design a more adult one.",
+    prompt:"In your recurring conflicts, which role do you usually play? Which role does your partner play? What would it look like to step out of the dynamic — even once?",
+    source:"https://www.thebowencenter.org/introduction-eight-concepts"
+  },
+  {
+    id:"themes-of-marriage", title:"Themes of Long-Term Commitment", creator:"Relationship research (Gottman, Doherty, et al.)", category:"Communication & Relationships", model:"Theme Set", color:"rgba(0,214,255,.14)",
+    core:"Long-term commitment surfaces a recurring set of themes that every couple negotiates and renegotiates over time.",
+    use:"When marriage or long-term partnership starts to feel like a series of recurring topics rather than a single arc.",
+    parts:["Money: earning, spending, saving, security","Sex: desire, frequency, repair, change over time","Children: whether, when, how to parent","Family of origin: in-laws, holidays, loyalties","Work and ambition: career rhythm, sacrifices, support","Friendship and community: outside relationships","Faith and meaning: spiritual practice, worldview","Conflict and repair: how disagreements are handled","Roles and labor: who does what at home","Future and aging: plans, retirement, mortality"],
+    trap:"Treating themes as one-time decisions when they actually evolve over decades.",
+    build:"Theme tracker that resurfaces each topic on a healthy cadence for honest re-discussion.",
+    prompt:"Of the ten themes, which one is going well right now? Which one has been quietly avoided? Schedule one honest conversation about the avoided one this month.",
+    source:"https://www.gottman.com/blog/the-six-things-that-predict-divorce/"
+  },
+  {
     id:"bloom", title:"Bloom's Taxonomy", creator:"Benjamin Bloom and collaborators", category:"Learning & Knowledge", model:"Hierarchy", color:"rgba(0,214,255,.18)",
     core:"Learning can move from remembering and understanding toward applying, analyzing, evaluating, and creating.",
     use:"When designing lessons, notes, prompts, quizzes, or skill progression.",
