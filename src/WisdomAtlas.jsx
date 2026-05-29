@@ -1,0 +1,549 @@
+import { useState, useMemo } from 'react';
+import './WisdomAtlas.css';
+
+// Wisdom Atlas — a reflective library of spiritual teachers and inner-work
+// traditions. Each teacher is a doorway: a core teaching, a practice to live,
+// what it is best for, what it pairs well with, the trap to watch, and a
+// reflection prompt to carry. Book lists use real, published titles only.
+// (CSS class names keep the historical `fa-` prefix from this section's
+// earlier life; they are internal to these two files.)
+
+const teachers = [
+  {
+    id: 'neville',
+    name: 'Neville Goddard',
+    era: '1905–1972',
+    tradition: 'New Thought',
+    category: 'Imagination & Inner State',
+    lineage: 'Law of Assumption',
+    color: 'rgba(124,92,255,.22)',
+    core: 'Imagination is the only creative power. Whatever you assume to be true — and feel as real — hardens into fact. Consciousness is the one reality, and "I AM" is the name of the creative self within.',
+    practice: 'Assume the feeling of the wish fulfilled, then enter SATS (a drowsy state akin to sleep) and live a short scene from the end as though it were already so.',
+    bestFor: 'Anyone ready to take radical responsibility for their inner state and live from the end rather than chasing the outer world.',
+    complements: 'Abdullah, Joseph Murphy, Florence Scovel Shinn',
+    trap: 'Anxiously checking the outer world for proof — which silently affirms the wish is still missing. Persistence in the assumption, not monitoring, is the work.',
+    prompt: 'If your desire were already fulfilled, how would you feel right now? Can you give yourself that feeling tonight, before anything outside has changed?',
+    books: ['The Power of Awareness', 'Feeling Is the Secret', 'Awakened Imagination', 'The Law and the Promise'],
+  },
+  {
+    id: 'abdullah',
+    name: 'Abdullah',
+    era: 'Early 20th c.',
+    tradition: "Neville Goddard's teacher",
+    category: 'Imagination & Inner State',
+    lineage: 'Assume It Is Done',
+    color: 'rgba(255,209,102,.20)',
+    core: 'Scripture is psychological and symbolic, not merely historical — every figure is a state of consciousness within you. What you desire is already yours the moment you dare to assume it; there is nothing to wait for.',
+    practice: 'Take the wish as already accomplished and refuse every thought that argues otherwise. Walk, speak, and rest as the person who already has it — and stay there.',
+    bestFor: 'Those who keep hoping and trying, and need the firmness of "it is already done — now live from that."',
+    complements: 'Neville Goddard, Florence Scovel Shinn',
+    trap: 'Waiting for outer confirmation before fully assuming the wish. Abdullah\'s whole stance was to grant it now and never beg for it again.',
+    prompt: 'What would you stop asking for if you truly believed it was already yours? Can you live today from that quiet certainty?',
+    books: [],
+    note: 'Abdullah is known almost entirely through Neville Goddard\'s own accounts of his teacher; little independent historical record survives. Treat the details as Neville reported them rather than as documented biography.',
+  },
+  {
+    id: 'dispenza',
+    name: 'Joe Dispenza',
+    era: 'Contemporary',
+    tradition: 'Mind–body science',
+    category: 'Imagination & Inner State',
+    lineage: 'Mind & Neuroscience',
+    color: 'rgba(0,214,255,.18)',
+    core: 'Your personality creates your personal reality. By rehearsing a new future in mind and feeling its elevated emotion now, you rewire the brain and condition the body to a new state before the outer change arrives.',
+    practice: 'Daily meditation that combines mental rehearsal of the future with elevated emotions — gratitude, wholeness, awe — held until the body feels the future has already happened.',
+    bestFor: 'People who want a structured, embodied practice that bridges inner-work and the language of neuroscience.',
+    complements: 'Neville Goddard, Joseph Murphy, Michael Singer',
+    trap: 'Chasing peak experiences and big results, then "waiting" for them — which quietly reinforces lack. The shift is meant to become an ordinary, repeated state.',
+    prompt: 'Can you generate the feeling of your future self this morning — not as a reward for change, but as the cause of it?',
+    books: ['Breaking the Habit of Being Yourself', 'You Are the Placebo', 'Becoming Supernatural'],
+  },
+  {
+    id: 'murphy',
+    name: 'Joseph Murphy',
+    era: '1898–1981',
+    tradition: 'New Thought / Divine Science',
+    category: 'New Thought & Spiritual Law',
+    lineage: 'Subconscious Mind',
+    color: 'rgba(56,242,155,.18)',
+    core: 'Whatever you impress upon the subconscious mind is expressed as condition, experience, and event. The subconscious accepts what the conscious mind feels to be true and works it out faithfully, for good or ill.',
+    practice: 'In the relaxed, drowsy state before sleep, quietly affirm and feel the wish as already real, letting the subconscious receive it without the interference of effort or doubt.',
+    bestFor: 'Anyone who wants a gentle, prayerful approach to reprogramming inner beliefs and self-talk.',
+    complements: 'Neville Goddard, Emmet Fox, Florence Scovel Shinn',
+    trap: 'Affirming on the surface while the deeper mind still holds the opposite belief. The subconscious answers your felt conviction, not your words alone.',
+    prompt: 'What have you been quietly impressing on your subconscious — through worry or repetition — without realizing you were planting it?',
+    books: ['The Power of Your Subconscious Mind'],
+  },
+  {
+    id: 'shinn',
+    name: 'Florence Scovel Shinn',
+    era: '1871–1940',
+    tradition: 'New Thought',
+    category: 'New Thought & Spiritual Law',
+    lineage: 'The Spoken Word',
+    color: 'rgba(255,79,216,.16)',
+    core: 'Life is a game played by spiritual law, and your word is your wand. What you speak and affirm goes out to shape your affairs; forgiveness and nonresistance clear the channel so the divine design can appear.',
+    practice: 'Use a short, clear affirmation (the "spoken word") for the situation, practice nonresistance, and "cast the burden" — handing the worry over so you can act from peace.',
+    bestFor: 'Those who notice the power of their own speech and want a warm, practical, faith-filled approach to daily problems.',
+    complements: 'Emmet Fox, Joseph Murphy, Neville Goddard',
+    trap: 'Speaking affirmations while harboring resentment or unforgiveness. She taught that holding a grievance blocks the very good you are affirming.',
+    prompt: 'What words have you been speaking about your life and yourself? Are they the words you would want to see made manifest?',
+    books: ['The Game of Life and How to Play It', 'Your Word Is Your Wand', 'The Power of the Spoken Word'],
+  },
+  {
+    id: 'fox',
+    name: 'Emmet Fox',
+    era: '1886–1951',
+    tradition: 'Divine Science',
+    category: 'New Thought & Spiritual Law',
+    lineage: 'Mental Equivalent',
+    color: 'rgba(255,209,102,.18)',
+    core: 'You experience in life the physical equivalent of the thoughts you habitually hold — your "mental equivalent." To change a condition, build a new mental equivalent and turn your attention from the problem toward the spiritual idea.',
+    practice: 'The Golden Key: whenever a problem grips you, deliberately turn your thought away from it and dwell on the divine instead, repeatedly, until the inner state settles.',
+    bestFor: 'Anyone caught in worry loops who needs a clear instruction for where to put attention.',
+    complements: 'Florence Scovel Shinn, Joseph Murphy, Ernest Holmes',
+    trap: 'Dwelling on the problem "to understand it" rather than fully turning toward the spiritual idea. The method only works when attention actually moves.',
+    prompt: 'What is the mental equivalent you are quietly holding for the thing you want — and what new image would you have to build to match it?',
+    books: ['The Sermon on the Mount', 'Power Through Constructive Thinking', 'The Mental Equivalent'],
+  },
+  {
+    id: 'troward',
+    name: 'Thomas Troward',
+    era: '1847–1916',
+    tradition: 'Mental Science',
+    category: 'New Thought & Spiritual Law',
+    lineage: 'Mental Science',
+    color: 'rgba(124,92,255,.20)',
+    core: 'The conscious (objective) mind originates thought; the subconscious (subjective) mind is impersonal creative power that receives it and brings it into form. Spirit is the originating cause, and orderly thought sets it in motion.',
+    practice: 'Reason your way into a calm, affirmative conviction, then deliberately impress that conviction on the subjective mind — trusting law rather than forcing outcomes.',
+    bestFor: 'Reflective minds who want the philosophical foundation beneath modern manifestation teaching.',
+    complements: 'Ernest Holmes, Joseph Murphy, Neville Goddard',
+    trap: 'Treating the lectures as intellectual philosophy to admire rather than a practice to apply. Understanding without use leaves the creative law untouched.',
+    prompt: 'If thought truly initiates a creative process, what general tendency are your habitual thoughts quietly setting in motion?',
+    books: ['The Edinburgh Lectures on Mental Science', 'The Doré Lectures on Mental Science', 'The Creative Process in the Individual'],
+  },
+  {
+    id: 'holmes',
+    name: 'Ernest Holmes',
+    era: '1887–1960',
+    tradition: 'Religious Science',
+    category: 'New Thought & Spiritual Law',
+    lineage: 'Science of Mind',
+    color: 'rgba(0,214,255,.18)',
+    core: 'There is one Universal Mind, an Infinite Intelligence, that each of us uses. Thought is creative, and "the Law of Mind in action" responds to our directed, believing word with mathematical precision.',
+    practice: 'Spiritual Mind Treatment — affirmative prayer through recognition, unification, realization, thanksgiving, and release — declaring the good as already true, then letting it go.',
+    bestFor: 'Those who want a clear, structured method of affirmative prayer grounded in a unifying philosophy.',
+    complements: 'Thomas Troward, Emmet Fox, Joseph Murphy',
+    trap: 'Reciting the steps of treatment as a formula without real felt conviction. The Law responds to embodied belief, not mechanical repetition.',
+    prompt: 'Can you declare your situation as already whole in Mind — and then truly release it, instead of anxiously watching for results?',
+    books: ['The Science of Mind', 'Creative Mind and Success'],
+  },
+  {
+    id: 'jung',
+    name: 'Carl Jung',
+    era: '1875–1961',
+    tradition: 'Analytical Psychology',
+    category: 'Depth & Shadow',
+    lineage: 'Depth Psychology',
+    color: 'rgba(255,107,107,.16)',
+    core: 'Wholeness comes through individuation — making the unconscious conscious. What we refuse to face within ourselves (the shadow) we meet as fate outside, projected onto others, until we own and integrate it.',
+    practice: 'Shadow work, dream attention, and active imagination — dialoguing honestly with the images and feelings that arise, rather than analyzing them from a safe distance.',
+    bestFor: 'Those drawn to depth, symbol, and dreams who want to become whole rather than merely positive.',
+    complements: 'Alan Watts, Michael Singer',
+    trap: 'Endless analysis without integration, or inflation — identifying with an archetype instead of relating to it. Insight that never enters life changes nothing.',
+    prompt: 'What part of yourself have you disowned — and where does it keep showing up, projected onto the people who irritate you most?',
+    books: ['Memories, Dreams, Reflections', 'Man and His Symbols', 'Modern Man in Search of a Soul'],
+  },
+  {
+    id: 'watts',
+    name: 'Alan Watts',
+    era: '1915–1973',
+    tradition: 'Zen / Taoist philosophy',
+    category: 'Presence & Surrender',
+    lineage: 'Zen & Tao',
+    color: 'rgba(56,242,155,.16)',
+    core: 'You are not a separate ego dropped into the world but an expression of the whole universe — "you are it." Suffering grows from grasping for security; freedom is found in releasing the need to control and trusting the flow.',
+    practice: 'Present-moment awareness and letting go — relaxing the grip of the controlling self, watching experience as it is, and meeting life as play rather than a problem to solve.',
+    bestFor: 'Over-thinkers and seekers who need permission to stop grasping and rest in the present.',
+    complements: 'Carl Jung, Michael Singer, Joe Dispenza',
+    trap: 'Turning his ideas into clever intellectual entertainment without ever practicing — mistaking the menu for the meal, which he warned against himself.',
+    prompt: 'What would it feel like, just for this breath, to stop bracing against the moment and trust where life is already carrying you?',
+    books: ['The Wisdom of Insecurity', 'The Way of Zen', 'The Book: On the Taboo Against Knowing Who You Are'],
+  },
+  {
+    id: 'singer',
+    name: 'Michael Singer',
+    era: 'Contemporary',
+    tradition: 'Yogic / Nondual',
+    category: 'Presence & Surrender',
+    lineage: 'Surrender & Witness',
+    color: 'rgba(165,180,252,.18)',
+    core: 'You are not the anxious voice in your head — you are the awareness that notices it. Freedom comes from relaxing and releasing the stored energy and resistance you carry, and surrendering to the flow of life.',
+    practice: 'Notice the inner voice and the energy it stirs, then relax and release rather than acting it out — and consciously let go of resistance to whatever life brings.',
+    bestFor: 'Anyone exhausted by the inner commentary who wants to step behind it and simply let go.',
+    complements: 'Alan Watts, Joe Dispenza, Carl Jung',
+    trap: 'Using "letting go" to suppress or bypass real feeling. True release faces the energy and lets it pass through — it does not push it back down.',
+    prompt: 'Can you notice, right now, the one who is aware of your thoughts — rather than being lost inside them?',
+    books: ['The Untethered Soul', 'The Surrender Experiment', 'Living Untethered'],
+  },
+];
+
+const categoryNotes = {
+  'Imagination & Inner State':
+    'Teachers who hold that consciousness, imagination, and the feeling you assume are what shape the life that unfolds.',
+  'New Thought & Spiritual Law':
+    'The mental-science lineage — that thought, belief, and the spoken word move according to a dependable spiritual law.',
+  'Presence & Surrender':
+    'Paths of letting go — resting as awareness, releasing resistance, and trusting the flow of life as it is.',
+  'Depth & Shadow':
+    'Inner work that integrates the unconscious — meeting what we have disowned in order to become whole.',
+};
+
+// Keep a deliberate spiritual ordering rather than first-seen order.
+const categories = [
+  'Imagination & Inner State',
+  'New Thought & Spiritual Law',
+  'Presence & Surrender',
+  'Depth & Shadow',
+];
+const lineages = [...new Set(teachers.map((t) => t.lineage))].sort();
+
+function TeacherCard({ t, onOpen }) {
+  return (
+    <article
+      className="fa-card"
+      style={{ '--cardGlow': t.color }}
+      onClick={() => onOpen(t)}
+    >
+      <div className="fa-chip-row">
+        <span className="fa-chip hot">{t.category}</span>
+        <span className="fa-chip gold">{t.lineage}</span>
+      </div>
+      <h3>{t.name}</h3>
+      <div className="fa-creator">{t.era} · {t.tradition}</div>
+      <p className="fa-core-text">{t.core}</p>
+      <div className="fa-mini-list">
+        <div className="fa-mini-list-item"><b>Practice</b><span>{t.practice}</span></div>
+        <div className="fa-mini-list-item"><b>Best for</b><span>{t.bestFor}</span></div>
+        <div className="fa-mini-list-item"><b>Pairs with</b><span>{t.complements}</span></div>
+      </div>
+      <span className="fa-open-hint">Open teaching ↗</span>
+    </article>
+  );
+}
+
+function TeacherModal({ t, onClose }) {
+  if (!t) return null;
+  return (
+    <div className="fa-modal-overlay" onClick={onClose}>
+      <div className="fa-modal-card" onClick={(e) => e.stopPropagation()}>
+        <div className="fa-modal-top">
+          <div>
+            <div className="fa-chip-row">
+              <span className="fa-chip hot">{t.category}</span>
+              <span className="fa-chip gold">{t.lineage}</span>
+            </div>
+            <div className="fa-modal-title">{t.name}</div>
+            <div className="fa-modal-creator">{t.era} · {t.tradition}</div>
+          </div>
+          <button className="fa-close" onClick={onClose}>×</button>
+        </div>
+        <div className="fa-modal-body">
+          <div className="fa-detail-grid">
+            <div className="fa-detail-box"><h4>Core teaching</h4><p>{t.core}</p></div>
+            <div className="fa-detail-box"><h4>Main practice</h4><p>{t.practice}</p></div>
+            <div className="fa-detail-box"><h4>Best for</h4><p>{t.bestFor}</p></div>
+            <div className="fa-detail-box"><h4>Complements</h4><p>{t.complements}</p></div>
+            <div className="fa-detail-box full"><h4>Common trap</h4><p>{t.trap}</p></div>
+            <div className="fa-detail-box full">
+              <h4>Reflection prompt</h4>
+              <div className="fa-prompt-box">{t.prompt}</div>
+            </div>
+            {t.books && t.books.length > 0 && (
+              <div className="fa-detail-box full">
+                <h4>Books to begin with</h4>
+                <ul>{t.books.map((b) => <li key={b}>{b}</li>)}</ul>
+              </div>
+            )}
+            {t.note && (
+              <div className="fa-detail-box full"><h4>A note on sources</h4><p>{t.note}</p></div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function WisdomAtlas({ onBack }) {
+  const [query,          setQuery]          = useState('');
+  const [categoryFilter, setCategoryFilter] = useState('all');
+  const [lineageFilter,  setLineageFilter]  = useState('all');
+  const [modal,          setModal]          = useState(null);
+  const [activeCategory, setActiveCategory] = useState(categories[0]);
+  const [rotation,       setRotation]       = useState(35);
+
+  const filtered = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return teachers.filter((t) => {
+      const hay = `${t.name} ${t.tradition} ${t.category} ${t.lineage} ${t.core} ${t.practice} ${t.bestFor} ${t.complements}`.toLowerCase();
+      return (!q || hay.includes(q))
+        && (categoryFilter === 'all' || t.category === categoryFilter)
+        && (lineageFilter  === 'all' || t.lineage  === lineageFilter);
+    });
+  }, [query, categoryFilter, lineageFilter]);
+
+  const catTeachers = teachers.filter((t) => t.category === activeCategory);
+
+  function reset() { setQuery(''); setCategoryFilter('all'); setLineageFilter('all'); }
+
+  return (
+    <div className="fa">
+      {/* top bar */}
+      <div className="fa-topbar">
+        <button className="fa-back-btn" onClick={onBack}>← Back</button>
+        <div className="fa-brand">
+          <div className="fa-logo">✦</div>
+          <span>Wisdom Atlas</span>
+        </div>
+        <nav className="fa-nav-links">
+          <a className="fa-nav-link" href="#fa-library">Teachers</a>
+          <a className="fa-nav-link" href="#fa-map">Traditions</a>
+          <a className="fa-nav-link" href="#fa-models">One Room</a>
+          <a className="fa-nav-link" href="#fa-builder">How to Begin</a>
+        </nav>
+      </div>
+
+      <div className="fa-inner">
+        {/* hero */}
+        <header className="fa-hero">
+          <div>
+            <div className="fa-eyebrow"><span className="fa-pulse" /> Teachers · Teachings · Inner Work</div>
+            <h1 className="fa-h1">
+              The teachers of the <span className="fa-grad">inner life</span>,<br />gathered into one quiet library.
+            </h1>
+            <p className="fa-lead">
+              A reflective library of spiritual teachers and inner-work traditions. Each one is offered as a card with its core teaching, a practice to live, what it is best for, the trap to watch, and a question to sit with.
+            </p>
+            <div className="fa-hero-actions">
+              <a className="fa-btn primary" href="#fa-library">Meet the teachers</a>
+              <a className="fa-btn" href="#fa-builder">How to work with them</a>
+            </div>
+            <div className="fa-stat-row">
+              <div className="fa-stat"><strong>{teachers.length}</strong><span>Teachers</span></div>
+              <div className="fa-stat"><strong>{categories.length}</strong><span>Traditions</span></div>
+              <div className="fa-stat"><strong>{lineages.length}</strong><span>Approaches</span></div>
+              <div className="fa-stat"><strong>∞</strong><span>Reflections</span></div>
+            </div>
+          </div>
+
+          {/* 3D sphere */}
+          <div className="fa-atlas-stage" aria-label="3D orbit of inner-work themes">
+            <div className="fa-sphere">
+              <div className="fa-ring r1" /><div className="fa-ring r2" />
+              <div className="fa-ring r3" /><div className="fa-ring r4" />
+              <div className="fa-node n1">Imagination</div>
+              <div className="fa-node n2">Spiritual Law</div>
+              <div className="fa-node n3">Surrender</div>
+              <div className="fa-node n4">Shadow</div>
+              <div className="fa-node n5">Presence</div>
+              <div className="fa-core">WISDOM<br/>ATLAS</div>
+            </div>
+            <div className="fa-floating-note">
+              Each teacher is a doorway — a core teaching, a daily practice, and a reflection to carry into the day.
+            </div>
+          </div>
+        </header>
+
+        {/* library */}
+        <section className="fa-section" id="fa-library">
+          <div className="fa-section-head">
+            <div>
+              <h2 className="fa-h2">Wisdom Library</h2>
+              <p>Search by teacher, tradition, teaching, or practice. Open any card for the core teaching, the practice, what it is best for, and a reflection prompt to carry.</p>
+            </div>
+          </div>
+
+          <div className="fa-controls fa-panel">
+            <div className="fa-field">
+              <label>Search</label>
+              <input
+                className="fa-input"
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Try: imagination, surrender, shadow, subconscious, assumption..."
+              />
+            </div>
+            <div className="fa-field">
+              <label>Tradition</label>
+              <select className="fa-select" value={categoryFilter} onChange={(e) => setCategoryFilter(e.target.value)}>
+                <option value="all">All traditions</option>
+                {categories.map((c) => <option key={c} value={c}>{c}</option>)}
+              </select>
+            </div>
+            <div className="fa-field">
+              <label>Approach</label>
+              <select className="fa-select" value={lineageFilter} onChange={(e) => setLineageFilter(e.target.value)}>
+                <option value="all">All approaches</option>
+                {lineages.map((m) => <option key={m} value={m}>{m}</option>)}
+              </select>
+            </div>
+            <div className="fa-field">
+              <label>&nbsp;</label>
+              <button className="fa-btn" onClick={reset}>Reset</button>
+            </div>
+          </div>
+
+          <div className="fa-grid">
+            {filtered.length ? filtered.map((t) => (
+              <TeacherCard key={t.id} t={t} onOpen={setModal} />
+            )) : (
+              <div className="fa-panel" style={{ gridColumn: '1/-1', padding: 28, color: 'var(--muted)' }}>
+                No teachers match that. Try a broader word — like "surrender", "imagination", or "shadow".
+              </div>
+            )}
+          </div>
+        </section>
+
+        {/* tradition pages */}
+        <section className="fa-section" id="fa-map">
+          <div className="fa-section-head">
+            <div>
+              <h2 className="fa-h2">Traditions</h2>
+              <p>The library gathers naturally into a few living lineages. Choose one to see who sits within it — and a gentle way to study it.</p>
+            </div>
+          </div>
+          <div className="fa-map-wrap">
+            <aside className="fa-category-menu fa-panel">
+              {categories.map((c) => (
+                <button
+                  key={c}
+                  className={`fa-cat-btn ${c === activeCategory ? 'active' : ''}`}
+                  onClick={() => setActiveCategory(c)}
+                >
+                  <span>{c}</span>
+                  <b>{teachers.filter((t) => t.category === c).length}</b>
+                </button>
+              ))}
+            </aside>
+
+            <div className="fa-lanes">
+              <div className="fa-lane">
+                <div className="fa-lane-head">
+                  <div>
+                    <h3>{activeCategory}</h3>
+                    <p>{categoryNotes[activeCategory]}</p>
+                  </div>
+                  <span className="fa-chip gold">{catTeachers.length} teachers</span>
+                </div>
+                <div className="fa-lane-items">
+                  {catTeachers.map((t) => (
+                    <div className="fa-pill-card" key={t.id} onClick={() => setModal(t)}>
+                      <b>{t.name}</b>
+                      <span>{t.lineage} · {t.era}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="fa-lane">
+                <div className="fa-lane-head">
+                  <div>
+                    <h3>How to study a tradition</h3>
+                    <p>The same quiet rhythm works for any teacher in this lineage.</p>
+                  </div>
+                </div>
+                <div className="fa-lane-items">
+                  {[
+                    ['Read slowly', 'Let the core teaching land before you judge it or rush to apply it.'],
+                    ['Choose one practice', 'Pick a single practice and give it a week of honest, unforced effort.'],
+                    ['Watch the trap', 'Notice the way this path tends to go astray — in others, and in you.'],
+                    ['Journal the prompt', 'Write from the reflection prompt without editing or impressing yourself.'],
+                  ].map(([label, desc]) => (
+                    <div className="fa-pill-card" key={label}>
+                      <b>{label}</b>
+                      <span>{desc}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* many doors, one room */}
+        <section className="fa-section" id="fa-models">
+          <div className="fa-section-head">
+            <div>
+              <h2 className="fa-h2">Many doors, one room</h2>
+              <p>These teachers use different language, but they keep pointing at the same inner shift. Turn it over and notice what they share.</p>
+            </div>
+          </div>
+          <div className="fa-model-lab">
+            <div className="fa-cube-stage fa-panel">
+              <div className="fa-cube" style={{ '--rot': `${rotation}deg` }}>
+                <div className="fa-face front">Imagination</div>
+                <div className="fa-face back">The Word</div>
+                <div className="fa-face right">Spiritual<br/>Law</div>
+                <div className="fa-face left">Surrender</div>
+                <div className="fa-face top">Shadow</div>
+                <div className="fa-face bottom">Presence</div>
+              </div>
+            </div>
+            <div className="fa-lab-copy fa-panel">
+              <h2 className="fa-h2">Different languages, one movement.</h2>
+              <p>One teacher calls it assumption, another calls it prayer, another surrender, another individuation. Underneath the words, each one asks you to change the inner state first — and let the outer life follow.</p>
+              <input
+                className="fa-range"
+                type="range"
+                min="0" max="360"
+                value={rotation}
+                onChange={(e) => setRotation(Number(e.target.value))}
+              />
+              <div className="fa-mini-tools">
+                {[
+                  ['Imagination', 'Assume the feeling of the wish fulfilled and live from the end.'],
+                  ['Surrender', 'Relax and release the grip of the inner voice; let life move through you.'],
+                  ['The Word', 'Speak and think only what you would want to see made real.'],
+                  ['Shadow', 'Meet what you have disowned so it no longer runs you from the dark.'],
+                ].map(([title, desc]) => (
+                  <div className="fa-tool-box" key={title}><b>{title}</b><span>{desc}</span></div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* how to begin */}
+        <section className="fa-section" id="fa-builder">
+          <div className="fa-section-head">
+            <div>
+              <h2 className="fa-h2">How to Work With a Teacher</h2>
+              <p>These teachings are meant to be lived, not just read. Here is a gentle way to begin.</p>
+            </div>
+          </div>
+          <div className="fa-builder fa-panel">
+            {[
+              ['1', 'Choose a teacher', 'Let one voice meet you where you are. You do not need all of them at once.'],
+              ['2', 'Sit with the core teaching', 'Read it slowly and ask, honestly: what would change if this were true for me?'],
+              ['3', 'Take up the practice', 'Give the teaching a body — one small ritual you actually do each day.'],
+              ['4', 'Notice the trap, keep the prompt', 'Watch where the path goes astray, and carry the reflection question into your day.'],
+            ].map(([num, title, desc]) => (
+              <div className="fa-builder-card" key={num}>
+                <strong>{num}</strong>
+                <h3>{title}</h3>
+                <p>{desc}</p>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        <footer className="fa-footer">
+          A reflective library, not a doctrine. These teachings are offered for contemplation and inner work — take what serves you and hold the rest lightly. Nothing here is medical, psychological, or religious advice.
+        </footer>
+      </div>
+
+      {/* modal */}
+      {modal && <TeacherModal t={modal} onClose={() => setModal(null)} />}
+    </div>
+  );
+}

@@ -4,7 +4,7 @@ import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
 import InnerAtlas from './InnerAtlas';
-import FrameworkAtlas from './FrameworkAtlas';
+import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
@@ -18,7 +18,7 @@ const COMPONENTS = {
   astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
   inneratlas: InnerAtlas,
-  frameworks: FrameworkAtlas,
+  wisdom: WisdomAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
@@ -65,6 +65,10 @@ export default function App() {
 
   const activePortal = portalsByPath[path];
   if (activePortal) {
+    // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
+    if (path !== activePortal.path && typeof window !== 'undefined') {
+      window.history.replaceState({}, '', activePortal.path + (search || ''));
+    }
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component
