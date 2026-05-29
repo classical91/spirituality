@@ -10,7 +10,7 @@ Sacred Pathways is an interactive, browser-based reflection toolkit built with V
 |------|--------|----------------|
 | `/chakra` | **Chakra Visualizer** | Seven energy centers across three traditions (Hindu, Ra / Law of One, Alice Bailey), with affirmations, blockage patterns, and stretch references. |
 | `/astrology` | **Natal Chart Decoder** | Planets, signs, houses, aspects, and the alchemical metal correspondences. |
-| `/biblical` | **Biblical Concepts** | Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, and demonology as a study board. |
+| `/biblical` | **Biblical Concepts** | Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, demonology, and a multi-tradition angelology atlas as a study board. (Legacy `/angelology` redirects here.) |
 | `/psychology` | **Psychology Portal** | Ten frameworks for identity, attachment, CBT, stoicism, somatic work, and shadow integration. |
 | `/inner-balance` | **InnerBalance Atlas** | Nervous system, neurotransmitters, mood, psychophysiology, and daily well-being. |
 | `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, and Joe Dispenza — each with a core teaching, practice, and reflection. (Legacy `/frameworks` redirects here.) |

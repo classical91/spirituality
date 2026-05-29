@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
-import AngelologyAtlas from "./AngelologyAtlas";
+import { angels, ANGEL_FILTERS } from "./data/angels";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "✦" },
@@ -1112,6 +1112,83 @@ function Pill({ children, tone = "default" }) {
   return <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]}`}>{children}</span>;
 }
 
+function AngelDetailBody({ angel }) {
+  const a = angel;
+  const box = "rounded-2xl border border-white/10 bg-white/[0.03] p-4";
+  const label = "mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500";
+  const assoc = a.associations || {};
+  const joinMaybe = (v) => (Array.isArray(v) ? v.join(", ") : v);
+  return (
+    <>
+      {a.originalName && (
+        <div className={box}>
+          <div className={label}>Also known as</div>
+          <p className="text-sm leading-7 text-slate-200">{a.originalName}</p>
+        </div>
+      )}
+      {a.role && (
+        <div className={box}>
+          <div className={label}>Role</div>
+          <p className="text-sm leading-7 text-slate-200">{a.role}</p>
+        </div>
+      )}
+      {a.traditions?.length > 0 && (
+        <div className={box}>
+          <div className={label}>Traditions</div>
+          <div className="flex flex-wrap gap-2">{a.traditions.map((t) => <Pill key={t} tone="cyan">{t}</Pill>)}</div>
+        </div>
+      )}
+      {a.summary && (
+        <div className={box}>
+          <div className={label}>Summary</div>
+          <p className="text-sm leading-7 text-slate-200">{a.summary}</p>
+        </div>
+      )}
+      {a.overview && (
+        <div className={box}>
+          <div className={label}>Overview</div>
+          <p className="text-sm leading-7 text-slate-200">{a.overview}</p>
+        </div>
+      )}
+      {a.domains?.length > 0 && (
+        <div className={box}>
+          <div className={label}>Domains</div>
+          <div className="flex flex-wrap gap-2">{a.domains.map((d) => <Pill key={d}>{d}</Pill>)}</div>
+        </div>
+      )}
+      {(assoc.element || assoc.day || assoc.colors || assoc.symbols) && (
+        <div className={box}>
+          <div className={label}>Associations</div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {assoc.element && <div><div className="text-xs text-slate-500">Element</div><p className="text-sm text-slate-200">{joinMaybe(assoc.element)}</p></div>}
+            {assoc.day && <div><div className="text-xs text-slate-500">Day</div><p className="text-sm text-slate-200">{joinMaybe(assoc.day)}</p></div>}
+            {assoc.colors && <div><div className="text-xs text-slate-500">Colors</div><p className="text-sm text-slate-200">{joinMaybe(assoc.colors)}</p></div>}
+            {assoc.symbols && <div><div className="text-xs text-slate-500">Symbols</div><p className="text-sm text-slate-200">{joinMaybe(assoc.symbols)}</p></div>}
+          </div>
+        </div>
+      )}
+      {a.texts?.length > 0 && (
+        <div className={box}>
+          <div className={label}>Texts &amp; sources</div>
+          <ul className="list-disc space-y-1 pl-5 text-sm leading-7 text-slate-200">{a.texts.map((t) => <li key={t}>{t}</li>)}</ul>
+        </div>
+      )}
+      {a.invocation && (
+        <div className="rounded-2xl border border-cyan-300/20 bg-cyan-500/10 p-4">
+          <div className={label}>Invocation</div>
+          <p className="text-sm italic leading-7 text-cyan-50/90">{a.invocation}</p>
+        </div>
+      )}
+      {a.caution && (
+        <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 p-4">
+          <div className={label}>Caution</div>
+          <p className="text-sm leading-7 text-amber-50/90">{a.caution}</p>
+        </div>
+      )}
+    </>
+  );
+}
+
 function DetailModal({ item, onClose, type, onPray }) {
   if (!item) return null;
 
@@ -1144,12 +1221,16 @@ function DetailModal({ item, onClose, type, onPray }) {
           </div>
         </div>
         <div className="space-y-4 p-5">
-          {entries.map(([key, value]) => (
-            <div key={key} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{key.replace(/([A-Z])/g, " $1")}</div>
-              <p className="text-sm leading-7 text-slate-200">{String(value)}</p>
-            </div>
-          ))}
+          {type === "angels" ? (
+            <AngelDetailBody angel={item} />
+          ) : (
+            entries.map(([key, value]) => (
+              <div key={key} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{key.replace(/([A-Z])/g, " $1")}</div>
+                <p className="text-sm leading-7 text-slate-200">{String(value)}</p>
+              </div>
+            ))
+          )}
         </div>
         {prayers && (
           <div className="border-t border-white/10 p-5">
@@ -1168,7 +1249,7 @@ function DetailModal({ item, onClose, type, onPray }) {
 
 function ConceptCard({ item, type, onOpen, onPray }) {
   const title = item.title || item.name;
-  const subtitle = item.short || item.family || item.sin || item.category || item.tradition;
+  const subtitle = item.short || item.family || item.sin || item.role || item.category || item.tradition;
   const body = item.summary || item.focus || item.distortion || item.meaning || item.association;
   const tone = type === "virtues" ? "green" : type === "sins" ? "red" : type === "inferno" ? "violet" : type === "demons" ? "red" : type === "angels" ? "cyan" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold";
   const prayers = getPrayers(item, type);
@@ -1404,6 +1485,37 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
     );
   }
 
+  if (tabId === "angels") {
+    const groups = ANGEL_FILTERS.filter((c) => c !== "All")
+      .map((cat) => ({ cat, items: searchable.angels.filter((a) => a.category === cat) }))
+      .filter((g) => g.items.length > 0);
+    return (
+      <div>
+        <SectionHeader eyebrow="Across traditions" title="Angelology">
+          Celestial beings across the world&apos;s traditions — Archangels, the Celestial Hierarchy, Kabbalistic angels, Islamic Malak, Zoroastrian Amesha Spentas, and Apocryphal figures. Where a name, rank, or canonical status differs across traditions, that difference is noted on each card.
+        </SectionHeader>
+        <div className="mb-6 rounded-3xl border border-cyan-300/20 bg-cyan-500/10 p-5 text-sm leading-7 text-cyan-50/90">
+          <strong>Design rule:</strong> These cards present angels as each tradition describes them — not as a single doctrine. Names, ranks, and associations vary widely between Scripture, later Jewish and Christian writings, Islam, Zoroastrianism, and esoteric texts. Treat the esoteric and apocryphal material as tradition, not canon.
+        </div>
+        {groups.length === 0 ? (
+          <p className="text-sm text-slate-400">No angels match your search.</p>
+        ) : (
+          <div className="space-y-8">
+            {groups.map(({ cat, items }) => (
+              <div key={cat}>
+                <div className="mb-3 flex items-center gap-3">
+                  <Pill tone="cyan">{cat}</Pill>
+                  <span className="text-xs text-slate-500">{items.length} {items.length === 1 ? "being" : "beings"}</span>
+                </div>
+                <GridView items={items} type="angels" onOpen={openModal} onPray={openPrayer} />
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    );
+  }
+
   if (tabId === "prayers") {
     const allThemes = prayerThemesCategories.flatMap((cat) =>
       cat.themes.map((theme) => ({ ...theme, tone: cat.tone, catLabel: cat.label }))
@@ -1611,6 +1723,7 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
       sins: filterItems(sins),
       inferno: filterItems(inferno),
       demons: filterItems(demons),
+      angels: filterItems(angels),
       wheelSoulIssues: filterItems(wheelSoulIssues),
       wheelMindPatterns: filterItems(wheelMindPatterns),
       wheelEmotions: filterItems(wheelEmotions),
@@ -1636,11 +1749,6 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
     setSubPage(null);
     setQuery("");
   };
-
-  // Angelology is the full multi-tradition Atlas, embedded as a section.
-  if (subPage === "angels") {
-    return <AngelologyAtlas onBack={goHome} />;
-  }
 
   // Sub-page view
   if (subPage) {
