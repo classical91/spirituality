@@ -5,7 +5,7 @@ import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
 import PsychologyPortal from './PsychologyPortal';
 import InnerBalanceAtlas from './InnerBalanceAtlas';
-import FrameworkAtlas from './FrameworkAtlas';
+import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import RelationshipClarityPortal from './RelationshipClarityPortal';
@@ -21,7 +21,7 @@ const COMPONENTS = {
   biblical: BibleConceptAtlas,
   psychology: PsychologyPortal,
   innerbalance: InnerBalanceAtlas,
-  frameworks: FrameworkAtlas,
+  wisdom: WisdomAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   relationships: RelationshipClarityPortal,
@@ -69,6 +69,10 @@ export default function App() {
 
   const activePortal = portalsByPath[path];
   if (activePortal) {
+    // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
+    if (path !== activePortal.path && typeof window !== 'undefined') {
+      window.history.replaceState({}, '', activePortal.path + (search || ''));
+    }
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component

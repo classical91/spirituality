@@ -377,31 +377,47 @@ export const portals = [
     hoverBorder: 'rgba(34,211,238,0.48)',
   },
   {
-    id: 'frameworks',
-    path: '/frameworks',
+    id: 'wisdom',
+    path: '/wisdom',
+    // Legacy route kept as a backward-compatible alias (redirects to /wisdom).
+    aliases: ['/frameworks'],
     icon: '✦',
-    badge: 'Framework Atlas',
+    badge: 'Wisdom Atlas',
     badgeColor: 'rgba(124,92,255,0.14)',
     badgeBorder: 'rgba(124,92,255,0.32)',
     badgeText: '#c9b8ff',
-    title: 'Framework\nAtlas',
-    titleFlat: 'Framework Atlas',
+    title: 'Wisdom\nAtlas',
+    titleFlat: 'Wisdom Atlas',
     description:
-      '35 frameworks from authors, psychologists, strategists, and designers — searchable cards, detail modals, category pages, and a 3D model lab.',
-    keywords: ['Mental Models', 'Strategy', 'Psychology', 'Learning'],
+      'Spiritual teachers and inner-work traditions — imagination, spiritual law, surrender, and shadow — each with a core teaching, a practice to live, and a reflection to carry.',
+    keywords: ['Teachers', 'Imagination', 'Surrender', 'Shadow'],
     searchTerms: [
-      'frameworks',
-      'mental models',
-      'strategy',
-      'psychology',
-      'learning',
-      'maslow',
-      'archetype',
-      'first principles',
-      'systems thinking',
-      'eisenhower',
-      'ikigai',
-      'okr',
+      'wisdom',
+      'wisdom atlas',
+      'teachers',
+      'teachings',
+      'spiritual',
+      'inner work',
+      'manifestation',
+      'law of assumption',
+      'new thought',
+      'subconscious mind',
+      'science of mind',
+      'surrender',
+      'presence',
+      'shadow work',
+      'imagination',
+      'neville goddard',
+      'joseph murphy',
+      'florence scovel shinn',
+      'emmet fox',
+      'thomas troward',
+      'ernest holmes',
+      'abdullah',
+      'carl jung',
+      'alan watts',
+      'michael singer',
+      'joe dispenza',
     ],
     cta: 'Enter Portal',
     ctaColor: '#c9b8ff',
@@ -464,7 +480,13 @@ export const portals = [
 ];
 
 export const portalsById = Object.fromEntries(portals.map((p) => [p.id, p]));
-export const portalsByPath = Object.fromEntries(portals.map((p) => [p.path, p]));
+// Resolve both canonical paths and any legacy aliases to the owning portal.
+export const portalsByPath = Object.fromEntries(
+  portals.flatMap((p) => [
+    [p.path, p],
+    ...(p.aliases || []).map((alias) => [alias, p]),
+  ])
+);
 
 export function searchPortals(query) {
   const q = query.trim().toLowerCase();
