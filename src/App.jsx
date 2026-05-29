@@ -3,12 +3,10 @@ import HomePage from './HomePage';
 import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
-import PsychologyPortal from './PsychologyPortal';
-import InnerBalanceAtlas from './InnerBalanceAtlas';
+import InnerAtlas from './InnerAtlas';
 import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
-import RelationshipClarityPortal from './RelationshipClarityPortal';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import AngelologyAtlas from './AngelologyAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
@@ -19,12 +17,10 @@ const COMPONENTS = {
   chakra: Chakra3DVisualizer,
   astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
-  psychology: PsychologyPortal,
-  innerbalance: InnerBalanceAtlas,
+  inneratlas: InnerAtlas,
   wisdom: WisdomAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
-  relationships: RelationshipClarityPortal,
   sexualenergy: SexualEnergyDashboard,
   angelology: AngelologyAtlas,
 };
@@ -81,6 +77,26 @@ export default function App() {
         initialSection={initialSection}
       />
     );
+  }
+
+  // Backward-compat: old standalone routes redirect into InnerAtlas
+  if (path === '/psychology') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas?section=psychology');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
+  }
+  if (path === '/relationships') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas?section=relationship-clarity');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection || 'relationship-clarity'} />;
+  }
+  if (path === '/inner-balance') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
   }
 
   if (path !== '/' && !portals.some((p) => p.path === path)) {
