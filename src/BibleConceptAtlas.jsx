@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from "react";
 import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
+import AngelologyAtlas from "./AngelologyAtlas";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "✦" },
@@ -538,99 +539,6 @@ const demonClassification = [
     dante: "Not a single circle; developed in medieval moral theology",
     agree: false,
     note: "The schemes diverge: Binsfeld assigns Belphegor to sloth, while the Lanterne of Light assigns Abaddon (Apollyon).",
-  },
-];
-
-const angels = [
-  {
-    name: "Michael",
-    rank: "Archangel",
-    role: "Warrior, protector, prince of Israel",
-    scripture: "Daniel 10:13, 12:1; Jude 9; Revelation 12:7",
-    association: "Spiritual warfare, divine judgment, and the protection of God's people. Michael leads the heavenly host against Satan and his angels in the final conflict of Revelation.",
-    note: "In Daniel, Michael is 'one of the chief princes' and the great prince who stands guard over Israel. In Jude 9 he does not bring a slanderous accusation even against the devil, but says 'The Lord rebuke you.'",
-    clarity: "One of only two angels named in both the Old and New Testaments. His title 'archangel' is used in Jude 9.",
-  },
-  {
-    name: "Gabriel",
-    rank: "Archangel · Messenger",
-    role: "Divine herald and announcer of redemptive history",
-    scripture: "Daniel 8:16, 9:21; Luke 1:19, 26",
-    association: "Sent to interpret Daniel's visions, to announce John the Baptist's birth to Zechariah, and to announce the Incarnation of Christ to Mary. He appears at every hinge-point of salvation history.",
-    note: "Gabriel identifies himself in Luke 1:19 as one who 'stands in the presence of God.' His appearances consistently precede or inaugurate major redemptive events.",
-    clarity: "Named in both Testaments. His consistent function as divine messenger is one of the clearest angelic roles in all of Scripture.",
-  },
-  {
-    name: "Raphael",
-    rank: "Archangel · Healer",
-    role: "Healer, guide on perilous journeys, intercessor",
-    scripture: "Tobit 12:15; Revelation 8:2 (implied among the seven)",
-    association: "In Tobit, Raphael travels with Tobias in disguise, heals Tobit's blindness, and reveals himself as 'one of the seven angels who stand ready and enter before the glory of the Lord.'",
-    note: "Raphael is named in the deuterocanonical Book of Tobit, accepted as Scripture by Catholic and Orthodox traditions but not included in the Protestant canon.",
-    clarity: "Canonical status varies by tradition. Raphael's name does not appear in the Protestant Old or New Testament. Treat this card as deuterocanonical / traditional.",
-  },
-  {
-    name: "Seraphim",
-    rank: "Order · Throne Guardians",
-    role: "Agents of holy fire, ceaseless worship before the divine throne",
-    scripture: "Isaiah 6:1–7",
-    association: "Six-winged creatures who surround the divine throne crying 'Holy, holy, holy is the LORD of hosts.' One takes a burning coal and touches Isaiah's lips — cleansing him for prophetic commission.",
-    note: "Seraphim appear only in Isaiah 6. Their name means 'burning ones.' Their primary activity is worship, not warfare. The fire imagery connects holiness with purification.",
-    clarity: "An angelic order, not an individual. Their portrayal in Isaiah 6 is the only direct biblical description of Seraphim.",
-  },
-  {
-    name: "Cherubim",
-    rank: "Order · Sacred Guardians · Throne Bearers",
-    role: "Guardians of holy thresholds, bearers of the divine glory-throne",
-    scripture: "Genesis 3:24; Exodus 25:18–22; Ezekiel 1, 10; Revelation 4",
-    association: "Placed at Eden's gate with a flaming sword. Woven in gold into the Ark of the Covenant. Ezekiel sees them as four-faced, four-winged creatures who carry the divine throne-chariot wherever the glory moves.",
-    note: "Ezekiel's cherubim (the 'living creatures') have faces of a lion, ox, human, and eagle — they are terrifying and majestic, bearing no resemblance to the chubby infant figures of Renaissance art.",
-    clarity: "The popular image of cherubim as baby angels is entirely absent from Scripture. Biblically they are fearsome guardians and throne bearers.",
-  },
-  {
-    name: "The Angel of the LORD",
-    rank: "Theophanic Figure",
-    role: "Visible, speaking representation of divine presence",
-    scripture: "Genesis 16:7–13; Exodus 3:2–6; Judges 6:11–23; Zechariah 1:11–13",
-    association: "A recurring figure who appears as an angel but speaks with divine authority, accepts worship, and in some texts is directly identified with God. Appears to Hagar, Moses, Gideon, and many others in their extremity.",
-    note: "Many theologians interpret this figure as a pre-incarnate appearance of Christ (a Christophany). The figure speaks in the first person as God and receives the worship due to God.",
-    clarity: "The precise nature of the Angel of the LORD — separate angelic being or divine appearance — is a significant theological question. The text itself is deliberately ambiguous in some passages.",
-  },
-  {
-    name: "Four Living Creatures",
-    rank: "Order · Throne Guardians",
-    role: "Representatives of creation in ceaseless throne-room worship",
-    scripture: "Ezekiel 1:5–28; Revelation 4:6–9",
-    association: "Four faces (lion, ox, human, eagle), full of eyes, living fire between them. In Revelation they never cease declaring God's holiness day or night. Early Christians read the four faces as symbols of the four Gospels.",
-    note: "Ezekiel 10 identifies these living creatures as cherubim. The 'wheels within wheels' (ophanim) move with them, suggesting the full divine throne-chariot is a complex of angelic beings and divine glory.",
-    clarity: "The cosmic and terrifying imagery of Ezekiel 1 resists neat categorization. These creatures exceed any single system of classification.",
-  },
-  {
-    name: "The Heavenly Host",
-    rank: "Corporate · Angelic Army",
-    role: "Worshippers, warriors, and servants of God's purposes",
-    scripture: "Luke 2:13–14; 2 Kings 6:15–17; Revelation 19:14",
-    association: "The vast multitude of angels who worship God, execute divine judgment, and serve his plans in creation and history. 'A multitude of the heavenly host' announced Christ's birth. Elisha's servant saw them as chariots of fire surrounding the Syrian army.",
-    note: "'LORD of hosts' (Yahweh Sabaoth) is one of the primary divine titles in Scripture — naming God as commander of the angelic army. The hosts are never independent agents; they serve his will entirely.",
-    clarity: "The heavenly host is a collective, not a hierarchy system. Scripture emphasizes their obedience and vast number rather than their internal rankings.",
-  },
-  {
-    name: "Guardian Angels",
-    rank: "Ministry · Personal Protection",
-    role: "Ministering spirits assigned to serve those who will inherit salvation",
-    scripture: "Matthew 18:10; Psalm 91:11–12; Hebrews 1:14; Acts 12:15",
-    association: "Matthew 18:10 suggests children have angels 'who always see the face of my Father in heaven.' Hebrews 1:14 defines all angels as 'ministering spirits sent to serve for the sake of those who are to inherit salvation.'",
-    note: "When Peter was released from prison and knocked at the door, those inside assumed it was 'his angel' (Acts 12:15) — suggesting the early church assumed personal angelic assignment.",
-    clarity: "Scripture affirms angelic ministry toward believers without specifying exactly how guardianship operates. The doctrine varies across Christian traditions.",
-  },
-  {
-    name: "The Commander of the LORD's Army",
-    rank: "Archangel-class · Theophanic Figure",
-    role: "Commander of the divine military host",
-    scripture: "Joshua 5:13–15",
-    association: "Appears to Joshua before the battle of Jericho with drawn sword. He answers Joshua's 'whose side are you on?' not with 'yours' but with 'I am the commander of the LORD's army.' Joshua falls in worship and removes his sandals.",
-    note: "The command to remove sandals on holy ground is the same given to Moses at the burning bush (Exodus 3:5). Many read this as a Christophany — a pre-incarnate appearance of Christ.",
-    clarity: "The figure's reception of worship and the holy-ground command distinguish this from ordinary angelic appearances, where angels typically refuse worship.",
   },
 ];
 
@@ -1496,65 +1404,6 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
     );
   }
 
-  if (tabId === "angels") {
-    return (
-      <div>
-        <SectionHeader eyebrow="Heavenly messengers" title="Angelology">
-          Angels in Scripture are not the winged, glowing figures of popular imagination. They are servants, warriors, messengers, and throne guardians — powerful and often terrifying in almost every account. This section covers named angels, major angelic orders, and key theophanies.
-        </SectionHeader>
-        <div className="mb-6 rounded-3xl border border-cyan-300/20 bg-cyan-500/10 p-5 text-sm leading-7 text-cyan-50/90">
-          <strong>Design rule:</strong> Scripture names very few angels by name. Where a tradition, rank, or canonical status differs across Protestant, Catholic, and Orthodox readings, that is clearly noted on each card. The goal is accurate representation across traditions, not spiritual speculation.
-        </div>
-
-        <div className="mb-8 grid gap-4 lg:grid-cols-3">
-          <div className="rounded-3xl border border-cyan-300/25 bg-cyan-500/10 p-6">
-            <Pill tone="cyan">Named Angels</Pill>
-            <h3 className="mt-4 text-2xl font-black text-white">Individuals</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-300">Only Michael and Gabriel are named in both the Old and New Testaments. Raphael is named in the deuterocanonical Book of Tobit. All others in popular tradition lack direct scriptural naming.</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {["Michael", "Gabriel", "Raphael"].map((n) => <Pill key={n} tone="cyan">{n}</Pill>)}
-            </div>
-          </div>
-          <div className="rounded-3xl border border-sky-300/25 bg-sky-500/10 p-6">
-            <Pill tone="blue">Angelic Orders</Pill>
-            <h3 className="mt-4 text-2xl font-black text-white">Orders</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-300">Scripture describes distinct classes of angelic beings with different forms and functions. Seraphim, Cherubim, and the Four Living Creatures each appear in dramatic vision passages with unique descriptions.</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {["Seraphim", "Cherubim", "Four Living Creatures", "Heavenly Host"].map((n) => <Pill key={n} tone="blue">{n}</Pill>)}
-            </div>
-          </div>
-          <div className="rounded-3xl border border-white/20 bg-white/5 p-6">
-            <Pill>Theophanies</Pill>
-            <h3 className="mt-4 text-2xl font-black text-white">Divine Appearances</h3>
-            <p className="mt-2 text-sm leading-6 text-slate-300">Some angelic figures in Scripture receive worship and speak with divine authority — suggesting they are not ordinary angels but visible manifestations of divine presence, possibly pre-incarnate appearances of Christ.</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {["The Angel of the LORD", "The Commander of the LORD's Army"].map((n) => <Pill key={n}>{n}</Pill>)}
-            </div>
-          </div>
-        </div>
-
-        <GridView items={searchable.angels} type="angels" onOpen={openModal} onPray={openPrayer} />
-
-        <div className="mt-8 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-          <h3 className="mb-3 text-xl font-bold text-white">Key distinctions</h3>
-          <div className="grid gap-4 md:grid-cols-2">
-            {[
-              ["Angels are never independent", "In Scripture, angels consistently say 'I was sent,' receive orders, and defer all worship to God. They are servants of the divine will, not powers in their own right."],
-              ["Most angels are unnamed", "Of the vast heavenly host described in Scripture, only Michael and Gabriel are named in the canonical Protestant Bible. Be cautious of traditions that name and rank many others."],
-              ["The Angel of the LORD is unique", "Unlike regular messengers, this figure speaks as God, receives worship, and is identified with divine presence. Most theologians treat this as a distinct category."],
-              ["Angelic appearances cause fear", "The first thing angels typically say in Scripture is 'Do not be afraid' — because their appearance was terrifying, not comforting. Popular sentimentality has reversed this."],
-            ].map(([title, text]) => (
-              <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                <p className="mb-1 text-sm font-bold text-white">{title}</p>
-                <p className="text-sm leading-6 text-slate-400">{text}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   if (tabId === "prayers") {
     const allThemes = prayerThemesCategories.flatMap((cat) =>
       cat.themes.map((theme) => ({ ...theme, tone: cat.tone, catLabel: cat.label }))
@@ -1735,8 +1584,13 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
 
 const BG = "min-h-screen bg-[radial-gradient(circle_at_top_left,#3b1d05,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100";
 
-export default function BibleConceptAtlas({ onBack }) {
-  const [subPage, setSubPage] = useState(null);
+export default function BibleConceptAtlas({ onBack, initialSection }) {
+  // Allow deep-linking into a tab (e.g. /biblical?section=angels). The legacy
+  // /angelology route maps onto the embedded Angelology section.
+  const normalizedInitial = initialSection === "angelology" ? "angels" : initialSection;
+  const [subPage, setSubPage] = useState(
+    normalizedInitial && tabs.some((t) => t.id === normalizedInitial) ? normalizedInitial : null
+  );
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [prayerModal, setPrayerModal] = useState(null);
@@ -1757,7 +1611,6 @@ export default function BibleConceptAtlas({ onBack }) {
       sins: filterItems(sins),
       inferno: filterItems(inferno),
       demons: filterItems(demons),
-      angels: filterItems(angels),
       wheelSoulIssues: filterItems(wheelSoulIssues),
       wheelMindPatterns: filterItems(wheelMindPatterns),
       wheelEmotions: filterItems(wheelEmotions),
@@ -1783,6 +1636,11 @@ export default function BibleConceptAtlas({ onBack }) {
     setSubPage(null);
     setQuery("");
   };
+
+  // Angelology is the full multi-tradition Atlas, embedded as a section.
+  if (subPage === "angels") {
+    return <AngelologyAtlas onBack={goHome} />;
+  }
 
   // Sub-page view
   if (subPage) {

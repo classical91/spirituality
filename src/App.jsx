@@ -8,7 +8,6 @@ import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
-import AngelologyAtlas from './AngelologyAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -22,7 +21,6 @@ const COMPONENTS = {
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
-  angelology: AngelologyAtlas,
 };
 
 export default function App() {
@@ -97,6 +95,13 @@ export default function App() {
       window.history.replaceState({}, '', '/inner-atlas');
     }
     return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
+  }
+  // Angelology folded into the Biblical portal as its Angelology section.
+  if (path === '/angelology') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/biblical?section=angels');
+    }
+    return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection="angels" />;
   }
 
   if (path !== '/' && !portals.some((p) => p.path === path)) {
