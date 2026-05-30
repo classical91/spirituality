@@ -1,4 +1,6 @@
 import { useMemo, useState } from "react";
+import RelationshipClarityPortal from "./RelationshipClarityPortal";
+import RelationshipPatterns from "./RelationshipPatterns";
 
 const tabs = [
   { id: "overview", label: "Overview" },
@@ -7,9 +9,31 @@ const tabs = [
   { id: "urges", label: "Urges" },
   { id: "tracker", label: "Tracker" },
   { id: "journal", label: "Journal" },
+  { id: "relationship-clarity", label: "Relationship Clarity" },
+  { id: "relationship-patterns", label: "Relationship Patterns" },
 ];
 
 const tabIds = new Set(tabs.map((t) => t.id));
+
+// Deep-link concept ids inside Relationship Clarity → resolve to that tab,
+// carrying the concept id through as the sub-section the portal opens to.
+const RELATIONSHIP_CLARITY_SECTIONS = new Set([
+  "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "pedestalizing",
+  "reading-red-flags", "love-bombing", "control-and-isolation", "gaslighting",
+  "contempt-and-criticism", "jealousy-and-possessiveness", "future-faking",
+  "standards", "boundaries", "devotion", "honest-direct", "texting-urges",
+  "clarity-check", "pause-check",
+]);
+
+// Resolve an incoming ?section= value to { tab, sub }.
+function resolveSection(section) {
+  if (!section) return { tab: "overview", sub: null };
+  if (tabIds.has(section)) return { tab: section, sub: null };
+  if (RELATIONSHIP_CLARITY_SECTIONS.has(section)) {
+    return { tab: "relationship-clarity", sub: section };
+  }
+  return { tab: "overview", sub: null };
+}
 
 const pillars = [
   {
@@ -204,10 +228,11 @@ function ProgressBar({ value }) {
   );
 }
 
-export default function SexualEnergyDashboard({ onBack, initialSection }) {
-  const [activeTab, setActiveTab] = useState(() =>
-    initialSection && tabIds.has(initialSection) ? initialSection : "overview"
-  );
+export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection }) {
+  const initialResolved = resolveSection(initialSection);
+  const [activeTab, setActiveTab] = useState(initialResolved.tab);
+  // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
+  const [claritySub, setClaritySub] = useState(initialResolved.sub);
   const [prevInitialSection, setPrevInitialSection] = useState(initialSection);
   const [goal, setGoal] = useState("reset");
   const [days, setDays] = useState(7);
@@ -219,8 +244,10 @@ export default function SexualEnergyDashboard({ onBack, initialSection }) {
   // Sync activeTab when the route's ?section= changes — adjust-during-render pattern.
   if (initialSection !== prevInitialSection) {
     setPrevInitialSection(initialSection);
-    if (initialSection && tabIds.has(initialSection)) {
-      setActiveTab(initialSection);
+    if (initialSection) {
+      const resolved = resolveSection(initialSection);
+      setActiveTab(resolved.tab);
+      setClaritySub(resolved.sub);
     }
   }
 
@@ -577,6 +604,33 @@ export default function SexualEnergyDashboard({ onBack, initialSection }) {
     if (activeTab === "tracker") return renderTracker();
     return renderJournal();
   };
+
+  // Relationship sections are full-screen sub-portals with their own chrome;
+  // render them in place of the dashboard, returning to Overview on back.
+  if (activeTab === "relationship-clarity") {
+    return (
+      <RelationshipClarityPortal
+        onBack={() => { setClaritySub(null); setActiveTab("overview"); }}
+        onNavigate={(id, opts) => {
+          // The portal navigates between its own concepts via
+          // onNavigate("relationships", { section }); keep that in-tab by
+          // driving the sub-concept from state instead of leaving.
+          if (id === "relationships") {
+            setClaritySub(opts?.section ?? null);
+          } else if (id === "sexualenergy" || id === "inneratlas") {
+            setClaritySub(null);
+            setActiveTab("overview");
+          } else {
+            onNavigate?.(id, opts);
+          }
+        }}
+        initialSection={claritySub}
+      />
+    );
+  }
+  if (activeTab === "relationship-patterns") {
+    return <RelationshipPatterns onBack={() => setActiveTab("overview")} />;
+  }
 
   return (
     <main className="relative min-h-screen bg-[#070914] text-slate-100">
