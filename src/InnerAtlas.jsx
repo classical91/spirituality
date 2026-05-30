@@ -1,8 +1,7 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
-import RelationshipClarityPortal from './RelationshipClarityPortal';
 
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -12,27 +11,6 @@ const SECTION_MAP = {
   'mood-neurochemistry':   { id: 'mood-neurochemistry',   sub: 'neurotransmitters' },
   'lifestyle':             { id: 'lifestyle',             sub: 'sleep' },
   'regulation':            { id: 'regulation',            sub: null },
-  'relationship-patterns': { id: 'relationship-patterns', sub: null },
-  'relationship-clarity':  { id: 'relationship-clarity',  sub: null },
-  // Legacy Relationship Clarity Portal section IDs
-  'security-vs-fear':       { id: 'relationship-clarity', sub: 'security-vs-fear' },
-  'mixed-signals':          { id: 'relationship-clarity', sub: 'mixed-signals' },
-  'chasing-vs-receiving':   { id: 'relationship-clarity', sub: 'chasing-vs-receiving' },
-  'pedestalizing':          { id: 'relationship-clarity', sub: 'pedestalizing' },
-  'reading-red-flags':          { id: 'relationship-clarity', sub: 'reading-red-flags' },
-  'love-bombing':               { id: 'relationship-clarity', sub: 'love-bombing' },
-  'control-and-isolation':      { id: 'relationship-clarity', sub: 'control-and-isolation' },
-  'gaslighting':                { id: 'relationship-clarity', sub: 'gaslighting' },
-  'contempt-and-criticism':     { id: 'relationship-clarity', sub: 'contempt-and-criticism' },
-  'jealousy-and-possessiveness':{ id: 'relationship-clarity', sub: 'jealousy-and-possessiveness' },
-  'future-faking':              { id: 'relationship-clarity', sub: 'future-faking' },
-  'standards':              { id: 'relationship-clarity', sub: 'standards' },
-  'boundaries':             { id: 'relationship-clarity', sub: 'boundaries' },
-  'devotion':               { id: 'relationship-clarity', sub: 'devotion' },
-  'honest-direct':          { id: 'relationship-clarity', sub: 'honest-direct' },
-  'texting-urges':          { id: 'relationship-clarity', sub: 'texting-urges' },
-  'clarity-check':          { id: 'relationship-clarity', sub: 'clarity-check' },
-  'pause-check':            { id: 'relationship-clarity', sub: 'pause-check' },
   // Legacy InnerBalance Atlas tab IDs
   psychophysiology:  { id: 'nervous-system',      sub: 'psychophysiology' },
   stress:            { id: 'nervous-system',      sub: 'stress' },
@@ -50,6 +28,17 @@ const SECTION_MAP = {
   nutrients:   { id: 'psychology', sub: 'nutrients' },
 };
 
+// Relationship Clarity & Patterns moved to the Sexual Energy portal. Old
+// deep-links into InnerAtlas redirect there, preserving the concept sub-section.
+const RELATIONSHIP_REDIRECTS = new Set([
+  'relationship-clarity', 'relationship-patterns',
+  'security-vs-fear', 'mixed-signals', 'chasing-vs-receiving', 'pedestalizing',
+  'reading-red-flags', 'love-bombing', 'control-and-isolation', 'gaslighting',
+  'contempt-and-criticism', 'jealousy-and-possessiveness', 'future-faking',
+  'standards', 'boundaries', 'devotion', 'honest-direct', 'texting-urges',
+  'clarity-check', 'pause-check',
+]);
+
 // ─── Section palette ────────────────────────────────────────────────────────
 
 const PAL = {
@@ -58,8 +47,6 @@ const PAL = {
   'mood-neurochemistry':   { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
   'lifestyle':             { c: '#fbbf24', bg: 'rgba(251,191,36,0.08)',  br: 'rgba(251,191,36,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
-  'relationship-patterns': { c: '#f9a8d4', bg: 'rgba(249,168,212,0.08)', br: 'rgba(249,168,212,0.26)' },
-  'relationship-clarity':  { c: '#fb7185', bg: 'rgba(251,113,133,0.08)',  br: 'rgba(251,113,133,0.26)'  },
 };
 
 // ─── Hub section definitions ────────────────────────────────────────────────
@@ -99,20 +86,6 @@ const SECTIONS = [
     title: 'Regulation Tools',
     description: 'Breathing, grounding, journaling, reframing, meditation, body release, and nervous-system reset.',
     tags: ['Breathing', 'Grounding', 'Meditation'],
-  },
-  {
-    id: 'relationship-patterns',
-    icon: '♡',
-    title: 'Relationship Patterns',
-    description: 'Attachment, neediness, pedestalizing, ghosting wounds, emotional independence, and secure love.',
-    tags: ['Attachment', 'Secure Love', 'Independence'],
-  },
-  {
-    id: 'relationship-clarity',
-    icon: '◇',
-    title: 'Relationship Clarity',
-    description: 'Mixed signals, texting urges, standards, chasing vs receiving — a dashboard for confusing moments.',
-    tags: ['Mixed Signals', 'Standards', 'Clarity'],
   },
 ];
 
@@ -194,83 +167,6 @@ const REGULATION_TOOLS = [
       { name: 'Cold Exposure', desc: 'Cold shower (2–3 min) or cold plunge. Increases vagal tone and lowers cortisol over time.' },
       { name: 'Humming / Singing', desc: 'Vibrates the vagus nerve through the throat. Directly shifts into parasympathetic state.' },
       { name: 'Morning Sunlight', desc: '10 min of direct sunlight in the first hour. Sets circadian rhythm and cortisol anchor.' },
-    ],
-  },
-];
-
-// ─── Relationship Patterns data ─────────────────────────────────────────────
-
-const RELATIONSHIP_PATTERNS = [
-  {
-    icon: '⌘',
-    name: 'Attachment Styles',
-    color: '#67e8f9',
-    keyInsight: 'Your attachment style is not your identity — it is a learned strategy. It can change.',
-    items: [
-      { label: 'Secure', desc: 'Comfortable with closeness and independence. Can ask for needs, receive them, and let go.' },
-      { label: 'Anxious', desc: 'Craves closeness but fears abandonment. Monitors, chases, over-explains to feel okay.' },
-      { label: 'Avoidant', desc: 'Values independence. Pulls back when things get close. Struggles with vulnerability.' },
-      { label: 'Disorganized', desc: 'Mix of anxious and avoidant — both wants and fears closeness. Often linked to unresolved trauma.' },
-    ],
-  },
-  {
-    icon: '↺',
-    name: 'The Neediness Loop',
-    color: '#a78bfa',
-    keyInsight: 'Neediness is a signal that self-worth is outsourced. The exit is building it internally.',
-    items: [
-      { label: 'What it is', desc: 'Seeking validation, reassurance, or proof of love from someone else to feel okay.' },
-      { label: 'Why it forms', desc: "When self-worth depends on another person's response rather than internal security." },
-      { label: 'The loop', desc: 'Unmet need → reach out → brief relief → need returns stronger → reach out more urgently.' },
-      { label: 'The exit', desc: 'Build internal security. Validate yourself first. Need yourself before needing them.' },
-    ],
-  },
-  {
-    icon: '◇',
-    name: 'Ghosting Wounds',
-    color: '#f9a8d4',
-    keyInsight: "The brain registers social rejection as physical pain. It's real — and it's not about your worth.",
-    items: [
-      { label: 'What it triggers', desc: 'The brain registers social rejection as physical pain — same neural pathways as injury.' },
-      { label: 'Why it feels so big', desc: 'It leaves no closure — the mind tries to fill the gap with stories about your value.' },
-      { label: 'What it usually means', desc: "The other person's discomfort with directness. Not a verdict on who you are." },
-      { label: 'How to process', desc: 'Name it, feel it fully. Resist the urge to explain it away or make contact to resolve it.' },
-    ],
-  },
-  {
-    icon: '✦',
-    name: 'Pedestalizing',
-    color: '#fbbf24',
-    keyInsight: 'When you place someone above you, you disappear. Equality is the foundation of real connection.',
-    items: [
-      { label: 'What it is', desc: "Placing someone so high in your mind that their approval becomes the measure of your worth." },
-      { label: 'What it costs', desc: 'Your power. Your perspective. Your ability to see them clearly as a person.' },
-      { label: 'Why it happens', desc: 'Connected to insecurity — when you feel small, others seem bigger than they are.' },
-      { label: 'The correction', desc: 'Remember they are a person — not a prize, not a judge. Bring them back to eye level.' },
-    ],
-  },
-  {
-    icon: '◈',
-    name: 'Emotional Independence',
-    color: '#34d399',
-    keyInsight: 'Your baseline belongs to you. No one else should be the source of your okayness.',
-    items: [
-      { label: 'What it means', desc: "Your baseline mood and self-worth are not controlled by another person's behavior." },
-      { label: 'What it is not', desc: 'Emotional detachment or not caring. Independence does not equal coldness.' },
-      { label: 'The practice', desc: "Notice when you're waiting for someone else to make you feel okay — then provide it yourself." },
-      { label: 'The signal', desc: "You can have a good day even when they haven't responded." },
-    ],
-  },
-  {
-    icon: '♡',
-    name: 'Secure Love',
-    color: '#fb7185',
-    keyInsight: 'Secure love is not the absence of need — it is the absence of fear in the presence of need.',
-    items: [
-      { label: 'What it looks like', desc: 'Both people can be close AND independent. Requests made clearly, received without threat.' },
-      { label: 'Giving securely', desc: 'From abundance, not fear. Generosity without scorekeeping or conditions.' },
-      { label: 'Receiving securely', desc: 'Without guilt or disbelief. "I accept this — I am worth this."' },
-      { label: 'Building it', desc: 'Stop performing. Say what you want. Allow space without filling it with anxiety.' },
     ],
   },
 ];
@@ -367,59 +263,6 @@ function RegulationTools({ onBack }) {
   );
 }
 
-// ─── Relationship Patterns ──────────────────────────────────────────────────
-
-function RelationshipPatterns({ onBack }) {
-  return (
-    <div style={pg}>
-      <SectionBar label="Relationship Patterns" onBack={onBack} color="#f9a8d4" />
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px' }}>
-        <div style={{ marginBottom: 32 }}>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', margin: 0 }}>Relationship Patterns</h2>
-          <p style={{ color: 'rgba(255,255,255,0.4)', marginTop: 8, fontSize: '1rem', maxWidth: 560, lineHeight: 1.65 }}>
-            The repeating patterns underneath love, connection, and disconnection — what they are, why they form, and how to shift them.
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
-          {RELATIONSHIP_PATTERNS.map(pattern => (
-            <div key={pattern.name} style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: `1px solid ${pattern.color}2e`,
-              borderRadius: 16,
-              padding: '24px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                <span style={{ fontSize: '1.4rem', lineHeight: 1, color: pattern.color }}>{pattern.icon}</span>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: pattern.color, margin: 0 }}>{pattern.name}</h3>
-              </div>
-              <p style={{
-                fontSize: '0.8rem', fontStyle: 'italic', color: 'rgba(255,255,255,0.38)',
-                margin: '0 0 14px', lineHeight: 1.6,
-                borderLeft: `2px solid ${pattern.color}40`, paddingLeft: 10,
-              }}>
-                {pattern.keyInsight}
-              </p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-                {pattern.items.map(item => (
-                  <div key={item.label} style={{
-                    background: `${pattern.color}07`,
-                    border: `1px solid ${pattern.color}1e`,
-                    borderRadius: 10,
-                    padding: '10px 14px',
-                  }}>
-                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: pattern.color, marginBottom: 3 }}>{item.label}</div>
-                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.55 }}>{item.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
-
 // ─── Hub landing page ────────────────────────────────────────────────────────
 
 function Hub({ onBack, onSelect }) {
@@ -505,6 +348,15 @@ function Hub({ onBack, onSelect }) {
 // ─── Main component ──────────────────────────────────────────────────────────
 
 export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
+  // Relationship Clarity & Patterns now live in the Sexual Energy portal —
+  // redirect any legacy InnerAtlas deep-link there, keeping the sub-section.
+  const redirectRelationship = RELATIONSHIP_REDIRECTS.has(initialSection);
+  useEffect(() => {
+    if (redirectRelationship) {
+      onNavigate?.('sexualenergy', { section: initialSection });
+    }
+  }, [redirectRelationship, initialSection, onNavigate]);
+
   const mapped = SECTION_MAP[initialSection] ?? null;
   const [activeSection, setActiveSection] = useState(mapped?.id ?? null);
   const deepSub = mapped?.sub ?? null;
@@ -515,6 +367,10 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
     setActiveSection(null);
     setShowColor(false);
   };
+
+  if (redirectRelationship) {
+    return null;
+  }
 
   if (!activeSection) {
     return <Hub onBack={onBack} onSelect={setActiveSection} />;
@@ -538,26 +394,6 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   if (activeSection === 'regulation') {
     return <RegulationTools onBack={goHub} />;
-  }
-
-  if (activeSection === 'relationship-patterns') {
-    return <RelationshipPatterns onBack={goHub} />;
-  }
-
-  if (activeSection === 'relationship-clarity') {
-    return (
-      <RelationshipClarityPortal
-        onBack={goHub}
-        onNavigate={(id, opts) => {
-          if (id === 'relationships' || id === 'inneratlas') {
-            goHub();
-          } else {
-            onNavigate?.(id, opts);
-          }
-        }}
-        initialSection={deepSub}
-      />
-    );
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase
