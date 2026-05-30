@@ -14,6 +14,7 @@ Sacred Pathways is an interactive, browser-based reflection toolkit built with V
 | `/psychology` | **Psychology Portal** | Ten frameworks for identity, attachment, CBT, stoicism, somatic work, and shadow integration. |
 | `/inner-balance` | **InnerBalance Atlas** | Nervous system, neurotransmitters, mood, psychophysiology, and daily well-being. |
 | `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, and Joe Dispenza — each with a core teaching, practice, and reflection. (Legacy `/frameworks` redirects here.) |
+| `/awareness` | **Awareness & Presence** | A calm hub for awareness and consciousness, meditation and brain states (alpha / theta / gamma, with an animated Mind Frequencies chart), and the inner practices of breath, body, and emotion. |
 
 Each portal carries its own symbolic / wellness safety note — content is for reflection and study, not for medical, psychiatric, or spiritual diagnosis.
 

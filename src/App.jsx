@@ -8,6 +8,7 @@ import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
+import AwarenessAtlas from './AwarenessAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -21,6 +22,7 @@ const COMPONENTS = {
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
+  awareness: AwarenessAtlas,
 };
 
 export default function App() {
