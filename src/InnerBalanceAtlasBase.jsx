@@ -1115,15 +1115,15 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }
     <div className="iba">
       <div className="iba-topbar">
         <button className="iba-back-btn" onClick={onBack}>← Back</button>
-        <span className="iba-topbar-title">InnerBalance Atlas</span>
+        <span className="iba-topbar-title">InnerAtlas</span>
         <span className="iba-topbar-sub">· Mind, Body &amp; Spirit</span>
         {onNavigate && (
           <button
             className="iba-topbar-link"
-            onClick={() => onNavigate('psychology')}
-            aria-label="Open Psychology Portal"
+            onClick={() => onNavigate('inneratlas', { section: 'psychology' })}
+            aria-label="Open Psychology Atlas"
           >
-            <span aria-hidden="true">◈</span> Psychology Portal →
+            <span aria-hidden="true">◈</span> Psychology Atlas →
           </button>
         )}
       </div>
@@ -1133,8 +1133,7 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }
           <div className="iba-logo">
             <div className="iba-logo-icon">◍</div>
             <div className="iba-logo-text">
-              <span className="iba-logo-name">InnerBalance</span>
-              <span className="iba-logo-sub">Atlas</span>
+              <span className="iba-logo-name">InnerAtlas</span>
             </div>
           </div>
 
@@ -1157,11 +1156,11 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }
           {onNavigate && (
             <button
               className="iba-crosslink-btn"
-              onClick={() => onNavigate('psychology')}
+              onClick={() => onNavigate('inneratlas', { section: 'psychology' })}
             >
               <span className="iba-crosslink-icon">◈</span>
               <div>
-                <div className="iba-crosslink-title">Psychology Portal</div>
+                <div className="iba-crosslink-title">Psychology Atlas</div>
                 <div className="iba-crosslink-sub">Explore the frameworks side →</div>
               </div>
             </button>
