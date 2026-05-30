@@ -3,14 +3,12 @@ import HomePage from './HomePage';
 import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
-import PsychologyPortal from './PsychologyPortal';
-import InnerBalanceAtlas from './InnerBalanceAtlas';
-import FrameworkAtlas from './FrameworkAtlas';
+import InnerAtlas from './InnerAtlas';
+import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
-import RelationshipClarityPortal from './RelationshipClarityPortal';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
-import AngelologyAtlas from './AngelologyAtlas';
+import AwarenessAtlas from './AwarenessAtlas';
 import NumerologyPortal from './NumerologyPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
@@ -20,14 +18,12 @@ const COMPONENTS = {
   chakra: Chakra3DVisualizer,
   astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
-  psychology: PsychologyPortal,
-  innerbalance: InnerBalanceAtlas,
-  frameworks: FrameworkAtlas,
+  inneratlas: InnerAtlas,
+  wisdom: WisdomAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
-  relationships: RelationshipClarityPortal,
   sexualenergy: SexualEnergyDashboard,
-  angelology: AngelologyAtlas,
+  awareness: AwarenessAtlas,
   numerology: NumerologyPortal,
 };
 
@@ -71,6 +67,10 @@ export default function App() {
 
   const activePortal = portalsByPath[path];
   if (activePortal) {
+    // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
+    if (path !== activePortal.path && typeof window !== 'undefined') {
+      window.history.replaceState({}, '', activePortal.path + (search || ''));
+    }
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component
@@ -79,6 +79,34 @@ export default function App() {
         initialSection={initialSection}
       />
     );
+  }
+
+  // Backward-compat: old standalone routes redirect into InnerAtlas
+  if (path === '/psychology') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas?section=psychology');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
+  }
+  if (path === '/relationships') {
+    const section = initialSection || 'relationship-clarity';
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/sexual-energy?section=${encodeURIComponent(section)}`);
+    }
+    return <SexualEnergyDashboard onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+  }
+  if (path === '/inner-balance') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
+  }
+  // Angelology folded into the Biblical portal as its Angelology section.
+  if (path === '/angelology') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/biblical?section=angels');
+    }
+    return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection="angels" />;
   }
 
   if (path !== '/' && !portals.some((p) => p.path === path)) {
