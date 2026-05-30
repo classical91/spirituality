@@ -389,6 +389,182 @@ const concepts = [
   },
 
   {
+    id: "reading-red-flags",
+    label: "Reading Red Flags",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "A red flag is information, not an accusation — it tells you who someone is, not who they could be.",
+    question: "Am I responding to what this person actually does — or to the potential I've projected onto them?",
+    explanation:
+      "A red flag is a repeated behavior that consistently costs you safety, respect, or peace. It is not one bad day, one awkward sentence, or one nervous moment. The trap is treating flags as puzzles to solve or potential to coach out of someone. They aren't. They're data about how this person operates when it matters. The goal here isn't to diagnose anyone — it's to stop overriding your own clear evidence with hope.",
+    flags: [
+      "A pattern repeats even after you've named that it hurts you.",
+      "You find yourself explaining away behavior you'd flag instantly in a friend's story.",
+      "You feel more anxious, smaller, or less yourself the longer it goes on.",
+      "You're attached to their potential, not their present.",
+    ],
+    green: [
+      "When you name a problem, the behavior actually changes over time.",
+      "You feel more like yourself, not less, the more time you spend together.",
+      "Their words and their actions tell the same story.",
+      "You don't need to manage, coach, or rehabilitate them to feel safe.",
+    ],
+    practice:
+      "Pick one behavior that's been bothering you. Write only the facts — what happened, how often, over what period — with no interpretation and no 'but they...'. Read it back as if a friend handed it to you. The flag was always in the pattern, not in your reaction to it.",
+  },
+  {
+    id: "love-bombing",
+    label: "Love Bombing",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "Intensity that arrives too fast is a strategy, not a depth of feeling.",
+    question: "Is this affection building trust over time — or rushing me past the point where I'd notice the cost?",
+    explanation:
+      "Love bombing is overwhelming affection, attention, and future-talk delivered early and fast — before any real knowing has happened. It feels like being adored, but its function is acceleration: to bond you so quickly that boundaries, doubts, and pacing get bypassed. Real closeness is earned in increments. Manufactured closeness is dumped on you all at once, and it usually comes with a bill later.",
+    flags: [
+      "Grand declarations, gifts, or 'soulmate' talk within days or weeks.",
+      "Pressure to commit, define, or merge lives far faster than feels natural.",
+      "Affection that flips to sulking or punishment the moment you slow the pace.",
+      "Being told you're unlike anyone they've ever met — before they actually know you.",
+    ],
+    green: [
+      "Warmth that scales with how much you actually know each other.",
+      "Comfort with your pace, including your need to slow down.",
+      "Excitement that survives you having a separate, full life.",
+      "Consistency over time rather than a dazzling opening week.",
+    ],
+    practice:
+      "Notice the gap between how well this person knows you and how intensely they're treating you. If the intensity is far ahead of the knowing, slow everything down on purpose for two weeks. Genuine interest stays. A strategy gets frustrated.",
+  },
+  {
+    id: "control-and-isolation",
+    label: "Control & Isolation",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "Care that shrinks your world is not care — it's a leash with a soft handle.",
+    question: "Is my life getting bigger and freer with this person, or quietly smaller?",
+    explanation:
+      "Control rarely arrives as obvious tyranny. It arrives as concern, preference, and 'I just missed you.' Over time it narrows where you go, who you see, what you wear, and how you spend money — each step framed as love. Isolation is the engine of most unhealthy dynamics, because a person with no outside mirrors loses the reference points that would name the problem. Healthy love widens your life. Control prunes it.",
+    flags: [
+      "Friends and family slowly drop off your calendar — by their preference, not yours.",
+      "You explain or justify ordinary choices to avoid a reaction.",
+      "Guilt, sulking, or conflict follows time spent apart from them.",
+      "Monitoring of your phone, location, money, or schedule, framed as closeness.",
+    ],
+    green: [
+      "Your other relationships are encouraged, not resented.",
+      "Time apart is normal and uneventful, not a source of tension.",
+      "Disagreement is allowed without it becoming a crisis.",
+      "You keep your own money, choices, and movement without negotiation.",
+    ],
+    practice:
+      "Map your last three months. Who have you seen less of, and was that your choice or a response to friction? If your world has narrowed around one person, that narrowing is itself the flag — independent of how loving each individual step was framed.",
+  },
+  {
+    id: "gaslighting",
+    label: "Gaslighting & Rewriting Reality",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "If you keep leaving conversations doubting your own memory, that doubt is the injury.",
+    question: "Do I trust my perception more or less after we talk things through?",
+    explanation:
+      "Gaslighting is the steady erosion of your confidence in your own reality — 'that never happened,' 'you're too sensitive,' 'you're remembering it wrong,' 'you're crazy.' It doesn't require malice to do damage; the effect is what matters. Over time you stop trusting your own memory and start outsourcing reality to the very person distorting it. The tell isn't any single sentence — it's the cumulative feeling of going crazy in slow motion.",
+    flags: [
+      "Your clear memories are routinely denied or rewritten.",
+      "You apologize for reactions to things that genuinely happened.",
+      "You've started recording, screenshotting, or saving proof to stay sane.",
+      "Concerns get turned around so you end up comforting them or apologizing.",
+    ],
+    green: [
+      "Your account of events is taken seriously even during conflict.",
+      "Repair sounds like 'you're right, that happened' — not 'you imagined it.'",
+      "Your feelings are treated as real information, not as defects.",
+      "You leave hard conversations clearer, not more confused.",
+    ],
+    practice:
+      "Keep a private, factual log for two weeks — just dates and what was said or done, no commentary. You're not building a case to win; you're rebuilding trust in your own perception. If reality stops matching their version of it, believe your record.",
+  },
+  {
+    id: "contempt-and-criticism",
+    label: "Contempt & Criticism",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "Contempt is criticism aimed at who you are, not what happened — and it's corrosive.",
+    question: "When something goes wrong, is the problem the problem — or am I the problem?",
+    explanation:
+      "Criticism attacks an event ('this hurt me'); contempt attacks the person ('you're pathetic, you're stupid, what is wrong with you'). Contempt — eye-rolling, mockery, sneering, name-calling, sarcasm meant to wound — is one of the strongest predictors of a relationship's collapse, because it communicates disgust rather than disagreement. You cannot build safety with someone who, in their hardest moments, treats you as beneath them.",
+    flags: [
+      "Mockery, name-calling, or sarcasm aimed at your character.",
+      "Your feelings are met with eye-rolls, contempt, or 'here we go again.'",
+      "Mistakes become evidence that you're fundamentally defective.",
+      "You feel humiliated in private — or in front of others — and it's called a joke.",
+    ],
+    green: [
+      "Conflict stays about the issue, not your worth as a person.",
+      "Complaints come as 'I felt X when Y,' not as attacks on who you are.",
+      "Repair includes genuine ownership and warmth afterward.",
+      "Even angry, they treat you as someone they respect.",
+    ],
+    practice:
+      "After your next disagreement, ask: was this about a behavior, or about my character? Behavior can be worked on together. A pattern of contempt is a verdict being passed on you — and no amount of fixing the behavior will satisfy it.",
+  },
+  {
+    id: "jealousy-and-possessiveness",
+    label: "Jealousy & Possessiveness",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "Possessiveness wears the costume of passion — but it's about ownership, not love.",
+    question: "Does this person trust me, or do they need to control me to feel okay?",
+    explanation:
+      "A flicker of jealousy is human. Possessiveness is different: it treats you as property to be guarded rather than a person to be trusted. It shows up as accusation without cause, interrogation about your whereabouts, and resentment of any attention or closeness that isn't theirs. It's often romanticized as 'they love me so much,' but its root is insecurity demanding control — and the demands almost always grow, never shrink.",
+    flags: [
+      "Accusations of interest or cheating with no basis in your behavior.",
+      "Interrogation about where you were, who texted, why you smiled.",
+      "Resentment of your friendships, attention, or independence.",
+      "You preemptively hide harmless things to avoid an episode.",
+    ],
+    green: [
+      "Trust is the default; reassurance is occasional, not a daily tax.",
+      "Your friendships and attention aren't treated as threats.",
+      "Insecurity is owned and worked on, not enforced on you.",
+      "You feel free to be honest because honesty isn't punished.",
+    ],
+    practice:
+      "Notice whether you've started self-censoring — hiding a harmless text, downplaying a friendship — to keep the peace. That self-editing is the cost of possessiveness, and it grows. Name it out loud once, plainly, and watch whether it's met with reflection or escalation.",
+  },
+  {
+    id: "future-faking",
+    label: "Future-Faking & Broken Words",
+    kicker: "Red Flags",
+    group: "Red Flags",
+    redflag: true,
+    short: "Promises are cheap; patterns are the truth. Watch what's done, not what's pledged.",
+    question: "Am I in a relationship with this person's actions — or with their promises?",
+    explanation:
+      "Future-faking is using vivid promises about the future — the trip, the move, the ring, the change — to secure your investment in the present, with no intention or track record of following through. It keeps you holding on for a version of them that never quite arrives. The antidote is simple and unsentimental: weigh what consistently happens far more heavily than what's repeatedly promised. A pattern of broken words is itself the answer.",
+    flags: [
+      "Big promises that dissolve the moment they'd require real follow-through.",
+      "Apologies and vows to change that reset the same cycle next week.",
+      "You're sustained by the future they describe, not the present they give.",
+      "'I'll change' arrives right when you're about to walk away.",
+    ],
+    green: [
+      "Promises are sized to what they actually deliver.",
+      "Change, when it's needed, shows up as sustained behavior over time.",
+      "The present already feels good — the future is a bonus, not the lifeline.",
+      "Their word and their follow-through match often enough to be trusted.",
+    ],
+    practice:
+      "List the last few significant things this person promised. Beside each, write what actually happened. If the two columns don't match, stop dating the promises and start reading the pattern. The pattern is who they are.",
+  },
+
+  {
     id: "standards",
     label: "Standards & What You Choose",
     kicker: "Standards",
@@ -927,7 +1103,7 @@ const concepts = [
 ];
 
 const conceptsById = Object.fromEntries(concepts.map((c) => [c.id, c]));
-const CONCEPT_GROUPS = ["Reflection", "Standards", "Communication", "Inventory", "Tools"];
+const CONCEPT_GROUPS = ["Reflection", "Red Flags", "Standards", "Communication", "Inventory", "Tools"];
 
 function SectionCard({ concept, onSelect }) {
   return (
@@ -996,6 +1172,51 @@ function ReflectionConcept({ concept }) {
       </div>
 
       <InfoBox label="Practice" tone="violet">{concept.practice}</InfoBox>
+    </div>
+  );
+}
+
+function RedFlagConcept({ concept }) {
+  return (
+    <div className="space-y-5">
+      <div className="rounded-[2rem] border border-rose-300/20 bg-gradient-to-br from-rose-600/20 via-white/[0.05] to-rose-500/10 p-6 md:p-8">
+        <p className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.35em] text-rose-200/80">
+          <span aria-hidden>⚑</span> Core question
+        </p>
+        <p className="mt-4 text-2xl font-black leading-snug text-white md:text-3xl">{concept.question}</p>
+        <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 md:text-lg md:leading-8">{concept.explanation}</p>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        <div className="rounded-3xl border border-rose-300/20 bg-rose-500/[0.1] p-5">
+          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.28em] text-rose-200/80">
+            <span aria-hidden>⚑</span> Red flags
+          </p>
+          <ul className="mt-4 space-y-3">
+            {concept.flags.map((item) => (
+              <li key={item} className="flex gap-3 text-sm leading-6 text-white/78">
+                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-rose-300/80" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="rounded-3xl border border-emerald-300/15 bg-emerald-500/[0.08] p-5">
+          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.28em] text-emerald-200/80">
+            <span aria-hidden>✓</span> Green flags
+          </p>
+          <ul className="mt-4 space-y-3">
+            {concept.green.map((item) => (
+              <li key={item} className="flex gap-3 text-sm leading-6 text-white/82">
+                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/80" />
+                <span>{item}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
+
+      <InfoBox label="Practice" tone="rose">{concept.practice}</InfoBox>
     </div>
   );
 }
@@ -1244,6 +1465,7 @@ function renderConcept(concept) {
   if (concept.interactive === "clarity-check") return <ClarityCheck />;
   if (concept.interactive === "pause-check") return <PauseCheck />;
   if (concept.inventory) return <InventoryConcept concept={concept} />;
+  if (concept.redflag) return <RedFlagConcept concept={concept} />;
   return <ReflectionConcept concept={concept} />;
 }
 
