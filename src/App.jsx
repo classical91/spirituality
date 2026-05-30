@@ -85,10 +85,11 @@ export default function App() {
     return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
   }
   if (path === '/relationships') {
+    const section = initialSection || 'relationship-clarity';
     if (typeof window !== 'undefined') {
-      window.history.replaceState({}, '', '/inner-atlas?section=relationship-clarity');
+      window.history.replaceState({}, '', `/sexual-energy?section=${encodeURIComponent(section)}`);
     }
-    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={initialSection || 'relationship-clarity'} />;
+    return <SexualEnergyDashboard onBack={goHome} onNavigate={goPortal} initialSection={section} />;
   }
   if (path === '/inner-balance') {
     if (typeof window !== 'undefined') {
