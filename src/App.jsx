@@ -11,6 +11,7 @@ import SacredSystemsAtlas from './SacredSystemsAtlas';
 import RelationshipClarityPortal from './RelationshipClarityPortal';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import AngelologyAtlas from './AngelologyAtlas';
+import AwarenessAtlas from './AwarenessAtlas';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -27,6 +28,7 @@ const COMPONENTS = {
   relationships: RelationshipClarityPortal,
   sexualenergy: SexualEnergyDashboard,
   angelology: AngelologyAtlas,
+  awareness: AwarenessAtlas,
 };
 
 export default function App() {
