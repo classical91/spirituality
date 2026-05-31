@@ -11,6 +11,7 @@ import SexualEnergyDashboard from './SexualEnergyDashboard';
 import AwarenessAtlas from './AwarenessAtlas';
 import NumerologyPortal from './NumerologyPortal';
 import DemonologyAtlas from './DemonologyAtlas';
+import InfernalCodex from './InfernalCodex';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -27,6 +28,7 @@ const COMPONENTS = {
   awareness: AwarenessAtlas,
   numerology: NumerologyPortal,
   demonology: DemonologyAtlas,
+  infernalcodex: InfernalCodex,
 };
 
 export default function App() {
