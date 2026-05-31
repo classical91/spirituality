@@ -167,6 +167,9 @@ export const searchIndex = [
   { id: 'dm-warfare',       portalId: 'demonology', section: 'spiritual-warfare',            title: 'Spiritual Warfare as Transformation', summary: 'The "battle" reread as inner transformation — vice answered by virtue.',                           tags: ['spiritual warfare','transformation','inner','virtue','shadow','growth'],      lens: 'Reflection' },
   { id: 'dm-temptation',    portalId: 'demonology', section: 'temptation',                   title: 'Temptation',                      summary: 'The pull toward a perceived good that violates a deeper good — danger and test alike.',                tags: ['temptation','trial','peirasmos','enticement','testing','desire'],              lens: 'Psychological' },
 
+  // ─── Infernal & Mythic Codex ─────────────────────────────────────────
+  { id: 'ic-codex',         portalId: 'infernalcodex',                                        title: 'Infernal & Mythic Codex',         summary: 'A navigable concept database — browse demons, spirits, deities, sins, and concepts by category, type, or A–Z.',  tags: ['codex','database','goetia','ars goetia','deities','seven princes','seals','sigils','gnosticism','a-z','browse'], lens: 'Historical' },
+
   // ─── Numerology ──────────────────────────────────────────────────────
   { id: 'num-life-path',    portalId: 'numerology', section: 'life-path',     title: 'Life Path Number',                summary: 'Your core path, lesson, and direction based on your birth date.',                            tags: ['numerology','life path','birth date','core number','master number','11','22','33'], lens: 'Symbolic' },
   { id: 'num-expression',   portalId: 'numerology', section: 'expression',    title: 'Expression / Destiny Number',     summary: 'The symbolic pattern of your full birth name.',                                              tags: ['numerology','expression','destiny','name','letter chart','talents'],                 lens: 'Symbolic' },
