@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything } from './data/portals';
+import { searchIndex } from './data/searchIndex';
 import { getRecentPortals } from './lib/storage';
 import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
@@ -11,6 +12,48 @@ function getDailyPrayer() {
   const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
   return prayerPool[dayOfYear % prayerPool.length];
 }
+
+// Day-of-year that rotates the daily picks (stable within a calendar day).
+function dayOfYear() {
+  const now = new Date();
+  return Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+}
+
+// Deterministic shuffle so consecutive days don't walk through same-portal
+// entries in order. Fixed seed → same rotation order for everyone, every day.
+function mulberry32(seed) {
+  return function () {
+    seed |= 0;
+    seed = (seed + 0x6d2b79f5) | 0;
+    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
+}
+
+// A well-spread reading rotation drawn from every readable section in the hub.
+const READING_POOL = (() => {
+  const arr = searchIndex.slice();
+  const rnd = mulberry32(20240531);
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(rnd() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+  return arr;
+})();
+
+function getDailyReading() {
+  if (READING_POOL.length === 0) return null;
+  return READING_POOL[dayOfYear() % READING_POOL.length];
+}
+
+const LENS_COLORS = {
+  Symbolic:      { border: 'rgba(167,139,250,0.30)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.16)', badgeText: '#c4b5fd' },
+  Psychological: { border: 'rgba(6,182,212,0.30)',   bg: 'rgba(6,182,212,0.07)',   badge: 'rgba(6,182,212,0.16)',   badgeText: '#67e8f9' },
+  Historical:    { border: 'rgba(251,191,36,0.30)',  bg: 'rgba(251,191,36,0.07)',  badge: 'rgba(251,191,36,0.16)',  badgeText: '#fde68a' },
+  Wellness:      { border: 'rgba(52,211,153,0.30)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.16)',  badgeText: '#6ee7b7' },
+  Reflection:    { border: 'rgba(244,114,182,0.30)', bg: 'rgba(244,114,182,0.07)', badge: 'rgba(244,114,182,0.16)', badgeText: '#fbcfe8' },
+};
 
 function SurprisePrayerModal({ theme, onClose, onReshuffle }) {
   useEffect(() => {
@@ -153,6 +196,84 @@ function DailyPrayerCard() {
   );
 }
 
+function DailyReadingCard({ onNavigate }) {
+  const reading = useMemo(() => getDailyReading(), []);
+  if (!reading) return null;
+
+  const portal = portalsById[reading.portalId];
+  const c = LENS_COLORS[reading.lens] || LENS_COLORS.Symbolic;
+  const dateLabel = new Date().toLocaleDateString(undefined, {
+    weekday: 'long', month: 'long', day: 'numeric',
+  });
+
+  const open = () =>
+    onNavigate(reading.portalId, reading.section ? { section: reading.section } : undefined);
+
+  return (
+    <div
+      onClick={open}
+      role="button"
+      tabIndex={0}
+      onKeyDown={(e) => { if (e.key === 'Enter') open(); }}
+      style={{
+        width: '100%',
+        maxWidth: '680px',
+        marginBottom: 'clamp(16px, 3vw, 24px)',
+        borderRadius: '24px',
+        border: `1px solid ${c.border}`,
+        background: c.bg,
+        padding: 'clamp(20px, 4vw, 32px)',
+        backdropFilter: 'blur(20px)',
+        textAlign: 'left',
+        cursor: 'pointer',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+      }}
+      onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-3px)'; e.currentTarget.style.boxShadow = `0 18px 44px ${c.bg}`; }}
+      onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.boxShadow = 'none'; }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '12px', flexWrap: 'wrap' }}>
+        <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7a7096' }}>
+          📖 Reading for Today
+        </span>
+        <span style={{
+          background: c.badge,
+          border: `1px solid ${c.border}`,
+          color: c.badgeText,
+          padding: '3px 10px',
+          borderRadius: '999px',
+          fontSize: '0.72rem',
+          fontWeight: 700,
+          letterSpacing: '0.04em',
+        }}>
+          {reading.lens}
+        </span>
+        <span style={{ marginLeft: 'auto', fontSize: '0.74rem', color: '#7a7096' }}>{dateLabel}</span>
+      </div>
+
+      <h3 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 900, color: '#f1eeff', margin: '0 0 8px' }}>
+        {reading.title}
+      </h3>
+      <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1rem)', lineHeight: 1.7, color: '#c4bbe0', margin: '0 0 16px' }}>
+        {reading.summary}
+      </p>
+
+      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', gap: '6px',
+          fontSize: '0.85rem', fontWeight: 700, color: c.badgeText,
+        }}>
+          Read today's page →
+        </span>
+        {portal && (
+          <span style={{ marginLeft: 'auto', fontSize: '0.74rem', color: '#7a7096' }}>
+            in {portal.titleFlat}
+          </span>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function HomePage({ onNavigate }) {
   const [query, setQuery] = useState('');
   const [recentIds] = useState(() => getRecentPortals());
@@ -286,6 +407,8 @@ export default function HomePage({ onNavigate }) {
         </p>
 
         <DailyPrayerCard />
+
+        <DailyReadingCard onNavigate={onNavigate} />
 
         <button
           onClick={openSurprise}
