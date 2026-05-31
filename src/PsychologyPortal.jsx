@@ -499,13 +499,13 @@ export default function PsychologyPortal({ onBack, onNavigate, initialSection })
 
             {onNavigate && (
               <button
-                onClick={() => onNavigate('innerbalance')}
+                onClick={() => onNavigate('inneratlas')}
                 className="mt-4 flex w-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.04] px-4 py-3 text-left text-sm text-slate-300 transition hover:bg-white/10 hover:text-white"
               >
                 <span className="text-lg">◍</span>
                 <div>
-                  <div className="font-semibold text-white">InnerBalance Atlas</div>
-                  <div className="text-xs text-slate-500">Explore the biological side →</div>
+                  <div className="font-semibold text-white">InnerAtlas</div>
+                  <div className="text-xs text-slate-500">Explore the full inner map →</div>
                 </div>
               </button>
             )}
