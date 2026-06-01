@@ -129,6 +129,12 @@ export default function App() {
     }
     return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection={section} />;
   }
+  if (path === '/inferno' || path === '/dante-inferno') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `${BIBLICAL_ROUTE}?section=inferno`);
+    }
+    return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection="inferno" />;
+  }
   if (path === '/infernal-codex') {
     if (typeof window !== 'undefined') {
       window.history.replaceState({}, '', `${BIBLICAL_ROUTE}?section=infernal-codex`);

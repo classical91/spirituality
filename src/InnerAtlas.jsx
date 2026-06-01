@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
+import EmotionsAtlas from './EmotionsAtlas';
 
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -11,6 +12,9 @@ const SECTION_MAP = {
   'mood-neurochemistry':   { id: 'mood-neurochemistry',   sub: 'neurotransmitters' },
   'lifestyle':             { id: 'lifestyle',             sub: 'sleep' },
   'regulation':            { id: 'regulation',            sub: null },
+  'emotions':              { id: 'emotions',              sub: null },
+  'emotion-glossary':      { id: 'emotions',              sub: null },
+  'guidance-spiral':       { id: 'emotions',              sub: null },
   // Legacy InnerBalance Atlas tab IDs
   psychophysiology:  { id: 'nervous-system',      sub: 'psychophysiology' },
   stress:            { id: 'nervous-system',      sub: 'stress' },
@@ -47,6 +51,7 @@ const PAL = {
   'mood-neurochemistry':   { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
   'lifestyle':             { c: '#fbbf24', bg: 'rgba(251,191,36,0.08)',  br: 'rgba(251,191,36,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
+  'emotions':              { c: '#f472b6', bg: 'rgba(244,114,182,0.08)', br: 'rgba(244,114,182,0.26)' },
 };
 
 // ─── Hub section definitions ────────────────────────────────────────────────
@@ -86,6 +91,13 @@ const SECTIONS = [
     title: 'Regulation Tools',
     description: 'Breathing, grounding, journaling, reframing, meditation, body release, and nervous-system reset.',
     tags: ['Breathing', 'Grounding', 'Meditation'],
+  },
+  {
+    id: 'emotions',
+    icon: '~',
+    title: 'Emotions & Guidance Spiral',
+    description: 'A simple emotion glossary with definitions, explanations, and upward/downward spiral mapping.',
+    tags: ['Feelings', 'Definitions', 'Spiral'],
   },
 ];
 
@@ -394,6 +406,10 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   if (activeSection === 'regulation') {
     return <RegulationTools onBack={goHub} />;
+  }
+
+  if (activeSection === 'emotions') {
+    return <EmotionsAtlas onBack={goHub} />;
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase
