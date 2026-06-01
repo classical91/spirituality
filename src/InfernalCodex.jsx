@@ -71,7 +71,7 @@ function CodexCard({ entry, expanded, onToggle, flash }) {
   );
 }
 
-export default function InfernalCodex({ onBack, onNavigate }) {
+export default function InfernalCodex({ onBack, onNavigate, embedded = false }) {
   const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeType, setActiveType] = useState('All');
@@ -145,7 +145,7 @@ export default function InfernalCodex({ onBack, onNavigate }) {
     search.trim() || activeCategory !== 'All' || activeType !== 'All' || activeLetter;
 
   return (
-    <div className="ic-root">
+    <div className={`ic-root ${embedded ? 'ic-root-embedded' : ''}`}>
       {/* Hero */}
       <div className="ic-hero">
         {onBack && (

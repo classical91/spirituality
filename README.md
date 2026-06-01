@@ -2,7 +2,7 @@
 
 **Spirituality, psychology & symbolic frameworks toolkit.**
 
-Sacred Pathways is an interactive, browser-based reflection toolkit built with Vite, React, and Tailwind CSS v4. It bundles a set of self-contained portals into one explorable app — chakra work, natal astrology, biblical and moral atlases, psychology frameworks, whole-system well-being, and a wisdom atlas of spiritual teachers and inner-work traditions.
+Sacred Pathways is an interactive, browser-based reflection toolkit built with Vite, React, and Tailwind CSS v4. It bundles a set of self-contained portals into one explorable app — chakra work, natal astrology, sacred moral and mythic atlases, psychology frameworks, whole-system well-being, and a wisdom atlas of spiritual teachers and inner-work traditions.
 
 ## Portals
 
@@ -10,7 +10,7 @@ Sacred Pathways is an interactive, browser-based reflection toolkit built with V
 |------|--------|----------------|
 | `/chakra` | **Chakra Visualizer** | Seven energy centers across three traditions (Hindu, Ra / Law of One, Alice Bailey), with affirmations, blockage patterns, and stretch references. |
 | `/astrology` | **Natal Chart Decoder** | Planets, signs, houses, aspects, and the alchemical metal correspondences. |
-| `/biblical` | **Biblical Concepts** | Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, demonology, and a multi-tradition angelology atlas as a study board. (Legacy `/angelology` redirects here.) |
+| `/sacred-moral-atlas` | **Sacred Moral & Mythic Atlas** | Biblical foundations, Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, angelology, Demonology & Spiritual Adversaries, and the Infernal & Mythic Codex as one study board. (Legacy `/biblical`, `/angelology`, `/demonology`, and `/infernal-codex` redirect here.) |
 | `/psychology` | **Psychology Portal** | Ten frameworks for identity, attachment, CBT, stoicism, somatic work, and shadow integration. |
 | `/inner-balance` | **InnerBalance Atlas** | Nervous system, neurotransmitters, mood, psychophysiology, and daily well-being. |
 | `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, and Joe Dispenza — each with a core teaching, practice, and reflection. (Legacy `/frameworks` redirects here.) |

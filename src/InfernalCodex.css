@@ -8,6 +8,18 @@
   position: relative;
   overflow-x: hidden;
 }
+.ic-root-embedded {
+  min-height: auto;
+  background: transparent;
+}
+.ic-root-embedded .ic-hero {
+  padding-top: 1rem;
+}
+.ic-root-embedded .ic-layout {
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+}
 
 /* ── Hero ─────────────────────────────────────────────────── */
 .ic-hero {

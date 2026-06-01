@@ -10,11 +10,15 @@ import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import AwarenessAtlas from './AwarenessAtlas';
 import NumerologyPortal from './NumerologyPortal';
-import DemonologyAtlas from './DemonologyAtlas';
-import InfernalCodex from './InfernalCodex';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
+
+const BIBLICAL_ROUTE = '/sacred-moral-atlas';
+const EMBEDDED_BIBLICAL_SECTIONS = {
+  demonology: 'demonology-atlas',
+  infernalcodex: 'infernal-codex',
+};
 
 const COMPONENTS = {
   chakra: Chakra3DVisualizer,
@@ -27,8 +31,6 @@ const COMPONENTS = {
   sexualenergy: SexualEnergyDashboard,
   awareness: AwarenessAtlas,
   numerology: NumerologyPortal,
-  demonology: DemonologyAtlas,
-  infernalcodex: InfernalCodex,
 };
 
 export default function App() {
@@ -50,6 +52,14 @@ export default function App() {
 
   const goPortal = useCallback(
     (portalId, { section } = {}) => {
+      if (EMBEDDED_BIBLICAL_SECTIONS[portalId]) {
+        const embeddedSection =
+          portalId === 'demonology' && section
+            ? section
+            : EMBEDDED_BIBLICAL_SECTIONS[portalId];
+        navigate(`${BIBLICAL_ROUTE}?section=${encodeURIComponent(embeddedSection)}`);
+        return;
+      }
       const portal = portalsById[portalId];
       if (!portal) return;
       if (portal.external && portal.externalUrl) {
@@ -108,9 +118,22 @@ export default function App() {
   // Angelology folded into the Biblical portal as its Angelology section.
   if (path === '/angelology') {
     if (typeof window !== 'undefined') {
-      window.history.replaceState({}, '', '/biblical?section=angels');
+      window.history.replaceState({}, '', `${BIBLICAL_ROUTE}?section=angels`);
     }
     return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection="angels" />;
+  }
+  if (path === '/demonology') {
+    const section = initialSection || 'demonology-atlas';
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `${BIBLICAL_ROUTE}?section=${encodeURIComponent(section)}`);
+    }
+    return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+  }
+  if (path === '/infernal-codex') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `${BIBLICAL_ROUTE}?section=infernal-codex`);
+    }
+    return <BibleConceptAtlas onBack={goHome} onNavigate={goPortal} initialSection="infernal-codex" />;
   }
 
   if (path !== '/' && !portals.some((p) => p.path === path)) {

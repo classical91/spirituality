@@ -258,7 +258,7 @@ function IntroPanel() {
   );
 }
 
-export default function DemonologyAtlas({ onBack, initialSection }) {
+export default function DemonologyAtlas({ onBack, onNavigate, initialSection, embedded = false }) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [search, setSearch] = useState('');
   // Honor a ?section= deep-link if it matches an entry id.
@@ -305,7 +305,7 @@ export default function DemonologyAtlas({ onBack, initialSection }) {
   const showIntro = !activeEntry && !search.trim() && activeFilter === 'All';
 
   return (
-    <div className="dm-root">
+    <div className={`dm-root ${embedded ? 'dm-root-embedded' : ''}`}>
       {/* Hero */}
       <div className="dm-hero">
         {onBack && (
@@ -328,6 +328,14 @@ export default function DemonologyAtlas({ onBack, initialSection }) {
           <strong>Educational use only.</strong> This atlas studies what traditions have believed about
           demons across history, theology, mythology, and psychology. It contains no instructions for
           summoning, invoking, worshipping, or contacting any entity.
+          {onNavigate && (
+            <>
+              {' '}For the broader A-Z database, open the{' '}
+              <button className="dm-codex-link" onClick={() => onNavigate('infernalcodex')}>
+                Infernal &amp; Mythic Codex
+              </button>.
+            </>
+          )}
         </div>
         <div className="dm-search-wrap">
           <span className="dm-search-icon"><SearchIcon /></span>

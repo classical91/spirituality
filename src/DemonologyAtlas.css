@@ -8,6 +8,18 @@
   position: relative;
   overflow-x: hidden;
 }
+.dm-root-embedded {
+  min-height: auto;
+  background: transparent;
+}
+.dm-root-embedded .dm-hero {
+  padding-top: 1rem;
+}
+.dm-root-embedded .dm-layout {
+  padding-right: 0;
+  padding-bottom: 0;
+  padding-left: 0;
+}
 
 /* ── Hero ─────────────────────────────────────────────────── */
 .dm-hero {
@@ -110,6 +122,17 @@
   line-height: 1.55;
 }
 .dm-disclaimer strong { color: #ff9a8a; }
+.dm-codex-link {
+  background: none;
+  border: none;
+  color: #ff9a8a;
+  cursor: pointer;
+  font: inherit;
+  padding: 0;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+.dm-codex-link:hover { color: #ffd0c4; }
 
 /* ── Search ───────────────────────────────────────────────── */
 .dm-search-wrap {

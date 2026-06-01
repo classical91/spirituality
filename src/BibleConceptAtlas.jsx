@@ -1,6 +1,9 @@
 import { useEffect, useMemo, useState } from "react";
 import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
 import { angels, ANGEL_FILTERS } from "./data/angels";
+import { demons as demonologyArticles } from "./data/demonology";
+import DemonologyAtlas from "./DemonologyAtlas";
+import InfernalCodex from "./InfernalCodex";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "✦" },
@@ -8,12 +11,26 @@ const tabs = [
   { id: "virtues", label: "Virtues", icon: "✧" },
   { id: "sins", label: "7 Deadly Sins", icon: "☿" },
   { id: "inferno", label: "Dante Inferno", icon: "◉" },
-  { id: "demons", label: "Demonology", icon: "♆" },
+  { id: "demons", label: "Demon Princes", icon: "♆" },
   { id: "angels", label: "Angelology", icon: "✸" },
+  { id: "demonology-atlas", label: "Demonology Atlas", icon: "♆" },
+  { id: "infernal-codex", label: "Infernal Codex", icon: "✦" },
   { id: "prayers", label: "Prayer Themes", icon: "✿" },
   { id: "map", label: "Sin Map", icon: "⌁" },
   { id: "wheel", label: "Soul · Spirit · Body", icon: "◈" },
 ];
+
+const embeddedAtlasTabs = new Set(["demonology-atlas", "infernal-codex"]);
+const demonologyArticleIds = new Set(demonologyArticles.map((entry) => entry.id));
+
+function normalizeInitialSection(section) {
+  if (section === "angelology") return { tab: "angels" };
+  if (section === "demonology-atlas" || section === "demonology-portal") return { tab: "demonology-atlas" };
+  if (section === "infernal-codex" || section === "infernalcodex") return { tab: "infernal-codex" };
+  if (demonologyArticleIds.has(section)) return { tab: "demonology-atlas", childSection: section };
+  if (tabs.some((tab) => tab.id === section)) return { tab: section };
+  return { tab: null };
+}
 
 const commandments = [
   {
@@ -1354,7 +1371,7 @@ function PrayerThemeCard({ theme, catLabel, tone, onPray }) {
   );
 }
 
-function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
+function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbeddedNavigate, embeddedInitialSection }) {
   if (tabId === "commandments") {
     return (
       <div>
@@ -1513,6 +1530,25 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
           </div>
         )}
       </div>
+    );
+  }
+
+  if (tabId === "demonology-atlas") {
+    return (
+      <DemonologyAtlas
+        embedded
+        initialSection={embeddedInitialSection}
+        onNavigate={onEmbeddedNavigate}
+      />
+    );
+  }
+
+  if (tabId === "infernal-codex") {
+    return (
+      <InfernalCodex
+        embedded
+        onNavigate={onEmbeddedNavigate}
+      />
     );
   }
 
@@ -1696,12 +1732,11 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer }) {
 
 const BG = "min-h-screen bg-[radial-gradient(circle_at_top_left,#3b1d05,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100";
 
-export default function BibleConceptAtlas({ onBack, initialSection }) {
-  // Allow deep-linking into a tab (e.g. /biblical?section=angels). The legacy
-  // /angelology route maps onto the embedded Angelology section.
-  const normalizedInitial = initialSection === "angelology" ? "angels" : initialSection;
+export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }) {
+  // Allow deep-linking into a tab. Legacy routes map onto embedded sections.
+  const normalizedInitial = normalizeInitialSection(initialSection);
   const [subPage, setSubPage] = useState(
-    normalizedInitial && tabs.some((t) => t.id === normalizedInitial) ? normalizedInitial : null
+    normalizedInitial.tab
   );
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
@@ -1745,6 +1780,18 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
     setQuery("");
   };
 
+  const navigateEmbedded = (portalId) => {
+    if (portalId === "demonology") {
+      navigateTo("demonology-atlas");
+      return;
+    }
+    if (portalId === "infernalcodex") {
+      navigateTo("infernal-codex");
+      return;
+    }
+    onNavigate?.(portalId);
+  };
+
   const goHome = () => {
     setSubPage(null);
     setQuery("");
@@ -1753,6 +1800,7 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
   // Sub-page view
   if (subPage) {
     const tab = tabs.find((t) => t.id === subPage);
+    const showSectionSearch = !embeddedAtlasTabs.has(subPage);
     return (
       <div className={BG}>
         <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
@@ -1761,31 +1809,40 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
               onClick={goHome}
               className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
             >
-              ← Sacred Moral Atlas
+              ← Sacred Moral & Mythic Atlas
             </button>
             <span className="text-xs text-slate-500">{tab.icon} {tab.label}</span>
           </div>
         </div>
 
         <div className="mx-auto max-w-7xl px-4 py-8">
-          <section className="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl backdrop-blur-xl">
-            <div className="p-6 md:p-8">
-              <div className="flex flex-col gap-3 md:flex-row">
-                <input
-                  value={query}
-                  onChange={(e) => setQuery(e.target.value)}
-                  placeholder="Search concepts..."
-                  className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-amber-300/60"
-                />
-                <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
-                  Clear
-                </button>
+          {showSectionSearch && (
+            <section className="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl backdrop-blur-xl">
+              <div className="p-6 md:p-8">
+                <div className="flex flex-col gap-3 md:flex-row">
+                  <input
+                    value={query}
+                    onChange={(e) => setQuery(e.target.value)}
+                    placeholder="Search concepts..."
+                    className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-amber-300/60"
+                  />
+                  <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
+                    Clear
+                  </button>
+                </div>
               </div>
-            </div>
-          </section>
+            </section>
+          )}
 
           <section className="rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
-            <SectionPageContent tabId={subPage} searchable={searchable} openModal={openModal} openPrayer={openPrayer} />
+            <SectionPageContent
+              tabId={subPage}
+              searchable={searchable}
+              openModal={openModal}
+              openPrayer={openPrayer}
+              onEmbeddedNavigate={navigateEmbedded}
+              embeddedInitialSection={normalizedInitial.childSection}
+            />
           </section>
         </div>
 
@@ -1814,7 +1871,7 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
             >
               ← Back to Home
             </button>
-            <span className="text-xs text-slate-500">Sacred Moral Atlas</span>
+            <span className="text-xs text-slate-500">Sacred Moral & Mythic Atlas</span>
           </div>
         </div>
       )}
@@ -1824,8 +1881,8 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
           <div className="rounded-[2rem] border border-white/10 bg-black/25 p-4 shadow-2xl backdrop-blur-xl">
             <div className="rounded-3xl border border-amber-300/20 bg-amber-300/10 p-4">
               <div className="text-3xl">✠</div>
-              <h1 className="mt-3 text-2xl font-black leading-tight text-white">Sacred Moral Atlas</h1>
-              <p className="mt-2 text-sm leading-6 text-amber-50/75">Bible concepts, virtue ethics, deadly sins, Dante's symbolic hell, and demonology associations.</p>
+              <h1 className="mt-3 text-2xl font-black leading-tight text-white">Sacred Moral & Mythic Atlas</h1>
+              <p className="mt-2 text-sm leading-6 text-amber-50/75">Biblical foundations, virtue ethics, angelology, demonology, Dante's symbolic hell, and mythic codex references.</p>
             </div>
 
             <div className="mt-4 space-y-2">
@@ -1847,7 +1904,7 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
             </div>
 
             <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-xs leading-6 text-slate-400">
-              <strong className="text-slate-200">Note:</strong> This separates biblical text, Christian moral tradition, Dante's literature, and later demonology. The demon cards are association maps, not official doctrine.
+              <strong className="text-slate-200">Note:</strong> This separates biblical text, Christian moral tradition, Dante's literature, angelology, demonology, and mythic catalogues. The cards are association maps, not official doctrine.
             </div>
           </div>
         </aside>
@@ -1862,23 +1919,27 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
                   <Pill tone="green">Virtue Ethics</Pill>
                   <Pill tone="red">Deadly Sins</Pill>
                   <Pill tone="violet">Dante</Pill>
+                  <Pill tone="cyan">Angelology</Pill>
+                  <Pill tone="red">Demonology</Pill>
                 </div>
-                <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">A frontend for moral patterns, spiritual symbolism, and mythic associations.</h2>
-                <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">Use this like an interactive study board: click a card, compare a sin to its antidote virtue, trace commandments into inner patterns, then optionally view Dante and demonology as symbolic/literary layers.</p>
+                <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">A frontend for moral patterns, spiritual beings, and mythic associations.</h2>
+                <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">Use this like an interactive study board: click a card, compare a sin to its antidote virtue, trace commandments into inner patterns, then move into angelology, demonology, Dante, and the codex as symbolic or historical layers.</p>
               </div>
             </div>
           </section>
 
           <section className="mt-6 rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
             <SectionHeader eyebrow="Start here" title="The whole structure at a glance">
-              Think of this app as four layers: commandments show sacred boundaries, virtues show formed character, sins show distorted desire, and Dante/demonology show symbolic imagination around those distortions.
+              Think of this app as one broad study atlas: commandments show sacred boundaries, virtues show formed character, sins show distorted desire, and the angelology, demonology, Dante, and codex layers show how traditions personify spiritual reality.
             </SectionHeader>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {[
                 ["10", "Commandments", "Outer law and inner allegiance", "gold"],
                 ["12", "Virtues", "Antidotes and character formation", "green"],
                 ["7", "Deadly Sins", "Distorted desire patterns", "red"],
                 ["9", "Inferno Circles", "Dante's symbolic moral descent", "violet"],
+                ["Atlas", "Demonology", "Long-form articles and tradition comparison", "red"],
+                ["A-Z", "Infernal Codex", "Searchable entity and concept database", "gold"],
               ].map(([num, label, text, tone]) => (
                 <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
                   <Pill tone={tone}>{label}</Pill>
@@ -1899,14 +1960,14 @@ export default function BibleConceptAtlas({ onBack, initialSection }) {
                 </ol>
               </div>
               <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                <h3 className="text-xl font-bold text-white">Good extra pages to add next</h3>
+                <h3 className="text-xl font-bold text-white">Included reference layers</h3>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Pill>Scripture lookup</Pill>
-                  <Pill>Timeline of demonology</Pill>
+                  <Pill>Demonology timeline</Pill>
                   <Pill>Compare traditions</Pill>
-                  <Pill>Glossary</Pill>
-                  <Pill>Reflection journal</Pill>
-                  <Pill>Mind map graph</Pill>
+                  <Pill>Angelology</Pill>
+                  <Pill>Infernal Codex</Pill>
+                  <Pill>Prayer Themes</Pill>
                 </div>
               </div>
             </div>

@@ -1,7 +1,7 @@
 // Portal catalog. Single source of truth for HomePage cards, routing, and search.
 import { searchSections } from './searchIndex';
 
-export const portals = [
+const portalCatalog = [
   {
     id: 'chakra',
     path: '/chakra',
@@ -152,17 +152,18 @@ export const portals = [
   },
   {
     id: 'biblical',
-    path: '/biblical',
+    path: '/sacred-moral-atlas',
+    aliases: ['/biblical'],
     icon: '✠',
-    badge: 'Sacred Moral Atlas',
+    badge: 'Sacred Traditions Atlas',
     badgeColor: 'rgba(251,191,36,0.12)',
     badgeBorder: 'rgba(251,191,36,0.28)',
     badgeText: '#fef3c7',
-    title: 'Biblical\nConcepts',
-    titleFlat: 'Biblical Concepts',
+    title: 'Sacred Moral\n& Mythic Atlas',
+    titleFlat: 'Sacred Moral & Mythic Atlas',
     description:
-      "Explore the 10 Commandments, 7 Deadly Sins, virtues, Dante's Inferno, demonology, and a multi-tradition angelology atlas as an interactive study board.",
-    keywords: ['Commandments', 'Deadly Sins', 'Angels', 'Dante'],
+      "Explore biblical foundations, the 10 Commandments, virtues, deadly sins, Dante's Inferno, angelology, demonology, and the Infernal & Mythic Codex as one study board.",
+    keywords: ['Commandments', 'Angels', 'Demonology', 'Codex'],
     searchTerms: [
       'bible',
       'biblical',
@@ -178,6 +179,9 @@ export const portals = [
       'sin',
       'virtue',
       'shadow work',
+      'sacred moral atlas',
+      'sacred moral and mythic atlas',
+      'sacred traditions',
       'angel',
       'angels',
       'angelology',
@@ -197,6 +201,11 @@ export const portals = [
       'guardian angel',
       'heavenly host',
       'divine messengers',
+      'infernal codex',
+      'mythic codex',
+      'goetia',
+      'ars goetia',
+      'spiritual adversaries',
     ],
     cta: 'Enter Portal',
     ctaColor: '#fde68a',
@@ -490,6 +499,8 @@ export const portals = [
   {
     id: 'demonology',
     path: '/demonology',
+    hidden: true,
+    routeHidden: true,
     icon: '🜏',
     badge: 'Demonology Atlas',
     badgeColor: 'rgba(220,80,80,0.13)',
@@ -559,6 +570,8 @@ export const portals = [
   {
     id: 'infernalcodex',
     path: '/infernal-codex',
+    hidden: true,
+    routeHidden: true,
     icon: '✦',
     badge: 'Infernal & Mythic Codex',
     badgeColor: 'rgba(214,148,90,0.13)',
@@ -626,13 +639,16 @@ export const portals = [
   },
 ];
 
-export const portalsById = Object.fromEntries(portals.map((p) => [p.id, p]));
+export const portals = portalCatalog.filter((p) => !p.hidden);
+export const portalsById = Object.fromEntries(portalCatalog.map((p) => [p.id, p]));
 // Resolve both canonical paths and any legacy aliases to the owning portal.
 export const portalsByPath = Object.fromEntries(
-  portals.flatMap((p) => [
-    [p.path, p],
-    ...(p.aliases || []).map((alias) => [alias, p]),
-  ])
+  portalCatalog
+    .filter((p) => !p.routeHidden)
+    .flatMap((p) => [
+      [p.path, p],
+      ...(p.aliases || []).map((alias) => [alias, p]),
+    ])
 );
 
 export function searchPortals(query) {
