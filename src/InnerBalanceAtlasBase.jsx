@@ -1352,6 +1352,104 @@ function DailyRituals() {
         ))}
       </div>
 
+      {/* Self-Care Practices */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◈ Self-Care Practices</span>
+        </div>
+
+        {/* Face massage */}
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Facial Self-Massage</div>
+          {[
+            { benefit: 'Circulation & glow', detail: 'Gentle pressure stimulates blood flow, bringing oxygen and nutrients to the skin surface — the mechanism behind the natural flush after massage.' },
+            { benefit: 'Muscle tension release', detail: 'The face holds considerable tension, especially the jaw (masseter), temples, and forehead. Releasing this reduces stress and can prevent tension headaches.' },
+            { benefit: 'Lymphatic drainage', detail: 'Light outward strokes encourage lymph movement, reducing morning puffiness by clearing accumulated fluid from the tissue.' },
+            { benefit: 'Product absorption', detail: 'Massage increases skin permeability temporarily — applying moisturiser or serum during massage improves how deeply active ingredients penetrate.' },
+            { benefit: 'Skin tone & elasticity', detail: 'Stimulating facial muscles may improve tone and slow the sagging that comes from muscle atrophy. Similar to how body exercise maintains muscle, regular facial movement supports structure.' },
+            { benefit: 'Headache relief', detail: 'Pressure on the temples, base of skull, and sinus points can interrupt tension headache pathways. Particularly effective for stress-driven headaches.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Cold showers */}
+        <div style={{ padding: '12px 20px' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Cold Showers</div>
+          {[
+            { benefit: 'Mood & alertness', detail: 'Cold water triggers a large norepinephrine and dopamine release — studies show increases of 200–300% and 250% respectively. Creates a sharp, sustained lift in mood and focus.' },
+            { benefit: 'Circulation', detail: 'Cold causes peripheral vasoconstriction followed by vasodilation on warming. This pumping action trains vascular responsiveness and improves overall circulation over time.' },
+            { benefit: 'Immune resilience', detail: 'A Dutch study (Kox et al.) found cold shower practitioners had 29% fewer sick days. Repeated cold exposure trains the immune system\'s inflammatory response.' },
+            { benefit: 'Recovery & muscle soreness', detail: 'Cold water reduces inflammation and metabolic waste products in muscle tissue. Widely used by athletes as a post-exercise recovery tool.' },
+            { benefit: 'Mental resilience', detail: 'Voluntarily entering discomfort trains the prefrontal cortex to override the impulse to avoid. This tolerance transfers to other areas — it is a deliberate practice in discomfort tolerance.' },
+            { benefit: 'Cortisol regulation', detail: 'Brief cold exposure raises cortisol acutely (a healthy stress response), but regular practice lowers baseline cortisol — similar to how exercise creates hormetic adaptation.' },
+            { benefit: 'Skin & hair', detail: 'Cold water causes pores and hair cuticles to contract, reducing moisture loss from skin and adding shine and smoothness to hair. Hot water strips natural oils; cold preserves them.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--blue)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Start: end your normal shower with 30–60 seconds of cold. Build to 2–3 minutes over weeks. People with cardiovascular conditions should consult a doctor first.</p>
+        </div>
+
+        {/* Sunlight */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Getting Sunlight</div>
+          {[
+            { benefit: 'Circadian anchoring', detail: 'Morning light (ideally within 30–60 min of waking) sets the circadian clock by suppressing residual melatonin and triggering the cortisol peak at the right time — improving energy now and sleep onset later.' },
+            { benefit: 'Vitamin D synthesis', detail: 'UVB light triggers vitamin D production in the skin. Vitamin D supports immune function, bone health, mood regulation, and has receptors in virtually every tissue in the body.' },
+            { benefit: 'Serotonin production', detail: 'Light — even on overcast days — stimulates serotonin release in the brain. Low light exposure in winter is the primary driver of Seasonal Affective Disorder (SAD).' },
+            { benefit: 'Mood & alertness', detail: 'Bright light increases alertness and positive mood within minutes via the melanopsin cells in the retina. This pathway is distinct from vitamin D and works even in people with certain visual impairments.' },
+            { benefit: 'Eye health', detail: 'Time outdoors in natural light is the strongest known preventive factor against myopia (short-sightedness) in children and young adults, likely through dopamine release in the retina.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--gold)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Aim for 10–20 minutes of outdoor light in the morning. Avoid sunglasses during this window if safe — the light needs to reach the retina. Glass and most windows block the relevant UV wavelengths.</p>
+        </div>
+
+        {/* Smiling */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Smiling (Genuine & Deliberate)</div>
+          {[
+            { benefit: 'Facial feedback loop', detail: 'The act of smiling — even deliberately — activates the same neural circuits as genuine happiness. The brain reads muscle position as emotional information and adjusts mood accordingly (Strack et al., replicated 2019).' },
+            { benefit: 'Endorphin & serotonin release', detail: 'Smiling triggers the release of endorphins, natural pain relievers, and serotonin — mood-supporting neurotransmitters that create a mild but measurable lift even from a brief smile.' },
+            { benefit: 'Cortisol reduction', detail: 'Studies show that even a maintained smile during a stressful task reduces heart rate recovery time and cortisol elevation — the body responds to the facial signal as a cue that safety is present.' },
+            { benefit: 'Social contagion', detail: 'Smiling is neurologically contagious — mirror neurons in observers automatically activate the same facial muscles. A smile tends to generate a smile back, creating a positive social feedback loop.' },
+            { benefit: 'Perspective shift', detail: 'Deliberately choosing to smile during a neutral or mild negative moment can interrupt rumination. It is a physical state change that slightly shifts the emotional register.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--lavender)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Practising Om */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Practising Om (Chanting)</div>
+          {[
+            { benefit: 'Vagus nerve activation', detail: 'The extended exhale and vocal resonance of Om chanting directly stimulates the vagus nerve, shifting the nervous system from sympathetic (activation) to parasympathetic (rest). Measurable heart rate and cortisol reduction follow.' },
+            { benefit: 'Meditative state induction', detail: 'Sustained focus on the vibration and sound of Om occupies the mind\'s attention circuits — interrupting thought loops and producing brainwave patterns consistent with meditation (increased alpha and theta waves).' },
+            { benefit: 'Limbic system calming', detail: 'Research using fMRI shows that Om chanting deactivates the amygdala and limbic system — the brain\'s threat and emotion centres — more effectively than a control sound (ssss), suggesting something specific to the resonant quality.' },
+            { benefit: 'Breath regulation', detail: 'Om practice naturally lengthens the exhale relative to the inhale, which is one of the most effective breathing patterns for activating the parasympathetic response and reducing anxiety.' },
+            { benefit: 'Vibration & body awareness', detail: 'The physical resonance of Om is felt in the chest, throat, and skull. Tuning attention to this sensation builds interoception — awareness of the body\'s internal state — which is associated with better emotional regulation.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Practice: sit comfortably, take a deep breath, and on the exhale produce a sustained "Aum" — the A rises from the belly, the U moves through the chest, the M vibrates through the lips and skull. 3–5 rounds takes under 2 minutes.</p>
+        </div>
+      </div>
+
       <div className="iba-card" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.18)' }}>
         <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>
           <strong style={{ color: 'var(--gold)' }}>The compound effect:</strong> No single ritual transforms a life. What works is the accumulation — consistent small actions that align biology, mindset, and behaviour in the same direction over time. Start with one block and build from there.
