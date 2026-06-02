@@ -6,17 +6,10 @@ import { searchIndex } from './data/searchIndex';
 import { getRecentPortals } from './lib/storage';
 import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
+import { dayOfYear } from './lib/dateUtils';
 
 function getDailyPrayer() {
-  const now = new Date();
-  const dayOfYear = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
-  return prayerPool[dayOfYear % prayerPool.length];
-}
-
-// Day-of-year that rotates the daily picks (stable within a calendar day).
-function dayOfYear() {
-  const now = new Date();
-  return Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+  return prayerPool[dayOfYear() % prayerPool.length];
 }
 
 // Deterministic shuffle so consecutive days don't walk through same-portal
