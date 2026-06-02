@@ -97,6 +97,70 @@ const frameworks = [
     example: "Hear: 'I love you. I choose you. I am happy with you.' Then rest in it.",
     color: "from-fuchsia-500 to-pink-500",
   },
+  {
+    id: "wish-fulfilled",
+    title: "The Wish Fulfilled",
+    tag: "The State Sought",
+    short: "The end is the feeling of the wish already fulfilled — the satisfied state, not the getting.",
+    explanation:
+      "For Neville, the goal is never the external object. It is the inner state of satisfaction that comes after the wish is granted. You do not imagine wanting; you imagine from the place of already having. The wish fulfilled is a feeling you wear, not an event you wait for.",
+    steps: [
+      "Ask: what would I feel if this were already done?",
+      "Find the relief, ease, or quiet satisfaction of completion.",
+      "Drop the wanting — wanting confirms absence.",
+      "Rest in the feeling of 'it is finished.'",
+    ],
+    example: "Not 'I want to be loved' but the settled feeling of one who is already loved and secure.",
+    color: "from-violet-500 to-purple-500",
+  },
+  {
+    id: "certainty",
+    title: "Certainty",
+    tag: "Faith in the Unseen",
+    short: "Faith is loyalty to unseen reality — assuming with the same certainty you give a known fact.",
+    explanation:
+      "Neville defined faith not as hope but as certainty about what the senses cannot yet confirm. You treat the assumption as established truth, the way you are certain of your own name. Doubt is not the absence of proof — it is loyalty to appearances over the chosen state.",
+    steps: [
+      "Choose the assumption and treat it as settled fact.",
+      "Stop requiring the outer world to confirm it first.",
+      "When appearances contradict, stay loyal to the unseen.",
+      "Let certainty feel quiet and matter-of-fact, not forced.",
+    ],
+    example: "You are as certain of the fulfilled state as you are that the sun will rise — no argument needed.",
+    color: "from-sky-500 to-indigo-500",
+  },
+  {
+    id: "persistence",
+    title: "Persistence",
+    tag: "Faithful Continuance",
+    short: "An assumption, though false to the senses, hardens into fact if you persist in it.",
+    explanation:
+      "Neville taught that the state must be held faithfully over time. Manifestation rarely fails from a wrong technique; it fails from abandoning the state the moment appearances disagree. Persistence is the quiet refusal to return to the old assumption, day after day, until the new state becomes natural.",
+    steps: [
+      "Decide the state and commit to remaining in it.",
+      "Expect contradiction and do not let it move you.",
+      "Return gently each time you slip — without self-attack.",
+      "Continue until the assumption feels like simple fact.",
+    ],
+    example: "You keep assuming the secure, chosen identity even on the days nothing has visibly changed.",
+    color: "from-teal-500 to-emerald-500",
+  },
+  {
+    id: "knowing-being",
+    title: "Knowing by Being",
+    tag: "To Be Is to Know",
+    short: "You cannot know a state from the outside — you know it only by entering and being it.",
+    explanation:
+      "Neville's principle is that knowledge of a state comes through occupation, not observation. You do not study love, wealth, or security from a distance; you become the one who already has it, and from inside that identity you know its reality. Being precedes evidence — you are the state first, and knowing follows.",
+    steps: [
+      "Stop analysing the desire from the outside.",
+      "Step into the identity for whom it is already true.",
+      "Notice how the world looks and feels from inside that state.",
+      "Let being the state replace trying to figure it out.",
+    ],
+    example: "You don't think about how to be chosen — you assume the self that already is, and know it from within.",
+    color: "from-amber-500 to-rose-500",
+  },
 ];
 
 const keyParallels = [
@@ -1976,6 +2040,10 @@ const SECTIONS = [
   { id: "revision", label: "Revision", kicker: "Framework", group: "Frameworks", short: "Rewrite the meaning of a past event so it no longer controls your present state." },
   { id: "mental-diet", label: "Mental Diet", kicker: "Framework", group: "Frameworks", short: "Stop feeding thoughts that contradict the identity you are choosing." },
   { id: "inner-conversation", label: "Inner Conversations", kicker: "Framework", group: "Frameworks", short: "Your repeated inner conversations reveal the state you are occupying." },
+  { id: "wish-fulfilled", label: "The Wish Fulfilled", kicker: "Framework", group: "Frameworks", short: "The end is the feeling of the wish already fulfilled — the satisfied state, not the getting." },
+  { id: "certainty", label: "Certainty", kicker: "Framework", group: "Frameworks", short: "Faith is loyalty to unseen reality — assuming with the certainty you give a known fact." },
+  { id: "persistence", label: "Persistence", kicker: "Framework", group: "Frameworks", short: "An assumption, though false to the senses, hardens into fact if you persist in it." },
+  { id: "knowing-being", label: "Knowing by Being", kicker: "Framework", group: "Frameworks", short: "You know a state only by entering and being it — being precedes evidence." },
 
   { id: "key-parallels", label: "Key Parallels", kicker: "Map", group: "Maps & Distinctions", short: "Modern self-development language translated into Neville's vocabulary." },
   { id: "inner-state", label: "Inner State", kicker: "Principle", group: "Maps & Distinctions", short: "Inner state over external images — the core principle behind every framework." },
@@ -2007,6 +2075,10 @@ function renderSection(id) {
     case "revision":
     case "mental-diet":
     case "inner-conversation":
+    case "wish-fulfilled":
+    case "certainty":
+    case "persistence":
+    case "knowing-being":
       return <FrameworkPage frameworkId={id} />;
     case "key-parallels": return <ModernParallels />;
     case "inner-state": return <CorePrinciples />;
