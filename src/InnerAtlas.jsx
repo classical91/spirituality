@@ -3,7 +3,8 @@ import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
 import EmotionsAtlas from './EmotionsAtlas';
-import InnerAtlasNav from './components/InnerAtlasNav';
+import InnerAtlasShell from './components/InnerAtlasShell';
+import { IA_ACCENTS } from './innerAtlasTheme';
 
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -194,87 +195,43 @@ const REGULATION_TOOLS = [
   },
 ];
 
-// ─── Shared styles ──────────────────────────────────────────────────────────
-
-const pg = {
-  minHeight: '100vh',
-  background: '#0b0d18',
-  color: '#e2e8f0',
-  fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, sans-serif',
-};
-
-const tbBase = {
-  position: 'sticky',
-  top: 0,
-  zIndex: 50,
-  background: 'rgba(11,13,24,0.95)',
-  backdropFilter: 'blur(14px)',
-  padding: '14px 24px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-};
-
-const backBtnStyle = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  border: '1px solid rgba(255,255,255,0.12)',
-  background: 'rgba(255,255,255,0.06)',
-  color: '#e2e8f0',
-  padding: '7px 14px',
-  borderRadius: '999px',
-  fontSize: '13px',
-  fontWeight: 600,
-  cursor: 'pointer',
-  fontFamily: 'inherit',
-};
-
-
 // ─── Regulation Tools ──────────────────────────────────────────────────────
 
 function RegulationTools({ onBack, onSelectSection }) {
   return (
-    <div style={pg}>
-      <InnerAtlasNav activeId="regulation" onBack={onBack} onSelectSection={onSelectSection} title="Regulation Tools" />
-      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px' }}>
-        <div style={{ marginBottom: 32 }}>
-          <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', margin: 0 }}>Regulation Tools</h2>
-          <p style={{ color: 'rgba(255,255,255,0.4)', marginTop: 8, fontSize: '1rem', maxWidth: 560, lineHeight: 1.65 }}>
-            Direct, practical techniques for calming the nervous system, breaking the anxiety loop, and returning to yourself.
-          </p>
-        </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))', gap: 20 }}>
-          {REGULATION_TOOLS.map(tool => (
-            <div key={tool.name} style={{
-              background: 'rgba(255,255,255,0.03)',
-              border: `1px solid ${tool.color}2e`,
-              borderRadius: 16,
-              padding: '24px',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
-                <span style={{ fontSize: '1.4rem', lineHeight: 1, color: tool.color }}>{tool.icon}</span>
-                <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: tool.color, margin: 0 }}>{tool.name}</h3>
-              </div>
-              <p style={{ fontSize: '0.85rem', color: 'rgba(255,255,255,0.45)', margin: '0 0 16px', lineHeight: 1.6 }}>{tool.summary}</p>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
-                {tool.techniques.map(t => (
-                  <div key={t.name} style={{
-                    background: `${tool.color}09`,
-                    border: `1px solid ${tool.color}22`,
-                    borderRadius: 10,
-                    padding: '10px 14px',
-                  }}>
-                    <div style={{ fontSize: '0.78rem', fontWeight: 700, color: tool.color, marginBottom: 3 }}>{t.name}</div>
-                    <div style={{ fontSize: '0.8rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.55 }}>{t.desc}</div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          ))}
-        </div>
+    <InnerAtlasShell activeId="regulation" onBack={onBack} onSelectSection={onSelectSection} title="Regulation Tools">
+      <div className="ia-section-head">
+        <div className="ia-eyebrow">Nervous-system reset</div>
+        <h2 className="ia-title">Regulation Tools</h2>
+        <p className="ia-lede">
+          Direct, practical techniques for calming the nervous system, breaking the anxiety loop, and returning to yourself.
+        </p>
       </div>
-    </div>
+      <div className="ia-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+        {REGULATION_TOOLS.map(tool => (
+          <div key={tool.name} className="ia-card" style={{ borderColor: `${tool.color}2e` }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 10 }}>
+              <span style={{ fontSize: '1.4rem', lineHeight: 1, color: tool.color }}>{tool.icon}</span>
+              <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color: tool.color, margin: 0 }}>{tool.name}</h3>
+            </div>
+            <p style={{ fontSize: '0.85rem', color: 'var(--ia-text-dim)', margin: '0 0 16px', lineHeight: 1.6 }}>{tool.summary}</p>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 9 }}>
+              {tool.techniques.map(t => (
+                <div key={t.name} style={{
+                  background: `${tool.color}09`,
+                  border: `1px solid ${tool.color}22`,
+                  borderRadius: 10,
+                  padding: '10px 14px',
+                }}>
+                  <div style={{ fontSize: '0.78rem', fontWeight: 700, color: tool.color, marginBottom: 3 }}>{t.name}</div>
+                  <div style={{ fontSize: '0.8rem', color: 'var(--ia-text-dim)', lineHeight: 1.55 }}>{t.desc}</div>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </InnerAtlasShell>
   );
 }
 
@@ -282,19 +239,20 @@ function RegulationTools({ onBack, onSelectSection }) {
 
 function Hub({ onBack, onSelect }) {
   return (
-    <div style={pg}>
-      <div style={{ ...tbBase, borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
-        <button type="button" style={backBtnStyle} onClick={onBack}>← Back</button>
-        <span style={{ fontSize: '13px', fontWeight: 700, color: '#86efac', letterSpacing: '0.01em' }}>InnerAtlas</span>
-        <span style={{ fontSize: '12px', color: 'rgba(255,255,255,0.28)', marginLeft: 2 }}>· A map of the inner world</span>
-      </div>
-
+    <InnerAtlasShell
+      activeId="hub"
+      onBack={onBack}
+      onSelectSection={onSelect}
+      title="A map of the inner world"
+      backLabel="Back"
+      container={false}
+    >
       <div style={{ maxWidth: 860, margin: '0 auto', padding: '56px 24px 8px', textAlign: 'center' }}>
-        <div style={{ fontSize: '2.8rem', marginBottom: 16, lineHeight: 1, color: '#86efac' }}>◍</div>
+        <div style={{ fontSize: '2.8rem', marginBottom: 16, lineHeight: 1, color: 'var(--ia-accent)' }}>◍</div>
         <h1 style={{ fontSize: '2.4rem', fontWeight: 900, color: '#fff', margin: 0, letterSpacing: '-0.02em', lineHeight: 1.1 }}>
           InnerAtlas
         </h1>
-        <p style={{ fontSize: '1.05rem', color: 'rgba(255,255,255,0.38)', margin: '12px auto 0', maxWidth: 480, lineHeight: 1.65 }}>
+        <p style={{ fontSize: '1.05rem', color: 'var(--ia-text-dim)', margin: '12px auto 0', maxWidth: 480, lineHeight: 1.65 }}>
           A map of the mind, body, nervous system, and emotional patterns.
         </p>
       </div>
@@ -314,30 +272,20 @@ function Hub({ onBack, onSelect }) {
               key={s.id}
               type="button"
               onClick={() => onSelect(s.id)}
+              className="ia-card ia-card--interactive"
               style={{
                 background: p.bg,
-                border: `1px solid ${p.br}`,
-                borderRadius: 18,
-                padding: '26px',
-                cursor: 'pointer',
+                borderColor: p.br,
                 textAlign: 'left',
                 fontFamily: 'inherit',
-                transition: 'box-shadow 0.2s, transform 0.2s',
-              }}
-              onMouseEnter={e => {
-                e.currentTarget.style.transform = 'translateY(-2px)';
-                e.currentTarget.style.boxShadow = `0 14px 36px ${p.c}1a`;
-              }}
-              onMouseLeave={e => {
-                e.currentTarget.style.transform = 'none';
-                e.currentTarget.style.boxShadow = 'none';
+                ['--ia-accent-rgb']: IA_ACCENTS[s.id]?.rgb,
               }}
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                 <span style={{ fontSize: '1.5rem', lineHeight: 1, color: p.c }}>{s.icon}</span>
                 <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', margin: 0 }}>{s.title}</h3>
               </div>
-              <p style={{ fontSize: '0.875rem', color: 'rgba(255,255,255,0.45)', margin: '0 0 14px', lineHeight: 1.65 }}>
+              <p style={{ fontSize: '0.875rem', color: 'var(--ia-text-dim)', margin: '0 0 14px', lineHeight: 1.65 }}>
                 {s.description}
               </p>
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6 }}>
@@ -356,7 +304,7 @@ function Hub({ onBack, onSelect }) {
           );
         })}
       </div>
-    </div>
+    </InnerAtlasShell>
   );
 }
 
