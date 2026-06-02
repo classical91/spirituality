@@ -12,6 +12,7 @@ const tabs = [
   { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
   { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
   { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
+  { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
 ];
 
 /* ─────────────────────────────────────────
@@ -1244,6 +1245,142 @@ function DailyRituals() {
 }
 
 /* ─────────────────────────────────────────
+   HERBS & ADAPTOGENS
+───────────────────────────────────────── */
+function HerbsAdaptogens() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '180px 1fr 1fr',
+    padding: '14px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 16,
+  });
+
+  const herbs = [
+    {
+      name: 'St. John\'s Wort',
+      type: 'Herb',
+      commonUse: 'Often used to support mild to moderate low mood.',
+      notes: 'Can interact seriously with many medications — including antidepressants (risk of serotonin syndrome) and hormonal contraceptives (reduced effectiveness). Do not use alongside prescription medication without medical advice.',
+      caution: true,
+    },
+    {
+      name: 'Ashwagandha',
+      type: 'Adaptogen',
+      commonUse: 'Commonly used to support stress resilience, relaxation, sleep quality, and anxiety balance.',
+      notes: 'Well-researched adaptogen with a generally good safety profile. May lower thyroid hormone levels — consult a doctor if you have thyroid conditions. Avoid in pregnancy.',
+      caution: false,
+    },
+    {
+      name: 'Rhodiola Rosea',
+      type: 'Adaptogen',
+      commonUse: 'Often used for fatigue, stress, mental performance, energy, and mood support.',
+      notes: 'Evidence is promising but still mixed. May cause mild stimulating effects — best taken in the morning. Generally well-tolerated at standard doses.',
+      caution: false,
+    },
+    {
+      name: 'Chamomile',
+      type: 'Herb',
+      commonUse: 'Commonly used for calmness, relaxation, sleep, and mild anxiety support.',
+      notes: 'Research suggests possible benefit, though findings are not fully conclusive. Very well-tolerated. May interact with blood-thinning medications at high doses. Avoid if allergic to plants in the daisy family.',
+      caution: false,
+    },
+    {
+      name: 'Lavender',
+      type: 'Herb / Aromatherapy',
+      commonUse: 'Often used in aromatherapy and supplements for relaxation, stress, sleep, and anxiety support.',
+      notes: 'Some studies suggest benefit, though evidence has limits. Oral supplements (e.g. Silexan) have better evidence than aromatherapy alone. Generally safe for most adults.',
+      caution: false,
+    },
+    {
+      name: 'Lemon Balm',
+      type: 'Herb',
+      commonUse: 'Commonly used for nervousness, calmness, sleep quality, and mood support.',
+      notes: 'Newer reviews suggest it may have calming and anti-anxiety effects. Well-tolerated. May enhance sedative effects of medications — use with care if taking sleep aids.',
+      caution: false,
+    },
+    {
+      name: 'Passionflower',
+      type: 'Herb',
+      commonUse: 'Traditionally used for anxiety, restlessness, and sleep support.',
+      notes: 'Evidence is limited but generally encouraging for short-term use. May cause drowsiness or dizziness — avoid before driving. May interact with sedative medications.',
+      caution: false,
+    },
+    {
+      name: 'Ginkgo Biloba',
+      type: 'Herb',
+      commonUse: 'More commonly linked with memory, circulation, and cognitive support than mood.',
+      notes: 'Evidence for major cognitive benefits is not conclusive. May interact with blood thinners and some antidepressants. Not recommended before surgery. Less directly mood-focused than others on this list.',
+      caution: false,
+    },
+  ];
+
+  const adaptogens = [
+    { name: 'Ashwagandha', mechanism: 'Regulates cortisol and HPA-axis stress response. Shown to reduce cortisol levels and improve stress resilience in clinical trials.' },
+    { name: 'Rhodiola Rosea', mechanism: 'Modulates stress hormones and supports mitochondrial energy production. May reduce fatigue-related cognitive decline.' },
+    { name: 'Holy Basil (Tulsi)', mechanism: 'Anti-stress and anti-anxiety properties; supports adrenal function and may lower cortisol. Used in Ayurvedic medicine.' },
+    { name: 'Eleuthero (Siberian Ginseng)', mechanism: 'Supports physical and mental endurance under stress. May improve immune function and reduce fatigue.' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Herbs & Adaptogens</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Plants for Mood, Stress & Emotional Balance</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>These herbs are commonly used to support mood, relaxation, stress balance, sleep, and emotional well-being. They are not replacements for medical treatment — they are tools with varying levels of evidence and real safety considerations.</p>
+      </div>
+
+      {/* Safety notice */}
+      <div className="iba-warning">
+        <strong>Safety note:</strong> Several herbs on this list interact with prescription medications — especially antidepressants, blood thinners, sedatives, and hormonal contraceptives. Always check interactions with a pharmacist or doctor before combining herbs with any medication. This page is educational, not medical advice.
+      </div>
+
+      {/* Herb table */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '180px 1fr 1fr', gap: 16 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Herb</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Common Use</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What to Know</span>
+        </div>
+        {herbs.map((h, i) => (
+          <div key={h.name} style={rowStyle(i, herbs)}>
+            <div style={{ paddingTop: 2 }}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)' }}>{h.name}</div>
+              <div style={{ fontSize: '0.74rem', color: h.caution ? '#e57373' : 'var(--sage)', marginTop: 3, fontWeight: 600 }}>{h.type}{h.caution ? ' · ⚠ interactions' : ''}</div>
+            </div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.commonUse}</p>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: h.caution ? 'rgba(229,115,115,0.9)' : 'var(--muted)', lineHeight: 1.6 }}>{h.notes}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Adaptogens deeper */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How Adaptogens Work</span>
+        </div>
+        {adaptogens.map((a, i) => (
+          <div key={a.name} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', padding: '14px 20px', borderBottom: i < adaptogens.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 16 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{a.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{a.mechanism}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Guidance card */}
+      <div className="iba-card" style={{ background: 'rgba(91,191,181,0.06)', border: '1px solid rgba(91,191,181,0.18)' }}>
+        <h4 style={{ margin: '0 0 10px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>How to approach herbal support</h4>
+        <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Start with one herb at a time so you can clearly observe any effect or reaction.</li>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Quality matters — choose standardised extracts from reputable brands where possible.</li>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Herbs work best alongside — not instead of — sleep, nutrition, movement, and stress management.</li>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Persistent low mood, anxiety, or sleep problems deserve proper evaluation, not just herbal management.</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
@@ -1265,6 +1402,7 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     nutrition:        <Nutrition />,
     stress:           <StressRecovery />,
     dailyrituals:     <DailyRituals />,
+    herbs:            <HerbsAdaptogens />,
   };
 
   return (
