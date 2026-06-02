@@ -13,6 +13,8 @@ const tabs = [
   { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
   { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
   { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
+  { id: 'hair',            icon: '◎', label: 'Hair & Scalp Health' },
+  { id: 'gratitude',       icon: '✦', label: 'Gratitude Practice' },
 ];
 
 /* ─────────────────────────────────────────
@@ -1381,6 +1383,263 @@ function HerbsAdaptogens() {
 }
 
 /* ─────────────────────────────────────────
+   HAIR & SCALP HEALTH
+───────────────────────────────────────── */
+function HairHealth() {
+  const row2 = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '170px 1fr 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+  const row1 = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '190px 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+
+  const nutrients = [
+    { name: 'Protein', role: 'Hair is made of keratin. Without enough dietary protein, growth slows and strands weaken. Severe deficiency causes thinning and shedding.', sources: 'Lean meats, poultry, fish, eggs, dairy, legumes — include a source at every meal.' },
+    { name: 'Iron', role: 'Helps red blood cells carry oxygen to follicles. Iron deficiency is a leading cause of hair loss, especially in women. Correcting low ferritin often reduces excess shedding.', sources: 'Red meat, poultry, seafood, spinach, lentils. Pair plant sources with vitamin C to improve absorption.' },
+    { name: 'Vitamin D', role: 'Receptors in hair follicles depend on vitamin D. Lower levels are consistently found in people with hair loss conditions. May help regulate the growth cycle.', sources: 'Fatty fish, fortified foods, sensible sun exposure, or supplementation if tested deficient.' },
+    { name: 'Biotin (B7)', role: 'Deficiency causes hair loss and brittle nails — well established. However, true deficiency is uncommon and extra biotin has no proven benefit in people who are not deficient.', sources: 'Eggs (cooked), nuts, whole grains, vegetables. Avoid excess raw egg whites — avidin blocks biotin absorption.' },
+    { name: 'Omega-3 Fatty Acids', role: 'Anti-inflammatory fats that support scalp and follicle health. Deficiency leads to hair and eyebrow loss. One study found omega-3 supplementation reduced shedding and increased density in women.', sources: 'Salmon, mackerel, sardines, flaxseeds, chia seeds, walnuts.' },
+    { name: 'Zinc', role: 'Required for protein synthesis and cell division in follicles. Deficiency causes hair loss that improves with zinc supplementation. Excess zinc can interfere with other minerals — avoid high-dose supplements.', sources: 'Oysters (very high), red meat, pumpkin seeds, nuts, beans.' },
+    { name: 'Vitamin C', role: 'Essential for collagen production and iron absorption from plant foods. Deficiency weakens hair shafts. Also protects follicles from oxidative stress.', sources: 'Citrus fruits, berries, kiwi, papaya, bell peppers, broccoli.' },
+    { name: 'Vitamin A', role: 'Supports cell growth and sebum production for scalp moisture. Both deficiency (dry hair) and excess (hair loss) are problems. Get it from food, not high-dose supplements.', sources: 'Sweet potatoes, carrots, spinach — these provide beta-carotene, which the body converts as needed.' },
+    { name: 'Vitamin E & Antioxidants', role: 'Neutralise oxidative damage in scalp tissue. Small trials show vitamin E supplementation can increase hair count in people with hair loss. Megadoses can be harmful — food sources are safer.', sources: 'Almonds, sunflower seeds, avocados, spinach, green tea.' },
+    { name: 'Selenium', role: 'Trace mineral needed for follicle function and antioxidant enzymes. Deficiency and excess both cause hair loss — keep intake balanced.', sources: 'Brazil nuts (very high — 1–2 per day is enough), fish, eggs, whole grains.' },
+  ];
+
+  const foods = [
+    { food: 'Fatty fish (salmon, sardines, mackerel)', nutrients: 'Omega-3s, vitamin D, protein, B vitamins, iron', why: 'Anti-inflammatory fats linked to improved hair density and reduced shedding. Aim for 2 servings per week.' },
+    { food: 'Eggs', nutrients: 'Protein, biotin, zinc, selenium', why: 'One of the most complete hair foods — delivers keratin building blocks and follicle-supporting minerals in one package. Eat cooked, not raw.' },
+    { food: 'Leafy greens (spinach, kale)', nutrients: 'Iron, folate, vitamin C, beta-carotene', why: 'Iron oxygenates follicles, vitamin C builds collagen, and beta-carotene becomes vitamin A to regulate sebum. Aim for a daily serving.' },
+    { food: 'Nuts & seeds (almonds, walnuts, flaxseeds, sunflower seeds)', nutrients: 'Vitamin E, zinc, selenium, omega-3s, B vitamins', why: 'Broad spectrum of antioxidants and healthy fats. Just 1 oz almonds covers ~50% of daily vitamin E. Easy daily snack.' },
+    { food: 'Beans & lentils', nutrients: 'Plant protein, iron, zinc, biotin', why: 'Budget-friendly way to prevent iron, zinc, and biotin deficiencies that directly cause hair loss. Pair with vitamin C foods for better iron absorption.' },
+    { food: 'Berries & citrus', nutrients: 'Vitamin C, antioxidants, folate', why: 'Vitamin C is required for collagen synthesis and doubles iron absorption from plant meals. Antioxidants defend follicles from free radical damage.' },
+    { food: 'Sweet potatoes & carrots', nutrients: 'Beta-carotene (→ vitamin A), fibre', why: 'A medium sweet potato can exceed 100% of daily vitamin A needs safely — the body regulates beta-carotene conversion, making overdose impossible from food.' },
+    { food: 'Soybeans & legumes', nutrients: 'Protein, spermidine, iron, zinc', why: 'Spermidine (abundant in soybeans) has shown promise in prolonging the active hair growth phase in early research.' },
+    { food: 'Greek yogurt & dairy', nutrients: 'Protein, B5 (pantothenic acid), calcium', why: 'B5 is linked to hair thickness and follicle health. Protein from dairy provides complete amino acids for keratin production.' },
+    { food: 'Oysters', nutrients: 'Zinc (extremely high), protein, iron', why: 'The single richest food source of zinc. One or two oysters can meet daily zinc needs — important for follicle cell turnover.' },
+  ];
+
+  const avoid = [
+    { item: 'Excess sugar & refined carbs', why: 'Spikes blood sugar and insulin, may raise androgen levels and inflame follicles. High-glycemic diets linked to accelerated hair thinning in susceptible people. Swap for whole grains, sweet potatoes, beans.' },
+    { item: 'High-mercury fish (swordfish, shark, king mackerel, excess albacore tuna)', why: 'Mercury accumulates in the body and has been linked to hair loss in case reports. Choose low-mercury fish: salmon, sardines, trout, light tuna, tilapia, shrimp.' },
+    { item: 'Crash diets & severe calorie restriction', why: 'Starving the body pushes hair into a resting/shedding phase (telogen effluvium). Sudden hair loss 1–2 months after a very low-calorie diet is a well-documented clinical pattern. Lose weight gradually with adequate protein.' },
+    { item: 'Skipping meals / low-protein breakfast', why: 'One study found people with hair loss who skipped breakfast or ate low-protein breakfasts had worse follicle structure. Follicles need a steady nutrient supply — going long periods without protein starves them.' },
+    { item: 'High-dose supplement megadosing', why: 'Vitamin A above ~10,000 IU/day causes hair loss. Selenium overdose causes hair loss. Excess zinc disrupts other minerals. More is not better. Correct confirmed deficiencies; don\'t guess-and-supplement.' },
+    { item: 'Fried foods & trans fats', why: 'May increase scalp oil production and inflammation. Also displaces nutrient-dense foods from the diet. Bake, grill, or sauté in olive oil instead.' },
+    { item: 'Smoking', why: 'Constricts blood vessels supplying the scalp, generates free radicals that damage follicles. Research shows higher hair loss rates in smokers.' },
+    { item: 'Heavy alcohol consumption', why: 'Depletes zinc, folate, and protein — all essential for hair. Also impairs liver function which affects nutrient metabolism.' },
+  ];
+
+  const steps = [
+    'Include a protein source at every meal — eggs, fish, legumes, dairy, or lean meat.',
+    'Eat fatty fish (salmon, sardines) twice a week for omega-3s and vitamin D.',
+    'Have at least one serving of leafy greens daily — spinach, kale, or similar.',
+    'Snack on nuts and seeds for vitamin E, zinc, and healthy fats.',
+    'Pair plant iron sources with vitamin C foods at the same meal to maximise absorption.',
+    'Avoid crash dieting — steady, balanced eating keeps hair in its growth phase.',
+    'If experiencing unexplained hair loss, test for iron, ferritin, vitamin D, and thyroid function before buying supplements.',
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Hair & Scalp Health</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Growing Strong Hair from the Inside</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Hair follicles are among the most metabolically active cells in the body. They require a consistent supply of protein, vitamins, and minerals to produce healthy strands. Diet is one of the most modifiable factors in hair health.</p>
+      </div>
+
+      <div className="iba-warning">
+        <strong>Important:</strong> Hair grows approximately 1 cm per month. Changes from diet won't be visible immediately — consistent nutrition over several months creates the conditions for visible improvement. Persistent or sudden hair loss warrants medical evaluation, not just dietary adjustment.
+      </div>
+
+      {/* Key Nutrients */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '170px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Nutrient</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it matters</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Food sources</span>
+        </div>
+        {nutrients.map((n, i) => (
+          <div key={n.name} style={row2(i, nutrients)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{n.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{n.role}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--sage)', lineHeight: 1.6 }}>{n.sources}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Best foods */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '210px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Food</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Key nutrients</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it helps</span>
+        </div>
+        {foods.map((f, i) => (
+          <div key={f.food} style={{ display: 'grid', gridTemplateColumns: '210px 1fr 1fr', padding: '13px 20px', borderBottom: i < foods.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{f.food}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--blue)', lineHeight: 1.6 }}>{f.nutrients}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{f.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* What to avoid */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Avoid or Limit</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it harms hair</span>
+        </div>
+        {avoid.map((a, i) => (
+          <div key={a.item} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < avoid.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e57373', paddingTop: 2 }}>{a.item}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{a.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Diet pattern note */}
+      <div className="iba-card" style={{ background: 'rgba(91,191,181,0.06)', border: '1px solid rgba(91,191,181,0.18)' }}>
+        <h4 style={{ margin: '0 0 10px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>The Mediterranean diet connection</h4>
+        <p style={{ margin: '0 0 8px', fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>A 2020 review of 24 studies found that anti-inflammatory, whole-food dietary patterns are associated with better hair outcomes. Men who ate a Mediterranean-style diet (high in vegetables, herbs, legumes, and olive oil) had around 56% lower odds of androgenetic alopecia in one study.</p>
+        <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>The mechanism: high antioxidant and omega-3 intake reduces follicle-damaging inflammation. The same diet pattern recommended for heart and skin health is the best one for hair.</p>
+      </div>
+
+      {/* Action steps */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>◎ Actionable Steps</span>
+        </div>
+        {steps.map((s, i) => (
+          <div key={i} style={row1(i, steps)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--gold)', paddingTop: 2 }}>Step {i + 1}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   GRATITUDE PRACTICE
+───────────────────────────────────────── */
+function GratitudePractice() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+
+  const science = [
+    { finding: 'Raises serotonin and dopamine', detail: 'Consciously counting blessings activates the brain\'s reward circuits. Studies by Dr. Robert Emmons (UC Davis) found that people who wrote weekly gratitude lists reported higher positive affect and life satisfaction than control groups.' },
+    { finding: 'Reduces cortisol', detail: 'A 2015 study found that gratitude journaling before sleep lowered cortisol levels and improved sleep quality. Even brief gratitude reflection shifts the autonomic nervous system toward parasympathetic (rest) mode.' },
+    { finding: 'Rewires the negativity bias', detail: 'The brain is wired to prioritise threats over positives. Regular gratitude practice literally builds new neural pathways that make positive recognition faster and more automatic over time.' },
+    { finding: 'Improves relationships', detail: 'Expressing gratitude to others strengthens social bonds, increases oxytocin, and creates a positive feedback loop — grateful people receive more warmth, which generates more gratitude.' },
+    { finding: 'Linked to better sleep', detail: 'Spending 15 minutes writing what you\'re grateful for before bed reduces pre-sleep worry and increases sleep duration and quality, particularly in people with anxiety tendencies.' },
+    { finding: 'Reduces symptoms of depression', detail: 'Multiple randomised controlled trials show gratitude interventions (letters, journals, mental reflection) produce measurable reductions in depressive symptoms, even weeks after the practice ends.' },
+    { finding: 'Builds psychological resilience', detail: 'Gratitude is one of the strongest predictors of post-traumatic growth. People who can find meaning or appreciation even in difficult circumstances recover faster and report higher long-term wellbeing.' },
+  ];
+
+  const practices = [
+    { name: 'Gratitude journal (3 specifics)', how: 'Each day — ideally at the same time — write down three specific things you are grateful for. Specificity matters more than quantity. "I am grateful for the warmth of my coffee this morning" is more effective than "I am grateful for my life."', timing: 'Morning or before bed' },
+    { name: 'Gratitude letter', how: 'Write a detailed letter to someone who has positively impacted your life and whom you\'ve never fully thanked. The act of writing it — even if never sent — produces significant emotional benefit. Reading it aloud to the person amplifies the effect substantially.', timing: 'Weekly or monthly' },
+    { name: 'Mental subtraction', how: 'Imagine your life without something or someone you value — a relationship, a skill, a moment. Notice the absence, then return to the presence. This resets hedonic adaptation and makes ordinary things feel extraordinary again.', timing: 'Any time' },
+    { name: 'Savouring', how: 'Slow down and fully attend to a positive experience as it happens — a meal, a conversation, sunlight. Research shows that extending your attention on positive moments increases their emotional impact significantly.', timing: 'Throughout the day' },
+    { name: 'Gratitude meditation', how: 'Sit quietly and bring to mind something you appreciate. Hold it in awareness and let the feeling expand through your body. Move to another. This is different from journaling — it builds the felt sense of gratitude rather than just the cognitive recognition.', timing: '5–10 min, morning or evening' },
+    { name: 'Gratitude in relationships', how: 'Verbally express specific appreciation to people in your life regularly. "Thank you for listening when I was stressed yesterday" lands differently than a general thank-you. This practice builds the relationship and reinforces your own gratitude habit.', timing: 'Daily' },
+    { name: 'Reframe challenge as teacher', how: 'When facing difficulty, ask: what might this situation be teaching me? What can I be grateful for even here? This does not mean denying pain — it means looking for meaning alongside it.', timing: 'During hard moments' },
+  ];
+
+  const mistakes = [
+    { mistake: 'Forcing positivity', why: 'Gratitude is not about pretending everything is fine. It coexists with grief, frustration, and difficulty. Toxic positivity — using gratitude to bypass real emotions — undermines the practice and erodes trust in it.' },
+    { mistake: 'Being too vague', why: '"I\'m grateful for my family" every day loses its impact through repetition. The brain habituates quickly. Specificity ("I\'m grateful that my sister called to check in this morning") keeps the practice alive and meaningful.' },
+    { mistake: 'Treating it as a chore', why: 'Gratitude journaled mechanically without genuine feeling produces little benefit. The emotional engagement is the active ingredient — going through the motions without feeling the appreciation misses the point.' },
+    { mistake: 'Only practising when things are good', why: 'The highest-leverage time to practise gratitude is during difficulty. Gratitude during hard times builds resilience; gratitude only when things are easy stays a fair-weather habit.' },
+    { mistake: 'Comparing your gratitude list to others', why: 'Gratitude is not competitive. There is no threshold of hardship you must cross before you are "allowed" to be grateful. What matters is your genuine relationship to your own life.' },
+  ];
+
+  const deepening = [
+    ['Appreciate the ordinary', 'Most of life happens in unremarkable moments — a glass of water, the ability to breathe, a working body. Training attention on the mundane produces the richest long-term returns.'],
+    ['Let gratitude become a lens, not a list', 'The goal is not a daily checklist but a shift in orientation — moving from scanning for what is wrong (the brain\'s default) to also noticing what is working, what is given, what is beautiful.'],
+    ['Connect gratitude to values', 'When you are grateful for what actually matters to you — not what you think should matter — the practice becomes grounding. It clarifies what your life is actually built around.'],
+    ['Pair with giving', 'Gratitude that stays internal reaches a ceiling. When it flows outward — into generosity, service, expressed appreciation — it compounds and creates the conditions for more.'],
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Gratitude Practice</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Practice of Noticing What Is Good</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Gratitude is not a personality trait — it is a trainable skill. Research consistently shows that deliberate gratitude practice changes brain structure, improves mood, strengthens relationships, and builds the kind of resilience that sustains wellbeing over time.</p>
+      </div>
+
+      {/* Science */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What the Research Shows</span>
+        </div>
+        {science.map((s, i) => (
+          <div key={s.finding} style={rowStyle(i, science)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.finding}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Practices */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '200px 1fr 100px', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Practice</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How to do it</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>When</span>
+        </div>
+        {practices.map((p, i) => (
+          <div key={p.name} style={{ display: 'grid', gridTemplateColumns: '200px 1fr 100px', padding: '13px 20px', borderBottom: i < practices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{p.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{p.how}</p>
+            <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--gold)', lineHeight: 1.5, fontStyle: 'italic' }}>{p.timing}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Common mistakes */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What Weakens the Practice</span>
+        </div>
+        {mistakes.map((m, i) => (
+          <div key={m.mistake} style={rowStyle(i, mistakes)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e57373', paddingTop: 2 }}>{m.mistake}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{m.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Deepening */}
+      <div className="iba-card" style={{ background: 'rgba(216,169,72,0.06)', border: '1px solid rgba(216,169,72,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--gold)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Taking it deeper</h4>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {deepening.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 4 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
@@ -1403,6 +1662,8 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     stress:           <StressRecovery />,
     dailyrituals:     <DailyRituals />,
     herbs:            <HerbsAdaptogens />,
+    hair:             <HairHealth />,
+    gratitude:        <GratitudePractice />,
   };
 
   return (
