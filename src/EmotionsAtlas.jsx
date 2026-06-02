@@ -506,33 +506,6 @@ const page = {
   fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, sans-serif',
 };
 
-const topbar = {
-  position: 'sticky',
-  top: 0,
-  zIndex: 50,
-  background: 'rgba(11,13,24,0.95)',
-  backdropFilter: 'blur(14px)',
-  padding: '14px 24px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  borderBottom: '1px solid rgba(244,114,182,0.22)',
-};
-
-const backButton = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  border: '1px solid rgba(255,255,255,0.12)',
-  background: 'rgba(255,255,255,0.06)',
-  color: '#e2e8f0',
-  padding: '7px 14px',
-  borderRadius: '999px',
-  fontSize: '13px',
-  fontWeight: 600,
-  cursor: 'pointer',
-  fontFamily: 'inherit',
-};
 
 function SpiralRibbon() {
   const loops = 11;

@@ -230,14 +230,6 @@ const backBtnStyle = {
   fontFamily: 'inherit',
 };
 
-function SectionBar({ label, onBack, color }) {
-  return (
-    <div style={{ ...tbBase, borderBottom: `1px solid ${color}30` }}>
-      <button type="button" style={backBtnStyle} onClick={onBack}>← Back to InnerAtlas</button>
-      <span style={{ fontSize: '13px', fontWeight: 700, color, marginLeft: 4 }}>{label}</span>
-    </div>
-  );
-}
 
 // ─── Regulation Tools ──────────────────────────────────────────────────────
 
