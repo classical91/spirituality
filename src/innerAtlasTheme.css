@@ -1,0 +1,118 @@
+/* ───────────────────────────────────────────────────────────────────────────
+   InnerAtlas design system
+   One immersive dark theme shared by every InnerAtlas section. Each section
+   sets a single `--ia-accent` (+ its rgb form) and the background, borders,
+   chips, and glows all retint to match — so the frame is identical everywhere
+   while each section keeps its own colour identity.
+   ─────────────────────────────────────────────────────────────────────────── */
+
+.ia-root {
+  /* Per-section accent — overridden inline by InnerAtlasShell. Emerald default. */
+  --ia-accent: #86efac;
+  --ia-accent-rgb: 134, 239, 172;
+
+  /* Surfaces & structure */
+  --ia-surface:        rgba(255, 255, 255, 0.035);
+  --ia-surface-hover:  rgba(255, 255, 255, 0.065);
+  --ia-surface-strong: rgba(255, 255, 255, 0.05);
+  --ia-border:         rgba(255, 255, 255, 0.10);
+  --ia-border-strong:  rgba(255, 255, 255, 0.16);
+
+  /* Accent-derived helpers */
+  --ia-accent-soft:   rgba(var(--ia-accent-rgb), 0.08);
+  --ia-accent-line:   rgba(var(--ia-accent-rgb), 0.26);
+  --ia-accent-chip:   rgba(var(--ia-accent-rgb), 0.12);
+
+  /* Text */
+  --ia-text:       #e8edf5;
+  --ia-text-dim:   rgba(232, 237, 245, 0.62);
+  --ia-text-faint: rgba(232, 237, 245, 0.40);
+
+  /* Radii / shadow */
+  --ia-radius-lg:   22px;
+  --ia-radius-md:   16px;
+  --ia-radius-sm:   12px;
+  --ia-radius-pill: 999px;
+  --ia-shadow:      0 18px 48px rgba(0, 0, 0, 0.45);
+
+  min-height: 100vh;
+  color: var(--ia-text);
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
+
+  /* Immersive background: three accent-tinted radial glows over a deep base. */
+  background:
+    radial-gradient(circle at 12% 6%,  rgba(var(--ia-accent-rgb), 0.16), transparent 42%),
+    radial-gradient(circle at 88% 0%,  rgba(var(--ia-accent-rgb), 0.10), transparent 40%),
+    radial-gradient(circle at 50% 118%, rgba(var(--ia-accent-rgb), 0.10), transparent 55%),
+    linear-gradient(180deg, #0a0e1a, #070a12 58%, #05070d);
+  background-attachment: fixed;
+}
+
+/* Page content container */
+.ia-container {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 40px 24px 72px;
+}
+
+/* Section intro (title + lede) */
+.ia-section-head { margin-bottom: 28px; }
+.ia-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--ia-accent);
+}
+.ia-title {
+  font-size: clamp(1.7rem, 3.2vw, 2.3rem);
+  font-weight: 800;
+  color: #fff;
+  margin: 8px 0 0;
+  letter-spacing: -0.01em;
+  line-height: 1.12;
+}
+.ia-lede {
+  color: var(--ia-text-dim);
+  margin-top: 10px;
+  max-width: 620px;
+  line-height: 1.65;
+  font-size: 0.98rem;
+}
+
+/* Shared card */
+.ia-card {
+  background: var(--ia-surface);
+  border: 1px solid var(--ia-border);
+  border-radius: var(--ia-radius-lg);
+  padding: 24px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+}
+.ia-card--accent { border-color: var(--ia-accent-line); background: var(--ia-accent-soft); }
+.ia-card--interactive { cursor: pointer; }
+.ia-card--interactive:hover {
+  transform: translateY(-2px);
+  background: var(--ia-surface-hover);
+  border-color: var(--ia-border-strong);
+  box-shadow: 0 16px 40px rgba(var(--ia-accent-rgb), 0.12);
+}
+
+/* Chip / tag */
+.ia-chip {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ia-accent);
+  background: var(--ia-accent-chip);
+  border: 1px solid var(--ia-accent-line);
+  border-radius: var(--ia-radius-pill);
+  padding: 3px 10px;
+}
+
+/* Card grid */
+.ia-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+  gap: 18px;
+}

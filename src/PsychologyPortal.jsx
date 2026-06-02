@@ -1,5 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import InnerAtlasNav from "./components/InnerAtlasNav";
+import "./innerAtlasTheme.css";
+import { accentVars } from "./innerAtlasTheme";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "◈" },
@@ -516,7 +518,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
   };
 
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#0e3a4a,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100">
+    <div className="ia-root text-slate-100" style={accentVars('psychology')}>
       <InnerAtlasNav activeId="psychology" onBack={onBack} onSelectSection={onSelectSection} title="Psychology Atlas" />
 
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 lg:flex-row">
