@@ -8,12 +8,84 @@ function resolveInitialTab(initialSection) {
   if (initialSection === 'sats') return 'SATS';
   if (initialSection === 'revision') return 'Revision';
   if (initialSection === 'mental-diet') return 'Mental Diet';
+  if (initialSection === 'states' || initialSection === 'states-of-mind') return 'Daily Alignment';
+  if (initialSection === 'daily-structure') return 'Daily Alignment';
   return 'Daily Alignment';
 }
 
 function cx(...cls) {
   return cls.filter(Boolean).join(' ');
 }
+
+const DAILY_STRUCTURE = [
+  {
+    time: 'Morning',
+    title: 'Set the state before the day starts',
+    tone: 'emerald',
+    steps: [
+      'Before getting out of bed, feel gratitude as if the desire is already fulfilled.',
+      'Rehearse one short fulfilled scene for 5-10 minutes: a morning greeting, a calm message, or a simple moment of being chosen.',
+      'Choose one I AM sentence and carry it into getting ready, breakfast, school, or work.',
+    ],
+    line: 'Start the day from assumption, not checking.',
+  },
+  {
+    time: 'Daytime',
+    title: 'Maintain the state while living normally',
+    tone: 'cyan',
+    steps: [
+      'Use subtle inner conversations while walking, commuting, or between tasks.',
+      'When doubt appears, interrupt it with: "Isn\'t it wonderful?" or "That is the old state. I return to the fulfilled one."',
+      'Move through ordinary responsibilities as someone already secure, loved, and chosen.',
+    ],
+    line: 'Stay aligned without turning the day into performance.',
+  },
+  {
+    time: 'Afternoon / Evening',
+    title: 'Re-enter deliberately after responsibilities',
+    tone: 'violet',
+    steps: [
+      'Take 5-10 minutes after school or work for a deeper fulfilled-scene rehearsal.',
+      'If journaling helps, script from the end in present tense: what happened today because the state was already real?',
+      'Keep it natural: one scene, one feeling, one identity.',
+    ],
+    line: 'Use practice to reset, not to chase.',
+  },
+  {
+    time: 'Night',
+    title: 'SATS before sleep',
+    tone: 'rose',
+    steps: [
+      'Lie down, relax the body, and loop one short scene that implies the wish is fulfilled.',
+      'Let the scene be sensory and ordinary: hearing loving words, feeling closeness, or resting in certainty.',
+      'Fall asleep in the felt assumption rather than planning how it will happen.',
+    ],
+    line: 'Quality beats quantity. One convincing SATS session is enough.',
+  },
+];
+
+const DAILY_TONES = {
+  emerald: {
+    card: 'border-emerald-200/15 bg-emerald-400/5',
+    kicker: 'text-emerald-200/70',
+    note: 'border-emerald-200/15 text-emerald-100',
+  },
+  cyan: {
+    card: 'border-cyan-200/15 bg-cyan-400/5',
+    kicker: 'text-cyan-200/70',
+    note: 'border-cyan-200/15 text-cyan-100',
+  },
+  violet: {
+    card: 'border-violet-200/15 bg-violet-400/5',
+    kicker: 'text-violet-200/70',
+    note: 'border-violet-200/15 text-violet-100',
+  },
+  rose: {
+    card: 'border-rose-200/15 bg-rose-400/5',
+    kicker: 'text-rose-200/70',
+    note: 'border-rose-200/15 text-rose-100',
+  },
+};
 
 // ─── Daily Alignment Tab ──────────────────────────────────────────────────────
 
@@ -84,6 +156,82 @@ function DailyAlignmentTab() {
               <p><strong>Mental Diet:</strong> {todayCard.mentalDiet}</p>
             </div>
           )}
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+        <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-violet-200/70">Daily structure</p>
+            <h2 className="mt-2 text-2xl font-black">Neville practice around real life</h2>
+            <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">
+              A balanced day uses short state-setting moments around school, work, and responsibilities. The aim is steady assumption, not constant checking or forced visualization.
+            </p>
+          </div>
+          <div className="rounded-2xl border border-amber-300/20 bg-amber-300/10 px-4 py-3 text-sm font-bold text-amber-100">
+            Quality over quantity
+          </div>
+        </div>
+
+        <div className="grid gap-4 lg:grid-cols-4">
+          {DAILY_STRUCTURE.map((block) => {
+            const tone = DAILY_TONES[block.tone];
+            return (
+              <article key={block.time} className={`rounded-2xl border p-4 ${tone.card}`}>
+                <p className={`text-xs font-black uppercase tracking-[0.2em] ${tone.kicker}`}>{block.time}</p>
+                <h3 className="mt-2 text-lg font-black text-white">{block.title}</h3>
+                <ul className="mt-4 space-y-2 text-sm leading-6 text-white/68">
+                  {block.steps.map((step) => (
+                    <li key={step}>{step}</li>
+                  ))}
+                </ul>
+                <p className={`mt-4 rounded-xl border bg-black/20 p-3 text-xs font-bold leading-5 ${tone.note}`}>
+                  {block.line}
+                </p>
+              </article>
+            );
+          })}
+        </div>
+
+        <div className="mt-4 grid gap-3 sm:grid-cols-3">
+          {[
+            ['Persist', 'Return to the chosen state when appearances contradict it.'],
+            ['Live normally', 'Let school, work, rest, and friendship continue instead of making practice obsessive.'],
+            ['Do not force timing', 'Drop the when and how; rehearse the fulfilled identity.'],
+          ].map(([title, body]) => (
+            <div key={title} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+              <p className="font-black text-white">{title}</p>
+              <p className="mt-2 text-sm leading-6 text-white/60">{body}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+
+      <section className="rounded-3xl border border-sky-300/20 bg-sky-400/5 p-6">
+        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-sky-200/70">State of mind</p>
+            <h2 className="mt-2 text-2xl font-black">The inner position you are living from</h2>
+            <p className="mt-3 leading-relaxed text-white/70">
+              A state of mind is your current mental, emotional, and imaginative condition. It is the inner weather you interpret life from: calm, anxious, confident, angry, loving, discouraged, focused, jealous, or grateful.
+            </p>
+            <p className="mt-3 leading-relaxed text-white/60">
+              The same event can mean different things from different states. A delay can feel like rejection from fear, or feel normal from security. The event is the same; the state changes the meaning.
+            </p>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            {[
+              ['Fearful state', 'A small delay becomes "I am being rejected."'],
+              ['Secure state', 'The same delay becomes "They are probably busy."'],
+              ['Old identity', '"I am rejected" becomes the state everything is filtered through.'],
+              ['Chosen identity', '"I am loved and chosen" becomes the state you return to.'],
+            ].map(([title, body]) => (
+              <div key={title} className="rounded-2xl border border-sky-200/15 bg-black/20 p-4">
+                <p className="font-black text-sky-100">{title}</p>
+                <p className="mt-2 text-sm leading-6 text-white/65">{body}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
 

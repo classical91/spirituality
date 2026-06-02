@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './InnerBalanceAtlas.css';
+import InnerAtlasNav from './components/InnerAtlasNav';
 
 const tabs = [
   { id: 'dashboard',        icon: '⌂', label: 'Dashboard' },
@@ -1096,9 +1097,14 @@ function StressRecovery() {
 /* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
-export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }) {
+export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
   const validInitial = tabs.some((t) => t.id === initialSection) ? initialSection : 'dashboard';
   const [activeTab, setActiveTab] = useState(validInitial);
+  const sectionTitle = {
+    'nervous-system': 'Nervous System Atlas',
+    'mood-neurochemistry': 'Mood & Neurochemistry',
+    lifestyle: 'Lifestyle Inputs',
+  }[activeSectionId] || 'Mind, Body & Spirit';
 
   const content = {
     dashboard:        <Dashboard />,
@@ -1113,7 +1119,8 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, initialSection }
 
   return (
     <div className="iba">
-      <div className="iba-topbar">
+      <InnerAtlasNav activeId={activeSectionId} onBack={onBack} onSelectSection={onSelectSection} title={sectionTitle} />
+      <div className="iba-topbar" style={{ display: 'none' }}>
         <button className="iba-back-btn" onClick={onBack}>← Back</button>
         <span className="iba-topbar-title">InnerAtlas</span>
         <span className="iba-topbar-sub">· Mind, Body &amp; Spirit</span>

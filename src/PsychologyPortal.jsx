@@ -1,9 +1,11 @@
 import { useEffect, useMemo, useState } from "react";
+import InnerAtlasNav from "./components/InnerAtlasNav";
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "◈" },
   { id: "frameworks", label: "All Frameworks", icon: "▣" },
   { id: "powerstack", label: "Power Stack", icon: "✦" },
+  { id: "growth", label: "Growth Concepts", icon: "G" },
   { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
 ];
 
@@ -228,6 +230,80 @@ const powerStack = [
   },
 ];
 
+const growthConceptGroups = [
+  {
+    group: "Foundation",
+    tone: "cyan",
+    summary: "The basic habits that give growth direction, rhythm, and stability.",
+    concepts: [
+      { name: "Reflect daily", definition: "Review your choices, feelings, and patterns so you understand yourself more honestly." },
+      { name: "Set clear goals", definition: "Choose a specific outcome and direction instead of moving through life vaguely." },
+      { name: "Manage time wisely", definition: "Protect your attention by spending time on what matters most." },
+      { name: "Stay disciplined", definition: "Do the needed action even when motivation is low." },
+      { name: "Seek balance", definition: "Keep work, rest, health, relationships, and goals in a sustainable rhythm." },
+      { name: "Embrace simplicity", definition: "Remove clutter, noise, and unnecessary pressure so the important things are easier to see." },
+    ],
+  },
+  {
+    group: "Mindset",
+    tone: "violet",
+    summary: "The inner posture that keeps you adaptable, teachable, and steady.",
+    concepts: [
+      { name: "Embrace change", definition: "Accept shifting conditions and adapt instead of fighting reality." },
+      { name: "Keep learning", definition: "Continue building knowledge, skill, and understanding throughout life." },
+      { name: "Stay curious", definition: "Ask better questions and explore before assuming you already know." },
+      { name: "Accept failure", definition: "Treat mistakes as feedback and training, not proof that you are finished." },
+      { name: "Build resilience", definition: "Recover after difficulty and keep acting from your values." },
+      { name: "Cultivate optimism", definition: "Train attention toward possibility and hope without denying what is hard." },
+    ],
+  },
+  {
+    group: "Courage & Skill",
+    tone: "amber",
+    summary: "The growth edge where fear becomes action and talent becomes mastery.",
+    concepts: [
+      { name: "Face your fears", definition: "Meet the things that scare you so they stop directing your life." },
+      { name: "Challenge yourself", definition: "Move beyond comfort in small, deliberate ways that build capacity." },
+      { name: "Improve your skills", definition: "Practice intentionally so ability compounds over time." },
+      { name: "Stay creative", definition: "Use imagination to solve problems, express yourself, and see new options." },
+      { name: "Pursue your passions", definition: "Give real time to the work, art, people, and goals that make life feel meaningful." },
+    ],
+  },
+  {
+    group: "Well-being",
+    tone: "emerald",
+    summary: "The body and attention practices that make growth easier to sustain.",
+    concepts: [
+      { name: "Exercise regularly", definition: "Move your body often to support energy, mood, strength, and health." },
+      { name: "Read often", definition: "Use books and useful information to widen your perspective." },
+      { name: "Practice mindfulness", definition: "Return attention to the present moment instead of living inside stress or distraction." },
+      { name: "Prioritize your health", definition: "Care for sleep, food, movement, rest, and emotional regulation." },
+      { name: "Practice gratitude", definition: "Notice what is already good so attention is not trained only on lack." },
+      { name: "Develop patience", definition: "Stay calm and steady while waiting, learning, healing, or building." },
+    ],
+  },
+  {
+    group: "Relationships",
+    tone: "rose",
+    summary: "The social skills that turn personal growth into better connection.",
+    concepts: [
+      { name: "Cultivate empathy", definition: "Try to understand another person's feelings and inner world." },
+      { name: "Build strong relationships", definition: "Invest in healthy connections built on trust, respect, and consistency." },
+      { name: "Welcome feedback", definition: "Let useful correction improve you without making it an attack on your worth." },
+      { name: "Listen actively", definition: "Give full attention so you understand before responding." },
+      { name: "Communicate clearly", definition: "Say thoughts, feelings, needs, and boundaries in a way others can understand." },
+      { name: "Practice kindness", definition: "Treat yourself and others with care, respect, and compassion." },
+      { name: "Value honesty", definition: "Protect truth, sincerity, and integrity in your words and behavior." },
+    ],
+  },
+];
+
+const growthDailyLoop = [
+  { time: "Morning", action: "Choose one goal, one growth concept, and one behavior that proves it today." },
+  { time: "Midday", action: "Pause for two minutes. Ask: am I acting from habit, fear, or intention?" },
+  { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -386,8 +462,8 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
-export default function PsychologyPortal({ onBack, onNavigate, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "nutrients"].includes(initialSection)
+export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
+  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients"].includes(initialSection)
     ? initialSection
     : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
@@ -441,19 +517,7 @@ export default function PsychologyPortal({ onBack, onNavigate, initialSection })
 
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,#0e3a4a,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100">
-      {onBack && (
-        <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
-            <button
-              onClick={onBack}
-              className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
-            >
-              ← Back
-            </button>
-            <span className="text-xs text-slate-500">Psychology Portal</span>
-          </div>
-        </div>
-      )}
+      <InnerAtlasNav activeId="psychology" onBack={onBack} onSelectSection={onSelectSection} title="Psychology Atlas" />
 
       <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 lg:flex-row">
         {/* Sidebar */}
@@ -526,9 +590,10 @@ export default function PsychologyPortal({ onBack, onNavigate, initialSection })
                   <Pill tone="sky">Attachment</Pill>
                   <Pill tone="teal">Somatic</Pill>
                   <Pill tone="purple">Identity</Pill>
+                  <Pill tone="emerald">Growth</Pill>
                 </div>
                 <h2 className="text-4xl font-black tracking-tight text-white md:text-5xl">
-                  Frameworks for identity work, relationship clarity, and living from the end.
+                  Frameworks for identity work, relationship clarity, and personal growth.
                 </h2>
                 <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">
                   Borrow tools from psychology, philosophy, and behavioral science to stop reacting from fear and start moving from a secure, grounded identity.
@@ -538,7 +603,7 @@ export default function PsychologyPortal({ onBack, onNavigate, initialSection })
                 <input
                   value={query}
                   onChange={(e) => { setQuery(e.target.value); setActiveTab("frameworks"); }}
-                  placeholder="Search identity, anxiety, attachment, stoicism, nervous system..."
+                  placeholder="Search identity, anxiety, attachment, stoicism, growth..."
                   className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-cyan-300/60"
                 />
                 <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
@@ -711,6 +776,60 @@ export default function PsychologyPortal({ onBack, onNavigate, initialSection })
                 </div>
               </div>
             )}
+
+            {/* GROWTH CONCEPTS */}
+            {activeTab === "growth" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Personal growth" title="Thirty concepts, five practical lanes">
+                  A simple reference map for everyday development. Use one concept at a time, then turn it into a behavior you can repeat.
+                </SectionHeader>
+
+                <div className="grid gap-4 lg:grid-cols-3">
+                  {growthDailyLoop.map(({ time, action }) => (
+                    <div key={time} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                      <p className="text-xs font-bold uppercase tracking-[0.2em] text-cyan-300/80">{time}</p>
+                      <p className="mt-3 text-sm leading-6 text-slate-300">{action}</p>
+                    </div>
+                  ))}
+                </div>
+
+                <div className="grid gap-5 xl:grid-cols-2">
+                  {growthConceptGroups.map(({ group, tone, summary, concepts }) => {
+                    const t = tones[tone] || tones.cyan;
+                    return (
+                      <div key={group} className={`rounded-3xl border p-5 ${t.card}`}>
+                        <div className="mb-5 flex flex-wrap items-start justify-between gap-3">
+                          <div>
+                            <Pill tone={tone}>{group}</Pill>
+                            <p className="mt-3 max-w-xl text-sm leading-6 text-slate-300">{summary}</p>
+                          </div>
+                          <span className={`rounded-full px-3 py-1 text-xs font-black ${t.accent}`}>
+                            {concepts.length}
+                          </span>
+                        </div>
+
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          {concepts.map(({ name, definition }) => (
+                            <div key={name} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                              <h3 className="text-sm font-bold text-white">{name}</h3>
+                              <p className="mt-2 text-xs leading-5 text-slate-400">{definition}</p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    );
+                  })}
+                </div>
+
+                <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">Use it today</div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    Pick one lane, not all thirty. For example: Foundation means choosing one clear goal; Mindset means treating a mistake as feedback; Relationships means listening before defending. Growth becomes real when the concept turns into one observable behavior.
+                  </p>
+                </div>
+              </div>
+            )}
+
             {/* VITAMINS & MINERALS */}
             {activeTab === "nutrients" && (
               <div className="space-y-8">
