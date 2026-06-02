@@ -474,7 +474,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
-      return JSON.parse(window.localStorage.getItem("nevville-today-card") || "null");
+      return JSON.parse(window.localStorage.getItem("psychology-today-card") || "null");
     } catch {
       return null;
     }
@@ -482,7 +482,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
   const [checkins, setCheckins] = useState(() => {
     const date = new Date().toISOString().slice(0, 10);
     try {
-      const parsed = JSON.parse(window.localStorage.getItem("neville-checkins") || "null");
+      const parsed = JSON.parse(window.localStorage.getItem("psychology-checkins") || "null");
       if (parsed?.date === date) return parsed;
     } catch {
       // ignore corrupt storage
@@ -507,12 +507,12 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
       mentalDiet: "This is the old state. I return to the fulfilled one.",
     };
     setTodayCard(card);
-    window.localStorage.setItem("nevville-today-card", JSON.stringify(card));
+    window.localStorage.setItem("psychology-today-card", JSON.stringify(card));
   };
   const toggleCheckin = (slot) => {
     setCheckins((current) => {
       const next = { ...current, [slot]: !current[slot] };
-      window.localStorage.setItem("neville-checkins", JSON.stringify(next));
+      window.localStorage.setItem("psychology-checkins", JSON.stringify(next));
       return next;
     });
   };

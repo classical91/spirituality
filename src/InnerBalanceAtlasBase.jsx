@@ -11,6 +11,10 @@ const tabs = [
   { id: 'sleep',            icon: '🌙', label: 'Sleep' },
   { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
   { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
+  { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
+  { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
+  { id: 'hair',            icon: '◎', label: 'Hair & Scalp Health' },
+  { id: 'gratitude',       icon: '✦', label: 'Gratitude Practice' },
 ];
 
 /* ─────────────────────────────────────────
@@ -998,6 +1002,24 @@ function Nutrition() {
     },
   ];
 
+  const hydration = [
+    { benefit: 'Energy & focus', detail: 'Even 1–2% dehydration reduces cognitive performance, working memory, and attention. Fatigue is one of the earliest signs of mild dehydration — often mistaken for hunger or low motivation.' },
+    { benefit: 'Detoxification', detail: 'The kidneys require adequate water to filter waste products from the blood and excrete them through urine. Chronic low intake forces the kidneys to concentrate urine, increasing kidney stone risk.' },
+    { benefit: 'Digestion', detail: 'Water is needed to produce digestive enzymes and move food through the intestines. Insufficient intake is a leading cause of constipation and slowed nutrient absorption.' },
+    { benefit: 'Skin health', detail: 'Hydration supports skin elasticity and barrier function. While drinking water is not a cure for dry skin, chronic dehydration visibly reduces skin plumpness and accelerates the appearance of fine lines.' },
+    { benefit: 'Temperature regulation', detail: 'Sweating is the primary way the body dissipates heat. Without enough water, the body cannot cool itself efficiently — core temperature rises and performance drops rapidly in warm conditions.' },
+    { benefit: 'Joint & muscle support', detail: 'Synovial fluid in joints is primarily water. Adequate hydration keeps joints lubricated and reduces friction. Muscle cramps during exercise are often linked to fluid and electrolyte loss.' },
+    { benefit: 'Weight management', detail: 'Drinking water before meals reduces calorie intake by increasing satiety. The stomach\'s stretch receptors signal fullness regardless of calorie content. Water also slightly raises metabolic rate for 30–40 minutes after ingestion.' },
+  ];
+
+  const hydrationTips = [
+    ['Start with water', 'Drink a glass of water before anything else in the morning — it rehydrates after overnight fluid loss and jumpstarts kidney function before caffeine.'],
+    ['Aim for 2–3 litres daily', 'Exact needs vary by body weight, activity, and climate. A practical guide: urine should be pale yellow — dark yellow means drink more, clear may mean overdrinking.'],
+    ['Don\'t wait for thirst', 'Thirst is a late signal — by the time it appears, mild dehydration is already present. Keep water accessible and sip consistently throughout the day.'],
+    ['Electrolytes matter', 'Plain water isn\'t enough during intense exercise or heat. Sodium, potassium, and magnesium help water enter cells. Coconut water, a pinch of sea salt, or electrolyte tabs can help.'],
+    ['Coffee and tea count', 'Moderate caffeine does not cause net dehydration — the fluid in coffee and tea more than offsets any mild diuretic effect. They count toward daily fluid intake.'],
+  ];
+
   return (
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
@@ -1009,6 +1031,31 @@ function Nutrition() {
         label: c.label,
         items: c.items.map(item => ({ name: item.food, icon: '', benefits: [item.benefit] })),
       }))} />
+
+      {/* Hydration */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>💧 Hydration — Benefits of Drinking Water</span>
+        </div>
+        {hydration.map((h, i) => (
+          <div key={h.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', padding: '13px 20px', borderBottom: i < hydration.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{h.benefit}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-card" style={{ background: 'rgba(99,163,219,0.06)', border: '1px solid rgba(99,163,219,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--blue)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Practical hydration guide</h4>
+        <div style={{ display: 'grid', gap: 10 }}>
+          {hydrationTips.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 3 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -1022,6 +1069,30 @@ function StressRecovery() {
     padding: '14px 20px',
     borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
   });
+
+  const stressTypes = [
+    { type: 'Acute Stress', duration: 'Short-term', description: 'Triggered by immediate demands or pressures — a deadline, a conflict, a sudden threat. The stress response is appropriate and adaptive here.', symptoms: 'Increased heart rate, rapid breathing, muscle tension, sweating, heightened alertness.' },
+    { type: 'Chronic Stress', duration: 'Prolonged', description: 'Ongoing life challenges — financial pressure, work overload, relationship difficulties — keep the stress system perpetually activated. The body never fully recovers.', symptoms: 'Fatigue, irritability, sleep disturbances, weakened immunity, brain fog, low mood.' },
+    { type: 'Traumatic Stress', duration: 'Event-triggered', description: 'Caused by exposure to overwhelming events — accidents, violence, abuse, disasters. Can reorganise the nervous system\'s threat-detection in lasting ways.', symptoms: 'Flashbacks, hypervigilance, emotional numbing, avoidance, heightened startle response. May develop into PTSD.' },
+  ];
+
+  const mentalDisorders = [
+    { name: 'Generalised Anxiety Disorder (GAD)', link: 'Chronic stress keeps the HPA axis overactivated, maintaining a persistent state of threat-detection. The nervous system can\'t find baseline calm.' },
+    { name: 'Panic Disorder', link: 'Repeated stress sensitises the brain\'s alarm system. The body learns to interpret normal sensations as danger, triggering sudden episodes of intense fear and physical symptoms.' },
+    { name: 'Depression', link: 'Chronic cortisol elevation suppresses hippocampal neurogenesis and disrupts serotonin and dopamine systems. Prolonged stress is one of the strongest environmental predictors of depression onset.' },
+    { name: 'PTSD', link: 'Traumatic stress can alter the amygdala (overactive), prefrontal cortex (underactive), and memory processing systems — locking the nervous system in a state of threat long after the event.' },
+    { name: 'OCD', link: 'Stress amplifies intrusive thoughts and the distress they cause, increasing compulsive behaviour as a coping mechanism. Stress does not cause OCD but reliably worsens it.' },
+    { name: 'Substance Use Disorders', link: 'Stress activates dopamine-driven reward-seeking. People under chronic stress are significantly more likely to use substances as self-medication, which can escalate to dependency.' },
+  ];
+
+  const physicalDisorders = [
+    { name: 'Cardiovascular disease', link: 'Chronic cortisol raises blood pressure, increases blood clotting, and promotes inflammation — all direct risk factors for heart attack and stroke.' },
+    { name: 'Irritable Bowel Syndrome (IBS)', link: 'The gut-brain axis is bidirectional. Stress activates the enteric nervous system, altering gut motility and sensitivity. Most IBS flares correlate directly with psychological stress.' },
+    { name: 'Immune dysregulation', link: 'Prolonged cortisol suppresses immune function, making the body more vulnerable to infection. Chronic stress also promotes systemic inflammation — a driver of many diseases.' },
+    { name: 'Fibromyalgia & chronic pain', link: 'Stress sensitises central pain pathways. The brain\'s volume control for pain signals is turned up — real physical pain is amplified by a chronically stressed nervous system.' },
+    { name: 'Migraines', link: 'Stress triggers cortical spreading depression in susceptible people. Both the presence of stress and the "let-down" phase after it (e.g. the weekend headache) commonly precipitate migraines.' },
+    { name: 'Endocrine disruption', link: 'Cortisol competes with and disrupts insulin, thyroid hormones, and sex hormones. Chronic stress can worsen insulin resistance, disrupt menstrual cycles, and suppress thyroid function.' },
+  ];
 
   const acuteTools = [
     { tool: 'Physiological sigh', how: 'Double inhale through nose, long exhale through mouth. Fastest known way to lower heart rate acutely.' },
@@ -1052,7 +1123,55 @@ function StressRecovery() {
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Stress & Recovery</div>
         <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Managing the Stress Response</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Here are the tools for both acute relief and long-term resilience.</p>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Understanding the types of stress and the disorders they can produce helps you recognise what you are dealing with and respond effectively.</p>
+      </div>
+
+      {/* Stress types */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '170px 100px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Type</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Duration</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What it is</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Symptoms</span>
+        </div>
+        {stressTypes.map((s, i) => (
+          <div key={s.type} style={{ display: 'grid', gridTemplateColumns: '170px 100px 1fr 1fr', padding: '13px 20px', borderBottom: i < stressTypes.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.type}</div>
+            <div style={{ fontSize: '0.82rem', color: 'var(--sage)', paddingTop: 2, fontStyle: 'italic' }}>{s.duration}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.description}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.symptoms}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Mental health disorders */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--lavender)', textTransform: 'uppercase' }}>Mental Health Disorders Linked to Stress</span>
+        </div>
+        {mentalDisorders.map((d, i) => (
+          <div key={d.name} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < mentalDisorders.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{d.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.link}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Physical disorders */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: '#e57373', textTransform: 'uppercase' }}>Physical Disorders Linked to Stress</span>
+        </div>
+        {physicalDisorders.map((d, i) => (
+          <div key={d.name} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < physicalDisorders.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{d.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.link}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-warning">
+        <strong>When to seek professional help:</strong> Chronic or overwhelming stress that persists for weeks, disrupts sleep or relationships, or leads to substance use, panic attacks, or hopelessness warrants professional support. CBT is highly effective for stress-related anxiety and depression. Trauma-focused therapy (EMDR, somatic) is recommended for PTSD. Medication can support recovery when needed — there is no award for managing alone.
       </div>
 
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -1095,6 +1214,645 @@ function StressRecovery() {
 }
 
 /* ─────────────────────────────────────────
+   DAILY RITUALS
+───────────────────────────────────────── */
+function DailyRituals() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr',
+    padding: '14px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  const morning = [
+    { ritual: 'Hydration first', why: 'The body loses ~500ml of water overnight through breathing and sweating. Rehydrating before caffeine supports kidney function, cognitive clarity, and cortisol regulation.' },
+    { ritual: 'Morning light (5–10 min)', why: 'Sunlight within 30–60 minutes of waking sets the circadian clock, anchors cortisol to the right time of day, and improves both alertness now and sleep quality later.' },
+    { ritual: 'Meditation or prayer', why: 'Even 5–10 minutes of quiet reflection lowers cortisol, reduces amygdala reactivity, and creates a psychological anchor before external demands arrive.' },
+    { ritual: 'Movement', why: 'Morning exercise raises dopamine and norepinephrine for 2–4 hours, improving focus and motivation. It also shifts the cortisol peak earlier — aligned with the body\'s natural rhythm.' },
+    { ritual: 'Nutritious breakfast', why: 'Protein and fat in the morning stabilise blood sugar, support neurotransmitter production (especially serotonin and dopamine), and reduce cortisol-driven cravings later.' },
+  ];
+
+  const goalSetting = [
+    { ritual: 'Daily planning (3–5 priorities)', why: 'Writing down specific tasks activates the prefrontal cortex and reduces cognitive load — the brain stops holding loose threads and can focus on execution.' },
+    { ritual: 'Positive affirmations', why: 'Repeated intentional statements prime the reticular activating system (RAS) to notice aligned evidence and opportunities throughout the day, reinforcing the desired self-concept.' },
+    { ritual: 'Identify your "one thing"', why: 'Single-tasking on the most important item each morning leverages peak prefrontal function and prevents the reactive drift of checking messages first.' },
+  ];
+
+  const daytime = [
+    { ritual: 'Focused work blocks (25–50 min)', why: 'Ultradian rhythms cycle every ~90 minutes. Working in focused intervals followed by short breaks aligns with natural energy peaks rather than fighting the biology.' },
+    { ritual: 'Regular breaks (5–10 min)', why: 'Short rest intervals restore focused attention, prevent decision fatigue, and allow the default mode network (DMN) to process and consolidate information.' },
+    { ritual: 'Mindful breathing check-ins', why: 'A slow breath cycle (4–6 sec inhale, 6–8 sec exhale) activates the vagus nerve and shifts the autonomic nervous system toward calm within 60–90 seconds.' },
+    { ritual: 'Time in nature (even brief)', why: 'Natural environments reduce cortisol, lower blood pressure, and restore directed-attention capacity — the type of focus used for work. Even a 5-minute walk outdoors helps.' },
+    { ritual: 'Hydration throughout', why: 'A 1–2% drop in hydration causes measurable declines in mood, memory, and concentration. Keeping water accessible prevents the gradual cognitive fade that builds by afternoon.' },
+  ];
+
+  const evening = [
+    { ritual: 'Daily reflection', why: 'Reviewing what went well and what to improve consolidates learning, builds self-efficacy, and creates psychological closure — reducing the ruminative thinking that disrupts sleep.' },
+    { ritual: 'Screen unplugging (60–90 min before bed)', why: 'Blue light from screens suppresses melatonin for up to 2 hours. Unplugging also reduces cognitive arousal — the brain needs to downshift, not process more input.' },
+    { ritual: 'Reading (physical or calm)', why: 'Reading fiction specifically reduces stress by 68% within 6 minutes (Cognitive Neuropsychology, 2009). It moves the brain from problem-solving mode into narrative absorption.' },
+    { ritual: 'Gratitude practice', why: 'Writing 3 specific things to be grateful for activates the reward circuit, raises serotonin and dopamine, and ends the day in a positive emotional register that improves sleep onset.' },
+    { ritual: 'Wind-down temperature drop', why: 'Core body temperature must fall ~1°C for sleep to initiate. A warm shower followed by a cooler room accelerates this process and improves sleep onset speed.' },
+  ];
+
+  const wellnessHabits = [
+    { habit: 'Balanced diet', detail: 'Prioritise protein, healthy fats, complex carbohydrates, and micronutrient-rich vegetables. Each macro supports different neurotransmitter and hormone systems.' },
+    { habit: '7–9 hours sleep', detail: 'Sleep is the non-negotiable foundation. Every other ritual compounds or collapses depending on sleep quality. Consistency of schedule matters as much as duration.' },
+    { habit: 'Consistent hydration', detail: 'Aim for ~2–3L daily, adjusted for body weight and activity. Hydration affects energy, cognition, mood, and digestion — often before thirst signals arrive.' },
+    { habit: 'Sunlight + darkness cycle', detail: 'Morning light and evening darkness regulate the entire circadian system, which governs hormones, metabolism, immune function, and mood across 24 hours.' },
+  ];
+
+  const growth = [
+    { area: 'Dedicated learning time', how: 'Even 20–30 minutes of focused reading, a course, or a skill session compounds significantly over months. The key is consistency over intensity.' },
+    { area: 'Creative or meaningful hobbies', how: 'Activities done for intrinsic enjoyment (not productivity) restore psychological energy, build resilience, and contribute to long-term life satisfaction.' },
+    { area: 'Social connection', how: 'Quality connection with others is one of the strongest predictors of wellbeing, longevity, and stress recovery. Oxytocin released in genuine connection directly counters cortisol.' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Daily Rituals</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of a Good Day</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Daily rituals are not productivity hacks — they are the biological and psychological conditions under which your best self can show up consistently.</p>
+      </div>
+
+      {/* Morning */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>☀ Morning Routine — Set the foundation</span>
+        </div>
+        {morning.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, morning)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Goal setting */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◎ Goal Setting & Intention</span>
+        </div>
+        {goalSetting.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, goalSetting)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Daytime */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◑ Daytime Rhythm — Sustain the state</span>
+        </div>
+        {daytime.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, daytime)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Evening */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>🌙 Evening Routine — Close the loop</span>
+        </div>
+        {evening.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, evening)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Health & Wellness */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>⬡ Health & Wellness Foundations</span>
+        </div>
+        {wellnessHabits.map((h, i) => (
+          <div key={h.habit} style={rowStyle(i, wellnessHabits)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{h.habit}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Personal Growth */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>✦ Personal Growth</span>
+        </div>
+        {growth.map((g, i) => (
+          <div key={g.area} style={rowStyle(i, growth)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{g.area}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{g.how}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Self-Care Practices */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◈ Self-Care Practices</span>
+        </div>
+
+        {/* Face massage */}
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Facial Self-Massage</div>
+          {[
+            { benefit: 'Circulation & glow', detail: 'Gentle pressure stimulates blood flow, bringing oxygen and nutrients to the skin surface — the mechanism behind the natural flush after massage.' },
+            { benefit: 'Muscle tension release', detail: 'The face holds considerable tension, especially the jaw (masseter), temples, and forehead. Releasing this reduces stress and can prevent tension headaches.' },
+            { benefit: 'Lymphatic drainage', detail: 'Light outward strokes encourage lymph movement, reducing morning puffiness by clearing accumulated fluid from the tissue.' },
+            { benefit: 'Product absorption', detail: 'Massage increases skin permeability temporarily — applying moisturiser or serum during massage improves how deeply active ingredients penetrate.' },
+            { benefit: 'Skin tone & elasticity', detail: 'Stimulating facial muscles may improve tone and slow the sagging that comes from muscle atrophy. Similar to how body exercise maintains muscle, regular facial movement supports structure.' },
+            { benefit: 'Headache relief', detail: 'Pressure on the temples, base of skull, and sinus points can interrupt tension headache pathways. Particularly effective for stress-driven headaches.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Cold showers */}
+        <div style={{ padding: '12px 20px' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Cold Showers</div>
+          {[
+            { benefit: 'Mood & alertness', detail: 'Cold water triggers a large norepinephrine and dopamine release — studies show increases of 200–300% and 250% respectively. Creates a sharp, sustained lift in mood and focus.' },
+            { benefit: 'Circulation', detail: 'Cold causes peripheral vasoconstriction followed by vasodilation on warming. This pumping action trains vascular responsiveness and improves overall circulation over time.' },
+            { benefit: 'Immune resilience', detail: 'A Dutch study (Kox et al.) found cold shower practitioners had 29% fewer sick days. Repeated cold exposure trains the immune system\'s inflammatory response.' },
+            { benefit: 'Recovery & muscle soreness', detail: 'Cold water reduces inflammation and metabolic waste products in muscle tissue. Widely used by athletes as a post-exercise recovery tool.' },
+            { benefit: 'Mental resilience', detail: 'Voluntarily entering discomfort trains the prefrontal cortex to override the impulse to avoid. This tolerance transfers to other areas — it is a deliberate practice in discomfort tolerance.' },
+            { benefit: 'Cortisol regulation', detail: 'Brief cold exposure raises cortisol acutely (a healthy stress response), but regular practice lowers baseline cortisol — similar to how exercise creates hormetic adaptation.' },
+            { benefit: 'Skin & hair', detail: 'Cold water causes pores and hair cuticles to contract, reducing moisture loss from skin and adding shine and smoothness to hair. Hot water strips natural oils; cold preserves them.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--blue)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Start: end your normal shower with 30–60 seconds of cold. Build to 2–3 minutes over weeks. People with cardiovascular conditions should consult a doctor first.</p>
+        </div>
+
+        {/* Sunlight */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Getting Sunlight</div>
+          {[
+            { benefit: 'Circadian anchoring', detail: 'Morning light (ideally within 30–60 min of waking) sets the circadian clock by suppressing residual melatonin and triggering the cortisol peak at the right time — improving energy now and sleep onset later.' },
+            { benefit: 'Vitamin D synthesis', detail: 'UVB light triggers vitamin D production in the skin. Vitamin D supports immune function, bone health, mood regulation, and has receptors in virtually every tissue in the body.' },
+            { benefit: 'Serotonin production', detail: 'Light — even on overcast days — stimulates serotonin release in the brain. Low light exposure in winter is the primary driver of Seasonal Affective Disorder (SAD).' },
+            { benefit: 'Mood & alertness', detail: 'Bright light increases alertness and positive mood within minutes via the melanopsin cells in the retina. This pathway is distinct from vitamin D and works even in people with certain visual impairments.' },
+            { benefit: 'Eye health', detail: 'Time outdoors in natural light is the strongest known preventive factor against myopia (short-sightedness) in children and young adults, likely through dopamine release in the retina.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--gold)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Aim for 10–20 minutes of outdoor light in the morning. Avoid sunglasses during this window if safe — the light needs to reach the retina. Glass and most windows block the relevant UV wavelengths.</p>
+        </div>
+
+        {/* Smiling */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Smiling (Genuine & Deliberate)</div>
+          {[
+            { benefit: 'Facial feedback loop', detail: 'The act of smiling — even deliberately — activates the same neural circuits as genuine happiness. The brain reads muscle position as emotional information and adjusts mood accordingly (Strack et al., replicated 2019).' },
+            { benefit: 'Endorphin & serotonin release', detail: 'Smiling triggers the release of endorphins, natural pain relievers, and serotonin — mood-supporting neurotransmitters that create a mild but measurable lift even from a brief smile.' },
+            { benefit: 'Cortisol reduction', detail: 'Studies show that even a maintained smile during a stressful task reduces heart rate recovery time and cortisol elevation — the body responds to the facial signal as a cue that safety is present.' },
+            { benefit: 'Social contagion', detail: 'Smiling is neurologically contagious — mirror neurons in observers automatically activate the same facial muscles. A smile tends to generate a smile back, creating a positive social feedback loop.' },
+            { benefit: 'Perspective shift', detail: 'Deliberately choosing to smile during a neutral or mild negative moment can interrupt rumination. It is a physical state change that slightly shifts the emotional register.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--lavender)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Practising Om */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Practising Om (Chanting)</div>
+          {[
+            { benefit: 'Vagus nerve activation', detail: 'The extended exhale and vocal resonance of Om chanting directly stimulates the vagus nerve, shifting the nervous system from sympathetic (activation) to parasympathetic (rest). Measurable heart rate and cortisol reduction follow.' },
+            { benefit: 'Meditative state induction', detail: 'Sustained focus on the vibration and sound of Om occupies the mind\'s attention circuits — interrupting thought loops and producing brainwave patterns consistent with meditation (increased alpha and theta waves).' },
+            { benefit: 'Limbic system calming', detail: 'Research using fMRI shows that Om chanting deactivates the amygdala and limbic system — the brain\'s threat and emotion centres — more effectively than a control sound (ssss), suggesting something specific to the resonant quality.' },
+            { benefit: 'Breath regulation', detail: 'Om practice naturally lengthens the exhale relative to the inhale, which is one of the most effective breathing patterns for activating the parasympathetic response and reducing anxiety.' },
+            { benefit: 'Vibration & body awareness', detail: 'The physical resonance of Om is felt in the chest, throat, and skull. Tuning attention to this sensation builds interoception — awareness of the body\'s internal state — which is associated with better emotional regulation.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Practice: sit comfortably, take a deep breath, and on the exhale produce a sustained "Aum" — the A rises from the belly, the U moves through the chest, the M vibrates through the lips and skull. 3–5 rounds takes under 2 minutes.</p>
+        </div>
+      </div>
+
+      <div className="iba-card" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.18)' }}>
+        <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>
+          <strong style={{ color: 'var(--gold)' }}>The compound effect:</strong> No single ritual transforms a life. What works is the accumulation — consistent small actions that align biology, mindset, and behaviour in the same direction over time. Start with one block and build from there.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   HERBS & ADAPTOGENS
+───────────────────────────────────────── */
+function HerbsAdaptogens() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '180px 1fr 1fr',
+    padding: '14px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 16,
+  });
+
+  const herbs = [
+    {
+      name: 'St. John\'s Wort',
+      type: 'Herb',
+      commonUse: 'Often used to support mild to moderate low mood.',
+      notes: 'Can interact seriously with many medications — including antidepressants (risk of serotonin syndrome) and hormonal contraceptives (reduced effectiveness). Do not use alongside prescription medication without medical advice.',
+      caution: true,
+    },
+    {
+      name: 'Ashwagandha',
+      type: 'Adaptogen',
+      commonUse: 'Commonly used to support stress resilience, relaxation, sleep quality, and anxiety balance.',
+      notes: 'Well-researched adaptogen with a generally good safety profile. May lower thyroid hormone levels — consult a doctor if you have thyroid conditions. Avoid in pregnancy.',
+      caution: false,
+    },
+    {
+      name: 'Rhodiola Rosea',
+      type: 'Adaptogen',
+      commonUse: 'Often used for fatigue, stress, mental performance, energy, and mood support.',
+      notes: 'Evidence is promising but still mixed. May cause mild stimulating effects — best taken in the morning. Generally well-tolerated at standard doses.',
+      caution: false,
+    },
+    {
+      name: 'Chamomile',
+      type: 'Herb',
+      commonUse: 'Commonly used for calmness, relaxation, sleep, and mild anxiety support.',
+      notes: 'Research suggests possible benefit, though findings are not fully conclusive. Very well-tolerated. May interact with blood-thinning medications at high doses. Avoid if allergic to plants in the daisy family.',
+      caution: false,
+    },
+    {
+      name: 'Lavender',
+      type: 'Herb / Aromatherapy',
+      commonUse: 'Often used in aromatherapy and supplements for relaxation, stress, sleep, and anxiety support.',
+      notes: 'Some studies suggest benefit, though evidence has limits. Oral supplements (e.g. Silexan) have better evidence than aromatherapy alone. Generally safe for most adults.',
+      caution: false,
+    },
+    {
+      name: 'Lemon Balm',
+      type: 'Herb',
+      commonUse: 'Commonly used for nervousness, calmness, sleep quality, and mood support.',
+      notes: 'Newer reviews suggest it may have calming and anti-anxiety effects. Well-tolerated. May enhance sedative effects of medications — use with care if taking sleep aids.',
+      caution: false,
+    },
+    {
+      name: 'Passionflower',
+      type: 'Herb',
+      commonUse: 'Traditionally used for anxiety, restlessness, and sleep support.',
+      notes: 'Evidence is limited but generally encouraging for short-term use. May cause drowsiness or dizziness — avoid before driving. May interact with sedative medications.',
+      caution: false,
+    },
+    {
+      name: 'Ginkgo Biloba',
+      type: 'Herb',
+      commonUse: 'More commonly linked with memory, circulation, and cognitive support than mood.',
+      notes: 'Evidence for major cognitive benefits is not conclusive. May interact with blood thinners and some antidepressants. Not recommended before surgery. Less directly mood-focused than others on this list.',
+      caution: false,
+    },
+  ];
+
+  const adaptogens = [
+    { name: 'Ashwagandha', mechanism: 'Regulates cortisol and HPA-axis stress response. Shown to reduce cortisol levels and improve stress resilience in clinical trials.' },
+    { name: 'Rhodiola Rosea', mechanism: 'Modulates stress hormones and supports mitochondrial energy production. May reduce fatigue-related cognitive decline.' },
+    { name: 'Holy Basil (Tulsi)', mechanism: 'Anti-stress and anti-anxiety properties; supports adrenal function and may lower cortisol. Used in Ayurvedic medicine.' },
+    { name: 'Eleuthero (Siberian Ginseng)', mechanism: 'Supports physical and mental endurance under stress. May improve immune function and reduce fatigue.' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Herbs & Adaptogens</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Plants for Mood, Stress & Emotional Balance</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>These herbs are commonly used to support mood, relaxation, stress balance, sleep, and emotional well-being. They are not replacements for medical treatment — they are tools with varying levels of evidence and real safety considerations.</p>
+      </div>
+
+      {/* Safety notice */}
+      <div className="iba-warning">
+        <strong>Safety note:</strong> Several herbs on this list interact with prescription medications — especially antidepressants, blood thinners, sedatives, and hormonal contraceptives. Always check interactions with a pharmacist or doctor before combining herbs with any medication. This page is educational, not medical advice.
+      </div>
+
+      {/* Herb table */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '180px 1fr 1fr', gap: 16 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Herb</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Common Use</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What to Know</span>
+        </div>
+        {herbs.map((h, i) => (
+          <div key={h.name} style={rowStyle(i, herbs)}>
+            <div style={{ paddingTop: 2 }}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)' }}>{h.name}</div>
+              <div style={{ fontSize: '0.74rem', color: h.caution ? '#e57373' : 'var(--sage)', marginTop: 3, fontWeight: 600 }}>{h.type}{h.caution ? ' · ⚠ interactions' : ''}</div>
+            </div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.commonUse}</p>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: h.caution ? 'rgba(229,115,115,0.9)' : 'var(--muted)', lineHeight: 1.6 }}>{h.notes}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Adaptogens deeper */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How Adaptogens Work</span>
+        </div>
+        {adaptogens.map((a, i) => (
+          <div key={a.name} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', padding: '14px 20px', borderBottom: i < adaptogens.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 16 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{a.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{a.mechanism}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Guidance card */}
+      <div className="iba-card" style={{ background: 'rgba(91,191,181,0.06)', border: '1px solid rgba(91,191,181,0.18)' }}>
+        <h4 style={{ margin: '0 0 10px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>How to approach herbal support</h4>
+        <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Start with one herb at a time so you can clearly observe any effect or reaction.</li>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Quality matters — choose standardised extracts from reputable brands where possible.</li>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Herbs work best alongside — not instead of — sleep, nutrition, movement, and stress management.</li>
+          <li style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>Persistent low mood, anxiety, or sleep problems deserve proper evaluation, not just herbal management.</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   HAIR & SCALP HEALTH
+───────────────────────────────────────── */
+function HairHealth() {
+  const row2 = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '170px 1fr 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+  const row1 = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '190px 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+
+  const nutrients = [
+    { name: 'Protein', role: 'Hair is made of keratin. Without enough dietary protein, growth slows and strands weaken. Severe deficiency causes thinning and shedding.', sources: 'Lean meats, poultry, fish, eggs, dairy, legumes — include a source at every meal.' },
+    { name: 'Iron', role: 'Helps red blood cells carry oxygen to follicles. Iron deficiency is a leading cause of hair loss, especially in women. Correcting low ferritin often reduces excess shedding.', sources: 'Red meat, poultry, seafood, spinach, lentils. Pair plant sources with vitamin C to improve absorption.' },
+    { name: 'Vitamin D', role: 'Receptors in hair follicles depend on vitamin D. Lower levels are consistently found in people with hair loss conditions. May help regulate the growth cycle.', sources: 'Fatty fish, fortified foods, sensible sun exposure, or supplementation if tested deficient.' },
+    { name: 'Biotin (B7)', role: 'Deficiency causes hair loss and brittle nails — well established. However, true deficiency is uncommon and extra biotin has no proven benefit in people who are not deficient.', sources: 'Eggs (cooked), nuts, whole grains, vegetables. Avoid excess raw egg whites — avidin blocks biotin absorption.' },
+    { name: 'Omega-3 Fatty Acids', role: 'Anti-inflammatory fats that support scalp and follicle health. Deficiency leads to hair and eyebrow loss. One study found omega-3 supplementation reduced shedding and increased density in women.', sources: 'Salmon, mackerel, sardines, flaxseeds, chia seeds, walnuts.' },
+    { name: 'Zinc', role: 'Required for protein synthesis and cell division in follicles. Deficiency causes hair loss that improves with zinc supplementation. Excess zinc can interfere with other minerals — avoid high-dose supplements.', sources: 'Oysters (very high), red meat, pumpkin seeds, nuts, beans.' },
+    { name: 'Vitamin C', role: 'Essential for collagen production and iron absorption from plant foods. Deficiency weakens hair shafts. Also protects follicles from oxidative stress.', sources: 'Citrus fruits, berries, kiwi, papaya, bell peppers, broccoli.' },
+    { name: 'Vitamin A', role: 'Supports cell growth and sebum production for scalp moisture. Both deficiency (dry hair) and excess (hair loss) are problems. Get it from food, not high-dose supplements.', sources: 'Sweet potatoes, carrots, spinach — these provide beta-carotene, which the body converts as needed.' },
+    { name: 'Vitamin E & Antioxidants', role: 'Neutralise oxidative damage in scalp tissue. Small trials show vitamin E supplementation can increase hair count in people with hair loss. Megadoses can be harmful — food sources are safer.', sources: 'Almonds, sunflower seeds, avocados, spinach, green tea.' },
+    { name: 'Selenium', role: 'Trace mineral needed for follicle function and antioxidant enzymes. Deficiency and excess both cause hair loss — keep intake balanced.', sources: 'Brazil nuts (very high — 1–2 per day is enough), fish, eggs, whole grains.' },
+  ];
+
+  const foods = [
+    { food: 'Fatty fish (salmon, sardines, mackerel)', nutrients: 'Omega-3s, vitamin D, protein, B vitamins, iron', why: 'Anti-inflammatory fats linked to improved hair density and reduced shedding. Aim for 2 servings per week.' },
+    { food: 'Eggs', nutrients: 'Protein, biotin, zinc, selenium', why: 'One of the most complete hair foods — delivers keratin building blocks and follicle-supporting minerals in one package. Eat cooked, not raw.' },
+    { food: 'Leafy greens (spinach, kale)', nutrients: 'Iron, folate, vitamin C, beta-carotene', why: 'Iron oxygenates follicles, vitamin C builds collagen, and beta-carotene becomes vitamin A to regulate sebum. Aim for a daily serving.' },
+    { food: 'Nuts & seeds (almonds, walnuts, flaxseeds, sunflower seeds)', nutrients: 'Vitamin E, zinc, selenium, omega-3s, B vitamins', why: 'Broad spectrum of antioxidants and healthy fats. Just 1 oz almonds covers ~50% of daily vitamin E. Easy daily snack.' },
+    { food: 'Beans & lentils', nutrients: 'Plant protein, iron, zinc, biotin', why: 'Budget-friendly way to prevent iron, zinc, and biotin deficiencies that directly cause hair loss. Pair with vitamin C foods for better iron absorption.' },
+    { food: 'Berries & citrus', nutrients: 'Vitamin C, antioxidants, folate', why: 'Vitamin C is required for collagen synthesis and doubles iron absorption from plant meals. Antioxidants defend follicles from free radical damage.' },
+    { food: 'Sweet potatoes & carrots', nutrients: 'Beta-carotene (→ vitamin A), fibre', why: 'A medium sweet potato can exceed 100% of daily vitamin A needs safely — the body regulates beta-carotene conversion, making overdose impossible from food.' },
+    { food: 'Soybeans & legumes', nutrients: 'Protein, spermidine, iron, zinc', why: 'Spermidine (abundant in soybeans) has shown promise in prolonging the active hair growth phase in early research.' },
+    { food: 'Greek yogurt & dairy', nutrients: 'Protein, B5 (pantothenic acid), calcium', why: 'B5 is linked to hair thickness and follicle health. Protein from dairy provides complete amino acids for keratin production.' },
+    { food: 'Oysters', nutrients: 'Zinc (extremely high), protein, iron', why: 'The single richest food source of zinc. One or two oysters can meet daily zinc needs — important for follicle cell turnover.' },
+  ];
+
+  const avoid = [
+    { item: 'Excess sugar & refined carbs', why: 'Spikes blood sugar and insulin, may raise androgen levels and inflame follicles. High-glycemic diets linked to accelerated hair thinning in susceptible people. Swap for whole grains, sweet potatoes, beans.' },
+    { item: 'High-mercury fish (swordfish, shark, king mackerel, excess albacore tuna)', why: 'Mercury accumulates in the body and has been linked to hair loss in case reports. Choose low-mercury fish: salmon, sardines, trout, light tuna, tilapia, shrimp.' },
+    { item: 'Crash diets & severe calorie restriction', why: 'Starving the body pushes hair into a resting/shedding phase (telogen effluvium). Sudden hair loss 1–2 months after a very low-calorie diet is a well-documented clinical pattern. Lose weight gradually with adequate protein.' },
+    { item: 'Skipping meals / low-protein breakfast', why: 'One study found people with hair loss who skipped breakfast or ate low-protein breakfasts had worse follicle structure. Follicles need a steady nutrient supply — going long periods without protein starves them.' },
+    { item: 'High-dose supplement megadosing', why: 'Vitamin A above ~10,000 IU/day causes hair loss. Selenium overdose causes hair loss. Excess zinc disrupts other minerals. More is not better. Correct confirmed deficiencies; don\'t guess-and-supplement.' },
+    { item: 'Fried foods & trans fats', why: 'May increase scalp oil production and inflammation. Also displaces nutrient-dense foods from the diet. Bake, grill, or sauté in olive oil instead.' },
+    { item: 'Smoking', why: 'Constricts blood vessels supplying the scalp, generates free radicals that damage follicles. Research shows higher hair loss rates in smokers.' },
+    { item: 'Heavy alcohol consumption', why: 'Depletes zinc, folate, and protein — all essential for hair. Also impairs liver function which affects nutrient metabolism.' },
+  ];
+
+  const steps = [
+    'Include a protein source at every meal — eggs, fish, legumes, dairy, or lean meat.',
+    'Eat fatty fish (salmon, sardines) twice a week for omega-3s and vitamin D.',
+    'Have at least one serving of leafy greens daily — spinach, kale, or similar.',
+    'Snack on nuts and seeds for vitamin E, zinc, and healthy fats.',
+    'Pair plant iron sources with vitamin C foods at the same meal to maximise absorption.',
+    'Avoid crash dieting — steady, balanced eating keeps hair in its growth phase.',
+    'If experiencing unexplained hair loss, test for iron, ferritin, vitamin D, and thyroid function before buying supplements.',
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Hair & Scalp Health</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Growing Strong Hair from the Inside</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Hair follicles are among the most metabolically active cells in the body. They require a consistent supply of protein, vitamins, and minerals to produce healthy strands. Diet is one of the most modifiable factors in hair health.</p>
+      </div>
+
+      <div className="iba-warning">
+        <strong>Important:</strong> Hair grows approximately 1 cm per month. Changes from diet won't be visible immediately — consistent nutrition over several months creates the conditions for visible improvement. Persistent or sudden hair loss warrants medical evaluation, not just dietary adjustment.
+      </div>
+
+      {/* Key Nutrients */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '170px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Nutrient</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it matters</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Food sources</span>
+        </div>
+        {nutrients.map((n, i) => (
+          <div key={n.name} style={row2(i, nutrients)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{n.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{n.role}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--sage)', lineHeight: 1.6 }}>{n.sources}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Best foods */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '210px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Food</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Key nutrients</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it helps</span>
+        </div>
+        {foods.map((f, i) => (
+          <div key={f.food} style={{ display: 'grid', gridTemplateColumns: '210px 1fr 1fr', padding: '13px 20px', borderBottom: i < foods.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{f.food}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--blue)', lineHeight: 1.6 }}>{f.nutrients}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{f.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* What to avoid */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Avoid or Limit</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it harms hair</span>
+        </div>
+        {avoid.map((a, i) => (
+          <div key={a.item} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < avoid.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e57373', paddingTop: 2 }}>{a.item}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{a.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Diet pattern note */}
+      <div className="iba-card" style={{ background: 'rgba(91,191,181,0.06)', border: '1px solid rgba(91,191,181,0.18)' }}>
+        <h4 style={{ margin: '0 0 10px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>The Mediterranean diet connection</h4>
+        <p style={{ margin: '0 0 8px', fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>A 2020 review of 24 studies found that anti-inflammatory, whole-food dietary patterns are associated with better hair outcomes. Men who ate a Mediterranean-style diet (high in vegetables, herbs, legumes, and olive oil) had around 56% lower odds of androgenetic alopecia in one study.</p>
+        <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>The mechanism: high antioxidant and omega-3 intake reduces follicle-damaging inflammation. The same diet pattern recommended for heart and skin health is the best one for hair.</p>
+      </div>
+
+      {/* Action steps */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>◎ Actionable Steps</span>
+        </div>
+        {steps.map((s, i) => (
+          <div key={i} style={row1(i, steps)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--gold)', paddingTop: 2 }}>Step {i + 1}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   GRATITUDE PRACTICE
+───────────────────────────────────────── */
+function GratitudePractice() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+
+  const science = [
+    { finding: 'Raises serotonin and dopamine', detail: 'Consciously counting blessings activates the brain\'s reward circuits. Studies by Dr. Robert Emmons (UC Davis) found that people who wrote weekly gratitude lists reported higher positive affect and life satisfaction than control groups.' },
+    { finding: 'Reduces cortisol', detail: 'A 2015 study found that gratitude journaling before sleep lowered cortisol levels and improved sleep quality. Even brief gratitude reflection shifts the autonomic nervous system toward parasympathetic (rest) mode.' },
+    { finding: 'Rewires the negativity bias', detail: 'The brain is wired to prioritise threats over positives. Regular gratitude practice literally builds new neural pathways that make positive recognition faster and more automatic over time.' },
+    { finding: 'Improves relationships', detail: 'Expressing gratitude to others strengthens social bonds, increases oxytocin, and creates a positive feedback loop — grateful people receive more warmth, which generates more gratitude.' },
+    { finding: 'Linked to better sleep', detail: 'Spending 15 minutes writing what you\'re grateful for before bed reduces pre-sleep worry and increases sleep duration and quality, particularly in people with anxiety tendencies.' },
+    { finding: 'Reduces symptoms of depression', detail: 'Multiple randomised controlled trials show gratitude interventions (letters, journals, mental reflection) produce measurable reductions in depressive symptoms, even weeks after the practice ends.' },
+    { finding: 'Builds psychological resilience', detail: 'Gratitude is one of the strongest predictors of post-traumatic growth. People who can find meaning or appreciation even in difficult circumstances recover faster and report higher long-term wellbeing.' },
+  ];
+
+  const practices = [
+    { name: 'Gratitude journal (3 specifics)', how: 'Each day — ideally at the same time — write down three specific things you are grateful for. Specificity matters more than quantity. "I am grateful for the warmth of my coffee this morning" is more effective than "I am grateful for my life."', timing: 'Morning or before bed' },
+    { name: 'Gratitude letter', how: 'Write a detailed letter to someone who has positively impacted your life and whom you\'ve never fully thanked. The act of writing it — even if never sent — produces significant emotional benefit. Reading it aloud to the person amplifies the effect substantially.', timing: 'Weekly or monthly' },
+    { name: 'Mental subtraction', how: 'Imagine your life without something or someone you value — a relationship, a skill, a moment. Notice the absence, then return to the presence. This resets hedonic adaptation and makes ordinary things feel extraordinary again.', timing: 'Any time' },
+    { name: 'Savouring', how: 'Slow down and fully attend to a positive experience as it happens — a meal, a conversation, sunlight. Research shows that extending your attention on positive moments increases their emotional impact significantly.', timing: 'Throughout the day' },
+    { name: 'Gratitude meditation', how: 'Sit quietly and bring to mind something you appreciate. Hold it in awareness and let the feeling expand through your body. Move to another. This is different from journaling — it builds the felt sense of gratitude rather than just the cognitive recognition.', timing: '5–10 min, morning or evening' },
+    { name: 'Gratitude in relationships', how: 'Verbally express specific appreciation to people in your life regularly. "Thank you for listening when I was stressed yesterday" lands differently than a general thank-you. This practice builds the relationship and reinforces your own gratitude habit.', timing: 'Daily' },
+    { name: 'Reframe challenge as teacher', how: 'When facing difficulty, ask: what might this situation be teaching me? What can I be grateful for even here? This does not mean denying pain — it means looking for meaning alongside it.', timing: 'During hard moments' },
+  ];
+
+  const mistakes = [
+    { mistake: 'Forcing positivity', why: 'Gratitude is not about pretending everything is fine. It coexists with grief, frustration, and difficulty. Toxic positivity — using gratitude to bypass real emotions — undermines the practice and erodes trust in it.' },
+    { mistake: 'Being too vague', why: '"I\'m grateful for my family" every day loses its impact through repetition. The brain habituates quickly. Specificity ("I\'m grateful that my sister called to check in this morning") keeps the practice alive and meaningful.' },
+    { mistake: 'Treating it as a chore', why: 'Gratitude journaled mechanically without genuine feeling produces little benefit. The emotional engagement is the active ingredient — going through the motions without feeling the appreciation misses the point.' },
+    { mistake: 'Only practising when things are good', why: 'The highest-leverage time to practise gratitude is during difficulty. Gratitude during hard times builds resilience; gratitude only when things are easy stays a fair-weather habit.' },
+    { mistake: 'Comparing your gratitude list to others', why: 'Gratitude is not competitive. There is no threshold of hardship you must cross before you are "allowed" to be grateful. What matters is your genuine relationship to your own life.' },
+  ];
+
+  const deepening = [
+    ['Appreciate the ordinary', 'Most of life happens in unremarkable moments — a glass of water, the ability to breathe, a working body. Training attention on the mundane produces the richest long-term returns.'],
+    ['Let gratitude become a lens, not a list', 'The goal is not a daily checklist but a shift in orientation — moving from scanning for what is wrong (the brain\'s default) to also noticing what is working, what is given, what is beautiful.'],
+    ['Connect gratitude to values', 'When you are grateful for what actually matters to you — not what you think should matter — the practice becomes grounding. It clarifies what your life is actually built around.'],
+    ['Pair with giving', 'Gratitude that stays internal reaches a ceiling. When it flows outward — into generosity, service, expressed appreciation — it compounds and creates the conditions for more.'],
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Gratitude Practice</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Practice of Noticing What Is Good</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Gratitude is not a personality trait — it is a trainable skill. Research consistently shows that deliberate gratitude practice changes brain structure, improves mood, strengthens relationships, and builds the kind of resilience that sustains wellbeing over time.</p>
+      </div>
+
+      {/* Science */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What the Research Shows</span>
+        </div>
+        {science.map((s, i) => (
+          <div key={s.finding} style={rowStyle(i, science)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.finding}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Practices */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '200px 1fr 100px', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Practice</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How to do it</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>When</span>
+        </div>
+        {practices.map((p, i) => (
+          <div key={p.name} style={{ display: 'grid', gridTemplateColumns: '200px 1fr 100px', padding: '13px 20px', borderBottom: i < practices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{p.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{p.how}</p>
+            <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--gold)', lineHeight: 1.5, fontStyle: 'italic' }}>{p.timing}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Common mistakes */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What Weakens the Practice</span>
+        </div>
+        {mistakes.map((m, i) => (
+          <div key={m.mistake} style={rowStyle(i, mistakes)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e57373', paddingTop: 2 }}>{m.mistake}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{m.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Deepening */}
+      <div className="iba-card" style={{ background: 'rgba(216,169,72,0.06)', border: '1px solid rgba(216,169,72,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--gold)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Taking it deeper</h4>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {deepening.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 4 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
@@ -1115,6 +1873,10 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     sleep:            <Sleep />,
     nutrition:        <Nutrition />,
     stress:           <StressRecovery />,
+    dailyrituals:     <DailyRituals />,
+    herbs:            <HerbsAdaptogens />,
+    hair:             <HairHealth />,
+    gratitude:        <GratitudePractice />,
   };
 
   return (
