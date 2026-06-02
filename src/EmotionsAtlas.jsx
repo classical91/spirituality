@@ -1,5 +1,7 @@
 import { useMemo, useState } from 'react';
 import InnerAtlasNav from './components/InnerAtlasNav';
+import './innerAtlasTheme.css';
+import { accentVars } from './innerAtlasTheme';
 
 const SPIRAL_LEVELS = [
   {
@@ -499,13 +501,6 @@ const ALL_EMOTIONS = SPIRAL_LEVELS.flatMap((level, levelIndex) =>
   }))
 ).filter((emotion, index, list) => list.findIndex((item) => item.id === emotion.id) === index);
 
-const page = {
-  minHeight: '100vh',
-  background: '#0b0d18',
-  color: '#e2e8f0',
-  fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, sans-serif',
-};
-
 
 function SpiralRibbon() {
   const loops = 11;
@@ -764,7 +759,7 @@ export default function EmotionsAtlas({ onBack, onSelectSection }) {
   };
 
   return (
-    <div style={page}>
+    <div className="ia-root" style={accentVars('emotions')}>
       <style>
         {`
           @media (max-width: 760px) {

@@ -1,4 +1,6 @@
 import InnerAtlasNav from './components/InnerAtlasNav';
+import './innerAtlasTheme.css';
+import { accentVars } from './innerAtlasTheme';
 
 const colorMeanings = [
   {
@@ -182,7 +184,7 @@ function SwatchRow({ colors }) {
 
 export default function ColorPsychologyAtlas({ onBack, onSelectSection }) {
   return (
-    <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.22),transparent_32%),radial-gradient(circle_at_top_right,rgba(34,211,238,0.18),transparent_28%),linear-gradient(180deg,#020617,#0f172a_48%,#020617)] text-slate-100">
+    <div className="ia-root text-slate-100" style={accentVars('colorpsychology')}>
       <InnerAtlasNav activeId="colorpsychology" onBack={onBack} onSelectSection={onSelectSection} title="Psychology of Colors" />
 
       <main className="mx-auto max-w-7xl space-y-8 px-4 py-8">

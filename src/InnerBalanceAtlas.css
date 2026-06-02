@@ -1,22 +1,31 @@
 .iba {
-  --gold: #d8a948;
-  --sage: #7aab79;
-  --lavender: #a991d9;
-  --blue: #5b9bd5;
-  --rose: #d97060;
-  --deep: #2d4a47;
-  --muted: #7a8f89;
-  --line: rgba(0, 0, 0, 0.09);
-  --bg: #f5f1eb;
-  --card: rgba(255, 255, 255, 0.78);
+  /* Brightened accents so they read on the dark immersive background. */
+  --gold: #f0c068;
+  --sage: #8fcf8d;
+  --lavender: #c4abf0;
+  --blue: #7fb8ef;
+  --rose: #ef9a8b;
+  --deep: #e8edf5;
+  --muted: rgba(232, 237, 245, 0.55);
+  --line: rgba(255, 255, 255, 0.10);
+  --bg: #070a12;
+  --card: rgba(255, 255, 255, 0.04);
   --sidebar-w: 220px;
 
+  /* Lifestyle/Nervous/Mood share the InnerAtlas gold accent glow. */
+  --ia-accent-rgb: 251, 191, 36;
+
   min-height: 100vh;
-  background: var(--bg);
   color: var(--deep);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, sans-serif;
   display: flex;
   flex-direction: column;
+
+  background:
+    radial-gradient(circle at 12% 6%,  rgba(var(--ia-accent-rgb), 0.14), transparent 42%),
+    radial-gradient(circle at 88% 0%,  rgba(var(--ia-accent-rgb), 0.09), transparent 40%),
+    radial-gradient(circle at 50% 118%, rgba(var(--ia-accent-rgb), 0.09), transparent 55%),
+    linear-gradient(180deg, #0a0e1a, #070a12 58%, #05070d);
 }
 
 /* ── top bar ── */
@@ -47,7 +56,7 @@
   cursor: pointer;
   transition: background 0.18s;
 }
-.iba-back-btn:hover { background: #fff; }
+.iba-back-btn:hover { background: rgba(255, 255, 255, 0.12); }
 
 .iba-topbar-title {
   font-size: 13px;
@@ -102,7 +111,7 @@
   top: 45px;
   height: calc(100vh - 45px);
   overflow-y: auto;
-  background: rgba(245, 241, 235, 0.6);
+  background: rgba(255, 255, 255, 0.02);
 }
 
 .iba-logo {
@@ -165,7 +174,7 @@
 }
 
 .iba-nav-btn:hover {
-  background: rgba(255,255,255,0.6);
+  background: rgba(255,255,255,0.08);
   color: var(--deep);
 }
 
@@ -406,7 +415,7 @@
   background:
     radial-gradient(circle at 50% 38%, rgba(216,169,72,0.22), transparent 24%),
     radial-gradient(circle at 35% 62%, rgba(169,145,217,0.16), transparent 28%),
-    linear-gradient(135deg, rgba(255,255,255,0.9), rgba(246,251,248,0.8));
+    linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
 }
 
 .iba-map-center::before {
@@ -588,7 +597,7 @@
   align-items: flex-start;
   justify-content: space-between;
   gap: 12px;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.03);
   border: 1px solid var(--line);
   border-radius: 14px;
   padding: 12px 16px;
@@ -602,7 +611,7 @@
 /* ── warning card ── */
 .iba-warning {
   border-left: 4px solid var(--rose);
-  background: rgba(250,236,232,0.72) !important;
+  background: rgba(217,112,96,0.12) !important;
 }
 
 /* ── demo steps ── */
@@ -742,7 +751,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 11px 14px;
-  background: rgba(255,255,255,0.55);
+  background: rgba(255,255,255,0.03);
   border: 1px solid var(--line);
   border-radius: 13px;
   font-size: 13px;
@@ -758,7 +767,7 @@
   border: 1px solid var(--line);
   border-radius: 16px;
   padding: 16px;
-  background: rgba(255,255,255,0.5);
+  background: rgba(255,255,255,0.03);
 }
 
 .iba-plan-time {
