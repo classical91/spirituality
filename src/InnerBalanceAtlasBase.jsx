@@ -1027,6 +1027,30 @@ function StressRecovery() {
     borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
   });
 
+  const stressTypes = [
+    { type: 'Acute Stress', duration: 'Short-term', description: 'Triggered by immediate demands or pressures — a deadline, a conflict, a sudden threat. The stress response is appropriate and adaptive here.', symptoms: 'Increased heart rate, rapid breathing, muscle tension, sweating, heightened alertness.' },
+    { type: 'Chronic Stress', duration: 'Prolonged', description: 'Ongoing life challenges — financial pressure, work overload, relationship difficulties — keep the stress system perpetually activated. The body never fully recovers.', symptoms: 'Fatigue, irritability, sleep disturbances, weakened immunity, brain fog, low mood.' },
+    { type: 'Traumatic Stress', duration: 'Event-triggered', description: 'Caused by exposure to overwhelming events — accidents, violence, abuse, disasters. Can reorganise the nervous system\'s threat-detection in lasting ways.', symptoms: 'Flashbacks, hypervigilance, emotional numbing, avoidance, heightened startle response. May develop into PTSD.' },
+  ];
+
+  const mentalDisorders = [
+    { name: 'Generalised Anxiety Disorder (GAD)', link: 'Chronic stress keeps the HPA axis overactivated, maintaining a persistent state of threat-detection. The nervous system can\'t find baseline calm.' },
+    { name: 'Panic Disorder', link: 'Repeated stress sensitises the brain\'s alarm system. The body learns to interpret normal sensations as danger, triggering sudden episodes of intense fear and physical symptoms.' },
+    { name: 'Depression', link: 'Chronic cortisol elevation suppresses hippocampal neurogenesis and disrupts serotonin and dopamine systems. Prolonged stress is one of the strongest environmental predictors of depression onset.' },
+    { name: 'PTSD', link: 'Traumatic stress can alter the amygdala (overactive), prefrontal cortex (underactive), and memory processing systems — locking the nervous system in a state of threat long after the event.' },
+    { name: 'OCD', link: 'Stress amplifies intrusive thoughts and the distress they cause, increasing compulsive behaviour as a coping mechanism. Stress does not cause OCD but reliably worsens it.' },
+    { name: 'Substance Use Disorders', link: 'Stress activates dopamine-driven reward-seeking. People under chronic stress are significantly more likely to use substances as self-medication, which can escalate to dependency.' },
+  ];
+
+  const physicalDisorders = [
+    { name: 'Cardiovascular disease', link: 'Chronic cortisol raises blood pressure, increases blood clotting, and promotes inflammation — all direct risk factors for heart attack and stroke.' },
+    { name: 'Irritable Bowel Syndrome (IBS)', link: 'The gut-brain axis is bidirectional. Stress activates the enteric nervous system, altering gut motility and sensitivity. Most IBS flares correlate directly with psychological stress.' },
+    { name: 'Immune dysregulation', link: 'Prolonged cortisol suppresses immune function, making the body more vulnerable to infection. Chronic stress also promotes systemic inflammation — a driver of many diseases.' },
+    { name: 'Fibromyalgia & chronic pain', link: 'Stress sensitises central pain pathways. The brain\'s volume control for pain signals is turned up — real physical pain is amplified by a chronically stressed nervous system.' },
+    { name: 'Migraines', link: 'Stress triggers cortical spreading depression in susceptible people. Both the presence of stress and the "let-down" phase after it (e.g. the weekend headache) commonly precipitate migraines.' },
+    { name: 'Endocrine disruption', link: 'Cortisol competes with and disrupts insulin, thyroid hormones, and sex hormones. Chronic stress can worsen insulin resistance, disrupt menstrual cycles, and suppress thyroid function.' },
+  ];
+
   const acuteTools = [
     { tool: 'Physiological sigh', how: 'Double inhale through nose, long exhale through mouth. Fastest known way to lower heart rate acutely.' },
     { tool: 'Cold water on face/wrists', how: 'Activates the dive reflex — slows heart rate within seconds via vagus nerve stimulation.' },
@@ -1056,7 +1080,55 @@ function StressRecovery() {
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Stress & Recovery</div>
         <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Managing the Stress Response</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Here are the tools for both acute relief and long-term resilience.</p>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Understanding the types of stress and the disorders they can produce helps you recognise what you are dealing with and respond effectively.</p>
+      </div>
+
+      {/* Stress types */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '170px 100px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Type</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Duration</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What it is</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Symptoms</span>
+        </div>
+        {stressTypes.map((s, i) => (
+          <div key={s.type} style={{ display: 'grid', gridTemplateColumns: '170px 100px 1fr 1fr', padding: '13px 20px', borderBottom: i < stressTypes.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.type}</div>
+            <div style={{ fontSize: '0.82rem', color: 'var(--sage)', paddingTop: 2, fontStyle: 'italic' }}>{s.duration}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.description}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.symptoms}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Mental health disorders */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--lavender)', textTransform: 'uppercase' }}>Mental Health Disorders Linked to Stress</span>
+        </div>
+        {mentalDisorders.map((d, i) => (
+          <div key={d.name} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < mentalDisorders.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{d.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.link}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Physical disorders */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: '#e57373', textTransform: 'uppercase' }}>Physical Disorders Linked to Stress</span>
+        </div>
+        {physicalDisorders.map((d, i) => (
+          <div key={d.name} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < physicalDisorders.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{d.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.link}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-warning">
+        <strong>When to seek professional help:</strong> Chronic or overwhelming stress that persists for weeks, disrupts sleep or relationships, or leads to substance use, panic attacks, or hopelessness warrants professional support. CBT is highly effective for stress-related anxiety and depression. Trauma-focused therapy (EMDR, somatic) is recommended for PTSD. Medication can support recovery when needed — there is no award for managing alone.
       </div>
 
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
