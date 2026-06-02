@@ -14,6 +14,7 @@ const tabs = [
   { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
   { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
   { id: 'hair',            icon: '◎', label: 'Hair & Scalp Health' },
+  { id: 'gratitude',       icon: '✦', label: 'Gratitude Practice' },
 ];
 
 /* ─────────────────────────────────────────
@@ -1527,6 +1528,118 @@ function HairHealth() {
 }
 
 /* ─────────────────────────────────────────
+   GRATITUDE PRACTICE
+───────────────────────────────────────── */
+function GratitudePractice() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+
+  const science = [
+    { finding: 'Raises serotonin and dopamine', detail: 'Consciously counting blessings activates the brain\'s reward circuits. Studies by Dr. Robert Emmons (UC Davis) found that people who wrote weekly gratitude lists reported higher positive affect and life satisfaction than control groups.' },
+    { finding: 'Reduces cortisol', detail: 'A 2015 study found that gratitude journaling before sleep lowered cortisol levels and improved sleep quality. Even brief gratitude reflection shifts the autonomic nervous system toward parasympathetic (rest) mode.' },
+    { finding: 'Rewires the negativity bias', detail: 'The brain is wired to prioritise threats over positives. Regular gratitude practice literally builds new neural pathways that make positive recognition faster and more automatic over time.' },
+    { finding: 'Improves relationships', detail: 'Expressing gratitude to others strengthens social bonds, increases oxytocin, and creates a positive feedback loop — grateful people receive more warmth, which generates more gratitude.' },
+    { finding: 'Linked to better sleep', detail: 'Spending 15 minutes writing what you\'re grateful for before bed reduces pre-sleep worry and increases sleep duration and quality, particularly in people with anxiety tendencies.' },
+    { finding: 'Reduces symptoms of depression', detail: 'Multiple randomised controlled trials show gratitude interventions (letters, journals, mental reflection) produce measurable reductions in depressive symptoms, even weeks after the practice ends.' },
+    { finding: 'Builds psychological resilience', detail: 'Gratitude is one of the strongest predictors of post-traumatic growth. People who can find meaning or appreciation even in difficult circumstances recover faster and report higher long-term wellbeing.' },
+  ];
+
+  const practices = [
+    { name: 'Gratitude journal (3 specifics)', how: 'Each day — ideally at the same time — write down three specific things you are grateful for. Specificity matters more than quantity. "I am grateful for the warmth of my coffee this morning" is more effective than "I am grateful for my life."', timing: 'Morning or before bed' },
+    { name: 'Gratitude letter', how: 'Write a detailed letter to someone who has positively impacted your life and whom you\'ve never fully thanked. The act of writing it — even if never sent — produces significant emotional benefit. Reading it aloud to the person amplifies the effect substantially.', timing: 'Weekly or monthly' },
+    { name: 'Mental subtraction', how: 'Imagine your life without something or someone you value — a relationship, a skill, a moment. Notice the absence, then return to the presence. This resets hedonic adaptation and makes ordinary things feel extraordinary again.', timing: 'Any time' },
+    { name: 'Savouring', how: 'Slow down and fully attend to a positive experience as it happens — a meal, a conversation, sunlight. Research shows that extending your attention on positive moments increases their emotional impact significantly.', timing: 'Throughout the day' },
+    { name: 'Gratitude meditation', how: 'Sit quietly and bring to mind something you appreciate. Hold it in awareness and let the feeling expand through your body. Move to another. This is different from journaling — it builds the felt sense of gratitude rather than just the cognitive recognition.', timing: '5–10 min, morning or evening' },
+    { name: 'Gratitude in relationships', how: 'Verbally express specific appreciation to people in your life regularly. "Thank you for listening when I was stressed yesterday" lands differently than a general thank-you. This practice builds the relationship and reinforces your own gratitude habit.', timing: 'Daily' },
+    { name: 'Reframe challenge as teacher', how: 'When facing difficulty, ask: what might this situation be teaching me? What can I be grateful for even here? This does not mean denying pain — it means looking for meaning alongside it.', timing: 'During hard moments' },
+  ];
+
+  const mistakes = [
+    { mistake: 'Forcing positivity', why: 'Gratitude is not about pretending everything is fine. It coexists with grief, frustration, and difficulty. Toxic positivity — using gratitude to bypass real emotions — undermines the practice and erodes trust in it.' },
+    { mistake: 'Being too vague', why: '"I\'m grateful for my family" every day loses its impact through repetition. The brain habituates quickly. Specificity ("I\'m grateful that my sister called to check in this morning") keeps the practice alive and meaningful.' },
+    { mistake: 'Treating it as a chore', why: 'Gratitude journaled mechanically without genuine feeling produces little benefit. The emotional engagement is the active ingredient — going through the motions without feeling the appreciation misses the point.' },
+    { mistake: 'Only practising when things are good', why: 'The highest-leverage time to practise gratitude is during difficulty. Gratitude during hard times builds resilience; gratitude only when things are easy stays a fair-weather habit.' },
+    { mistake: 'Comparing your gratitude list to others', why: 'Gratitude is not competitive. There is no threshold of hardship you must cross before you are "allowed" to be grateful. What matters is your genuine relationship to your own life.' },
+  ];
+
+  const deepening = [
+    ['Appreciate the ordinary', 'Most of life happens in unremarkable moments — a glass of water, the ability to breathe, a working body. Training attention on the mundane produces the richest long-term returns.'],
+    ['Let gratitude become a lens, not a list', 'The goal is not a daily checklist but a shift in orientation — moving from scanning for what is wrong (the brain\'s default) to also noticing what is working, what is given, what is beautiful.'],
+    ['Connect gratitude to values', 'When you are grateful for what actually matters to you — not what you think should matter — the practice becomes grounding. It clarifies what your life is actually built around.'],
+    ['Pair with giving', 'Gratitude that stays internal reaches a ceiling. When it flows outward — into generosity, service, expressed appreciation — it compounds and creates the conditions for more.'],
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Gratitude Practice</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Practice of Noticing What Is Good</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Gratitude is not a personality trait — it is a trainable skill. Research consistently shows that deliberate gratitude practice changes brain structure, improves mood, strengthens relationships, and builds the kind of resilience that sustains wellbeing over time.</p>
+      </div>
+
+      {/* Science */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What the Research Shows</span>
+        </div>
+        {science.map((s, i) => (
+          <div key={s.finding} style={rowStyle(i, science)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.finding}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Practices */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '200px 1fr 100px', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Practice</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How to do it</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>When</span>
+        </div>
+        {practices.map((p, i) => (
+          <div key={p.name} style={{ display: 'grid', gridTemplateColumns: '200px 1fr 100px', padding: '13px 20px', borderBottom: i < practices.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{p.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{p.how}</p>
+            <p style={{ margin: 0, fontSize: '0.78rem', color: 'var(--gold)', lineHeight: 1.5, fontStyle: 'italic' }}>{p.timing}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Common mistakes */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What Weakens the Practice</span>
+        </div>
+        {mistakes.map((m, i) => (
+          <div key={m.mistake} style={rowStyle(i, mistakes)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e57373', paddingTop: 2 }}>{m.mistake}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{m.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Deepening */}
+      <div className="iba-card" style={{ background: 'rgba(216,169,72,0.06)', border: '1px solid rgba(216,169,72,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--gold)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Taking it deeper</h4>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {deepening.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 4 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
@@ -1550,6 +1663,7 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     dailyrituals:     <DailyRituals />,
     herbs:            <HerbsAdaptogens />,
     hair:             <HairHealth />,
+    gratitude:        <GratitudePractice />,
   };
 
   return (
