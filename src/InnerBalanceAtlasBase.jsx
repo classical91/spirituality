@@ -13,6 +13,7 @@ const tabs = [
   { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
   { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
   { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
+  { id: 'hair',            icon: '◎', label: 'Hair & Scalp Health' },
 ];
 
 /* ─────────────────────────────────────────
@@ -1381,6 +1382,151 @@ function HerbsAdaptogens() {
 }
 
 /* ─────────────────────────────────────────
+   HAIR & SCALP HEALTH
+───────────────────────────────────────── */
+function HairHealth() {
+  const row2 = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '170px 1fr 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+  const row1 = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '190px 1fr',
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+    gap: 14,
+  });
+
+  const nutrients = [
+    { name: 'Protein', role: 'Hair is made of keratin. Without enough dietary protein, growth slows and strands weaken. Severe deficiency causes thinning and shedding.', sources: 'Lean meats, poultry, fish, eggs, dairy, legumes — include a source at every meal.' },
+    { name: 'Iron', role: 'Helps red blood cells carry oxygen to follicles. Iron deficiency is a leading cause of hair loss, especially in women. Correcting low ferritin often reduces excess shedding.', sources: 'Red meat, poultry, seafood, spinach, lentils. Pair plant sources with vitamin C to improve absorption.' },
+    { name: 'Vitamin D', role: 'Receptors in hair follicles depend on vitamin D. Lower levels are consistently found in people with hair loss conditions. May help regulate the growth cycle.', sources: 'Fatty fish, fortified foods, sensible sun exposure, or supplementation if tested deficient.' },
+    { name: 'Biotin (B7)', role: 'Deficiency causes hair loss and brittle nails — well established. However, true deficiency is uncommon and extra biotin has no proven benefit in people who are not deficient.', sources: 'Eggs (cooked), nuts, whole grains, vegetables. Avoid excess raw egg whites — avidin blocks biotin absorption.' },
+    { name: 'Omega-3 Fatty Acids', role: 'Anti-inflammatory fats that support scalp and follicle health. Deficiency leads to hair and eyebrow loss. One study found omega-3 supplementation reduced shedding and increased density in women.', sources: 'Salmon, mackerel, sardines, flaxseeds, chia seeds, walnuts.' },
+    { name: 'Zinc', role: 'Required for protein synthesis and cell division in follicles. Deficiency causes hair loss that improves with zinc supplementation. Excess zinc can interfere with other minerals — avoid high-dose supplements.', sources: 'Oysters (very high), red meat, pumpkin seeds, nuts, beans.' },
+    { name: 'Vitamin C', role: 'Essential for collagen production and iron absorption from plant foods. Deficiency weakens hair shafts. Also protects follicles from oxidative stress.', sources: 'Citrus fruits, berries, kiwi, papaya, bell peppers, broccoli.' },
+    { name: 'Vitamin A', role: 'Supports cell growth and sebum production for scalp moisture. Both deficiency (dry hair) and excess (hair loss) are problems. Get it from food, not high-dose supplements.', sources: 'Sweet potatoes, carrots, spinach — these provide beta-carotene, which the body converts as needed.' },
+    { name: 'Vitamin E & Antioxidants', role: 'Neutralise oxidative damage in scalp tissue. Small trials show vitamin E supplementation can increase hair count in people with hair loss. Megadoses can be harmful — food sources are safer.', sources: 'Almonds, sunflower seeds, avocados, spinach, green tea.' },
+    { name: 'Selenium', role: 'Trace mineral needed for follicle function and antioxidant enzymes. Deficiency and excess both cause hair loss — keep intake balanced.', sources: 'Brazil nuts (very high — 1–2 per day is enough), fish, eggs, whole grains.' },
+  ];
+
+  const foods = [
+    { food: 'Fatty fish (salmon, sardines, mackerel)', nutrients: 'Omega-3s, vitamin D, protein, B vitamins, iron', why: 'Anti-inflammatory fats linked to improved hair density and reduced shedding. Aim for 2 servings per week.' },
+    { food: 'Eggs', nutrients: 'Protein, biotin, zinc, selenium', why: 'One of the most complete hair foods — delivers keratin building blocks and follicle-supporting minerals in one package. Eat cooked, not raw.' },
+    { food: 'Leafy greens (spinach, kale)', nutrients: 'Iron, folate, vitamin C, beta-carotene', why: 'Iron oxygenates follicles, vitamin C builds collagen, and beta-carotene becomes vitamin A to regulate sebum. Aim for a daily serving.' },
+    { food: 'Nuts & seeds (almonds, walnuts, flaxseeds, sunflower seeds)', nutrients: 'Vitamin E, zinc, selenium, omega-3s, B vitamins', why: 'Broad spectrum of antioxidants and healthy fats. Just 1 oz almonds covers ~50% of daily vitamin E. Easy daily snack.' },
+    { food: 'Beans & lentils', nutrients: 'Plant protein, iron, zinc, biotin', why: 'Budget-friendly way to prevent iron, zinc, and biotin deficiencies that directly cause hair loss. Pair with vitamin C foods for better iron absorption.' },
+    { food: 'Berries & citrus', nutrients: 'Vitamin C, antioxidants, folate', why: 'Vitamin C is required for collagen synthesis and doubles iron absorption from plant meals. Antioxidants defend follicles from free radical damage.' },
+    { food: 'Sweet potatoes & carrots', nutrients: 'Beta-carotene (→ vitamin A), fibre', why: 'A medium sweet potato can exceed 100% of daily vitamin A needs safely — the body regulates beta-carotene conversion, making overdose impossible from food.' },
+    { food: 'Soybeans & legumes', nutrients: 'Protein, spermidine, iron, zinc', why: 'Spermidine (abundant in soybeans) has shown promise in prolonging the active hair growth phase in early research.' },
+    { food: 'Greek yogurt & dairy', nutrients: 'Protein, B5 (pantothenic acid), calcium', why: 'B5 is linked to hair thickness and follicle health. Protein from dairy provides complete amino acids for keratin production.' },
+    { food: 'Oysters', nutrients: 'Zinc (extremely high), protein, iron', why: 'The single richest food source of zinc. One or two oysters can meet daily zinc needs — important for follicle cell turnover.' },
+  ];
+
+  const avoid = [
+    { item: 'Excess sugar & refined carbs', why: 'Spikes blood sugar and insulin, may raise androgen levels and inflame follicles. High-glycemic diets linked to accelerated hair thinning in susceptible people. Swap for whole grains, sweet potatoes, beans.' },
+    { item: 'High-mercury fish (swordfish, shark, king mackerel, excess albacore tuna)', why: 'Mercury accumulates in the body and has been linked to hair loss in case reports. Choose low-mercury fish: salmon, sardines, trout, light tuna, tilapia, shrimp.' },
+    { item: 'Crash diets & severe calorie restriction', why: 'Starving the body pushes hair into a resting/shedding phase (telogen effluvium). Sudden hair loss 1–2 months after a very low-calorie diet is a well-documented clinical pattern. Lose weight gradually with adequate protein.' },
+    { item: 'Skipping meals / low-protein breakfast', why: 'One study found people with hair loss who skipped breakfast or ate low-protein breakfasts had worse follicle structure. Follicles need a steady nutrient supply — going long periods without protein starves them.' },
+    { item: 'High-dose supplement megadosing', why: 'Vitamin A above ~10,000 IU/day causes hair loss. Selenium overdose causes hair loss. Excess zinc disrupts other minerals. More is not better. Correct confirmed deficiencies; don\'t guess-and-supplement.' },
+    { item: 'Fried foods & trans fats', why: 'May increase scalp oil production and inflammation. Also displaces nutrient-dense foods from the diet. Bake, grill, or sauté in olive oil instead.' },
+    { item: 'Smoking', why: 'Constricts blood vessels supplying the scalp, generates free radicals that damage follicles. Research shows higher hair loss rates in smokers.' },
+    { item: 'Heavy alcohol consumption', why: 'Depletes zinc, folate, and protein — all essential for hair. Also impairs liver function which affects nutrient metabolism.' },
+  ];
+
+  const steps = [
+    'Include a protein source at every meal — eggs, fish, legumes, dairy, or lean meat.',
+    'Eat fatty fish (salmon, sardines) twice a week for omega-3s and vitamin D.',
+    'Have at least one serving of leafy greens daily — spinach, kale, or similar.',
+    'Snack on nuts and seeds for vitamin E, zinc, and healthy fats.',
+    'Pair plant iron sources with vitamin C foods at the same meal to maximise absorption.',
+    'Avoid crash dieting — steady, balanced eating keeps hair in its growth phase.',
+    'If experiencing unexplained hair loss, test for iron, ferritin, vitamin D, and thyroid function before buying supplements.',
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Hair & Scalp Health</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Growing Strong Hair from the Inside</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Hair follicles are among the most metabolically active cells in the body. They require a consistent supply of protein, vitamins, and minerals to produce healthy strands. Diet is one of the most modifiable factors in hair health.</p>
+      </div>
+
+      <div className="iba-warning">
+        <strong>Important:</strong> Hair grows approximately 1 cm per month. Changes from diet won't be visible immediately — consistent nutrition over several months creates the conditions for visible improvement. Persistent or sudden hair loss warrants medical evaluation, not just dietary adjustment.
+      </div>
+
+      {/* Key Nutrients */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '170px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Nutrient</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it matters</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Food sources</span>
+        </div>
+        {nutrients.map((n, i) => (
+          <div key={n.name} style={row2(i, nutrients)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{n.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{n.role}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--sage)', lineHeight: 1.6 }}>{n.sources}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Best foods */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '210px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Food</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Key nutrients</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it helps</span>
+        </div>
+        {foods.map((f, i) => (
+          <div key={f.food} style={{ display: 'grid', gridTemplateColumns: '210px 1fr 1fr', padding: '13px 20px', borderBottom: i < foods.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{f.food}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--blue)', lineHeight: 1.6 }}>{f.nutrients}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{f.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* What to avoid */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '220px 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Avoid or Limit</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why it harms hair</span>
+        </div>
+        {avoid.map((a, i) => (
+          <div key={a.item} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < avoid.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: '#e57373', paddingTop: 2 }}>{a.item}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{a.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Diet pattern note */}
+      <div className="iba-card" style={{ background: 'rgba(91,191,181,0.06)', border: '1px solid rgba(91,191,181,0.18)' }}>
+        <h4 style={{ margin: '0 0 10px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>The Mediterranean diet connection</h4>
+        <p style={{ margin: '0 0 8px', fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>A 2020 review of 24 studies found that anti-inflammatory, whole-food dietary patterns are associated with better hair outcomes. Men who ate a Mediterranean-style diet (high in vegetables, herbs, legumes, and olive oil) had around 56% lower odds of androgenetic alopecia in one study.</p>
+        <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>The mechanism: high antioxidant and omega-3 intake reduces follicle-damaging inflammation. The same diet pattern recommended for heart and skin health is the best one for hair.</p>
+      </div>
+
+      {/* Action steps */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>◎ Actionable Steps</span>
+        </div>
+        {steps.map((s, i) => (
+          <div key={i} style={row1(i, steps)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--gold)', paddingTop: 2 }}>Step {i + 1}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
@@ -1403,6 +1549,7 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     stress:           <StressRecovery />,
     dailyrituals:     <DailyRituals />,
     herbs:            <HerbsAdaptogens />,
+    hair:             <HairHealth />,
   };
 
   return (
