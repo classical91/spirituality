@@ -11,6 +11,7 @@ const tabs = [
   { id: 'sleep',            icon: '🌙', label: 'Sleep' },
   { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
   { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
+  { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
 ];
 
 /* ─────────────────────────────────────────
@@ -1095,6 +1096,154 @@ function StressRecovery() {
 }
 
 /* ─────────────────────────────────────────
+   DAILY RITUALS
+───────────────────────────────────────── */
+function DailyRituals() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr',
+    padding: '14px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  const morning = [
+    { ritual: 'Hydration first', why: 'The body loses ~500ml of water overnight through breathing and sweating. Rehydrating before caffeine supports kidney function, cognitive clarity, and cortisol regulation.' },
+    { ritual: 'Morning light (5–10 min)', why: 'Sunlight within 30–60 minutes of waking sets the circadian clock, anchors cortisol to the right time of day, and improves both alertness now and sleep quality later.' },
+    { ritual: 'Meditation or prayer', why: 'Even 5–10 minutes of quiet reflection lowers cortisol, reduces amygdala reactivity, and creates a psychological anchor before external demands arrive.' },
+    { ritual: 'Movement', why: 'Morning exercise raises dopamine and norepinephrine for 2–4 hours, improving focus and motivation. It also shifts the cortisol peak earlier — aligned with the body\'s natural rhythm.' },
+    { ritual: 'Nutritious breakfast', why: 'Protein and fat in the morning stabilise blood sugar, support neurotransmitter production (especially serotonin and dopamine), and reduce cortisol-driven cravings later.' },
+  ];
+
+  const goalSetting = [
+    { ritual: 'Daily planning (3–5 priorities)', why: 'Writing down specific tasks activates the prefrontal cortex and reduces cognitive load — the brain stops holding loose threads and can focus on execution.' },
+    { ritual: 'Positive affirmations', why: 'Repeated intentional statements prime the reticular activating system (RAS) to notice aligned evidence and opportunities throughout the day, reinforcing the desired self-concept.' },
+    { ritual: 'Identify your "one thing"', why: 'Single-tasking on the most important item each morning leverages peak prefrontal function and prevents the reactive drift of checking messages first.' },
+  ];
+
+  const daytime = [
+    { ritual: 'Focused work blocks (25–50 min)', why: 'Ultradian rhythms cycle every ~90 minutes. Working in focused intervals followed by short breaks aligns with natural energy peaks rather than fighting the biology.' },
+    { ritual: 'Regular breaks (5–10 min)', why: 'Short rest intervals restore focused attention, prevent decision fatigue, and allow the default mode network (DMN) to process and consolidate information.' },
+    { ritual: 'Mindful breathing check-ins', why: 'A slow breath cycle (4–6 sec inhale, 6–8 sec exhale) activates the vagus nerve and shifts the autonomic nervous system toward calm within 60–90 seconds.' },
+    { ritual: 'Time in nature (even brief)', why: 'Natural environments reduce cortisol, lower blood pressure, and restore directed-attention capacity — the type of focus used for work. Even a 5-minute walk outdoors helps.' },
+    { ritual: 'Hydration throughout', why: 'A 1–2% drop in hydration causes measurable declines in mood, memory, and concentration. Keeping water accessible prevents the gradual cognitive fade that builds by afternoon.' },
+  ];
+
+  const evening = [
+    { ritual: 'Daily reflection', why: 'Reviewing what went well and what to improve consolidates learning, builds self-efficacy, and creates psychological closure — reducing the ruminative thinking that disrupts sleep.' },
+    { ritual: 'Screen unplugging (60–90 min before bed)', why: 'Blue light from screens suppresses melatonin for up to 2 hours. Unplugging also reduces cognitive arousal — the brain needs to downshift, not process more input.' },
+    { ritual: 'Reading (physical or calm)', why: 'Reading fiction specifically reduces stress by 68% within 6 minutes (Cognitive Neuropsychology, 2009). It moves the brain from problem-solving mode into narrative absorption.' },
+    { ritual: 'Gratitude practice', why: 'Writing 3 specific things to be grateful for activates the reward circuit, raises serotonin and dopamine, and ends the day in a positive emotional register that improves sleep onset.' },
+    { ritual: 'Wind-down temperature drop', why: 'Core body temperature must fall ~1°C for sleep to initiate. A warm shower followed by a cooler room accelerates this process and improves sleep onset speed.' },
+  ];
+
+  const wellnessHabits = [
+    { habit: 'Balanced diet', detail: 'Prioritise protein, healthy fats, complex carbohydrates, and micronutrient-rich vegetables. Each macro supports different neurotransmitter and hormone systems.' },
+    { habit: '7–9 hours sleep', detail: 'Sleep is the non-negotiable foundation. Every other ritual compounds or collapses depending on sleep quality. Consistency of schedule matters as much as duration.' },
+    { habit: 'Consistent hydration', detail: 'Aim for ~2–3L daily, adjusted for body weight and activity. Hydration affects energy, cognition, mood, and digestion — often before thirst signals arrive.' },
+    { habit: 'Sunlight + darkness cycle', detail: 'Morning light and evening darkness regulate the entire circadian system, which governs hormones, metabolism, immune function, and mood across 24 hours.' },
+  ];
+
+  const growth = [
+    { area: 'Dedicated learning time', how: 'Even 20–30 minutes of focused reading, a course, or a skill session compounds significantly over months. The key is consistency over intensity.' },
+    { area: 'Creative or meaningful hobbies', how: 'Activities done for intrinsic enjoyment (not productivity) restore psychological energy, build resilience, and contribute to long-term life satisfaction.' },
+    { area: 'Social connection', how: 'Quality connection with others is one of the strongest predictors of wellbeing, longevity, and stress recovery. Oxytocin released in genuine connection directly counters cortisol.' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Daily Rituals</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of a Good Day</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Daily rituals are not productivity hacks — they are the biological and psychological conditions under which your best self can show up consistently.</p>
+      </div>
+
+      {/* Morning */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>☀ Morning Routine — Set the foundation</span>
+        </div>
+        {morning.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, morning)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Goal setting */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◎ Goal Setting & Intention</span>
+        </div>
+        {goalSetting.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, goalSetting)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Daytime */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◑ Daytime Rhythm — Sustain the state</span>
+        </div>
+        {daytime.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, daytime)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Evening */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>🌙 Evening Routine — Close the loop</span>
+        </div>
+        {evening.map((r, i) => (
+          <div key={r.ritual} style={rowStyle(i, evening)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{r.ritual}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.why}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Health & Wellness */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>⬡ Health & Wellness Foundations</span>
+        </div>
+        {wellnessHabits.map((h, i) => (
+          <div key={h.habit} style={rowStyle(i, wellnessHabits)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{h.habit}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Personal Growth */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>✦ Personal Growth</span>
+        </div>
+        {growth.map((g, i) => (
+          <div key={g.area} style={rowStyle(i, growth)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingRight: 16, paddingTop: 2 }}>{g.area}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{g.how}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-card" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.18)' }}>
+        <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>
+          <strong style={{ color: 'var(--gold)' }}>The compound effect:</strong> No single ritual transforms a life. What works is the accumulation — consistent small actions that align biology, mindset, and behaviour in the same direction over time. Start with one block and build from there.
+        </p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
@@ -1115,6 +1264,7 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     sleep:            <Sleep />,
     nutrition:        <Nutrition />,
     stress:           <StressRecovery />,
+    dailyrituals:     <DailyRituals />,
   };
 
   return (
