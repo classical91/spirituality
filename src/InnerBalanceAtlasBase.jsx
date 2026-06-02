@@ -1002,6 +1002,24 @@ function Nutrition() {
     },
   ];
 
+  const hydration = [
+    { benefit: 'Energy & focus', detail: 'Even 1–2% dehydration reduces cognitive performance, working memory, and attention. Fatigue is one of the earliest signs of mild dehydration — often mistaken for hunger or low motivation.' },
+    { benefit: 'Detoxification', detail: 'The kidneys require adequate water to filter waste products from the blood and excrete them through urine. Chronic low intake forces the kidneys to concentrate urine, increasing kidney stone risk.' },
+    { benefit: 'Digestion', detail: 'Water is needed to produce digestive enzymes and move food through the intestines. Insufficient intake is a leading cause of constipation and slowed nutrient absorption.' },
+    { benefit: 'Skin health', detail: 'Hydration supports skin elasticity and barrier function. While drinking water is not a cure for dry skin, chronic dehydration visibly reduces skin plumpness and accelerates the appearance of fine lines.' },
+    { benefit: 'Temperature regulation', detail: 'Sweating is the primary way the body dissipates heat. Without enough water, the body cannot cool itself efficiently — core temperature rises and performance drops rapidly in warm conditions.' },
+    { benefit: 'Joint & muscle support', detail: 'Synovial fluid in joints is primarily water. Adequate hydration keeps joints lubricated and reduces friction. Muscle cramps during exercise are often linked to fluid and electrolyte loss.' },
+    { benefit: 'Weight management', detail: 'Drinking water before meals reduces calorie intake by increasing satiety. The stomach\'s stretch receptors signal fullness regardless of calorie content. Water also slightly raises metabolic rate for 30–40 minutes after ingestion.' },
+  ];
+
+  const hydrationTips = [
+    ['Start with water', 'Drink a glass of water before anything else in the morning — it rehydrates after overnight fluid loss and jumpstarts kidney function before caffeine.'],
+    ['Aim for 2–3 litres daily', 'Exact needs vary by body weight, activity, and climate. A practical guide: urine should be pale yellow — dark yellow means drink more, clear may mean overdrinking.'],
+    ['Don\'t wait for thirst', 'Thirst is a late signal — by the time it appears, mild dehydration is already present. Keep water accessible and sip consistently throughout the day.'],
+    ['Electrolytes matter', 'Plain water isn\'t enough during intense exercise or heat. Sodium, potassium, and magnesium help water enter cells. Coconut water, a pinch of sea salt, or electrolyte tabs can help.'],
+    ['Coffee and tea count', 'Moderate caffeine does not cause net dehydration — the fluid in coffee and tea more than offsets any mild diuretic effect. They count toward daily fluid intake.'],
+  ];
+
   return (
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
@@ -1013,6 +1031,31 @@ function Nutrition() {
         label: c.label,
         items: c.items.map(item => ({ name: item.food, icon: '', benefits: [item.benefit] })),
       }))} />
+
+      {/* Hydration */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>💧 Hydration — Benefits of Drinking Water</span>
+        </div>
+        {hydration.map((h, i) => (
+          <div key={h.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', padding: '13px 20px', borderBottom: i < hydration.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{h.benefit}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-card" style={{ background: 'rgba(99,163,219,0.06)', border: '1px solid rgba(99,163,219,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--blue)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Practical hydration guide</h4>
+        <div style={{ display: 'grid', gap: 10 }}>
+          {hydrationTips.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 3 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
@@ -1026,6 +1069,30 @@ function StressRecovery() {
     padding: '14px 20px',
     borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
   });
+
+  const stressTypes = [
+    { type: 'Acute Stress', duration: 'Short-term', description: 'Triggered by immediate demands or pressures — a deadline, a conflict, a sudden threat. The stress response is appropriate and adaptive here.', symptoms: 'Increased heart rate, rapid breathing, muscle tension, sweating, heightened alertness.' },
+    { type: 'Chronic Stress', duration: 'Prolonged', description: 'Ongoing life challenges — financial pressure, work overload, relationship difficulties — keep the stress system perpetually activated. The body never fully recovers.', symptoms: 'Fatigue, irritability, sleep disturbances, weakened immunity, brain fog, low mood.' },
+    { type: 'Traumatic Stress', duration: 'Event-triggered', description: 'Caused by exposure to overwhelming events — accidents, violence, abuse, disasters. Can reorganise the nervous system\'s threat-detection in lasting ways.', symptoms: 'Flashbacks, hypervigilance, emotional numbing, avoidance, heightened startle response. May develop into PTSD.' },
+  ];
+
+  const mentalDisorders = [
+    { name: 'Generalised Anxiety Disorder (GAD)', link: 'Chronic stress keeps the HPA axis overactivated, maintaining a persistent state of threat-detection. The nervous system can\'t find baseline calm.' },
+    { name: 'Panic Disorder', link: 'Repeated stress sensitises the brain\'s alarm system. The body learns to interpret normal sensations as danger, triggering sudden episodes of intense fear and physical symptoms.' },
+    { name: 'Depression', link: 'Chronic cortisol elevation suppresses hippocampal neurogenesis and disrupts serotonin and dopamine systems. Prolonged stress is one of the strongest environmental predictors of depression onset.' },
+    { name: 'PTSD', link: 'Traumatic stress can alter the amygdala (overactive), prefrontal cortex (underactive), and memory processing systems — locking the nervous system in a state of threat long after the event.' },
+    { name: 'OCD', link: 'Stress amplifies intrusive thoughts and the distress they cause, increasing compulsive behaviour as a coping mechanism. Stress does not cause OCD but reliably worsens it.' },
+    { name: 'Substance Use Disorders', link: 'Stress activates dopamine-driven reward-seeking. People under chronic stress are significantly more likely to use substances as self-medication, which can escalate to dependency.' },
+  ];
+
+  const physicalDisorders = [
+    { name: 'Cardiovascular disease', link: 'Chronic cortisol raises blood pressure, increases blood clotting, and promotes inflammation — all direct risk factors for heart attack and stroke.' },
+    { name: 'Irritable Bowel Syndrome (IBS)', link: 'The gut-brain axis is bidirectional. Stress activates the enteric nervous system, altering gut motility and sensitivity. Most IBS flares correlate directly with psychological stress.' },
+    { name: 'Immune dysregulation', link: 'Prolonged cortisol suppresses immune function, making the body more vulnerable to infection. Chronic stress also promotes systemic inflammation — a driver of many diseases.' },
+    { name: 'Fibromyalgia & chronic pain', link: 'Stress sensitises central pain pathways. The brain\'s volume control for pain signals is turned up — real physical pain is amplified by a chronically stressed nervous system.' },
+    { name: 'Migraines', link: 'Stress triggers cortical spreading depression in susceptible people. Both the presence of stress and the "let-down" phase after it (e.g. the weekend headache) commonly precipitate migraines.' },
+    { name: 'Endocrine disruption', link: 'Cortisol competes with and disrupts insulin, thyroid hormones, and sex hormones. Chronic stress can worsen insulin resistance, disrupt menstrual cycles, and suppress thyroid function.' },
+  ];
 
   const acuteTools = [
     { tool: 'Physiological sigh', how: 'Double inhale through nose, long exhale through mouth. Fastest known way to lower heart rate acutely.' },
@@ -1056,7 +1123,55 @@ function StressRecovery() {
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Stress & Recovery</div>
         <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Managing the Stress Response</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Here are the tools for both acute relief and long-term resilience.</p>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Understanding the types of stress and the disorders they can produce helps you recognise what you are dealing with and respond effectively.</p>
+      </div>
+
+      {/* Stress types */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '170px 100px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Type</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Duration</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What it is</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Symptoms</span>
+        </div>
+        {stressTypes.map((s, i) => (
+          <div key={s.type} style={{ display: 'grid', gridTemplateColumns: '170px 100px 1fr 1fr', padding: '13px 20px', borderBottom: i < stressTypes.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.type}</div>
+            <div style={{ fontSize: '0.82rem', color: 'var(--sage)', paddingTop: 2, fontStyle: 'italic' }}>{s.duration}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.description}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.symptoms}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Mental health disorders */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--lavender)', textTransform: 'uppercase' }}>Mental Health Disorders Linked to Stress</span>
+        </div>
+        {mentalDisorders.map((d, i) => (
+          <div key={d.name} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < mentalDisorders.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{d.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.link}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Physical disorders */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: '#e57373', textTransform: 'uppercase' }}>Physical Disorders Linked to Stress</span>
+        </div>
+        {physicalDisorders.map((d, i) => (
+          <div key={d.name} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', padding: '13px 20px', borderBottom: i < physicalDisorders.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{d.name}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{d.link}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-warning">
+        <strong>When to seek professional help:</strong> Chronic or overwhelming stress that persists for weeks, disrupts sleep or relationships, or leads to substance use, panic attacks, or hopelessness warrants professional support. CBT is highly effective for stress-related anxiety and depression. Trauma-focused therapy (EMDR, somatic) is recommended for PTSD. Medication can support recovery when needed — there is no award for managing alone.
       </div>
 
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
@@ -1235,6 +1350,104 @@ function DailyRituals() {
             <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{g.how}</p>
           </div>
         ))}
+      </div>
+
+      {/* Self-Care Practices */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>◈ Self-Care Practices</span>
+        </div>
+
+        {/* Face massage */}
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Facial Self-Massage</div>
+          {[
+            { benefit: 'Circulation & glow', detail: 'Gentle pressure stimulates blood flow, bringing oxygen and nutrients to the skin surface — the mechanism behind the natural flush after massage.' },
+            { benefit: 'Muscle tension release', detail: 'The face holds considerable tension, especially the jaw (masseter), temples, and forehead. Releasing this reduces stress and can prevent tension headaches.' },
+            { benefit: 'Lymphatic drainage', detail: 'Light outward strokes encourage lymph movement, reducing morning puffiness by clearing accumulated fluid from the tissue.' },
+            { benefit: 'Product absorption', detail: 'Massage increases skin permeability temporarily — applying moisturiser or serum during massage improves how deeply active ingredients penetrate.' },
+            { benefit: 'Skin tone & elasticity', detail: 'Stimulating facial muscles may improve tone and slow the sagging that comes from muscle atrophy. Similar to how body exercise maintains muscle, regular facial movement supports structure.' },
+            { benefit: 'Headache relief', detail: 'Pressure on the temples, base of skull, and sinus points can interrupt tension headache pathways. Particularly effective for stress-driven headaches.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Cold showers */}
+        <div style={{ padding: '12px 20px' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Cold Showers</div>
+          {[
+            { benefit: 'Mood & alertness', detail: 'Cold water triggers a large norepinephrine and dopamine release — studies show increases of 200–300% and 250% respectively. Creates a sharp, sustained lift in mood and focus.' },
+            { benefit: 'Circulation', detail: 'Cold causes peripheral vasoconstriction followed by vasodilation on warming. This pumping action trains vascular responsiveness and improves overall circulation over time.' },
+            { benefit: 'Immune resilience', detail: 'A Dutch study (Kox et al.) found cold shower practitioners had 29% fewer sick days. Repeated cold exposure trains the immune system\'s inflammatory response.' },
+            { benefit: 'Recovery & muscle soreness', detail: 'Cold water reduces inflammation and metabolic waste products in muscle tissue. Widely used by athletes as a post-exercise recovery tool.' },
+            { benefit: 'Mental resilience', detail: 'Voluntarily entering discomfort trains the prefrontal cortex to override the impulse to avoid. This tolerance transfers to other areas — it is a deliberate practice in discomfort tolerance.' },
+            { benefit: 'Cortisol regulation', detail: 'Brief cold exposure raises cortisol acutely (a healthy stress response), but regular practice lowers baseline cortisol — similar to how exercise creates hormetic adaptation.' },
+            { benefit: 'Skin & hair', detail: 'Cold water causes pores and hair cuticles to contract, reducing moisture loss from skin and adding shine and smoothness to hair. Hot water strips natural oils; cold preserves them.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--blue)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Start: end your normal shower with 30–60 seconds of cold. Build to 2–3 minutes over weeks. People with cardiovascular conditions should consult a doctor first.</p>
+        </div>
+
+        {/* Sunlight */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Getting Sunlight</div>
+          {[
+            { benefit: 'Circadian anchoring', detail: 'Morning light (ideally within 30–60 min of waking) sets the circadian clock by suppressing residual melatonin and triggering the cortisol peak at the right time — improving energy now and sleep onset later.' },
+            { benefit: 'Vitamin D synthesis', detail: 'UVB light triggers vitamin D production in the skin. Vitamin D supports immune function, bone health, mood regulation, and has receptors in virtually every tissue in the body.' },
+            { benefit: 'Serotonin production', detail: 'Light — even on overcast days — stimulates serotonin release in the brain. Low light exposure in winter is the primary driver of Seasonal Affective Disorder (SAD).' },
+            { benefit: 'Mood & alertness', detail: 'Bright light increases alertness and positive mood within minutes via the melanopsin cells in the retina. This pathway is distinct from vitamin D and works even in people with certain visual impairments.' },
+            { benefit: 'Eye health', detail: 'Time outdoors in natural light is the strongest known preventive factor against myopia (short-sightedness) in children and young adults, likely through dopamine release in the retina.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--gold)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Aim for 10–20 minutes of outdoor light in the morning. Avoid sunglasses during this window if safe — the light needs to reach the retina. Glass and most windows block the relevant UV wavelengths.</p>
+        </div>
+
+        {/* Smiling */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Smiling (Genuine & Deliberate)</div>
+          {[
+            { benefit: 'Facial feedback loop', detail: 'The act of smiling — even deliberately — activates the same neural circuits as genuine happiness. The brain reads muscle position as emotional information and adjusts mood accordingly (Strack et al., replicated 2019).' },
+            { benefit: 'Endorphin & serotonin release', detail: 'Smiling triggers the release of endorphins, natural pain relievers, and serotonin — mood-supporting neurotransmitters that create a mild but measurable lift even from a brief smile.' },
+            { benefit: 'Cortisol reduction', detail: 'Studies show that even a maintained smile during a stressful task reduces heart rate recovery time and cortisol elevation — the body responds to the facial signal as a cue that safety is present.' },
+            { benefit: 'Social contagion', detail: 'Smiling is neurologically contagious — mirror neurons in observers automatically activate the same facial muscles. A smile tends to generate a smile back, creating a positive social feedback loop.' },
+            { benefit: 'Perspective shift', detail: 'Deliberately choosing to smile during a neutral or mild negative moment can interrupt rumination. It is a physical state change that slightly shifts the emotional register.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--lavender)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
+        {/* Practising Om */}
+        <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Practising Om (Chanting)</div>
+          {[
+            { benefit: 'Vagus nerve activation', detail: 'The extended exhale and vocal resonance of Om chanting directly stimulates the vagus nerve, shifting the nervous system from sympathetic (activation) to parasympathetic (rest). Measurable heart rate and cortisol reduction follow.' },
+            { benefit: 'Meditative state induction', detail: 'Sustained focus on the vibration and sound of Om occupies the mind\'s attention circuits — interrupting thought loops and producing brainwave patterns consistent with meditation (increased alpha and theta waves).' },
+            { benefit: 'Limbic system calming', detail: 'Research using fMRI shows that Om chanting deactivates the amygdala and limbic system — the brain\'s threat and emotion centres — more effectively than a control sound (ssss), suggesting something specific to the resonant quality.' },
+            { benefit: 'Breath regulation', detail: 'Om practice naturally lengthens the exhale relative to the inhale, which is one of the most effective breathing patterns for activating the parasympathetic response and reducing anxiety.' },
+            { benefit: 'Vibration & body awareness', detail: 'The physical resonance of Om is felt in the chest, throat, and skull. Tuning attention to this sensation builds interoception — awareness of the body\'s internal state — which is associated with better emotional regulation.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+          <p style={{ margin: '10px 0 0', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Practice: sit comfortably, take a deep breath, and on the exhale produce a sustained "Aum" — the A rises from the belly, the U moves through the chest, the M vibrates through the lips and skull. 3–5 rounds takes under 2 minutes.</p>
+        </div>
       </div>
 
       <div className="iba-card" style={{ background: 'rgba(251,191,36,0.06)', border: '1px solid rgba(251,191,36,0.18)' }}>
