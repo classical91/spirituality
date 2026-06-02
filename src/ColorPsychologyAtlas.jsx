@@ -1,3 +1,5 @@
+import InnerAtlasNav from './components/InnerAtlasNav';
+
 const colorMeanings = [
   {
     name: 'Red',
@@ -123,6 +125,51 @@ const applicationLayers = [
   },
 ];
 
+const strategicColorCues = [
+  {
+    name: 'Red',
+    hex: '#ef4444',
+    cue: 'Energy, passion, urgency, attention.',
+    use: 'Use for alerts, bold actions, physical drive, and high-emphasis moments. Keep it controlled so it does not create pressure.',
+  },
+  {
+    name: 'Blue',
+    hex: '#3b82f6',
+    cue: 'Calmness, trust, stability, reliability.',
+    use: 'Use in healthcare, corporate, education, and calming interfaces where steadiness matters.',
+  },
+  {
+    name: 'Yellow',
+    hex: '#facc15',
+    cue: 'Happiness, optimism, warmth, mental brightness.',
+    use: 'Use for highlights, learning, friendliness, and optimism. Avoid flooding a space with it because intense yellow can fatigue attention.',
+  },
+  {
+    name: 'Green',
+    hex: '#22c55e',
+    cue: 'Nature, balance, renewal, relaxation.',
+    use: 'Use for growth, recovery, environmental themes, wellness cues, and emotional reset.',
+  },
+  {
+    name: 'Purple',
+    hex: '#a855f7',
+    cue: 'Creativity, luxury, spirituality, imagination.',
+    use: 'Use for contemplative, artistic, premium, mystical, or visionary experiences.',
+  },
+  {
+    name: 'Black',
+    hex: '#020617',
+    cue: 'Sophistication, power, authority, depth.',
+    use: 'Use for contrast, focus, elegance, and seriousness. Balance it with air or warmth if the design starts to feel heavy.',
+  },
+  {
+    name: 'White',
+    hex: '#f8fafc',
+    cue: 'Purity, simplicity, cleanliness, openness.',
+    use: 'Use for clarity, spaciousness, reset, minimalism, and visual breathing room.',
+  },
+];
+
 function SwatchRow({ colors }) {
   return (
     <div className="flex overflow-hidden rounded-full border border-white/10">
@@ -133,30 +180,10 @@ function SwatchRow({ colors }) {
   );
 }
 
-export default function ColorPsychologyAtlas({ onBack, onNavigate }) {
+export default function ColorPsychologyAtlas({ onBack, onSelectSection }) {
   return (
     <div className="min-h-screen bg-[radial-gradient(circle_at_top_left,rgba(168,85,247,0.22),transparent_32%),radial-gradient(circle_at_top_right,rgba(34,211,238,0.18),transparent_28%),linear-gradient(180deg,#020617,#0f172a_48%,#020617)] text-slate-100">
-      <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl flex-wrap items-center gap-3 px-4 py-3">
-          {onBack && (
-            <button
-              onClick={onBack}
-              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
-            >
-              ← Back
-            </button>
-          )}
-          {onNavigate && (
-            <button
-              onClick={() => onNavigate('innerbalance')}
-              className="rounded-2xl border border-emerald-300/20 bg-emerald-300/10 px-4 py-2 text-sm font-semibold text-emerald-100 transition hover:bg-emerald-300/20"
-            >
-              ◍ InnerBalance Atlas
-            </button>
-          )}
-          <span className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">InnerAtlas · Psychology of Colors</span>
-        </div>
-      </div>
+      <InnerAtlasNav activeId="colorpsychology" onBack={onBack} onSelectSection={onSelectSection} title="Psychology of Colors" />
 
       <main className="mx-auto max-w-7xl space-y-8 px-4 py-8">
         <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
@@ -212,6 +239,32 @@ export default function ColorPsychologyAtlas({ onBack, onNavigate }) {
               </div>
             </article>
           ))}
+        </section>
+
+        <section className="rounded-[2rem] border border-cyan-300/20 bg-cyan-300/5 p-6 shadow-2xl shadow-black/20">
+          <div className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-200/80">Strategic Color Cues</div>
+          <div className="mt-2 grid gap-5 lg:grid-cols-[0.85fr_1.15fr]">
+            <div>
+              <h2 className="text-3xl font-black text-white">Color changes the first read of a space</h2>
+              <p className="mt-3 text-sm leading-7 text-slate-300">
+                Designers, marketers, and psychologists use color because it can shape mood, perceived trust, urgency, openness, and decision-making before words are processed. These cues are context-sensitive, not universal laws.
+              </p>
+            </div>
+            <div className="grid gap-3 sm:grid-cols-2">
+              {strategicColorCues.map((color) => (
+                <article key={color.name} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                  <div className="mb-3 flex items-center gap-3">
+                    <span className="h-8 w-8 rounded-xl border border-white/15" style={{ backgroundColor: color.hex }} />
+                    <div>
+                      <h3 className="text-sm font-black text-white">{color.name}</h3>
+                      <p className="text-xs font-semibold text-slate-400">{color.cue}</p>
+                    </div>
+                  </div>
+                  <p className="text-xs leading-5 text-slate-300">{color.use}</p>
+                </article>
+              ))}
+            </div>
+          </div>
         </section>
 
         <section className="grid gap-5 lg:grid-cols-2">

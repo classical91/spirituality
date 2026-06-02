@@ -1,201 +1,503 @@
 import { useMemo, useState } from 'react';
+import InnerAtlasNav from './components/InnerAtlasNav';
 
-const CATEGORIES = [
+const SPIRAL_LEVELS = [
+  {
+    id: 'integrity-love',
+    direction: 'ascending',
+    name: 'Summit',
+    tone: '#6d28d9',
+    left: ['Unconditional Love'],
+    right: ['100% Integrity'],
+    meaning: 'The top of the spiral: love and integrity feel like one coherent state.',
+  },
+  {
+    id: 'compassion',
+    direction: 'ascending',
+    name: 'Open-hearted',
+    tone: '#7c3aed',
+    left: ['Empathy', 'Forgiveness'],
+    right: ['Compassion', 'Radiant'],
+    meaning: 'The heart is open, generous, and able to see beyond defense.',
+  },
+  {
+    id: 'empowered',
+    direction: 'ascending',
+    name: 'Empowered',
+    tone: '#2563eb',
+    left: ['Passion', 'Empowerment'],
+    right: ['Abundance', 'Victor'],
+    meaning: 'Energy returns as agency, purpose, and confidence in possibility.',
+  },
+  {
+    id: 'service',
+    direction: 'ascending',
+    name: 'Outward focus',
+    tone: '#0284c7',
+    left: ['Generous', 'Outward-Focused'],
+    right: ['Knowledge', 'Service'],
+    meaning: 'Attention can move beyond self-protection into learning, contribution, and service.',
+  },
+  {
+    id: 'joy-trust',
+    direction: 'ascending',
+    name: 'Joy and trust',
+    tone: '#0891b2',
+    left: ['Powerful', 'Joy', 'Patient'],
+    right: ['Freedom', 'Trust'],
+    meaning: 'The body feels capable, patient, and less controlled by threat.',
+  },
+  {
+    id: 'confidence-humility',
+    direction: 'ascending',
+    name: 'Secure identity',
+    tone: '#06b6d4',
+    left: ['Confidence', 'Positive Self-Talk'],
+    right: ['Humility', 'Seek-for-Good'],
+    meaning: 'Self-talk becomes supportive without becoming inflated.',
+  },
+  {
+    id: 'learning-gratitude',
+    direction: 'ascending',
+    name: 'Growth',
+    tone: '#14b8a6',
+    left: ['Learning', 'Self-Love'],
+    right: ['Enthusiasm', 'Gratitude'],
+    meaning: 'The mind can learn, appreciate, and love the self without collapse.',
+  },
+  {
+    id: 'security-worth',
+    direction: 'ascending',
+    name: 'Secure mood',
+    tone: '#22c55e',
+    left: ['Happiness', 'Security'],
+    right: ['Worthy', 'Cheerful'],
+    meaning: 'Safety, worth, and lightness are accessible enough to act from.',
+  },
+  {
+    id: 'belief-expectation',
+    direction: 'ascending',
+    name: 'Positive expectation',
+    tone: '#16a34a',
+    left: ['Acceptance', 'Belief'],
+    right: ['Productive Expectation'],
+    meaning: 'Reality can be accepted while still expecting movement and improvement.',
+  },
+  {
+    id: 'play-courage',
+    direction: 'ascending',
+    name: 'Playful action',
+    tone: '#65a30d',
+    left: ['Playful', 'Positive'],
+    right: ['Organize', 'Courage'],
+    meaning: 'Energy becomes organized, brave, and flexible.',
+  },
+  {
+    id: 'peace-pleased',
+    direction: 'ascending',
+    name: 'Peaceful interest',
+    tone: '#84cc16',
+    left: ['Curiosity', 'Peace'],
+    right: ['Serene', 'Pleased'],
+    meaning: 'Curiosity and peace create enough space to respond instead of react.',
+  },
+  {
+    id: 'hope-calm',
+    direction: 'ascending',
+    name: 'First lift',
+    tone: '#a3e635',
+    left: ['Hopefulness'],
+    right: ['Calm', 'Optimism'],
+    meaning: 'The first upward turn: enough calm and hope to see a better next step.',
+  },
+  {
+    id: 'boredom',
+    direction: 'neutral',
+    name: 'Midline',
+    tone: '#d1d5db',
+    left: ['Boredom'],
+    right: ['Boredom'],
+    meaning: 'The neutral line. Energy is not strongly rising or falling, but attention can tip either way.',
+  },
+  {
+    id: 'fear-frustration',
+    direction: 'descending',
+    name: 'Activation',
+    tone: '#84cc16',
+    left: ['Overwhelm', 'Fear'],
+    right: ['Jealousy', 'Frustration'],
+    meaning: 'The system starts contracting around threat, comparison, or blocked movement.',
+  },
+  {
+    id: 'insecurity-judgment',
+    direction: 'descending',
+    name: 'Threat story',
+    tone: '#a3a10f',
+    left: ['Insecurity', 'Pessimism'],
+    right: ['Judgment', 'Self-Pity'],
+    meaning: 'Attention starts interpreting life through danger, lack, or unfairness.',
+  },
+  {
+    id: 'grief-anger',
+    direction: 'descending',
+    name: 'Pain and protest',
+    tone: '#d97706',
+    left: ['Grief', 'Unsupported'],
+    right: ['Revenge', 'Anger'],
+    meaning: 'Pain begins looking for either support or retaliation.',
+  },
+  {
+    id: 'failure-depression',
+    direction: 'descending',
+    name: 'Collapse story',
+    tone: '#b45309',
+    left: ['Failure', 'Hatred'],
+    right: ['Doubt', 'Depression'],
+    meaning: 'The mind turns difficulty into identity-level defeat or hostility.',
+  },
+  {
+    id: 'heartache-worry',
+    direction: 'descending',
+    name: 'Attachment pain',
+    tone: '#c2410c',
+    left: ['Heartache', 'Rejection'],
+    right: ['Impatience', 'Worry'],
+    meaning: 'Attachment pain and urgent thinking make it hard to stay centered.',
+  },
+  {
+    id: 'disappointment-negative-talk',
+    direction: 'descending',
+    name: 'Inner attack',
+    tone: '#dc2626',
+    left: ['Depression', 'Disappointment'],
+    right: ['Negative Self-Talk'],
+    meaning: 'The feeling turns inward as discouragement and self-attacking language.',
+  },
+  {
+    id: 'despair-blame',
+    direction: 'descending',
+    name: 'Despair',
+    tone: '#ef4444',
+    left: ['Despair', 'Discouragement'],
+    right: ['Blame', 'Sorrow'],
+    meaning: 'Energy drops into blame, sorrow, and the sense that effort will not matter.',
+  },
+  {
+    id: 'worthless-helpless',
+    direction: 'descending',
+    name: 'Helplessness',
+    tone: '#f87171',
+    left: ['Worthless', 'Humiliation'],
+    right: ['Irritation', 'Helplessness'],
+    meaning: 'The self feels exposed, powerless, or unable to change the situation.',
+  },
+  {
+    id: 'victim-dread',
+    direction: 'descending',
+    name: 'Identity wound',
+    tone: '#fb7185',
+    left: ['Low Self-Esteem', 'Victim'],
+    right: ['Bitterness', 'Dread'],
+    meaning: 'Pain hardens into victim identity, bitterness, or fear of what is coming.',
+  },
+  {
+    id: 'shame-apathy',
+    direction: 'descending',
+    name: 'Shame and apathy',
+    tone: '#f43f5e',
+    left: ['Unworthiness', 'Shame'],
+    right: ['Guilt', 'Apathy'],
+    meaning: 'The bottom emotional range attacks worth, drains agency, and needs care.',
+  },
+  {
+    id: 'crisis',
+    direction: 'descending',
+    name: 'Crisis floor',
+    tone: '#991b1b',
+    left: ['No Will to Live'],
+    right: ['Death'],
+    meaning: 'Crisis language. Treat this as a signal to involve immediate trusted or professional support.',
+  },
+];
+
+const DEFINITION_GROUPS = [
   {
     id: 'basic',
     name: 'Basic emotions',
     color: '#fbbf24',
-    summary: 'Bright states that signal satisfaction, energy, appreciation, or inner ease.',
     emotions: [
-      { name: 'Joy', definition: 'A strong feeling of happiness.', explanation: 'Joy often shows that something feels alive, meaningful, or deeply welcome.' },
-      { name: 'Happiness', definition: 'Feeling good, pleased, or satisfied.', explanation: 'Happiness points to simple alignment between what is happening and what you want or value.' },
-      { name: 'Excitement', definition: 'Feeling energized because something good may happen.', explanation: 'Excitement carries anticipation and invites you to prepare, engage, or move toward possibility.' },
-      { name: 'Contentment', definition: 'Feeling calm and satisfied with what you have.', explanation: 'Contentment tells you the nervous system is not chasing the next thing for safety.' },
-      { name: 'Peace', definition: 'Feeling calm inside, without stress or conflict.', explanation: 'Peace often appears when there is inner agreement, rest, or release from pressure.' },
-      { name: 'Gratitude', definition: 'Feeling thankful for someone or something.', explanation: 'Gratitude helps attention land on what is supportive, nourishing, or already present.' },
-      { name: 'Hope', definition: 'Believing something good can happen.', explanation: 'Hope is the first upward turn when the mind can imagine a better next step.' },
-      { name: 'Pride', definition: 'Feeling good about yourself or something you did.', explanation: 'Healthy pride recognizes effort, growth, skill, or integrity without needing superiority.' },
+      ['Joy', 'A strong feeling of happiness.'],
+      ['Happiness', 'Feeling good, pleased, or satisfied.'],
+      ['Excitement', 'Feeling energized because something good may happen.'],
+      ['Contentment', 'Feeling calm and satisfied with what you have.'],
+      ['Peace', 'Feeling calm inside, without stress or conflict.'],
+      ['Gratitude', 'Feeling thankful for someone or something.'],
+      ['Hope', 'Believing something good can happen.'],
+      ['Pride', 'Feeling good about yourself or something you did.'],
     ],
   },
   {
     id: 'sad',
     name: 'Sad emotions',
     color: '#60a5fa',
-    summary: 'Tender states that signal loss, disappointment, unmet needs, or emotional absence.',
     emotions: [
-      { name: 'Sadness', definition: 'Feeling unhappy or emotionally low.', explanation: 'Sadness asks for honesty, softness, and room to feel what has hurt or changed.' },
-      { name: 'Grief', definition: 'Deep sadness after losing someone or something important.', explanation: 'Grief marks love, attachment, or meaning adjusting to a real absence.' },
-      { name: 'Loneliness', definition: 'Feeling alone or disconnected from others.', explanation: 'Loneliness points to a need for contact, belonging, or being emotionally seen.' },
-      { name: 'Disappointment', definition: 'Sadness because something did not happen as expected.', explanation: 'Disappointment shows where expectation met reality and needs to be digested.' },
-      { name: 'Regret', definition: 'Wishing you had done something differently.', explanation: 'Regret can become wisdom when it is used to repair, learn, or choose better next time.' },
-      { name: 'Heartbreak', definition: 'Deep emotional pain, usually from love or loss.', explanation: 'Heartbreak signals rupture in attachment and needs care rather than self-blame.' },
-      { name: 'Hopelessness', definition: 'Feeling like things will not get better.', explanation: 'Hopelessness is a heavy state that needs support, rest, and the smallest possible next step.' },
-      { name: 'Emptiness', definition: 'Feeling emotionally numb or like something is missing.', explanation: 'Emptiness may show depletion, disconnection, or feelings that have gone quiet for protection.' },
+      ['Sadness', 'Feeling unhappy or emotionally low.'],
+      ['Grief', 'Deep sadness after losing someone or something important.'],
+      ['Loneliness', 'Feeling alone or disconnected from others.'],
+      ['Disappointment', 'Sadness because something did not happen as expected.'],
+      ['Regret', 'Wishing you had done something differently.'],
+      ['Heartbreak', 'Deep emotional pain, usually from love or loss.'],
+      ['Hopelessness', 'Feeling like things will not get better.'],
+      ['Emptiness', 'Feeling emotionally numb or like something is missing.'],
     ],
   },
   {
     id: 'angry',
     name: 'Angry emotions',
     color: '#fb7185',
-    summary: 'Boundary states that signal threat, unfairness, blocked energy, or violated values.',
     emotions: [
-      { name: 'Anger', definition: 'Feeling upset because something feels wrong or unfair.', explanation: 'Anger carries boundary energy and asks what needs protection, repair, or clear speech.' },
-      { name: 'Frustration', definition: 'Feeling blocked, stuck, or annoyed.', explanation: 'Frustration shows that energy is trying to move but cannot find an effective path.' },
-      { name: 'Irritation', definition: 'Mild anger or annoyance.', explanation: 'Irritation is often an early signal to pause before resentment builds.' },
-      { name: 'Annoyance', definition: 'Feeling bothered by someone or something.', explanation: 'Annoyance points to friction, overstimulation, or a small boundary being crossed.' },
-      { name: 'Resentment', definition: 'Anger that stays inside for a long time.', explanation: 'Resentment often means a need, hurt, or boundary has gone unnamed for too long.' },
-      { name: 'Bitterness', definition: 'Deep hurt mixed with anger.', explanation: 'Bitterness forms when pain hardens into a story that expects more pain.' },
-      { name: 'Rage', definition: 'Very strong anger.', explanation: 'Rage is intense protective energy and needs space, safety, and no impulsive action.' },
-      { name: 'Hatred', definition: 'Intense dislike or hostility.', explanation: 'Hatred fuses pain and threat into rejection; it needs distance before clear judgment is possible.' },
-      { name: 'Contempt', definition: 'Feeling someone is beneath respect.', explanation: 'Contempt signals disconnection from empathy and often destroys trust if expressed unchecked.' },
+      ['Anger', 'Feeling upset because something feels wrong or unfair.'],
+      ['Frustration', 'Feeling blocked, stuck, or annoyed.'],
+      ['Irritation', 'Mild anger or annoyance.'],
+      ['Annoyance', 'Feeling bothered by someone or something.'],
+      ['Resentment', 'Anger that stays inside for a long time.'],
+      ['Bitterness', 'Deep hurt mixed with anger.'],
+      ['Rage', 'Very strong anger.'],
+      ['Hatred', 'Intense dislike or hostility.'],
+      ['Contempt', 'Feeling someone is beneath respect.'],
     ],
   },
   {
     id: 'fear',
     name: 'Fear emotions',
     color: '#a78bfa',
-    summary: 'Protection states that scan for danger, uncertainty, rejection, or future threat.',
     emotions: [
-      { name: 'Fear', definition: 'Feeling danger or threat.', explanation: 'Fear tries to protect you by focusing attention on safety and response.' },
-      { name: 'Anxiety', definition: 'Worry or nervousness about what might happen.', explanation: 'Anxiety is future-oriented fear that needs grounding in what is actually happening now.' },
-      { name: 'Worry', definition: 'Thinking too much about possible problems.', explanation: 'Worry attempts to solve uncertainty mentally, even when the body needs regulation first.' },
-      { name: 'Nervousness', definition: 'Feeling uneasy before something happens.', explanation: 'Nervousness often means your system is preparing for evaluation, risk, or performance.' },
-      { name: 'Panic', definition: 'Sudden, intense fear.', explanation: 'Panic is a surge of threat chemistry; the priority is slowing the body, not debating thoughts.' },
-      { name: 'Dread', definition: 'Strong fear about something coming.', explanation: 'Dread points to a future event that feels unavoidable, heavy, or unsafe.' },
-      { name: 'Insecurity', definition: 'Feeling unsure, unsafe, or not good enough.', explanation: 'Insecurity asks for reassurance from stable identity, evidence, and grounded support.' },
-      { name: 'Suspicion', definition: 'Feeling that something may be wrong or dishonest.', explanation: 'Suspicion asks for careful observation without letting fear invent facts.' },
-      { name: 'Terror', definition: 'Extreme fear.', explanation: 'Terror is full threat activation and needs immediate safety, support, and stabilization.' },
+      ['Fear', 'Feeling danger or threat.'],
+      ['Anxiety', 'Worry or nervousness about what might happen.'],
+      ['Worry', 'Thinking too much about possible problems.'],
+      ['Nervousness', 'Feeling uneasy before something happens.'],
+      ['Panic', 'Sudden, intense fear.'],
+      ['Dread', 'Strong fear about something coming.'],
+      ['Insecurity', 'Feeling unsure, unsafe, or not good enough.'],
+      ['Suspicion', 'Feeling that something may be wrong or dishonest.'],
+      ['Terror', 'Extreme fear.'],
     ],
   },
   {
     id: 'love',
     name: 'Love-related emotions',
     color: '#f472b6',
-    summary: 'Connection states that signal care, closeness, desire, devotion, and trust.',
     emotions: [
-      { name: 'Love', definition: 'Deep care, affection, or attachment.', explanation: 'Love moves attention toward care, protection, giving, and the wish for another to flourish.' },
-      { name: 'Affection', definition: 'Warm, gentle liking or care for someone.', explanation: 'Affection is the soft everyday warmth that makes connection feel safe and human.' },
-      { name: 'Adoration', definition: 'Deep love and admiration.', explanation: 'Adoration elevates the beloved in attention and should stay grounded in real personhood.' },
-      { name: 'Admiration', definition: 'Respect and appreciation for someone.', explanation: 'Admiration recognizes qualities you value and may want to honor or develop.' },
-      { name: 'Attraction', definition: 'Feeling drawn to someone.', explanation: 'Attraction signals pull, interest, or chemistry, but does not by itself prove compatibility.' },
-      { name: 'Desire', definition: 'Strongly wanting someone or something.', explanation: 'Desire reveals what feels wanted, alive, or important, and needs wise direction.' },
-      { name: 'Longing', definition: 'Deep wanting, especially for someone absent.', explanation: 'Longing shows attachment reaching across distance, absence, or an unmet dream.' },
-      { name: 'Devotion', definition: 'Loyal love and commitment.', explanation: 'Devotion turns love into steady choice, care, and follow-through.' },
-      { name: 'Tenderness', definition: 'Soft, gentle care.', explanation: 'Tenderness appears when the heart feels safe enough to be gentle.' },
-      { name: 'Compassion', definition: 'Caring about someone\'s pain and wanting to help.', explanation: 'Compassion joins empathy with the wish to relieve suffering wisely.' },
-      { name: 'Trust', definition: 'Feeling safe with someone.', explanation: 'Trust grows when words, actions, and presence become reliably aligned.' },
-      { name: 'Intimacy', definition: 'Emotional or physical closeness.', explanation: 'Intimacy means being near the truth of someone, not only near their body or attention.' },
+      ['Love', 'Deep care, affection, or attachment.'],
+      ['Affection', 'Warm, gentle liking or care for someone.'],
+      ['Adoration', 'Deep love and admiration.'],
+      ['Admiration', 'Respect and appreciation for someone.'],
+      ['Attraction', 'Feeling drawn to someone.'],
+      ['Desire', 'Strongly wanting someone or something.'],
+      ['Longing', 'Deep wanting, especially for someone absent.'],
+      ['Devotion', 'Loyal love and commitment.'],
+      ['Tenderness', 'Soft, gentle care.'],
+      ['Compassion', 'Caring about someone\'s pain and wanting to help.'],
+      ['Trust', 'Feeling safe with someone.'],
+      ['Intimacy', 'Emotional or physical closeness.'],
     ],
   },
   {
     id: 'self',
     name: 'Self-related emotions',
     color: '#38bdf8',
-    summary: 'Identity states that show how you relate to worth, agency, mistakes, and self-respect.',
     emotions: [
-      { name: 'Confidence', definition: 'Believing in yourself.', explanation: 'Confidence comes from felt capacity, evidence, practice, or a stable inner stance.' },
-      { name: 'Self-doubt', definition: 'Questioning your ability or worth.', explanation: 'Self-doubt asks for evidence, learning, and care instead of automatic self-rejection.' },
-      { name: 'Shame', definition: 'Feeling bad about who you are or how you appear.', explanation: 'Shame attacks identity and needs compassion, truth, and safe connection.' },
-      { name: 'Guilt', definition: 'Feeling bad about something you did.', explanation: 'Guilt can be useful when it points to repair, apology, or changed behavior.' },
-      { name: 'Embarrassment', definition: 'Feeling awkward or exposed socially.', explanation: 'Embarrassment is a social signal that usually softens when met with humor and perspective.' },
-      { name: 'Humility', definition: 'Not thinking you are better than others.', explanation: 'Humility keeps self-worth grounded without collapsing into inferiority.' },
-      { name: 'Empowerment', definition: 'Feeling strong and capable.', explanation: 'Empowerment restores agency and helps you act from choice instead of helplessness.' },
-      { name: 'Worthiness', definition: 'Feeling deserving of love, respect, or good things.', explanation: 'Worthiness is the felt permission to receive without proving your existence first.' },
-      { name: 'Inadequacy', definition: 'Feeling not good enough.', explanation: 'Inadequacy points to comparison, unmet standards, or a wound around belonging and value.' },
-      { name: 'Self-respect', definition: 'Valuing yourself and your boundaries.', explanation: 'Self-respect protects dignity by aligning choices with your own value.' },
+      ['Confidence', 'Believing in yourself.'],
+      ['Self-doubt', 'Questioning your ability or worth.'],
+      ['Shame', 'Feeling bad about who you are or how you appear.'],
+      ['Guilt', 'Feeling bad about something you did.'],
+      ['Embarrassment', 'Feeling awkward or exposed socially.'],
+      ['Humility', 'Not thinking you are better than others.'],
+      ['Empowerment', 'Feeling strong and capable.'],
+      ['Worthiness', 'Feeling deserving of love, respect, or good things.'],
+      ['Inadequacy', 'Feeling not good enough.'],
+      ['Self-respect', 'Valuing yourself and your boundaries.'],
     ],
   },
   {
     id: 'social',
     name: 'Social emotions',
     color: '#34d399',
-    summary: 'Relational states that signal belonging, rejection, comparison, respect, or trust wounds.',
     emotions: [
-      { name: 'Belonging', definition: 'Feeling accepted as part of a group.', explanation: 'Belonging tells the body it has a place and does not need to perform for safety.' },
-      { name: 'Rejection', definition: 'Feeling unwanted or pushed away.', explanation: 'Rejection hurts because it touches attachment, worth, and the need to matter.' },
-      { name: 'Acceptance', definition: 'Feeling welcomed or approved of.', explanation: 'Acceptance relaxes the social nervous system and supports authenticity.' },
-      { name: 'Jealousy', definition: 'Fear of losing someone or something to another person.', explanation: 'Jealousy points to attachment threat and asks for security, clarity, or honest communication.' },
-      { name: 'Envy', definition: 'Wanting what someone else has.', explanation: 'Envy can reveal a hidden desire, value, or direction you have not owned yet.' },
-      { name: 'Respect', definition: 'Valuing someone or treating them as important.', explanation: 'Respect recognizes dignity, boundaries, and significance in yourself or another.' },
-      { name: 'Betrayal', definition: 'Hurt from someone breaking trust.', explanation: 'Betrayal wounds the expectation of safety and requires truth before trust can rebuild.' },
-      { name: 'Empathy', definition: 'Understanding and feeling another person\'s emotions.', explanation: 'Empathy lets you sense another inner world without making it entirely yours.' },
-      { name: 'Sympathy', definition: 'Feeling sorry for someone\'s pain.', explanation: 'Sympathy notices suffering and responds with concern from a little more distance.' },
-      { name: 'Pity', definition: 'Feeling sadness for someone, sometimes from a distance.', explanation: 'Pity can show concern, but it should be held with respect so it does not become superiority.' },
-      { name: 'Awkwardness', definition: 'Feeling socially uncomfortable.', explanation: 'Awkwardness signals uncertainty about roles, timing, expression, or how you are being received.' },
+      ['Belonging', 'Feeling accepted as part of a group.'],
+      ['Rejection', 'Feeling unwanted or pushed away.'],
+      ['Acceptance', 'Feeling welcomed or approved of.'],
+      ['Jealousy', 'Fear of losing someone or something to another person.'],
+      ['Envy', 'Wanting what someone else has.'],
+      ['Respect', 'Valuing someone or treating them as important.'],
+      ['Betrayal', 'Hurt from someone breaking trust.'],
+      ['Empathy', 'Understanding and feeling another person\'s emotions.'],
+      ['Sympathy', 'Feeling sorry for someone\'s pain.'],
+      ['Pity', 'Feeling sadness for someone, sometimes from a distance.'],
+      ['Awkwardness', 'Feeling socially uncomfortable.'],
     ],
   },
   {
-    id: 'spiritual',
+    id: 'calm',
     name: 'Calm or spiritual emotions',
     color: '#22d3ee',
-    summary: 'Settling states that signal release, faith, stillness, patience, and inner steadiness.',
     emotions: [
-      { name: 'Relief', definition: 'Feeling better after stress or fear ends.', explanation: 'Relief tells the body that pressure has dropped and safety is returning.' },
-      { name: 'Acceptance', definition: 'Allowing reality instead of fighting it.', explanation: 'Acceptance stops arguing with what is already true so energy can return to response.' },
-      { name: 'Forgiveness', definition: 'Releasing anger toward someone or yourself.', explanation: 'Forgiveness loosens the grip of resentment without denying what happened.' },
-      { name: 'Faith', definition: 'Trusting something even without full proof.', explanation: 'Faith gives the heart a place to stand when certainty is unavailable.' },
-      { name: 'Awe', definition: 'Wonder mixed with respect or amazement.', explanation: 'Awe widens perspective and reminds the self it is part of something larger.' },
-      { name: 'Stillness', definition: 'Deep inner quiet.', explanation: 'Stillness is the felt quiet beneath urgency, noise, and mental movement.' },
-      { name: 'Surrender', definition: 'Letting go of control.', explanation: 'Surrender releases false control while keeping responsibility for the next right action.' },
-      { name: 'Patience', definition: 'Calmly waiting without becoming upset.', explanation: 'Patience holds desire without forcing timing, panic, or pressure.' },
-      { name: 'Clarity', definition: 'Feeling mentally clear and sure.', explanation: 'Clarity shows that confusion has settled enough for clean seeing or decision.' },
-      { name: 'Groundedness', definition: 'Feeling stable, present, and emotionally steady.', explanation: 'Groundedness means awareness is back in the body, the moment, and reality.' },
+      ['Relief', 'Feeling better after stress or fear ends.'],
+      ['Acceptance', 'Allowing reality instead of fighting it.'],
+      ['Forgiveness', 'Releasing anger toward someone or yourself.'],
+      ['Faith', 'Trusting something even without full proof.'],
+      ['Awe', 'Wonder mixed with respect or amazement.'],
+      ['Stillness', 'Deep inner quiet.'],
+      ['Surrender', 'Letting go of control.'],
+      ['Patience', 'Calmly waiting without becoming upset.'],
+      ['Clarity', 'Feeling mentally clear and sure.'],
+      ['Groundedness', 'Feeling stable, present, and emotionally steady.'],
     ],
   },
   {
     id: 'mixed',
     name: 'Mixed emotions',
     color: '#c084fc',
-    summary: 'Complex states where multiple signals, meanings, or directions are active at once.',
     emotions: [
-      { name: 'Confusion', definition: 'Not understanding what you feel or what is happening.', explanation: 'Confusion asks for slowing down, naming facts, and separating feelings from assumptions.' },
-      { name: 'Nostalgia', definition: 'Warm sadness when remembering the past.', explanation: 'Nostalgia blends gratitude and grief for something meaningful that has changed.' },
-      { name: 'Ambivalence', definition: 'Having mixed feelings at the same time.', explanation: 'Ambivalence means more than one value, fear, or desire is speaking at once.' },
-      { name: 'Overwhelm', definition: 'Feeling like something is too much to handle.', explanation: 'Overwhelm says the load exceeds current capacity and needs simplification or support.' },
-      { name: 'Vulnerability', definition: 'Feeling emotionally open or exposed.', explanation: 'Vulnerability appears when truth is visible and protection is lowered.' },
-      { name: 'Curiosity', definition: 'Wanting to know or understand more.', explanation: 'Curiosity turns attention toward discovery instead of immediate judgment.' },
-      { name: 'Wonder', definition: 'Amazed interest in something.', explanation: 'Wonder opens perception and makes ordinary things feel fresh or meaningful.' },
-      { name: 'Inspiration', definition: 'Feeling mentally or emotionally lifted to act.', explanation: 'Inspiration gives energy, image, or direction to create or move.' },
-      { name: 'Motivation', definition: 'Feeling driven to do something.', explanation: 'Motivation is action energy connected to reward, meaning, need, or identity.' },
-      { name: 'Determination', definition: 'Strong commitment to keep going.', explanation: 'Determination holds direction even when comfort, mood, or certainty fluctuates.' },
-      { name: 'Courage', definition: 'Acting even when afraid.', explanation: 'Courage does not remove fear; it chooses a value that matters more.' },
-      { name: 'Optimism', definition: 'Expecting good things to happen.', explanation: 'Optimism looks for favorable possibility and helps the body stay open to effort.' },
-      { name: 'Fulfillment', definition: 'Feeling deeply satisfied because something feels meaningful.', explanation: 'Fulfillment signals that action, value, and meaning are meeting in a satisfying way.' },
+      ['Confusion', 'Not understanding what you feel or what is happening.'],
+      ['Nostalgia', 'Warm sadness when remembering the past.'],
+      ['Ambivalence', 'Having mixed feelings at the same time.'],
+      ['Overwhelm', 'Feeling like something is too much to handle.'],
+      ['Vulnerability', 'Feeling emotionally open or exposed.'],
+      ['Curiosity', 'Wanting to know or understand more.'],
+      ['Wonder', 'Amazed interest in something.'],
+      ['Inspiration', 'Feeling mentally or emotionally lifted to act.'],
+      ['Motivation', 'Feeling driven to do something.'],
+      ['Determination', 'Strong commitment to keep going.'],
+      ['Courage', 'Acting even when afraid.'],
+      ['Optimism', 'Expecting good things to happen.'],
+      ['Fulfillment', 'Feeling deeply satisfied because something feels meaningful.'],
     ],
   },
 ];
 
-const ALL_EMOTIONS = CATEGORIES.flatMap((category) =>
-  category.emotions.map((emotion) => ({
-    ...emotion,
-    id: `${category.id}-${emotion.name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
-    category: category.name,
-    categoryId: category.id,
-    color: category.color,
+const COPY = {
+  '100% Integrity': ['Complete alignment between values, words, and behavior.', 'Integrity steadies the nervous system because there is less inner conflict to manage.'],
+  Abundance: ['Feeling that there is enough support, possibility, or provision.', 'Abundance opens attention toward resource, opportunity, and generosity.'],
+  Acceptance: ['Allowing reality instead of fighting it.', 'Acceptance returns energy from resistance to response.'],
+  Anger: ['Feeling upset because something feels wrong or unfair.', 'Anger carries boundary energy and asks what needs protection, repair, or clear speech.'],
+  Apathy: ['Feeling emotionally flat, indifferent, or unable to care.', 'Apathy can be a shutdown state after too much stress, shame, or disappointment.'],
+  Belief: ['Feeling inner agreement that something is possible or true.', 'Belief gives action a stable direction before full proof has arrived.'],
+  Bitterness: ['Deep hurt mixed with anger.', 'Bitterness forms when pain hardens into a story that expects more pain.'],
+  Blame: ['Locating the cause of pain in someone or something else.', 'Blame may identify responsibility, but it can also keep attention away from repair and agency.'],
+  Boredom: ['Feeling unstimulated, uninterested, or emotionally flat.', 'Boredom sits near the midline: it can slide into numbness or become space for curiosity.'],
+  Calm: ['Feeling settled and not urgently threatened.', 'Calm gives the body enough safety to choose instead of react.'],
+  Cheerful: ['Light, bright, and pleasantly upbeat.', 'Cheerfulness makes social contact and effort feel easier.'],
+  Compassion: ['Caring about pain and wanting to respond wisely.', 'Compassion joins empathy with helpful action while keeping the heart open.'],
+  Confidence: ['Believing in your ability, worth, or capacity.', 'Confidence comes from evidence, practice, and stable self-regard.'],
+  Courage: ['Acting from value even when fear is present.', 'Courage does not remove fear; it chooses what matters more.'],
+  Curiosity: ['Wanting to know, understand, or explore.', 'Curiosity interrupts judgment and opens a path toward learning.'],
+  Death: ['A crisis-level association with ending or collapse.', 'If this state feels personal or immediate, it needs real-time support, not solitary processing.'],
+  Depression: ['A low, heavy state marked by reduced energy or hope.', 'Depression can shrink the future; support and small grounded steps matter.'],
+  Despair: ['Feeling that things cannot get better.', 'Despair needs care, rest, and connection before the mind can think clearly.'],
+  Disappointment: ['Sadness because reality did not meet expectation.', 'Disappointment asks you to digest the gap between hope and outcome.'],
+  Discouragement: ['Feeling less willing or able to continue.', 'Discouragement often needs the next step made smaller and more concrete.'],
+  Doubt: ['Questioning whether something is true, safe, or possible.', 'Doubt can protect from false certainty, but it can also freeze action when fear leads it.'],
+  Empathy: ['Understanding and feeling another person\'s emotional world.', 'Empathy allows connection without needing to lose yourself inside another person.'],
+  Empowerment: ['Feeling capable, choiceful, and able to act.', 'Empowerment restores agency after helplessness or self-doubt.'],
+  Enthusiasm: ['Warm, energized interest.', 'Enthusiasm gives effort a feeling of aliveness.'],
+  Failure: ['Feeling defined by a mistake, loss, or unmet outcome.', 'Failure becomes useful when it is treated as feedback rather than identity.'],
+  Fear: ['Feeling danger or threat.', 'Fear tries to protect you by focusing attention on safety and response.'],
+  Forgiveness: ['Releasing the hold of anger or resentment.', 'Forgiveness loosens emotional grip without pretending harm did not happen.'],
+  Freedom: ['Feeling unconfined, self-directed, or able to choose.', 'Freedom appears when fear, shame, or pressure no longer owns the next action.'],
+  Frustration: ['Feeling blocked, stuck, or annoyed.', 'Frustration shows that energy wants to move but cannot find an effective path.'],
+  Generous: ['Feeling willing to give, share, or support.', 'Generosity becomes easier when the self does not feel endangered.'],
+  Gratitude: ['Feeling thankful for someone or something.', 'Gratitude trains attention toward support, nourishment, and what is already present.'],
+  Grief: ['Deep sadness after loss or separation.', 'Grief marks love, attachment, or meaning adjusting to absence.'],
+  Guilt: ['Feeling bad about something you did.', 'Guilt can guide repair when it stays connected to behavior instead of attacking identity.'],
+  Happiness: ['Feeling good, pleased, or satisfied.', 'Happiness points to simple alignment between what is happening and what you value.'],
+  Hatred: ['Intense dislike or hostility.', 'Hatred fuses pain and threat into rejection; distance helps before judgment or action.'],
+  Heartache: ['Emotional pain from love, attachment, or loss.', 'Heartache needs tenderness, time, and care rather than self-attack.'],
+  Helplessness: ['Feeling unable to affect what is happening.', 'Helplessness asks for support and one controllable next action.'],
+  Hopefulness: ['Feeling that something better can happen.', 'Hopefulness is often the first upward movement out of shutdown.'],
+  Humiliation: ['Feeling exposed, lowered, or painfully embarrassed.', 'Humiliation attacks social safety and needs dignity restored.'],
+  Humility: ['Feeling grounded without superiority.', 'Humility lets you learn, apologize, and grow without collapsing self-worth.'],
+  Impatience: ['Agitation from wanting something to happen sooner.', 'Impatience turns desire into pressure and often benefits from slowing the body.'],
+  Insecurity: ['Feeling unsure, unsafe, or not good enough.', 'Insecurity asks for reassurance from stable identity, evidence, and grounded support.'],
+  Irritation: ['Mild anger or annoyance.', 'Irritation is often an early signal to pause before resentment builds.'],
+  Jealousy: ['Fear of losing someone or something to another.', 'Jealousy points to attachment threat and asks for security, clarity, or honest communication.'],
+  Joy: ['A bright feeling of happiness, aliveness, or delight.', 'Joy shows that something feels welcome, meaningful, or deeply alive.'],
+  Judgment: ['Evaluating harshly or reducing someone to a fault.', 'Judgment can signal discernment, but harsh judgment often protects an unexamined wound.'],
+  Knowledge: ['Feeling informed, clear, or mentally equipped.', 'Knowledge can steady emotion by replacing vague threat with clearer understanding.'],
+  Learning: ['Feeling open to growth and correction.', 'Learning turns uncertainty into development instead of shame.'],
+  'Low Self-Esteem': ['Feeling poorly about your value or capacity.', 'Low self-esteem needs evidence, care, and identity repair rather than more inner attack.'],
+  'Negative Self-Talk': ['Harsh, discouraging language directed at yourself.', 'Negative self-talk deepens contraction because the mind becomes the attacker.'],
+  'No Will to Live': ['A crisis-level loss of desire to continue.', 'If this feels current or literal, contact emergency services, a crisis line, or a trusted person now.'],
+  Optimism: ['Expecting favorable possibility.', 'Optimism helps the body stay open to effort without denying difficulty.'],
+  Organize: ['Feeling ready to order, plan, and structure action.', 'Organization turns emotional energy into a workable next step.'],
+  'Outward-Focused': ['Attention oriented toward others, service, or the wider world.', 'Outward focus can interrupt rumination when it is grounded and not avoidant.'],
+  Overwhelm: ['Feeling that the load exceeds current capacity.', 'Overwhelm asks for simplification, support, and fewer inputs.'],
+  Passion: ['Strong feeling, desire, or enthusiasm.', 'Passion gives energy to what feels alive, important, or meaningful.'],
+  Patient: ['Able to wait without forcing or collapsing.', 'Patience holds desire without panic or pressure.'],
+  Peace: ['Feeling calm inside, without conflict.', 'Peace often appears when there is inner agreement, rest, or release from pressure.'],
+  Pessimism: ['Expecting things to go badly.', 'Pessimism may be protective, but it can train attention to miss openings.'],
+  Playful: ['Light, flexible, and willing to engage.', 'Playfulness helps the nervous system learn without pressure.'],
+  Pleased: ['Gently satisfied or happy with something.', 'Being pleased lets small good things register instead of being dismissed.'],
+  Positive: ['Oriented toward possibility, support, or constructive meaning.', 'A positive state makes action feel lighter and more available.'],
+  'Positive Self-Talk': ['Supportive inner language.', 'Positive self-talk gives the mind a voice that helps rather than harms.'],
+  Powerful: ['Feeling strong, capable, or influential.', 'Power feels healthiest when joined with patience, humility, and care.'],
+  'Productive Expectation': ['Expecting improvement in a way that supports useful action.', 'Productive expectation keeps hope connected to behavior.'],
+  Radiant: ['Feeling bright, open, and visibly alive.', 'Radiance is the felt overflow of inner alignment and openness.'],
+  Rejection: ['Feeling unwanted, dismissed, or pushed away.', 'Rejection hurts because it touches attachment, worth, and belonging.'],
+  Revenge: ['Wanting to hurt back after being hurt.', 'Revenge signals pain and boundary violation, but acting from it usually deepens damage.'],
+  Security: ['Feeling safe, steady, or protected.', 'Security lets the body stop scanning constantly for danger.'],
+  'Seek-for-Good': ['Looking deliberately for what is useful, true, or redeemable.', 'Seeking for good trains attention toward repair without denying reality.'],
+  'Self-Love': ['Warm care and loyalty toward yourself.', 'Self-love protects worth while still allowing growth and correction.'],
+  'Self-Pity': ['Feeling trapped in your own misfortune.', 'Self-pity needs compassion, but it also needs a path back to agency.'],
+  Serene: ['Quietly peaceful and composed.', 'Serenity is calm with depth, not numbness.'],
+  Service: ['Feeling moved to contribute or help.', 'Service channels emotion into care beyond the self.'],
+  Shame: ['Feeling bad about who you are or how you appear.', 'Shame attacks identity and needs compassion, truth, and safe connection.'],
+  Sorrow: ['A tender sadness or grief.', 'Sorrow asks for room to feel what hurts without making it your whole identity.'],
+  Trust: ['Feeling safe with someone, yourself, or life.', 'Trust grows when words, actions, and experience become reliably aligned.'],
+  'Unconditional Love': ['Love not dependent on performance or control.', 'Unconditional love holds care without withdrawing basic worth.'],
+  Unsupported: ['Feeling alone, unseen, or without help.', 'Unsupported states need connection, clear asking, or practical scaffolding.'],
+  Unworthiness: ['Feeling undeserving of love, respect, or good.', 'Unworthiness is a wound around value, not a fact about the self.'],
+  Victor: ['Feeling like you can overcome rather than be defeated.', 'Victor energy is agency after struggle, strongest when it stays humble.'],
+  Victim: ['Feeling defined by harm, powerlessness, or what happened to you.', 'Victim identity may begin as pain recognition, but healing requires restored agency.'],
+  Worry: ['Thinking repeatedly about possible problems.', 'Worry tries to solve uncertainty mentally when the body often needs regulation first.'],
+  Worthless: ['Feeling without value.', 'Worthless feelings are serious identity attacks and need compassion, reality-checking, and support.'],
+  Worthy: ['Feeling deserving of love, respect, and good things.', 'Worthiness is permission to receive without proving your existence first.'],
+};
+
+const directionMeta = {
+  ascending: {
+    category: 'Ascending emotions',
+    summary: 'States that open attention, restore agency, and move toward love, integrity, service, courage, and calm.',
+    color: '#22c55e',
+  },
+  neutral: {
+    category: 'Neutral midpoint',
+    summary: 'The midline state where energy is flat enough to turn upward or downward.',
+    color: '#d1d5db',
+  },
+  descending: {
+    category: 'Descending emotions',
+    summary: 'States that contract around threat, shame, anger, grief, helplessness, or crisis.',
+    color: '#fb7185',
+  },
+};
+
+const ALL_EMOTIONS = SPIRAL_LEVELS.flatMap((level, levelIndex) =>
+  [...level.left, ...level.right].map((name, sideIndex) => ({
+    name,
+    levelId: level.id,
+    levelName: level.name,
+    direction: level.direction,
+    directionLabel: directionMeta[level.direction].category,
+    directionSummary: directionMeta[level.direction].summary,
+    definition: COPY[name]?.[0] || `${name} as shown on the emotional spiral.`,
+    explanation: COPY[name]?.[1] || `This state belongs to the ${level.name.toLowerCase()} band of the spiral.`,
+    color: level.tone,
+    rank: levelIndex + 1,
+    side: sideIndex < level.left.length ? 'left' : 'right',
+    id: `${level.direction}-${name.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`,
   }))
-);
-
-const UPWARD_SPIRAL = [
-  { label: 'Groundedness', note: 'Return to the body and the present.', x: 18, y: 76 },
-  { label: 'Relief', note: 'The pressure starts to loosen.', x: 40, y: 64 },
-  { label: 'Acceptance', note: 'Reality can be met without fighting it.', x: 58, y: 72 },
-  { label: 'Hope', note: 'A better next step becomes imaginable.', x: 72, y: 52 },
-  { label: 'Gratitude', note: 'Attention finds support already here.', x: 55, y: 36 },
-  { label: 'Peace', note: 'The system settles into inner agreement.', x: 34, y: 42 },
-  { label: 'Joy', note: 'Energy rises without force.', x: 25, y: 22 },
-  { label: 'Fulfillment', note: 'Meaning and satisfaction meet.', x: 50, y: 16 },
-];
-
-const DOWNWARD_SPIRAL = [
-  { label: 'Worry', note: 'The mind starts scanning for problems.', x: 48, y: 16 },
-  { label: 'Anxiety', note: 'Future threat takes over attention.', x: 70, y: 24 },
-  { label: 'Frustration', note: 'Energy feels blocked.', x: 58, y: 42 },
-  { label: 'Anger', note: 'Boundary energy intensifies.', x: 35, y: 36 },
-  { label: 'Resentment', note: 'Unspoken hurt hardens.', x: 22, y: 56 },
-  { label: 'Grief', note: 'Loss becomes heavy.', x: 43, y: 68 },
-  { label: 'Hopelessness', note: 'The mind stops seeing a path.', x: 68, y: 62 },
-  { label: 'Emptiness', note: 'Feeling goes numb or distant.', x: 50, y: 82 },
-];
+).filter((emotion, index, list) => list.findIndex((item) => item.id === emotion.id) === index);
 
 const page = {
   minHeight: '100vh',
@@ -204,119 +506,257 @@ const page = {
   fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, sans-serif',
 };
 
-const topbar = {
-  position: 'sticky',
-  top: 0,
-  zIndex: 50,
-  background: 'rgba(11,13,24,0.95)',
-  backdropFilter: 'blur(14px)',
-  padding: '14px 24px',
-  display: 'flex',
-  alignItems: 'center',
-  gap: '12px',
-  borderBottom: '1px solid rgba(244,114,182,0.22)',
-};
 
-const backButton = {
-  display: 'inline-flex',
-  alignItems: 'center',
-  gap: 6,
-  border: '1px solid rgba(255,255,255,0.12)',
-  background: 'rgba(255,255,255,0.06)',
-  color: '#e2e8f0',
-  padding: '7px 14px',
-  borderRadius: '999px',
-  fontSize: '13px',
-  fontWeight: 600,
-  cursor: 'pointer',
-  fontFamily: 'inherit',
-};
+function SpiralRibbon() {
+  const loops = 11;
+  const segments = Array.from({ length: loops }, (_, index) => {
+    const y = 7 + index * 8;
+    const nextY = y + 8;
+    const left = 43 - index * 0.55;
+    const right = 57 + index * 0.55;
+    const startRight = index % 2 === 0;
+    const startX = startRight ? right : left;
+    const endX = startRight ? left : right;
+    return `M ${startX} ${y} C ${startRight ? 80 : 20} ${y + 2}, ${startRight ? 20 : 80} ${nextY - 2}, ${endX} ${nextY}`;
+  });
 
-function SpiralPath({ title, tone, nodes, direction }) {
-  const displayTop = (value) => 13 + value * 0.82;
-  const points = nodes.map((node) => `${node.x},${displayTop(node.y)}`).join(' ');
   return (
-    <section className="emotion-spiral" style={{
-      position: 'relative',
-      minHeight: 540,
-      borderRadius: 24,
-      border: `1px solid ${tone}44`,
-      background: `radial-gradient(circle at 50% 40%, ${tone}20, transparent 46%), rgba(255,255,255,0.035)`,
-      overflow: 'hidden',
-      padding: 20,
-    }}>
-      <div style={{ position: 'relative', zIndex: 2, marginBottom: 8 }}>
-        <div style={{ fontSize: 12, fontWeight: 800, letterSpacing: '0.16em', textTransform: 'uppercase', color: tone }}>
-          {direction}
-        </div>
-        <h3 style={{ margin: '4px 0 0', color: '#fff', fontSize: 24, letterSpacing: '-0.02em' }}>{title}</h3>
+    <svg viewBox="0 0 100 100" preserveAspectRatio="none" aria-hidden="true" style={{ width: '100%', height: '100%' }}>
+      <defs>
+        <linearGradient id="emotionRibbon" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0%" stopColor="#5b21b6" />
+          <stop offset="18%" stopColor="#2563eb" />
+          <stop offset="38%" stopColor="#06b6d4" />
+          <stop offset="52%" stopColor="#84cc16" />
+          <stop offset="68%" stopColor="#d97706" />
+          <stop offset="82%" stopColor="#ef4444" />
+          <stop offset="100%" stopColor="#991b1b" />
+        </linearGradient>
+        <linearGradient id="emotionCore" x1="0" x2="1" y1="0" y2="0">
+          <stop offset="0%" stopColor="rgba(255,255,255,0)" />
+          <stop offset="50%" stopColor="rgba(255,255,255,0.9)" />
+          <stop offset="100%" stopColor="rgba(255,255,255,0)" />
+        </linearGradient>
+        <filter id="emotionGlow">
+          <feGaussianBlur stdDeviation="1.6" result="blur" />
+          <feMerge>
+            <feMergeNode in="blur" />
+            <feMergeNode in="SourceGraphic" />
+          </feMerge>
+        </filter>
+      </defs>
+      <path d={segments.join(' ')} fill="none" stroke="url(#emotionRibbon)" strokeWidth="5.2" strokeLinecap="round" filter="url(#emotionGlow)" opacity="0.88" />
+      <path d={segments.join(' ')} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth="1.15" strokeLinecap="round" opacity="0.8" />
+      <path d="M 50 0 C 57 18, 43 33, 50 50 C 57 66, 43 82, 50 100" fill="none" stroke="url(#emotionCore)" strokeWidth="12" opacity="0.55" />
+      <path d="M 44 1 L 50 0 L 56 1 L 50 7 Z" fill="rgba(255,255,255,0.34)" />
+      <path d="M 44 99 L 50 100 L 56 99 L 50 93 Z" fill="rgba(255,255,255,0.24)" />
+    </svg>
+  );
+}
+
+function EmotionChip({ label, tone, selected, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      style={{
+        border: `1px solid ${selected ? tone : `${tone}55`}`,
+        background: selected ? `${tone}30` : 'rgba(11,13,24,0.72)',
+        color: selected ? '#fff' : 'rgba(255,255,255,0.78)',
+        borderRadius: 999,
+        padding: '6px 9px',
+        fontSize: 11,
+        lineHeight: 1,
+        fontWeight: 800,
+        cursor: 'pointer',
+        boxShadow: selected ? `0 0 22px ${tone}3d` : 'none',
+        fontFamily: 'inherit',
+      }}
+    >
+      {label}
+    </button>
+  );
+}
+
+function EmotionalSpiralDiagram({ selectedId, onSelect }) {
+  const findEmotion = (name, direction) =>
+    ALL_EMOTIONS.find((emotion) => emotion.name === name && emotion.direction === direction) ||
+    ALL_EMOTIONS.find((emotion) => emotion.name === name);
+
+  return (
+    <section
+      style={{
+        position: 'relative',
+        borderRadius: 28,
+        border: '1px solid rgba(255,255,255,0.12)',
+        background: 'linear-gradient(180deg, rgba(255,255,255,0.055), rgba(255,255,255,0.025))',
+        padding: '24px clamp(14px, 2.5vw, 28px)',
+        overflow: 'hidden',
+      }}
+    >
+      <div style={{ textAlign: 'center', marginBottom: 16 }}>
+        <div style={{ color: '#e5e7eb', fontSize: 12, fontWeight: 900, letterSpacing: '0.24em', textTransform: 'uppercase' }}>Emotional spiral</div>
+        <h2 style={{ margin: '4px 0 0', color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 3.2rem)', letterSpacing: '-0.04em' }}>Ascending and descending states</h2>
       </div>
-      <svg className="emotion-spiral-svg" viewBox="0 0 100 100" preserveAspectRatio="none" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', opacity: 0.72 }}>
-        <polyline points={points} fill="none" stroke={tone} strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
-        {nodes.map((node, index) => (
-          <circle key={node.label} cx={node.x} cy={displayTop(node.y)} r={index === nodes.length - 1 ? 2.8 : 2.1} fill={tone} opacity={index === nodes.length - 1 ? 1 : 0.8} />
-        ))}
-      </svg>
-      {nodes.map((node, index) => (
-        <div key={node.label} className="emotion-spiral-node" style={{
-          position: 'absolute',
-          left: `${node.x}%`,
-          top: `${displayTop(node.y)}%`,
-          transform: 'translate(-50%, -50%)',
-          zIndex: 3,
-          width: 124,
-          maxWidth: '36%',
-          padding: '9px 10px',
-          borderRadius: 14,
-          border: `1px solid ${tone}55`,
-          background: 'rgba(11,13,24,0.88)',
-          boxShadow: `0 14px 34px ${tone}1f`,
-        }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-            <span style={{
-              display: 'grid',
-              placeItems: 'center',
-              width: 20,
-              height: 20,
-              borderRadius: 999,
-              background: `${tone}22`,
-              color: tone,
-              fontSize: 11,
-              fontWeight: 900,
-              flexShrink: 0,
-            }}>{index + 1}</span>
-            <strong style={{ color: '#fff', fontSize: 11.5 }}>{node.label}</strong>
-          </div>
-          <p style={{ margin: '5px 0 0', color: 'rgba(255,255,255,0.58)', fontSize: 10.5, lineHeight: 1.4 }}>{node.note}</p>
+
+      <div
+        className="spiral-diagram-grid"
+        style={{
+          position: 'relative',
+          display: 'grid',
+          gridTemplateColumns: 'minmax(0, 1fr) minmax(120px, 170px) minmax(0, 1fr)',
+          gap: 12,
+          alignItems: 'stretch',
+        }}
+      >
+        <div style={{ position: 'absolute', left: 0, right: 0, top: '54.2%', height: 1, background: 'rgba(255,255,255,0.35)', boxShadow: '0 0 18px rgba(255,255,255,0.26)' }} />
+        <div style={{ gridColumn: 2, gridRow: `1 / ${SPIRAL_LEVELS.length + 1}`, minHeight: 760, position: 'relative', zIndex: 1 }}>
+          <SpiralRibbon />
         </div>
-      ))}
+
+        {SPIRAL_LEVELS.map((level, index) => (
+          <div
+            key={level.id}
+            className={`spiral-row spiral-${level.direction}`}
+            style={{
+              display: 'contents',
+            }}
+          >
+            <div style={{ gridColumn: 1, gridRow: index + 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-end', gap: 6, flexWrap: 'wrap', minHeight: 34, position: 'relative', zIndex: 3 }}>
+              {level.left.map((label) => {
+                const emotion = findEmotion(label, level.direction);
+                return (
+                  <EmotionChip
+                    key={`${level.id}-${label}-left`}
+                    label={label}
+                    tone={level.tone}
+                    selected={emotion?.id === selectedId}
+                    onClick={() => emotion && onSelect(emotion)}
+                  />
+                );
+              })}
+            </div>
+            <div style={{ gridColumn: 3, gridRow: index + 1, display: 'flex', alignItems: 'center', justifyContent: 'flex-start', gap: 6, flexWrap: 'wrap', minHeight: 34, position: 'relative', zIndex: 3 }}>
+              {level.right.map((label) => {
+                const emotion = findEmotion(label, level.direction);
+                return (
+                  <EmotionChip
+                    key={`${level.id}-${label}-right`}
+                    label={label}
+                    tone={level.tone}
+                    selected={emotion?.id === selectedId}
+                    onClick={() => emotion && onSelect(emotion)}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div style={{ display: 'flex', justifyContent: 'space-between', gap: 12, marginTop: 16, color: 'rgba(255,255,255,0.58)', fontSize: 12, fontWeight: 800, textTransform: 'uppercase', letterSpacing: '0.18em' }}>
+        <span>Ascending</span>
+        <span>Descending</span>
+      </div>
     </section>
   );
 }
 
-export default function EmotionsAtlas({ onBack }) {
-  const [activeCategory, setActiveCategory] = useState('all');
+function CrisisNote() {
+  return (
+    <div style={{
+      border: '1px solid rgba(248,113,113,0.34)',
+      borderRadius: 18,
+      background: 'rgba(127,29,29,0.22)',
+      padding: 14,
+      color: 'rgba(254,226,226,0.9)',
+      fontSize: 12.5,
+      lineHeight: 1.65,
+    }}>
+      If "No Will to Live" or "Death" feels literal, current, or unsafe, contact emergency services or a crisis line now. In the U.S. or Canada, call or text 988 for immediate crisis support.
+    </div>
+  );
+}
+
+function EmotionPortalNav() {
+  const items = [
+    { href: '#emotion-spiral-map', label: 'Spiral Map' },
+    { href: '#emotion-spiral-list', label: 'Search & Levels' },
+    { href: '#emotion-definition-glossary', label: 'Definitions' },
+  ];
+
+  return (
+    <nav
+      aria-label="Emotion portal navigation"
+      style={{
+        position: 'sticky',
+        top: 64,
+        zIndex: 20,
+        display: 'flex',
+        flexWrap: 'wrap',
+        gap: 8,
+        margin: '0 0 22px',
+        padding: 10,
+        border: '1px solid rgba(255,255,255,0.1)',
+        borderRadius: 18,
+        background: 'rgba(11,13,24,0.88)',
+        backdropFilter: 'blur(14px)',
+      }}
+    >
+      {items.map((item) => (
+        <a
+          key={item.href}
+          href={item.href}
+          style={{
+            border: '1px solid rgba(244,114,182,0.32)',
+            background: 'rgba(244,114,182,0.08)',
+            color: '#f9a8d4',
+            borderRadius: 999,
+            padding: '8px 12px',
+            fontSize: 12,
+            fontWeight: 900,
+            textDecoration: 'none',
+          }}
+        >
+          {item.label}
+        </a>
+      ))}
+    </nav>
+  );
+}
+
+export default function EmotionsAtlas({ onBack, onSelectSection }) {
+  const [activeDirection, setActiveDirection] = useState('all');
   const [query, setQuery] = useState('');
-  const [selectedId, setSelectedId] = useState('basic-joy');
+  const [selectedId, setSelectedId] = useState('ascending-joy');
 
   const visibleEmotions = useMemo(() => {
     const q = query.trim().toLowerCase();
     return ALL_EMOTIONS.filter((emotion) => {
-      const matchesCategory = activeCategory === 'all' || emotion.categoryId === activeCategory;
-      const haystack = [emotion.name, emotion.definition, emotion.explanation, emotion.category].join(' ').toLowerCase();
-      return matchesCategory && (!q || haystack.includes(q));
+      const matchesDirection = activeDirection === 'all' || emotion.direction === activeDirection;
+      const haystack = [
+        emotion.name,
+        emotion.definition,
+        emotion.explanation,
+        emotion.directionLabel,
+        emotion.levelName,
+      ].join(' ').toLowerCase();
+      return matchesDirection && (!q || haystack.includes(q));
     });
-  }, [activeCategory, query]);
+  }, [activeDirection, query]);
 
   const selectedEmotion =
     ALL_EMOTIONS.find((emotion) => emotion.id === selectedId) ||
     visibleEmotions[0] ||
     ALL_EMOTIONS[0];
 
-  const groupedVisible = CATEGORIES.map((category) => ({
-    ...category,
-    emotions: visibleEmotions.filter((emotion) => emotion.categoryId === category.id),
-  })).filter((category) => category.emotions.length > 0);
+  const groupedVisible = ['ascending', 'neutral', 'descending'].map((direction) => ({
+    id: direction,
+    name: directionMeta[direction].category,
+    color: directionMeta[direction].color,
+    summary: directionMeta[direction].summary,
+    emotions: visibleEmotions.filter((emotion) => emotion.direction === direction),
+  })).filter((group) => group.emotions.length > 0);
 
   const selectEmotion = (emotion) => {
     setSelectedId(emotion.id);
@@ -327,31 +767,26 @@ export default function EmotionsAtlas({ onBack }) {
     <div style={page}>
       <style>
         {`
-          @media (max-width: 640px) {
-            .emotion-spiral {
-              min-height: auto !important;
-              display: flex !important;
-              flex-direction: column !important;
-              gap: 10px !important;
+          @media (max-width: 760px) {
+            .spiral-diagram-grid {
+              grid-template-columns: minmax(0, 1fr) !important;
             }
 
-            .emotion-spiral-svg {
+            .spiral-diagram-grid > div:nth-child(2) {
               display: none !important;
             }
 
-            .emotion-spiral-node {
-              position: static !important;
-              transform: none !important;
-              width: auto !important;
-              max-width: none !important;
+            .spiral-row > div {
+              grid-column: 1 !important;
+              grid-row: auto !important;
+              justify-content: flex-start !important;
+              min-height: auto !important;
+              margin-bottom: 6px !important;
             }
           }
         `}
       </style>
-      <div style={topbar}>
-        <button type="button" style={backButton} onClick={onBack}>Back to InnerAtlas</button>
-        <span style={{ fontSize: 13, fontWeight: 800, color: '#f472b6' }}>Emotions & Guidance Spiral</span>
-      </div>
+      <InnerAtlasNav activeId="emotions" onBack={onBack} onSelectSection={onSelectSection} title="Emotions & Guidance Spiral" />
 
       <main style={{ maxWidth: 1240, margin: '0 auto', padding: '38px 24px 72px' }}>
         <header style={{
@@ -365,92 +800,61 @@ export default function EmotionsAtlas({ onBack }) {
             <div style={{ color: '#f472b6', fontSize: 12, fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
               Emotional vocabulary
             </div>
-            <h1 style={{ margin: 0, color: '#fff', fontSize: 'clamp(2.1rem, 5vw, 4.8rem)', lineHeight: 0.96, letterSpacing: '-0.045em' }}>
-              Name the feeling. Read the signal.
+            <h1 style={{ margin: 0, color: '#fff', fontSize: 'clamp(2.1rem, 5vw, 4.8rem)', lineHeight: 0.96, letterSpacing: '-0.035em' }}>
+              Map the feeling on the spiral.
             </h1>
-            <p style={{ maxWidth: 640, color: 'rgba(255,255,255,0.56)', fontSize: '1rem', lineHeight: 1.75, margin: '18px 0 0' }}>
-              A simple emotion glossary with definitions, explanations, and a guidance spiral for noticing whether a state is opening upward or pulling downward.
+            <p style={{ maxWidth: 640, color: 'rgba(255,255,255,0.58)', fontSize: '1rem', lineHeight: 1.75, margin: '18px 0 0' }}>
+              This page now follows the emotional spiral structure more closely: ascending states above the boredom midline, descending states below it, and crisis language clearly marked at the floor.
             </p>
           </div>
 
-          <div style={{
-            borderRadius: 28,
-            border: '1px solid rgba(255,255,255,0.1)',
-            background: 'radial-gradient(circle at 45% 35%, rgba(244,114,182,0.22), transparent 36%), radial-gradient(circle at 62% 70%, rgba(34,211,238,0.16), transparent 34%), rgba(255,255,255,0.035)',
-            minHeight: 280,
-            display: 'grid',
-            placeItems: 'center',
-            padding: 24,
-          }}>
-            <div style={{ width: 210, height: 210, borderRadius: '50%', border: '1px solid rgba(255,255,255,0.18)', position: 'relative' }}>
-              {['Joy', 'Hope', 'Peace', 'Anger', 'Fear', 'Grief'].map((label, index) => {
-                const angle = (index / 6) * Math.PI * 2 - Math.PI / 2;
-                const x = 50 + Math.cos(angle) * 42;
-                const y = 50 + Math.sin(angle) * 42;
-                const colors = ['#fbbf24', '#34d399', '#22d3ee', '#fb7185', '#a78bfa', '#60a5fa'];
-                return (
-                  <span key={label} style={{
-                    position: 'absolute',
-                    left: `${x}%`,
-                    top: `${y}%`,
-                    transform: 'translate(-50%, -50%)',
-                    border: `1px solid ${colors[index]}66`,
-                    background: `${colors[index]}22`,
-                    color: colors[index],
-                    borderRadius: 999,
-                    padding: '6px 10px',
-                    fontSize: 12,
-                    fontWeight: 800,
-                  }}>{label}</span>
-                );
-              })}
-              <div style={{
-                position: 'absolute',
-                inset: '35%',
-                borderRadius: '50%',
-                background: 'linear-gradient(135deg, rgba(244,114,182,0.6), rgba(34,211,238,0.45))',
-                boxShadow: '0 0 56px rgba(244,114,182,0.32)',
-              }} />
-            </div>
-          </div>
-        </header>
-
-        <section style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(360px, 100%), 1fr))',
-          gap: 18,
-          marginBottom: 28,
-        }}>
-          <SpiralPath title="Upward spiral" direction="Regulate toward openness" tone="#34d399" nodes={UPWARD_SPIRAL} />
-          <SpiralPath title="Downward spiral" direction="Notice the contraction" tone="#fb7185" nodes={DOWNWARD_SPIRAL} />
-        </section>
-
-        <section style={{
-          display: 'grid',
-          gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
-          gap: 20,
-          alignItems: 'start',
-        }}>
           <aside id="emotion-detail" style={{
-            position: 'sticky',
-            top: 76,
             border: `1px solid ${selectedEmotion.color}55`,
             borderRadius: 24,
             background: `linear-gradient(135deg, ${selectedEmotion.color}18, rgba(255,255,255,0.035))`,
             padding: 22,
           }}>
             <div style={{ color: selectedEmotion.color, fontSize: 12, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.14em' }}>
-              {selectedEmotion.category}
+              {selectedEmotion.directionLabel} / {selectedEmotion.levelName}
             </div>
-            <h2 style={{ margin: '8px 0 8px', color: '#fff', fontSize: 32, letterSpacing: '-0.03em' }}>{selectedEmotion.name}</h2>
-            <p style={{ color: 'rgba(255,255,255,0.76)', fontSize: 16, lineHeight: 1.65, margin: 0 }}>{selectedEmotion.definition}</p>
+            <h2 style={{ margin: '8px 0 8px', color: '#fff', fontSize: 34, letterSpacing: '-0.03em' }}>{selectedEmotion.name}</h2>
+            <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 16, lineHeight: 1.65, margin: 0 }}>{selectedEmotion.definition}</p>
             <div style={{ height: 1, background: `${selectedEmotion.color}44`, margin: '18px 0' }} />
-            <h3 style={{ margin: '0 0 8px', color: '#fff', fontSize: 14 }}>Explanation</h3>
-            <p style={{ color: 'rgba(255,255,255,0.56)', fontSize: 14, lineHeight: 1.7, margin: 0 }}>{selectedEmotion.explanation}</p>
-            <p style={{ color: 'rgba(255,255,255,0.36)', fontSize: 12, lineHeight: 1.6, margin: '18px 0 0' }}>
-              This is a reflection map, not a diagnosis. If a painful state is intense, persistent, or unsafe, involve trusted support or a qualified professional.
+            <h3 style={{ margin: '0 0 8px', color: '#fff', fontSize: 14 }}>Spiral reading</h3>
+            <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: 14, lineHeight: 1.7, margin: 0 }}>{selectedEmotion.explanation}</p>
+            <p style={{ color: 'rgba(255,255,255,0.4)', fontSize: 12, lineHeight: 1.6, margin: '18px 0 0' }}>
+              This is a reflection map, not a diagnosis. Use it to name direction, not to shame yourself for being in a lower state.
             </p>
           </aside>
+        </header>
+
+        <EmotionPortalNav />
+
+        <div id="emotion-spiral-map" style={{ marginBottom: 28, scrollMarginTop: 118 }}>
+          <EmotionalSpiralDiagram selectedId={selectedEmotion.id} onSelect={selectEmotion} />
+        </div>
+
+        <section id="emotion-spiral-list" style={{
+          display: 'grid',
+          gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
+          gap: 20,
+          alignItems: 'start',
+          scrollMarginTop: 118,
+        }}>
+          <div style={{ position: 'sticky', top: 76, display: 'grid', gap: 14 }}>
+            <CrisisNote />
+            <div style={{
+              borderRadius: 20,
+              border: '1px solid rgba(255,255,255,0.1)',
+              background: 'rgba(255,255,255,0.035)',
+              padding: 16,
+            }}>
+              <div style={{ color: '#fff', fontSize: 14, fontWeight: 900, marginBottom: 10 }}>How to use it</div>
+              <p style={{ margin: 0, color: 'rgba(255,255,255,0.55)', fontSize: 13, lineHeight: 1.7 }}>
+                Find the nearest word, then look one or two bands upward. The next useful move is usually not the top of the chart; it is the closest believable improvement in state.
+              </p>
+            </div>
+          </div>
 
           <div>
             <div style={{
@@ -463,7 +867,7 @@ export default function EmotionsAtlas({ onBack }) {
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
                 type="search"
-                placeholder="Search emotions, definitions, anger, fear, love, hope..."
+                placeholder="Search shame, hopefulness, courage, jealousy, integrity..."
                 style={{
                   width: '100%',
                   border: '1px solid rgba(255,255,255,0.12)',
@@ -476,39 +880,29 @@ export default function EmotionsAtlas({ onBack }) {
                 }}
               />
               <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-                <button
-                  type="button"
-                  onClick={() => setActiveCategory('all')}
-                  style={{
-                    border: '1px solid rgba(255,255,255,0.14)',
-                    background: activeCategory === 'all' ? 'rgba(255,255,255,0.16)' : 'rgba(255,255,255,0.055)',
-                    color: '#fff',
-                    borderRadius: 999,
-                    padding: '8px 12px',
-                    cursor: 'pointer',
-                    fontSize: 12,
-                    fontWeight: 800,
-                  }}
-                >
-                  All
-                </button>
-                {CATEGORIES.map((category) => (
+                {[
+                  { id: 'all', label: 'All', color: '#ffffff' },
+                  { id: 'ascending', label: 'Ascending', color: directionMeta.ascending.color },
+                  { id: 'neutral', label: 'Midline', color: directionMeta.neutral.color },
+                  { id: 'descending', label: 'Descending', color: directionMeta.descending.color },
+                ].map((filter) => (
                   <button
-                    key={category.id}
+                    key={filter.id}
                     type="button"
-                    onClick={() => setActiveCategory(category.id)}
+                    onClick={() => setActiveDirection(filter.id)}
                     style={{
-                      border: `1px solid ${category.color}44`,
-                      background: activeCategory === category.id ? `${category.color}24` : 'rgba(255,255,255,0.035)',
-                      color: activeCategory === category.id ? category.color : 'rgba(255,255,255,0.68)',
+                      border: `1px solid ${filter.id === 'all' ? 'rgba(255,255,255,0.14)' : `${filter.color}55`}`,
+                      background: activeDirection === filter.id ? `${filter.color}24` : 'rgba(255,255,255,0.035)',
+                      color: activeDirection === filter.id ? '#fff' : 'rgba(255,255,255,0.68)',
                       borderRadius: 999,
                       padding: '8px 12px',
                       cursor: 'pointer',
                       fontSize: 12,
                       fontWeight: 800,
+                      fontFamily: 'inherit',
                     }}
                   >
-                    {category.name.replace(' emotions', '')}
+                    {filter.label}
                   </button>
                 ))}
               </div>
@@ -518,15 +912,15 @@ export default function EmotionsAtlas({ onBack }) {
               <div style={{ border: '1px dashed rgba(255,255,255,0.18)', borderRadius: 20, padding: 30, color: 'rgba(255,255,255,0.5)', textAlign: 'center' }}>
                 No emotions found. Try another word.
               </div>
-            ) : groupedVisible.map((category) => (
-              <section key={category.id} style={{ marginBottom: 22 }}>
+            ) : groupedVisible.map((group) => (
+              <section key={group.id} style={{ marginBottom: 22 }}>
                 <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
-                  <h3 style={{ color: '#fff', margin: 0, fontSize: 20 }}>{category.name}</h3>
-                  <span style={{ color: category.color, fontSize: 12, fontWeight: 800 }}>{category.emotions.length}</span>
+                  <h3 style={{ color: '#fff', margin: 0, fontSize: 20 }}>{group.name}</h3>
+                  <span style={{ color: group.color, fontSize: 12, fontWeight: 800 }}>{group.emotions.length}</span>
                 </div>
-                <p style={{ margin: '0 0 12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.6, fontSize: 13 }}>{category.summary}</p>
+                <p style={{ margin: '0 0 12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.6, fontSize: 13 }}>{group.summary}</p>
                 <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(230px, 100%), 1fr))', gap: 10 }}>
-                  {category.emotions.map((emotion) => (
+                  {group.emotions.map((emotion) => (
                     <button
                       key={emotion.id}
                       type="button"
@@ -539,16 +933,55 @@ export default function EmotionsAtlas({ onBack }) {
                         padding: 14,
                         cursor: 'pointer',
                         color: '#fff',
-                        minHeight: 118,
+                        minHeight: 122,
                         fontFamily: 'inherit',
                       }}
                     >
                       <strong style={{ color: emotion.color, fontSize: 14 }}>{emotion.name}</strong>
                       <p style={{ color: 'rgba(255,255,255,0.56)', lineHeight: 1.55, fontSize: 12.5, margin: '7px 0 0' }}>{emotion.definition}</p>
+                      <p style={{ color: 'rgba(255,255,255,0.34)', lineHeight: 1.45, fontSize: 11.5, margin: '8px 0 0' }}>{emotion.levelName}</p>
                     </button>
                   ))}
                 </div>
               </section>
+            ))}
+          </div>
+        </section>
+
+        <section id="emotion-definition-glossary" style={{ marginTop: 34, scrollMarginTop: 118 }}>
+          <div style={{ marginBottom: 18 }}>
+            <div style={{ color: '#f472b6', fontSize: 12, fontWeight: 900, letterSpacing: '0.2em', textTransform: 'uppercase' }}>
+              Emotion definitions
+            </div>
+            <h2 style={{ margin: '8px 0 0', color: '#fff', fontSize: 'clamp(1.8rem, 4vw, 3rem)', letterSpacing: '-0.035em' }}>
+              Simple glossary by family
+            </h2>
+            <p style={{ maxWidth: 720, color: 'rgba(255,255,255,0.52)', fontSize: 14, lineHeight: 1.75, margin: '10px 0 0' }}>
+              The spiral shows emotional direction. This glossary gives plain definitions for nearby feelings that may not appear directly on the spiral.
+            </p>
+          </div>
+
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(min(320px, 100%), 1fr))', gap: 14 }}>
+            {DEFINITION_GROUPS.map((group) => (
+              <article
+                key={group.id}
+                style={{
+                  borderRadius: 20,
+                  border: `1px solid ${group.color}38`,
+                  background: `linear-gradient(135deg, ${group.color}12, rgba(255,255,255,0.03))`,
+                  padding: 18,
+                }}
+              >
+                <h3 style={{ margin: 0, color: group.color, fontSize: 15, fontWeight: 900 }}>{group.name}</h3>
+                <dl style={{ display: 'grid', gap: 10, margin: '14px 0 0' }}>
+                  {group.emotions.map(([name, definition]) => (
+                    <div key={`${group.id}-${name}`} style={{ borderTop: '1px solid rgba(255,255,255,0.08)', paddingTop: 10 }}>
+                      <dt style={{ color: '#fff', fontSize: 13.5, fontWeight: 900 }}>{name}</dt>
+                      <dd style={{ color: 'rgba(255,255,255,0.58)', fontSize: 12.5, lineHeight: 1.55, margin: '4px 0 0' }}>{definition}</dd>
+                    </div>
+                  ))}
+                </dl>
+              </article>
             ))}
           </div>
         </section>

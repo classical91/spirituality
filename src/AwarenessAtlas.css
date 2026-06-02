@@ -675,6 +675,129 @@
   font-weight: 600;
 }
 
+.aw-sol {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255,255,255,.1);
+}
+
+.aw-sol-head {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.aw-sol-head h3 {
+  margin: 0;
+  color: #f4fffb;
+  font-size: clamp(20px, 3vw, 28px);
+  font-weight: 900;
+  letter-spacing: -.02em;
+}
+
+.aw-sol-head p {
+  margin: 5px 0 0;
+  color: #8aa39e;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.aw-sol-head span {
+  flex: 0 0 auto;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 999px;
+  padding: 7px 10px;
+  color: #dbeafe;
+  background: rgba(255,255,255,.05);
+  font-size: 11px;
+  font-weight: 900;
+  letter-spacing: .05em;
+  text-transform: uppercase;
+}
+
+.aw-sol-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.aw-sol-card {
+  border: 1px solid color-mix(in srgb, var(--tone), transparent 62%);
+  border-radius: 18px;
+  padding: 14px;
+  background:
+    radial-gradient(circle at 0% 0%, color-mix(in srgb, var(--tone), transparent 80%), transparent 46%),
+    rgba(255,255,255,.025);
+}
+
+.aw-sol-top {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+
+.aw-sol-dot {
+  width: 18px;
+  height: 18px;
+  border-radius: 999px;
+  background: var(--tone);
+  box-shadow: 0 0 22px color-mix(in srgb, var(--tone), transparent 45%);
+}
+
+.aw-sol-top strong {
+  display: block;
+  color: #fff;
+  font-size: 18px;
+  font-weight: 900;
+  line-height: 1;
+}
+
+.aw-sol-top small {
+  display: block;
+  margin-top: 3px;
+  color: var(--tone);
+  font-size: 11px;
+  font-weight: 900;
+}
+
+.aw-sol-card h4 {
+  margin: 0 0 8px;
+  color: #f4fffb;
+  font-size: 15px;
+  font-weight: 900;
+}
+
+.aw-sol-card p {
+  margin: 0;
+  color: #c4d6d1;
+  font-size: 12.5px;
+  line-height: 1.55;
+}
+
+.aw-sol-card em {
+  display: block;
+  margin-top: 10px;
+  color: #8aa39e;
+  font-size: 12px;
+  line-height: 1.55;
+  font-style: normal;
+  font-weight: 700;
+}
+
+.aw-sol-note {
+  margin: 14px 0 0;
+  border: 1px solid rgba(255,255,255,.11);
+  border-radius: 14px;
+  padding: 12px 14px;
+  color: #a9c4c0;
+  background: rgba(255,255,255,.035);
+  font-size: 12px;
+  line-height: 1.6;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .aw-freq-wave path { animation: none; }
   .aw-orb { animation: none; }
@@ -737,4 +860,13 @@
   .aw-freq-label { grid-area: label; }
   .aw-freq-wave { grid-area: wave; }
   .aw-freq-desc { grid-area: desc; }
+
+  .aw-sol-head {
+    align-items: start;
+    flex-direction: column;
+  }
+
+  .aw-sol-grid {
+    grid-template-columns: 1fr;
+  }
 }

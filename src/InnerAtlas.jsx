@@ -3,6 +3,7 @@ import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
 import EmotionsAtlas from './EmotionsAtlas';
+import InnerAtlasNav from './components/InnerAtlasNav';
 
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -11,6 +12,8 @@ const SECTION_MAP = {
   'psychology':            { id: 'psychology',            sub: null },
   'mood-neurochemistry':   { id: 'mood-neurochemistry',   sub: 'neurotransmitters' },
   'lifestyle':             { id: 'lifestyle',             sub: 'sleep' },
+  'colorpsychology':        { id: 'colorpsychology',       sub: null },
+  'color-psychology':       { id: 'colorpsychology',       sub: null },
   'regulation':            { id: 'regulation',            sub: null },
   'emotions':              { id: 'emotions',              sub: null },
   'emotion-glossary':      { id: 'emotions',              sub: null },
@@ -23,12 +26,12 @@ const SECTION_MAP = {
   physicalactivity:  { id: 'lifestyle',           sub: 'physicalactivity' },
   sleep:             { id: 'lifestyle',           sub: 'sleep' },
   nutrition:         { id: 'lifestyle',           sub: 'nutrition' },
-  colorpsychology:   { id: 'lifestyle',           sub: 'colorpsychology' },
   dashboard:         { id: null,                  sub: null },
   // Psychology Portal internal tab IDs
   overview:    { id: 'psychology', sub: 'overview' },
   frameworks:  { id: 'psychology', sub: 'frameworks' },
   powerstack:  { id: 'psychology', sub: 'powerstack' },
+  growth:      { id: 'psychology', sub: 'growth' },
   nutrients:   { id: 'psychology', sub: 'nutrients' },
 };
 
@@ -50,6 +53,7 @@ const PAL = {
   'psychology':            { c: '#67e8f9', bg: 'rgba(103,232,249,0.08)', br: 'rgba(103,232,249,0.26)' },
   'mood-neurochemistry':   { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
   'lifestyle':             { c: '#fbbf24', bg: 'rgba(251,191,36,0.08)',  br: 'rgba(251,191,36,0.26)'  },
+  'colorpsychology':        { c: '#22d3ee', bg: 'rgba(34,211,238,0.08)',  br: 'rgba(34,211,238,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
   'emotions':              { c: '#f472b6', bg: 'rgba(244,114,182,0.08)', br: 'rgba(244,114,182,0.26)' },
 };
@@ -82,8 +86,15 @@ const SECTIONS = [
     id: 'lifestyle',
     icon: '🌿',
     title: 'Lifestyle Inputs',
-    description: 'Sleep, nutrition, movement, sunlight, music, color psychology, and what shapes your daily state.',
+    description: 'Sleep, nutrition, movement, sunlight, music, and what shapes your daily state.',
     tags: ['Sleep', 'Nutrition', 'Movement'],
+  },
+  {
+    id: 'colorpsychology',
+    icon: '🎨',
+    title: 'Color Psychology',
+    description: 'How color shapes mood, attention, atmosphere, design, symbolism, and self-concept cues.',
+    tags: ['Colors', 'Mood', 'Design'],
   },
   {
     id: 'regulation',
@@ -219,21 +230,13 @@ const backBtnStyle = {
   fontFamily: 'inherit',
 };
 
-function SectionBar({ label, onBack, color }) {
-  return (
-    <div style={{ ...tbBase, borderBottom: `1px solid ${color}30` }}>
-      <button type="button" style={backBtnStyle} onClick={onBack}>← Back to InnerAtlas</button>
-      <span style={{ fontSize: '13px', fontWeight: 700, color, marginLeft: 4 }}>{label}</span>
-    </div>
-  );
-}
 
 // ─── Regulation Tools ──────────────────────────────────────────────────────
 
-function RegulationTools({ onBack }) {
+function RegulationTools({ onBack, onSelectSection }) {
   return (
     <div style={pg}>
-      <SectionBar label="Regulation Tools" onBack={onBack} color="#34d399" />
+      <InnerAtlasNav activeId="regulation" onBack={onBack} onSelectSection={onSelectSection} title="Regulation Tools" />
       <div style={{ maxWidth: 1100, margin: '0 auto', padding: '40px 24px' }}>
         <div style={{ marginBottom: 32 }}>
           <h2 style={{ fontSize: '1.8rem', fontWeight: 800, color: '#fff', margin: 0 }}>Regulation Tools</h2>
@@ -373,11 +376,8 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   const [activeSection, setActiveSection] = useState(mapped?.id ?? null);
   const deepSub = mapped?.sub ?? null;
 
-  const [showColor, setShowColor] = useState(deepSub === 'colorpsychology');
-
   const goHub = () => {
     setActiveSection(null);
-    setShowColor(false);
   };
 
   if (redirectRelationship) {
@@ -392,6 +392,7 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
     return (
       <PsychologyPortal
         onBack={goHub}
+        onSelectSection={setActiveSection}
         onNavigate={(id, opts) => {
           if (id === 'inneratlas' || id === 'innerbalance') {
             goHub();
@@ -405,21 +406,16 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'regulation') {
-    return <RegulationTools onBack={goHub} />;
+    return <RegulationTools onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
   if (activeSection === 'emotions') {
-    return <EmotionsAtlas onBack={goHub} />;
+    return <EmotionsAtlas onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase
-  if (activeSection === 'lifestyle' && showColor) {
-    return (
-      <ColorPsychologyAtlas
-        onBack={() => setShowColor(false)}
-        onNavigate={onNavigate}
-      />
-    );
+  if (activeSection === 'colorpsychology') {
+    return <ColorPsychologyAtlas onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
   const defaultSub = {
@@ -429,32 +425,12 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }[activeSection];
 
   return (
-    <div style={{ position: 'relative' }}>
-      <InnerBalanceAtlasBase
-        onBack={goHub}
-        onNavigate={null}
-        initialSection={deepSub && deepSub !== 'colorpsychology' ? deepSub : defaultSub}
-      />
-      {activeSection === 'lifestyle' && (
-        <button
-          type="button"
-          onClick={() => setShowColor(true)}
-          className="iba-nav-btn"
-          style={{
-            position: 'fixed',
-            left: 22,
-            top: 438,
-            zIndex: 90,
-            width: 248,
-            justifyContent: 'flex-start',
-            boxShadow: '0 10px 28px rgba(0,0,0,0.14)',
-          }}
-          aria-label="Open Color Psychology section"
-        >
-          <span className="iba-nav-icon" aria-hidden="true">🎨</span>
-          Color Psychology
-        </button>
-      )}
-    </div>
+    <InnerBalanceAtlasBase
+      onBack={goHub}
+      onSelectSection={setActiveSection}
+      activeSectionId={activeSection}
+      onNavigate={null}
+      initialSection={deepSub || defaultSub}
+    />
   );
 }

@@ -54,6 +54,57 @@ const BANDS = [
   },
 ];
 
+const SOLFEGGIO = [
+  {
+    syllable: 'DO',
+    hz: '396 Hz',
+    color: '#ef4444',
+    name: 'Release',
+    effect: 'Transforms grief toward joy; associated with releasing guilt and fear.',
+    use: 'Emotional release, grounding, and moving through heavy states.',
+  },
+  {
+    syllable: 'RE',
+    hz: '417 Hz',
+    color: '#f97316',
+    name: 'Change',
+    effect: 'Associated with rising above situations and facilitating change.',
+    use: 'Breaking old patterns, new beginnings, and empowerment.',
+  },
+  {
+    syllable: 'MI',
+    hz: '528 Hz',
+    color: '#facc15',
+    name: 'Transformation',
+    effect: 'Traditionally linked with transformation, miracles, and DNA repair symbolism.',
+    use: 'Meditation on healing, renewal, manifestation, and regeneration.',
+  },
+  {
+    syllable: 'FA',
+    hz: '639 Hz',
+    color: '#22c55e',
+    name: 'Connection',
+    effect: 'Associated with strengthening relationships and spiritual family connection.',
+    use: 'Love, communication, unity, and harmonizing relationships.',
+  },
+  {
+    syllable: 'SOL',
+    hz: '741 Hz',
+    color: '#06b6d4',
+    name: 'Expression',
+    effect: 'Associated with expression, solutions, cleansing, and truth-seeking.',
+    use: 'Speaking truth, detox symbolism, clarity, and problem-solving.',
+  },
+  {
+    syllable: 'LA',
+    hz: '852 Hz',
+    color: '#6366f1',
+    name: 'Intuition',
+    effect: 'Associated with spiritual order, intuition, and returning to alignment.',
+    use: 'Inner peace, awakening, higher consciousness, and divine alignment.',
+  },
+];
+
 // Build a seamless wave path spanning two tiles (0..2W) so a -50% scroll loops.
 function wavePath(width, height, cycles, amp, jitter) {
   const mid = height / 2;
@@ -105,6 +156,34 @@ export default function MindFrequencies() {
             <p className="aw-freq-desc">{b.desc}</p>
           </div>
         ))}
+      </div>
+      <div className="aw-sol">
+        <div className="aw-sol-head">
+          <div>
+            <h3>Solfeggio Frequency Scale</h3>
+            <p>Traditional meditation tones mapped by syllable, color, and symbolic use.</p>
+          </div>
+          <span>Sound therapy / spiritual practice</span>
+        </div>
+        <div className="aw-sol-grid">
+          {SOLFEGGIO.map((tone) => (
+            <article className="aw-sol-card" key={tone.hz} style={{ '--tone': tone.color }}>
+              <div className="aw-sol-top">
+                <span className="aw-sol-dot" />
+                <div>
+                  <strong>{tone.syllable}</strong>
+                  <small>{tone.hz}</small>
+                </div>
+              </div>
+              <h4>{tone.name}</h4>
+              <p>{tone.effect}</p>
+              <em>{tone.use}</em>
+            </article>
+          ))}
+        </div>
+        <p className="aw-sol-note">
+          These meanings are wellness and spiritual associations, not medical guarantees. Use them as meditation anchors, mood cues, or ritual music choices rather than as a substitute for care.
+        </p>
       </div>
     </div>
   );
