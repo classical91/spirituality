@@ -1002,6 +1002,24 @@ function Nutrition() {
     },
   ];
 
+  const hydration = [
+    { benefit: 'Energy & focus', detail: 'Even 1–2% dehydration reduces cognitive performance, working memory, and attention. Fatigue is one of the earliest signs of mild dehydration — often mistaken for hunger or low motivation.' },
+    { benefit: 'Detoxification', detail: 'The kidneys require adequate water to filter waste products from the blood and excrete them through urine. Chronic low intake forces the kidneys to concentrate urine, increasing kidney stone risk.' },
+    { benefit: 'Digestion', detail: 'Water is needed to produce digestive enzymes and move food through the intestines. Insufficient intake is a leading cause of constipation and slowed nutrient absorption.' },
+    { benefit: 'Skin health', detail: 'Hydration supports skin elasticity and barrier function. While drinking water is not a cure for dry skin, chronic dehydration visibly reduces skin plumpness and accelerates the appearance of fine lines.' },
+    { benefit: 'Temperature regulation', detail: 'Sweating is the primary way the body dissipates heat. Without enough water, the body cannot cool itself efficiently — core temperature rises and performance drops rapidly in warm conditions.' },
+    { benefit: 'Joint & muscle support', detail: 'Synovial fluid in joints is primarily water. Adequate hydration keeps joints lubricated and reduces friction. Muscle cramps during exercise are often linked to fluid and electrolyte loss.' },
+    { benefit: 'Weight management', detail: 'Drinking water before meals reduces calorie intake by increasing satiety. The stomach\'s stretch receptors signal fullness regardless of calorie content. Water also slightly raises metabolic rate for 30–40 minutes after ingestion.' },
+  ];
+
+  const hydrationTips = [
+    ['Start with water', 'Drink a glass of water before anything else in the morning — it rehydrates after overnight fluid loss and jumpstarts kidney function before caffeine.'],
+    ['Aim for 2–3 litres daily', 'Exact needs vary by body weight, activity, and climate. A practical guide: urine should be pale yellow — dark yellow means drink more, clear may mean overdrinking.'],
+    ['Don\'t wait for thirst', 'Thirst is a late signal — by the time it appears, mild dehydration is already present. Keep water accessible and sip consistently throughout the day.'],
+    ['Electrolytes matter', 'Plain water isn\'t enough during intense exercise or heat. Sodium, potassium, and magnesium help water enter cells. Coconut water, a pinch of sea salt, or electrolyte tabs can help.'],
+    ['Coffee and tea count', 'Moderate caffeine does not cause net dehydration — the fluid in coffee and tea more than offsets any mild diuretic effect. They count toward daily fluid intake.'],
+  ];
+
   return (
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
@@ -1013,6 +1031,31 @@ function Nutrition() {
         label: c.label,
         items: c.items.map(item => ({ name: item.food, icon: '', benefits: [item.benefit] })),
       }))} />
+
+      {/* Hydration */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>💧 Hydration — Benefits of Drinking Water</span>
+        </div>
+        {hydration.map((h, i) => (
+          <div key={h.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', padding: '13px 20px', borderBottom: i < hydration.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{h.benefit}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-card" style={{ background: 'rgba(99,163,219,0.06)', border: '1px solid rgba(99,163,219,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--blue)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Practical hydration guide</h4>
+        <div style={{ display: 'grid', gap: 10 }}>
+          {hydrationTips.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 3 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }
