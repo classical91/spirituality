@@ -18,6 +18,7 @@ const tabs = [
   { id: "prayers", label: "Prayer Themes", icon: "✿" },
   { id: "map", label: "Sin Map", icon: "⌁" },
   { id: "wheel", label: "Soul · Spirit · Body", icon: "◈" },
+  { id: "love-deities", label: "Love Deities", icon: "♀" },
 ];
 
 const embeddedAtlasTabs = new Set(["demonology-atlas", "infernal-codex"]);
@@ -1722,6 +1723,109 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (tabId === "love-deities") {
+    const deities = [
+      {
+        name: 'Aphrodite',
+        tradition: 'Greek',
+        roman: 'Venus',
+        symbol: '♀',
+        accent: '#f9a8d4',
+        domains: ['Love', 'Beauty', 'Desire', 'Pleasure'],
+        desc: 'Born from sea foam, she embodies the irresistible pull of beauty and romantic longing. Associated with the planet Venus and the morning star.',
+        note: 'Her power was not merely seduction — she represented the force that draws all living things toward union and completion.',
+      },
+      {
+        name: 'Eros',
+        tradition: 'Greek',
+        roman: 'Cupid',
+        symbol: '↝',
+        accent: '#fb7185',
+        domains: ['Love', 'Fertility', 'Desire'],
+        desc: 'A winged youth carrying bow and golden arrows. His arrows pierce the heart without warning, symbolizing the involuntary nature of attraction.',
+        note: 'In earlier traditions Eros was a primordial force — not a child but a cosmic power present at creation, the impulse that brings opposites together.',
+      },
+      {
+        name: 'Freya',
+        tradition: 'Norse',
+        roman: '—',
+        symbol: '⚡',
+        accent: '#fbbf24',
+        domains: ['Love', 'Beauty', 'Fertility', 'War', 'Death'],
+        desc: 'One of the most powerful Norse deities, she rides a chariot pulled by cats and possesses a falcon-feather cloak. Half of those slain in battle are taken to her realm Fólkvangr.',
+        note: 'Her pairing of love and war reveals the ancient understanding that passion and mortality are inseparable — desire always carries risk.',
+      },
+      {
+        name: 'Ishtar',
+        tradition: 'Mesopotamian',
+        roman: '—',
+        symbol: '★',
+        accent: '#a78bfa',
+        domains: ['Love', 'Beauty', 'Sex', 'War', 'Justice', 'Political Power'],
+        desc: 'One of the most important deities of the ancient world, worshipped across Babylonia and Assyria. Her symbol was the eight-pointed star; her planet was Venus.',
+        note: 'Ishtar\'s descent into the underworld — removing her powers at each gate — is one of the oldest recorded narratives of death and transformation.',
+      },
+      {
+        name: 'Kamadeva',
+        tradition: 'Hindu',
+        roman: '—',
+        symbol: '🏹',
+        accent: '#34d399',
+        domains: ['Love', 'Desire', 'Sensuality'],
+        desc: 'The god of love in Hindu tradition, depicted as a handsome youth carrying a bow of sugarcane strung with bees and arrows tipped with fragrant flowers.',
+        note: 'Kamadeva was burned to ash by Shiva\'s third eye for interrupting his meditation — symbolizing the tension between ascetic discipline and the force of desire.',
+      },
+      {
+        name: 'Hathor',
+        tradition: 'Egyptian',
+        roman: '—',
+        symbol: '☽',
+        accent: '#22d3ee',
+        domains: ['Love', 'Beauty', 'Music', 'Fertility', 'Joy'],
+        desc: 'Depicted with the horns of a cow and a solar disk, she was the goddess of feminine beauty, dance, and the joyful side of life. Associated with the Milky Way.',
+        note: 'As both a nurturing mother figure and a wild, sensual force, Hathor embodied the full range of the feminine divine — from tender care to ecstatic celebration.',
+      },
+    ];
+
+    return (
+      <div>
+        <SectionHeader eyebrow="Comparative mythology" title="Love & Lust Deities">
+          Divine figures from six world traditions who embody love, desire, beauty, and passion. Each reflects how a culture understood the transformative — and sometimes dangerous — power of attraction and union.
+        </SectionHeader>
+
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {deities.map((d) => (
+            <div key={d.name} style={{ borderColor: `${d.accent}30` }} className="rounded-3xl border bg-white/[0.04] p-6">
+              <div className="mb-4 flex items-start justify-between gap-3">
+                <div>
+                  <div className="flex items-center gap-2">
+                    <span style={{ color: d.accent }} className="text-xl font-bold">{d.symbol}</span>
+                    <h3 style={{ color: d.accent }} className="text-lg font-black">{d.name}</h3>
+                  </div>
+                  <div className="mt-1 flex gap-2 text-xs text-slate-500">
+                    <span>{d.tradition}</span>
+                    {d.roman !== '—' && <><span>·</span><span>Roman: {d.roman}</span></>}
+                  </div>
+                </div>
+              </div>
+
+              <div className="mb-3 flex flex-wrap gap-2">
+                {d.domains.map((dom) => (
+                  <span key={dom} style={{ color: d.accent, background: `${d.accent}14`, borderColor: `${d.accent}28` }}
+                    className="rounded-full border px-3 py-0.5 text-xs font-semibold">{dom}</span>
+                ))}
+              </div>
+
+              <p className="mb-3 text-sm leading-6 text-slate-300">{d.desc}</p>
+
+              <p style={{ borderLeftColor: `${d.accent}40` }} className="border-l-2 pl-3 text-xs italic leading-5 text-slate-500">{d.note}</p>
+            </div>
+          ))}
         </div>
       </div>
     );
