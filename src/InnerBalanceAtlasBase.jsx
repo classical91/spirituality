@@ -1835,6 +1835,50 @@ function GratitudePractice() {
         ))}
       </div>
 
+      {/* Counting Blessings */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden', border: '1px solid rgba(216,169,72,0.22)' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(216,169,72,0.08)', borderBottom: '1px solid rgba(216,169,72,0.15)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>Counting Blessings — A Structured Practice</span>
+        </div>
+        <div style={{ padding: '16px 20px', display: 'grid', gap: 16 }}>
+          <p style={{ margin: 0, fontSize: '0.87rem', color: 'var(--muted)', lineHeight: 1.65 }}>
+            Counting blessings is the deliberate, domain-by-domain practice of naming specific gifts in your life. Unlike a general gratitude list, it moves through different areas — body, relationships, material provision, growth — so nothing is overlooked and hedonic adaptation is resisted.
+          </p>
+          <div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>How to do it</div>
+            <div style={{ display: 'grid', gap: 8 }}>
+              {[
+                ['1. Set aside a quiet moment', 'Morning after waking or last thing before sleep work best — the mind is quieter and more receptive at these thresholds.'],
+                ['2. Move through life domains', 'Health & body · Senses · Relationships & people · Home & material provision · Work or purpose · Spiritual life · Lessons and growth from difficulties.'],
+                ['3. Name at least one specific blessing per domain', 'The specificity is the practice. "I am grateful that my legs carried me up the stairs today" beats "I am grateful for my health." Specificity prevents the list becoming automatic noise.'],
+                ['4. Add the why', 'For each blessing, note why it matters: "… because it means I am able to be present with my family." The why connects the blessing to your actual values.'],
+                ['5. Sit with the feeling', 'After writing, pause for 10–15 seconds on each item. Let the feeling of appreciation register in the body, not just the mind. This is what builds the neural pathway.'],
+                ['6. Close with one blessing from difficulty', 'End by naming something you are grateful for even in a current challenge. This is the hardest and highest-return step.'],
+              ].map(([step, detail]) => (
+                <div key={step} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: 12, padding: '10px 0', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--gold)', lineHeight: 1.4 }}>{step}</div>
+                  <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ background: 'rgba(216,169,72,0.06)', borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>What to count</div>
+              {['Your senses and what they receive', 'People who love or support you', 'Freedoms you enjoy daily', 'Skills and talents you have developed', 'Past hardships you survived', 'Small pleasures of the day', 'Your capacity to grow and change'].map(item => (
+                <div key={item} style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.5, marginBottom: 4 }}>• {item}</div>
+              ))}
+            </div>
+            <div style={{ background: 'rgba(100,140,100,0.06)', borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--sage)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Signs it is working</div>
+              {['You notice good things during the day unprompted', 'Small irritations lose their grip faster', 'You feel fuller after fewer items', 'You begin counting without needing to write', 'Difficulties feel less absolute', 'You feel a spontaneous urge to give or express appreciation'].map(item => (
+                <div key={item} style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.5, marginBottom: 4 }}>• {item}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Common mistakes */}
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
