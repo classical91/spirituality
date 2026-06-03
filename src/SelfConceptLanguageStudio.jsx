@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import BackButton from "./components/BackButton";
 
 const starterPhrases = [
@@ -574,7 +574,7 @@ function CopyButton({ text }) {
 
 function ToneTrapWords() {
   return (
-    <section className="mt-6 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+    <section id="tone-traps" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
       <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-200">Tone trap words</p>
@@ -637,7 +637,7 @@ function ToneTrapWords() {
   );
 }
 
-export default function SelfConceptLanguageStudio({ onBack, embedded }) {
+export default function SelfConceptLanguageStudio({ onBack, embedded, initialSection }) {
   const [input, setInput] = useState("I am her man");
   const [mode, setMode] = useState("Identity");
 
@@ -655,6 +655,14 @@ export default function SelfConceptLanguageStudio({ onBack, embedded }) {
   }, [input]);
 
   const modes = ["Identity", "Experience", "Native", "Repair"];
+
+  useEffect(() => {
+    if (!initialSection) return undefined;
+    const timeout = window.setTimeout(() => {
+      document.getElementById(initialSection)?.scrollIntoView({ block: "start" });
+    }, 80);
+    return () => window.clearTimeout(timeout);
+  }, [initialSection]);
 
   const mainContent = (
     <main className="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
@@ -690,7 +698,7 @@ export default function SelfConceptLanguageStudio({ onBack, embedded }) {
           </div>
         </header>
 
-        <section className="mt-10 grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
+        <section id="phrase-analyzer" className="mt-10 scroll-mt-24 grid gap-5 lg:grid-cols-[1.1fr_.9fr]">
           <div className="rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-6">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
