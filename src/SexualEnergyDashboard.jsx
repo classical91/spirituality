@@ -10,6 +10,7 @@ const tabs = [
   { id: "tracker", label: "Tracker" },
   { id: "journal", label: "Journal" },
   { id: "marriage", label: "Marriage" },
+  { id: "dynamics", label: "Dynamics" },
   { id: "relationship-clarity", label: "Relationship Clarity" },
   { id: "relationship-patterns", label: "Relationship Patterns" },
 ];
@@ -243,6 +244,41 @@ const marriageThemes = [
     accent: '#f9a8d4',
     description: 'The intimate vocabulary of love — words that carry warmth, closeness, and belonging.',
     themes: ['Honey', 'Sweetheart', 'Darling', 'Love', 'Babe', 'Baby', 'Angel', 'Dear', 'Cutie', 'Sunshine'],
+  },
+];
+
+const relationshipDynamics = [
+  {
+    id: 'healthy',
+    icon: '✦',
+    title: 'Healthy & Fulfilling',
+    accent: '#34d399',
+    description: 'The foundation of a thriving partnership.',
+    items: ['Mutual Respect', 'Open Communication', 'Emotional Safety', 'Support & Encouragement', 'Balance & Equality', 'Playfulness & Fun', 'Passion & Intimacy', 'Adaptability'],
+  },
+  {
+    id: 'struggling',
+    icon: '◎',
+    title: 'Struggling or Challenging',
+    accent: '#fbbf24',
+    description: 'Patterns that create friction and distance.',
+    items: ['Miscommunication', 'Emotional Distance', 'Control & Dominance', 'Codependency', 'Avoidance', 'Passive-Aggressiveness', 'Jealousy & Possessiveness', 'Lack of Appreciation'],
+  },
+  {
+    id: 'toxic',
+    icon: '⚠',
+    title: 'Unstable or Toxic',
+    accent: '#fb7185',
+    description: 'Dynamics that cause harm and erode trust.',
+    items: ['Manipulation', 'Gaslighting', 'Neglect', 'Frequent Power Struggles', 'Inconsistency', 'Hostility & Blame', 'Emotional or Physical Abuse'],
+  },
+  {
+    id: 'evolving',
+    icon: '↑',
+    title: 'Evolving & Growth-Oriented',
+    accent: '#a78bfa',
+    description: 'Dynamics that carry a relationship forward.',
+    items: ['Healing & Rebuilding', 'Personal Growth Together', 'Rekindling Passion', 'Boundaries & Independence', 'Forgiveness & Understanding', 'Long-Distance Love'],
   },
 ];
 
@@ -702,6 +738,40 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     </div>
   );
 
+  const renderDynamics = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Relationship awareness"
+        title="Dynamics of a Relationship"
+        text="Four categories of relationship dynamics — from healthy and fulfilling to toxic and destabilizing. Use this as a mirror to name what's present, what's missing, and what direction things are moving."
+      />
+      <div className="grid gap-5 md:grid-cols-2">
+        {relationshipDynamics.map((cat) => (
+          <Card key={cat.id}>
+            <div className="mb-4 flex items-start gap-3">
+              <span style={{ color: cat.accent }} className="text-2xl leading-none font-bold">{cat.icon}</span>
+              <div>
+                <h3 className="text-base font-bold text-white">{cat.title}</h3>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{cat.description}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {cat.items.map((item) => (
+                <span
+                  key={item}
+                  style={{ color: cat.accent, background: `${cat.accent}14`, borderColor: `${cat.accent}30` }}
+                  className="rounded-full border px-3 py-1 text-xs font-medium"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+
   const renderTab = () => {
     if (activeTab === "overview") return renderOverview();
     if (activeTab === "masturbation") return renderMasturbation();
@@ -709,6 +779,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (activeTab === "urges") return renderUrges();
     if (activeTab === "tracker") return renderTracker();
     if (activeTab === "marriage") return renderMarriage();
+    if (activeTab === "dynamics") return renderDynamics();
     return renderJournal();
   };
 
