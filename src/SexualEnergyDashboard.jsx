@@ -11,6 +11,7 @@ const tabs = [
   { id: "journal", label: "Journal" },
   { id: "marriage", label: "Marriage" },
   { id: "dynamics", label: "Dynamics" },
+  { id: "scripts", label: "Scripts" },
   { id: "relationship-clarity", label: "Relationship Clarity" },
   { id: "relationship-patterns", label: "Relationship Patterns" },
 ];
@@ -244,6 +245,125 @@ const marriageThemes = [
     accent: '#f9a8d4',
     description: 'The intimate vocabulary of love — words that carry warmth, closeness, and belonging.',
     themes: ['Honey', 'Sweetheart', 'Darling', 'Love', 'Babe', 'Baby', 'Angel', 'Dear', 'Cutie', 'Sunshine'],
+  },
+];
+
+const scriptThemes = [
+  {
+    id: 'sleep',
+    icon: '🌙',
+    title: 'Sleeping & Rest',
+    accent: '#818cf8',
+    description: 'Closeness in stillness and shared rest.',
+    items: [
+      'Falling asleep together in silence',
+      'Waking up slowly beside each other',
+      'Middle-of-the-night half-awake closeness',
+      'Napping together on a quiet afternoon',
+      'Her falling asleep first, you staying present',
+      'Rainy night, windows open, shared warmth',
+    ],
+  },
+  {
+    id: 'home',
+    icon: '🏡',
+    title: 'Home & Domestic Intimacy',
+    accent: '#fb923c',
+    description: 'The quiet texture of building a life together.',
+    items: [
+      'Cooking dinner together without talking much',
+      'Sitting on the couch after a long day',
+      'Folding laundry side by side',
+      'Cleaning the kitchen together calmly',
+      'Watching a show with her head on your shoulder',
+      'Sharing a quiet morning coffee',
+    ],
+  },
+  {
+    id: 'safety',
+    icon: '🫂',
+    title: 'Emotional Safety & Choice',
+    accent: '#f9a8d4',
+    description: 'Being each other\'s place of rest.',
+    items: [
+      'Feeling emotionally held by each other',
+      'Mutual reassurance without words',
+      'Being each other\'s place of rest',
+      'Calm conflict resolution and reconnection',
+      'Feeling wanted without needing validation',
+    ],
+  },
+  {
+    id: 'presence',
+    icon: '◎',
+    title: 'Presence & Familiarity',
+    accent: '#22d3ee',
+    description: 'Ease in simply existing together.',
+    items: [
+      'Walking together in public, unhurried',
+      'Sitting together in comfortable silence',
+      'Eye contact without tension',
+      'Breathing together to slow the nervous system',
+      'Being bored together — and okay with it',
+      'Existing in the same space, doing different things',
+    ],
+  },
+  {
+    id: 'commitment',
+    icon: '⚓',
+    title: 'Commitment & Stability',
+    accent: '#34d399',
+    description: 'Love that feels settled, not urgent.',
+    items: [
+      'Living together naturally',
+      'Coming home to her consistently',
+      'Planning the future without pressure',
+      'Shared routines that feel grounding',
+      'Feeling chosen daily, not dramatically',
+      'Trust that doesn\'t need reassurance',
+    ],
+  },
+  {
+    id: 'grounding',
+    icon: '🏔',
+    title: 'Protection & Grounding',
+    accent: '#94a3b8',
+    description: 'Masculine calm as a steady presence.',
+    items: [
+      'Holding space when she\'s tired',
+      'Quiet confidence beside her',
+      'Being her safe place, not her excitement source',
+      'Leading gently without force',
+      'Staying steady when emotions arise',
+    ],
+  },
+  {
+    id: 'living-end',
+    icon: '✧',
+    title: '"Living in the End" Scripts',
+    accent: '#a78bfa',
+    description: 'Scripting from the state of already having it.',
+    items: [
+      'Normal evenings as a couple',
+      'Weekends that feel familiar',
+      'Shared sleep as a baseline reality',
+      'Mutual comfort as the default',
+      'Love that feels settled, not urgent',
+    ],
+  },
+  {
+    id: 'perspective',
+    icon: '↻',
+    title: 'Perspective Shifts',
+    accent: '#fbbf24',
+    description: 'Different lenses for writing and embodying scripts.',
+    items: [
+      'From your perspective',
+      'From her perspective',
+      'From a "we" perspective',
+      'Short affirmation-style scripts',
+      'Long, cinematic narrative scripts',
+    ],
   },
 ];
 
@@ -738,6 +858,40 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     </div>
   );
 
+  const renderScripts = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Conscious scripting"
+        title="Relationship Script Themes"
+        text="Eight categories of closeness — sleep, home, emotional safety, presence, commitment, grounding, living in the end, and perspective shifts. Use any theme as a starting point for scripting, journaling, or visualization."
+      />
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {scriptThemes.map((cat) => (
+          <Card key={cat.id}>
+            <div className="mb-4 flex items-start gap-3">
+              <span className="text-2xl leading-none">{cat.icon}</span>
+              <div>
+                <h3 className="text-base font-bold text-white">{cat.title}</h3>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{cat.description}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {cat.items.map((item) => (
+                <span
+                  key={item}
+                  style={{ color: cat.accent, background: `${cat.accent}14`, borderColor: `${cat.accent}30` }}
+                  className="rounded-full border px-3 py-1 text-xs font-medium"
+                >
+                  {item}
+                </span>
+              ))}
+            </div>
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+
   const renderDynamics = () => (
     <div>
       <SectionTitle
@@ -780,6 +934,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (activeTab === "tracker") return renderTracker();
     if (activeTab === "marriage") return renderMarriage();
     if (activeTab === "dynamics") return renderDynamics();
+    if (activeTab === "scripts") return renderScripts();
     return renderJournal();
   };
 
