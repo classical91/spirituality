@@ -50,6 +50,48 @@ const LENS_COLORS = {
 
 const ASTRO_CHART_URL = 'https://astro.cafeastrology.com/horoscope.php?date=12/28/1991&d1hour=12&d1min=0&tz=0.00&dformat=0&date2=06/03/2026&d2hour=18&d2min=47&lang=en';
 
+const REFRESHING_AFFIRMATIONS = [
+  { title: 'Alignment', lines: ['I am aligned with who I truly am.', 'I live in harmony with my values.', 'I naturally make choices that feel right for me.'] },
+  { title: 'Stability', lines: ['I am steady and grounded.', 'I create stability wherever I go.', 'I trust myself to remain centered.'] },
+  { title: 'Depth', lines: ['I embrace depth in myself and in life.', 'I connect with people in meaningful ways.', 'I value what is real, authentic, and profound.'] },
+  { title: 'Honesty', lines: ['I am honest with myself and others.', 'I speak my truth with confidence and kindness.', 'I live transparently and authentically.'] },
+  { title: 'Peace', lines: ['I am at peace with myself.', 'I carry calmness within me.', 'I choose peace over unnecessary conflict.'] },
+  { title: 'Devotion', lines: ['I am devoted to what matters most.', 'I give my heart fully and sincerely.', 'I honor my commitments with love and consistency.'] },
+  { title: 'Freedom', lines: ['I am free to be myself.', 'I live life on my own terms.', 'I trust my ability to choose my path.'] },
+  { title: 'Purpose', lines: ['I am guided by purpose.', 'I know my life has meaning.', 'I move forward with intention and direction.'] },
+  { title: 'Clarity', lines: ['I see clearly and think clearly.', 'I trust my understanding.', 'I make decisions with confidence and wisdom.'] },
+  { title: 'Balance', lines: ['I live in balance and harmony.', 'I honor both work and rest.', 'I maintain healthy priorities.'] },
+  { title: 'Growth', lines: ['I am always growing into my highest self.', 'I welcome growth and transformation.', 'I become stronger and wiser every day.'] },
+  { title: 'Loyalty', lines: ['I am loyal to myself and those I love.', 'I build relationships based on trust and commitment.', 'I value faithfulness and consistency.'] },
+  { title: 'Security', lines: ['I am secure in who I am.', 'I trust life to support me.', 'I feel safe, grounded, and protected.'] },
+  { title: 'Connection', lines: ['I am deeply connected to myself and others.', 'I build meaningful and fulfilling relationships.', 'I welcome love, understanding, and closeness.'] },
+  { title: 'Integrity', lines: ['I live with integrity in all that I do.', 'I honor my values through my actions.', 'I am trustworthy, authentic, and true to myself.'] },
+  {
+    title: 'Condensed Identity Version',
+    lines: [
+      'I am aligned.',
+      'I am stable.',
+      'I am deep.',
+      'I am honest.',
+      'I am peaceful.',
+      'I am devoted.',
+      'I am free.',
+      'I am purposeful.',
+      'I am clear.',
+      'I am balanced.',
+      'I am growing.',
+      'I am loyal.',
+      'I am secure.',
+      'I am connected.',
+      'I am a man of integrity.',
+    ],
+  },
+].flatMap((group) => group.lines.map((line) => ({ title: group.title, line })));
+
+function getRefreshingAffirmation() {
+  return REFRESHING_AFFIRMATIONS[Math.floor(Math.random() * REFRESHING_AFFIRMATIONS.length)];
+}
+
 function SurprisePrayerModal({ theme, onClose, onReshuffle }) {
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') onClose(); };
@@ -310,10 +352,64 @@ function AstroChartLink() {
   );
 }
 
+function RefreshingAffirmationCard({ affirmation }) {
+  return (
+    <aside
+      aria-label="Refreshing affirmation"
+      style={{
+        width: '100%',
+        maxWidth: '360px',
+        justifySelf: 'end',
+        border: '1px solid rgba(255,255,255,0.12)',
+        background: 'rgba(255,255,255,0.055)',
+        borderRadius: '18px',
+        padding: '14px 16px',
+        backdropFilter: 'blur(18px)',
+        boxShadow: '0 18px 48px rgba(0,0,0,0.22)',
+      }}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '10px', marginBottom: '8px' }}>
+        <p style={{
+          margin: 0,
+          color: 'rgba(216,206,255,0.65)',
+          fontSize: '0.68rem',
+          fontWeight: 900,
+          letterSpacing: '0.18em',
+          textTransform: 'uppercase',
+        }}>
+          Refreshing Affirmation
+        </p>
+        <span style={{
+          flexShrink: 0,
+          border: '1px solid rgba(196,165,255,0.18)',
+          background: 'rgba(196,165,255,0.1)',
+          color: '#d8ceff',
+          borderRadius: '999px',
+          padding: '3px 8px',
+          fontSize: '0.66rem',
+          fontWeight: 800,
+        }}>
+          {affirmation.title}
+        </span>
+      </div>
+      <p style={{
+        margin: 0,
+        color: '#f1eeff',
+        fontSize: 'clamp(0.9rem, 1.7vw, 1rem)',
+        lineHeight: 1.55,
+        fontWeight: 750,
+      }}>
+        {affirmation.line}
+      </p>
+    </aside>
+  );
+}
+
 export default function HomePage({ onNavigate }) {
   const [query, setQuery] = useState('');
   const [recentIds] = useState(() => getRecentPortals());
   const [surpriseTheme, setSurpriseTheme] = useState(null);
+  const [refreshingAffirmation] = useState(() => getRefreshingAffirmation());
 
   const openSurprise = () => setSurpriseTheme(getRandomPrayerTheme());
   const reshuffleSurprise = () => setSurpriseTheme(getRandomPrayerTheme());
@@ -492,6 +588,7 @@ export default function HomePage({ onNavigate }) {
               alignContent: 'center',
             }}
           >
+            <RefreshingAffirmationCard affirmation={refreshingAffirmation} />
             <DailyPrayerCard />
             <DailyReadingCard onNavigate={onNavigate} />
           </div>
