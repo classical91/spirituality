@@ -1,21 +1,46 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
 
 const TABS = ['Daily Alignment', 'Concepts', 'SATS', 'Revision', 'Mental Diet', 'Self-Concept Studio'];
 
+const SECTION_ALIASES = {
+  selfconcept: 'phrase-analyzer',
+  'self-concept': 'phrase-analyzer',
+  'language-studio': 'phrase-analyzer',
+  states: 'states-of-mind',
+  'inner-state': 'living-end',
+  imagination: 'living-end',
+};
+
+const CONCEPT_SECTIONS = new Set([
+  'living-end',
+  'feeling-secret',
+  'inner-conversation',
+  'wish-fulfilled',
+  'certainty',
+  'persistence',
+  'knowing-by-being',
+]);
+
+function normalizeInitialSection(initialSection) {
+  if (!initialSection) return null;
+  return SECTION_ALIASES[initialSection] || initialSection;
+}
+
 function resolveInitialTab(initialSection) {
-  if (initialSection === 'selfconcept' || initialSection === 'self-concept' || initialSection === 'phrase-analyzer' || initialSection === 'language-studio' || initialSection === 'tone-traps') return 'Self-Concept Studio';
-  if (initialSection === 'sats') return 'SATS';
-  if (initialSection === 'revision') return 'Revision';
-  if (initialSection === 'mental-diet') return 'Mental Diet';
-  if (initialSection === 'concepts' || initialSection === 'frameworks') return 'Concepts';
-  if (initialSection === 'states' || initialSection === 'states-of-mind') return 'Daily Alignment';
-  if (initialSection === 'daily-structure') return 'Daily Alignment';
+  const section = normalizeInitialSection(initialSection);
+  if (section === 'phrase-analyzer' || section === 'tone-traps') return 'Self-Concept Studio';
+  if (section === 'sats') return 'SATS';
+  if (section === 'revision') return 'Revision';
+  if (section === 'mental-diet') return 'Mental Diet';
+  if (section === 'concepts' || section === 'frameworks' || CONCEPT_SECTIONS.has(section)) return 'Concepts';
+  if (section === 'states-of-mind' || section === 'daily-structure' || section === 'state-builder') return 'Daily Alignment';
   return 'Daily Alignment';
 }
 
 const CONCEPTS = [
   {
+    id: 'living-end',
     title: 'Living in the End',
     tag: 'Identity Framework',
     short: 'Assume the wish fulfilled and let your inner state match the reality already accepted within.',
@@ -30,6 +55,7 @@ const CONCEPTS = [
     accent: 'violet',
   },
   {
+    id: 'feeling-secret',
     title: 'Feeling Is the Secret',
     tag: 'Emotional Assumption',
     short: 'The feeling of reality gives an assumption its power.',
@@ -44,6 +70,7 @@ const CONCEPTS = [
     accent: 'rose',
   },
   {
+    id: 'inner-conversation',
     title: 'Inner Conversations',
     tag: 'Internal Dialogue',
     short: 'Your repeated inner conversations reveal the state you are occupying.',
@@ -58,6 +85,7 @@ const CONCEPTS = [
     accent: 'fuchsia',
   },
   {
+    id: 'wish-fulfilled',
     title: 'The Wish Fulfilled',
     tag: 'The State Sought',
     short: 'The end is the feeling of the wish already fulfilled — the satisfied state, not the getting.',
@@ -72,6 +100,7 @@ const CONCEPTS = [
     accent: 'violet',
   },
   {
+    id: 'certainty',
     title: 'Certainty',
     tag: 'Faith in the Unseen',
     short: 'Faith is loyalty to unseen reality — assuming with the certainty you give a known fact.',
@@ -86,6 +115,7 @@ const CONCEPTS = [
     accent: 'cyan',
   },
   {
+    id: 'persistence',
     title: 'Persistence',
     tag: 'Faithful Continuance',
     short: 'An assumption, though false to the senses, hardens into fact if you persist in it.',
@@ -100,6 +130,7 @@ const CONCEPTS = [
     accent: 'emerald',
   },
   {
+    id: 'knowing-by-being',
     title: 'Knowing by Being',
     tag: 'To Be Is to Know',
     short: 'You cannot know a state from the outside — you know it only by entering and being it.',
@@ -238,7 +269,7 @@ function DailyAlignmentTab() {
 
   return (
     <div className="space-y-4">
-      <section className="grid gap-4 md:grid-cols-2">
+      <section id="state-builder" className="scroll-mt-24 grid gap-4 md:grid-cols-2">
         <div className="rounded-3xl border border-emerald-300/20 bg-emerald-400/5 p-6">
           <h2 className="text-2xl font-black">Start Here (5 minutes)</h2>
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-white/80">
@@ -270,7 +301,7 @@ function DailyAlignmentTab() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+      <section id="daily-structure" className="scroll-mt-24 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.26em] text-violet-200/70">Daily structure</p>
@@ -318,7 +349,7 @@ function DailyAlignmentTab() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-sky-300/20 bg-sky-400/5 p-6">
+      <section id="states-of-mind" className="scroll-mt-24 rounded-3xl border border-sky-300/20 bg-sky-400/5 p-6">
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.26em] text-sky-200/70">State of mind</p>
@@ -382,7 +413,7 @@ function SATSTab() {
   };
 
   return (
-    <div className="space-y-4">
+    <div id="sats" className="scroll-mt-24 space-y-4">
       <div className="rounded-3xl border border-violet-300/20 bg-violet-400/5 p-6">
         <h2 className="text-2xl font-black">What is SATS?</h2>
         <p className="mt-3 leading-relaxed text-white/70">
@@ -469,7 +500,7 @@ function RevisionTab() {
   };
 
   return (
-    <div className="space-y-4">
+    <div id="revision" className="scroll-mt-24 space-y-4">
       <div className="rounded-3xl border border-rose-300/20 bg-rose-400/5 p-6">
         <h2 className="text-2xl font-black">What is Revision?</h2>
         <p className="mt-3 leading-relaxed text-white/70">
@@ -569,7 +600,7 @@ function MentalDietTab() {
   };
 
   return (
-    <div className="space-y-4">
+    <div id="mental-diet" className="scroll-mt-24 space-y-4">
       <div className="rounded-3xl border border-cyan-300/20 bg-cyan-400/5 p-6">
         <h2 className="text-2xl font-black">What is Mental Diet?</h2>
         <p className="mt-3 leading-relaxed text-white/70">
@@ -625,10 +656,19 @@ function MentalDietTab() {
 
 // ─── Concepts Tab ─────────────────────────────────────────────────────────────
 
-function ConceptsTab() {
-  const [openId, setOpenId] = useState(null);
+function ConceptsTab({ initialSection }) {
+  const section = normalizeInitialSection(initialSection);
+  const initialConcept = CONCEPT_SECTIONS.has(section) ? section : null;
+  const [openId, setOpenId] = useState(initialConcept);
+  const [prevInitialConcept, setPrevInitialConcept] = useState(initialConcept);
+
+  if (initialConcept !== prevInitialConcept) {
+    setPrevInitialConcept(initialConcept);
+    if (initialConcept) setOpenId(initialConcept);
+  }
+
   return (
-    <div>
+    <div id="concepts" className="scroll-mt-24">
       <div className="mb-5 rounded-3xl border border-white/10 bg-white/[0.05] p-5">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-violet-300/70">Core Concepts</p>
         <p className="mt-2 text-sm leading-6 text-white/65">
@@ -639,14 +679,15 @@ function ConceptsTab() {
 
       <div className="grid gap-3 md:grid-cols-2">
         {CONCEPTS.map((c) => {
-          const open = openId === c.title;
+          const open = openId === c.id;
           return (
             <button
-              key={c.title}
+              id={c.id}
+              key={c.id}
               type="button"
-              onClick={() => setOpenId(open ? null : c.title)}
+              onClick={() => setOpenId(open ? null : c.id)}
               className={cx(
-                'rounded-3xl border p-5 text-left transition',
+                'scroll-mt-24 rounded-3xl border p-5 text-left transition',
                 CONCEPT_ACCENTS[c.accent] || 'border-white/10 bg-white/[0.05]',
                 open ? 'md:col-span-2' : 'hover:border-white/25'
               )}
@@ -691,6 +732,21 @@ function ConceptsTab() {
 
 export default function NevillePortal({ onBack, initialSection }) {
   const [tab, setTab] = useState(() => resolveInitialTab(initialSection));
+  const section = normalizeInitialSection(initialSection);
+  const [prevInitialSection, setPrevInitialSection] = useState(initialSection);
+
+  if (initialSection !== prevInitialSection) {
+    setPrevInitialSection(initialSection);
+    setTab(resolveInitialTab(initialSection));
+  }
+
+  useEffect(() => {
+    if (!section) return undefined;
+    const timeout = window.setTimeout(() => {
+      document.getElementById(section)?.scrollIntoView({ block: 'start' });
+    }, 60);
+    return () => window.clearTimeout(timeout);
+  }, [section, tab]);
 
   return (
     <div className="min-h-screen bg-[#070713] text-white">
@@ -721,11 +777,11 @@ export default function NevillePortal({ onBack, initialSection }) {
         </nav>
 
         {tab === 'Daily Alignment' && <DailyAlignmentTab />}
-        {tab === 'Concepts' && <ConceptsTab />}
+        {tab === 'Concepts' && <ConceptsTab initialSection={section} />}
         {tab === 'SATS' && <SATSTab />}
         {tab === 'Revision' && <RevisionTab />}
         {tab === 'Mental Diet' && <MentalDietTab />}
-        {tab === 'Self-Concept Studio' && <SelfConceptLanguageStudio embedded />}
+        {tab === 'Self-Concept Studio' && <SelfConceptLanguageStudio embedded initialSection={section} />}
       </div>
     </div>
   );
