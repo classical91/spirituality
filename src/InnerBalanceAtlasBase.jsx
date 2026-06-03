@@ -2,20 +2,32 @@ import { useState } from 'react';
 import './InnerBalanceAtlas.css';
 import InnerAtlasNav from './components/InnerAtlasNav';
 
-const tabs = [
-  { id: 'dashboard',        icon: '⌂', label: 'Dashboard' },
-  { id: 'psychophysiology', icon: '◍', label: 'Psychophysiology Map' },
-  { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
-  { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
-  { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
-  { id: 'sleep',            icon: '🌙', label: 'Sleep' },
-  { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
-  { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
-  { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
-  { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
-  { id: 'hair',            icon: '◎', label: 'Hair & Scalp Health' },
-  { id: 'gratitude',       icon: '✦', label: 'Gratitude Practice' },
+const tabGroups = [
+  { group: 'Overview', items: [
+    { id: 'dashboard',        icon: '⌂', label: 'Dashboard' },
+  ] },
+  { group: 'Systems', items: [
+    { id: 'psychophysiology', icon: '◍', label: 'Psychophysiology Map' },
+    { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
+  ] },
+  { group: 'Body', items: [
+    { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
+    { id: 'sleep',            icon: '🌙', label: 'Sleep' },
+    { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
+    { id: 'hair',             icon: '◎', label: 'Hair & Scalp Health' },
+    { id: 'herbs',            icon: '🌿', label: 'Herbs & Adaptogens' },
+  ] },
+  { group: 'Mind & Mood', items: [
+    { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
+    { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
+    { id: 'gratitude',        icon: '✦', label: 'Gratitude Practice' },
+  ] },
+  { group: 'Practice', items: [
+    { id: 'dailyrituals',     icon: '☀', label: 'Daily Rituals' },
+  ] },
 ];
+
+const tabs = tabGroups.flatMap(g => g.items);
 
 /* ─────────────────────────────────────────
    DASHBOARD
@@ -1897,6 +1909,23 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
         )}
       </div>
 
+      {/* Mobile tab selector — sidebar is hidden below 900px */}
+      <div className="iba-mobile-nav">
+        <select
+          aria-label="Select section"
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value)}
+        >
+          {tabGroups.map(group => (
+            <optgroup key={group.group} label={group.group}>
+              {group.items.map(tab => (
+                <option key={tab.id} value={tab.id}>{tab.icon} {tab.label}</option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+
       <div className="iba-body">
         <aside className="iba-sidebar">
           <div className="iba-logo">
@@ -1906,15 +1935,20 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
             </div>
           </div>
 
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              className={`iba-nav-btn ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              <span className="iba-nav-icon">{tab.icon}</span>
-              {tab.label}
-            </button>
+          {tabGroups.map(group => (
+            <div key={group.group} className="iba-nav-group">
+              <div className="iba-nav-group-label">{group.group}</div>
+              {group.items.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`iba-nav-btn ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span className="iba-nav-icon">{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           ))}
 
           <div className="iba-intention">
