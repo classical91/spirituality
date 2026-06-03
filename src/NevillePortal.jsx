@@ -52,6 +52,12 @@ const CONCEPTS = [
       'Return to the state when appearances contradict it.',
     ],
     example: "Instead of 'I hope she chooses me,' try 'I am chosen, loved, and steady in love.'",
+    study: {
+      principle: 'The end is an identity position. You practice being the person for whom the desire is already normal.',
+      practice: 'Write one ordinary scene that would happen after the desire is fulfilled, then feel it from inside that future self.',
+      watch: 'Do not use the idea to wait passively. The work is inner occupation, not avoidance of life.',
+      reflection: 'What would I stop checking if I truly accepted this as already settled?',
+    },
     accent: 'violet',
   },
   {
@@ -67,6 +73,12 @@ const CONCEPTS = [
       'Return to emotional ownership when doubt appears.',
     ],
     example: "The feeling is less 'I need this now' and more 'this is already my place.'",
+    study: {
+      principle: 'Feeling is the felt reality of the assumption, not constant emotional intensity.',
+      practice: 'Find the quiet body-sense of relief, naturalness, or completion and return to it for one minute.',
+      watch: 'High emotion can become strain. The useful feeling is often calm, familiar, and undramatic.',
+      reflection: 'What does this desire feel like when it is no longer urgent?',
+    },
     accent: 'rose',
   },
   {
@@ -82,6 +94,12 @@ const CONCEPTS = [
       'Let that new conversation feel normal.',
     ],
     example: "Hear: 'I love you. I choose you. I am happy with you.' Then rest in it.",
+    study: {
+      principle: 'Inner conversations rehearse relationship reality before the outer conversation changes.',
+      practice: 'Replace one repeated argument with a short inner exchange that implies peace, respect, or devotion.',
+      watch: 'Do not rehearse a reply to control someone. Rehearse the state you want to live from.',
+      reflection: 'What conversation have I been silently practicing the most?',
+    },
     accent: 'fuchsia',
   },
   {
@@ -97,6 +115,12 @@ const CONCEPTS = [
       "Rest in the feeling of 'it is finished.'",
     ],
     example: "Not 'I want to be loved' but the settled feeling of one who is already loved and secure.",
+    study: {
+      principle: 'The wish fulfilled is the satisfied inner state after the desire is granted.',
+      practice: 'Ask what you would feel after it was done, then sit in that completion without planning the path.',
+      watch: 'Wanting can keep attention on absence. Completion shifts attention to possession.',
+      reflection: 'If this were finished, what would my mind finally stop arguing about?',
+    },
     accent: 'violet',
   },
   {
@@ -112,6 +136,12 @@ const CONCEPTS = [
       'Let certainty feel quiet and matter-of-fact, not forced.',
     ],
     example: 'You are as certain of the fulfilled state as you are that the sun will rise — no argument needed.',
+    study: {
+      principle: 'Certainty is loyalty to the chosen unseen reality when appearances have not caught up.',
+      practice: 'State the assumption once, then practice acting internally as if the argument is over.',
+      watch: 'Certainty is not pressure, denial, or frantic proving. It is quiet allegiance.',
+      reflection: 'Where am I asking the outside world to give me permission to believe?',
+    },
     accent: 'cyan',
   },
   {
@@ -127,6 +157,12 @@ const CONCEPTS = [
       'Continue until the assumption feels like simple fact.',
     ],
     example: 'You keep assuming the secure, chosen identity even on the days nothing has visibly changed.',
+    study: {
+      principle: 'Persistence is returning to the state after contradiction, not forcing yourself to never slip.',
+      practice: 'Choose one return phrase and use it every time the old assumption tries to restart.',
+      watch: 'Self-attack is not persistence. Return cleanly and keep moving.',
+      reflection: 'What appearance usually makes me abandon the state?',
+    },
     accent: 'emerald',
   },
   {
@@ -142,6 +178,12 @@ const CONCEPTS = [
       'Let being the state replace trying to figure it out.',
     ],
     example: "You don't think about how to be chosen — you assume the self that already is, and know it from within.",
+    study: {
+      principle: 'A state becomes knowable by occupation. You understand it by being it.',
+      practice: 'For five minutes, answer ordinary questions as the fulfilled self: how do I move, choose, speak, and rest?',
+      watch: 'Endless analysis can keep you outside the state you are trying to know.',
+      reflection: 'What would I know immediately if I entered this identity instead of studying it?',
+    },
     accent: 'amber',
   },
 ];
@@ -157,6 +199,95 @@ const CONCEPT_ACCENTS = {
 
 function cx(...cls) {
   return cls.filter(Boolean).join(' ');
+}
+
+function ConceptStudyModal({ concept, onClose }) {
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    const onKeyDown = (event) => {
+      if (event.key === 'Escape') onClose();
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+    };
+  }, [onClose]);
+
+  const studyRows = [
+    ['Principle', concept.study.principle],
+    ['Practice', concept.study.practice],
+    ['Watch', concept.study.watch],
+    ['Reflection', concept.study.reflection],
+  ];
+
+  return (
+    <div
+      className="fixed inset-0 z-50 flex items-end justify-center bg-black/70 px-3 py-4 backdrop-blur-md sm:items-center sm:p-6"
+      onClick={onClose}
+    >
+      <section
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={`concept-study-${concept.id}`}
+        className="max-h-[92vh] w-full max-w-4xl overflow-y-auto rounded-3xl border border-white/15 bg-[#0b0b18] p-5 shadow-2xl shadow-black/60 sm:p-7"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="flex flex-wrap items-start justify-between gap-4 border-b border-white/10 pb-5">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.24em] text-violet-200/70">{concept.tag}</p>
+            <h2 id={`concept-study-${concept.id}`} className="mt-2 text-3xl font-black text-white sm:text-4xl">
+              {concept.title}
+            </h2>
+            <p className="mt-3 max-w-2xl text-sm leading-6 text-white/68">{concept.short}</p>
+          </div>
+          <button
+            type="button"
+            onClick={onClose}
+            className="rounded-xl border border-white/15 px-4 py-2 text-sm font-bold text-white/70 transition hover:border-white/35 hover:text-white"
+          >
+            Close
+          </button>
+        </div>
+
+        <div className="mt-6 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
+          <div className={cx('rounded-2xl border p-5', CONCEPT_ACCENTS[concept.accent])}>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">Core frame</p>
+            <p className="mt-3 text-sm leading-7 text-white/78">{concept.explanation}</p>
+            <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Example</p>
+              <p className="mt-2 text-sm leading-6 text-white/78">{concept.example}</p>
+            </div>
+          </div>
+
+          <div className="grid gap-3">
+            {studyRows.map(([label, body]) => (
+              <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-white/42">{label}</p>
+                <p className="mt-2 text-sm leading-6 text-white/75">{body}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-5">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Four-step application</p>
+          <ol className="mt-4 grid gap-3 md:grid-cols-2">
+            {concept.steps.map((step, index) => (
+              <li key={step} className="flex gap-3 text-sm leading-6 text-white/72">
+                <span className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full border border-white/10 bg-white/5 text-xs font-black text-white/50">
+                  {index + 1}
+                </span>
+                <span>{step}</span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </div>
+  );
 }
 
 const DAILY_STRUCTURE = [
@@ -660,15 +791,21 @@ function ConceptsTab({ initialSection }) {
   const section = normalizeInitialSection(initialSection);
   const initialConcept = CONCEPT_SECTIONS.has(section) ? section : null;
   const [openId, setOpenId] = useState(initialConcept);
+  const [dialogId, setDialogId] = useState(initialConcept);
   const [prevInitialConcept, setPrevInitialConcept] = useState(initialConcept);
+  const activeConcept = CONCEPTS.find((concept) => concept.id === dialogId);
 
   if (initialConcept !== prevInitialConcept) {
     setPrevInitialConcept(initialConcept);
-    if (initialConcept) setOpenId(initialConcept);
+    if (initialConcept) {
+      setOpenId(initialConcept);
+      setDialogId(initialConcept);
+    }
   }
 
   return (
-    <div id="concepts" className="scroll-mt-24">
+    <>
+      <div id="concepts" className="scroll-mt-24">
       <div className="mb-5 rounded-3xl border border-white/10 bg-white/[0.05] p-5">
         <p className="text-xs font-bold uppercase tracking-[0.3em] text-violet-300/70">Core Concepts</p>
         <p className="mt-2 text-sm leading-6 text-white/65">
@@ -685,7 +822,10 @@ function ConceptsTab({ initialSection }) {
               id={c.id}
               key={c.id}
               type="button"
-              onClick={() => setOpenId(open ? null : c.id)}
+              onClick={() => {
+                setOpenId(open ? null : c.id);
+                setDialogId(c.id);
+              }}
               className={cx(
                 'scroll-mt-24 rounded-3xl border p-5 text-left transition',
                 CONCEPT_ACCENTS[c.accent] || 'border-white/10 bg-white/[0.05]',
@@ -724,7 +864,10 @@ function ConceptsTab({ initialSection }) {
           );
         })}
       </div>
-    </div>
+      </div>
+
+      {activeConcept && <ConceptStudyModal concept={activeConcept} onClose={() => setDialogId(null)} />}
+    </>
   );
 }
 
