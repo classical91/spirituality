@@ -522,6 +522,9 @@
 .lbl-norepi    { color: #d08a40; }
 .lbl-acetyl    { color: #5b9eb5; }
 .lbl-oxytocin  { color: var(--rose); }
+.lbl-glutamate { color: #f97316; }
+.lbl-endorphin { color: #fb7185; }
+.lbl-histamine { color: #eab308; }
 
 /* ── nutrient map (reused from vitamins page) ── */
 .iba-nutrient-map {
