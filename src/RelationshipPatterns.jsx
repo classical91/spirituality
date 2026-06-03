@@ -64,7 +64,7 @@ const RELATIONSHIP_PATTERNS = [
     ],
   },
   {
-    icon: '♡',
+    icon: '◑',
     name: 'Secure Love',
     color: '#fb7185',
     keyInsight: 'Secure love is not the absence of need — it is the absence of fear in the presence of need.',
@@ -73,6 +73,20 @@ const RELATIONSHIP_PATTERNS = [
       { label: 'Giving securely', desc: 'From abundance, not fear. Generosity without scorekeeping or conditions.' },
       { label: 'Receiving securely', desc: 'Without guilt or disbelief. "I accept this — I am worth this."' },
       { label: 'Building it', desc: 'Stop performing. Say what you want. Allow space without filling it with anxiety.' },
+    ],
+  },
+  {
+    icon: '🧭',
+    name: 'The Early Trauma Confessional',
+    color: '#94a3b8',
+    keyInsight: 'Safety is not the same as readiness. Triggering emotional safety before polarity forms turns you into a container — not a counterpart.',
+    items: [
+      { label: 'The pattern', desc: 'Early dates (1st–2nd hangout). She discloses deep trauma. You listen calmly and attentively. Emotional gravity enters fast. Momentum quietly dies afterward.' },
+      { label: 'Why it keeps happening', desc: 'Your calm, non-judgmental strength reads as a safe place to finally say the unintegrated thing. She is not choosing you as a partner — she is regulating in the presence of someone who won\'t flinch.' },
+      { label: 'The hidden pitfall', desc: 'Depth before polarity. The frame shifts from romantic discovery to emotional processing. Desire gets replaced by seriousness. The connection collapses under weight it didn\'t earn yet.' },
+      { label: 'Real-time signal', desc: 'She shares trauma without context, very early, without balancing it with curiosity, humor, or forward-looking energy. That\'s your tell: this is about regulation, not romance.' },
+      { label: 'The course-correction', desc: 'Re-pace — don\'t shut her down. Acknowledge: "That sounds meaningful to your story." Then redirect: "I\'m also curious what your life feels like now — what lights you up." Respect her experience and return to mutual presence.' },
+      { label: 'The reframe', desc: 'Your growth edge is pacing intimacy — not eliminating depth. Depth belongs in relationships that have earned it.' },
     ],
   },
 ];

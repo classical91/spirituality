@@ -156,6 +156,27 @@
   color: var(--gold);
 }
 
+.iba-nav-group {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+
+.iba-nav-group-label {
+  padding: 4px 12px 2px;
+  font-size: 10px;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--muted);
+  opacity: 0.55;
+}
+
+.iba-mobile-nav {
+  display: none;
+}
+
 .iba-nav-btn {
   display: flex;
   align-items: center;
@@ -501,6 +522,9 @@
 .lbl-norepi    { color: #d08a40; }
 .lbl-acetyl    { color: #5b9eb5; }
 .lbl-oxytocin  { color: var(--rose); }
+.lbl-glutamate { color: #f97316; }
+.lbl-endorphin { color: #fb7185; }
+.lbl-histamine { color: #eab308; }
 
 /* ── nutrient map (reused from vitamins page) ── */
 .iba-nutrient-map {
@@ -814,6 +838,26 @@
 /* ── responsive ── */
 @media (max-width: 900px) {
   .iba-sidebar { display: none; }
+  .iba-mobile-nav {
+    display: block;
+    padding: 12px 16px 0;
+  }
+  .iba-mobile-nav select {
+    width: 100%;
+    padding: 11px 14px;
+    border-radius: 12px;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: var(--deep);
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%23999' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
   .iba-system-map, .iba-nutrient-map { grid-template-columns: 1fr; }
   .iba-grid-3, .iba-grid-4, .iba-demo { grid-template-columns: 1fr; }
   .iba-grid-2 { grid-template-columns: 1fr; }

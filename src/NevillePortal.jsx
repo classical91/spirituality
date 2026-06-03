@@ -1,17 +1,128 @@
 import { useState } from 'react';
 import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
 
-const TABS = ['Daily Alignment', 'SATS', 'Revision', 'Mental Diet', 'Self-Concept Studio'];
+const TABS = ['Daily Alignment', 'Concepts', 'SATS', 'Revision', 'Mental Diet', 'Self-Concept Studio'];
 
 function resolveInitialTab(initialSection) {
   if (initialSection === 'selfconcept' || initialSection === 'self-concept') return 'Self-Concept Studio';
   if (initialSection === 'sats') return 'SATS';
   if (initialSection === 'revision') return 'Revision';
   if (initialSection === 'mental-diet') return 'Mental Diet';
+  if (initialSection === 'concepts' || initialSection === 'frameworks') return 'Concepts';
   if (initialSection === 'states' || initialSection === 'states-of-mind') return 'Daily Alignment';
   if (initialSection === 'daily-structure') return 'Daily Alignment';
   return 'Daily Alignment';
 }
+
+const CONCEPTS = [
+  {
+    title: 'Living in the End',
+    tag: 'Identity Framework',
+    short: 'Assume the wish fulfilled and let your inner state match the reality already accepted within.',
+    explanation: "Neville's central move is not begging, chasing, or forcing. It is becoming the version of yourself for whom the desire is already natural. You occupy the state first — you do not wait for the world to prove it.",
+    steps: [
+      'Name the fulfilled reality clearly.',
+      'Ask: who am I if this is already true?',
+      'Feel the naturalness of that identity.',
+      'Return to the state when appearances contradict it.',
+    ],
+    example: "Instead of 'I hope she chooses me,' try 'I am chosen, loved, and steady in love.'",
+    accent: 'violet',
+  },
+  {
+    title: 'Feeling Is the Secret',
+    tag: 'Emotional Assumption',
+    short: 'The feeling of reality gives an assumption its power.',
+    explanation: "Feeling does not mean forcing high emotion all day. It means the inner sense that something is real, settled, natural, and already yours.",
+    steps: [
+      'Do not chase intensity.',
+      "Look for the quiet feeling of 'of course.'",
+      'Let the desired identity feel normal.',
+      'Return to emotional ownership when doubt appears.',
+    ],
+    example: "The feeling is less 'I need this now' and more 'this is already my place.'",
+    accent: 'rose',
+  },
+  {
+    title: 'Inner Conversations',
+    tag: 'Internal Dialogue',
+    short: 'Your repeated inner conversations reveal the state you are occupying.',
+    explanation: "Neville placed huge importance on the silent conversations we have with people. If you keep arguing inside, you rehearse separation. If you hear love, respect, and resolution, you practice the fulfilled state.",
+    steps: [
+      'Notice the silent conversation you keep replaying.',
+      'Pause the argument version.',
+      'Hear the person respond from the desired reality.',
+      'Let that new conversation feel normal.',
+    ],
+    example: "Hear: 'I love you. I choose you. I am happy with you.' Then rest in it.",
+    accent: 'fuchsia',
+  },
+  {
+    title: 'The Wish Fulfilled',
+    tag: 'The State Sought',
+    short: 'The end is the feeling of the wish already fulfilled — the satisfied state, not the getting.',
+    explanation: "For Neville, the goal is never the external object. It is the inner state of satisfaction that comes after the wish is granted. You imagine from the place of already having, not from wanting.",
+    steps: [
+      'Ask: what would I feel if this were already done?',
+      'Find the relief or quiet satisfaction of completion.',
+      'Drop the wanting — wanting confirms absence.',
+      "Rest in the feeling of 'it is finished.'",
+    ],
+    example: "Not 'I want to be loved' but the settled feeling of one who is already loved and secure.",
+    accent: 'violet',
+  },
+  {
+    title: 'Certainty',
+    tag: 'Faith in the Unseen',
+    short: 'Faith is loyalty to unseen reality — assuming with the certainty you give a known fact.',
+    explanation: "Neville defined faith not as hope but as certainty about what the senses cannot yet confirm. You treat the assumption as established truth. Doubt is loyalty to appearances over the chosen state.",
+    steps: [
+      'Choose the assumption and treat it as settled fact.',
+      'Stop requiring the outer world to confirm it first.',
+      'When appearances contradict, stay loyal to the unseen.',
+      'Let certainty feel quiet and matter-of-fact, not forced.',
+    ],
+    example: 'You are as certain of the fulfilled state as you are that the sun will rise — no argument needed.',
+    accent: 'cyan',
+  },
+  {
+    title: 'Persistence',
+    tag: 'Faithful Continuance',
+    short: 'An assumption, though false to the senses, hardens into fact if you persist in it.',
+    explanation: "Manifestation rarely fails from a wrong technique; it fails from abandoning the state the moment appearances disagree. Persistence is the quiet refusal to return to the old assumption, day after day.",
+    steps: [
+      'Decide the state and commit to remaining in it.',
+      'Expect contradiction and do not let it move you.',
+      'Return gently each time you slip — without self-attack.',
+      'Continue until the assumption feels like simple fact.',
+    ],
+    example: 'You keep assuming the secure, chosen identity even on the days nothing has visibly changed.',
+    accent: 'emerald',
+  },
+  {
+    title: 'Knowing by Being',
+    tag: 'To Be Is to Know',
+    short: 'You cannot know a state from the outside — you know it only by entering and being it.',
+    explanation: "Knowledge of a state comes through occupation, not observation. You do not study love or security from a distance; you become the one who already has it, and from inside that identity you know its reality. Being precedes evidence.",
+    steps: [
+      'Stop analysing the desire from the outside.',
+      'Step into the identity for whom it is already true.',
+      'Notice how the world looks and feels from inside that state.',
+      'Let being the state replace trying to figure it out.',
+    ],
+    example: "You don't think about how to be chosen — you assume the self that already is, and know it from within.",
+    accent: 'amber',
+  },
+];
+
+const CONCEPT_ACCENTS = {
+  violet: 'border-violet-300/20 bg-violet-400/[0.06]',
+  rose: 'border-rose-300/20 bg-rose-400/[0.06]',
+  fuchsia: 'border-fuchsia-300/20 bg-fuchsia-400/[0.06]',
+  cyan: 'border-cyan-300/20 bg-cyan-400/[0.06]',
+  emerald: 'border-emerald-300/20 bg-emerald-400/[0.06]',
+  amber: 'border-amber-300/20 bg-amber-400/[0.06]',
+};
 
 function cx(...cls) {
   return cls.filter(Boolean).join(' ');
@@ -512,6 +623,70 @@ function MentalDietTab() {
   );
 }
 
+// ─── Concepts Tab ─────────────────────────────────────────────────────────────
+
+function ConceptsTab() {
+  const [openId, setOpenId] = useState(null);
+  return (
+    <div>
+      <div className="mb-5 rounded-3xl border border-white/10 bg-white/[0.05] p-5">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-violet-300/70">Core Concepts</p>
+        <p className="mt-2 text-sm leading-6 text-white/65">
+          The conceptual backbone of Neville's teaching. SATS, Revision, and Mental Diet have their own
+          practice tabs — these are the states and principles behind them. Tap any concept to expand it.
+        </p>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        {CONCEPTS.map((c) => {
+          const open = openId === c.title;
+          return (
+            <button
+              key={c.title}
+              type="button"
+              onClick={() => setOpenId(open ? null : c.title)}
+              className={cx(
+                'rounded-3xl border p-5 text-left transition',
+                CONCEPT_ACCENTS[c.accent] || 'border-white/10 bg-white/[0.05]',
+                open ? 'md:col-span-2' : 'hover:border-white/25'
+              )}
+            >
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/60">{c.tag}</span>
+                  <h3 className="mt-3 text-xl font-black text-white">{c.title}</h3>
+                </div>
+                <span className="text-lg text-white/40">{open ? '−' : '+'}</span>
+              </div>
+              <p className="mt-2 text-sm leading-6 text-white/70">{c.short}</p>
+
+              {open && (
+                <div className="mt-4 grid gap-4 border-t border-white/10 pt-4">
+                  <p className="text-sm leading-6 text-white/75">{c.explanation}</p>
+                  <div>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-white/45">How to use it</p>
+                    <ul className="grid gap-1.5">
+                      {c.steps.map((s, i) => (
+                        <li key={i} className="flex gap-2 text-sm text-white/70">
+                          <span className="text-white/35">{i + 1}.</span>{s}
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                  <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/40">Example</p>
+                    <p className="mt-1.5 text-sm leading-6 text-white/75">{c.example}</p>
+                  </div>
+                </div>
+              )}
+            </button>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 // ─── Root Portal ──────────────────────────────────────────────────────────────
 
 export default function NevillePortal({ onBack, initialSection }) {
@@ -546,6 +721,7 @@ export default function NevillePortal({ onBack, initialSection }) {
         </nav>
 
         {tab === 'Daily Alignment' && <DailyAlignmentTab />}
+        {tab === 'Concepts' && <ConceptsTab />}
         {tab === 'SATS' && <SATSTab />}
         {tab === 'Revision' && <RevisionTab />}
         {tab === 'Mental Diet' && <MentalDietTab />}

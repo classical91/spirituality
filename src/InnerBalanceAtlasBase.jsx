@@ -2,20 +2,32 @@ import { useState } from 'react';
 import './InnerBalanceAtlas.css';
 import InnerAtlasNav from './components/InnerAtlasNav';
 
-const tabs = [
-  { id: 'dashboard',        icon: '⌂', label: 'Dashboard' },
-  { id: 'psychophysiology', icon: '◍', label: 'Psychophysiology Map' },
-  { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
-  { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
-  { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
-  { id: 'sleep',            icon: '🌙', label: 'Sleep' },
-  { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
-  { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
-  { id: 'dailyrituals',    icon: '☀', label: 'Daily Rituals' },
-  { id: 'herbs',           icon: '🌿', label: 'Herbs & Adaptogens' },
-  { id: 'hair',            icon: '◎', label: 'Hair & Scalp Health' },
-  { id: 'gratitude',       icon: '✦', label: 'Gratitude Practice' },
+const tabGroups = [
+  { group: 'Overview', items: [
+    { id: 'dashboard',        icon: '⌂', label: 'Dashboard' },
+  ] },
+  { group: 'Systems', items: [
+    { id: 'psychophysiology', icon: '◍', label: 'Psychophysiology Map' },
+    { id: 'neurotransmitters',icon: '⌁', label: 'Neurotransmitters' },
+  ] },
+  { group: 'Body', items: [
+    { id: 'physicalactivity', icon: '◈', label: 'Physical Activity' },
+    { id: 'sleep',            icon: '🌙', label: 'Sleep' },
+    { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
+    { id: 'hair',             icon: '◎', label: 'Hair & Scalp Health' },
+    { id: 'herbs',            icon: '🌿', label: 'Herbs & Adaptogens' },
+  ] },
+  { group: 'Mind & Mood', items: [
+    { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
+    { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
+    { id: 'gratitude',        icon: '✦', label: 'Gratitude Practice' },
+  ] },
+  { group: 'Practice', items: [
+    { id: 'dailyrituals',     icon: '☀', label: 'Daily Rituals' },
+  ] },
 ];
+
+const tabs = tabGroups.flatMap(g => g.items);
 
 /* ─────────────────────────────────────────
    DASHBOARD
@@ -361,12 +373,15 @@ function PsychophysiologyMap() {
 ───────────────────────────────────────── */
 function Neurotransmitters() {
   const neuro = [
-    { name: 'Dopamine',       theme: 'motivation, reward, drive',       labelClass: 'lbl-dopamine',  role: 'Drives motivation and goal pursuit',           effect: 'Reward, focus, pleasure',                   support: 'Protein, movement, sunlight, goal setting' },
-    { name: 'Serotonin',      theme: 'mood, steadiness, well-being',    labelClass: 'lbl-serotonin', role: 'Supports mood and emotional balance',          effect: 'Well-being, patience, resilience',           support: 'Sunlight, tryptophan, exercise, gratitude' },
-    { name: 'GABA',           theme: 'calm, relaxation, slowing down',  labelClass: 'lbl-gaba',      role: 'Calms neural activity and reduces stress',     effect: 'Relaxation, less anxiety, better sleep',     support: 'Magnesium, breathwork, meditation, sleep' },
-    { name: 'Norepinephrine', theme: 'alertness, energy, attention',    labelClass: 'lbl-norepi',    role: 'Increases alertness and concentration',        effect: 'Energy, focus, response',                    support: 'Movement, cold exposure, hydration, B vitamins' },
-    { name: 'Oxytocin',       theme: 'bonding, trust, connection',      labelClass: 'lbl-oxytocin',  role: 'Builds bonds and social connection',           effect: 'Trust, empathy, sense of belonging',         support: 'Hugs, kind touch, meaningful connection' },
-    { name: 'Acetylcholine',  theme: 'learning, memory, cognition',     labelClass: 'lbl-acetyl',    role: 'Enables learning and memory',                 effect: 'Clarity, recall, mental sharpness',          support: 'Choline-rich foods, learning, good sleep' },
+    { name: 'Dopamine',       theme: 'motivation, reward, drive',         labelClass: 'lbl-dopamine',   role: 'Drives motivation and goal pursuit',          effect: 'Reward, focus, pleasure',                   support: 'Protein, movement, sunlight, goal setting',    deficiency: 'Depression, attention deficits, low drive; loss of dopaminergic neurons linked to Parkinson\'s' },
+    { name: 'Serotonin',      theme: 'mood, steadiness, well-being',      labelClass: 'lbl-serotonin',  role: 'Supports mood and emotional balance',         effect: 'Well-being, patience, resilience',           support: 'Sunlight, tryptophan, exercise, gratitude',    deficiency: 'Depression, anxiety disorders, sleep disturbances' },
+    { name: 'GABA',           theme: 'calm, relaxation, slowing down',    labelClass: 'lbl-gaba',       role: 'Calms neural activity and reduces stress',    effect: 'Relaxation, less anxiety, better sleep',     support: 'Magnesium, breathwork, meditation, sleep',     deficiency: 'Anxiety disorders, seizures, mood disorders from excessive neural activity' },
+    { name: 'Norepinephrine', theme: 'alertness, energy, attention',      labelClass: 'lbl-norepi',     role: 'Increases alertness and concentration',       effect: 'Energy, focus, response',                    support: 'Movement, cold exposure, hydration, B vitamins', deficiency: 'Depression, low energy, decreased focus and attention' },
+    { name: 'Oxytocin',       theme: 'bonding, trust, connection',        labelClass: 'lbl-oxytocin',   role: 'Builds bonds and social connection',          effect: 'Trust, empathy, sense of belonging',         support: 'Hugs, kind touch, meaningful connection',      deficiency: 'Social withdrawal, difficulty bonding, reduced empathy and trust' },
+    { name: 'Acetylcholine',  theme: 'learning, memory, cognition',       labelClass: 'lbl-acetyl',     role: 'Enables learning and memory',                effect: 'Clarity, recall, mental sharpness',          support: 'Choline-rich foods, learning, good sleep',     deficiency: 'Memory impairment and cognitive decline; associated with Alzheimer\'s disease' },
+    { name: 'Glutamate',      theme: 'excitation, learning, plasticity',  labelClass: 'lbl-glutamate',  role: 'Most abundant excitatory neurotransmitter',  effect: 'Synaptic plasticity, learning, memory',      support: 'Whole foods, magnesium balance, sleep, stress management', deficiency: 'Cognitive impairments, fatigue; imbalance linked to schizophrenia and neurological disorders' },
+    { name: 'Endorphins',     theme: 'pain relief, euphoria, resilience', labelClass: 'lbl-endorphin',  role: 'Natural painkillers that promote well-being', effect: 'Euphoria, stress relief, reduced pain',      support: 'Exercise, laughter, music, connection, sunlight', deficiency: 'Increased pain sensitivity, mood disorders, lower stress tolerance' },
+    { name: 'Histamine',      theme: 'wakefulness, appetite, cognition',  labelClass: 'lbl-histamine',  role: 'Regulates wakefulness and immune response',  effect: 'Alertness, appetite control, cognitive focus', support: 'Regular sleep-wake rhythm, anti-inflammatory diet, reduced allergen load', deficiency: 'Fatigue, weight gain, cognitive dullness' },
   ];
   const offSignals = ['Low motivation', 'Anxiety & worry', 'Poor sleep', 'Brain fog', 'Low connection', 'Irritability'];
   const naturalSupport = [
@@ -406,13 +421,13 @@ function Neurotransmitters() {
       <div className="iba-grid-2" style={{ gridTemplateColumns: '1.5fr 1fr' }}>
         <div className="iba-card">
           <h3>Neurochemical System Map</h3>
-          <p className="iba-sub">Six key messengers and what they support.</p>
+          <p className="iba-sub">Nine key messengers and what they support.</p>
           <div className="iba-grid-2">
             {neuro.map(n => (
               <div className="iba-neuro-card" key={n.name}>
                 <h4 style={{ color: `var(--deep)` }}>{n.name}</h4>
                 <div className="iba-neuro-theme">{n.theme}</div>
-                {[['Role', n.role], ['Effect', n.effect], ['Support', n.support]].map(([lbl, val]) => (
+                {[['Role', n.role], ['Effect', n.effect], ['Support', n.support], ['Deficiency', n.deficiency]].map(([lbl, val]) => (
                   <div className="iba-neuro-row" key={lbl}>
                     <span className={`iba-neuro-label ${n.labelClass}`}>{lbl}</span>
                     <span className="iba-neuro-val">{val}</span>
@@ -1823,6 +1838,50 @@ function GratitudePractice() {
         ))}
       </div>
 
+      {/* Counting Blessings */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden', border: '1px solid rgba(216,169,72,0.22)' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(216,169,72,0.08)', borderBottom: '1px solid rgba(216,169,72,0.15)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>Counting Blessings — A Structured Practice</span>
+        </div>
+        <div style={{ padding: '16px 20px', display: 'grid', gap: 16 }}>
+          <p style={{ margin: 0, fontSize: '0.87rem', color: 'var(--muted)', lineHeight: 1.65 }}>
+            Counting blessings is the deliberate, domain-by-domain practice of naming specific gifts in your life. Unlike a general gratitude list, it moves through different areas — body, relationships, material provision, growth — so nothing is overlooked and hedonic adaptation is resisted.
+          </p>
+          <div>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>How to do it</div>
+            <div style={{ display: 'grid', gap: 8 }}>
+              {[
+                ['1. Set aside a quiet moment', 'Morning after waking or last thing before sleep work best — the mind is quieter and more receptive at these thresholds.'],
+                ['2. Move through life domains', 'Health & body · Senses · Relationships & people · Home & material provision · Work or purpose · Spiritual life · Lessons and growth from difficulties.'],
+                ['3. Name at least one specific blessing per domain', 'The specificity is the practice. "I am grateful that my legs carried me up the stairs today" beats "I am grateful for my health." Specificity prevents the list becoming automatic noise.'],
+                ['4. Add the why', 'For each blessing, note why it matters: "… because it means I am able to be present with my family." The why connects the blessing to your actual values.'],
+                ['5. Sit with the feeling', 'After writing, pause for 10–15 seconds on each item. Let the feeling of appreciation register in the body, not just the mind. This is what builds the neural pathway.'],
+                ['6. Close with one blessing from difficulty', 'End by naming something you are grateful for even in a current challenge. This is the hardest and highest-return step.'],
+              ].map(([step, detail]) => (
+                <div key={step} style={{ display: 'grid', gridTemplateColumns: '220px 1fr', gap: 12, padding: '10px 0', borderBottom: '1px solid rgba(0,0,0,0.05)' }}>
+                  <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--gold)', lineHeight: 1.4 }}>{step}</div>
+                  <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{detail}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14 }}>
+            <div style={{ background: 'rgba(216,169,72,0.06)', borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>What to count</div>
+              {['Your senses and what they receive', 'People who love or support you', 'Freedoms you enjoy daily', 'Skills and talents you have developed', 'Past hardships you survived', 'Small pleasures of the day', 'Your capacity to grow and change'].map(item => (
+                <div key={item} style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.5, marginBottom: 4 }}>• {item}</div>
+              ))}
+            </div>
+            <div style={{ background: 'rgba(100,140,100,0.06)', borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: 'var(--sage)', marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>Signs it is working</div>
+              {['You notice good things during the day unprompted', 'Small irritations lose their grip faster', 'You feel fuller after fewer items', 'You begin counting without needing to write', 'Difficulties feel less absolute', 'You feel a spontaneous urge to give or express appreciation'].map(item => (
+                <div key={item} style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.5, marginBottom: 4 }}>• {item}</div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+
       {/* Common mistakes */}
       <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
         <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
@@ -1897,6 +1956,23 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
         )}
       </div>
 
+      {/* Mobile tab selector — sidebar is hidden below 900px */}
+      <div className="iba-mobile-nav">
+        <select
+          aria-label="Select section"
+          value={activeTab}
+          onChange={(e) => setActiveTab(e.target.value)}
+        >
+          {tabGroups.map(group => (
+            <optgroup key={group.group} label={group.group}>
+              {group.items.map(tab => (
+                <option key={tab.id} value={tab.id}>{tab.icon} {tab.label}</option>
+              ))}
+            </optgroup>
+          ))}
+        </select>
+      </div>
+
       <div className="iba-body">
         <aside className="iba-sidebar">
           <div className="iba-logo">
@@ -1906,15 +1982,20 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
             </div>
           </div>
 
-          {tabs.map(tab => (
-            <button
-              key={tab.id}
-              className={`iba-nav-btn ${activeTab === tab.id ? 'active' : ''}`}
-              onClick={() => setActiveTab(tab.id)}
-            >
-              <span className="iba-nav-icon">{tab.icon}</span>
-              {tab.label}
-            </button>
+          {tabGroups.map(group => (
+            <div key={group.group} className="iba-nav-group">
+              <div className="iba-nav-group-label">{group.group}</div>
+              {group.items.map(tab => (
+                <button
+                  key={tab.id}
+                  className={`iba-nav-btn ${activeTab === tab.id ? 'active' : ''}`}
+                  onClick={() => setActiveTab(tab.id)}
+                >
+                  <span className="iba-nav-icon">{tab.icon}</span>
+                  {tab.label}
+                </button>
+              ))}
+            </div>
           ))}
 
           <div className="iba-intention">

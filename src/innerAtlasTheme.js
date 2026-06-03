@@ -10,6 +10,9 @@ export const IA_ACCENTS = {
   'colorpsychology':     { hex: '#22d3ee', rgb: '34, 211, 238'  },
   'regulation':          { hex: '#34d399', rgb: '52, 211, 153'  },
   'emotions':            { hex: '#f472b6', rgb: '244, 114, 182' },
+  'awareness':           { hex: '#7ee7d4', rgb: '126, 231, 212' },
+  'consciousness-map':   { hex: '#a78bfa', rgb: '167, 139, 250' },
+  'detox':               { hex: '#a3e635', rgb: '163, 230, 53'  },
 };
 
 // Inline style object that sets the accent CSS variables for a given section.
