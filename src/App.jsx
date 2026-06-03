@@ -9,6 +9,7 @@ import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import AwarenessAtlas from './AwarenessAtlas';
+import ConsciousnessMap from './ConsciousnessMap';
 import NumerologyPortal from './NumerologyPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
@@ -30,6 +31,7 @@ const COMPONENTS = {
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
   awareness: AwarenessAtlas,
+  consciousnessmap: ConsciousnessMap,
   numerology: NumerologyPortal,
 };
 
