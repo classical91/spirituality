@@ -402,6 +402,19 @@ const relationshipDynamics = [
   },
 ];
 
+const togethernessEmotions = [
+  { name: 'Attraction',  desc: 'The initial spark — physical, emotional, or intellectual.' },
+  { name: 'Excitement',  desc: 'The thrill of getting to know someone new.' },
+  { name: 'Happiness',   desc: 'Joy and contentment in each other\'s presence.' },
+  { name: 'Curiosity',   desc: 'The desire to learn more about the other person.' },
+  { name: 'Comfort',     desc: 'A sense of safety and ease when together.' },
+  { name: 'Trust',       desc: 'The foundation for deepening the bond.' },
+  { name: 'Affection',   desc: 'A growing sense of care and tenderness.' },
+  { name: 'Passion',     desc: 'Strong romantic or physical desire.' },
+  { name: 'Admiration',  desc: 'Respecting and valuing each other.' },
+  { name: 'Connection',  desc: 'Deep emotional resonance — feeling truly understood.' },
+];
+
 const marriageUseCases = [
   ['Affirmations', 'Write calm, grounded statements using any theme as the anchor word.'],
   ['Scripting', 'Describe your marriage in present-tense language from each dimension.'],
@@ -851,6 +864,18 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
             <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <p className="text-sm font-semibold text-white">{title}</p>
               <p className="mt-2 text-xs leading-5 text-slate-400">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="mt-6">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Emotions of Being Together</p>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+          {togethernessEmotions.map((e) => (
+            <div key={e.name} className="rounded-2xl border border-rose-400/20 bg-rose-400/[0.05] p-4">
+              <p className="text-sm font-bold text-rose-300">{e.name}</p>
+              <p className="mt-1 text-xs leading-5 text-slate-400">{e.desc}</p>
             </div>
           ))}
         </div>
