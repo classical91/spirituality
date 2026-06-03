@@ -236,6 +236,14 @@ const marriageThemes = [
     description: 'Marriage as a space where two whole individuals continue evolving.',
     themes: ['Patience', 'Self-awareness', 'Compassion', 'Emotional regulation', 'Supportiveness', 'Healthy boundaries', 'Maturity', 'Healing past patterns'],
   },
+  {
+    id: 'endearment',
+    icon: '💌',
+    title: 'Terms of Endearment',
+    accent: '#f9a8d4',
+    description: 'The intimate vocabulary of love — words that carry warmth, closeness, and belonging.',
+    themes: ['Honey', 'Sweetheart', 'Darling', 'Love', 'Babe', 'Baby', 'Angel', 'Dear', 'Cutie', 'Sunshine'],
+  },
 ];
 
 const marriageUseCases = [
