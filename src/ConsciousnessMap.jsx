@@ -292,11 +292,6 @@ const LEVELS = [
   },
 ];
 
-const ZONE_COLORS = {
-  expanded: '#6d28d9',
-  threshold: '#b45309',
-  contracted: '#b91c1c',
-};
 
 function LevelDetail({ level, onClose }) {
   return (
@@ -453,7 +448,7 @@ function ExploreView({ levels, selected, setSelected }) {
       </div>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
-        {filtered.map((level, i) => {
+        {filtered.map((level) => {
           const idx = levels.indexOf(level);
           const isSelected = selected === idx;
           return (
