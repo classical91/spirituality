@@ -9,6 +9,7 @@ const tabs = [
   { id: "urges", label: "Urges" },
   { id: "tracker", label: "Tracker" },
   { id: "journal", label: "Journal" },
+  { id: "marriage", label: "Marriage" },
   { id: "relationship-clarity", label: "Relationship Clarity" },
   { id: "relationship-patterns", label: "Relationship Patterns" },
 ];
@@ -192,6 +193,56 @@ const sources = [
     title: "HSHC Abstinence Guide",
     text: "Abstinence can mean different things to different people, from avoiding intercourse to avoiding all partnered or solo sexual activity.",
   },
+];
+
+const marriageThemes = [
+  {
+    id: 'emotional',
+    icon: '🌹',
+    title: 'Core Emotional Foundations',
+    accent: '#fb7185',
+    description: 'The emotional stability and longevity of marriage.',
+    themes: ['Trust', 'Emotional safety', 'Intimacy', 'Devotion', 'Vulnerability', 'Forgiveness', 'Gratitude', 'Commitment', 'Harmony', 'Companionship'],
+  },
+  {
+    id: 'spiritual',
+    icon: '🕊️',
+    title: 'Spiritual & Sacred Union',
+    accent: '#a78bfa',
+    description: 'Marriage as a spiritual container for growth and meaning.',
+    themes: ['Soul alignment', 'Divine partnership', 'Sacred bond', 'Unconditional love', 'Oneness', 'Shared values', 'Emotional healing', 'Mutual evolution', 'Purpose-driven union'],
+  },
+  {
+    id: 'passion',
+    icon: '🔥',
+    title: 'Passion & Romantic Vitality',
+    accent: '#fb923c',
+    description: 'Keeps the relationship alive, expressive, and embodied.',
+    themes: ['Desire', 'Attraction', 'Chemistry', 'Playfulness', 'Romantic presence', 'Magnetism', 'Sensual connection', 'Physical intimacy', 'Tender affection'],
+  },
+  {
+    id: 'integrity',
+    icon: '🛡️',
+    title: 'Structural & Relational Integrity',
+    accent: '#38bdf8',
+    description: 'What makes marriage feel secure, grounded, and functional.',
+    themes: ['Loyalty', 'Respect', 'Equality', 'Transparency', 'Partnership', 'Team mentality', 'Home-building', 'Shared vision', 'Emotional reliability'],
+  },
+  {
+    id: 'growth',
+    icon: '🌿',
+    title: 'Individual Growth Within Marriage',
+    accent: '#34d399',
+    description: 'Marriage as a space where two whole individuals continue evolving.',
+    themes: ['Patience', 'Self-awareness', 'Compassion', 'Emotional regulation', 'Supportiveness', 'Healthy boundaries', 'Maturity', 'Healing past patterns'],
+  },
+];
+
+const marriageUseCases = [
+  ['Affirmations', 'Write calm, grounded statements using any theme as the anchor word.'],
+  ['Scripting', 'Describe your marriage in present-tense language from each dimension.'],
+  ['Journaling', 'Pick one theme per day and write freely for 5 minutes.'],
+  ['Intention setting', 'Choose one theme per week to consciously embody and notice.'],
 ];
 
 function Badge({ children, tone = "slate" }) {
@@ -596,12 +647,60 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     </div>
   );
 
+  const renderMarriage = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Sacred union"
+        title="Themes of Marriage"
+        text="Five dimensions of a thriving marriage — emotional foundation, spiritual depth, romantic vitality, relational integrity, and individual growth. Use as a lens for reflection, scripting, journaling, or intention setting."
+      />
+
+      <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {marriageThemes.map((cat) => (
+          <Card key={cat.id}>
+            <div className="mb-4 flex items-start gap-3">
+              <span className="text-2xl leading-none">{cat.icon}</span>
+              <div>
+                <h3 className="text-base font-bold text-white">{cat.title}</h3>
+                <p className="mt-1 text-xs leading-5 text-slate-400">{cat.description}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {cat.themes.map((theme) => (
+                <span
+                  key={theme}
+                  style={{ color: cat.accent, background: `${cat.accent}14`, borderColor: `${cat.accent}30` }}
+                  className="rounded-full border px-3 py-1 text-xs font-medium"
+                >
+                  {theme}
+                </span>
+              ))}
+            </div>
+          </Card>
+        ))}
+      </div>
+
+      <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Ways to use these themes</p>
+        <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
+          {marriageUseCases.map(([title, desc]) => (
+            <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+              <p className="text-sm font-semibold text-white">{title}</p>
+              <p className="mt-2 text-xs leading-5 text-slate-400">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+
   const renderTab = () => {
     if (activeTab === "overview") return renderOverview();
     if (activeTab === "masturbation") return renderMasturbation();
     if (activeTab === "celibacy") return renderCelibacy();
     if (activeTab === "urges") return renderUrges();
     if (activeTab === "tracker") return renderTracker();
+    if (activeTab === "marriage") return renderMarriage();
     return renderJournal();
   };
 
