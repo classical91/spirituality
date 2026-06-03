@@ -48,6 +48,8 @@ const LENS_COLORS = {
   Reflection:    { border: 'rgba(244,114,182,0.30)', bg: 'rgba(244,114,182,0.07)', badge: 'rgba(244,114,182,0.16)', badgeText: '#fbcfe8' },
 };
 
+const ASTRO_CHART_URL = 'https://astro.cafeastrology.com/horoscope.php?date=12/28/1991&d1hour=12&d1min=0&tz=0.00&dformat=0&date2=06/03/2026&d2hour=18&d2min=47&lang=en';
+
 function SurprisePrayerModal({ theme, onClose, onReshuffle }) {
   useEffect(() => {
     const handler = (e) => { if (e.key === 'Escape') onClose(); };
@@ -154,11 +156,11 @@ function DailyPrayerCard() {
     <div style={{
       width: '100%',
       maxWidth: '680px',
-      marginBottom: 'clamp(16px, 3vw, 24px)',
-      borderRadius: '24px',
+      marginBottom: 0,
+      borderRadius: '20px',
       border: `1px solid ${c.border}`,
       background: c.bg,
-      padding: 'clamp(20px, 4vw, 32px)',
+      padding: 'clamp(16px, 3vw, 22px)',
       backdropFilter: 'blur(20px)',
       textAlign: 'left',
     }}>
@@ -211,11 +213,11 @@ function DailyReadingCard({ onNavigate }) {
       style={{
         width: '100%',
         maxWidth: '680px',
-        marginBottom: 'clamp(16px, 3vw, 24px)',
-        borderRadius: '24px',
+        marginBottom: 0,
+        borderRadius: '20px',
         border: `1px solid ${c.border}`,
         background: c.bg,
-        padding: 'clamp(20px, 4vw, 32px)',
+        padding: 'clamp(16px, 3vw, 22px)',
         backdropFilter: 'blur(20px)',
         textAlign: 'left',
         cursor: 'pointer',
@@ -264,6 +266,47 @@ function DailyReadingCard({ onNavigate }) {
         )}
       </div>
     </div>
+  );
+}
+
+function AstroChartLink() {
+  return (
+    <a
+      href={ASTRO_CHART_URL}
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{
+        display: 'inline-flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: '8px',
+        border: '1px solid rgba(147,197,253,0.26)',
+        background: 'rgba(147,197,253,0.08)',
+        color: '#bfdbfe',
+        padding: '11px 18px',
+        borderRadius: '999px',
+        fontSize: '0.88rem',
+        fontWeight: 800,
+        textDecoration: 'none',
+        backdropFilter: 'blur(14px)',
+        letterSpacing: '0.01em',
+        transition: 'border-color 0.2s ease, background 0.2s ease, transform 0.2s ease',
+      }}
+      onMouseEnter={(e) => {
+        e.currentTarget.style.background = 'rgba(147,197,253,0.14)';
+        e.currentTarget.style.borderColor = 'rgba(147,197,253,0.46)';
+        e.currentTarget.style.transform = 'translateY(-2px)';
+      }}
+      onMouseLeave={(e) => {
+        e.currentTarget.style.background = 'rgba(147,197,253,0.08)';
+        e.currentTarget.style.borderColor = 'rgba(147,197,253,0.26)';
+        e.currentTarget.style.transform = 'none';
+      }}
+    >
+      <span aria-hidden="true">☉</span>
+      Transit chart
+      <span aria-hidden="true" style={{ opacity: 0.7 }}>↗</span>
+    </a>
   );
 }
 
@@ -334,98 +377,125 @@ export default function HomePage({ onNavigate }) {
           flex: 1,
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 'clamp(40px, 8vw, 80px) clamp(20px, 4vw, 40px)',
-          textAlign: 'center',
+          alignItems: 'stretch',
+          justifyContent: 'flex-start',
+          padding: 'clamp(24px, 5vw, 56px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 72px)',
+          textAlign: 'left',
         }}
       >
-        <div
+        <section
           style={{
-            display: 'inline-flex',
+            width: '100%',
+            maxWidth: '1120px',
+            margin: '0 auto clamp(24px, 4vw, 34px)',
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 360px), 1fr))',
+            gap: 'clamp(18px, 4vw, 36px)',
             alignItems: 'center',
-            gap: '8px',
-            border: '1px solid rgba(255,255,255,0.12)',
-            background: 'rgba(255,255,255,0.06)',
-            color: '#d8ceff',
-            padding: '9px 16px',
-            borderRadius: '999px',
-            fontSize: '0.85rem',
-            fontWeight: 600,
-            backdropFilter: 'blur(14px)',
-            marginBottom: '28px',
-            letterSpacing: '0.02em',
           }}
         >
-          ✦ Spirituality, psychology & symbolic frameworks toolkit
-        </div>
+          <div>
+            <div
+              style={{
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                border: '1px solid rgba(255,255,255,0.12)',
+                background: 'rgba(255,255,255,0.06)',
+                color: '#d8ceff',
+                padding: '8px 14px',
+                borderRadius: '999px',
+                fontSize: '0.78rem',
+                fontWeight: 700,
+                backdropFilter: 'blur(14px)',
+                marginBottom: '18px',
+                letterSpacing: '0.04em',
+                textTransform: 'uppercase',
+              }}
+            >
+              <span aria-hidden="true">✦</span> Spiritual toolkit
+            </div>
 
-        <h1
-          style={{
-            fontSize: 'clamp(3.2rem, 10vw, 7.5rem)',
-            fontWeight: 950,
-            lineHeight: 0.92,
-            letterSpacing: '-0.06em',
-            margin: '0 0 12px',
-          }}
-        >
-          Sacred
-        </h1>
-        <h1
-          style={{
-            fontSize: 'clamp(3.2rem, 10vw, 7.5rem)',
-            fontWeight: 950,
-            lineHeight: 0.92,
-            letterSpacing: '-0.06em',
-            margin: '0 0 32px',
-            background: 'linear-gradient(100deg, #c084fc 0%, #f0abfc 40%, #93c5fd 100%)',
-            WebkitBackgroundClip: 'text',
-            WebkitTextFillColor: 'transparent',
-            backgroundClip: 'text',
-          }}
-        >
-          Pathways
-        </h1>
+            <h1
+              style={{
+                fontSize: 'clamp(3.1rem, 8vw, 6.5rem)',
+                fontWeight: 950,
+                lineHeight: 0.9,
+                letterSpacing: '-0.06em',
+                margin: '0 0 14px',
+              }}
+            >
+              Sacred
+              <span
+                style={{
+                  display: 'block',
+                  background: 'linear-gradient(100deg, #c084fc 0%, #f0abfc 40%, #93c5fd 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                Pathways
+              </span>
+            </h1>
 
-        <p
-          style={{
-            maxWidth: '480px',
-            color: '#a89ec4',
-            fontSize: 'clamp(1rem, 2vw, 1.15rem)',
-            lineHeight: 1.7,
-            marginBottom: 'clamp(28px, 5vw, 40px)',
-          }}
-        >
-          {portals.length} portals for exploring inner symbolism, spiritual tradition, psychology, the cosmos, whole-system well-being, manifestation, relationships, and self-mastery.
-        </p>
+            <p
+              style={{
+                maxWidth: '560px',
+                color: '#a89ec4',
+                fontSize: 'clamp(0.98rem, 2vw, 1.1rem)',
+                lineHeight: 1.65,
+                margin: '0 0 18px',
+              }}
+            >
+              {portals.length} portals for inner symbolism, spiritual tradition, psychology, astrology, manifestation, relationships, and self-mastery.
+            </p>
 
-        <DailyPrayerCard />
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: '10px',
+                flexWrap: 'wrap',
+              }}
+            >
+              <button
+                onClick={openSurprise}
+                style={{
+                  display: 'inline-flex', alignItems: 'center', gap: '8px',
+                  border: '1px solid rgba(196,165,255,0.25)',
+                  background: 'rgba(196,165,255,0.08)',
+                  color: '#c4a5ff',
+                  padding: '11px 18px',
+                  borderRadius: '999px',
+                  fontSize: '0.88rem',
+                  fontWeight: 800,
+                  cursor: 'pointer',
+                  backdropFilter: 'blur(14px)',
+                  letterSpacing: '0.01em',
+                  transition: 'all 0.2s ease',
+                  fontFamily: 'inherit',
+                }}
+                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(196,165,255,0.15)'; e.currentTarget.style.borderColor = 'rgba(196,165,255,0.45)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
+                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(196,165,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(196,165,255,0.25)'; e.currentTarget.style.transform = 'none'; }}
+              >
+                <span style={{ fontSize: '1rem' }}>⟳</span> Random prayer
+              </button>
+              <AstroChartLink />
+            </div>
+          </div>
 
-        <DailyReadingCard onNavigate={onNavigate} />
-
-        <button
-          onClick={openSurprise}
-          style={{
-            display: 'inline-flex', alignItems: 'center', gap: '8px',
-            border: '1px solid rgba(196,165,255,0.25)',
-            background: 'rgba(196,165,255,0.08)',
-            color: '#c4a5ff',
-            padding: '11px 22px',
-            borderRadius: '999px',
-            fontSize: '0.9rem',
-            fontWeight: 700,
-            cursor: 'pointer',
-            backdropFilter: 'blur(14px)',
-            marginBottom: 'clamp(24px, 4vw, 36px)',
-            letterSpacing: '0.01em',
-            transition: 'all 0.2s ease',
-            fontFamily: 'inherit',
-          }}
-          onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(196,165,255,0.15)'; e.currentTarget.style.borderColor = 'rgba(196,165,255,0.45)'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(196,165,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(196,165,255,0.25)'; }}
-        >
-          <span style={{ fontSize: '1rem' }}>⟳</span> Surprise Me — Random Prayer
-        </button>
+          <div
+            style={{
+              display: 'grid',
+              gap: '14px',
+              alignContent: 'center',
+            }}
+          >
+            <DailyPrayerCard />
+            <DailyReadingCard onNavigate={onNavigate} />
+          </div>
+        </section>
 
         <GlobalSearch
           value={query}
@@ -441,7 +511,7 @@ export default function HomePage({ onNavigate }) {
             style={{
               width: '100%',
               maxWidth: '820px',
-              marginBottom: '20px',
+              margin: '0 auto 20px',
               textAlign: 'left',
               display: 'flex',
               alignItems: 'center',
@@ -493,6 +563,7 @@ export default function HomePage({ onNavigate }) {
               gap: '20px',
               width: '100%',
               maxWidth: '820px',
+              margin: '0 auto',
             }}
           >
             {filtered.map((portal) => (
@@ -514,6 +585,7 @@ export default function HomePage({ onNavigate }) {
               color: '#a89ec4',
               maxWidth: '480px',
               width: '100%',
+              margin: '0 auto',
             }}
           >
             Nothing matched "{query}". Try a broader term — for example "shadow", "mood", or "alchemy".

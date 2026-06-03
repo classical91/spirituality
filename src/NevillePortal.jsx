@@ -4,7 +4,7 @@ import SelfConceptLanguageStudio from './SelfConceptLanguageStudio';
 const TABS = ['Daily Alignment', 'Concepts', 'SATS', 'Revision', 'Mental Diet', 'Self-Concept Studio'];
 
 function resolveInitialTab(initialSection) {
-  if (initialSection === 'selfconcept' || initialSection === 'self-concept') return 'Self-Concept Studio';
+  if (initialSection === 'selfconcept' || initialSection === 'self-concept' || initialSection === 'phrase-analyzer' || initialSection === 'language-studio' || initialSection === 'tone-traps') return 'Self-Concept Studio';
   if (initialSection === 'sats') return 'SATS';
   if (initialSection === 'revision') return 'Revision';
   if (initialSection === 'mental-diet') return 'Mental Diet';

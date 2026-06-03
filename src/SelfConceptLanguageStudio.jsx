@@ -80,6 +80,59 @@ const transformationExamples = [
   }
 ];
 
+const toneTrapWordGroups = [
+  {
+    title: "Time and state words",
+    tag: "Delay",
+    watch: "Can imply stagnation, delay, or an old pattern that has not changed.",
+    words: ["Still", "Yet", "Already", "Before", "Eventually", "Forever"],
+    examples: [
+      { word: "Still", negative: "Still not changed.", cleaner: "Changing now." },
+      { word: "Eventually", negative: "It will happen eventually.", cleaner: "I return to what is true now." }
+    ]
+  },
+  {
+    title: "Repetition words",
+    tag: "Pattern",
+    watch: "Can make one moment sound like a permanent identity or repeated failure.",
+    words: ["Always", "Again", "Constantly", "Still"],
+    examples: [
+      { word: "Always", negative: "Always the same problem.", cleaner: "This is one pattern I can interrupt." },
+      { word: "Again", negative: "I am doing this again.", cleaner: "I noticed the loop and can return now." }
+    ]
+  },
+  {
+    title: "Neutral words with cold tone",
+    tag: "Dismissal",
+    watch: "Can sound passive-aggressive, avoidant, sarcastic, or emotionally shut down.",
+    words: ["Fine", "Whatever", "Interesting", "Okay", "Maybe"],
+    examples: [
+      { word: "Fine", negative: "I am fine.", cleaner: "I need a minute, and I can speak clearly after." },
+      { word: "Maybe", negative: "Maybe.", cleaner: "I am not sure yet. I will choose directly." }
+    ]
+  },
+  {
+    title: "Behavior and trait words",
+    tag: "Judgment",
+    watch: "Can turn a neutral trait into criticism, weakness, suspicion, or instability.",
+    words: ["Nice", "Curious", "Simple", "Bold", "Quiet", "Passive", "Emotional", "Independent"],
+    examples: [
+      { word: "Emotional", negative: "I am too emotional.", cleaner: "I feel deeply and respond with steadiness." },
+      { word: "Independent", negative: "They are too independent.", cleaner: "They value space and can still choose connection." }
+    ]
+  },
+  {
+    title: "Backhanded praise",
+    tag: "Ambiguous",
+    watch: "Can sound like praise on the surface while carrying judgment underneath.",
+    words: ["Unique", "Different", "Ambitious", "Creative", "Sensitive"],
+    examples: [
+      { word: "Different", negative: "They are different.", cleaner: "They have a distinct way of moving through life." },
+      { word: "Sensitive", negative: "I am too sensitive.", cleaner: "I notice subtle things and keep my center." }
+    ]
+  }
+];
+
 const phrasebookBanks = [
   {
     title: "Terms of endearment",
@@ -519,6 +572,71 @@ function CopyButton({ text }) {
   );
 }
 
+function ToneTrapWords() {
+  return (
+    <section className="mt-6 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-amber-200">Tone trap words</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Words that change meaning by context</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            These words are not bad by themselves. Watch the tone: the same word can support clarity, or quietly imply delay, judgment, dismissal, or an old identity.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-amber-200/20 bg-amber-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-amber-100">
+          {toneTrapWordGroups.reduce((count, group) => count + group.words.length, 0)} words
+        </span>
+      </div>
+
+      <div className="grid gap-4 lg:grid-cols-2">
+        {toneTrapWordGroups.map((group) => (
+          <article key={group.title} className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{group.tag}</p>
+                <h3 className="mt-1 text-lg font-black text-white">{group.title}</h3>
+              </div>
+              <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
+                Watch tone
+              </span>
+            </div>
+
+            <p className="mt-3 text-sm leading-6 text-slate-400">{group.watch}</p>
+
+            <div className="mt-4 flex flex-wrap gap-2">
+              {group.words.map((word) => (
+                <button
+                  key={word}
+                  type="button"
+                  onClick={() => navigator.clipboard?.writeText(word)}
+                  className="rounded-full border border-white/10 bg-black/25 px-3 py-1.5 text-xs font-bold text-slate-300 transition hover:border-amber-200/40 hover:bg-amber-300/10 hover:text-white"
+                >
+                  {word}
+                </button>
+              ))}
+            </div>
+
+            <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+              {group.examples.map((example) => (
+                <div key={`${group.title}-${example.word}`} className="grid gap-0 border-b border-white/10 last:border-b-0 sm:grid-cols-[0.9fr_1.1fr]">
+                  <div className="bg-rose-400/5 p-3">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-rose-100/55">{example.word}</p>
+                    <p className="mt-1 text-sm font-semibold leading-6 text-slate-300">{example.negative}</p>
+                  </div>
+                  <div className="border-white/10 bg-emerald-300/5 p-3 sm:border-l">
+                    <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-emerald-100/55">Cleaner frame</p>
+                    <p className="mt-1 text-sm font-black leading-6 text-white">{example.cleaner}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+  );
+}
+
 export default function SelfConceptLanguageStudio({ onBack, embedded }) {
   const [input, setInput] = useState("I am her man");
   const [mode, setMode] = useState("Identity");
@@ -765,6 +883,8 @@ export default function SelfConceptLanguageStudio({ onBack, embedded }) {
             </div>
           </div>
         </section>
+
+        <ToneTrapWords />
 
         <section className="mt-6 rounded-[2rem] border border-white/10 bg-gradient-to-br from-cyan-300/10 via-violet-300/10 to-fuchsia-300/10 p-5 backdrop-blur-xl sm:p-6">
           <div className="grid gap-6 lg:grid-cols-[.9fr_1.1fr] lg:items-center">
