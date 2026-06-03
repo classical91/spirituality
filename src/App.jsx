@@ -8,8 +8,6 @@ import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
-import AwarenessAtlas from './AwarenessAtlas';
-import ConsciousnessMap from './ConsciousnessMap';
 import NumerologyPortal from './NumerologyPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
@@ -30,8 +28,6 @@ const COMPONENTS = {
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
-  awareness: AwarenessAtlas,
-  consciousnessmap: ConsciousnessMap,
   numerology: NumerologyPortal,
 };
 
@@ -110,6 +106,19 @@ export default function App() {
       window.history.replaceState({}, '', `/sexual-energy?section=${encodeURIComponent(section)}`);
     }
     return <SexualEnergyDashboard onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+  }
+  if (path === '/awareness') {
+    const section = initialSection || 'awareness';
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/inner-atlas?section=${encodeURIComponent(section)}`);
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+  }
+  if (path === '/consciousness-map') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/inner-atlas?section=consciousness-map');
+    }
+    return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="consciousness-map" />;
   }
   if (path === '/inner-balance') {
     if (typeof window !== 'undefined') {

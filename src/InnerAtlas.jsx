@@ -3,6 +3,8 @@ import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
 import EmotionsAtlas from './EmotionsAtlas';
+import AwarenessAtlas from './AwarenessAtlas';
+import ConsciousnessMap from './ConsciousnessMap';
 import InnerAtlasShell from './components/InnerAtlasShell';
 import { IA_ACCENTS } from './innerAtlasTheme';
 
@@ -34,6 +36,24 @@ const SECTION_MAP = {
   powerstack:  { id: 'psychology', sub: 'powerstack' },
   growth:      { id: 'psychology', sub: 'growth' },
   nutrients:   { id: 'psychology', sub: 'nutrients' },
+  // Awareness section IDs
+  'awareness':                         { id: 'awareness', sub: null },
+  'what-is-awareness':                 { id: 'awareness', sub: 'what-is-awareness' },
+  'placing-awareness':                 { id: 'awareness', sub: 'placing-awareness' },
+  'inner-vs-outer-awareness':          { id: 'awareness', sub: 'inner-vs-outer-awareness' },
+  'awareness-vs-rumination':           { id: 'awareness', sub: 'awareness-vs-rumination' },
+  'presence':                          { id: 'awareness', sub: 'presence' },
+  'relaxation-vs-meditation':          { id: 'awareness', sub: 'relaxation-vs-meditation' },
+  'meditation-and-brain-waves':        { id: 'awareness', sub: 'meditation-and-brain-waves' },
+  'alpha-theta-gamma':                 { id: 'awareness', sub: 'alpha-theta-gamma' },
+  'meditation-and-awareness-studies':  { id: 'awareness', sub: 'meditation-and-awareness-studies' },
+  'breath-awareness':                  { id: 'awareness', sub: 'breath-awareness' },
+  'body-awareness':                    { id: 'awareness', sub: 'body-awareness' },
+  'emotional-awareness':               { id: 'awareness', sub: 'emotional-awareness' },
+  'returning-attention':               { id: 'awareness', sub: 'returning-attention' },
+  // Consciousness Map section IDs
+  'consciousness-map':                 { id: 'consciousness-map', sub: null },
+  'consciousnessmap':                  { id: 'consciousness-map', sub: null },
 };
 
 // Relationship Clarity & Patterns moved to the Sexual Energy portal. Old
@@ -57,6 +77,8 @@ const PAL = {
   'colorpsychology':        { c: '#22d3ee', bg: 'rgba(34,211,238,0.08)',  br: 'rgba(34,211,238,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
   'emotions':              { c: '#f472b6', bg: 'rgba(244,114,182,0.08)', br: 'rgba(244,114,182,0.26)' },
+  'awareness':             { c: '#7ee7d4', bg: 'rgba(126,231,212,0.08)', br: 'rgba(126,231,212,0.26)' },
+  'consciousness-map':     { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
 };
 
 // ─── Hub section definitions ────────────────────────────────────────────────
@@ -110,6 +132,20 @@ const SECTIONS = [
     title: 'Emotions & Guidance Spiral',
     description: 'A simple emotion glossary with definitions, explanations, and upward/downward spiral mapping.',
     tags: ['Feelings', 'Definitions', 'Spiral'],
+  },
+  {
+    id: 'awareness',
+    icon: '☼',
+    title: 'Awareness & Presence',
+    description: 'What awareness is, how meditation shifts brain states (alpha, theta, gamma), and the inner practices of breath, body, and attention.',
+    tags: ['Meditation', 'Brain Waves', 'Presence'],
+  },
+  {
+    id: 'consciousness-map',
+    icon: '◬',
+    title: 'Map of Consciousness',
+    description: 'Hawkins\'s 17-level scale from Shame (20) to Enlightenment (1000) — emotional signatures, lived experience, and practices for moving higher.',
+    tags: ['Hawkins', 'Levels', 'Threshold'],
   },
 ];
 
@@ -359,6 +395,14 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   if (activeSection === 'emotions') {
     return <EmotionsAtlas onBack={goHub} onSelectSection={setActiveSection} />;
+  }
+
+  if (activeSection === 'awareness') {
+    return <AwarenessAtlas onBack={goHub} initialSection={deepSub} />;
+  }
+
+  if (activeSection === 'consciousness-map') {
+    return <ConsciousnessMap onBack={goHub} />;
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase
