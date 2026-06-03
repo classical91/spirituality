@@ -501,7 +501,6 @@ const ALL_EMOTIONS = SPIRAL_LEVELS.flatMap((level, levelIndex) =>
   }))
 ).filter((emotion, index, list) => list.findIndex((item) => item.id === emotion.id) === index);
 
-
 function SpiralRibbon() {
   const loops = 11;
   const segments = Array.from({ length: loops }, (_, index) => {

@@ -41,16 +41,16 @@ function Dashboard() {
       items: ['Nutrition', 'Movement', 'Sunlight'],
     },
   ];
-  const balanceLegend = [
-    { label: 'Nervous System',    val: 84, color: 'var(--sage)' },
-    { label: 'Neurotransmitters', val: 78, color: 'var(--blue)' },
-    { label: 'Emotions',          val: 81, color: 'var(--lavender)' },
-    { label: 'Lifestyle',         val: 86, color: 'var(--gold)' },
-    { label: 'Spiritual Align.',  val: 83, color: '#5bbfb5' },
+  const systemFocus = [
+    { label: 'Nervous System',    cue: 'Regulate', color: 'var(--sage)' },
+    { label: 'Neurotransmitters', cue: 'Support', color: 'var(--blue)' },
+    { label: 'Emotions',          cue: 'Name', color: 'var(--lavender)' },
+    { label: 'Lifestyle',         cue: 'Steady', color: 'var(--gold)' },
+    { label: 'Spiritual Align.',  cue: 'Reflect', color: '#5bbfb5' },
   ];
   const tools = [
     { icon: '〜', name: 'Breathing', sub: '4-7-8 · 4 min' },
-    { icon: '◎', name: 'Hydration', sub: '8 glasses goal' },
+    { icon: '◎', name: 'Hydration', sub: 'Check in with thirst and energy' },
     { icon: '✎', name: 'Journaling', sub: '5 min reflection' },
     { icon: '⟳', name: 'Stretching', sub: '5 min flow' },
   ];
@@ -64,7 +64,7 @@ function Dashboard() {
         <div className="iba-hero-art" />
       </div>
 
-      {/* Whole-System Map + Today's Balance */}
+      {/* Whole-System Map + System Focus */}
       <div className="iba-grid-2" style={{ gridTemplateColumns: '1.6fr 1fr' }}>
         <div className="iba-card">
           <h3>Whole-System Map <span style={{ fontSize: 13, fontWeight: 400, color: 'var(--muted)' }}>ⓘ</span></h3>
@@ -104,28 +104,28 @@ function Dashboard() {
 
         <div style={{ display: 'grid', gap: 16 }}>
           <div className="iba-card">
-            <h3>Today's Balance <span style={{ fontSize: 13, fontWeight: 400, color: 'var(--muted)' }}>ⓘ</span></h3>
+            <h3>System Focus <span style={{ fontSize: 13, fontWeight: 400, color: 'var(--muted)' }}>ⓘ</span></h3>
             <div className="iba-balance-ring">
               <div className="iba-balance-ring-inner">
                 <div>
-                  <div className="iba-balance-score">82</div>
-                  <div className="iba-balance-label">Good Balance</div>
+                  <div className="iba-balance-score">5</div>
+                  <div className="iba-balance-label">Connected Areas</div>
                 </div>
               </div>
             </div>
             <div className="iba-balance-legend">
-              {balanceLegend.map(r => (
+              {systemFocus.map(r => (
                 <div className="iba-balance-row" key={r.label}>
                   <div className="iba-balance-dot" style={{ background: r.color }} />
                   <span className="iba-balance-name">{r.label}</span>
-                  <span className="iba-balance-val">{r.val}</span>
+                  <span className="iba-balance-val">{r.cue}</span>
                 </div>
               ))}
             </div>
           </div>
           <div className="iba-card" style={{ background: 'linear-gradient(135deg, rgba(122,171,121,0.12), rgba(216,169,72,0.08))', fontSize: 13, color: 'var(--muted)', lineHeight: 1.6 }}>
             <span style={{ fontSize: 16 }}>🌿</span>
-            <p style={{ margin: '6px 0 0' }}><em>You're doing great. Small daily choices create lasting change.</em></p>
+            <p style={{ margin: '6px 0 0' }}><em>Small daily choices can support steadier attention, recovery, and reflection.</em></p>
           </div>
         </div>
       </div>
