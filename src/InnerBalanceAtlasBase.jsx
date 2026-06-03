@@ -373,12 +373,15 @@ function PsychophysiologyMap() {
 ───────────────────────────────────────── */
 function Neurotransmitters() {
   const neuro = [
-    { name: 'Dopamine',       theme: 'motivation, reward, drive',       labelClass: 'lbl-dopamine',  role: 'Drives motivation and goal pursuit',           effect: 'Reward, focus, pleasure',                   support: 'Protein, movement, sunlight, goal setting' },
-    { name: 'Serotonin',      theme: 'mood, steadiness, well-being',    labelClass: 'lbl-serotonin', role: 'Supports mood and emotional balance',          effect: 'Well-being, patience, resilience',           support: 'Sunlight, tryptophan, exercise, gratitude' },
-    { name: 'GABA',           theme: 'calm, relaxation, slowing down',  labelClass: 'lbl-gaba',      role: 'Calms neural activity and reduces stress',     effect: 'Relaxation, less anxiety, better sleep',     support: 'Magnesium, breathwork, meditation, sleep' },
-    { name: 'Norepinephrine', theme: 'alertness, energy, attention',    labelClass: 'lbl-norepi',    role: 'Increases alertness and concentration',        effect: 'Energy, focus, response',                    support: 'Movement, cold exposure, hydration, B vitamins' },
-    { name: 'Oxytocin',       theme: 'bonding, trust, connection',      labelClass: 'lbl-oxytocin',  role: 'Builds bonds and social connection',           effect: 'Trust, empathy, sense of belonging',         support: 'Hugs, kind touch, meaningful connection' },
-    { name: 'Acetylcholine',  theme: 'learning, memory, cognition',     labelClass: 'lbl-acetyl',    role: 'Enables learning and memory',                 effect: 'Clarity, recall, mental sharpness',          support: 'Choline-rich foods, learning, good sleep' },
+    { name: 'Dopamine',       theme: 'motivation, reward, drive',         labelClass: 'lbl-dopamine',   role: 'Drives motivation and goal pursuit',          effect: 'Reward, focus, pleasure',                   support: 'Protein, movement, sunlight, goal setting',    deficiency: 'Depression, attention deficits, low drive; loss of dopaminergic neurons linked to Parkinson\'s' },
+    { name: 'Serotonin',      theme: 'mood, steadiness, well-being',      labelClass: 'lbl-serotonin',  role: 'Supports mood and emotional balance',         effect: 'Well-being, patience, resilience',           support: 'Sunlight, tryptophan, exercise, gratitude',    deficiency: 'Depression, anxiety disorders, sleep disturbances' },
+    { name: 'GABA',           theme: 'calm, relaxation, slowing down',    labelClass: 'lbl-gaba',       role: 'Calms neural activity and reduces stress',    effect: 'Relaxation, less anxiety, better sleep',     support: 'Magnesium, breathwork, meditation, sleep',     deficiency: 'Anxiety disorders, seizures, mood disorders from excessive neural activity' },
+    { name: 'Norepinephrine', theme: 'alertness, energy, attention',      labelClass: 'lbl-norepi',     role: 'Increases alertness and concentration',       effect: 'Energy, focus, response',                    support: 'Movement, cold exposure, hydration, B vitamins', deficiency: 'Depression, low energy, decreased focus and attention' },
+    { name: 'Oxytocin',       theme: 'bonding, trust, connection',        labelClass: 'lbl-oxytocin',   role: 'Builds bonds and social connection',          effect: 'Trust, empathy, sense of belonging',         support: 'Hugs, kind touch, meaningful connection',      deficiency: 'Social withdrawal, difficulty bonding, reduced empathy and trust' },
+    { name: 'Acetylcholine',  theme: 'learning, memory, cognition',       labelClass: 'lbl-acetyl',     role: 'Enables learning and memory',                effect: 'Clarity, recall, mental sharpness',          support: 'Choline-rich foods, learning, good sleep',     deficiency: 'Memory impairment and cognitive decline; associated with Alzheimer\'s disease' },
+    { name: 'Glutamate',      theme: 'excitation, learning, plasticity',  labelClass: 'lbl-glutamate',  role: 'Most abundant excitatory neurotransmitter',  effect: 'Synaptic plasticity, learning, memory',      support: 'Whole foods, magnesium balance, sleep, stress management', deficiency: 'Cognitive impairments, fatigue; imbalance linked to schizophrenia and neurological disorders' },
+    { name: 'Endorphins',     theme: 'pain relief, euphoria, resilience', labelClass: 'lbl-endorphin',  role: 'Natural painkillers that promote well-being', effect: 'Euphoria, stress relief, reduced pain',      support: 'Exercise, laughter, music, connection, sunlight', deficiency: 'Increased pain sensitivity, mood disorders, lower stress tolerance' },
+    { name: 'Histamine',      theme: 'wakefulness, appetite, cognition',  labelClass: 'lbl-histamine',  role: 'Regulates wakefulness and immune response',  effect: 'Alertness, appetite control, cognitive focus', support: 'Regular sleep-wake rhythm, anti-inflammatory diet, reduced allergen load', deficiency: 'Fatigue, weight gain, cognitive dullness' },
   ];
   const offSignals = ['Low motivation', 'Anxiety & worry', 'Poor sleep', 'Brain fog', 'Low connection', 'Irritability'];
   const naturalSupport = [
@@ -418,13 +421,13 @@ function Neurotransmitters() {
       <div className="iba-grid-2" style={{ gridTemplateColumns: '1.5fr 1fr' }}>
         <div className="iba-card">
           <h3>Neurochemical System Map</h3>
-          <p className="iba-sub">Six key messengers and what they support.</p>
+          <p className="iba-sub">Nine key messengers and what they support.</p>
           <div className="iba-grid-2">
             {neuro.map(n => (
               <div className="iba-neuro-card" key={n.name}>
                 <h4 style={{ color: `var(--deep)` }}>{n.name}</h4>
                 <div className="iba-neuro-theme">{n.theme}</div>
-                {[['Role', n.role], ['Effect', n.effect], ['Support', n.support]].map(([lbl, val]) => (
+                {[['Role', n.role], ['Effect', n.effect], ['Support', n.support], ['Deficiency', n.deficiency]].map(([lbl, val]) => (
                   <div className="iba-neuro-row" key={lbl}>
                     <span className={`iba-neuro-label ${n.labelClass}`}>{lbl}</span>
                     <span className="iba-neuro-val">{val}</span>
