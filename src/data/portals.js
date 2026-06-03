@@ -225,7 +225,7 @@ const portalCatalog = [
     title: 'InnerAtlas',
     titleFlat: 'InnerAtlas',
     description:
-      'A map of the mind, body, nervous system, and emotional patterns — nervous system, psychology, neurochemistry, lifestyle, regulation tools, and relationship patterns.',
+      'A map of the mind, body, nervous system, and emotional patterns — nervous system, psychology, neurochemistry, lifestyle inputs, regulation tools, and emotions.',
     keywords: ['Nervous System', 'Psychology', 'Neurochemistry', 'Regulation'],
     searchTerms: [
       'inneratlas',
@@ -265,11 +265,6 @@ const portalCatalog = [
       'grounding',
       'meditation',
       'regulation',
-      'relationship patterns',
-      'neediness',
-      'pedestalizing',
-      'secure love',
-      'emotional independence',
       'emotions',
       'emotion glossary',
       'feelings',
