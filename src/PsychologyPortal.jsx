@@ -961,7 +961,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                     {[
                       { title: "Energy + Motivation", desc: "When energy is low, mindset work can feel harder. Links fatigue-like states to sleep, iron, B vitamins, hydration, and movement — not only lack of discipline.", pills: ["Iron", "B12", "B6", "Hydration", "Electrolytes", "Steps"], tone: "amber" },
                       { title: "Calm + Sleep", desc: "Evening regulation is a body-state issue. Connects calm to magnesium, breathwork, sleep rhythm, light timing, and emotional detachment.", pills: ["Magnesium", "Vitamin D rhythm", "Long exhale", "GABA theme", "Journal release"], tone: "teal" },
-                      { title: "Focus + Cognitive Clarity", desc: "Clarity is a combination of oxygen delivery, blood sugar rhythm, neurotransmitter support, rest, and environment design.", pills: ["B12", "Folate", "Iron", "Acetylcholine", "Covey Q2"], tone: "sky" },
+                      { title: "Focus + Cognitive Clarity", desc: "Clarity is a combination of oxygen delivery, blood sugar rhythm, neurotransmitter support, rest, and environment design.", pills: ["B12", "Folate", "Iron", "Acetylcholine", "Omega-3"], tone: "sky" },
                     ].map(({ title, desc, pills, tone }) => {
                       const pillColors = { amber: "border-amber-400/20 bg-amber-300/10 text-amber-200", teal: "border-teal-400/20 bg-teal-300/10 text-teal-200", sky: "border-sky-400/20 bg-sky-300/10 text-sky-200" };
                       return (
