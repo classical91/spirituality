@@ -517,6 +517,22 @@ const teachers = [
     prompt: 'What story are you rehearsing, and what action would make a stronger story believable today?',
     books: ['Awaken the Giant Within', 'Unlimited Power'],
   },
+  {
+    id: 'covey',
+    name: 'Stephen R. Covey',
+    era: '1932–2012',
+    tradition: 'Leadership & effectiveness',
+    category: 'Psychology & Self-Development',
+    lineage: 'Time Management Matrix',
+    color: 'rgba(99,179,237,.16)',
+    core: 'Most people spend their time reacting to what is urgent, while what is truly important — relationships, health, planning, growth — quietly waits. The Time Management Matrix divides all activity into four quadrants by urgency and importance. Effectiveness lives in Quadrant II: the important but not yet urgent, where prevention, preparation, and intentional growth happen.',
+    practice: 'Map your week across the four quadrants. Identify what is consuming time in Quadrant I (crises) and Quadrant III (other people\'s urgencies). Then carve out protected time for Quadrant II — the things that matter most before they become emergencies.',
+    bestFor: 'Anyone overwhelmed by busyness who needs a clear map to distinguish reactive living from intentional living.',
+    complements: 'Viktor Frankl, Jim Rohn, Carol Dweck',
+    trap: 'Building a beautiful matrix and returning to urgency the next morning. The real work is the weekly review and the honest reckoning of where time actually went.',
+    prompt: 'What important thing are you neglecting because nothing is forcing you to do it yet?',
+    books: ['The 7 Habits of Highly Effective People', 'First Things First'],
+  },
 ];
 
 const categoryNotes = {
