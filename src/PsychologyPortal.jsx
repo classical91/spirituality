@@ -9,6 +9,7 @@ const tabs = [
   { id: "powerstack", label: "Power Stack", icon: "✦" },
   { id: "growth", label: "Growth Concepts", icon: "G" },
   { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
+  { id: "emotions", label: "Emotional Awareness", icon: "◎" },
 ];
 
 const frameworks = [
@@ -306,6 +307,121 @@ const growthDailyLoop = [
   { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
 ];
 
+const emotionSteps = [
+  {
+    id: 1,
+    title: "Slow Down and Create Space",
+    icon: "◎",
+    tone: "cyan",
+    summary: "Daily check-ins build the habit of noticing what is happening inside before the moment passes.",
+    details: "Take 5–10 minutes daily to sit quietly. Ask: What am I feeling right now? Where do I feel it in my body? Can I name it — sad, tense, numb, irritated? A Feelings Wheel helps with complex or vague emotions that resist easy naming.",
+    prompts: [
+      "What am I feeling right now — and where do I feel it in my body?",
+      "If I had to put one word on this feeling, what would it be?",
+      "What was the last moment today when something shifted inside me?",
+    ],
+  },
+  {
+    id: 2,
+    title: "Journal Without Judgment",
+    icon: "✍",
+    tone: "sky",
+    summary: "Free-writing creates distance between you and the feeling — enough space to see it clearly.",
+    details: "Write for 5–10 minutes about your day or a recent event. Focus on how things made you feel, not just what happened. Start with: \"Right now I feel ___ because ___\" or \"I don't know what I feel, but if I had to guess…\" No editing, no correcting — just honest motion.",
+    prompts: [
+      "Right now I feel ___ because ___.",
+      "I don't know what I feel, but if I had to guess, it might be ___.",
+      "The last time I felt clearly understood was ___.",
+    ],
+  },
+  {
+    id: 3,
+    title: "Track Patterns",
+    icon: "↺",
+    tone: "indigo",
+    summary: "Emotions become more readable once you can see what consistently triggers them.",
+    details: "Reflect on recurring triggers: certain people, stressful situations, criticism, silence, or specific times of day. Use a simple emotion log — event → feeling → thought — to connect what happens outside to what moves inside. Patterns reveal the real conversation you are having with yourself.",
+    prompts: [
+      "What kind of situation consistently unsettles me — and what does that tell me?",
+      "Is there a person or context that reliably changes how I feel about myself?",
+      "What is the emotion I keep bumping into this week?",
+    ],
+  },
+  {
+    id: 4,
+    title: "Name Before You Fix",
+    icon: "◇",
+    tone: "teal",
+    summary: "Naming an emotion halves its intensity. You do not have to solve it — just see it.",
+    details: "Do not rush to fix, suppress, or explain the feeling away. Practice simply saying: \"I feel anxious.\" \"I feel disconnected.\" \"I don't know what I feel, but something is off.\" Research shows that labeling emotions — affect labeling — reduces their grip on the nervous system and brings the prefrontal cortex back online.",
+    prompts: [
+      "Can I name this feeling without immediately trying to fix or justify it?",
+      "What happens inside me when I just say the word for what I feel?",
+      "What am I trying to escape by staying busy right now?",
+    ],
+  },
+  {
+    id: 5,
+    title: "Try Somatic Techniques",
+    icon: "◯",
+    tone: "emerald",
+    summary: "Emotions arrive in the body before the mind catches them — learning to listen closes the gap.",
+    details: "Body scans, breathwork, and gentle movement (yoga, walking) help you tune into the physical cues your emotions leave. Ask: Where am I holding tension? What is that telling me? The body speaks in sensations before the mind forms sentences — somatic awareness is emotional awareness at its root.",
+    prompts: [
+      "Where in my body am I carrying something right now?",
+      "What does this feeling physically feel like — tight, heavy, buzzing, empty?",
+      "If my body could speak one sentence right now, what would it say?",
+    ],
+  },
+  {
+    id: 6,
+    title: "Expand Your Emotional Vocabulary",
+    icon: "≋",
+    tone: "violet",
+    summary: "The more words you have for emotions, the more precisely you can identify and work with them.",
+    details: "Many people default to a handful of broad words — good, bad, stressed, fine. Expanding your vocabulary (furious vs. irritated, melancholy vs. sad, awe vs. excitement) gives you sharper tools. Books that help: Permission to Feel by Marc Brackett, The Language of Emotions by Karla McLaren. More words means more clarity.",
+    prompts: [
+      "If 'stressed' or 'fine' is too simple, what word comes closer to the truth?",
+      "Is there a more precise word for what I am feeling than the one I usually use?",
+      "What emotion am I rarely willing to name — and why?",
+    ],
+  },
+  {
+    id: 7,
+    title: "Consider Emotional Coaching or Therapy",
+    icon: "⌘",
+    tone: "amber",
+    summary: "A skilled guide can decode what you are feeling and help you understand why.",
+    details: "A therapist or coach offers reflective presence that is hard to replicate alone. Cognitive-behavioral therapy (CBT) and emotion-focused therapy (EFT) are especially useful for building emotional literacy. You do not have to be in crisis to benefit — going earlier, while things are workable, is usually easier and more effective.",
+    prompts: [
+      "What emotion have I been carrying alone that might benefit from being witnessed?",
+      "If I could ask a guide one question about my inner life, what would it be?",
+      "What story about seeking help am I still holding?",
+    ],
+  },
+  {
+    id: 8,
+    title: "Accept Emotional Confusion as Normal",
+    icon: "△",
+    tone: "rose",
+    summary: "Emotions are layered and contradictory. The goal is not clarity — it is curiosity.",
+    details: "You can feel both anger and love. Both relief and guilt. Both hope and exhaustion. That is not a malfunction — that is depth. The goal is not to always understand what you feel, but to stay with it long enough to learn something. Confusion is not the opposite of emotional intelligence. It is often the beginning of it.",
+    prompts: [
+      "Am I trying to resolve a feeling prematurely, when staying with it might teach me more?",
+      "What contradictory feelings are present at once right now — and can I hold both?",
+      "What would it mean to stay curious about this feeling instead of solving it?",
+    ],
+  },
+];
+
+const emotionJournalPrompts = [
+  "Right now I feel ___ because ___.",
+  "I don't know what I feel, but if I had to guess…",
+  "The last time I felt clearly understood was ___.",
+  "Something I keep feeling but rarely name is ___.",
+  "When this emotion passes, I want to remember that ___.",
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -464,13 +580,72 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
+function EmotionStepModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>Step {item.id}</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.summary}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button
+                className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20"
+                onClick={() => onReflect(item)}
+              >
+                ◈ Reflect
+              </button>
+              <button
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+                onClick={onClose}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 p-5">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">How to practice it</div>
+            <p className="text-sm leading-7 text-slate-200">{item.details}</p>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 p-5">
+          <button
+            className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10"
+            onClick={() => onReflect(item)}
+          >
+            ◈ Open Reflection Prompts
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients"].includes(initialSection)
+  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "emotions"].includes(initialSection)
     ? initialSection
     : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
+  const [emotionModal, setEmotionModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
@@ -1057,11 +1232,69 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
               </div>
             )}
 
+            {/* EMOTIONAL AWARENESS */}
+            {activeTab === "emotions" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Emotional intelligence" title="Understanding your emotions">
+                  If you have a hard time reading your own feelings, you are not alone — and noticing that is already a meaningful first step. These eight practices build emotional self-awareness one layer at a time. Open any step to explore it more deeply and use the reflection prompts to begin.
+                </SectionHeader>
+
+                {/* Step cards */}
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {emotionSteps.map((step) => {
+                    const t = tones[step.tone] || tones.cyan;
+                    return (
+                      <button
+                        key={step.id}
+                        onClick={() => setEmotionModal(step)}
+                        className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                      >
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <Pill tone={step.tone}>Step {step.id}</Pill>
+                          <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className={`text-2xl ${t.accent}`}>{step.icon}</span>
+                          <h3 className="text-lg font-bold text-white">{step.title}</h3>
+                        </div>
+                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">{step.summary}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Starter journal prompts */}
+                <div>
+                  <SectionHeader eyebrow="Start here" title="Guided journal prompts">
+                    Pick one and write for five minutes without editing. Momentum matters more than perfection.
+                  </SectionHeader>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {emotionJournalPrompts.map((prompt, i) => (
+                      <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-300/70">Prompt {i + 1}</p>
+                        <p className="text-sm leading-6 text-slate-300">{prompt}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Grounding note */}
+                <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">A note on confusion</div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    Emotions are layered, messy, and often contradictory. You can feel anger and love at the same time. Relief and guilt. Hope and exhaustion. That is not a malfunction — that is depth. The goal is not to always be clear, but to stay curious long enough to learn something.
+                  </p>
+                </div>
+              </div>
+            )}
+
           </section>
         </main>
       </div>
 
       <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
+
+      <EmotionStepModal item={emotionModal} onClose={() => setEmotionModal(null)} onReflect={openReflection} />
 
       {reflectionModal && (
         <ReflectionModal
