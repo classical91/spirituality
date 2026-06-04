@@ -9,6 +9,7 @@ const tabs = [
   { id: "powerstack", label: "Power Stack", icon: "✦" },
   { id: "growth", label: "Growth Concepts", icon: "G" },
   { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
+  { id: "brain", label: "Brain & Spirit", icon: "❋" },
 ];
 
 const frameworks = [
@@ -306,6 +307,244 @@ const growthDailyLoop = [
   { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
 ];
 
+const brainRegions = [
+  {
+    id: 1,
+    title: "Prefrontal Cortex",
+    icon: "🎯",
+    tone: "cyan",
+    region: "Wisdom · Discipline · Conscious Choice",
+    essence: "The seat of self-mastery — where you pause, plan, and choose who you become.",
+    connected: "Planning, reasoning, decision-making, emotional control, focus, and long-term goals.",
+    theme: "Self-mastery, clarity, purpose, and conscious awareness.",
+    practices: ["Meditation", "Journaling", "Goal-setting", "Mindful focus", "Studying & problem-solving", "Delaying gratification", "Prayer & contemplation"],
+    prompts: [
+      "Where in my life am I reacting on impulse when a conscious choice is available?",
+      "What long-term self am I building with today's small decisions?",
+      "If I paused for ten seconds before every reaction today, what would change?",
+    ],
+  },
+  {
+    id: 2,
+    title: "Amygdala",
+    icon: "🔥",
+    tone: "rose",
+    region: "Fear · Triggers · Safety",
+    essence: "The alarm bell — fast, protective, and in need of reassurance, not shame.",
+    connected: "Fear, threat detection, emotional intensity, and survival responses.",
+    theme: "Healing fear, emotional safety, courage, and trust.",
+    practices: ["Breathwork", "Grounding (5-4-3-2-1)", "Trauma-informed journaling", "Self-soothing", "Prayer", "Naming the emotion", "Nervous-system regulation"],
+    prompts: [
+      "What is my body bracing against right now — and is it truly a threat?",
+      "Can I offer myself the safety I keep waiting for someone else to give?",
+      "What old fear is running a pattern that no longer protects me?",
+    ],
+  },
+  {
+    id: 3,
+    title: "Hippocampus",
+    icon: "📚",
+    tone: "indigo",
+    region: "Memory · Learning · Inner Story",
+    essence: "The keeper of memory and meaning — where experience becomes the story of who you are.",
+    connected: "Memory, learning, imagination, spatial awareness, and autobiographical story.",
+    theme: "Life lessons, reflection, identity, and remembering who you are.",
+    practices: ["Journaling", "Studying & learning", "Storytelling", "Visualization", "Gratitude lists", "Reflecting on past lessons"],
+    prompts: [
+      "What lesson is this season of life trying to teach me?",
+      "Which memory am I letting define me — and is that story still true?",
+      "What would I like to remember about who I was becoming this year?",
+    ],
+  },
+  {
+    id: 4,
+    title: "Insula",
+    icon: "🫀",
+    tone: "teal",
+    region: "Body Awareness · Intuition",
+    essence: "The inner sense — where gut feeling, emotion, and bodily knowing meet.",
+    connected: "Body sensations, emotional awareness, pain signals, and interoception.",
+    theme: "Intuition, embodiment, presence, and inner knowing.",
+    practices: ["Body scans", "Mindful eating", "Yoga", "Breath awareness", "Somatic meditation", "Noticing gut feelings"],
+    prompts: [
+      "What is my body telling me that my mind keeps overriding?",
+      "Where do I feel this emotion physically right now?",
+      "If I trusted my gut on one decision today, what would I do?",
+    ],
+  },
+  {
+    id: 5,
+    title: "Default Mode Network",
+    icon: "✦",
+    tone: "violet",
+    region: "Identity · Imagination · Meaning",
+    essence: "The inner narrator — daydream, self-concept, and the world you rehearse in private.",
+    connected: "Self-reflection, daydreaming, imagination, personal meaning, and inner narrative.",
+    theme: "Self-concept, manifestation, identity, and purpose.",
+    practices: ["Visualization", "SATS (state akin to sleep)", "Self-inquiry", "Contemplation & prayer", "Identity affirmations", "Revision", "Reflective journaling"],
+    prompts: [
+      "What story about myself am I rehearsing on autopilot?",
+      "If I lived from the end — already whole — how would today feel?",
+      "What identity would make my desired life feel natural rather than forced?",
+    ],
+  },
+  {
+    id: 6,
+    title: "Anterior Cingulate Cortex",
+    icon: "🤝",
+    tone: "emerald",
+    region: "Compassion · Conflict · Alignment",
+    essence: "The inner referee — noticing the gap between impulse and value, then choosing alignment.",
+    connected: "Attention, emotional regulation, empathy, and conflict monitoring.",
+    theme: "Compassion, forgiveness, harmony, and inner correction.",
+    practices: ["Loving-kindness meditation", "Forgiveness work", "Values reflection", "Noticing inner conflict", "Choosing aligned action"],
+    prompts: [
+      "Where do my actions and my values disagree right now?",
+      "Who am I still carrying resentment toward — including myself?",
+      "What would the most compassionate version of me do here?",
+    ],
+  },
+  {
+    id: 7,
+    title: "Dopamine Reward System",
+    icon: "⚡",
+    tone: "amber",
+    region: "Motivation · Desire · Drive",
+    essence: "The engine of wanting — anticipation, momentum, and the pull toward what matters.",
+    connected: "Motivation, pleasure, reward, anticipation, and habit formation.",
+    theme: "Desire, devotion, momentum, and inspired action.",
+    practices: ["Goal tracking", "Celebrating progress", "Movement & exercise", "Sunlight", "Music", "Meaningful rewards", "Building healthy habits"],
+    prompts: [
+      "Am I chasing quick hits, or building toward something that matters?",
+      "What small win can I honor today instead of rushing past it?",
+      "What desire is worthy of my devotion right now?",
+    ],
+  },
+  {
+    id: 8,
+    title: "Hypothalamus",
+    icon: "⚖️",
+    tone: "emerald",
+    region: "Hormones · Stress · Basic Needs",
+    essence: "The body's thermostat — quietly regulating hunger, sleep, stress, and balance.",
+    connected: "Hunger, thirst, sleep, temperature, stress hormones, and regulation.",
+    theme: "Balance, grounding, and honoring basic needs.",
+    practices: ["Consistent sleep routine", "Hydration", "Sunlight", "Nutrition", "Relaxation", "Emotional safety", "Daily rituals"],
+    prompts: [
+      "Which basic need am I overriding in the name of being productive?",
+      "What would change if I treated rest as sacred, not lazy?",
+      "Where is my body asking for rhythm and consistency?",
+    ],
+  },
+  {
+    id: 9,
+    title: "Brainstem",
+    icon: "🌬",
+    tone: "teal",
+    region: "Survival · Breath · Grounding",
+    essence: "The root of aliveness — breath, heartbeat, and the steady pulse beneath thought.",
+    connected: "Breathing, heart rate, alertness, and core survival functions.",
+    theme: "Life force, grounding, calm, and presence.",
+    practices: ["Slow breathing", "Humming & chanting", "Gentle cold exposure (carefully)", "Grounding exercises", "Gentle movement", "Prayer"],
+    prompts: [
+      "Can I slow my exhale and let my body know it is safe?",
+      "Where am I living in my head when I could return to my breath?",
+      "What does calm feel like in my body — and how do I get back to it?",
+    ],
+  },
+  {
+    id: 10,
+    title: "Cerebellum",
+    icon: "🌀",
+    tone: "sky",
+    region: "Coordination · Rhythm · Embodied Skill",
+    essence: "The master of timing — turning repeated practice into effortless flow.",
+    connected: "Balance, movement, coordination, timing, and motor learning.",
+    theme: "Flow, rhythm, grounded action, and practice.",
+    practices: ["Dance", "Martial arts", "Yoga", "Walking meditation", "Breath rhythm", "Music", "Repetitive skill practice"],
+    prompts: [
+      "What skill would reward me for showing up daily, even imperfectly?",
+      "Where could rhythm and repetition replace forcing and straining?",
+      "What practice reliably puts me into flow?",
+    ],
+  },
+  {
+    id: 11,
+    title: "Temporal Lobes",
+    icon: "🔔",
+    tone: "purple",
+    region: "Language · Meaning · Sacred Sound",
+    essence: "The home of word and sound — where language, music, and meaning take root.",
+    connected: "Language, hearing, memory, music, and meaning-making.",
+    theme: "Mantra, prayer, sound healing, and sacred words.",
+    practices: ["Chanting", "Affirmations", "Reading spiritual texts", "Listening to music", "Solfeggio frequencies", "Language learning"],
+    prompts: [
+      "What words am I repeating about myself — and are they worth keeping?",
+      "What sound or song returns me to myself?",
+      "If my self-talk were a mantra, what would I want it to say?",
+    ],
+  },
+  {
+    id: 12,
+    title: "Parietal Lobes",
+    icon: "🕸",
+    tone: "blue",
+    region: "Perspective · Space · Unity",
+    essence: "The mapmaker of self and space — where the boundary between you and the world softens.",
+    connected: "Body-space awareness, attention, perspective-taking, and sensory integration.",
+    theme: "Oneness, perspective, connection, and expanded awareness.",
+    practices: ["Meditation", "Nature walks", "Visualization", "Perspective-taking", "Body awareness", "Awe practices"],
+    prompts: [
+      "Where am I gripping 'me and mine' when connection is available?",
+      "What would this situation look like from a wider, kinder perspective?",
+      "When did I last feel awe — and how do I make more room for it?",
+    ],
+  },
+  {
+    id: 13,
+    title: "Occipital Lobes",
+    icon: "👁",
+    tone: "indigo",
+    region: "Vision · Imagery · Inner Seeing",
+    essence: "The screen of the mind — where outer sight and inner vision are rendered.",
+    connected: "Visual processing, mental imagery, and inner picturing.",
+    theme: "Visualization, imagination, symbolic vision, and seeing possibility.",
+    practices: ["Visualization", "Vision boards", "Candle gazing", "Dream journaling", "Art", "Guided imagery"],
+    prompts: [
+      "What future can I picture clearly — and what stays blurry?",
+      "If I could see one possibility vividly today, which would I choose?",
+      "What image represents who I am becoming?",
+    ],
+  },
+  {
+    id: 14,
+    title: "Corpus Callosum",
+    icon: "☯",
+    tone: "violet",
+    region: "Integration · Whole-Brain Balance",
+    essence: "The bridge — uniting logic and intuition, action and receptivity, into one whole self.",
+    connected: "Communication between the left and right hemispheres.",
+    theme: "Balance of logic and intuition, masculine and feminine, doing and receiving.",
+    practices: ["Bilateral movement", "Walking", "Drumming", "Alternate-nostril breathing", "Cross-body exercises", "Journaling paired with visualization"],
+    prompts: [
+      "Am I over-relying on logic or intuition right now — and what restores balance?",
+      "Where do I need to receive rather than push?",
+      "What would integration — head and heart aligned — feel like today?",
+    ],
+  },
+];
+
+const brainPractices = [
+  { practice: "Meditation", regions: "Prefrontal cortex · Insula · Anterior cingulate" },
+  { practice: "Journaling", regions: "Prefrontal cortex · Hippocampus · Default mode network" },
+  { practice: "Gratitude", regions: "Reward system · Prefrontal cortex · Emotional regulation" },
+  { practice: "Exercise", regions: "Hippocampus · Prefrontal cortex · Dopamine system" },
+  { practice: "Breathwork", regions: "Brainstem · Amygdala · Nervous system" },
+  { practice: "Visualization", regions: "Occipital lobes · Default mode network · Prefrontal cortex" },
+  { practice: "Prayer / mantra", regions: "Temporal lobes · Attention networks · Emotional regulation" },
+  { practice: "Sleep", regions: "Hippocampus · Prefrontal cortex · Hypothalamus" },
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -464,13 +703,113 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
+function BrainGlyph() {
+  return (
+    <svg viewBox="0 0 120 120" width="150" height="150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="brainGlow" cx="50%" cy="45%" r="60%">
+          <stop offset="0%" stopColor="rgba(34,211,238,0.28)" />
+          <stop offset="100%" stopColor="rgba(34,211,238,0)" />
+        </radialGradient>
+      </defs>
+      <circle cx="60" cy="58" r="52" fill="url(#brainGlow)" />
+      <path
+        d="M60 24c-9 0-14 5-15 11-7-1-13 4-13 11 0 3 1 5 3 7-3 2-5 5-5 9 0 6 5 11 12 11 1 6 6 10 13 10s12-4 13-10c7 0 12-5 12-11 0-4-2-7-5-9 2-2 3-4 3-7 0-7-6-12-13-11-1-6-6-11-15-11z"
+        stroke="rgba(165,243,252,0.7)"
+        strokeWidth="1.6"
+        fill="rgba(34,211,238,0.05)"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M60 24v70M48 38c4 2 8 2 12 0M44 56c6 3 22 3 28 0M46 74c5 2 19 2 24 0"
+        stroke="rgba(165,243,252,0.45)"
+        strokeWidth="1.3"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+function BrainRegionModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>{item.region}</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.essence}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button
+                className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20"
+                onClick={() => onReflect(item)}
+              >
+                ◈ Reflect
+              </button>
+              <button
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+                onClick={onClose}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 p-5">
+          {[
+            { label: "Connected to", value: item.connected },
+            { label: "Spiritual theme", value: item.theme },
+          ].map(({ label, value }) => (
+            <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <p className="text-sm leading-7 text-slate-200">{value}</p>
+            </div>
+          ))}
+
+          <div className={`rounded-2xl border p-4 ${t.card}`}>
+            <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Practices that strengthen it</div>
+            <div className="flex flex-wrap gap-2">
+              {item.practices.map((p) => (
+                <span key={p} className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${t.pill}`}>{p}</span>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 p-5">
+          <button
+            className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10"
+            onClick={() => onReflect(item)}
+          >
+            ◈ Open Reflection Prompts for {item.title}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients"].includes(initialSection)
+  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "brain"].includes(initialSection)
     ? initialSection
     : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
+  const [brainModal, setBrainModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
@@ -497,6 +836,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
   }, [query]);
 
   const openDetail = (item) => setModal(item);
+  const openBrain = (item) => setBrainModal(item);
   const openReflection = (item) => setReflectionModal(item);
   const quickStart = () => {
     const card = {
@@ -1057,11 +1397,83 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
               </div>
             )}
 
+            {/* BRAIN & SPIRIT */}
+            {activeTab === "brain" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Neuroscience & spirit" title="The brain as a map for inner growth">
+                  Spiritual practice does not magically reshape the skull — but repetition, attention, emotion, and lifestyle genuinely shape the brain through neuroplasticity. Each region below pairs a function with a spiritual theme and the practices that strengthen it. Open any region to explore it as its own page.
+                </SectionHeader>
+
+                {/* Hero illustration */}
+                <div className="grid items-center gap-6 rounded-3xl border border-white/10 bg-white/[0.04] p-6 md:grid-cols-[auto_1fr]">
+                  <div className="mx-auto">
+                    <BrainGlyph />
+                  </div>
+                  <div>
+                    <p className="text-sm leading-7 text-slate-300">
+                      Think of the brain as a landscape of inner faculties. The prefrontal cortex holds your discipline and conscious choice; the amygdala guards your sense of safety; the default mode network rehearses who you believe you are. Tending each region with the right practice is, in a real sense, spiritual work made physical.
+                    </p>
+                    <p className="mt-3 text-xs uppercase tracking-[0.3em] text-cyan-300/70">{brainRegions.length} regions · {brainPractices.length} core practices</p>
+                  </div>
+                </div>
+
+                {/* Region grid */}
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {brainRegions.map((region) => {
+                    const t = tones[region.tone] || tones.cyan;
+                    return (
+                      <button
+                        key={region.id}
+                        onClick={() => openBrain(region)}
+                        className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                      >
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <Pill tone={region.tone}>{region.region}</Pill>
+                          <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className="text-2xl">{region.icon}</span>
+                          <h3 className="text-lg font-bold text-white">{region.title}</h3>
+                        </div>
+                        <p className={`mt-2 text-xs font-semibold ${t.accent}`}>{region.essence}</p>
+                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">{region.connected}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Daily practices cross-reference */}
+                <div>
+                  <SectionHeader eyebrow="Apply it" title="Daily practices for brain growth">
+                    A handful of simple practices light up several regions at once. Pick one or two and let repetition do the slow work.
+                  </SectionHeader>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    {brainPractices.map(({ practice, regions }) => (
+                      <div key={practice} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <h3 className="text-sm font-bold text-white">{practice}</h3>
+                        <p className="mt-2 text-xs leading-5 text-slate-400">{regions}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Grounding disclaimer */}
+                <div className="rounded-3xl border border-amber-300/20 bg-amber-300/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">A grounding note</div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    This section does not claim that spirituality enlarges the brain or changes its shape. It describes how repeated practices may support neuroplasticity, emotional regulation, focus, memory, motivation, and self-awareness — the real, trainable ground where inner growth and biology meet.
+                  </p>
+                </div>
+              </div>
+            )}
+
           </section>
         </main>
       </div>
 
       <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
+
+      <BrainRegionModal item={brainModal} onClose={() => setBrainModal(null)} onReflect={openReflection} />
 
       {reflectionModal && (
         <ReflectionModal
