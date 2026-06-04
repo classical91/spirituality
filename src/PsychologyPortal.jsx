@@ -9,6 +9,7 @@ const tabs = [
   { id: "powerstack", label: "Power Stack", icon: "✦" },
   { id: "growth", label: "Growth Concepts", icon: "G" },
   { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
+  { id: "shadow", label: "Shadow & Growth", icon: "◑" },
 ];
 
 const frameworks = [
@@ -306,6 +307,149 @@ const growthDailyLoop = [
   { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
 ];
 
+const shadowPatterns = [
+  {
+    id: 1,
+    shadow: "Overthinking",
+    growth: "Clarity",
+    icon: "◎",
+    tone: "cyan",
+    qualities: "Mental stillness, trust in intuition, decisive focus.",
+    description: "Overthinking is the mind trying to control uncertainty by rehearsing every outcome. Clarity does not come from more thinking — it comes from quieting the mind long enough to hear what you already know. Trust in intuition is not irrational; it is pattern recognition that has gone below the surface.",
+    prompts: [
+      "What decision am I already clear on, but am delaying by thinking more?",
+      "What would I do right now if I trusted my gut completely?",
+      "Where is the thinking protecting me from something I am afraid to feel?",
+    ],
+  },
+  {
+    id: 2,
+    shadow: "Emotional withholding",
+    growth: "Emotional openness",
+    icon: "◇",
+    tone: "rose",
+    qualities: "Vulnerability, safe expression, emotional availability.",
+    description: "Emotional withholding is protection dressed as self-control. It keeps connection at a distance so that it cannot hurt you. Emotional openness does not mean sharing everything — it means being willing to be known. Vulnerability is not weakness; it is the only path to actual closeness.",
+    prompts: [
+      "What am I not saying that is quietly shaping this relationship?",
+      "What would I share if I trusted that being known was safe?",
+      "Where did I learn that showing emotion was dangerous — and is that still true?",
+    ],
+  },
+  {
+    id: 3,
+    shadow: "Control issues",
+    growth: "Trust and surrender",
+    icon: "⊡",
+    tone: "indigo",
+    qualities: "Letting go, collaboration, flow with others and life.",
+    description: "The need to control is a fear of outcomes — particularly the fear that without your management, things will fall apart. Surrender does not mean passivity; it means doing your part and releasing the rest. Control creates resistance in relationships. Trust creates space for something better to arrive.",
+    prompts: [
+      "What am I gripping so tightly that I am exhausting myself and others?",
+      "What would happen if I did my part and let go of the outcome?",
+      "What does the need to control here tell me about what I am afraid of?",
+    ],
+  },
+  {
+    id: 4,
+    shadow: "Escapism",
+    growth: "Grounded presence",
+    icon: "◯",
+    tone: "teal",
+    qualities: "Mindfulness, reality engagement, emotional maturity.",
+    description: "Escapism is the habit of leaving the present — through screens, fantasy, substances, or busyness — to avoid what is difficult or uncomfortable. Grounded presence does not mean forcing positivity; it means staying in contact with your actual life long enough to learn from it and change it.",
+    prompts: [
+      "What am I escaping right now — and what am I escaping from?",
+      "What would I have to face if I stayed present for the next hour?",
+      "What is one way I could meet reality today instead of leaving it?",
+    ],
+  },
+  {
+    id: 5,
+    shadow: "Restlessness",
+    growth: "Contentment",
+    icon: "≋",
+    tone: "emerald",
+    qualities: "Inner peace, patience, appreciation for stillness.",
+    description: "Restlessness is a signal that the present feels insufficient — that somewhere else, something better is waiting. Contentment is not complacency; it is the ability to be fully where you are without needing it to be different. Stillness is not the absence of desire. It is desire at peace with this moment.",
+    prompts: [
+      "What am I searching for that I might already have in a different form?",
+      "Can I be fully here, in this moment, for five minutes — and what comes up when I try?",
+      "What would contentment feel like — and what am I afraid it would cost me?",
+    ],
+  },
+  {
+    id: 6,
+    shadow: "Rigidity",
+    growth: "Flexibility",
+    icon: "↺",
+    tone: "violet",
+    qualities: "Adaptability, openness to change, creative flow.",
+    description: "Rigidity is the mind's attempt to stay safe by keeping everything predictable and controlled. It often shows up as 'the way things should be.' Flexibility is not spinelessness — it is intelligence meeting reality as it actually is. The ability to adapt is one of the deepest forms of inner strength.",
+    prompts: [
+      "Where am I insisting on 'the right way' when another way might also work?",
+      "What would change if I held this situation more loosely?",
+      "What belief about how life should be is causing me the most friction right now?",
+    ],
+  },
+  {
+    id: 7,
+    shadow: "Sensitivity to criticism",
+    growth: "Inner confidence",
+    icon: "△",
+    tone: "amber",
+    qualities: "Self-assurance, self-validation, calm under feedback.",
+    description: "Sensitivity to criticism usually means your sense of self is still partly dependent on external approval. When someone's words can shatter your peace, it reveals that their opinion holds more authority than your own. Inner confidence is not arrogance — it is having a stable enough self-image that feedback becomes information rather than verdict.",
+    prompts: [
+      "Whose criticism affects me most — and what does that person represent to me?",
+      "If I fully trusted my own worth, how would I receive this feedback differently?",
+      "What is the gap between how I see myself and how I fear others see me?",
+    ],
+  },
+  {
+    id: 8,
+    shadow: "Power struggles",
+    growth: "Empowerment and equality",
+    icon: "✦",
+    tone: "sky",
+    qualities: "Mutual respect, shared leadership, conscious relating.",
+    description: "Power struggles happen when two people are each trying to feel safe, but in opposing ways. One pushes; the other resists. Both feel unseen. Empowerment shifts the question from 'who wins?' to 'how do we both feel respected?' This requires someone to stop fighting long enough to be curious instead.",
+    prompts: [
+      "What am I trying to protect in this struggle — and is there a softer way to protect it?",
+      "What would mutual respect look like here, instead of winning?",
+      "Where am I reacting to past power dynamics rather than the person in front of me?",
+    ],
+  },
+  {
+    id: 9,
+    shadow: "Avoidance of vulnerability",
+    growth: "Courageous intimacy",
+    icon: "⌘",
+    tone: "purple",
+    qualities: "Emotional honesty, softness, trust in safe connection.",
+    description: "Avoiding vulnerability is a learned defense — proof that openness once brought pain. Courageous intimacy means choosing to be seen anyway, with discernment about who deserves that access. It does not require dropping all walls. It requires identifying safe people and choosing to let them in, even when it is uncomfortable.",
+    prompts: [
+      "With whom do I feel safe enough to be fully honest — and am I using that safety?",
+      "What am I protecting by staying closed — and what is it costing me?",
+      "What is one vulnerable truth I could share that would move this connection forward?",
+    ],
+  },
+  {
+    id: 10,
+    shadow: "Idealism in relationships",
+    growth: "Realistic love",
+    icon: "◈",
+    tone: "rose",
+    qualities: "Grounded affection, healthy expectations, mature bonding.",
+    description: "Romantic idealism places an imagined version of a person above the real one. It loves the potential, not the present. Realistic love does not mean settling — it means seeing someone clearly and choosing them anyway. Mature bonding is built on truth, not projection. It is more durable and more nourishing than any fantasy.",
+    prompts: [
+      "Am I in love with this person, or with who I imagine they could become?",
+      "What am I unwilling to see clearly — and why?",
+      "What would loving someone realistically, exactly as they are, require from me?",
+    ],
+  },
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -464,13 +608,75 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
+function ShadowModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className={`text-sm font-semibold ${t.accent}`}>{item.shadow}</span>
+                <span className="text-slate-500">→</span>
+                <span className="text-lg font-bold text-white">{item.growth}</span>
+              </div>
+              <p className={`mt-1 text-xs font-medium ${t.accent}`}>{item.qualities}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button
+                className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20"
+                onClick={() => onReflect(item)}
+              >
+                ◈ Reflect
+              </button>
+              <button
+                className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
+                onClick={onClose}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="space-y-4 p-5">
+          <div className={`rounded-2xl border p-4 ${t.card}`}>
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The pattern</div>
+            <p className="text-sm leading-7 text-slate-200">{item.description}</p>
+          </div>
+        </div>
+
+        <div className="border-t border-white/10 p-5">
+          <button
+            className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10"
+            onClick={() => onReflect(item)}
+          >
+            ◈ Open Reflection Prompts
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients"].includes(initialSection)
+  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "shadow"].includes(initialSection)
     ? initialSection
     : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
+  const [shadowModal, setShadowModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
@@ -1057,11 +1263,54 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
               </div>
             )}
 
+            {/* SHADOW & GROWTH */}
+            {activeTab === "shadow" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Inner work" title="Shadow patterns and their growth edge">
+                  Every shadow is a strength in disguise — compressed by fear, habit, or old protection. These ten patterns show the move from contraction to expansion. Open any one to see what it is covering and how to work with it.
+                </SectionHeader>
+
+                <div className="grid gap-4 md:grid-cols-2">
+                  {shadowPatterns.map((pattern) => {
+                    const t = tones[pattern.tone] || tones.cyan;
+                    return (
+                      <button
+                        key={pattern.id}
+                        onClick={() => setShadowModal(pattern)}
+                        className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                      >
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <span className={`text-2xl ${t.accent}`}>{pattern.icon}</span>
+                          <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className="text-sm font-semibold text-slate-400">{pattern.shadow}</span>
+                          <span className="text-slate-500">→</span>
+                          <span className="text-sm font-bold text-white">{pattern.growth}</span>
+                        </div>
+                        <p className={`mt-1 text-xs font-medium ${t.accent}`}>{pattern.qualities}</p>
+                        <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{pattern.description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">How to use this</div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    Pick the pattern that lands hardest. Open it. Read the description slowly. Then take one reflection prompt to a journal or a quiet moment. The shadow does not need to be eliminated — it needs to be understood. Understanding is already the beginning of the growth edge.
+                  </p>
+                </div>
+              </div>
+            )}
+
           </section>
         </main>
       </div>
 
       <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
+
+      <ShadowModal item={shadowModal} onClose={() => setShadowModal(null)} onReflect={openReflection} />
 
       {reflectionModal && (
         <ReflectionModal
