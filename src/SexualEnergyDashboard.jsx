@@ -8,6 +8,7 @@ import RelationshipFoundations from "./RelationshipFoundations";
 const tabGroups = [
   {
     label: "Self-Mastery",
+    accent: "sky",
     tabs: [
       { id: "overview", label: "Overview" },
       { id: "masturbation", label: "Masturbation" },
@@ -19,6 +20,7 @@ const tabGroups = [
   },
   {
     label: "Relationships & Love",
+    accent: "rose",
     tabs: [
       { id: "foundations", label: "Foundations" },
       { id: "marriage", label: "Marriage" },
@@ -31,6 +33,13 @@ const tabGroups = [
 ];
 
 const tabs = tabGroups.flatMap((g) => g.tabs);
+
+// Tinted chip styles for the clickable group labels in the tab navigator,
+// so they read as section markers that blend with the rounded tab buttons.
+const groupAccent = {
+  sky: "border-sky-400/30 bg-sky-400/10 text-sky-200 hover:bg-sky-400/20",
+  rose: "border-rose-400/30 bg-rose-400/10 text-rose-200 hover:bg-rose-400/20",
+};
 
 const tabIds = new Set(tabs.map((t) => t.id));
 
@@ -1065,7 +1074,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                   type="button"
                   onClick={() => setActiveTab(group.tabs[0].id)}
                   title={`Go to ${group.tabs[0].label}`}
-                  className="shrink-0 cursor-pointer px-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-500 transition hover:text-slate-200"
+                  className={`shrink-0 cursor-pointer whitespace-nowrap rounded-2xl border px-3 py-3 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition ${groupAccent[group.accent]}`}
                 >
                   {group.label}
                 </button>
