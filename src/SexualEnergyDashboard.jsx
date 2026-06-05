@@ -1,6 +1,7 @@
 import { useMemo, useState } from "react";
 import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
+import RelationshipFoundations from "./RelationshipFoundations";
 
 // Tabs are split into two labeled clusters so the relationship & love content
 // is a visible, named group rather than a tail of unlabeled tabs.
@@ -19,6 +20,7 @@ const tabGroups = [
   {
     label: "Relationships & Love",
     tabs: [
+      { id: "foundations", label: "Foundations" },
       { id: "marriage", label: "Marriage" },
       { id: "dynamics", label: "Dynamics" },
       { id: "scripts", label: "Scripts" },
@@ -42,9 +44,17 @@ const RELATIONSHIP_CLARITY_SECTIONS = new Set([
   "clarity-check", "pause-check",
 ]);
 
+// Legacy ?section= values from the former standalone Relationships & Love
+// portal → map onto the equivalent tab here.
+const SECTION_ALIASES = {
+  clarity: "relationship-clarity",
+  patterns: "relationship-patterns",
+};
+
 // Resolve an incoming ?section= value to { tab, sub }.
 function resolveSection(section) {
   if (!section) return { tab: "overview", sub: null };
+  if (SECTION_ALIASES[section]) return { tab: SECTION_ALIASES[section], sub: null };
   if (tabIds.has(section)) return { tab: section, sub: null };
   if (RELATIONSHIP_CLARITY_SECTIONS.has(section)) {
     return { tab: "relationship-clarity", sub: section };
@@ -971,6 +981,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (activeTab === "celibacy") return renderCelibacy();
     if (activeTab === "urges") return renderUrges();
     if (activeTab === "tracker") return renderTracker();
+    if (activeTab === "foundations") return <RelationshipFoundations />;
     if (activeTab === "marriage") return renderMarriage();
     if (activeTab === "dynamics") return renderDynamics();
     if (activeTab === "scripts") return renderScripts();
