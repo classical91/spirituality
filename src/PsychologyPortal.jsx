@@ -403,6 +403,85 @@ const manifestSteps = [
   },
 ];
 
+const imaginationTechniques = [
+  {
+    id: 1,
+    title: "Looping",
+    icon: "↺",
+    tone: "violet",
+    tagline: "Short scene on repeat — locks in the state fast.",
+    bestFor: "Locking in the feeling quickly, especially if you tend to overthink.",
+    howTo: "Pick a 5–10 second end-scene that implies it is already done — not trying, not hoping. Loop it gently like a GIF: same moment, same outcome, same feeling. Keep attention on one dominant sense of naturalness: 'It is normal. It is mine.' You are not forcing; you are settling.",
+    whenItWorks: "You feel a 'click' of naturalness — not excitement, just ease. Your mind stops asking how or when.",
+    whenItFails: "It becomes mechanical — you are chanting pictures. You feel pressure to make it work. Switch to novelty or a different scene angle.",
+    prompts: [
+      "What 10-second moment would only exist if my desire were already real?",
+      "Can I feel the naturalness of that scene — not the excitement, just the 'of course'?",
+      "Is my loop implying done, or implying wanting?",
+    ],
+  },
+  {
+    id: 2,
+    title: "Repeating",
+    icon: "≋",
+    tone: "cyan",
+    tagline: "Identity-level affirmation — retrains the assumption during the day.",
+    bestFor: "Rewriting the story you tell yourself in ordinary moments between sessions.",
+    howTo: "Use a single line that states the end in present tense — 'This is already my life.' 'It is handled.' 'I am the person who has this.' Say it like a fact, not like a spell. Use it the moment you notice the old story rising, then return to normal life. You are not convincing reality; you are returning to the identity you are choosing.",
+    whenItWorks: "The old anxious thought loses traction. The new line feels increasingly like truth rather than hope.",
+    whenItFails: "You are fighting thoughts and anxiety spikes. Use one calming phrase and an exhale — 'Already done' — then drop it entirely.",
+    prompts: [
+      "What is the one-line identity statement that is truest from the end?",
+      "Am I saying this like a fact or like a wish — and what is the difference in how it lands?",
+      "When the old story rises today, what one line do I return to?",
+    ],
+  },
+  {
+    id: 3,
+    title: "Novelty",
+    icon: "◈",
+    tone: "emerald",
+    tagline: "New angles, new scenes — restores believability when looping goes stale.",
+    bestFor: "When your main loop stops producing feeling, or the desire feels abstract.",
+    howTo: "Change the proof, not the desire. Try: a friend congratulating you, seeing your name on something, receiving the message, checking an account, waking up in that life on a normal Tuesday. Change the sense: hear a tone of voice, feel an object in your hand, notice the light in the room. Your brain wakes up when the scene is fresh, and the feeling of 'of course' lands more easily.",
+    whenItWorks: "You feel real surprise or warmth at the new angle. The desire feels close and specific rather than abstract.",
+    whenItFails: "You are endlessly searching for the 'perfect scene' instead of settling into any one. Return to your original loop for one session.",
+    prompts: [
+      "What sensory detail — sound, texture, smell — would be present in the wish-fulfilled life?",
+      "What is a completely ordinary Tuesday in the life I want?",
+      "Who would be there? What would they say? What would I feel?",
+    ],
+  },
+];
+
+const threeLayerSystem = [
+  {
+    timing: "Night / deep session",
+    technique: "Looping",
+    tone: "violet",
+    desc: "1–3 minutes of a short end-scene, looped gently until the feeling of naturalness settles.",
+  },
+  {
+    timing: "Daytime",
+    technique: "Repeating",
+    tone: "cyan",
+    desc: "One identity line, 10–20 seconds, each time the old story surfaces. Then return to ordinary life.",
+  },
+  {
+    timing: "When stale",
+    technique: "Novelty",
+    tone: "emerald",
+    desc: "1–2 days of a fresh scene or angle. Then return to looping once the feeling is live again.",
+  },
+];
+
+const livingInTheEndSigns = [
+  "You feel less urgency about the desire.",
+  "You stop checking for signs as often.",
+  "You react to outer circumstances like: 'Old echo — not my source.'",
+  "You naturally think and act from: 'This is who I am.'",
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -602,6 +681,54 @@ function ManifestModal({ item, onClose, onReflect }) {
   );
 }
 
+function ImaginationModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>Imagination technique</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.tagline}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-4 p-5">
+          {[
+            { label: "Best for", value: item.bestFor },
+            { label: "How to do it", value: item.howTo },
+            { label: "When it works", value: item.whenItWorks },
+            { label: "When it fails — switch to", value: item.whenItFails },
+          ].map(({ label, value }) => (
+            <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <p className="text-sm leading-7 text-slate-200">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
   const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "manifest"].includes(initialSection)
     ? initialSection
@@ -610,6 +737,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [manifestModal, setManifestModal] = useState(null);
+  const [imaginationModal, setImaginationModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
@@ -1243,6 +1371,68 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                   </div>
                 </div>
 
+                {/* Imagination techniques */}
+                <div>
+                  <SectionHeader eyebrow="Imagination techniques" title="Looping, repeating, and novelty">
+                    Three ways to imagine from the end — each serves a different moment. Use the right one for where you are, not all three at once.
+                  </SectionHeader>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {imaginationTechniques.map((tech) => {
+                      const t = tones[tech.tone] || tones.cyan;
+                      return (
+                        <button
+                          key={tech.id}
+                          onClick={() => setImaginationModal(tech)}
+                          className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                        >
+                          <div className="mb-4 flex items-center justify-between gap-3">
+                            <Pill tone={tech.tone}>{tech.bestFor.split(',')[0].split('.')[0].split('—')[0].trim().slice(0, 30)}</Pill>
+                            <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className={`text-2xl ${t.accent}`}>{tech.icon}</span>
+                            <h3 className="text-lg font-bold text-white">{tech.title}</h3>
+                          </div>
+                          <p className={`mt-2 text-xs font-semibold ${t.accent}`}>{tech.tagline}</p>
+                          <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{tech.bestFor}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3-layer system */}
+                <div>
+                  <SectionHeader eyebrow="Daily rhythm" title="The 3-layer system">
+                    Night, daytime, and when stale — one technique for each context.
+                  </SectionHeader>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {threeLayerSystem.map(({ timing, technique, tone, desc }) => {
+                      const t = tones[tone] || tones.cyan;
+                      return (
+                        <div key={timing} className={`rounded-2xl border p-5 ${t.card}`}>
+                          <p className={`text-xs font-bold uppercase tracking-[0.2em] ${t.accent}`}>{timing}</p>
+                          <h3 className="mt-2 text-sm font-bold text-white">{technique}</h3>
+                          <p className="mt-2 text-xs leading-5 text-slate-400">{desc}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Living in the end check */}
+                <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">Living in the end — the check</div>
+                  <div className="space-y-3">
+                    {livingInTheEndSigns.map((sign, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
+                        <p className="text-sm leading-6 text-slate-300">{sign}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
                 {/* Reflection */}
                 <div className="rounded-3xl border border-violet-400/20 bg-violet-500/5 p-6">
                   <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-violet-300/80">The deeper principle</div>
@@ -1260,6 +1450,8 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
       <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
 
       <ManifestModal item={manifestModal} onClose={() => setManifestModal(null)} onReflect={openReflection} />
+
+      <ImaginationModal item={imaginationModal} onClose={() => setImaginationModal(null)} onReflect={openReflection} />
 
       {reflectionModal && (
         <ReflectionModal
