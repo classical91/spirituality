@@ -2,19 +2,33 @@ import { useMemo, useState } from "react";
 import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
 
-const tabs = [
-  { id: "overview", label: "Overview" },
-  { id: "masturbation", label: "Masturbation" },
-  { id: "celibacy", label: "Celibacy" },
-  { id: "urges", label: "Urges" },
-  { id: "tracker", label: "Tracker" },
-  { id: "journal", label: "Journal" },
-  { id: "marriage", label: "Marriage" },
-  { id: "dynamics", label: "Dynamics" },
-  { id: "scripts", label: "Scripts" },
-  { id: "relationship-clarity", label: "Relationship Clarity" },
-  { id: "relationship-patterns", label: "Relationship Patterns" },
+// Tabs are split into two labeled clusters so the relationship & love content
+// is a visible, named group rather than a tail of unlabeled tabs.
+const tabGroups = [
+  {
+    label: "Self-Mastery",
+    tabs: [
+      { id: "overview", label: "Overview" },
+      { id: "masturbation", label: "Masturbation" },
+      { id: "celibacy", label: "Celibacy" },
+      { id: "urges", label: "Urges" },
+      { id: "tracker", label: "Tracker" },
+      { id: "journal", label: "Journal" },
+    ],
+  },
+  {
+    label: "Relationships & Love",
+    tabs: [
+      { id: "marriage", label: "Marriage" },
+      { id: "dynamics", label: "Dynamics" },
+      { id: "scripts", label: "Scripts" },
+      { id: "relationship-clarity", label: "Relationship Clarity" },
+      { id: "relationship-patterns", label: "Relationship Patterns" },
+    ],
+  },
 ];
+
+const tabs = tabGroups.flatMap((g) => g.tabs);
 
 const tabIds = new Set(tabs.map((t) => t.id));
 
@@ -1014,13 +1028,14 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
               <div className="mb-4 flex flex-wrap gap-2">
                 <Badge tone="sky">Private dashboard</Badge>
                 <Badge tone="violet">Sexual energy</Badge>
+                <Badge tone="rose">Relationships &amp; love</Badge>
                 <Badge tone="emerald">No-shame discipline</Badge>
               </div>
               <h1 className="max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                Sexual Energy &amp; Self-Mastery
+                Sexual Energy, Self-Mastery &amp; Relationships
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                A dashboard for masturbation, celibacy, urges, abstinence, porn-pattern awareness, relapse recovery, and values-based discipline — without turning you against your own body.
+                Two linked journeys in one space — <span className="text-slate-100">self-mastery</span> (masturbation, celibacy, urges, abstinence, porn-pattern awareness, relapse recovery) and <span className="text-slate-100">relationships &amp; love</span> (marriage, dynamics, scripting, relationship clarity, red flags, and attachment) — without turning you against your own body.
               </p>
             </div>
             <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-5 lg:w-80">
@@ -1031,15 +1046,23 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         </header>
 
         <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-2 backdrop-blur-xl">
-          <div className="flex gap-2 overflow-x-auto">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`whitespace-nowrap rounded-2xl px-4 py-3 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
-              >
-                {tab.label}
-              </button>
+          <div className="flex items-center gap-3 overflow-x-auto">
+            {tabGroups.map((group, gi) => (
+              <div key={group.label} className="flex items-center gap-2">
+                {gi > 0 && <span className="h-7 w-px shrink-0 bg-white/10" aria-hidden="true" />}
+                <span className="shrink-0 px-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                  {group.label}
+                </span>
+                {group.tabs.map((tab) => (
+                  <button
+                    key={tab.id}
+                    onClick={() => setActiveTab(tab.id)}
+                    className={`whitespace-nowrap rounded-2xl px-4 py-3 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+                  >
+                    {tab.label}
+                  </button>
+                ))}
+              </div>
             ))}
           </div>
         </nav>
