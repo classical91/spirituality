@@ -1,7 +1,8 @@
 import { useState } from 'react';
-import RelationshipClarityPortal from './RelationshipClarityPortal';
-import RelationshipPatterns from './RelationshipPatterns';
 
+// Foundations of conscious love. Moved here from the former standalone
+// Relationships & Love portal so it can live as a tab inside the
+// Sexual Energy, Self-Mastery & Relationships dashboard.
 const FOUNDATIONS = [
   {
     id: 'trust',
@@ -135,97 +136,26 @@ const FOUNDATIONS = [
   },
 ];
 
-const TABS = [
-  { id: 'foundations', label: 'Foundations' },
-  { id: 'clarity', label: 'Clarity' },
-  { id: 'patterns', label: 'Patterns' },
-];
-
-export default function RelationshipsPortal({ onBack, onNavigate, initialSection }) {
-  const [activeTab, setActiveTab] = useState(() => {
-    if (initialSection === 'patterns' || initialSection === 'relationship-patterns') return 'patterns';
-    if (initialSection === 'clarity' || initialSection === 'relationship-clarity') return 'clarity';
-    return 'foundations';
-  });
-  const [claritySection, setClaritySection] = useState(
-    activeTab === 'clarity' ? initialSection : null,
-  );
-
-  if (activeTab === 'clarity') {
-    return (
-      <RelationshipClarityPortal
-        onBack={() => {
-          setClaritySection(null);
-          setActiveTab('foundations');
-        }}
-        onNavigate={(id, opts) => {
-          if (id === 'relationships') {
-            setClaritySection(opts?.section ?? null);
-          } else {
-            onNavigate?.(id, opts);
-          }
-        }}
-        initialSection={claritySection}
-      />
-    );
-  }
-
-  if (activeTab === 'patterns') {
-    return <RelationshipPatterns onBack={() => setActiveTab('foundations')} />;
-  }
-
+export default function RelationshipFoundations() {
   return (
-    <main className="relative min-h-screen bg-[#070914] text-slate-100">
-      <div className="pointer-events-none fixed inset-0 -z-0 overflow-hidden">
-        <div className="absolute left-[-10%] top-[-10%] h-[420px] w-[420px] rounded-full bg-rose-500/20 blur-3xl" />
-        <div className="absolute bottom-[-10%] right-[-10%] h-[520px] w-[520px] rounded-full bg-pink-600/18 blur-3xl" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(255,255,255,0.06),transparent_35%)]" />
+    <div>
+      <div className="mb-6">
+        <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-rose-300/80">
+          Conscious love
+        </p>
+        <h2 className="text-2xl font-bold text-white md:text-3xl">
+          Foundations of healthy relationships
+        </h2>
+        <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300 md:text-base">
+          Trust, safety, vulnerability, mutuality, and the full anatomy of conscious love. Tap any foundation to see its shadow pattern, secure expression, and a practice to live.
+        </p>
       </div>
-
-      <div className="relative z-10 mx-auto max-w-5xl px-4 pb-24 pt-10">
-        <div className="mb-10 flex items-start gap-4">
-          <button
-            onClick={onBack}
-            className="mt-1 shrink-0 rounded-full border border-white/10 bg-white/5 px-3 py-1.5 text-xs text-slate-400 transition-colors hover:border-rose-400/40 hover:text-rose-300"
-          >
-            ← Back
-          </button>
-          <div>
-            <span className="mb-2 inline-block rounded-full border border-rose-400/30 bg-rose-500/10 px-3 py-1 text-xs font-black uppercase tracking-[0.16em] text-rose-300">
-              Relationships & Love
-            </span>
-            <h1 className="text-3xl font-black tracking-tight text-white">
-              Relationships<br />& Love
-            </h1>
-            <p className="mt-2 max-w-lg text-sm leading-relaxed text-slate-400">
-              Trust, safety, vulnerability, mutuality, and the full anatomy of conscious love — alongside patterns, red flags, and tools for clarity.
-            </p>
-          </div>
-        </div>
-
-        <div className="mb-8 flex gap-1 border-b border-white/10">
-          {TABS.map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setActiveTab(tab.id)}
-              className={`px-5 py-2.5 text-sm font-semibold transition-colors ${
-                activeTab === tab.id
-                  ? 'border-b-2 border-rose-400 text-rose-300'
-                  : 'text-slate-500 hover:text-slate-300'
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        <div className="grid gap-4 sm:grid-cols-2">
-          {FOUNDATIONS.map((concept) => (
-            <FoundationCard key={concept.id} concept={concept} />
-          ))}
-        </div>
+      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        {FOUNDATIONS.map((concept) => (
+          <FoundationCard key={concept.id} concept={concept} />
+        ))}
       </div>
-    </main>
+    </div>
   );
 }
 
