@@ -182,6 +182,45 @@ const frameworks = [
       "Am I voting for my desired identity with my actions right now, or am I voting against it?",
     ],
   },
+  {
+    id: 11,
+    title: "Emotional Avoidance",
+    field: "Psychology & Nervous System",
+    icon: "◑",
+    tone: "violet",
+    category: "awareness",
+    keyQuestion: "Am I escaping this feeling — or am I with it?",
+    use: "Recognising avoidance patterns before they compound into anxiety, numbness, or relational disconnection.",
+    how: "Avoidance is an active nervous system strategy to reduce discomfort in the short term — not weakness, not the absence of emotion. The body learns 'feeling this is unsafe' and redirects attention, behaviour, or identity to prevent contact. Understanding this removes shame and opens the door to genuine regulation.",
+    example: "Scrolling for an hour after a difficult conversation is not rest — it is the nervous system refusing to stay with what was stirred. The emotion does not disappear; it goes underground and resurfaces later as irritability, numbness, or anxiety.",
+    prompts: [
+      "What am I avoiding feeling right now — and what would happen if I stayed with it for sixty seconds?",
+      "Is this distraction or rest? Am I choosing this, or is my nervous system choosing it for me?",
+      "What emotion am I protecting myself from — and is it actually dangerous to feel it?",
+      "What has been put underground? What emotional cycle hasn't been completed?",
+      "What does 'safe presence' feel like — and can I offer that to myself right now?",
+    ],
+    avoidanceForms: [
+      { form: "Distraction", icon: "◎", tone: "cyan", desc: "Scrolling, binge-watching, overworking — redirecting attention to reduce emotional contact." },
+      { form: "Intellectualization", icon: "△", tone: "sky", desc: "Analysing feelings instead of feeling them — thinking about emotion as a way of avoiding it." },
+      { form: "Numbing", icon: "◯", tone: "indigo", desc: "Substances, food, compulsive habits — chemically or behaviourally dampening the signal." },
+      { form: "Busyness", icon: "↺", tone: "teal", desc: "Constant productivity to avoid stillness — filling time so there is no room for feeling." },
+      { form: "Spiritual bypassing", icon: "◈", tone: "violet", desc: "\"I'm above this\" or \"Everything is fine\" — using spiritual framing to skip over unprocessed material." },
+      { form: "Emotional detachment", icon: "◇", tone: "rose", desc: "Shutting down, going flat, \"I don't care\" — dissociation as a protective layer against feeling." },
+    ],
+    avoidanceVsRegulation: {
+      avoidance: { label: "Avoidance", statement: "I can't feel this.", desc: "Removes contact with the emotion entirely. Provides short-term relief but builds long-term pressure." },
+      regulation: { label: "Regulation", statement: "I can feel this safely.", desc: "Allows pacing, containment, and choice. Emotion is acknowledged, processed, and completed." },
+    },
+    avoidanceBlocks: [
+      "Emotional clarity — the felt sense of what you actually want and need",
+      "Genuine confidence — groundedness that comes from having been with hard things",
+      "Intimacy — with yourself and others; both require presence with what is real",
+      "Intuitive decision-making — intuition lives in the body, not in avoidance",
+      "Identity stability — unfelt emotion leaks out as reaction, not expression",
+    ],
+    avoidanceAntidote: "Not confrontation. Not rumination. Safe presence — 'I can stay with this without needing it to disappear.' Avoidance dissolves naturally when emotion is no longer perceived as dangerous. The practice is building enough capacity that feeling is a choice, not a threat.",
+  },
 ];
 
 const tones = {
@@ -411,6 +450,63 @@ function DetailModal({ item, onClose, onReflect }) {
             </div>
           ))}
         </div>
+
+        {(item.avoidanceForms || item.avoidanceVsRegulation || item.avoidanceBlocks || item.avoidanceAntidote) && (
+          <div className="space-y-4 px-5 pb-2">
+            {item.avoidanceForms && (
+              <div className={`rounded-2xl border p-4 ${t.card}`}>
+                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Common forms of avoidance</div>
+                <div className="grid gap-2 sm:grid-cols-2">
+                  {item.avoidanceForms.map(({ form, icon, tone: ft, desc }) => {
+                    const ft2 = tones[ft] || tones.cyan;
+                    return (
+                      <div key={form} className="rounded-xl border border-white/10 bg-black/20 p-3">
+                        <div className="mb-1 flex items-center gap-2">
+                          <span className={`text-sm ${ft2.accent}`}>{icon}</span>
+                          <span className="text-xs font-bold text-white">{form}</span>
+                        </div>
+                        <p className="text-xs leading-5 text-slate-400">{desc}</p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
+            {item.avoidanceVsRegulation && (
+              <div className={`rounded-2xl border p-4 ${t.card}`}>
+                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Avoidance vs regulation</div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {Object.values(item.avoidanceVsRegulation).map(({ label, statement, desc }) => (
+                    <div key={label} className="rounded-xl border border-white/10 bg-black/20 p-4">
+                      <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{label}</p>
+                      <p className={`mb-2 text-base font-bold ${t.accent}`}>"{statement}"</p>
+                      <p className="text-xs leading-5 text-slate-400">{desc}</p>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+            {item.avoidanceBlocks && (
+              <div className={`rounded-2xl border p-4 ${t.card}`}>
+                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">What avoidance blocks</div>
+                <ul className="space-y-2">
+                  {item.avoidanceBlocks.map((block) => (
+                    <li key={block} className="flex items-start gap-2 text-xs leading-5 text-slate-300">
+                      <span className={`mt-0.5 shrink-0 text-xs ${t.accent}`}>◆</span>
+                      {block}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+            {item.avoidanceAntidote && (
+              <div className={`rounded-2xl border p-5 ${t.card}`}>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The antidote</div>
+                <p className="text-sm leading-7 text-slate-200">{item.avoidanceAntidote}</p>
+              </div>
+            )}
+          </div>
+        )}
 
         <div className="border-t border-white/10 p-5">
           <button
