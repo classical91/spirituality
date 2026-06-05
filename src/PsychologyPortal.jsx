@@ -9,6 +9,7 @@ const tabs = [
   { id: "powerstack", label: "Power Stack", icon: "✦" },
   { id: "growth", label: "Growth Concepts", icon: "G" },
   { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
+  { id: "manifest", label: "Manifestation & Habits", icon: "✦" },
 ];
 
 const frameworks = [
@@ -306,6 +307,102 @@ const growthDailyLoop = [
   { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
 ];
 
+const manifestConcepts = [
+  {
+    id: 1,
+    title: "Vibration and Energy",
+    icon: "✦",
+    tone: "violet",
+    lens: "Law of Attraction",
+    summary: "Like attracts like — your inner state is always broadcasting a signal.",
+    detail: "The law of attraction holds that your dominant emotional state acts as a frequency that draws matching experiences toward you. Low-energy states like guilt, apathy, and stagnation tend to attract more of the same. High-energy states — clarity, gratitude, purpose, inspired action — attract experiences that match them. Your daily habits are not just practical; they are energetic signals.",
+    prompts: [
+      "What emotional state have I been in most of the day — and what might it be attracting?",
+      "What one habit is consistently keeping my energy lower than I want it to be?",
+      "If my current state were a broadcast, what would it be inviting into my life?",
+    ],
+  },
+  {
+    id: 2,
+    title: "Clarity of Intention",
+    icon: "◎",
+    tone: "cyan",
+    lens: "Focus & Alignment",
+    summary: "Manifestation works best when your mind is clear and your intention is single-pointed.",
+    detail: "A scattered, unstructured day fractures your focus and dilutes your intention. The mind cannot simultaneously pursue ten directions. Clarity is not just a mental state — it is a daily practice. Morning intention-setting, journaling, and visualization are not soft rituals; they are the tools that point your attention consistently toward what matters.",
+    prompts: [
+      "What is the one thing I most want to create in my life right now — and am I clear on it?",
+      "How many directions is my attention pulled today — and which of them actually matters?",
+      "If I set one clear intention this morning, what would it be?",
+    ],
+  },
+  {
+    id: 3,
+    title: "Self-Sabotage",
+    icon: "↺",
+    tone: "rose",
+    lens: "Psychology",
+    summary: "Habits that signal a lack of self-worth to the subconscious quietly undermine what you are building.",
+    detail: "Patterns like skipping hygiene, overusing substances, or compulsive avoidance behaviors are not just practical problems — they send a message to your subconscious about your value and seriousness. The subconscious is literal: it manifests what it believes you believe about yourself. Every bypassed routine is a small vote for 'I am not worth the effort.' Every followed-through habit is a vote the other way.",
+    prompts: [
+      "What habit am I tolerating that quietly signals to myself that I am not a priority?",
+      "What would I do differently today if I truly believed I deserved what I am trying to create?",
+      "Where am I sabotaging my own momentum — and what am I avoiding by doing it?",
+    ],
+  },
+  {
+    id: 4,
+    title: "Momentum and Dopamine",
+    icon: "⚡",
+    tone: "amber",
+    lens: "Neuroscience",
+    summary: "Small wins release dopamine, which fuels motivation — without them, the brain seeks easier hits.",
+    detail: "Every small completed action — making your bed, eating a good meal, finishing a task — releases dopamine and builds neural momentum. Without these, your brain looks for faster, cheaper dopamine from phones, substances, or distraction. The problem is that easy dopamine raises the reward threshold: real life starts to feel flat by comparison. Daily discipline is, in part, a dopamine management practice.",
+    prompts: [
+      "What small win can I build into today that will give me a genuine sense of completion?",
+      "Am I outsourcing my motivation to quick hits — and what is that costing me?",
+      "What would one fully completed, disciplined morning feel like compared to a scattered one?",
+    ],
+  },
+  {
+    id: 5,
+    title: "Routine as Alignment",
+    icon: "◇",
+    tone: "emerald",
+    lens: "Behavioral Design",
+    summary: "When your daily actions match your stated desires, you send a unified message — to yourself and to life.",
+    detail: "Routine is not rigidity. It is congruence — the state in which what you do matches what you say you want. Incongruence creates internal static: you claim to want discipline while living in chaos, or claim to want love while neglecting yourself. A structured day does not restrict you; it proves to your subconscious that you are serious. Structure is a form of self-respect made visible.",
+    prompts: [
+      "Do my current daily actions look like the actions of someone who has what I want?",
+      "Where is there a gap between what I say I want and what my day actually reflects?",
+      "What one structural change to my day would create the most alignment?",
+    ],
+  },
+];
+
+const manifestSteps = [
+  {
+    step: "Start with one habit",
+    desc: "You do not need to overhaul your entire day. Make your bed, eat breakfast, or drink water first. One followed-through habit shifts the tone of the whole day.",
+  },
+  {
+    step: "Intentional mornings",
+    desc: "Begin with clarity — set one intention, journal for five minutes, or visualize what you want to create. How you start the morning tends to define the day's momentum.",
+  },
+  {
+    step: "Moderate, do not eliminate",
+    desc: "Moderation is more sustainable than restriction. Use pleasure as a reward that follows discipline, not as the default before it.",
+  },
+  {
+    step: "Replace passive with active",
+    desc: "Swap one passive habit (scrolling, spacing out) for an active one: a walk, ten minutes of movement, or a few minutes of meditation. Active engagement raises energy; passive consumption drains it.",
+  },
+  {
+    step: "Practice gratitude daily",
+    desc: "Gratitude shifts attention from scarcity to abundance, which is the energetic posture from which manifestation flows. Even two minutes of genuine acknowledgment changes the frequency of the day.",
+  },
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -464,13 +561,55 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
+function ManifestModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>{item.lens}</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.summary}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="p-5">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">How it works</div>
+            <p className="text-sm leading-7 text-slate-200">{item.detail}</p>
+          </div>
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients"].includes(initialSection)
+  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "manifest"].includes(initialSection)
     ? initialSection
     : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
+  const [manifestModal, setManifestModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
@@ -1057,11 +1196,70 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
               </div>
             )}
 
+            {/* MANIFESTATION & HABITS */}
+            {activeTab === "manifest" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Alignment & action" title="Daily habits and manifestation">
+                  What you do during the day directly shapes what you attract — both energetically and psychologically. These five concepts explain why daily habits are not just practical; they are the lived version of your intentions. Open any concept to go deeper, then use the daily steps to apply it.
+                </SectionHeader>
+
+                {/* Concept cards */}
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {manifestConcepts.map((concept) => {
+                    const t = tones[concept.tone] || tones.cyan;
+                    return (
+                      <button
+                        key={concept.id}
+                        onClick={() => setManifestModal(concept)}
+                        className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                      >
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <Pill tone={concept.tone}>{concept.lens}</Pill>
+                          <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className={`text-2xl ${t.accent}`}>{concept.icon}</span>
+                          <h3 className="text-lg font-bold text-white">{concept.title}</h3>
+                        </div>
+                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">{concept.summary}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Daily steps */}
+                <div>
+                  <SectionHeader eyebrow="Apply it today" title="Five steps to align your day">
+                    You do not need to transform everything at once. Start with one step and build from there.
+                  </SectionHeader>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {manifestSteps.map(({ step, desc }, i) => (
+                      <div key={step} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-300/70">Step {i + 1}</p>
+                        <h3 className="text-sm font-bold text-white">{step}</h3>
+                        <p className="mt-2 text-xs leading-5 text-slate-400">{desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Reflection */}
+                <div className="rounded-3xl border border-violet-400/20 bg-violet-500/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-violet-300/80">The deeper principle</div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    Manifestation is not just about thinking your desires into existence. It is about embodying the energy and mindset that match what you want. When your actions are disciplined and intentional, you show your subconscious — and the field of possibility — that you are serious. That congruence is what creates the cycle of positive reinforcement that makes real change feel inevitable, not forced.
+                  </p>
+                </div>
+              </div>
+            )}
+
           </section>
         </main>
       </div>
 
       <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
+
+      <ManifestModal item={manifestModal} onClose={() => setManifestModal(null)} onReflect={openReflection} />
 
       {reflectionModal && (
         <ReflectionModal
