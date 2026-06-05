@@ -357,6 +357,14 @@ const emotionJournalPrompts = [
   "When this emotion passes, I want to remember that ___.",
 ];
 
+const nonJudgmentSteps = [
+  { step: 1, title: "Pause and Observe", icon: "◎", tone: "cyan", body: "Take a moment to pause during your day. Notice what thoughts are passing through your mind and what emotions are present — without immediately acting on them or narrating a story about them. Observation itself is the first act of freedom." },
+  { step: 2, title: "Acknowledge Without Judgment", icon: "◇", tone: "sky", body: "Recognize these thoughts and emotions without trying to change, suppress, or criticize them. Simply note: \"I'm feeling anxious\" or \"I'm thinking about tomorrow.\" The act of naming creates a small but crucial distance between you and the experience." },
+  { step: 3, title: "Return to the Present", icon: "⊙", tone: "teal", body: "Bring your attention back to the current moment. Focusing on the breath, sounds in the room, or physical sensations helps anchor awareness here rather than in past regrets or future worries. The present is always the only place practice can happen." },
+  { step: 4, title: "Practice Regularly", icon: "↺", tone: "indigo", body: "Non-judgmental awareness is a skill that deepens with repetition. Even five minutes of mindful observation each day — sitting quietly, walking, or pausing between activities — rewires the default pattern of reacting before noticing." },
+  { step: 5, title: "Be Kind to Yourself", icon: "◈", tone: "rose", body: "Self-compassion is the foundation of the practice. If you catch yourself judging your own thoughts or emotions, gently acknowledge the judgment and return to observing. Harshness is just another thought to observe — not a verdict. Change is gradual, and gentleness sustains it." },
+];
+
 const shadowPatterns = [
   { id: 1, shadow: "Overthinking", growth: "Clarity", icon: "◎", tone: "cyan", qualities: "Mental stillness, trust in intuition, decisive focus.", description: "Overthinking is the mind trying to control uncertainty by rehearsing every outcome. Clarity does not come from more thinking — it comes from quieting the mind long enough to hear what you already know. Trust in intuition is not irrational; it is pattern recognition that has gone below the surface.", prompts: ["What decision am I already clear on, but am delaying by thinking more?", "What would I do right now if I trusted my gut completely?", "Where is the thinking protecting me from something I am afraid to feel?"] },
   { id: 2, shadow: "Emotional withholding", growth: "Emotional openness", icon: "◇", tone: "rose", qualities: "Vulnerability, safe expression, emotional availability.", description: "Emotional withholding is protection dressed as self-control. It keeps connection at a distance so that it cannot hurt you. Emotional openness does not mean sharing everything — it means being willing to be known. Vulnerability is not weakness; it is the only path to actual closeness.", prompts: ["What am I not saying that is quietly shaping this relationship?", "What would I share if I trusted that being known was safe?", "Where did I learn that showing emotion was dangerous — and is that still true?"] },
@@ -1603,6 +1611,26 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                 <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
                   <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">A note on confusion</div>
                   <p className="text-sm leading-7 text-slate-300">Emotions are layered, messy, and often contradictory. You can feel anger and love at the same time. Relief and guilt. Hope and exhaustion. That is not a malfunction — that is depth. The goal is not to always be clear, but to stay curious long enough to learn something.</p>
+                </div>
+                <div>
+                  <SectionHeader eyebrow="Mindfulness practice" title="Awareness without judgment">
+                    Observing your inner experience — thoughts, feelings, sensations — without labeling them as good or bad is the foundation of mindfulness. Here are five steps to build that practice.
+                  </SectionHeader>
+                  <div className="space-y-3">
+                    {nonJudgmentSteps.map(({ step, title, icon, tone, body }) => {
+                      const t = tones[tone] || tones.cyan;
+                      return (
+                        <div key={step} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                          <div className="mb-2 flex items-center gap-3">
+                            <span className={`text-xs font-black ${t.accent}`}>{step}.</span>
+                            <span className={`text-lg ${t.accent}`}>{icon}</span>
+                            <h4 className="text-sm font-bold text-white">{title}</h4>
+                          </div>
+                          <p className="text-sm leading-6 text-slate-300">{body}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
                 </div>
               </div>
             )}
