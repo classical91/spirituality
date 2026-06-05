@@ -357,6 +357,26 @@ const emotionJournalPrompts = [
   "When this emotion passes, I want to remember that ___.",
 ];
 
+const spinalNerveRoots = [
+  { root: "C5", disc: "C4–C5", region: "Cervical", tone: "emerald", muscles: "Deltoid, Supraspinatus", actions: "Shoulder abduction — lift arm to the side", dermatome: "Outer shoulder, upper arm" },
+  { root: "C6", disc: "C5–C6", region: "Cervical", tone: "teal", muscles: "Biceps Brachii, Wrist Extensors", actions: "Elbow flexion, wrist extension", dermatome: "Thumb and index finger" },
+  { root: "C7", disc: "C6–C7", region: "Cervical", tone: "cyan", muscles: "Triceps Brachii, Wrist Flexors, Finger Extensors", actions: "Elbow extension, wrist flexion, extend fingers", dermatome: "Middle finger" },
+  { root: "C8", disc: "C7–T1", region: "Cervical", tone: "sky", muscles: "Finger Flexors (Grip Muscles)", actions: "Finger flexion — make a fist; grip strength", dermatome: "Ring and little finger" },
+  { root: "T1", disc: "T1–T2", region: "Cervical", tone: "violet", muscles: "Interossei (hand intrinsic muscles)", actions: "Finger abduction — spread fingers", dermatome: "Inner upper arm" },
+  { root: "L1", disc: "L1–L2", region: "Lumbar", tone: "amber", muscles: "Psoas Major (Iliopsoas)", actions: "Hip flexion — lift thigh up", dermatome: "Groin" },
+  { root: "L2", disc: "L2–L3", region: "Lumbar", tone: "amber", muscles: "Iliopsoas, Hip Flexors", actions: "Hip flexion — lift thigh up", dermatome: "Front upper thigh" },
+  { root: "L3", disc: "L3–L4", region: "Lumbar", tone: "emerald", muscles: "Quadriceps Femoris (Rectus Femoris)", actions: "Knee extension — straighten knee", dermatome: "Front knee, inner thigh" },
+  { root: "L4", disc: "L4–L5", region: "Lumbar", tone: "teal", muscles: "Tibialis Anterior", actions: "Ankle dorsiflexion — lift foot up", dermatome: "Inner lower leg to big toe" },
+  { root: "L5", disc: "L5–S1", region: "Lumbar", tone: "cyan", muscles: "Extensor Hallucis Longus, Tibialis Anterior, Gluteus Medius", actions: "Big toe extension, ankle dorsiflexion, hip abduction", dermatome: "Outer lower leg to top of foot" },
+  { root: "S1", disc: "S1–S2", region: "Sacral", tone: "rose", muscles: "Gastrocnemius, Soleus, Gluteus Maximus", actions: "Plantarflexion — push down/tiptoes; hip extension", dermatome: "Back of leg to sole of foot" },
+  { root: "S2", disc: "S2–S3", region: "Sacral", tone: "violet", muscles: "Hamstrings (Semitendinosus), Some Calf Muscles", actions: "Knee flexion — bend knee", dermatome: "Back of thigh" },
+];
+
+const herniaExamples = [
+  { disc: "L4–L5", nerve: "L5 nerve root", signs: "Weakness lifting foot and big toe extension, difficulty walking on heels. Pain down outer leg to top of foot." },
+  { disc: "L5–S1", nerve: "S1 nerve root", signs: "Weakness pushing off the ground, difficulty standing on tiptoes, reduced Achilles reflex. Pain down back of leg to sole of foot." },
+];
+
 const shadowPatterns = [
   { id: 1, shadow: "Overthinking", growth: "Clarity", icon: "◎", tone: "cyan", qualities: "Mental stillness, trust in intuition, decisive focus.", description: "Overthinking is the mind trying to control uncertainty by rehearsing every outcome. Clarity does not come from more thinking — it comes from quieting the mind long enough to hear what you already know. Trust in intuition is not irrational; it is pattern recognition that has gone below the surface.", prompts: ["What decision am I already clear on, but am delaying by thinking more?", "What would I do right now if I trusted my gut completely?", "Where is the thinking protecting me from something I am afraid to feel?"] },
   { id: 2, shadow: "Emotional withholding", growth: "Emotional openness", icon: "◇", tone: "rose", qualities: "Vulnerability, safe expression, emotional availability.", description: "Emotional withholding is protection dressed as self-control. It keeps connection at a distance so that it cannot hurt you. Emotional openness does not mean sharing everything — it means being willing to be known. Vulnerability is not weakness; it is the only path to actual closeness.", prompts: ["What am I not saying that is quietly shaping this relationship?", "What would I share if I trusted that being known was safe?", "Where did I learn that showing emotion was dangerous — and is that still true?"] },
@@ -1567,6 +1587,44 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                 <div className="rounded-3xl border border-amber-300/20 bg-amber-300/5 p-6">
                   <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">A grounding note</div>
                   <p className="text-sm leading-7 text-slate-300">This section does not claim that spirituality enlarges the brain or changes its shape. It describes how repeated practices may support neuroplasticity, emotional regulation, focus, memory, motivation, and self-awareness — the real, trainable ground where inner growth and biology meet.</p>
+                </div>
+                <div>
+                  <SectionHeader eyebrow="Spinal nervous system" title="Nerve roots, myotomes & dermatomes">
+                    Each spinal nerve root controls specific muscles (myotome) and skin areas (dermatome). When a disc compresses a root, those muscles weaken and that skin loses sensation. This map covers C5–T1 for the upper limb and L1–S2 for the lower limb.
+                  </SectionHeader>
+                  {[["Cervical — Upper Limb (C5–T1)", "Cervical"], ["Lumbar & Sacral — Lower Limb (L1–S2)", "Lumbar", "Sacral"]].map(([label, ...regions]) => (
+                    <div key={label} className="mb-6">
+                      <p className="mb-3 text-xs font-bold uppercase tracking-[0.25em] text-slate-400">{label}</p>
+                      <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                        {spinalNerveRoots.filter(n => regions.includes(n.region)).map((nerve) => {
+                          const t = tones[nerve.tone] || tones.cyan;
+                          return (
+                            <div key={nerve.root} className={`rounded-2xl border p-4 ${t.card}`}>
+                              <div className="mb-3 flex items-center gap-3">
+                                <span className={`text-2xl font-black ${t.accent}`}>{nerve.root}</span>
+                                <span className="text-xs text-slate-500">{nerve.disc}</span>
+                              </div>
+                              <p className="mb-1 text-xs font-semibold text-white">{nerve.muscles}</p>
+                              <p className="mb-2 text-xs leading-5 text-slate-300">{nerve.actions}</p>
+                              <p className="text-xs text-slate-500"><span className="font-medium text-slate-400">Dermatome:</span> {nerve.dermatome}</p>
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  ))}
+                  <div className="mt-4 rounded-3xl border border-rose-300/20 bg-rose-300/5 p-5">
+                    <div className="mb-3 text-xs font-bold uppercase tracking-[0.3em] text-rose-300/80">Disc herniation examples</div>
+                    <div className="grid gap-3 sm:grid-cols-2">
+                      {herniaExamples.map(({ disc, nerve, signs }) => (
+                        <div key={disc} className="rounded-xl border border-white/10 bg-black/20 p-4">
+                          <p className="mb-1 text-sm font-bold text-white">{disc} herniation → {nerve}</p>
+                          <p className="text-xs leading-5 text-slate-400">{signs}</p>
+                        </div>
+                      ))}
+                    </div>
+                    <p className="mt-3 text-xs text-slate-500">This is a general reference guide. Clinical correlation and imaging are necessary for accurate diagnosis.</p>
+                  </div>
                 </div>
               </div>
             )}
