@@ -49,6 +49,49 @@ const frameworks = [
       "Am I reaching out from genuine desire to connect, or from anxiety that needs soothing?",
       "Where did I learn that I needed to chase or prove myself to be loved?",
     ],
+    attachmentStyles: [
+      {
+        style: "Secure",
+        tone: "emerald",
+        icon: "◈",
+        tagline: "Connected without losing yourself",
+        traits: ["Comfortable with closeness and independence", "Communicates needs directly and calmly", "Trusts others without needing constant reassurance", "Handles conflict without panic or shutdown", "Recovers from rupture and stays open to repair"],
+        emotional: "Feels safe enough to be vulnerable. Does not catastrophize silence or distance. Can tolerate not knowing without spiralling. Experiences love as nourishing rather than threatening.",
+        patterns: "Stays present in disagreements without fleeing or fusing. Does not pursue excessively or withdraw to punish. Gives space without abandoning, and stays close without smothering. Models a stable emotional baseline that others can co-regulate with.",
+        growthEdge: "Maintain secure habits under stress — when triggered, the default is still to reach for connection and clarity rather than old anxious or avoidant coping. Cultivate awareness so security is chosen, not just lucky.",
+      },
+      {
+        style: "Anxious / Ambivalent",
+        tone: "amber",
+        icon: "◎",
+        tagline: "Hyperactivated — searching for safety in others",
+        traits: ["Fears abandonment and reads neutral signals as rejection", "Needs frequent reassurance that the relationship is okay", "Becomes preoccupied with the relationship when stressed", "Tends to escalate conflict to get a response", "Struggles to self-soothe without external validation"],
+        emotional: "Love feels urgent and conditional. Silence feels like withdrawal. Closeness is desperately wanted but also destabilising. There is a constant low-level hum of 'are we okay?' that pulls attention away from everything else.",
+        patterns: "Double-texting, over-explaining, monitoring response times. Becoming 'too much' in emotional moments. Pushing for commitment prematurely. Interpreting independence in a partner as rejection. Feeling temporarily soothed by reassurance, then needing more.",
+        growthEdge: "Build the capacity to self-regulate — to soothe anxiety internally before reaching outward. Practice sitting with uncertainty. Recognize the difference between genuine connection and reassurance-seeking. Work toward valuing your own presence as much as another's response.",
+      },
+      {
+        style: "Avoidant / Dismissive",
+        tone: "sky",
+        icon: "◇",
+        tagline: "Deactivated — self-sufficient as a defence",
+        traits: ["Values independence to the point of avoiding closeness", "Minimises emotional needs — own and others'", "Withdraws when intimacy increases", "Appears self-contained but struggles with vulnerability", "Feels suffocated by perceived demands for closeness"],
+        emotional: "Closeness feels threatening rather than comforting. Emotions — especially others' — feel overwhelming or inconvenient. There is pride in not needing anyone, which covers a fear of depending on someone who might not be there.",
+        patterns: "Going quiet when a partner needs more. Framing detachment as maturity or strength. Ending relationships when they deepen rather than risking exposure. Using busyness, logic, or humour to deflect emotional conversations. Feeling relief when alone, then loneliness without understanding why.",
+        growthEdge: "The 9-step guide below walks through the path from avoidant to secure. The core shift is learning that needing others is not weakness — it is the foundation of genuine connection. Vulnerability is not a trap; it is the only real door.",
+      },
+    ],
+    avoidantGuide: [
+      { step: 1, title: "Develop Self-Awareness", body: "Reflect on how you approach relationships — tendencies to withdraw, minimize intimacy, or prioritize independence over connection. Explore where these patterns began, often in early experiences of inconsistent caregiving or emotional unavailability. Notice which situations trigger the urge to pull away." },
+      { step: 2, title: "Challenge Negative Beliefs About Intimacy", body: "Avoidants often fear being engulfed or losing themselves in closeness. Remind yourself that healthy dependence is normal and necessary. Vulnerability is not weakness — it is the means by which emotional connection and trust deepen." },
+      { step: 3, title: "Practice Emotional Regulation", body: "When you feel the urge to withdraw, practice staying present rather than shutting down. Mindfulness and meditation help you observe thoughts and feelings without reactivity, creating space between the trigger and the response." },
+      { step: 4, title: "Communicate Honestly", body: "Practice articulating your emotions and limits in ways that invite understanding rather than distance. If you are in a relationship, letting your partner know you are working on these patterns gives them context to offer patience rather than pursuing harder." },
+      { step: 5, title: "Build Emotional Intimacy Gradually", body: "Take small risks: share a personal thought with someone you trust, allow yourself to receive a compliment without deflecting, or stay present in a moment of affection. Each small act rewires the association between closeness and threat." },
+      { step: 6, title: "Seek Support", body: "Therapy — especially attachment-focused or emotion-focused approaches — can help uncover deeper emotional wounds and build new relational habits. Spending time with secure, empathetic people also models what safe connection looks and feels like." },
+      { step: 7, title: "Reframe Independence", body: "Closeness does not mean losing yourself. Healthy relationships allow both individuality and togetherness. Redefine relationship success not as maintained distance, but as mutual understanding, support, and genuine presence." },
+      { step: 8, title: "Work on Trust", body: "Avoidants often assume others will be overly demanding or will eventually disappoint. Practice seeing others' intentions as positive unless clearly proven otherwise. Trust is rebuilt through small consistent interactions where your needs are met — not through one dramatic breakthrough." },
+      { step: 9, title: "Celebrate Progress", body: "Each time you stay present in an emotional moment, communicate honestly, or let someone in — acknowledge it. Avoid judging yourself harshly for moments of avoidance. Change is gradual, and self-compassion keeps the process sustainable." },
+    ],
   },
   {
     id: 3,
@@ -688,6 +731,60 @@ function DetailModal({ item, onClose, onReflect }) {
               <p className="text-sm leading-7 text-slate-200">{value}</p>
             </div>
           ))}
+
+          {item.attachmentStyles && (
+            <div className="space-y-3">
+              <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The three attachment styles</div>
+              {item.attachmentStyles.map(({ style, tone: styleTone, icon, tagline, traits, emotional, patterns, growthEdge }) => {
+                const st = tones[styleTone] || tones.cyan;
+                return (
+                  <div key={style} className={`rounded-2xl border p-5 ${st.card}`}>
+                    <div className="mb-3 flex items-center gap-3">
+                      <span className={`text-xl ${st.accent}`}>{icon}</span>
+                      <div>
+                        <h4 className={`text-sm font-bold ${st.accent}`}>{style}</h4>
+                        <p className="text-xs text-slate-400">{tagline}</p>
+                      </div>
+                    </div>
+                    <div className="mb-3 flex flex-wrap gap-1">
+                      {traits.map((trait) => <span key={trait} className="rounded-full border border-white/10 bg-black/20 px-2 py-0.5 text-[10px] text-slate-300">{trait}</span>)}
+                    </div>
+                    <div className="space-y-2">
+                      <div>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Emotional experience</p>
+                        <p className="text-xs leading-5 text-slate-300">{emotional}</p>
+                      </div>
+                      <div>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Relationship patterns</p>
+                        <p className="text-xs leading-5 text-slate-300">{patterns}</p>
+                      </div>
+                      <div>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Growth edge</p>
+                        <p className="text-xs leading-5 text-slate-300">{growthEdge}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {item.avoidantGuide && (
+            <div className={`rounded-2xl border p-4 ${t.card}`}>
+              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Overcoming avoidant attachment — 9 steps toward security</div>
+              <div className="space-y-3">
+                {item.avoidantGuide.map(({ step, title, body }) => (
+                  <div key={step} className="rounded-xl border border-white/10 bg-black/20 p-4">
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className={`text-xs font-black ${t.accent}`}>{step}.</span>
+                      <h4 className="text-sm font-bold text-white">{title}</h4>
+                    </div>
+                    <p className="text-xs leading-5 text-slate-400">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {(item.avoidanceForms || item.avoidanceVsRegulation || item.avoidanceBlocks || item.avoidanceAntidote) && (
