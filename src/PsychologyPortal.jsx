@@ -9,6 +9,10 @@ const tabs = [
   { id: "powerstack", label: "Power Stack", icon: "✦" },
   { id: "growth", label: "Growth Concepts", icon: "G" },
   { id: "nutrients", label: "Vitamins & Minerals", icon: "◍" },
+  { id: "brain", label: "Brain & Spirit", icon: "❋" },
+  { id: "emotions", label: "Emotional Awareness", icon: "◎" },
+  { id: "shadow", label: "Shadow & Growth", icon: "◑" },
+  { id: "manifest", label: "Manifestation & Habits", icon: "✦" },
 ];
 
 const frameworks = [
@@ -44,6 +48,49 @@ const frameworks = [
       "What would a securely attached person do in this moment — and can I do that?",
       "Am I reaching out from genuine desire to connect, or from anxiety that needs soothing?",
       "Where did I learn that I needed to chase or prove myself to be loved?",
+    ],
+    attachmentStyles: [
+      {
+        style: "Secure",
+        tone: "emerald",
+        icon: "◈",
+        tagline: "Connected without losing yourself",
+        traits: ["Comfortable with closeness and independence", "Communicates needs directly and calmly", "Trusts others without needing constant reassurance", "Handles conflict without panic or shutdown", "Recovers from rupture and stays open to repair"],
+        emotional: "Feels safe enough to be vulnerable. Does not catastrophize silence or distance. Can tolerate not knowing without spiralling. Experiences love as nourishing rather than threatening.",
+        patterns: "Stays present in disagreements without fleeing or fusing. Does not pursue excessively or withdraw to punish. Gives space without abandoning, and stays close without smothering. Models a stable emotional baseline that others can co-regulate with.",
+        growthEdge: "Maintain secure habits under stress — when triggered, the default is still to reach for connection and clarity rather than old anxious or avoidant coping. Cultivate awareness so security is chosen, not just lucky.",
+      },
+      {
+        style: "Anxious / Ambivalent",
+        tone: "amber",
+        icon: "◎",
+        tagline: "Hyperactivated — searching for safety in others",
+        traits: ["Fears abandonment and reads neutral signals as rejection", "Needs frequent reassurance that the relationship is okay", "Becomes preoccupied with the relationship when stressed", "Tends to escalate conflict to get a response", "Struggles to self-soothe without external validation"],
+        emotional: "Love feels urgent and conditional. Silence feels like withdrawal. Closeness is desperately wanted but also destabilising. There is a constant low-level hum of 'are we okay?' that pulls attention away from everything else.",
+        patterns: "Double-texting, over-explaining, monitoring response times. Becoming 'too much' in emotional moments. Pushing for commitment prematurely. Interpreting independence in a partner as rejection. Feeling temporarily soothed by reassurance, then needing more.",
+        growthEdge: "Build the capacity to self-regulate — to soothe anxiety internally before reaching outward. Practice sitting with uncertainty. Recognize the difference between genuine connection and reassurance-seeking. Work toward valuing your own presence as much as another's response.",
+      },
+      {
+        style: "Avoidant / Dismissive",
+        tone: "sky",
+        icon: "◇",
+        tagline: "Deactivated — self-sufficient as a defence",
+        traits: ["Values independence to the point of avoiding closeness", "Minimises emotional needs — own and others'", "Withdraws when intimacy increases", "Appears self-contained but struggles with vulnerability", "Feels suffocated by perceived demands for closeness"],
+        emotional: "Closeness feels threatening rather than comforting. Emotions — especially others' — feel overwhelming or inconvenient. There is pride in not needing anyone, which covers a fear of depending on someone who might not be there.",
+        patterns: "Going quiet when a partner needs more. Framing detachment as maturity or strength. Ending relationships when they deepen rather than risking exposure. Using busyness, logic, or humour to deflect emotional conversations. Feeling relief when alone, then loneliness without understanding why.",
+        growthEdge: "The 9-step guide below walks through the path from avoidant to secure. The core shift is learning that needing others is not weakness — it is the foundation of genuine connection. Vulnerability is not a trap; it is the only real door.",
+      },
+    ],
+    avoidantGuide: [
+      { step: 1, title: "Develop Self-Awareness", body: "Reflect on how you approach relationships — tendencies to withdraw, minimize intimacy, or prioritize independence over connection. Explore where these patterns began, often in early experiences of inconsistent caregiving or emotional unavailability. Notice which situations trigger the urge to pull away." },
+      { step: 2, title: "Challenge Negative Beliefs About Intimacy", body: "Avoidants often fear being engulfed or losing themselves in closeness. Remind yourself that healthy dependence is normal and necessary. Vulnerability is not weakness — it is the means by which emotional connection and trust deepen." },
+      { step: 3, title: "Practice Emotional Regulation", body: "When you feel the urge to withdraw, practice staying present rather than shutting down. Mindfulness and meditation help you observe thoughts and feelings without reactivity, creating space between the trigger and the response." },
+      { step: 4, title: "Communicate Honestly", body: "Practice articulating your emotions and limits in ways that invite understanding rather than distance. If you are in a relationship, letting your partner know you are working on these patterns gives them context to offer patience rather than pursuing harder." },
+      { step: 5, title: "Build Emotional Intimacy Gradually", body: "Take small risks: share a personal thought with someone you trust, allow yourself to receive a compliment without deflecting, or stay present in a moment of affection. Each small act rewires the association between closeness and threat." },
+      { step: 6, title: "Seek Support", body: "Therapy — especially attachment-focused or emotion-focused approaches — can help uncover deeper emotional wounds and build new relational habits. Spending time with secure, empathetic people also models what safe connection looks and feels like." },
+      { step: 7, title: "Reframe Independence", body: "Closeness does not mean losing yourself. Healthy relationships allow both individuality and togetherness. Redefine relationship success not as maintained distance, but as mutual understanding, support, and genuine presence." },
+      { step: 8, title: "Work on Trust", body: "Avoidants often assume others will be overly demanding or will eventually disappoint. Practice seeing others' intentions as positive unless clearly proven otherwise. Trust is rebuilt through small consistent interactions where your needs are met — not through one dramatic breakthrough." },
+      { step: 9, title: "Celebrate Progress", body: "Each time you stay present in an emotional moment, communicate honestly, or let someone in — acknowledge it. Avoid judging yourself harshly for moments of avoidance. Change is gradual, and self-compassion keeps the process sustainable." },
     ],
   },
   {
@@ -345,6 +392,249 @@ const growthDailyLoop = [
   { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
 ];
 
+const brainRegions = [
+  { id: 1, title: "Prefrontal Cortex", icon: "🎯", tone: "cyan", region: "Wisdom · Discipline · Conscious Choice", essence: "The seat of self-mastery — where you pause, plan, and choose who you become.", connected: "Planning, reasoning, decision-making, emotional control, focus, and long-term goals.", theme: "Self-mastery, clarity, purpose, and conscious awareness.", practices: ["Meditation", "Journaling", "Goal-setting", "Mindful focus", "Studying & problem-solving", "Delaying gratification", "Prayer & contemplation"], prompts: ["Where in my life am I reacting on impulse when a conscious choice is available?", "What long-term self am I building with today's small decisions?", "If I paused for ten seconds before every reaction today, what would change?"] },
+  { id: 2, title: "Amygdala", icon: "🔥", tone: "rose", region: "Fear · Triggers · Safety", essence: "The alarm bell — fast, protective, and in need of reassurance, not shame.", connected: "Fear, threat detection, emotional intensity, and survival responses.", theme: "Healing fear, emotional safety, courage, and trust.", practices: ["Breathwork", "Grounding (5-4-3-2-1)", "Trauma-informed journaling", "Self-soothing", "Prayer", "Naming the emotion", "Nervous-system regulation"], prompts: ["What is my body bracing against right now — and is it truly a threat?", "Can I offer myself the safety I keep waiting for someone else to give?", "What old fear is running a pattern that no longer protects me?"] },
+  { id: 3, title: "Hippocampus", icon: "📚", tone: "indigo", region: "Memory · Learning · Inner Story", essence: "The keeper of memory and meaning — where experience becomes the story of who you are.", connected: "Memory, learning, imagination, spatial awareness, and autobiographical story.", theme: "Life lessons, reflection, identity, and remembering who you are.", practices: ["Journaling", "Studying & learning", "Storytelling", "Visualization", "Gratitude lists", "Reflecting on past lessons"], prompts: ["What lesson is this season of life trying to teach me?", "Which memory am I letting define me — and is that story still true?", "What would I like to remember about who I was becoming this year?"] },
+  { id: 4, title: "Insula", icon: "🫀", tone: "teal", region: "Body Awareness · Intuition", essence: "The inner sense — where gut feeling, emotion, and bodily knowing meet.", connected: "Body sensations, emotional awareness, pain signals, and interoception.", theme: "Intuition, embodiment, presence, and inner knowing.", practices: ["Body scans", "Mindful eating", "Yoga", "Breath awareness", "Somatic meditation", "Noticing gut feelings"], prompts: ["What is my body telling me that my mind keeps overriding?", "Where do I feel this emotion physically right now?", "If I trusted my gut on one decision today, what would I do?"] },
+  { id: 5, title: "Default Mode Network", icon: "✦", tone: "violet", region: "Identity · Imagination · Meaning", essence: "The inner narrator — daydream, self-concept, and the world you rehearse in private.", connected: "Self-reflection, daydreaming, imagination, personal meaning, and inner narrative.", theme: "Self-concept, manifestation, identity, and purpose.", practices: ["Visualization", "SATS (state akin to sleep)", "Self-inquiry", "Contemplation & prayer", "Identity affirmations", "Revision", "Reflective journaling"], prompts: ["What story about myself am I rehearsing on autopilot?", "If I lived from the end — already whole — how would today feel?", "What identity would make my desired life feel natural rather than forced?"] },
+  { id: 6, title: "Anterior Cingulate Cortex", icon: "🤝", tone: "emerald", region: "Compassion · Conflict · Alignment", essence: "The inner referee — noticing the gap between impulse and value, then choosing alignment.", connected: "Attention, emotional regulation, empathy, and conflict monitoring.", theme: "Compassion, forgiveness, harmony, and inner correction.", practices: ["Loving-kindness meditation", "Forgiveness work", "Values reflection", "Noticing inner conflict", "Choosing aligned action"], prompts: ["Where do my actions and my values disagree right now?", "Who am I still carrying resentment toward — including myself?", "What would the most compassionate version of me do here?"] },
+  { id: 7, title: "Dopamine Reward System", icon: "⚡", tone: "amber", region: "Motivation · Desire · Drive", essence: "The engine of wanting — anticipation, momentum, and the pull toward what matters.", connected: "Motivation, pleasure, reward, anticipation, and habit formation.", theme: "Desire, devotion, momentum, and inspired action.", practices: ["Goal tracking", "Celebrating progress", "Movement & exercise", "Sunlight", "Music", "Meaningful rewards", "Building healthy habits"], prompts: ["Am I chasing quick hits, or building toward something that matters?", "What small win can I honor today instead of rushing past it?", "What desire is worthy of my devotion right now?"] },
+  { id: 8, title: "Hypothalamus", icon: "⚖️", tone: "emerald", region: "Hormones · Stress · Basic Needs", essence: "The body's thermostat — quietly regulating hunger, sleep, stress, and balance.", connected: "Hunger, thirst, sleep, temperature, stress hormones, and regulation.", theme: "Balance, grounding, and honoring basic needs.", practices: ["Consistent sleep routine", "Hydration", "Sunlight", "Nutrition", "Relaxation", "Emotional safety", "Daily rituals"], prompts: ["Which basic need am I overriding in the name of being productive?", "What would change if I treated rest as sacred, not lazy?", "Where is my body asking for rhythm and consistency?"] },
+  { id: 9, title: "Brainstem", icon: "🌬", tone: "teal", region: "Survival · Breath · Grounding", essence: "The root of aliveness — breath, heartbeat, and the steady pulse beneath thought.", connected: "Breathing, heart rate, alertness, and core survival functions.", theme: "Life force, grounding, calm, and presence.", practices: ["Slow breathing", "Humming & chanting", "Gentle cold exposure (carefully)", "Grounding exercises", "Gentle movement", "Prayer"], prompts: ["Can I slow my exhale and let my body know it is safe?", "Where am I living in my head when I could return to my breath?", "What does calm feel like in my body — and how do I get back to it?"] },
+  { id: 10, title: "Cerebellum", icon: "🌀", tone: "sky", region: "Coordination · Rhythm · Embodied Skill", essence: "The master of timing — turning repeated practice into effortless flow.", connected: "Balance, movement, coordination, timing, and motor learning.", theme: "Flow, rhythm, grounded action, and practice.", practices: ["Dance", "Martial arts", "Yoga", "Walking meditation", "Breath rhythm", "Music", "Repetitive skill practice"], prompts: ["What skill would reward me for showing up daily, even imperfectly?", "Where could rhythm and repetition replace forcing and straining?", "What practice reliably puts me into flow?"] },
+  { id: 11, title: "Temporal Lobes", icon: "🔔", tone: "purple", region: "Language · Meaning · Sacred Sound", essence: "The home of word and sound — where language, music, and meaning take root.", connected: "Language, hearing, memory, music, and meaning-making.", theme: "Mantra, prayer, sound healing, and sacred words.", practices: ["Chanting", "Affirmations", "Reading spiritual texts", "Listening to music", "Solfeggio frequencies", "Language learning"], prompts: ["What words am I repeating about myself — and are they worth keeping?", "What sound or song returns me to myself?", "If my self-talk were a mantra, what would I want it to say?"] },
+  { id: 12, title: "Parietal Lobes", icon: "🕸", tone: "blue", region: "Perspective · Space · Unity", essence: "The mapmaker of self and space — where the boundary between you and the world softens.", connected: "Body-space awareness, attention, perspective-taking, and sensory integration.", theme: "Oneness, perspective, connection, and expanded awareness.", practices: ["Meditation", "Nature walks", "Visualization", "Perspective-taking", "Body awareness", "Awe practices"], prompts: ["Where am I gripping 'me and mine' when connection is available?", "What would this situation look like from a wider, kinder perspective?", "When did I last feel awe — and how do I make more room for it?"] },
+  { id: 13, title: "Occipital Lobes", icon: "👁", tone: "indigo", region: "Vision · Imagery · Inner Seeing", essence: "The screen of the mind — where outer sight and inner vision are rendered.", connected: "Visual processing, mental imagery, and inner picturing.", theme: "Visualization, imagination, symbolic vision, and seeing possibility.", practices: ["Visualization", "Vision boards", "Candle gazing", "Dream journaling", "Art", "Guided imagery"], prompts: ["What future can I picture clearly — and what stays blurry?", "If I could see one possibility vividly today, which would I choose?", "What image represents who I am becoming?"] },
+  { id: 14, title: "Corpus Callosum", icon: "☯", tone: "violet", region: "Integration · Whole-Brain Balance", essence: "The bridge — uniting logic and intuition, action and receptivity, into one whole self.", connected: "Communication between the left and right hemispheres.", theme: "Balance of logic and intuition, masculine and feminine, doing and receiving.", practices: ["Bilateral movement", "Walking", "Drumming", "Alternate-nostril breathing", "Cross-body exercises", "Journaling paired with visualization"], prompts: ["Am I over-relying on logic or intuition right now — and what restores balance?", "Where do I need to receive rather than push?", "What would integration — head and heart aligned — feel like today?"] },
+];
+
+const brainPractices = [
+  { practice: "Meditation", regions: "Prefrontal cortex · Insula · Anterior cingulate" },
+  { practice: "Journaling", regions: "Prefrontal cortex · Hippocampus · Default mode network" },
+  { practice: "Gratitude", regions: "Reward system · Prefrontal cortex · Emotional regulation" },
+  { practice: "Exercise", regions: "Hippocampus · Prefrontal cortex · Dopamine system" },
+  { practice: "Breathwork", regions: "Brainstem · Amygdala · Nervous system" },
+  { practice: "Visualization", regions: "Occipital lobes · Default mode network · Prefrontal cortex" },
+  { practice: "Prayer / mantra", regions: "Temporal lobes · Attention networks · Emotional regulation" },
+  { practice: "Sleep", regions: "Hippocampus · Prefrontal cortex · Hypothalamus" },
+];
+
+const emotionSteps = [
+  { id: 1, title: "Slow Down and Create Space", icon: "◎", tone: "cyan", summary: "Daily check-ins build the habit of noticing what is happening inside before the moment passes.", details: "Take 5–10 minutes daily to sit quietly. Ask: What am I feeling right now? Where do I feel it in my body? Can I name it — sad, tense, numb, irritated? A Feelings Wheel helps with complex or vague emotions that resist easy naming.", prompts: ["What am I feeling right now — and where do I feel it in my body?", "If I had to put one word on this feeling, what would it be?", "What was the last moment today when something shifted inside me?"] },
+  { id: 2, title: "Journal Without Judgment", icon: "✍", tone: "sky", summary: "Free-writing creates distance between you and the feeling — enough space to see it clearly.", details: "Write for 5–10 minutes about your day or a recent event. Focus on how things made you feel, not just what happened. Start with: \"Right now I feel ___ because ___\" or \"I don't know what I feel, but if I had to guess…\" No editing, no correcting — just honest motion.", prompts: ["Right now I feel ___ because ___.", "I don't know what I feel, but if I had to guess, it might be ___.", "The last time I felt clearly understood was ___."] },
+  { id: 3, title: "Track Patterns", icon: "↺", tone: "indigo", summary: "Emotions become more readable once you can see what consistently triggers them.", details: "Reflect on recurring triggers: certain people, stressful situations, criticism, silence, or specific times of day. Use a simple emotion log — event → feeling → thought — to connect what happens outside to what moves inside. Patterns reveal the real conversation you are having with yourself.", prompts: ["What kind of situation consistently unsettles me — and what does that tell me?", "Is there a person or context that reliably changes how I feel about myself?", "What is the emotion I keep bumping into this week?"] },
+  { id: 4, title: "Name Before You Fix", icon: "◇", tone: "teal", summary: "Naming an emotion halves its intensity. You do not have to solve it — just see it.", details: "Do not rush to fix, suppress, or explain the feeling away. Practice simply saying: \"I feel anxious.\" \"I feel disconnected.\" \"I don't know what I feel, but something is off.\" Research shows that labeling emotions — affect labeling — reduces their grip on the nervous system and brings the prefrontal cortex back online.", prompts: ["Can I name this feeling without immediately trying to fix or justify it?", "What happens inside me when I just say the word for what I feel?", "What am I trying to escape by staying busy right now?"] },
+  { id: 5, title: "Try Somatic Techniques", icon: "◯", tone: "emerald", summary: "Emotions arrive in the body before the mind catches them — learning to listen closes the gap.", details: "Body scans, breathwork, and gentle movement (yoga, walking) help you tune into the physical cues your emotions leave. Ask: Where am I holding tension? What is that telling me? The body speaks in sensations before the mind forms sentences — somatic awareness is emotional awareness at its root.", prompts: ["Where in my body am I carrying something right now?", "What does this feeling physically feel like — tight, heavy, buzzing, empty?", "If my body could speak one sentence right now, what would it say?"] },
+  { id: 6, title: "Expand Your Emotional Vocabulary", icon: "≋", tone: "violet", summary: "The more words you have for emotions, the more precisely you can identify and work with them.", details: "Many people default to a handful of broad words — good, bad, stressed, fine. Expanding your vocabulary (furious vs. irritated, melancholy vs. sad, awe vs. excitement) gives you sharper tools. Books that help: Permission to Feel by Marc Brackett, The Language of Emotions by Karla McLaren. More words means more clarity.", prompts: ["If 'stressed' or 'fine' is too simple, what word comes closer to the truth?", "Is there a more precise word for what I am feeling than the one I usually use?", "What emotion am I rarely willing to name — and why?"] },
+  { id: 7, title: "Consider Therapy or Coaching", icon: "⌘", tone: "amber", summary: "A skilled guide can decode what you are feeling and help you understand why.", details: "A therapist or coach offers reflective presence that is hard to replicate alone. Cognitive-behavioral therapy (CBT) and emotion-focused therapy (EFT) are especially useful for building emotional literacy. You do not have to be in crisis to benefit — going earlier, while things are workable, is usually easier and more effective.", prompts: ["What emotion have I been carrying alone that might benefit from being witnessed?", "If I could ask a guide one question about my inner life, what would it be?", "What story about seeking help am I still holding?"] },
+  { id: 8, title: "Accept Emotional Confusion as Normal", icon: "△", tone: "rose", summary: "Emotions are layered and contradictory. The goal is not clarity — it is curiosity.", details: "You can feel both anger and love. Both relief and guilt. Both hope and exhaustion. That is not a malfunction — that is depth. The goal is not to always understand what you feel, but to stay with it long enough to learn something. Confusion is not the opposite of emotional intelligence. It is often the beginning of it.", prompts: ["Am I trying to resolve a feeling prematurely, when staying with it might teach me more?", "What contradictory feelings are present at once right now — and can I hold both?", "What would it mean to stay curious about this feeling instead of solving it?"] },
+];
+
+const emotionJournalPrompts = [
+  "Right now I feel ___ because ___.",
+  "I don't know what I feel, but if I had to guess…",
+  "The last time I felt clearly understood was ___.",
+  "Something I keep feeling but rarely name is ___.",
+  "When this emotion passes, I want to remember that ___.",
+];
+
+const nonJudgmentSteps = [
+  { step: 1, title: "Pause and Observe", icon: "◎", tone: "cyan", body: "Take a moment to pause during your day. Notice what thoughts are passing through your mind and what emotions are present — without immediately acting on them or narrating a story about them. Observation itself is the first act of freedom." },
+  { step: 2, title: "Acknowledge Without Judgment", icon: "◇", tone: "sky", body: "Recognize these thoughts and emotions without trying to change, suppress, or criticize them. Simply note: \"I'm feeling anxious\" or \"I'm thinking about tomorrow.\" The act of naming creates a small but crucial distance between you and the experience." },
+  { step: 3, title: "Return to the Present", icon: "⊙", tone: "teal", body: "Bring your attention back to the current moment. Focusing on the breath, sounds in the room, or physical sensations helps anchor awareness here rather than in past regrets or future worries. The present is always the only place practice can happen." },
+  { step: 4, title: "Practice Regularly", icon: "↺", tone: "indigo", body: "Non-judgmental awareness is a skill that deepens with repetition. Even five minutes of mindful observation each day — sitting quietly, walking, or pausing between activities — rewires the default pattern of reacting before noticing." },
+  { step: 5, title: "Be Kind to Yourself", icon: "◈", tone: "rose", body: "Self-compassion is the foundation of the practice. If you catch yourself judging your own thoughts or emotions, gently acknowledge the judgment and return to observing. Harshness is just another thought to observe — not a verdict. Change is gradual, and gentleness sustains it." },
+];
+
+const shadowPatterns = [
+  { id: 1, shadow: "Overthinking", growth: "Clarity", icon: "◎", tone: "cyan", qualities: "Mental stillness, trust in intuition, decisive focus.", description: "Overthinking is the mind trying to control uncertainty by rehearsing every outcome. Clarity does not come from more thinking — it comes from quieting the mind long enough to hear what you already know. Trust in intuition is not irrational; it is pattern recognition that has gone below the surface.", prompts: ["What decision am I already clear on, but am delaying by thinking more?", "What would I do right now if I trusted my gut completely?", "Where is the thinking protecting me from something I am afraid to feel?"] },
+  { id: 2, shadow: "Emotional withholding", growth: "Emotional openness", icon: "◇", tone: "rose", qualities: "Vulnerability, safe expression, emotional availability.", description: "Emotional withholding is protection dressed as self-control. It keeps connection at a distance so that it cannot hurt you. Emotional openness does not mean sharing everything — it means being willing to be known. Vulnerability is not weakness; it is the only path to actual closeness.", prompts: ["What am I not saying that is quietly shaping this relationship?", "What would I share if I trusted that being known was safe?", "Where did I learn that showing emotion was dangerous — and is that still true?"] },
+  { id: 3, shadow: "Control issues", growth: "Trust and surrender", icon: "⊡", tone: "indigo", qualities: "Letting go, collaboration, flow with others and life.", description: "The need to control is a fear of outcomes — particularly the fear that without your management, things will fall apart. Surrender does not mean passivity; it means doing your part and releasing the rest. Control creates resistance in relationships. Trust creates space for something better to arrive.", prompts: ["What am I gripping so tightly that I am exhausting myself and others?", "What would happen if I did my part and let go of the outcome?", "What does the need to control here tell me about what I am afraid of?"] },
+  { id: 4, shadow: "Escapism", growth: "Grounded presence", icon: "◯", tone: "teal", qualities: "Mindfulness, reality engagement, emotional maturity.", description: "Escapism is the habit of leaving the present — through screens, fantasy, substances, or busyness — to avoid what is difficult or uncomfortable. Grounded presence does not mean forcing positivity; it means staying in contact with your actual life long enough to learn from it and change it.", prompts: ["What am I escaping right now — and what am I escaping from?", "What would I have to face if I stayed present for the next hour?", "What is one way I could meet reality today instead of leaving it?"] },
+  { id: 5, shadow: "Restlessness", growth: "Contentment", icon: "≋", tone: "emerald", qualities: "Inner peace, patience, appreciation for stillness.", description: "Restlessness is a signal that the present feels insufficient — that somewhere else, something better is waiting. Contentment is not complacency; it is the ability to be fully where you are without needing it to be different. Stillness is not the absence of desire. It is desire at peace with this moment.", prompts: ["What am I searching for that I might already have in a different form?", "Can I be fully here, in this moment, for five minutes — and what comes up when I try?", "What would contentment feel like — and what am I afraid it would cost me?"] },
+  { id: 6, shadow: "Rigidity", growth: "Flexibility", icon: "↺", tone: "violet", qualities: "Adaptability, openness to change, creative flow.", description: "Rigidity is the mind's attempt to stay safe by keeping everything predictable and controlled. It often shows up as 'the way things should be.' Flexibility is not spinelessness — it is intelligence meeting reality as it actually is. The ability to adapt is one of the deepest forms of inner strength.", prompts: ["Where am I insisting on 'the right way' when another way might also work?", "What would change if I held this situation more loosely?", "What belief about how life should be is causing me the most friction right now?"] },
+  { id: 7, shadow: "Sensitivity to criticism", growth: "Inner confidence", icon: "△", tone: "amber", qualities: "Self-assurance, self-validation, calm under feedback.", description: "Sensitivity to criticism usually means your sense of self is still partly dependent on external approval. When someone's words can shatter your peace, it reveals that their opinion holds more authority than your own. Inner confidence is not arrogance — it is having a stable enough self-image that feedback becomes information rather than verdict.", prompts: ["Whose criticism affects me most — and what does that person represent to me?", "If I fully trusted my own worth, how would I receive this feedback differently?", "What is the gap between how I see myself and how I fear others see me?"] },
+  { id: 8, shadow: "Power struggles", growth: "Empowerment and equality", icon: "✦", tone: "sky", qualities: "Mutual respect, shared leadership, conscious relating.", description: "Power struggles happen when two people are each trying to feel safe, but in opposing ways. One pushes; the other resists. Both feel unseen. Empowerment shifts the question from 'who wins?' to 'how do we both feel respected?' This requires someone to stop fighting long enough to be curious instead.", prompts: ["What am I trying to protect in this struggle — and is there a softer way to protect it?", "What would mutual respect look like here, instead of winning?", "Where am I reacting to past power dynamics rather than the person in front of me?"] },
+  { id: 9, shadow: "Avoidance of vulnerability", growth: "Courageous intimacy", icon: "⌘", tone: "purple", qualities: "Emotional honesty, softness, trust in safe connection.", description: "Avoiding vulnerability is a learned defense — proof that openness once brought pain. Courageous intimacy means choosing to be seen anyway, with discernment about who deserves that access. It does not require dropping all walls. It requires identifying safe people and choosing to let them in, even when it is uncomfortable.", prompts: ["With whom do I feel safe enough to be fully honest — and am I using that safety?", "What am I protecting by staying closed — and what is it costing me?", "What is one vulnerable truth I could share that would move this connection forward?"] },
+  { id: 10, shadow: "Idealism in relationships", growth: "Realistic love", icon: "◈", tone: "rose", qualities: "Grounded affection, healthy expectations, mature bonding.", description: "Romantic idealism places an imagined version of a person above the real one. It loves the potential, not the present. Realistic love does not mean settling — it means seeing someone clearly and choosing them anyway. Mature bonding is built on truth, not projection. It is more durable and more nourishing than any fantasy.", prompts: ["Am I in love with this person, or with who I imagine they could become?", "What am I unwilling to see clearly — and why?", "What would loving someone realistically, exactly as they are, require from me?"] },
+];
+
+const manifestConcepts = [
+  {
+    id: 1,
+    title: "Vibration and Energy",
+    icon: "✦",
+    tone: "violet",
+    lens: "Law of Attraction",
+    summary: "Like attracts like — your inner state is always broadcasting a signal.",
+    detail: "The law of attraction holds that your dominant emotional state acts as a frequency that draws matching experiences toward you. Low-energy states like guilt, apathy, and stagnation tend to attract more of the same. High-energy states — clarity, gratitude, purpose, inspired action — attract experiences that match them. Your daily habits are not just practical; they are energetic signals.",
+    prompts: [
+      "What emotional state have I been in most of the day — and what might it be attracting?",
+      "What one habit is consistently keeping my energy lower than I want it to be?",
+      "If my current state were a broadcast, what would it be inviting into my life?",
+    ],
+  },
+  {
+    id: 2,
+    title: "Clarity of Intention",
+    icon: "◎",
+    tone: "cyan",
+    lens: "Focus & Alignment",
+    summary: "Manifestation works best when your mind is clear and your intention is single-pointed.",
+    detail: "A scattered, unstructured day fractures your focus and dilutes your intention. The mind cannot simultaneously pursue ten directions. Clarity is not just a mental state — it is a daily practice. Morning intention-setting, journaling, and visualization are not soft rituals; they are the tools that point your attention consistently toward what matters.",
+    prompts: [
+      "What is the one thing I most want to create in my life right now — and am I clear on it?",
+      "How many directions is my attention pulled today — and which of them actually matters?",
+      "If I set one clear intention this morning, what would it be?",
+    ],
+  },
+  {
+    id: 3,
+    title: "Self-Sabotage",
+    icon: "↺",
+    tone: "rose",
+    lens: "Psychology",
+    summary: "Habits that signal a lack of self-worth to the subconscious quietly undermine what you are building.",
+    detail: "Patterns like skipping hygiene, overusing substances, or compulsive avoidance behaviors are not just practical problems — they send a message to your subconscious about your value and seriousness. The subconscious is literal: it manifests what it believes you believe about yourself. Every bypassed routine is a small vote for 'I am not worth the effort.' Every followed-through habit is a vote the other way.",
+    prompts: [
+      "What habit am I tolerating that quietly signals to myself that I am not a priority?",
+      "What would I do differently today if I truly believed I deserved what I am trying to create?",
+      "Where am I sabotaging my own momentum — and what am I avoiding by doing it?",
+    ],
+  },
+  {
+    id: 4,
+    title: "Momentum and Dopamine",
+    icon: "⚡",
+    tone: "amber",
+    lens: "Neuroscience",
+    summary: "Small wins release dopamine, which fuels motivation — without them, the brain seeks easier hits.",
+    detail: "Every small completed action — making your bed, eating a good meal, finishing a task — releases dopamine and builds neural momentum. Without these, your brain looks for faster, cheaper dopamine from phones, substances, or distraction. The problem is that easy dopamine raises the reward threshold: real life starts to feel flat by comparison. Daily discipline is, in part, a dopamine management practice.",
+    prompts: [
+      "What small win can I build into today that will give me a genuine sense of completion?",
+      "Am I outsourcing my motivation to quick hits — and what is that costing me?",
+      "What would one fully completed, disciplined morning feel like compared to a scattered one?",
+    ],
+  },
+  {
+    id: 5,
+    title: "Routine as Alignment",
+    icon: "◇",
+    tone: "emerald",
+    lens: "Behavioral Design",
+    summary: "When your daily actions match your stated desires, you send a unified message — to yourself and to life.",
+    detail: "Routine is not rigidity. It is congruence — the state in which what you do matches what you say you want. Incongruence creates internal static: you claim to want discipline while living in chaos, or claim to want love while neglecting yourself. A structured day does not restrict you; it proves to your subconscious that you are serious. Structure is a form of self-respect made visible.",
+    prompts: [
+      "Do my current daily actions look like the actions of someone who has what I want?",
+      "Where is there a gap between what I say I want and what my day actually reflects?",
+      "What one structural change to my day would create the most alignment?",
+    ],
+  },
+];
+
+const manifestSteps = [
+  {
+    step: "Start with one habit",
+    desc: "You do not need to overhaul your entire day. Make your bed, eat breakfast, or drink water first. One followed-through habit shifts the tone of the whole day.",
+  },
+  {
+    step: "Intentional mornings",
+    desc: "Begin with clarity — set one intention, journal for five minutes, or visualize what you want to create. How you start the morning tends to define the day's momentum.",
+  },
+  {
+    step: "Moderate, do not eliminate",
+    desc: "Moderation is more sustainable than restriction. Use pleasure as a reward that follows discipline, not as the default before it.",
+  },
+  {
+    step: "Replace passive with active",
+    desc: "Swap one passive habit (scrolling, spacing out) for an active one: a walk, ten minutes of movement, or a few minutes of meditation. Active engagement raises energy; passive consumption drains it.",
+  },
+  {
+    step: "Practice gratitude daily",
+    desc: "Gratitude shifts attention from scarcity to abundance, which is the energetic posture from which manifestation flows. Even two minutes of genuine acknowledgment changes the frequency of the day.",
+  },
+];
+
+const imaginationTechniques = [
+  {
+    id: 1,
+    title: "Looping",
+    icon: "↺",
+    tone: "violet",
+    tagline: "Short scene on repeat — locks in the state fast.",
+    bestFor: "Locking in the feeling quickly, especially if you tend to overthink.",
+    howTo: "Pick a 5–10 second end-scene that implies it is already done — not trying, not hoping. Loop it gently like a GIF: same moment, same outcome, same feeling. Keep attention on one dominant sense of naturalness: 'It is normal. It is mine.' You are not forcing; you are settling.",
+    whenItWorks: "You feel a 'click' of naturalness — not excitement, just ease. Your mind stops asking how or when.",
+    whenItFails: "It becomes mechanical — you are chanting pictures. You feel pressure to make it work. Switch to novelty or a different scene angle.",
+    prompts: [
+      "What 10-second moment would only exist if my desire were already real?",
+      "Can I feel the naturalness of that scene — not the excitement, just the 'of course'?",
+      "Is my loop implying done, or implying wanting?",
+    ],
+  },
+  {
+    id: 2,
+    title: "Repeating",
+    icon: "≋",
+    tone: "cyan",
+    tagline: "Identity-level affirmation — retrains the assumption during the day.",
+    bestFor: "Rewriting the story you tell yourself in ordinary moments between sessions.",
+    howTo: "Use a single line that states the end in present tense — 'This is already my life.' 'It is handled.' 'I am the person who has this.' Say it like a fact, not like a spell. Use it the moment you notice the old story rising, then return to normal life. You are not convincing reality; you are returning to the identity you are choosing.",
+    whenItWorks: "The old anxious thought loses traction. The new line feels increasingly like truth rather than hope.",
+    whenItFails: "You are fighting thoughts and anxiety spikes. Use one calming phrase and an exhale — 'Already done' — then drop it entirely.",
+    prompts: [
+      "What is the one-line identity statement that is truest from the end?",
+      "Am I saying this like a fact or like a wish — and what is the difference in how it lands?",
+      "When the old story rises today, what one line do I return to?",
+    ],
+  },
+  {
+    id: 3,
+    title: "Novelty",
+    icon: "◈",
+    tone: "emerald",
+    tagline: "New angles, new scenes — restores believability when looping goes stale.",
+    bestFor: "When your main loop stops producing feeling, or the desire feels abstract.",
+    howTo: "Change the proof, not the desire. Try: a friend congratulating you, seeing your name on something, receiving the message, checking an account, waking up in that life on a normal Tuesday. Change the sense: hear a tone of voice, feel an object in your hand, notice the light in the room. Your brain wakes up when the scene is fresh, and the feeling of 'of course' lands more easily.",
+    whenItWorks: "You feel real surprise or warmth at the new angle. The desire feels close and specific rather than abstract.",
+    whenItFails: "You are endlessly searching for the 'perfect scene' instead of settling into any one. Return to your original loop for one session.",
+    prompts: [
+      "What sensory detail — sound, texture, smell — would be present in the wish-fulfilled life?",
+      "What is a completely ordinary Tuesday in the life I want?",
+      "Who would be there? What would they say? What would I feel?",
+    ],
+  },
+];
+
+const threeLayerSystem = [
+  {
+    timing: "Night / deep session",
+    technique: "Looping",
+    tone: "violet",
+    desc: "1–3 minutes of a short end-scene, looped gently until the feeling of naturalness settles.",
+  },
+  {
+    timing: "Daytime",
+    technique: "Repeating",
+    tone: "cyan",
+    desc: "One identity line, 10–20 seconds, each time the old story surfaces. Then return to ordinary life.",
+  },
+  {
+    timing: "When stale",
+    technique: "Novelty",
+    tone: "emerald",
+    desc: "1–2 days of a fresh scene or angle. Then return to looping once the feeling is live again.",
+  },
+];
+
+const livingInTheEndSigns = [
+  "You feel less urgency about the desire.",
+  "You stop checking for signs as often.",
+  "You react to outer circumstances like: 'Old echo — not my source.'",
+  "You naturally think and act from: 'This is who I am.'",
+];
+
 function Pill({ children, tone = "cyan" }) {
   return (
     <span className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${tones[tone]?.pill || tones.cyan.pill}`}>
@@ -449,6 +739,60 @@ function DetailModal({ item, onClose, onReflect }) {
               <p className="text-sm leading-7 text-slate-200">{value}</p>
             </div>
           ))}
+
+          {item.attachmentStyles && (
+            <div className="space-y-3">
+              <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The three attachment styles</div>
+              {item.attachmentStyles.map(({ style, tone: styleTone, icon, tagline, traits, emotional, patterns, growthEdge }) => {
+                const st = tones[styleTone] || tones.cyan;
+                return (
+                  <div key={style} className={`rounded-2xl border p-5 ${st.card}`}>
+                    <div className="mb-3 flex items-center gap-3">
+                      <span className={`text-xl ${st.accent}`}>{icon}</span>
+                      <div>
+                        <h4 className={`text-sm font-bold ${st.accent}`}>{style}</h4>
+                        <p className="text-xs text-slate-400">{tagline}</p>
+                      </div>
+                    </div>
+                    <div className="mb-3 flex flex-wrap gap-1">
+                      {traits.map((trait) => <span key={trait} className="rounded-full border border-white/10 bg-black/20 px-2 py-0.5 text-[10px] text-slate-300">{trait}</span>)}
+                    </div>
+                    <div className="space-y-2">
+                      <div>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Emotional experience</p>
+                        <p className="text-xs leading-5 text-slate-300">{emotional}</p>
+                      </div>
+                      <div>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Relationship patterns</p>
+                        <p className="text-xs leading-5 text-slate-300">{patterns}</p>
+                      </div>
+                      <div>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Growth edge</p>
+                        <p className="text-xs leading-5 text-slate-300">{growthEdge}</p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
+          {item.avoidantGuide && (
+            <div className={`rounded-2xl border p-4 ${t.card}`}>
+              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Overcoming avoidant attachment — 9 steps toward security</div>
+              <div className="space-y-3">
+                {item.avoidantGuide.map(({ step, title, body }) => (
+                  <div key={step} className="rounded-xl border border-white/10 bg-black/20 p-4">
+                    <div className="mb-1 flex items-center gap-2">
+                      <span className={`text-xs font-black ${t.accent}`}>{step}.</span>
+                      <h4 className="text-sm font-bold text-white">{title}</h4>
+                    </div>
+                    <p className="text-xs leading-5 text-slate-400">{body}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
         </div>
 
         {(item.avoidanceForms || item.avoidanceVsRegulation || item.avoidanceBlocks || item.avoidanceAntidote) && (
@@ -560,13 +904,244 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
+function BrainGlyph() {
+  return (
+    <svg viewBox="0 0 120 120" width="150" height="150" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs><radialGradient id="brainGlow" cx="50%" cy="45%" r="60%"><stop offset="0%" stopColor="rgba(34,211,238,0.28)" /><stop offset="100%" stopColor="rgba(34,211,238,0)" /></radialGradient></defs>
+      <circle cx="60" cy="58" r="52" fill="url(#brainGlow)" />
+      <path d="M60 24c-9 0-14 5-15 11-7-1-13 4-13 11 0 3 1 5 3 7-3 2-5 5-5 9 0 6 5 11 12 11 1 6 6 10 13 10s12-4 13-10c7 0 12-5 12-11 0-4-2-7-5-9 2-2 3-4 3-7 0-7-6-12-13-11-1-6-6-11-15-11z" stroke="rgba(165,243,252,0.7)" strokeWidth="1.6" fill="rgba(34,211,238,0.05)" strokeLinejoin="round" />
+      <path d="M60 24v70M48 38c4 2 8 2 12 0M44 56c6 3 22 3 28 0M46 74c5 2 19 2 24 0" stroke="rgba(165,243,252,0.45)" strokeWidth="1.3" strokeLinecap="round" />
+    </svg>
+  );
+}
+
+function BrainRegionModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>{item.region}</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.essence}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-4 p-5">
+          {[{ label: "Connected to", value: item.connected }, { label: "Spiritual theme", value: item.theme }].map(({ label, value }) => (
+            <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <p className="text-sm leading-7 text-slate-200">{value}</p>
+            </div>
+          ))}
+          <div className={`rounded-2xl border p-4 ${t.card}`}>
+            <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Practices that strengthen it</div>
+            <div className="flex flex-wrap gap-2">{item.practices.map((p) => <span key={p} className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${t.pill}`}>{p}</span>)}</div>
+          </div>
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts for {item.title}</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function EmotionStepModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>Step {item.id}</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.summary}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-4 p-5">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">How to practice it</div>
+            <p className="text-sm leading-7 text-slate-200">{item.details}</p>
+          </div>
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ShadowModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <div className="flex items-center gap-2">
+                <span className={`text-sm font-semibold ${t.accent}`}>{item.shadow}</span>
+                <span className="text-slate-500">→</span>
+                <span className="text-lg font-bold text-white">{item.growth}</span>
+              </div>
+              <p className={`mt-1 text-xs font-medium ${t.accent}`}>{item.qualities}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-4 p-5">
+          <div className={`rounded-2xl border p-4 ${t.card}`}>
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The pattern</div>
+            <p className="text-sm leading-7 text-slate-200">{item.description}</p>
+          </div>
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ManifestModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>{item.lens}</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.summary}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="p-5">
+          <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">How it works</div>
+            <p className="text-sm leading-7 text-slate-200">{item.detail}</p>
+          </div>
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function ImaginationModal({ item, onClose, onReflect }) {
+  useEffect(() => {
+    if (!item) return undefined;
+    const handler = (e) => { if (e.key === "Escape") onClose(); };
+    window.addEventListener("keydown", handler);
+    return () => window.removeEventListener("keydown", handler);
+  }, [item, onClose]);
+
+  if (!item) return null;
+  const t = tones[item.tone] || tones.cyan;
+
+  return (
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(e) => e.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+          <div className="flex items-start justify-between gap-4">
+            <div>
+              <Pill tone={item.tone}>Imagination technique</Pill>
+              <h2 className="mt-3 text-2xl font-bold text-white">{item.icon} {item.title}</h2>
+              <p className={`mt-1 text-sm font-semibold ${t.accent}`}>{item.tagline}</p>
+            </div>
+            <div className="flex shrink-0 gap-2">
+              <button className="rounded-full border border-cyan-300/30 bg-cyan-300/10 px-4 py-2 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/20" onClick={() => onReflect(item)}>◈ Reflect</button>
+              <button className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10" onClick={onClose}>Close</button>
+            </div>
+          </div>
+        </div>
+        <div className="space-y-4 p-5">
+          {[
+            { label: "Best for", value: item.bestFor },
+            { label: "How to do it", value: item.howTo },
+            { label: "When it works", value: item.whenItWorks },
+            { label: "When it fails — switch to", value: item.whenItFails },
+          ].map(({ label, value }) => (
+            <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <p className="text-sm leading-7 text-slate-200">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="border-t border-white/10 p-5">
+          <button className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10" onClick={() => onReflect(item)}>◈ Open Reflection Prompts</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients"].includes(initialSection)
+  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "brain", "emotions", "shadow", "manifest"].includes(initialSection)
     ? initialSection
     : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
+  const [brainModal, setBrainModal] = useState(null);
+  const [emotionModal, setEmotionModal] = useState(null);
+  const [shadowModal, setShadowModal] = useState(null);
+  const [manifestModal, setManifestModal] = useState(null);
+  const [imaginationModal, setImaginationModal] = useState(null);
   const [reflectionModal, setReflectionModal] = useState(null);
   const [todayCard, setTodayCard] = useState(() => {
     try {
@@ -1153,11 +1728,262 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
               </div>
             )}
 
+            {/* BRAIN & SPIRIT */}
+            {activeTab === "brain" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Neuroscience & spirit" title="The brain as a map for inner growth">
+                  Spiritual practice does not magically reshape the skull — but repetition, attention, emotion, and lifestyle genuinely shape the brain through neuroplasticity. Each region pairs a function with a spiritual theme and the practices that strengthen it.
+                </SectionHeader>
+                <div className="grid items-center gap-6 rounded-3xl border border-white/10 bg-white/[0.04] p-6 md:grid-cols-[auto_1fr]">
+                  <div className="mx-auto"><BrainGlyph /></div>
+                  <div>
+                    <p className="text-sm leading-7 text-slate-300">Think of the brain as a landscape of inner faculties. The prefrontal cortex holds your discipline; the amygdala guards your sense of safety; the default mode network rehearses who you believe you are. Tending each region with the right practice is, in a real sense, spiritual work made physical.</p>
+                    <p className="mt-3 text-xs uppercase tracking-[0.3em] text-cyan-300/70">{brainRegions.length} regions · {brainPractices.length} core practices</p>
+                  </div>
+                </div>
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {brainRegions.map((region) => {
+                    const t = tones[region.tone] || tones.cyan;
+                    return (
+                      <button key={region.id} onClick={() => setBrainModal(region)} className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
+                        <div className="mb-4 flex items-center justify-between gap-3"><Pill tone={region.tone}>{region.region}</Pill><span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span></div>
+                        <div className="flex items-center gap-3"><span className="text-2xl">{region.icon}</span><h3 className="text-lg font-bold text-white">{region.title}</h3></div>
+                        <p className={`mt-2 text-xs font-semibold ${t.accent}`}>{region.essence}</p>
+                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">{region.connected}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div>
+                  <SectionHeader eyebrow="Apply it" title="Daily practices for brain growth">A handful of simple practices light up several regions at once.</SectionHeader>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+                    {brainPractices.map(({ practice, regions }) => (
+                      <div key={practice} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <h3 className="text-sm font-bold text-white">{practice}</h3>
+                        <p className="mt-2 text-xs leading-5 text-slate-400">{regions}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-3xl border border-amber-300/20 bg-amber-300/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">A grounding note</div>
+                  <p className="text-sm leading-7 text-slate-300">This section does not claim that spirituality enlarges the brain or changes its shape. It describes how repeated practices may support neuroplasticity, emotional regulation, focus, memory, motivation, and self-awareness — the real, trainable ground where inner growth and biology meet.</p>
+                </div>
+              </div>
+            )}
+
+            {/* EMOTIONAL AWARENESS */}
+            {activeTab === "emotions" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Emotional intelligence" title="Understanding your emotions">
+                  If you have a hard time reading your own feelings, you are not alone — and noticing that is already a meaningful first step. These eight practices build emotional self-awareness one layer at a time.
+                </SectionHeader>
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {emotionSteps.map((step) => {
+                    const t = tones[step.tone] || tones.cyan;
+                    return (
+                      <button key={step.id} onClick={() => setEmotionModal(step)} className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
+                        <div className="mb-4 flex items-center justify-between gap-3"><Pill tone={step.tone}>Step {step.id}</Pill><span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span></div>
+                        <div className="flex items-center gap-3"><span className={`text-2xl ${t.accent}`}>{step.icon}</span><h3 className="text-lg font-bold text-white">{step.title}</h3></div>
+                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">{step.summary}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div>
+                  <SectionHeader eyebrow="Start here" title="Guided journal prompts">Pick one and write for five minutes without editing.</SectionHeader>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {emotionJournalPrompts.map((prompt, i) => (
+                      <div key={i} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-300/70">Prompt {i + 1}</p>
+                        <p className="text-sm leading-6 text-slate-300">{prompt}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">A note on confusion</div>
+                  <p className="text-sm leading-7 text-slate-300">Emotions are layered, messy, and often contradictory. You can feel anger and love at the same time. Relief and guilt. Hope and exhaustion. That is not a malfunction — that is depth. The goal is not to always be clear, but to stay curious long enough to learn something.</p>
+                </div>
+                <div>
+                  <SectionHeader eyebrow="Mindfulness practice" title="Awareness without judgment">
+                    Observing your inner experience — thoughts, feelings, sensations — without labeling them as good or bad is the foundation of mindfulness. Here are five steps to build that practice.
+                  </SectionHeader>
+                  <div className="space-y-3">
+                    {nonJudgmentSteps.map(({ step, title, icon, tone, body }) => {
+                      const t = tones[tone] || tones.cyan;
+                      return (
+                        <div key={step} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+                          <div className="mb-2 flex items-center gap-3">
+                            <span className={`text-xs font-black ${t.accent}`}>{step}.</span>
+                            <span className={`text-lg ${t.accent}`}>{icon}</span>
+                            <h4 className="text-sm font-bold text-white">{title}</h4>
+                          </div>
+                          <p className="text-sm leading-6 text-slate-300">{body}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* SHADOW & GROWTH */}
+            {activeTab === "shadow" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Inner work" title="Shadow patterns and their growth edge">
+                  Every shadow is a strength in disguise — compressed by fear, habit, or old protection. These ten patterns show the move from contraction to expansion.
+                </SectionHeader>
+                <div className="grid gap-4 md:grid-cols-2">
+                  {shadowPatterns.map((pattern) => {
+                    const t = tones[pattern.tone] || tones.cyan;
+                    return (
+                      <button key={pattern.id} onClick={() => setShadowModal(pattern)} className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
+                        <div className="mb-4 flex items-center justify-between gap-3"><span className={`text-2xl ${t.accent}`}>{pattern.icon}</span><span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span></div>
+                        <div className="flex items-center gap-2"><span className="text-sm font-semibold text-slate-400">{pattern.shadow}</span><span className="text-slate-500">→</span><span className="text-sm font-bold text-white">{pattern.growth}</span></div>
+                        <p className={`mt-1 text-xs font-medium ${t.accent}`}>{pattern.qualities}</p>
+                        <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{pattern.description}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+                <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">How to use this</div>
+                  <p className="text-sm leading-7 text-slate-300">Pick the pattern that lands hardest. Open it. Read the description slowly. Then take one reflection prompt to a journal or a quiet moment. The shadow does not need to be eliminated — it needs to be understood. Understanding is already the beginning of the growth edge.</p>
+                </div>
+              </div>
+            )}
+
+            {/* MANIFESTATION & HABITS */}
+            {activeTab === "manifest" && (
+              <div className="space-y-8">
+                <SectionHeader eyebrow="Alignment & action" title="Daily habits and manifestation">
+                  What you do during the day directly shapes what you attract — both energetically and psychologically. These five concepts explain why daily habits are not just practical; they are the lived version of your intentions. Open any concept to go deeper, then use the daily steps to apply it.
+                </SectionHeader>
+
+                {/* Concept cards */}
+                <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+                  {manifestConcepts.map((concept) => {
+                    const t = tones[concept.tone] || tones.cyan;
+                    return (
+                      <button
+                        key={concept.id}
+                        onClick={() => setManifestModal(concept)}
+                        className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                      >
+                        <div className="mb-4 flex items-center justify-between gap-3">
+                          <Pill tone={concept.tone}>{concept.lens}</Pill>
+                          <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          <span className={`text-2xl ${t.accent}`}>{concept.icon}</span>
+                          <h3 className="text-lg font-bold text-white">{concept.title}</h3>
+                        </div>
+                        <p className="mt-3 line-clamp-3 text-sm leading-6 text-slate-300">{concept.summary}</p>
+                      </button>
+                    );
+                  })}
+                </div>
+
+                {/* Daily steps */}
+                <div>
+                  <SectionHeader eyebrow="Apply it today" title="Five steps to align your day">
+                    You do not need to transform everything at once. Start with one step and build from there.
+                  </SectionHeader>
+                  <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                    {manifestSteps.map(({ step, desc }, i) => (
+                      <div key={step} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+                        <p className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-cyan-300/70">Step {i + 1}</p>
+                        <h3 className="text-sm font-bold text-white">{step}</h3>
+                        <p className="mt-2 text-xs leading-5 text-slate-400">{desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Imagination techniques */}
+                <div>
+                  <SectionHeader eyebrow="Imagination techniques" title="Looping, repeating, and novelty">
+                    Three ways to imagine from the end — each serves a different moment. Use the right one for where you are, not all three at once.
+                  </SectionHeader>
+                  <div className="grid gap-4 md:grid-cols-3">
+                    {imaginationTechniques.map((tech) => {
+                      const t = tones[tech.tone] || tones.cyan;
+                      return (
+                        <button
+                          key={tech.id}
+                          onClick={() => setImaginationModal(tech)}
+                          className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]"
+                        >
+                          <div className="mb-4 flex items-center justify-between gap-3">
+                            <Pill tone={tech.tone}>{tech.bestFor.split(',')[0].split('.')[0].split('—')[0].trim().slice(0, 30)}</Pill>
+                            <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
+                          </div>
+                          <div className="flex items-center gap-3">
+                            <span className={`text-2xl ${t.accent}`}>{tech.icon}</span>
+                            <h3 className="text-lg font-bold text-white">{tech.title}</h3>
+                          </div>
+                          <p className={`mt-2 text-xs font-semibold ${t.accent}`}>{tech.tagline}</p>
+                          <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{tech.bestFor}</p>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* 3-layer system */}
+                <div>
+                  <SectionHeader eyebrow="Daily rhythm" title="The 3-layer system">
+                    Night, daytime, and when stale — one technique for each context.
+                  </SectionHeader>
+                  <div className="grid gap-3 md:grid-cols-3">
+                    {threeLayerSystem.map(({ timing, technique, tone, desc }) => {
+                      const t = tones[tone] || tones.cyan;
+                      return (
+                        <div key={timing} className={`rounded-2xl border p-5 ${t.card}`}>
+                          <p className={`text-xs font-bold uppercase tracking-[0.2em] ${t.accent}`}>{timing}</p>
+                          <h3 className="mt-2 text-sm font-bold text-white">{technique}</h3>
+                          <p className="mt-2 text-xs leading-5 text-slate-400">{desc}</p>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Living in the end check */}
+                <div className="rounded-3xl border border-cyan-300/20 bg-cyan-300/5 p-6">
+                  <div className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/80">Living in the end — the check</div>
+                  <div className="space-y-3">
+                    {livingInTheEndSigns.map((sign, i) => (
+                      <div key={i} className="flex items-start gap-3">
+                        <span className="mt-0.5 h-2 w-2 shrink-0 rounded-full bg-cyan-400" />
+                        <p className="text-sm leading-6 text-slate-300">{sign}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Reflection */}
+                <div className="rounded-3xl border border-violet-400/20 bg-violet-500/5 p-6">
+                  <div className="mb-2 text-xs font-bold uppercase tracking-[0.3em] text-violet-300/80">The deeper principle</div>
+                  <p className="text-sm leading-7 text-slate-300">
+                    Manifestation is not just about thinking your desires into existence. It is about embodying the energy and mindset that match what you want. When your actions are disciplined and intentional, you show your subconscious — and the field of possibility — that you are serious. That congruence is what creates the cycle of positive reinforcement that makes real change feel inevitable, not forced.
+                  </p>
+                </div>
+              </div>
+            )}
+
           </section>
         </main>
       </div>
 
       <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
+
+      <BrainRegionModal item={brainModal} onClose={() => setBrainModal(null)} onReflect={openReflection} />
+      <EmotionStepModal item={emotionModal} onClose={() => setEmotionModal(null)} onReflect={openReflection} />
+      <ShadowModal item={shadowModal} onClose={() => setShadowModal(null)} onReflect={openReflection} />
+      <ManifestModal item={manifestModal} onClose={() => setManifestModal(null)} onReflect={openReflection} />
+      <ImaginationModal item={imaginationModal} onClose={() => setImaginationModal(null)} onReflect={openReflection} />
 
       {reflectionModal && (
         <ReflectionModal
