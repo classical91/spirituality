@@ -1061,9 +1061,14 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
             {tabGroups.map((group, gi) => (
               <div key={group.label} className="flex items-center gap-2">
                 {gi > 0 && <span className="h-7 w-px shrink-0 bg-white/10" aria-hidden="true" />}
-                <span className="shrink-0 px-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-500">
+                <button
+                  type="button"
+                  onClick={() => setActiveTab(group.tabs[0].id)}
+                  title={`Go to ${group.tabs[0].label}`}
+                  className="shrink-0 cursor-pointer px-1 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-slate-500 transition hover:text-slate-200"
+                >
                   {group.label}
-                </span>
+                </button>
                 {group.tabs.map((tab) => (
                   <button
                     key={tab.id}
