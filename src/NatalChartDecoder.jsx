@@ -3,16 +3,166 @@ import './NatalChartDecoder.css';
 import SafetyNote from './components/SafetyNote';
 
 const planets = [
-  { name: "Sun", symbol: "☉", metal: "Gold", metalSymbol: "Au", metalMeaning: "Gold symbolizes vitality, royalty, incorruptibility, radiance, life force, and the centered self.", symbolicBridge: "Sun and gold both point to the center: the radiant, visible, life-giving principle.", keywords: "identity, vitality, confidence, purpose", meaning: "The Sun shows your core identity, life force, confidence, and the part of you that wants to become fully expressed.", beginner: "Think of the Sun as the center of the chart. It shows the main character energy.", deeper: "The Sun is not every part of your personality. It is the part that seeks coherence, direction, visibility, and conscious self-expression.", watch: "Do not reduce the whole chart to the Sun sign. It is important, but it is only one piece.", example: "Sun in Leo in the 10th House may seek recognition through creativity, leadership, or public achievement." },
-  { name: "Moon", symbol: "☽", metal: "Silver", metalSymbol: "Ag", metalMeaning: "Silver symbolizes reflection, receptivity, intuition, emotional tides, memory, and lunar sensitivity.", symbolicBridge: "Moon and silver both reflect light rather than generate it. They symbolize feeling, memory, and emotional response.", keywords: "emotions, instincts, needs, comfort", meaning: "The Moon shows emotional needs, instinctive reactions, attachment patterns, memory, and what helps someone feel safe.", beginner: "The Moon is the private emotional self.", deeper: "It describes how someone self-soothes, bonds, protects themselves, and responds when they are vulnerable.", watch: "A person may not show their Moon immediately. It often appears in private, family, stress, and intimacy.", example: "Moon in Scorpio in the 7th House may need deep emotional bonding through partnership." },
-  { name: "Mercury", symbol: "☿", metal: "Quicksilver / Mercury", metalSymbol: "Hg", metalMeaning: "Mercury symbolizes movement, exchange, transformation, language, cleverness, and fluid intelligence.", symbolicBridge: "Mercury as a metal is fluid and hard to pin down, matching Mercury as the planet of mind, speech, trade, and movement.", keywords: "mind, communication, learning, speech", meaning: "Mercury shows how someone thinks, speaks, learns, processes information, and makes connections.", beginner: "Mercury is the mental and communication style.", deeper: "It shows how the nervous system gathers data, names experiences, asks questions, and translates thoughts into words.", watch: "Mercury does not show intelligence level. It shows the style of thinking.", example: "Mercury in Gemini in the 3rd House may be quick, verbal, curious, and mentally restless." },
-  { name: "Venus", symbol: "♀", metal: "Copper", metalSymbol: "Cu", metalMeaning: "Copper symbolizes beauty, attraction, conductivity, harmony, softness, sensuality, and bonding.", symbolicBridge: "Venus and copper both carry the theme of connection: attraction, beauty, magnetism, and relational warmth.", keywords: "love, attraction, beauty, values, pleasure", meaning: "Venus shows love style, affection, attraction, pleasure, harmony, taste, and what someone values.", beginner: "Venus is how someone gives and receives affection.", deeper: "It reveals relational preferences, aesthetic taste, sensual enjoyment, and what feels desirable or worth preserving.", watch: "Venus is not the whole relationship pattern. Also check Moon, Mars, 5th House, 7th House, and aspects.", example: "Venus in Cancer in the 5th House may love through tenderness, romance, nostalgia, and emotional care." },
-  { name: "Mars", symbol: "♂", metal: "Iron", metalSymbol: "Fe", metalMeaning: "Iron symbolizes force, blood, weaponry, heat, conflict, courage, effort, and raw physical action.", symbolicBridge: "Mars and iron both carry the energy of strength, conflict, assertion, survival, and direct action.", keywords: "drive, action, desire, anger, pursuit", meaning: "Mars shows action, drive, courage, sexual energy, anger, conflict style, and how someone goes after what they want.", beginner: "Mars is the engine.", deeper: "It describes how someone asserts themselves, handles frustration, initiates, competes, protects, and moves toward desire.", watch: "Mars can be healthy assertion or reactive aggression depending on awareness and context.", example: "Mars in Aries in the 1st House may act quickly, directly, and independently." },
-  { name: "Jupiter", symbol: "♃", metal: "Tin", metalSymbol: "Sn", metalMeaning: "Tin symbolizes expansion, generosity, protection, teaching, law, blessing, and the growth principle.", symbolicBridge: "Jupiter and tin share the image of expansion, benevolence, wisdom, increase, and social order.", keywords: "growth, faith, opportunity, wisdom", meaning: "Jupiter shows expansion, optimism, belief, wisdom, luck, teaching, and the areas where life wants to grow larger.", beginner: "Jupiter is where life expands.", deeper: "It can show faith, philosophy, education, generosity, confidence, and sometimes excess.", watch: "Jupiter can overdo things. Growth needs grounding.", example: "Jupiter in Sagittarius in the 9th House may grow through travel, learning, faith, and teaching." },
-  { name: "Saturn", symbol: "♄", metal: "Lead", metalSymbol: "Pb", metalMeaning: "Lead symbolizes heaviness, time, weight, limitation, endurance, density, mortality, and slow transformation.", symbolicBridge: "Saturn and lead both describe what is heavy, slow, serious, binding, structured, and eventually mastered.", keywords: "discipline, limits, maturity, responsibility", meaning: "Saturn shows structure, responsibility, fear, discipline, delay, mastery, and long-term growth.", beginner: "Saturn is where life asks for maturity.", deeper: "It often points to pressure, insecurity, boundaries, and the area where effort eventually creates strength.", watch: "Saturn is not only restriction. It can become mastery and stability.", example: "Saturn in the 11th House may create lessons around friendships, belonging, and long-term goals." },
-  { name: "Uranus", symbol: "♅", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Uranus was not part of the traditional seven-planet metal system. It can be treated as an advanced modern layer.", symbolicBridge: "Uranus can be linked symbolically with electricity, rebellion, disruption, invention, and sudden awakening.", keywords: "freedom, disruption, originality, rebellion", meaning: "Uranus shows originality, sudden change, independence, innovation, rebellion, and the need for freedom.", beginner: "Uranus is the rule-breaker.", deeper: "It disrupts stale patterns and awakens individuality, but it can also create instability or emotional distance.", watch: "Uranus can confuse freedom with avoidance.", example: "Uranus in the 12th House may show hidden restlessness or sudden inner awakenings." },
-  { name: "Neptune", symbol: "♆", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Neptune was not part of the traditional seven-planet metal system. It belongs to the modern planetary layer.", symbolicBridge: "Neptune can be linked symbolically with mist, oceans, dreams, dissolution, spirituality, and illusion.", keywords: "dreams, spirituality, imagination, illusion", meaning: "Neptune shows imagination, spirituality, compassion, fantasy, idealization, confusion, and dissolving boundaries.", beginner: "Neptune is the dream world.", deeper: "It can show mystical sensitivity, artistic inspiration, escapism, longing, and places where reality can blur.", watch: "Neptune can idealize people or situations. Clarity matters.", example: "Neptune in the 1st House may make someone appear sensitive, mysterious, or hard to define." },
-  { name: "Pluto", symbol: "♇", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Pluto was not part of the traditional seven-planet metal system. It belongs to modern astrology.", symbolicBridge: "Pluto can be linked symbolically with underworld matter, pressure, decay, purification, power, and rebirth.", keywords: "power, shadow, transformation, obsession", meaning: "Pluto shows transformation, intensity, control, shadow material, psychological depth, and rebirth.", beginner: "Pluto is deep transformation.", deeper: "It exposes what is buried, compulsive, feared, or powerful so it can be faced and transformed.", watch: "Pluto can become obsession, power struggle, or emotional extremity when unconscious.", example: "Pluto in the 8th House may intensify intimacy, trust, secrets, and shared resources." },
+  { name: "Sun", symbol: "☉", metal: "Gold", metalSymbol: "Au", metalMeaning: "Gold symbolizes vitality, royalty, incorruptibility, radiance, life force, and the centered self.", symbolicBridge: "Sun and gold both point to the center: the radiant, visible, life-giving principle.", keywords: "identity, vitality, confidence, purpose", meaning: "The Sun shows your core identity, life force, confidence, and the part of you that wants to become fully expressed.", beginner: "Think of the Sun as the center of the chart. It shows the main character energy.", deeper: "The Sun is not every part of your personality. It is the part that seeks coherence, direction, visibility, and conscious self-expression.", watch: "Do not reduce the whole chart to the Sun sign. It is important, but it is only one piece.", example: "Sun in Leo in the 10th House may seek recognition through creativity, leadership, or public achievement.",
+    houses: [
+      "Identity expressed through the body, appearance, and personal presence. The self is the project.",
+      "Identity built through values, possessions, and material self-sufficiency. Worth is tied to what is earned.",
+      "Identity through ideas, communication, and intellectual connection. The mind defines the self.",
+      "Identity rooted in home, ancestry, and emotional belonging. The inner world is the foundation.",
+      "Identity expressed through creativity, self-expression, romance, and joy. Life is meant to shine.",
+      "Identity through work, health, and daily contribution. Purpose is found in service and craft.",
+      "Identity shaped through relationship. The self comes into focus through partnership and others.",
+      "Identity through transformation, depth, and confronting what is hidden. Rebirth is the path.",
+      "Identity through exploration, philosophy, and the search for meaning. The quest defines the self.",
+      "Identity through career, achievement, and public contribution. Legacy and reputation matter deeply.",
+      "Identity through community, friendship, and collective vision. Purpose found in belonging to something larger.",
+      "Identity found in solitude, retreat, and spiritual deepening. The hidden self holds the truth.",
+    ]
+  },
+  { name: "Moon", symbol: "☽", metal: "Silver", metalSymbol: "Ag", metalMeaning: "Silver symbolizes reflection, receptivity, intuition, emotional tides, memory, and lunar sensitivity.", symbolicBridge: "Moon and silver both reflect light rather than generate it. They symbolize feeling, memory, and emotional response.", keywords: "emotions, instincts, needs, comfort", meaning: "The Moon shows emotional needs, instinctive reactions, attachment patterns, memory, and what helps someone feel safe.", beginner: "The Moon is the private emotional self.", deeper: "It describes how someone self-soothes, bonds, protects themselves, and responds when they are vulnerable.", watch: "A person may not show their Moon immediately. It often appears in private, family, stress, and intimacy.", example: "Moon in Scorpio in the 7th House may need deep emotional bonding through partnership.",
+    houses: [
+      "Emotions visible on the surface; moods shape the outer expression and first impression.",
+      "Security tied to material comfort and financial stability. Feelings calm when basic needs are met.",
+      "Emotional comfort through communication, learning, and familiar surroundings. Talking processes feeling.",
+      "Deep bond to home and family. The inner world is strongly rooted in origin and early life.",
+      "Emotional expression through creativity, play, and romance. Feelings flow through joy and self-expression.",
+      "Feelings processed through routine, service, and practical care. Helping others soothes the inner world.",
+      "Emotional security sought through close partnership. The inner life is shaped by relationship.",
+      "Intense emotional depth; instinctive pull toward transformation, intimacy, and what is hidden.",
+      "Emotional comfort through exploration, belief, and expanding understanding. Freedom soothes.",
+      "Feelings tied to reputation, achievement, and public role. Emotional life influenced by authority figures.",
+      "Emotional connection through friendship, group belonging, and shared ideals.",
+      "Rich private emotional world. Needs solitude to process. Strong unconscious emotional layer.",
+    ]
+  },
+  { name: "Mercury", symbol: "☿", metal: "Quicksilver / Mercury", metalSymbol: "Hg", metalMeaning: "Mercury symbolizes movement, exchange, transformation, language, cleverness, and fluid intelligence.", symbolicBridge: "Mercury as a metal is fluid and hard to pin down, matching Mercury as the planet of mind, speech, trade, and movement.", keywords: "mind, communication, learning, speech", meaning: "Mercury shows how someone thinks, speaks, learns, processes information, and makes connections.", beginner: "Mercury is the mental and communication style.", deeper: "It shows how the nervous system gathers data, names experiences, asks questions, and translates thoughts into words.", watch: "Mercury does not show intelligence level. It shows the style of thinking.", example: "Mercury in Gemini in the 3rd House may be quick, verbal, curious, and mentally restless.",
+    houses: [
+      "Mind expressed outwardly through personality and first impression. Quick to speak, form opinions, and engage.",
+      "Practical thinking around money, values, and material matters. The mind is focused on what is useful.",
+      "At home here — curious, verbal, and socially connected. Communication flows easily and constantly.",
+      "Thinking shaped by family background and inner life. Processes privately, often at home.",
+      "Creative and playful mind. Communication through story, humor, and self-expression.",
+      "Detail-oriented and analytical. Mind focused on work, improvement, and practical problem-solving.",
+      "Thinking engaged through dialogue and relationship. The other person stimulates and sharpens thought.",
+      "Penetrating and investigative mind. Drawn to psychology, hidden patterns, and deep knowledge.",
+      "Philosophical thinker. Mind expands through travel, higher study, and the search for meaning.",
+      "Strategic communicator. Thinking shaped by career, reputation, and long-term ambition.",
+      "Ideas flow through networks, friendship, and collective interests. The mind is socially engaged.",
+      "Rich inner life. Thought is private, intuitive, and often more developed than what is spoken.",
+    ]
+  },
+  { name: "Venus", symbol: "♀", metal: "Copper", metalSymbol: "Cu", metalMeaning: "Copper symbolizes beauty, attraction, conductivity, harmony, softness, sensuality, and bonding.", symbolicBridge: "Venus and copper both carry the theme of connection: attraction, beauty, magnetism, and relational warmth.", keywords: "love, attraction, beauty, values, pleasure", meaning: "Venus shows love style, affection, attraction, pleasure, harmony, taste, and what someone values.", beginner: "Venus is how someone gives and receives affection.", deeper: "It reveals relational preferences, aesthetic taste, sensual enjoyment, and what feels desirable or worth preserving.", watch: "Venus is not the whole relationship pattern. Also check Moon, Mars, 5th House, 7th House, and aspects.", example: "Venus in Cancer in the 5th House may love through tenderness, romance, nostalgia, and emotional care.",
+    houses: [
+      "Beauty expressed through appearance and personal presence. Charming, warm, and naturally attractive first impression.",
+      "Love of comfort, sensual pleasure, and financial security. Values what is stable, beautiful, and lasting.",
+      "Affection through words, conversation, and lighthearted connection. Warmth expressed through communication.",
+      "Home as sanctuary. Warmth and beauty in domestic life matter deeply. Loving family atmosphere is a priority.",
+      "Romance, creativity, and heartfelt pleasure. Love expressed playfully, passionately, and with joy.",
+      "Love through care, acts of service, and health-oriented routines. Affection shown in practical, helpful ways.",
+      "Strong pull toward partnership. Love and relationship are central to identity and daily life.",
+      "Intense attraction. Love involves depth, transformation, and shared vulnerability. Values go beneath the surface.",
+      "Freedom in love. Attracted to adventure, philosophy, and expansive partners. Needs space to grow within relationship.",
+      "Aesthetic sense applied to public life. Attracted to accomplished or admired people. Career and beauty intersect.",
+      "Affection through friendship, shared causes, and social networks. Love feels most real in community.",
+      "Private or hidden love life. Deep compassion expressed quietly or in solitude. Love may be unconventional.",
+    ]
+  },
+  { name: "Mars", symbol: "♂", metal: "Iron", metalSymbol: "Fe", metalMeaning: "Iron symbolizes force, blood, weaponry, heat, conflict, courage, effort, and raw physical action.", symbolicBridge: "Mars and iron both carry the energy of strength, conflict, assertion, survival, and direct action.", keywords: "drive, action, desire, anger, pursuit", meaning: "Mars shows action, drive, courage, sexual energy, anger, conflict style, and how someone goes after what they want.", beginner: "Mars is the engine.", deeper: "It describes how someone asserts themselves, handles frustration, initiates, competes, protects, and moves toward desire.", watch: "Mars can be healthy assertion or reactive aggression depending on awareness and context.", example: "Mars in Aries in the 1st House may act quickly, directly, and independently.",
+    houses: [
+      "Strong drive expressed through the body and personality. Confident, direct, and independent in action.",
+      "Energy directed toward earning and building material security. Motivated by financial goals.",
+      "Active and sharp communicator. Energy moves through words, ideas, and local connection.",
+      "Drive expressed within the home and family. Can create domestic tension or fierce protection of loved ones.",
+      "Passionate self-expression. Competitive in creativity and romance. High physical and sexual energy.",
+      "Hard worker. Energy directed toward practical tasks, health, and service. Productive and exacting.",
+      "Drive channeled through relationship. Can attract or become rivals with partners. Needs balanced assertion.",
+      "Intense desire. Energy directed toward transformation, shared depth, and what is hidden or taboo.",
+      "Action through adventure, travel, belief, and philosophical pursuit. Motivated by freedom and meaning.",
+      "Ambitious drive toward career and public achievement. Energy is disciplined and goal-oriented.",
+      "Motivated by group causes and collective action. Can be an activist or competitive in community.",
+      "Hidden or unconscious drive. Energy benefits from spiritual, creative, or behind-the-scenes outlets.",
+    ]
+  },
+  { name: "Jupiter", symbol: "♃", metal: "Tin", metalSymbol: "Sn", metalMeaning: "Tin symbolizes expansion, generosity, protection, teaching, law, blessing, and the growth principle.", symbolicBridge: "Jupiter and tin share the image of expansion, benevolence, wisdom, increase, and social order.", keywords: "growth, faith, opportunity, wisdom", meaning: "Jupiter shows expansion, optimism, belief, wisdom, luck, teaching, and the areas where life wants to grow larger.", beginner: "Jupiter is where life expands.", deeper: "It can show faith, philosophy, education, generosity, confidence, and sometimes excess.", watch: "Jupiter can overdo things. Growth needs grounding.", example: "Jupiter in Sagittarius in the 9th House may grow through travel, learning, faith, and teaching.",
+    houses: [
+      "Natural optimism and confidence expressed through personality and appearance. Life tends to expand outward.",
+      "Financial generosity and abundance in values. Tends toward material comfort and a generous relationship with resources.",
+      "Growth through learning, writing, communication, and local connection. The mind is blessed with breadth.",
+      "Expansion in home and family life. Strong sense of roots and belonging. Family may be large or supportive.",
+      "Luck and joy in creativity, romance, and self-expression. Children or creative projects may be especially fulfilling.",
+      "Growth through service, health work, and improving everyday life. Generous in daily contribution.",
+      "Blessings through partnership. Expansive, generous, and lucky in relationship. Marriage may bring growth.",
+      "Growth through transformation, shared resources, and deep investigation. Benefits from inheritance or collaboration.",
+      "At home here — wisdom, travel, philosophy, and higher education flourish. Life expands through belief.",
+      "Career success and public recognition. Tends toward respected, influential, or teaching roles.",
+      "Luck through friendship, networks, and community involvement. Growth happens in collective settings.",
+      "Spiritual growth through solitude, inner retreat, and compassion. Behind-the-scenes work is deeply rewarding.",
+    ]
+  },
+  { name: "Saturn", symbol: "♄", metal: "Lead", metalSymbol: "Pb", metalMeaning: "Lead symbolizes heaviness, time, weight, limitation, endurance, density, mortality, and slow transformation.", symbolicBridge: "Saturn and lead both describe what is heavy, slow, serious, binding, structured, and eventually mastered.", keywords: "discipline, limits, maturity, responsibility", meaning: "Saturn shows structure, responsibility, fear, discipline, delay, mastery, and long-term growth.", beginner: "Saturn is where life asks for maturity.", deeper: "It often points to pressure, insecurity, boundaries, and the area where effort eventually creates strength.", watch: "Saturn is not only restriction. It can become mastery and stability.", example: "Saturn in the 11th House may create lessons around friendships, belonging, and long-term goals.",
+    houses: [
+      "Serious or reserved presence. Lessons around identity, the body, and self-worth. Slow to build confidence but deeply earned.",
+      "Lessons around money, values, and material self-sufficiency. Fear of lack drives discipline around resources.",
+      "Discipline in communication. May feel unheard or struggle to express early in life. Writing and precision develop over time.",
+      "Structured or difficult early home life. Lessons around emotional security and the meaning of belonging.",
+      "Blocks around creativity, play, and romantic expression. Slow to open emotionally but capable of serious creative depth.",
+      "Strong work ethic and discipline around health. Risk of over-functioning in service or ignoring the body's limits.",
+      "Serious approach to partnership. Relationships involve commitment, hard lessons, and long-term responsibility.",
+      "Deep lessons around intimacy, shared resources, and confronting mortality. Transformation comes through facing fear.",
+      "Structured belief system. Wisdom arrives through experience, discipline, and questioning assumptions over time.",
+      "Central life lesson around career, authority, and long-term integrity. Public reputation is built slowly and carefully.",
+      "Lessons around belonging, friendship, and working toward long-term collective goals. Community takes effort.",
+      "Deep inner work and confronting unconscious fears over time. Spiritual discipline is the path to freedom.",
+    ]
+  },
+  { name: "Uranus", symbol: "♅", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Uranus was not part of the traditional seven-planet metal system. It can be treated as an advanced modern layer.", symbolicBridge: "Uranus can be linked symbolically with electricity, rebellion, disruption, invention, and sudden awakening.", keywords: "freedom, disruption, originality, rebellion", meaning: "Uranus shows originality, sudden change, independence, innovation, rebellion, and the need for freedom.", beginner: "Uranus is the rule-breaker.", deeper: "It disrupts stale patterns and awakens individuality, but it can also create instability or emotional distance.", watch: "Uranus can confuse freedom with avoidance.", example: "Uranus in the 12th House may show hidden restlessness or sudden inner awakenings.",
+    houses: [
+      "Unconventional personality and appearance. Strong need for personal freedom and the right to self-define.",
+      "Unpredictable finances. Disrupts conventional relationship to money, values, and material security.",
+      "Original and inventive thinker. Unconventional or disrupted education. Communication comes in flashes.",
+      "Disrupted or non-traditional home life. Freedom from family expectations is important and sometimes necessary.",
+      "Creative originality and unconventional romance. Sudden breaks or unexpected awakenings in self-expression.",
+      "Innovative work style. Disrupts rigid routines. Health approached through alternative or experimental methods.",
+      "Attracts unusual or freedom-loving partners. Tension between needing closeness and needing independence.",
+      "Sudden transformation. Unexpected changes in shared resources, deep psychology, or intimate dynamics.",
+      "Original philosophy and breaks from traditional belief. Unconventional travel, education, or spiritual path.",
+      "Disrupts or reinvents career. Unusual or pioneering public path. Professional life resists convention.",
+      "At home here — visionary friendship, collective innovation, and social change. Community is where awakening happens.",
+      "Hidden awakening and sudden spiritual insights. Unconscious rebellion that eventually becomes liberation.",
+    ]
+  },
+  { name: "Neptune", symbol: "♆", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Neptune was not part of the traditional seven-planet metal system. It belongs to the modern planetary layer.", symbolicBridge: "Neptune can be linked symbolically with mist, oceans, dreams, dissolution, spirituality, and illusion.", keywords: "dreams, spirituality, imagination, illusion", meaning: "Neptune shows imagination, spirituality, compassion, fantasy, idealization, confusion, and dissolving boundaries.", beginner: "Neptune is the dream world.", deeper: "It can show mystical sensitivity, artistic inspiration, escapism, longing, and places where reality can blur.", watch: "Neptune can idealize people or situations. Clarity matters.", example: "Neptune in the 1st House may make someone appear sensitive, mysterious, or hard to define.",
+    houses: [
+      "Elusive or sensitive presence. Others may project onto or idealize the person. Identity can feel fluid or undefined.",
+      "Confused or idealized relationship with money and material security. Boundaries around resources need attention.",
+      "Dreamy communicator and imaginative thinker. Creative writer or speaker. Early education may feel unclear.",
+      "Spiritual sensitivity rooted in family and home. The domestic life may feel idealized or emotionally blurred.",
+      "Romantic idealism and creative imagination. Falls in love with visions and ideals. Art is deeply felt.",
+      "Healing through compassionate service. Health routines need grounding and realistic structure.",
+      "Idealized partners. May struggle to see relationships clearly. Compassion and confusion can mix in partnership.",
+      "Deep spiritual sensitivity around transformation, loss, and shared depth. The unconscious is very active.",
+      "Mystical philosophy and spiritual seeking. Beliefs dissolve and reform. Drawn to transcendence and the infinite.",
+      "Unclear or idealized career. Drawn to artistic, healing, or spiritual vocations. Public image may be elusive.",
+      "Idealistic friendships and connection to spiritual or creative collective movements. Community can feel otherworldly.",
+      "At home here — deep spiritual sensitivity, vivid dreams, and the unconscious inner world. A natural mystic.",
+    ]
+  },
+  { name: "Pluto", symbol: "♇", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Pluto was not part of the traditional seven-planet metal system. It belongs to modern astrology.", symbolicBridge: "Pluto can be linked symbolically with underworld matter, pressure, decay, purification, power, and rebirth.", keywords: "power, shadow, transformation, obsession", meaning: "Pluto shows transformation, intensity, control, shadow material, psychological depth, and rebirth.", beginner: "Pluto is deep transformation.", deeper: "It exposes what is buried, compulsive, feared, or powerful so it can be faced and transformed.", watch: "Pluto can become obsession, power struggle, or emotional extremity when unconscious.", example: "Pluto in the 8th House may intensify intimacy, trust, secrets, and shared resources.",
+    houses: [
+      "Intense magnetism and presence. Identity shaped by deep transformation. The self is repeatedly reborn.",
+      "Power dynamics around money and values. Transformation comes through confronting attachment to security.",
+      "Penetrating mind and intense communication. Transformative education or sibling experiences mark the path.",
+      "Deep family power dynamics and ancestral patterns. Transformation through confronting the roots.",
+      "Intense creative and romantic experiences. Powerful bond with children or art. Love is never surface-level.",
+      "Transformation through work and health. Driven in healing or service roles. The daily life holds deep power.",
+      "Power dynamics in relationships. Transformative partnerships that change both people at the core.",
+      "At home here — intense, deep, and transformative in intimacy, shared resources, and psychological depth.",
+      "Transformation through philosophy, travel, and radical shifts in belief. Old worldviews die and are reborn.",
+      "Power in the public sphere. Career involves transformation, depth, or subject matter others avoid.",
+      "Transformation through collective causes. Power dynamics in group settings. The community holds shadow material.",
+      "Deep unconscious material surfaces over time. Spiritual transformation through facing what has been buried.",
+    ]
+  },
 ];
 
 const signs = [
@@ -202,6 +352,22 @@ function ModalContent({ type, data }) {
         <div className="modal-section"><h4>Deeper layer</h4><p>{data.deeper}</p></div>
         <div className="modal-section"><h4>Watch for</h4><p>{data.watch}</p></div>
         <div className="modal-section"><h4>Example</h4><p>{data.example}</p></div>
+        {data.houses && (
+          <div className="modal-section">
+            <h4>In the houses</h4>
+            <p style={{ marginBottom: '12px', opacity: 0.7, fontSize: '0.85em' }}>The house shows <em>where</em> in life this planet's energy plays out.</p>
+            <div className="decan-list">
+              {data.houses.map((desc, i) => (
+                <div key={i} className="decan-row">
+                  <div className="decan-head">
+                    <span className="decan-range">{i + 1}{['st','nd','rd'][i] ?? 'th'} House</span>
+                  </div>
+                  <p>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
       </>
     );
   }
