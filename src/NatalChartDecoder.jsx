@@ -254,7 +254,11 @@ function ModalContent({ type, data }) {
 
 export default function NatalChartDecoder({ onBack, initialSection }) {
   const [activeTab, setActiveTab] = useState('overview');
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(() => {
+    if (!initialSection) return null;
+    const matched = planets.find(p => p.name.toLowerCase() === initialSection.toLowerCase());
+    return matched ? { type: 'planet', name: matched.name } : null;
+  });
   const [glossaryQuery, setGlossaryQuery] = useState('');
 
   useEffect(() => {
@@ -271,12 +275,6 @@ export default function NatalChartDecoder({ onBack, initialSection }) {
     document.addEventListener('keydown', handler);
     return () => document.removeEventListener('keydown', handler);
   }, []);
-
-  useEffect(() => {
-    if (!initialSection) return;
-    const matched = planets.find(p => p.name.toLowerCase() === initialSection.toLowerCase());
-    if (matched) setModal({ type: 'planet', name: matched.name });
-  }, [initialSection]);
 
   const openInfo = useCallback((type, name) => setModal({ type, name }), []);
   const closeModal = useCallback(() => setModal(null), []);
