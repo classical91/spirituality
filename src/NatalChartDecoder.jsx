@@ -252,9 +252,13 @@ function ModalContent({ type, data }) {
   );
 }
 
-export default function NatalChartDecoder({ onBack }) {
+export default function NatalChartDecoder({ onBack, initialSection }) {
   const [activeTab, setActiveTab] = useState('overview');
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(() => {
+    if (!initialSection) return null;
+    const matched = planets.find(p => p.name.toLowerCase() === initialSection.toLowerCase());
+    return matched ? { type: 'planet', name: matched.name } : null;
+  });
   const [glossaryQuery, setGlossaryQuery] = useState('');
 
   useEffect(() => {
