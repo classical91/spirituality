@@ -305,7 +305,7 @@ export default function VitaminsMineralsAtlas({ onBack }) {
               <span className="pill">Folate</span>
               <span className="pill">Iron</span>
               <span className="pill">Acetylcholine</span>
-              <span className="pill">Covey Q2</span>
+              <span className="pill">Omega-3</span>
             </div>
           </section>
         </div>

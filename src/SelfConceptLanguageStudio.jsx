@@ -130,6 +130,50 @@ const toneTrapWordGroups = [
       { word: "Different", negative: "They are different.", cleaner: "They have a distinct way of moving through life." },
       { word: "Sensitive", negative: "I am too sensitive.", cleaner: "I notice subtle things and keep my center." }
     ]
+  },
+  {
+    title: "Relationship language",
+    tag: "Connection",
+    watch: "Can sound caring or neutral but signal control, jealousy, or conditional love.",
+    words: ["Loyal", "Devoted", "Committed", "Protective", "Honest", "Real", "Serious"],
+    examples: [
+      { word: "Loyal", negative: "If you were loyal you would stay.", cleaner: "I value consistency and can express that directly." },
+      { word: "Honest", negative: "I am just being honest.", cleaner: "I can say what is true without using it as a weapon." },
+      { word: "Serious", negative: "Are you even serious about this?", cleaner: "I want to know where we both stand." }
+    ]
+  },
+  {
+    title: "Self-talk and inner dialogue",
+    tag: "Self",
+    watch: "Can feel motivating on the surface but quietly reinforce shame or limitation.",
+    words: ["Try", "Should", "Need", "Just", "Only", "Enough", "Better"],
+    examples: [
+      { word: "Should", negative: "I should be further along by now.", cleaner: "I am exactly where I need to be to take the next step." },
+      { word: "Just", negative: "I just want to be happy.", cleaner: "Happiness is something I am actively building." },
+      { word: "Enough", negative: "I am not enough.", cleaner: "I am whole and continuing to grow." }
+    ]
+  },
+  {
+    title: "Criticism and feedback",
+    tag: "Critique",
+    watch: "Can disguise judgment as helpful observation or objective fact.",
+    words: ["Constructive", "Blunt", "Direct", "Realistic", "Logical", "Practical", "Fair"],
+    examples: [
+      { word: "Constructive", negative: "I am just being constructive.", cleaner: "I can offer feedback in a way that opens rather than closes." },
+      { word: "Realistic", negative: "Let us be realistic — that will never work.", cleaner: "I can hold honest doubt without foreclosing possibility." },
+      { word: "Logical", negative: "Logically, you are wrong.", cleaner: "Here is another way to look at it." }
+    ]
+  },
+  {
+    title: "Spiritual and motivational language",
+    tag: "Spiritual",
+    watch: "Can be used to bypass, shame, or spiritually bypass genuine emotion and struggle.",
+    words: ["Surrender", "Trust", "Faith", "Vibration", "Manifest", "Aligned", "Grateful"],
+    examples: [
+      { word: "Surrender", negative: "You just need to surrender and let go.", cleaner: "Releasing what I cannot control is a practice, not a demand." },
+      { word: "Vibration", negative: "Your vibration is too low.", cleaner: "Something in my energy feels off and I can work with that." },
+      { word: "Grateful", negative: "You should be grateful for what you have.", cleaner: "Gratitude is a state I return to — not a silencer for pain." }
+    ]
   }
 ];
 
