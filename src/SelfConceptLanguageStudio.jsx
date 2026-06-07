@@ -209,6 +209,17 @@ const doubtTells = [
   { phrase: "“Hopefully.”", signal: "Wishes toward a thing you haven't yet claimed as yours.", reframe: "It is mine." }
 ];
 
+const wantTeachings = [
+  { teacher: "Napoleon Hill", teaching: "“What do you want most?” — desire is the seed of achievement.", why: "“Want” is a positive spark, but it must become a definite plan." },
+  { teacher: "Neville Goddard", teaching: "“To want is to confess you do not have.”", why: "Shift from “want” to “I AM” or “I HAVE” — the wish already fulfilled." },
+  { teacher: "Joseph Murphy", teaching: "Avoid saying “I want” — impress the subconscious with “I accept” or “I choose.”", why: "“Want” programs the subconscious to keep producing lack." },
+  { teacher: "Earl Nightingale", teaching: "Asking “What do you want?” clarifies purpose — then focus on action.", why: "“Want” is the starting point, not the end: clarity leads to goals." },
+  { teacher: "Bob Proctor", teaching: "Wanting reveals potential, but repeating “I want” only attracts more wanting.", why: "“Want” shows desire, yet needs a self-image shift to “I already am.”" },
+  { teacher: "Wayne Dyer", teaching: "“Wanting keeps you in the energy of not having.”", why: "Replace “I want” with “I intend” or “I am.”" },
+  { teacher: "Rhonda Byrne", teaching: "“The universe gives you more of what you say — wanting attracts wanting.”", why: "Gratitude and imagining you already have it works better than wanting." },
+  { teacher: "Abraham-Hicks", teaching: "Wanting is useful contrast — it helps you identify desire, then shift beyond it.", why: "“Want” is step one; then move into expectation and alignment." }
+];
+
 const phrasebookBanks = [
   {
     title: "Terms of endearment",
@@ -783,6 +794,47 @@ function PowerLadder() {
   );
 }
 
+function WantTeachings() {
+  return (
+    <section id="want-teachings" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-rose-200">🧲 The word “want”</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">What the teachers say about wanting</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            “I want” is the lowest rung on the power ladder for a reason — it quietly affirms not-having. Across New Thought and success teaching, the same correction keeps appearing: let want point the direction, then step into already having.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-rose-200/20 bg-rose-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-rose-100">
+          {wantTeachings.length} teachers
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-3xl border border-white/10">
+        <div className="hidden grid-cols-[0.8fr_1.3fr_1.1fr] border-b border-white/10 bg-white/5 px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 sm:grid">
+          <div>Teacher</div>
+          <div>Teaching on “want”</div>
+          <div>Why it matters</div>
+        </div>
+        {wantTeachings.map((row) => (
+          <div
+            key={row.teacher}
+            className="grid gap-1.5 border-b border-white/10 bg-slate-950/40 px-4 py-3.5 transition last:border-b-0 hover:border-rose-300/30 sm:grid-cols-[0.8fr_1.3fr_1.1fr] sm:items-start sm:gap-3"
+          >
+            <p className="text-sm font-black text-white">{row.teacher}</p>
+            <p className="text-sm leading-6 text-slate-300">{row.teaching}</p>
+            <p className="text-sm leading-6 text-slate-400">{row.why}</p>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">
+        The throughline: wanting is a useful compass, not a resting place. Name the desire once, then live from “I am” / “I have” — the language the studio above is built to help you find.
+      </p>
+    </section>
+  );
+}
+
 function DoubtTells() {
   return (
     <section id="doubt-tells" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
@@ -1083,6 +1135,8 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
         </section>
 
         <PowerLadder />
+
+        <WantTeachings />
 
         <DoubtTells />
 
