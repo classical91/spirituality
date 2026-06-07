@@ -38,7 +38,7 @@ function resolveInitialTab(initialSection) {
   if (section === 'sats') return 'SATS';
   if (section === 'revision') return 'Revision';
   if (section === 'mental-diet') return 'Mental Diet';
-  if (section === 'concepts' || section === 'frameworks' || CONCEPT_SECTIONS.has(section)) return 'Concepts';
+  if (section === 'concepts' || section === 'summary' || section === 'frameworks' || CONCEPT_SECTIONS.has(section)) return 'Concepts';
   if (section === 'states-of-mind' || section === 'daily-structure' || section === 'state-builder') return 'Daily Alignment';
   return 'Daily Alignment';
 }
@@ -201,6 +201,14 @@ const CONCEPT_ACCENTS = {
   emerald: 'border-emerald-300/20 bg-emerald-400/[0.06]',
   amber: 'border-amber-300/20 bg-amber-400/[0.06]',
 };
+
+const CONCEPT_SUMMARY = [
+  { term: 'Imagination', meaning: 'The creative act — the inner world where everything begins.', accent: 'violet' },
+  { term: 'Belief', meaning: 'The acceptance that imagination is real.', accent: 'fuchsia' },
+  { term: 'Curiosity', meaning: 'The playful doorway into new states.', accent: 'cyan' },
+  { term: 'Manifestation', meaning: 'The outer proof, which always lags behind.', accent: 'amber' },
+  { term: 'Faith / Assumption / Feeling', meaning: 'The glue that holds imagination steady until it hardens into fact.', accent: 'emerald' },
+];
 
 function cx(...cls) {
   return cls.filter(Boolean).join(' ');
@@ -817,6 +825,24 @@ function ConceptsTab({ initialSection }) {
           The conceptual backbone of Neville's teaching. SATS, Revision, and Mental Diet have their own
           practice tabs — these are the states and principles behind them. Tap any concept to expand it.
         </p>
+      </div>
+
+      <div id="summary" className="mb-5 scroll-mt-24 rounded-3xl border border-amber-300/20 bg-amber-400/[0.05] p-5">
+        <div className="flex items-center gap-2">
+          <span className="text-lg" aria-hidden>🔑</span>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-200/80">Summary — the whole law in one glance</p>
+        </div>
+        <p className="mt-2 text-sm leading-6 text-white/65">
+          How the core terms relate: imagination creates, belief accepts, curiosity opens the door, feeling holds it steady — and manifestation is the proof that arrives last.
+        </p>
+        <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+          {CONCEPT_SUMMARY.map((row) => (
+            <div key={row.term} className={cx('rounded-2xl border p-4', CONCEPT_ACCENTS[row.accent] || 'border-white/10 bg-white/[0.05]')}>
+              <p className="text-sm font-black text-white">{row.term}</p>
+              <p className="mt-1 text-sm leading-6 text-white/72">{row.meaning}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
