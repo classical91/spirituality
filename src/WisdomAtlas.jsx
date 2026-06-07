@@ -754,6 +754,11 @@ export default function WisdomAtlas({ onBack }) {
 
   function reset() { setQuery(''); setCategoryFilter('all'); setLineageFilter('all'); }
 
+  function openRandom() {
+    const random = teachers[Math.floor(Math.random() * teachers.length)];
+    setModal(random);
+  }
+
   return (
     <div className="fa">
       {/* top bar */}
@@ -784,6 +789,7 @@ export default function WisdomAtlas({ onBack }) {
             </p>
             <div className="fa-hero-actions">
               <a className="fa-btn primary" href="#fa-library">Meet the teachers</a>
+              <button className="fa-btn" onClick={openRandom}>✦ Read a random teacher</button>
               <a className="fa-btn" href="#fa-builder">How to work with them</a>
             </div>
             <div className="fa-stat-row">
@@ -848,6 +854,10 @@ export default function WisdomAtlas({ onBack }) {
             <div className="fa-field">
               <label>&nbsp;</label>
               <button className="fa-btn" onClick={reset}>Reset</button>
+            </div>
+            <div className="fa-field">
+              <label>&nbsp;</label>
+              <button className="fa-btn" onClick={openRandom}>✦ Random</button>
             </div>
           </div>
 
