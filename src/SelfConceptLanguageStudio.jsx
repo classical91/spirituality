@@ -153,6 +153,18 @@ const ladderTierStyles = {
   low: { badge: "border-rose-300/30 bg-rose-400/15 text-rose-100", bar: "from-rose-400 to-slate-500", ring: "hover:border-rose-300/40" }
 };
 
+const doubtTells = [
+  { phrase: "“Maybe.”", signal: "Leaves the outcome open so you never have to commit to it.", reframe: "Yes — it is so." },
+  { phrase: "“I guess so.”", signal: "Agrees on the surface while quietly withholding belief.", reframe: "I know so." },
+  { phrase: "“I'm not sure.”", signal: "Names the absence of certainty instead of the certainty itself.", reframe: "I'm certain." },
+  { phrase: "“Probably not.”", signal: "Pre-writes the disappointment before it has even arrived.", reframe: "It's already done." },
+  { phrase: "“I have a feeling, but…”", signal: "The “but” quietly cancels the knowing that came before it.", reframe: "I have a feeling, and I trust it." },
+  { phrase: "“I think, but I could be wrong.”", signal: "Builds in an escape hatch so the assumption can't fully land.", reframe: "I know this is true." },
+  { phrase: "“Let me double-check.”", signal: "Sends you outside yourself for proof you already hold within.", reframe: "I already know — I don't need to check." },
+  { phrase: "“We'll see.”", signal: "Hands the outcome to time and waits to be told what's true.", reframe: "I've already decided how this goes." },
+  { phrase: "“Hopefully.”", signal: "Wishes toward a thing you haven't yet claimed as yours.", reframe: "It is mine." }
+];
+
 const phrasebookBanks = [
   {
     title: "Terms of endearment",
@@ -496,6 +508,9 @@ function detectMisalignment(text) {
   if (/\bnot rejected|not abandoned|not ignored|no longer|stop\b/.test(t)) {
     notes.push("This focuses on avoiding pain. Try naming the positive state directly: chosen, secure, loved, prioritized.");
   }
+  if (/\b(maybe|i guess|not sure|probably|could be wrong|we'?ll see|hopefully|kind of|sort of)\b/.test(t)) {
+    notes.push("There is a doubt tell here — a hedge like \"maybe\", \"I guess\", or \"not sure\". It quietly keeps the wish unfulfilled. Try stating the outcome with certainty.");
+  }
   if (/\bher man\b/.test(t)) {
     notes.push("'Her man' is strong identity language. It sounds direct, embodied, and relational.");
   }
@@ -534,6 +549,7 @@ function identityScore(text) {
   if (/^i\s+have\b|^i've\b/.test(t)) score += 14;
   if (/\b(chosen|loved|valued|secure|cherished|wanted|prioritized|devoted|faithful|her man|the man she loves)\b/.test(t)) score += 16;
   if (/\b(want|need|hope|trying|waiting|soon|someday|one day|will|manifesting)\b/.test(t)) score -= 25;
+  if (/\b(maybe|i guess|not sure|probably|could be wrong|we'?ll see|hopefully|kind of|sort of)\b/.test(t)) score -= 18;
   if (/\bnot|never|no longer|stop\b/.test(t)) score -= 10;
   if (t.length < 8) score -= 8;
 
@@ -718,6 +734,50 @@ function PowerLadder() {
 
       <p className="mt-4 text-xs leading-6 text-slate-500">
         Rule of thumb: when a sentence feels shaky, climb one rung. “I am realizing I'm loved” becomes “I'm aware I'm loved,” then simply “I am loved.” Drop the scaffolding the moment it stops being honest — the cleanest rung you can say without flinching is the right one.
+      </p>
+    </section>
+  );
+}
+
+function DoubtTells() {
+  return (
+    <section id="doubt-tells" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-sky-200">🗣️ Doubt tells</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Everyday expressions of doubt</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            These are the small, ordinary phrases that leak uncertainty into daily talk. None of them are wrong — doubt is honest information. But in self-concept work they quietly hold the wish open instead of fulfilled. Learn to hear them, then choose whether to climb to the certain version.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-sky-200/20 bg-sky-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-sky-100">
+          {doubtTells.length} tells
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-3xl border border-white/10">
+        <div className="hidden grid-cols-[0.9fr_1.2fr_1fr] border-b border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] text-slate-400 sm:grid">
+          <div>Doubt phrase</div>
+          <div>What it signals</div>
+          <div>Certain reframe</div>
+        </div>
+        {doubtTells.map((tell) => (
+          <div
+            key={tell.phrase}
+            className="grid gap-3 border-b border-white/10 bg-slate-950/40 px-4 py-4 transition last:border-b-0 hover:border-sky-300/30 sm:grid-cols-[0.9fr_1.2fr_1fr] sm:items-center"
+          >
+            <p className="text-base font-black text-sky-100">{tell.phrase}</p>
+            <p className="text-sm leading-6 text-slate-400">{tell.signal}</p>
+            <div className="flex items-start justify-between gap-3 rounded-2xl border border-emerald-300/15 bg-emerald-300/5 p-3">
+              <p className="text-sm font-black leading-6 text-emerald-50">{tell.reframe}</p>
+              <CopyButton text={tell.reframe} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">
+        The phrase lab above flags these hedges live — type “maybe” or “I think, but I could be wrong” and watch the identity score and misalignment notes respond.
       </p>
     </section>
   );
@@ -979,6 +1039,8 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
         </section>
 
         <PowerLadder />
+
+        <DoubtTells />
 
         <ToneTrapWords />
 
