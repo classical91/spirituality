@@ -177,6 +177,26 @@ const toneTrapWordGroups = [
   }
 ];
 
+const powerLadder = [
+  { phrase: "I am", icon: "🔥", level: "Max Power", note: "Full embodiment", power: 100, tier: "peak", example: "I am loved and chosen." },
+  { phrase: "I have", icon: "💎", level: "Ownership", note: "You possess it now", power: 94, tier: "peak", example: "I have a loving relationship." },
+  { phrase: "I know", icon: "💥", level: "Certainty", note: "Unshakable belief", power: 88, tier: "peak", example: "I know she is mine." },
+  { phrase: "It is done", icon: "🏁", level: "Completion", note: "Final state", power: 80, tier: "strong", example: "It is done — the matter is settled." },
+  { phrase: "It is natural", icon: "🌱", level: "Normalization", note: "“Of course I have it.”", power: 72, tier: "strong", example: "It is natural for me to be loved." },
+  { phrase: "I'm aware", icon: "✅", level: "Medium-High", note: "Consciousness of truth", power: 60, tier: "medium", example: "I'm aware that I am loved." },
+  { phrase: "I am realizing", icon: "⚠️", level: "Medium", note: "Transitional awareness", power: 50, tier: "medium", example: "I am realizing how loved I am." },
+  { phrase: "I am becoming", icon: "🌗", level: "Low-Medium", note: "Still in motion, not yet arrived", power: 38, tier: "low", example: "I am becoming the man she loves." },
+  { phrase: "I want / I need", icon: "🪫", level: "Low", note: "Names the gap, not the having", power: 22, tier: "low", example: "I want her to love me." },
+  { phrase: "I hope / I'm trying", icon: "🌫️", level: "Lowest", note: "Effort and doubt, future-leaning", power: 12, tier: "low", example: "I hope she comes back." }
+];
+
+const ladderTierStyles = {
+  peak: { badge: "border-emerald-300/30 bg-emerald-400/15 text-emerald-100", bar: "from-emerald-400 to-cyan-400", ring: "hover:border-emerald-300/40" },
+  strong: { badge: "border-violet-300/30 bg-violet-400/15 text-violet-100", bar: "from-violet-400 to-fuchsia-400", ring: "hover:border-violet-300/40" },
+  medium: { badge: "border-amber-300/30 bg-amber-400/15 text-amber-100", bar: "from-amber-400 to-orange-400", ring: "hover:border-amber-300/40" },
+  low: { badge: "border-rose-300/30 bg-rose-400/15 text-rose-100", bar: "from-rose-400 to-slate-500", ring: "hover:border-rose-300/40" }
+};
+
 const phrasebookBanks = [
   {
     title: "Terms of endearment",
@@ -681,6 +701,72 @@ function ToneTrapWords() {
   );
 }
 
+function PowerLadder() {
+  return (
+    <section id="power-ladder" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-fuchsia-200">🪜 Power ladder</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Where each opener fits in the power ladder</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            The same desire can be worded from full embodiment all the way down to hope. The higher the rung, the more the sentence speaks as if the wish is already fulfilled — the lower rungs quietly reintroduce time, effort, and the gap you are trying to close.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-fuchsia-200/20 bg-fuchsia-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-fuchsia-100">
+          {powerLadder.length} rungs
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-3xl border border-white/10">
+        <div className="hidden grid-cols-[1.1fr_1fr_1.2fr] border-b border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] text-slate-400 sm:grid">
+          <div>Phrase</div>
+          <div>Power level</div>
+          <div>What it does</div>
+        </div>
+        {powerLadder.map((rung) => {
+          const style = ladderTierStyles[rung.tier];
+          return (
+            <div
+              key={rung.phrase}
+              className={cx(
+                "grid gap-3 border-b border-white/10 bg-slate-950/40 px-4 py-4 transition last:border-b-0 sm:grid-cols-[1.1fr_1fr_1.2fr] sm:items-center",
+                "border-l-2 border-l-transparent",
+                style.ring
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl" aria-hidden>{rung.icon}</span>
+                <p className="text-lg font-black text-white">{rung.phrase}</p>
+              </div>
+
+              <div>
+                <span className={cx("inline-flex rounded-full border px-2.5 py-1 text-xs font-bold", style.badge)}>
+                  {rung.level}
+                </span>
+                <div className="mt-2 h-2 w-full max-w-[10rem] overflow-hidden rounded-full bg-slate-900 ring-1 ring-white/10">
+                  <div className={cx("h-full rounded-full bg-gradient-to-r", style.bar)} style={{ width: `${rung.power}%` }} />
+                </div>
+              </div>
+
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold leading-6 text-slate-200">{rung.note}</p>
+                  <p className="mt-1 text-xs italic leading-5 text-slate-500">e.g. {rung.example}</p>
+                </div>
+                <CopyButton text={rung.example} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">
+        Rule of thumb: when a sentence feels shaky, climb one rung. “I am realizing I'm loved” becomes “I'm aware I'm loved,” then simply “I am loved.” Drop the scaffolding the moment it stops being honest — the cleanest rung you can say without flinching is the right one.
+      </p>
+    </section>
+  );
+}
+
 export default function SelfConceptLanguageStudio({ onBack, embedded, initialSection }) {
   const [input, setInput] = useState("I am her man");
   const [mode, setMode] = useState("Identity");
@@ -935,6 +1021,8 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
             </div>
           </div>
         </section>
+
+        <PowerLadder />
 
         <ToneTrapWords />
 
