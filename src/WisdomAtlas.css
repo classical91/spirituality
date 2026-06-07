@@ -65,6 +65,11 @@
   border-bottom: 1px solid var(--edge);
 }
 
+.fa-topbar-random {
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
 .fa-back-btn {
   display: inline-flex;
   align-items: center;
