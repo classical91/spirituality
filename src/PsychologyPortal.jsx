@@ -392,6 +392,12 @@ const growthDailyLoop = [
   { time: "Evening", action: "Reflect on one win, one lesson, and one adjustment for tomorrow." },
 ];
 
+const triangleOfChange = [
+  { element: "Confidence", role: "The spark", definition: "Gives you the courage to try a new belief.", tone: "amber" },
+  { element: "Resilience", role: "The anchor", definition: "Keeps you steady when challenges or setbacks hit.", tone: "cyan" },
+  { element: "Self-Compassion", role: "The healing balm", definition: "Makes the process safe and sustainable.", tone: "rose" },
+];
+
 const brainRegions = [
   { id: 1, title: "Prefrontal Cortex", icon: "🎯", tone: "cyan", region: "Wisdom · Discipline · Conscious Choice", essence: "The seat of self-mastery — where you pause, plan, and choose who you become.", connected: "Planning, reasoning, decision-making, emotional control, focus, and long-term goals.", theme: "Self-mastery, clarity, purpose, and conscious awareness.", practices: ["Meditation", "Journaling", "Goal-setting", "Mindful focus", "Studying & problem-solving", "Delaying gratification", "Prayer & contemplation"], prompts: ["Where in my life am I reacting on impulse when a conscious choice is available?", "What long-term self am I building with today's small decisions?", "If I paused for ten seconds before every reaction today, what would change?"] },
   { id: 2, title: "Amygdala", icon: "🔥", tone: "rose", region: "Fear · Triggers · Safety", essence: "The alarm bell — fast, protective, and in need of reassurance, not shame.", connected: "Fear, threat detection, emotional intensity, and survival responses.", theme: "Healing fear, emotional safety, courage, and trust.", practices: ["Breathwork", "Grounding (5-4-3-2-1)", "Trauma-informed journaling", "Self-soothing", "Prayer", "Naming the emotion", "Nervous-system regulation"], prompts: ["What is my body bracing against right now — and is it truly a threat?", "Can I offer myself the safety I keep waiting for someone else to give?", "What old fear is running a pattern that no longer protects me?"] },
@@ -1456,6 +1462,22 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                 <SectionHeader eyebrow="Personal growth" title="Thirty concepts, five practical lanes">
                   A simple reference map for everyday development. Use one concept at a time, then turn it into a behavior you can repeat.
                 </SectionHeader>
+
+                <div className="rounded-3xl border border-emerald-300/20 bg-emerald-300/5 p-6">
+                  <div className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-emerald-300/80">🌱 The Triangle of Change</div>
+                  <p className="max-w-2xl text-sm leading-6 text-slate-300">
+                    Think of belief change as a three-part system. Each element plays a distinct role in making a new belief take hold — and all three together keep the change safe enough to last.
+                  </p>
+                  <div className="mt-5 grid gap-3 sm:grid-cols-3">
+                    {triangleOfChange.map(({ element, role, definition, tone }) => (
+                      <div key={element} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                        <Pill tone={tone}>{role}</Pill>
+                        <h3 className="mt-3 text-sm font-bold text-white">{element}</h3>
+                        <p className="mt-2 text-xs leading-5 text-slate-400">{definition}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
 
                 <div className="grid gap-4 lg:grid-cols-3">
                   {growthDailyLoop.map(({ time, action }) => (
