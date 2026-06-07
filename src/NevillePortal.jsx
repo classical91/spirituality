@@ -9,6 +9,8 @@ const SECTION_ALIASES = {
   'language-studio': 'phrase-analyzer',
   'power-ladder': 'power-ladder',
   'power-stack': 'power-ladder',
+  'want-teachings': 'want-teachings',
+  want: 'want-teachings',
   'doubt-tells': 'doubt-tells',
   'doubt-language': 'doubt-tells',
   doubt: 'doubt-tells',
@@ -34,7 +36,7 @@ function normalizeInitialSection(initialSection) {
 
 function resolveInitialTab(initialSection) {
   const section = normalizeInitialSection(initialSection);
-  if (section === 'phrase-analyzer' || section === 'tone-traps' || section === 'power-ladder' || section === 'doubt-tells') return 'Self-Concept Studio';
+  if (section === 'phrase-analyzer' || section === 'tone-traps' || section === 'power-ladder' || section === 'doubt-tells' || section === 'want-teachings') return 'Self-Concept Studio';
   if (section === 'sats') return 'SATS';
   if (section === 'revision') return 'Revision';
   if (section === 'mental-diet') return 'Mental Diet';
