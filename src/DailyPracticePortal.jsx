@@ -128,6 +128,25 @@ const PERIODS = [
   },
 ];
 
+const KEY_INSIGHTS = [
+  {
+    theme: 'Morning Intentionality',
+    insight: 'What you do before 10 am sets your emotional and mental baseline for the day.',
+  },
+  {
+    theme: 'Mindful Creation',
+    insight: 'Becoming conscious of thought patterns lets you intentionally shape your experience.',
+  },
+  {
+    theme: 'Emotion + Vision = Neuroplasticity',
+    insight: 'Feeling your future emotionally helps rewire your brain to align with it.',
+  },
+  {
+    theme: 'Escape From Victim Thinking',
+    insight: 'Intentional habits disrupt reactive, past-driven mental states.',
+  },
+];
+
 const ALL_PRACTICE_IDS = PERIODS.flatMap((p) => p.practices.map((pr) => pr.id));
 
 function loadChecked() {
@@ -195,6 +214,27 @@ export default function DailyPracticePortal({ onBack, onNavigate }) {
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-slate-400">
               A structured day — morning alignment, midday resets, and evening wind-down. Each practice links directly into the relevant portal.
             </p>
+          </div>
+        </div>
+
+        {/* Key insights */}
+        <div className="mb-8 rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+          <h2 className="mb-1 text-xs font-black uppercase tracking-[0.16em] text-amber-300">
+            Why this works
+          </h2>
+          <p className="mb-4 text-xs leading-relaxed text-slate-500">
+            The principles behind an intentional day — why the morning matters most and how steady practice reshapes your mental baseline.
+          </p>
+          <div className="grid gap-2.5 sm:grid-cols-2">
+            {KEY_INSIGHTS.map((item) => (
+              <div
+                key={item.theme}
+                className="rounded-xl border border-white/10 bg-white/[0.03] p-3.5"
+              >
+                <p className="text-sm font-bold text-slate-200">{item.theme}</p>
+                <p className="mt-1 text-xs leading-relaxed text-slate-500">{item.insight}</p>
+              </div>
+            ))}
           </div>
         </div>
 
