@@ -574,17 +574,19 @@ function TeacherCard({ t, onOpen }) {
         </div>
         <h3>{t.name}</h3>
         <div className="fa-creator">{t.era} · {t.tradition}</div>
-        <p className="fa-essence">"{t.essence}"</p>
+        {t.essence && <p className="fa-essence">"{t.essence}"</p>}
       </div>
 
       {/* ── expanded inline panel ── */}
       {expanded && (
         <div className="fa-expand-body">
-          <div className="fa-key-ideas">
-            {t.keyIdeas.map((idea) => (
-              <span key={idea} className="fa-idea-pill">{idea}</span>
-            ))}
-          </div>
+          {t.keyIdeas && t.keyIdeas.length > 0 && (
+            <div className="fa-key-ideas">
+              {t.keyIdeas.map((idea) => (
+                <span key={idea} className="fa-idea-pill">{idea}</span>
+              ))}
+            </div>
+          )}
           <div className="fa-expand-row">
             <div className="fa-expand-item">
               <span className="fa-expand-label">Practice</span>
@@ -597,12 +599,14 @@ function TeacherCard({ t, onOpen }) {
               <span>{t.bestFor}</span>
             </div>
           </div>
-          <div className="fa-expand-row">
-            <div className="fa-expand-item">
-              <span className="fa-expand-label">Often misunderstood as</span>
-              <span className="fa-misunderstanding">{t.misunderstanding}</span>
+          {t.misunderstanding && (
+            <div className="fa-expand-row">
+              <div className="fa-expand-item">
+                <span className="fa-expand-label">Often misunderstood as</span>
+                <span className="fa-misunderstanding">{t.misunderstanding}</span>
+              </div>
             </div>
-          </div>
+          )}
           <button className="fa-full-profile-btn" onClick={() => onOpen(t)}>
             Open full wisdom profile ↗
           </button>
@@ -649,17 +653,19 @@ function TeacherModal({ t, onClose }) {
 
         <div className="fa-modal-body">
           {/* essence banner */}
-          <div className="fa-modal-essence">"{t.essence}"</div>
+          {t.essence && <div className="fa-modal-essence">"{t.essence}"</div>}
 
           {/* key ideas */}
-          <div className="fa-modal-section">
-            <h4 className="fa-modal-label">Key ideas</h4>
-            <div className="fa-key-ideas large">
-              {t.keyIdeas.map((idea) => (
-                <span key={idea} className="fa-idea-pill">{idea}</span>
-              ))}
+          {t.keyIdeas && t.keyIdeas.length > 0 && (
+            <div className="fa-modal-section">
+              <h4 className="fa-modal-label">Key ideas</h4>
+              <div className="fa-key-ideas large">
+                {t.keyIdeas.map((idea) => (
+                  <span key={idea} className="fa-idea-pill">{idea}</span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* core grid */}
           <div className="fa-detail-grid">
@@ -675,10 +681,12 @@ function TeacherModal({ t, onClose }) {
               <h4>Best for</h4>
               <p>{t.bestFor}</p>
             </div>
-            <div className="fa-detail-box">
-              <h4>Often misunderstood as</h4>
-              <p className="fa-misunderstanding">{t.misunderstanding}</p>
-            </div>
+            {t.misunderstanding && (
+              <div className="fa-detail-box">
+                <h4>Often misunderstood as</h4>
+                <p className="fa-misunderstanding">{t.misunderstanding}</p>
+              </div>
+            )}
             <div className="fa-detail-box">
               <h4>Common trap</h4>
               <p>{t.trap}</p>
