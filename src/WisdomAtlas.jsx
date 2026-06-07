@@ -774,6 +774,7 @@ export default function WisdomAtlas({ onBack }) {
           <a className="fa-nav-link" href="#fa-models">One Room</a>
           <a className="fa-nav-link" href="#fa-builder">How to Begin</a>
         </nav>
+        <button className="fa-btn fa-topbar-random" onClick={openRandom}>✦ Random teacher</button>
       </div>
 
       <div className="fa-inner">
