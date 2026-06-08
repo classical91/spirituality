@@ -404,6 +404,19 @@ const paradigmShift = [
 ];
 const paradigmQuote = "Faith and fear both demand that you believe in something you cannot see. It's your choice.";
 
+const humanNeeds = {
+  primary: [
+    { need: "Significance", tag: "Impact", desc: "Wanting your life and actions to make a real impact on the people and world around you." },
+    { need: "Approval", tag: "Reassurance", desc: "Looking to others to reassure you that you are okay and on the right track." },
+    { need: "Acceptance", tag: "Belonging", desc: "Needing to be included and welcomed — to belong rather than be left out." },
+  ],
+  secondary: [
+    { need: "Intelligence", tag: "Do others view me as intelligent?", desc: "Wanting your competence and intellect to be recognized and respected." },
+    { need: "Pity", tag: "Do people realize how bad I have it?", desc: "Seeking acknowledgment of your hardship — to have how hard things are be seen." },
+    { need: "Strength / Power", tag: "Do others make me feel strong?", desc: "Wanting to feel powerful through how others respond to and defer to you." },
+  ],
+};
+
 const brainRegions = [
   { id: 1, title: "Prefrontal Cortex", icon: "🎯", tone: "cyan", region: "Wisdom · Discipline · Conscious Choice", essence: "The seat of self-mastery — where you pause, plan, and choose who you become.", connected: "Planning, reasoning, decision-making, emotional control, focus, and long-term goals.", theme: "Self-mastery, clarity, purpose, and conscious awareness.", practices: ["Meditation", "Journaling", "Goal-setting", "Mindful focus", "Studying & problem-solving", "Delaying gratification", "Prayer & contemplation"], prompts: ["Where in my life am I reacting on impulse when a conscious choice is available?", "What long-term self am I building with today's small decisions?", "If I paused for ten seconds before every reaction today, what would change?"] },
   { id: 2, title: "Amygdala", icon: "🔥", tone: "rose", region: "Fear · Triggers · Safety", essence: "The alarm bell — fast, protective, and in need of reassurance, not shame.", connected: "Fear, threat detection, emotional intensity, and survival responses.", theme: "Healing fear, emotional safety, courage, and trust.", practices: ["Breathwork", "Grounding (5-4-3-2-1)", "Trauma-informed journaling", "Self-soothing", "Prayer", "Naming the emotion", "Nervous-system regulation"], prompts: ["What is my body bracing against right now — and is it truly a threat?", "Can I offer myself the safety I keep waiting for someone else to give?", "What old fear is running a pattern that no longer protects me?"] },
@@ -1385,6 +1398,31 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                       <div key={p.layer} className={`rounded-2xl border bg-gradient-to-b ${p.color} ${p.border} p-4`}>
                         <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{p.layer}</p>
                         <p className={`mt-1 text-sm font-black ${p.accent}`}>{p.framework}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                  <div className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-amber-300/80">The Human Needs Map</div>
+                  <p className="mb-5 max-w-2xl text-sm leading-6 text-slate-300">
+                    Many anxious patterns trace back to a need we are trying to meet through other people's perception. Naming the one driving you turns a hidden hunger into a conscious choice.
+                  </p>
+                  <div className="grid gap-5 lg:grid-cols-2">
+                    {[["Primary needs", "rose", humanNeeds.primary], ["Secondary needs", "amber", humanNeeds.secondary]].map(([title, tone, list]) => (
+                      <div key={title}>
+                        <Pill tone={tone}>{title}</Pill>
+                        <div className="mt-3 space-y-2.5">
+                          {list.map(({ need, tag, desc }) => (
+                            <div key={need} className="rounded-2xl border border-white/10 bg-black/20 p-4">
+                              <div className="flex flex-wrap items-baseline gap-x-2">
+                                <h4 className="text-sm font-black text-white">{need}</h4>
+                                <span className="text-xs italic text-slate-400">({tag})</span>
+                              </div>
+                              <p className="mt-1.5 text-xs leading-5 text-slate-400">{desc}</p>
+                            </div>
+                          ))}
+                        </div>
                       </div>
                     ))}
                   </div>
