@@ -25,8 +25,11 @@ function mulberry32(seed) {
 }
 
 // A well-spread reading rotation drawn from every readable section in the hub.
+// Prayer themes are excluded — they already have their own Daily Prayer card.
 const READING_POOL = (() => {
-  const arr = searchIndex.slice();
+  const arr = searchIndex.filter(
+    (entry) => !(entry.portalId === 'biblical' && entry.section === 'prayers')
+  );
   const rnd = mulberry32(20240531);
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rnd() * (i + 1));
