@@ -398,6 +398,12 @@ const triangleOfChange = [
   { element: "Self-Compassion", role: "The healing balm", definition: "Makes the process safe and sustainable.", tone: "rose" },
 ];
 
+const paradigmShift = [
+  { side: "Fear", sign: "−", tone: "rose", seed: "Ignorance", chain: ["Worry / Doubt", "Fear"], results: ["Anxiety", "Suppressed", "Depression", "Dis-Ease"], end: "Disintegration" },
+  { side: "Faith", sign: "+", tone: "emerald", seed: "Knowledge", chain: ["Study", "Understanding", "Faith"], results: ["Well-Being", "Expression", "Acceleration", "At-Ease"], end: "Creation" },
+];
+const paradigmQuote = "Faith and fear both demand that you believe in something you cannot see. It's your choice.";
+
 const brainRegions = [
   { id: 1, title: "Prefrontal Cortex", icon: "🎯", tone: "cyan", region: "Wisdom · Discipline · Conscious Choice", essence: "The seat of self-mastery — where you pause, plan, and choose who you become.", connected: "Planning, reasoning, decision-making, emotional control, focus, and long-term goals.", theme: "Self-mastery, clarity, purpose, and conscious awareness.", practices: ["Meditation", "Journaling", "Goal-setting", "Mindful focus", "Studying & problem-solving", "Delaying gratification", "Prayer & contemplation"], prompts: ["Where in my life am I reacting on impulse when a conscious choice is available?", "What long-term self am I building with today's small decisions?", "If I paused for ten seconds before every reaction today, what would change?"] },
   { id: 2, title: "Amygdala", icon: "🔥", tone: "rose", region: "Fear · Triggers · Safety", essence: "The alarm bell — fast, protective, and in need of reassurance, not shame.", connected: "Fear, threat detection, emotional intensity, and survival responses.", theme: "Healing fear, emotional safety, courage, and trust.", practices: ["Breathwork", "Grounding (5-4-3-2-1)", "Trauma-informed journaling", "Self-soothing", "Prayer", "Naming the emotion", "Nervous-system regulation"], prompts: ["What is my body bracing against right now — and is it truly a threat?", "Can I offer myself the safety I keep waiting for someone else to give?", "What old fear is running a pattern that no longer protects me?"] },
@@ -1882,6 +1888,43 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                 <SectionHeader eyebrow="Alignment & action" title="Daily habits and manifestation">
                   What you do during the day directly shapes what you attract — both energetically and psychologically. These five concepts explain why daily habits are not just practical; they are the lived version of your intentions. Open any concept to go deeper, then use the daily steps to apply it.
                 </SectionHeader>
+
+                <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
+                  <div className="mb-1 text-xs font-bold uppercase tracking-[0.3em] text-violet-300/80">Bob Proctor · Paradigm Shift</div>
+                  <p className="max-w-2xl text-sm leading-6 text-slate-300">
+                    Every result starts as a belief you cannot yet see. The same unseen seed runs down two opposite paths through the mind and body — one disintegrates, one creates.
+                  </p>
+                  <div className="mt-5 grid gap-4 sm:grid-cols-2">
+                    {paradigmShift.map((path) => {
+                      const t = tones[path.tone] || tones.cyan;
+                      return (
+                        <div key={path.side} className={`rounded-2xl border p-5 ${t.card}`}>
+                          <div className="flex items-center justify-between gap-3">
+                            <Pill tone={path.tone}>{path.side} ({path.sign})</Pill>
+                            <span className={`text-sm font-black ${t.accent}`}>{path.end}</span>
+                          </div>
+                          <div className="mt-4 space-y-1.5">
+                            {[path.seed, ...path.chain].map((step, i) => (
+                              <div key={step} className="flex items-center gap-2 text-sm font-semibold text-slate-200">
+                                <span className="w-3 text-center text-slate-500">{i === 0 ? "●" : "↓"}</span>
+                                {step}
+                              </div>
+                            ))}
+                          </div>
+                          <div className="mt-4 flex flex-wrap gap-1.5">
+                            {path.results.map((r) => (
+                              <span key={r} className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-xs text-slate-300">{r}</span>
+                            ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                  <p className="mt-5 border-t border-white/10 pt-4 text-center text-sm italic leading-6 text-slate-300">
+                    “{paradigmQuote}”
+                    <span className="mt-1 block text-xs font-bold not-italic uppercase tracking-[0.2em] text-violet-300/70">Bob Proctor</span>
+                  </p>
+                </div>
 
                 {/* Concept cards */}
                 <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
