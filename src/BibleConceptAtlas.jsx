@@ -1372,6 +1372,107 @@ function PrayerThemeCard({ theme, catLabel, tone, onPray }) {
   );
 }
 
+const prayerSelectClass =
+  "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white outline-none transition-colors hover:border-white/30 focus:border-amber-300/60 [&>option]:bg-slate-900 [&>optgroup]:bg-slate-900 [&>optgroup]:font-bold";
+
+function PrayersSection({ openPrayer }) {
+  const [categoryId, setCategoryId] = useState("all");
+
+  const themesWithPrayers = useMemo(
+    () =>
+      prayerThemesCategories.flatMap((cat) =>
+        cat.themes.filter((theme) => !!prayerData.themes?.[theme.title])
+      ),
+    []
+  );
+
+  const visibleCategories =
+    categoryId === "all"
+      ? prayerThemesCategories
+      : prayerThemesCategories.filter((cat) => cat.id === categoryId);
+
+  const pickRandom = () => {
+    if (themesWithPrayers.length === 0) return;
+    const pick = themesWithPrayers[Math.floor(Math.random() * themesWithPrayers.length)];
+    openPrayer({ title: pick.title }, "themes");
+  };
+
+  const openTheme = (title) => {
+    if (title) openPrayer({ title }, "themes");
+  };
+
+  return (
+    <div>
+      <SectionHeader eyebrow="Thematic prayer" title="Prayer Themes">
+        Prayers organized by spiritual posture, the Beatitudes, the Fruits of the Spirit, life seasons, and formation themes — independent of the Ten Commandments framework. Each card opens three prayers for that theme.
+      </SectionHeader>
+
+      <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] lg:items-end">
+        <label className="flex flex-col gap-1.5">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Filter by category</span>
+          <select
+            value={categoryId}
+            onChange={(e) => setCategoryId(e.target.value)}
+            className={prayerSelectClass}
+          >
+            <option value="all">All categories</option>
+            {prayerThemesCategories.map((cat) => (
+              <option key={cat.id} value={cat.id}>{cat.label}</option>
+            ))}
+          </select>
+        </label>
+
+        <label className="flex flex-col gap-1.5">
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Jump to a prayer theme</span>
+          <select
+            value=""
+            onChange={(e) => openTheme(e.target.value)}
+            className={prayerSelectClass}
+          >
+            <option value="">Choose a theme…</option>
+            {prayerThemesCategories.map((cat) => {
+              const items = cat.themes.filter((theme) => !!prayerData.themes?.[theme.title]);
+              if (items.length === 0) return null;
+              return (
+                <optgroup key={cat.id} label={cat.label}>
+                  {items.map((theme) => (
+                    <option key={theme.title} value={theme.title}>{theme.title}</option>
+                  ))}
+                </optgroup>
+              );
+            })}
+          </select>
+        </label>
+
+        <button
+          onClick={pickRandom}
+          className="flex items-center justify-center gap-2 rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
+        >
+          <span className="text-base">⟳</span> Surprise Me
+        </button>
+      </div>
+
+      <div className="space-y-12">
+        {visibleCategories.map((cat) => {
+          const tc = toneClasses[cat.tone] || toneClasses.blue;
+          return (
+            <div key={cat.id}>
+              <div className={`mb-1 text-xs font-bold uppercase tracking-[0.35em] ${tc.eyebrow}`}>{cat.eyebrow}</div>
+              <h3 className="mb-2 text-2xl font-black text-white">{cat.label}</h3>
+              <p className="mb-6 max-w-2xl text-sm leading-6 text-slate-400">{cat.description}</p>
+              <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                {cat.themes.map((theme) => (
+                  <PrayerThemeCard key={theme.title} theme={theme} catLabel={cat.label} tone={cat.tone} onPray={openPrayer} />
+                ))}
+              </div>
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
 function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbeddedNavigate, embeddedInitialSection }) {
   if (tabId === "commandments") {
     return (
@@ -1554,46 +1655,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
   }
 
   if (tabId === "prayers") {
-    const allThemes = prayerThemesCategories.flatMap((cat) =>
-      cat.themes.map((theme) => ({ ...theme, tone: cat.tone, catLabel: cat.label }))
-    );
-    const pickRandom = () => {
-      const pick = allThemes[Math.floor(Math.random() * allThemes.length)];
-      openPrayer({ title: pick.title }, "themes");
-    };
-    return (
-      <div>
-        <SectionHeader eyebrow="Thematic prayer" title="Prayer Themes">
-          Prayers organized by spiritual posture, the Beatitudes, the Fruits of the Spirit, life seasons, and formation themes — independent of the Ten Commandments framework. Each card opens three prayers for that theme.
-        </SectionHeader>
-        <div className="mb-10 flex items-center gap-4">
-          <button
-            onClick={pickRandom}
-            className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-semibold text-white transition-colors hover:border-white/30 hover:bg-white/10"
-          >
-            <span className="text-base">⟳</span> Surprise Me
-          </button>
-          <p className="text-sm text-slate-500">Open a random prayer theme</p>
-        </div>
-        <div className="space-y-12">
-          {prayerThemesCategories.map((cat) => {
-            const tc = toneClasses[cat.tone] || toneClasses.blue;
-            return (
-              <div key={cat.id}>
-                <div className={`mb-1 text-xs font-bold uppercase tracking-[0.35em] ${tc.eyebrow}`}>{cat.eyebrow}</div>
-                <h3 className="mb-2 text-2xl font-black text-white">{cat.label}</h3>
-                <p className="mb-6 max-w-2xl text-sm leading-6 text-slate-400">{cat.description}</p>
-                <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                  {cat.themes.map((theme) => (
-                    <PrayerThemeCard key={theme.title} theme={theme} catLabel={cat.label} tone={cat.tone} onPray={openPrayer} />
-                  ))}
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    );
+    return <PrayersSection openPrayer={openPrayer} />;
   }
 
   if (tabId === "map") {
