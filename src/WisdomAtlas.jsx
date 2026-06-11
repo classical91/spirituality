@@ -177,6 +177,7 @@ const teachers = [
     category: 'New Thought & Spiritual Law',
     lineage: 'Mind Cure',
     color: 'rgba(56,242,155,.18)',
+    essence: 'Healing begins where false belief ends.',
     core: 'Many forms of suffering are intensified by false belief, fear, and mistaken mental pictures. Healing begins when the mind is led out of error and into a truer understanding of health, God, and self.',
     practice: 'Notice the belief beneath the symptom or fear, question whether it is true, then replace it with a calmer conviction rooted in health and wholeness.',
     bestFor: 'Anyone studying the roots of New Thought, mental healing, and the mind-cure movement behind later affirmation and subconscious teachings.',
@@ -193,6 +194,7 @@ const teachers = [
     category: 'New Thought & Spiritual Law',
     lineage: 'The Infinite Way',
     color: 'rgba(255,209,102,.18)',
+    essence: 'Be still — the Presence does the work.',
     core: 'True supply, healing, and peace arise from conscious union with the Infinite rather than from forcing outcomes. The central movement is from problem-consciousness into God-consciousness.',
     practice: 'Practice contemplative silence: pause, become inwardly still, release the demand for a result, and listen for the felt presence of Spirit.',
     bestFor: 'Those who want a quieter mystical version of New Thought centered on inner stillness, prayer, and spiritual realization.',
@@ -209,6 +211,7 @@ const teachers = [
     category: 'Esoteric & Metaphysical Wisdom',
     lineage: 'Ancient Wisdom',
     color: 'rgba(124,92,255,.20)',
+    essence: 'Symbols are the soul\'s native language.',
     core: 'Myths, symbols, mystery schools, and sacred art preserve maps of human transformation. Ancient wisdom is less about collecting secrets than learning to read the symbolic language of the soul.',
     practice: 'Study a symbol slowly, trace its historical meanings, then ask what inner faculty, virtue, or transformation it is pointing toward in your own life.',
     bestFor: 'Symbolic thinkers who want a broad doorway into hermetic, mythic, Masonic, alchemical, and esoteric traditions.',
@@ -225,6 +228,7 @@ const teachers = [
     category: 'Esoteric & Metaphysical Wisdom',
     lineage: 'Self-Reliance',
     color: 'rgba(0,214,255,.16)',
+    essence: 'Trust thyself — the divine speaks within.',
     core: 'The divine is not only distant or institutional; it speaks through nature, intuition, conscience, and the individual soul. Self-reliance means trusting that inner authority without becoming isolated or arrogant.',
     practice: 'Take one honest perception seriously today. Write it plainly, act from it modestly, and notice where conformity tries to drown it out.',
     bestFor: 'People who need courage to trust their own perception, conscience, creativity, and spiritual individuality.',
@@ -241,6 +245,7 @@ const teachers = [
     category: 'Esoteric & Metaphysical Wisdom',
     lineage: 'Hermetic Training',
     color: 'rgba(255,79,216,.16)',
+    essence: 'Balance body, soul, and spirit before seeking power.',
     core: 'Spiritual development requires balanced training of body, soul, and spirit. Magical power without ethical maturity and elemental equilibrium becomes imbalance rather than mastery.',
     practice: 'Begin with disciplined self-observation: track thoughts, habits, virtues, and weaknesses before attempting advanced inner exercises.',
     bestFor: 'Students drawn to Hermetic practice who want a structured, demanding path rather than vague inspiration.',
@@ -257,6 +262,7 @@ const teachers = [
     category: 'Presence & Surrender',
     lineage: 'Choiceless Awareness',
     color: 'rgba(165,180,252,.18)',
+    essence: 'Truth is a pathless land.',
     core: 'Truth is not reached through authority, ideology, method, or guru-dependence. Freedom begins in direct observation of thought, fear, conditioning, and desire as they move in the present moment.',
     practice: 'Watch thought without choosing, condemning, or improving it. Let attention see the whole movement of reaction as it happens.',
     bestFor: 'Seekers who are ready to question systems, teachers, beliefs, and the subtle dependence on spiritual authority.',
@@ -333,6 +339,7 @@ const teachers = [
     category: 'Philosophy, Ethics & Logic',
     lineage: 'Logic & Clarity',
     color: 'rgba(0,214,255,.14)',
+    essence: 'Examine the belief — especially the comforting one.',
     core: 'Clear thinking matters. Beliefs should be examined for evidence, coherence, and hidden assumptions, especially when they are comforting, inherited, or socially rewarded.',
     practice: 'Take one strong belief and write the best argument for it, the best argument against it, and what evidence would actually change your mind.',
     bestFor: 'Anyone who wants spiritual or philosophical study balanced by precision, skepticism, and intellectual honesty.',
@@ -349,6 +356,7 @@ const teachers = [
     category: 'Philosophy, Ethics & Logic',
     lineage: 'Pantheism',
     color: 'rgba(56,242,155,.15)',
+    essence: 'Understand the causes, and the passion loosens.',
     core: 'God, nature, and reality are not separate compartments. Freedom grows as we understand causes, passions, and necessity, moving from reactive emotion toward adequate ideas and clear joy.',
     practice: 'When a passion takes hold, trace its causes. Ask what you understand, what you are imagining, and how clearer knowledge could loosen the reaction.',
     bestFor: 'Reflective minds drawn to a rational, non-dual metaphysics where ethics, nature, and spiritual awe meet.',
@@ -365,6 +373,7 @@ const teachers = [
     category: 'Philosophy, Ethics & Logic',
     lineage: 'Faith & Individuality',
     color: 'rgba(255,209,102,.15)',
+    essence: 'Truth is a way of existing, not just an idea.',
     core: 'Truth is not only an idea to admire; it is a way of existing. Faith, anxiety, choice, and inwardness ask the individual to become responsible before God and before the self.',
     practice: 'Name the choice you are avoiding. Ask what fear, social performance, or despair keeps you from living it honestly.',
     bestFor: 'Anyone wrestling with faith, individuality, anxiety, and the demand to live rather than merely think.',
@@ -381,6 +390,7 @@ const teachers = [
     category: 'Philosophy, Ethics & Logic',
     lineage: 'Attention & Affliction',
     color: 'rgba(255,255,255,.14)',
+    essence: 'Attention is the purest form of generosity.',
     core: 'Attention is a moral and spiritual act. To truly attend to another person, to suffering, or to truth is to suspend egoic grasping and make room for grace.',
     practice: 'Give one person or problem your full attention without rushing to solve, perform, advise, or center yourself.',
     bestFor: 'Those drawn to the meeting point of spirituality, ethics, compassion, suffering, and disciplined attention.',
@@ -397,6 +407,7 @@ const teachers = [
     category: 'Psychology & Self-Development',
     lineage: 'Self-Actualization',
     color: 'rgba(56,242,155,.16)',
+    essence: 'What you can be, you must be.',
     core: 'Human beings are motivated not only by deficiency and survival needs but by growth, meaning, creativity, love, and self-actualization. A healthy life makes room for becoming.',
     practice: 'Check which need is most honestly under-supported right now: safety, belonging, esteem, purpose, creativity, or transcendence. Strengthen that layer without shame.',
     bestFor: 'People mapping personal growth through needs, motivation, peak experiences, and the movement toward fuller potential.',
@@ -413,6 +424,7 @@ const teachers = [
     category: 'Psychology & Self-Development',
     lineage: 'Responsibility & Meaning',
     color: 'rgba(255,107,107,.14)',
+    essence: 'Pick up your responsibility — meaning follows.',
     core: 'Meaning is found through responsibility, truthful speech, disciplined attention, and the symbolic patterns that organize human life. Order and chaos both have to be faced consciously.',
     practice: 'Choose one neglected responsibility and make it smaller, concrete, and immediate. Put one piece of order back into your day.',
     bestFor: 'People drawn to archetypes, meaning, discipline, responsibility, and the psychological reading of myth.',
@@ -429,6 +441,7 @@ const teachers = [
     category: 'Psychology & Self-Development',
     lineage: 'Growth Mindset',
     color: 'rgba(0,214,255,.14)',
+    essence: 'Not yet — abilities grow with practice.',
     core: 'Believing abilities can develop changes how people meet effort, feedback, failure, and learning. A growth mindset turns difficulty into information rather than proof of fixed limitation.',
     practice: 'When you catch "I am bad at this," rewrite it as a specific learning edge: "I have not learned this part yet." Then choose the next practice rep.',
     bestFor: 'Students, creators, and builders who freeze when difficulty feels like identity-level failure.',
@@ -445,6 +458,7 @@ const teachers = [
     category: 'Psychology & Self-Development',
     lineage: 'Meaning in Suffering',
     color: 'rgba(255,209,102,.16)',
+    essence: 'Life asks — you answer with meaning.',
     core: 'The primary human drive is not pleasure or power alone, but meaning. Even under severe limits, a person may still choose an attitude, a responsibility, or a purpose that gives life dignity.',
     practice: 'Ask what life is asking of you in this situation, rather than only asking what you want from life.',
     bestFor: 'Anyone facing suffering, uncertainty, grief, or a search for purpose that needs grounded existential strength.',
@@ -461,6 +475,7 @@ const teachers = [
     category: 'Wealth, Success & Creative Mindset',
     lineage: 'Paradigm Shift',
     color: 'rgba(124,92,255,.18)',
+    essence: 'Change the paradigm and the results must follow.',
     core: 'Results are shaped by paradigms: repeated subconscious patterns of belief, expectation, and behavior. To change results, you must change the inner program that feels normal.',
     practice: 'Write the result you want, identify the current paradigm that resists it, and rehearse the new self-image daily through repetition and action.',
     bestFor: 'People studying wealth consciousness, self-image, repetition, and the bridge between New Thought and modern success coaching.',
@@ -477,6 +492,7 @@ const teachers = [
     category: 'Wealth, Success & Creative Mindset',
     lineage: 'Discipline & Habits',
     color: 'rgba(56,242,155,.14)',
+    essence: 'Small daily disciplines compound into destiny.',
     core: 'Success is built through philosophy, discipline, habits, and personal responsibility. Small daily disciplines compound; small daily neglects compound too.',
     practice: 'Choose one simple discipline that supports your future and do it today before negotiating with mood.',
     bestFor: 'Anyone who needs practical, grounded success principles without losing the inner-work frame.',
@@ -493,6 +509,7 @@ const teachers = [
     category: 'Wealth, Success & Creative Mindset',
     lineage: 'Definite Chief Aim',
     color: 'rgba(255,209,102,.16)',
+    essence: 'A definite aim, backed by burning desire.',
     core: 'Desire, definite purpose, belief, planning, persistence, and organized effort shape achievement. The mind needs a clear aim and repeated emotional commitment.',
     practice: 'Write a definite aim, why it matters, what you will give in return, and the first specific action. Read it until it becomes emotionally charged and behaviorally real.',
     bestFor: 'Students of classic success literature, goal-setting, persistence, and wealth consciousness.',
@@ -509,6 +526,7 @@ const teachers = [
     category: 'Wealth, Success & Creative Mindset',
     lineage: 'State & Strategy',
     color: 'rgba(255,79,216,.14)',
+    essence: 'Change your state, change your story.',
     core: 'State, story, strategy, and standards drive performance. Change often begins by shifting physiology and focus, then installing a clearer decision and plan.',
     practice: 'Change your physical state first, name the old story, choose a stronger meaning, and take one immediate action that proves the new standard.',
     bestFor: 'People who respond to high-energy coaching, emotional state work, decision-making, and practical transformation tools.',
@@ -580,11 +598,13 @@ function TeacherCard({ t, onOpen }) {
       {/* ── expanded inline panel ── */}
       {expanded && (
         <div className="fa-expand-body">
-          <div className="fa-key-ideas">
-            {t.keyIdeas.map((idea) => (
-              <span key={idea} className="fa-idea-pill">{idea}</span>
-            ))}
-          </div>
+          {t.keyIdeas?.length > 0 && (
+            <div className="fa-key-ideas">
+              {t.keyIdeas.map((idea) => (
+                <span key={idea} className="fa-idea-pill">{idea}</span>
+              ))}
+            </div>
+          )}
           <div className="fa-expand-row">
             <div className="fa-expand-item">
               <span className="fa-expand-label">Practice</span>
@@ -597,12 +617,14 @@ function TeacherCard({ t, onOpen }) {
               <span>{t.bestFor}</span>
             </div>
           </div>
-          <div className="fa-expand-row">
-            <div className="fa-expand-item">
-              <span className="fa-expand-label">Often misunderstood as</span>
-              <span className="fa-misunderstanding">{t.misunderstanding}</span>
+          {t.misunderstanding && (
+            <div className="fa-expand-row">
+              <div className="fa-expand-item">
+                <span className="fa-expand-label">Often misunderstood as</span>
+                <span className="fa-misunderstanding">{t.misunderstanding}</span>
+              </div>
             </div>
-          </div>
+          )}
           <button className="fa-full-profile-btn" onClick={() => onOpen(t)}>
             Open full wisdom profile ↗
           </button>
@@ -652,14 +674,16 @@ function TeacherModal({ t, onClose }) {
           <div className="fa-modal-essence">"{t.essence}"</div>
 
           {/* key ideas */}
-          <div className="fa-modal-section">
-            <h4 className="fa-modal-label">Key ideas</h4>
-            <div className="fa-key-ideas large">
-              {t.keyIdeas.map((idea) => (
-                <span key={idea} className="fa-idea-pill">{idea}</span>
-              ))}
+          {t.keyIdeas?.length > 0 && (
+            <div className="fa-modal-section">
+              <h4 className="fa-modal-label">Key ideas</h4>
+              <div className="fa-key-ideas large">
+                {t.keyIdeas.map((idea) => (
+                  <span key={idea} className="fa-idea-pill">{idea}</span>
+                ))}
+              </div>
             </div>
-          </div>
+          )}
 
           {/* core grid */}
           <div className="fa-detail-grid">
@@ -675,10 +699,12 @@ function TeacherModal({ t, onClose }) {
               <h4>Best for</h4>
               <p>{t.bestFor}</p>
             </div>
-            <div className="fa-detail-box">
-              <h4>Often misunderstood as</h4>
-              <p className="fa-misunderstanding">{t.misunderstanding}</p>
-            </div>
+            {t.misunderstanding && (
+              <div className="fa-detail-box">
+                <h4>Often misunderstood as</h4>
+                <p className="fa-misunderstanding">{t.misunderstanding}</p>
+              </div>
+            )}
             <div className="fa-detail-box">
               <h4>Common trap</h4>
               <p>{t.trap}</p>
@@ -772,6 +798,7 @@ export default function WisdomAtlas({ onBack }) {
           <a className="fa-nav-link" href="#fa-library">Teachers</a>
           <a className="fa-nav-link" href="#fa-map">Traditions</a>
           <a className="fa-nav-link" href="#fa-models">One Room</a>
+          <a className="fa-nav-link" href="#fa-compare">Compare</a>
           <a className="fa-nav-link" href="#fa-builder">How to Begin</a>
         </nav>
         <button className="fa-btn fa-topbar-random" onClick={openRandom}>✦ Random teacher</button>
@@ -979,6 +1006,56 @@ export default function WisdomAtlas({ onBack }) {
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* comparison table */}
+        <section className="fa-section" id="fa-compare">
+          <div className="fa-section-head">
+            <div>
+              <h2 className="fa-h2">Compare the Teachers</h2>
+              <p>The whole library side by side — what each teacher holds as the core idea, the practice they hand you, who the path serves best, and where it tends to go astray. Tap any row to open the full profile.</p>
+            </div>
+          </div>
+          <div className="fa-compare-wrap fa-panel">
+            <table className="fa-compare-table">
+              <thead>
+                <tr>
+                  <th>Teacher</th>
+                  <th>Tradition</th>
+                  <th>Core idea</th>
+                  <th>Practice</th>
+                  <th>Best for</th>
+                  <th>Common trap</th>
+                </tr>
+              </thead>
+              {categories.map((c) => (
+                <tbody key={c}>
+                  <tr className="fa-compare-cat">
+                    <td colSpan={6}>
+                      <b>{c}</b>
+                      <span>{categoryNotes[c]}</span>
+                    </td>
+                  </tr>
+                  {teachers.filter((t) => t.category === c).map((t) => (
+                    <tr key={t.id} className="fa-compare-row" onClick={() => setModal(t)}>
+                      <td className="fa-compare-teacher">
+                        <b>{t.name}</b>
+                        <span>{t.era}</span>
+                      </td>
+                      <td className="fa-compare-trad">
+                        <span>{t.tradition}</span>
+                        <em>{t.lineage}</em>
+                      </td>
+                      <td className="fa-compare-essence">"{t.essence}"</td>
+                      <td>{t.practice}</td>
+                      <td>{t.bestFor}</td>
+                      <td className="fa-compare-trap">{t.trap}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              ))}
+            </table>
           </div>
         </section>
 
