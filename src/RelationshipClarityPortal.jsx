@@ -74,6 +74,30 @@ const concepts = [
       "For one week, match their effort instead of leading it. Not as a tactic — as an experiment to see what the connection actually looks like when you stop carrying it alone.",
   },
   {
+    id: "secure-alternative",
+    label: "The Secure Alternative",
+    kicker: "Reflection",
+    group: "Reflection",
+    short: "Instead of chasing, forcing, proving, and performing — invite, trust, know, and show up.",
+    question: "What would this moment look like if I moved from security instead of the old anxious habit?",
+    explanation:
+      "Anxious love runs on four engines: chasing, forcing, proving, and performing. Each one tries to manufacture an outcome — to make someone stay, choose, or want you. The secure alternative is not passivity; it is a different posture. You invite rather than chase, trust rather than force, know your worth rather than prove it, and show up authentically rather than perform. Same desire, opposite energy.",
+    fear: [
+      "Chasing — initiating everything to keep the connection alive.",
+      "Forcing — pushing the pace and the outcome you want.",
+      "Proving — building a case for why you're worth choosing.",
+      "Performing — presenting a curated version to hold their attention.",
+    ],
+    secure: [
+      "You invite and allow.",
+      "You trust and let things unfold.",
+      "You know your worth.",
+      "You show up authentically.",
+    ],
+    practice:
+      "Catch yourself in one of the four — chasing, forcing, proving, or performing — and name it out loud. Then choose its secure alternative for your very next action: invite instead of chase, trust instead of force, know instead of prove, show up instead of perform.",
+  },
+  {
     id: "pedestalizing",
     label: "Pedestalizing",
     kicker: "Reflection",
