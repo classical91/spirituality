@@ -360,6 +360,34 @@ const DAILY_TONES = {
   },
 };
 
+const DAILY_SECTIONS = [
+  ['state-builder', 'Start here'],
+  ['daily-structure', 'Daily structure'],
+  ['states-of-mind', 'State of mind'],
+  ['daily-checkin', 'Check-in'],
+];
+
+const STATE_EXAMPLES = ['calm', 'anxious', 'confident', 'angry', 'loving', 'discouraged', 'focused', 'jealous', 'grateful'];
+
+const STATE_CONTRASTS = [
+  {
+    event: 'A delayed reply to your message',
+    from: { label: 'From a fearful state', body: '"I am being rejected."' },
+    to: { label: 'From a secure state', body: '"They are probably busy."' },
+  },
+  {
+    event: 'The identity you filter everything through',
+    from: { label: 'Old identity', body: '"I am rejected" becomes the lens every event passes through.' },
+    to: { label: 'Chosen identity', body: '"I am loved and chosen" becomes the state you return to.' },
+  },
+];
+
+const STATE_SHIFT = [
+  ['Notice', 'Catch the inner weather you are reacting from before you react to the event.'],
+  ['Name', 'Say which state it is: "This is the fearful state" — not "This is the truth."'],
+  ['Return', 'Step back into the chosen identity and let the event mean what that state would make it mean.'],
+];
+
 // ─── Daily Alignment Tab ──────────────────────────────────────────────────────
 
 function DailyAlignmentTab() {
@@ -400,9 +428,24 @@ function DailyAlignmentTab() {
 
   return (
     <div className="space-y-4">
+      <nav className="flex flex-wrap items-center gap-2 rounded-3xl border border-white/10 bg-white/[0.04] p-3">
+        <span className="px-2 text-[11px] font-black uppercase tracking-[0.22em] text-white/40">On this tab</span>
+        {DAILY_SECTIONS.map(([id, label], i) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-1.5 text-sm font-bold text-white/70 transition hover:border-white/30 hover:text-white"
+          >
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 text-[11px] text-white/50">{i + 1}</span>
+            {label}
+          </a>
+        ))}
+      </nav>
+
       <section id="state-builder" className="scroll-mt-24 grid gap-4 md:grid-cols-2">
         <div className="rounded-3xl border border-emerald-300/20 bg-emerald-400/5 p-6">
-          <h2 className="text-2xl font-black">Start Here (5 minutes)</h2>
+          <p className="text-xs font-black uppercase tracking-[0.26em] text-emerald-200/70">Step 1 · Set the state</p>
+          <h2 className="mt-2 text-2xl font-black">Start Here (5 minutes)</h2>
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-white/80">
             <li>Choose one fulfilled desire sentence.</li>
             <li>Choose your "I AM" identity.</li>
@@ -435,7 +478,7 @@ function DailyAlignmentTab() {
       <section id="daily-structure" className="scroll-mt-24 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-violet-200/70">Daily structure</p>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-violet-200/70">Step 2 · Daily structure</p>
             <h2 className="mt-2 text-2xl font-black">Neville practice around real life</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">
               A balanced day uses short state-setting moments around school, work, and responsibilities. The aim is steady assumption, not constant checking or forced visualization.
@@ -480,36 +523,71 @@ function DailyAlignmentTab() {
         </div>
       </section>
 
-      <section id="states-of-mind" className="scroll-mt-24 rounded-3xl border border-sky-300/20 bg-sky-400/5 p-6">
-        <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-sky-200/70">State of mind</p>
-            <h2 className="mt-2 text-2xl font-black">The inner position you are living from</h2>
-            <p className="mt-3 leading-relaxed text-white/70">
-              A state of mind is your current mental, emotional, and imaginative condition. It is the inner weather you interpret life from: calm, anxious, confident, angry, loving, discouraged, focused, jealous, or grateful.
+      <section id="states-of-mind" className="scroll-mt-24 space-y-4 rounded-3xl border border-sky-300/20 bg-sky-400/5 p-6">
+        <header>
+          <p className="text-xs font-black uppercase tracking-[0.26em] text-sky-200/70">Step 3 · State of mind</p>
+          <h2 className="mt-2 text-2xl font-black">The inner position you are living from</h2>
+          <p className="mt-3 max-w-3xl leading-relaxed text-white/70">
+            Everything above is in service of one thing: the state you occupy. A state is the inner weather you interpret life from — and it, not the event, decides what the event means.
+          </p>
+        </header>
+
+        <div className="grid gap-4 lg:grid-cols-2">
+          <div className="rounded-2xl border border-sky-200/15 bg-black/20 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-sky-100/70">What a state is</p>
+            <p className="mt-3 text-sm leading-6 text-white/70">
+              Your current mental, emotional, and imaginative condition. It colours every thought before you notice it happening.
             </p>
-            <p className="mt-3 leading-relaxed text-white/60">
-              The same event can mean different things from different states. A delay can feel like rejection from fear, or feel normal from security. The event is the same; the state changes the meaning.
-            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {STATE_EXAMPLES.map((s) => (
+                <span key={s} className="rounded-full border border-sky-200/15 bg-sky-400/10 px-3 py-1 text-xs font-bold text-sky-100/90">
+                  {s}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            {[
-              ['Fearful state', 'A small delay becomes "I am being rejected."'],
-              ['Secure state', 'The same delay becomes "They are probably busy."'],
-              ['Old identity', '"I am rejected" becomes the state everything is filtered through.'],
-              ['Chosen identity', '"I am loved and chosen" becomes the state you return to.'],
-            ].map(([title, body]) => (
-              <div key={title} className="rounded-2xl border border-sky-200/15 bg-black/20 p-4">
-                <p className="font-black text-sky-100">{title}</p>
-                <p className="mt-2 text-sm leading-6 text-white/65">{body}</p>
-              </div>
+
+          <div className="rounded-2xl border border-sky-200/15 bg-black/20 p-5">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-sky-100/70">Same event, different state</p>
+            <div className="mt-3 space-y-3">
+              {STATE_CONTRASTS.map((c) => (
+                <div key={c.event} className="rounded-xl border border-white/10 bg-white/[0.03] p-3">
+                  <p className="text-xs font-bold uppercase tracking-[0.14em] text-white/45">{c.event}</p>
+                  <div className="mt-2 grid gap-2 sm:grid-cols-2">
+                    <div className="rounded-lg border border-rose-300/15 bg-rose-400/5 p-3">
+                      <p className="text-[11px] font-black uppercase tracking-[0.12em] text-rose-200/80">{c.from.label}</p>
+                      <p className="mt-1 text-sm leading-5 text-white/70">{c.from.body}</p>
+                    </div>
+                    <div className="rounded-lg border border-emerald-300/15 bg-emerald-400/5 p-3">
+                      <p className="text-[11px] font-black uppercase tracking-[0.12em] text-emerald-200/80">{c.to.label}</p>
+                      <p className="mt-1 text-sm leading-5 text-white/70">{c.to.body}</p>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        <div className="rounded-2xl border border-sky-200/15 bg-black/20 p-5">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-sky-100/70">How to shift your state</p>
+          <ol className="mt-4 grid gap-3 md:grid-cols-3">
+            {STATE_SHIFT.map(([title, body], i) => (
+              <li key={title} className="rounded-xl border border-white/10 bg-white/[0.03] p-4">
+                <span className="flex h-7 w-7 items-center justify-center rounded-full border border-sky-200/20 bg-sky-400/10 text-xs font-black text-sky-100">
+                  {i + 1}
+                </span>
+                <p className="mt-3 font-black text-white">{title}</p>
+                <p className="mt-1.5 text-sm leading-6 text-white/65">{body}</p>
+              </li>
             ))}
-          </div>
+          </ol>
         </div>
       </section>
 
-      <section className="rounded-3xl border border-cyan-300/20 bg-cyan-400/5 p-6">
-        <h2 className="text-2xl font-black">Daily Check-in</h2>
+      <section id="daily-checkin" className="scroll-mt-24 rounded-3xl border border-cyan-300/20 bg-cyan-400/5 p-6">
+        <p className="text-xs font-black uppercase tracking-[0.26em] text-cyan-200/70">Step 4 · Check-in</p>
+        <h2 className="mt-2 text-2xl font-black">Daily Check-in</h2>
         <div className="mt-4 grid gap-2 md:grid-cols-3">
           {[
             ['morning', 'Morning state set'],
