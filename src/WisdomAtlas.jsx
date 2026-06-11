@@ -1335,6 +1335,7 @@ export default function WisdomAtlas({ onBack }) {
           <a className="fa-nav-link" href="#fa-library">Teachers</a>
           <a className="fa-nav-link" href="#fa-map">Traditions</a>
           <a className="fa-nav-link" href="#fa-models">One Room</a>
+          <a className="fa-nav-link" href="#fa-compare">Compare</a>
           <a className="fa-nav-link" href="#fa-builder">How to Begin</a>
         </nav>
         <button className="fa-btn fa-topbar-random" onClick={openRandom}>✦ Random teacher</button>
@@ -1542,6 +1543,56 @@ export default function WisdomAtlas({ onBack }) {
                 ))}
               </div>
             </div>
+          </div>
+        </section>
+
+        {/* comparison table */}
+        <section className="fa-section" id="fa-compare">
+          <div className="fa-section-head">
+            <div>
+              <h2 className="fa-h2">Compare the Teachers</h2>
+              <p>The whole library side by side — what each teacher holds as the core idea, the practice they hand you, who the path serves best, and where it tends to go astray. Tap any row to open the full profile.</p>
+            </div>
+          </div>
+          <div className="fa-compare-wrap fa-panel">
+            <table className="fa-compare-table">
+              <thead>
+                <tr>
+                  <th>Teacher</th>
+                  <th>Tradition</th>
+                  <th>Core idea</th>
+                  <th>Practice</th>
+                  <th>Best for</th>
+                  <th>Common trap</th>
+                </tr>
+              </thead>
+              {categories.map((c) => (
+                <tbody key={c}>
+                  <tr className="fa-compare-cat">
+                    <td colSpan={6}>
+                      <b>{c}</b>
+                      <span>{categoryNotes[c]}</span>
+                    </td>
+                  </tr>
+                  {teachers.filter((t) => t.category === c).map((t) => (
+                    <tr key={t.id} className="fa-compare-row" onClick={() => setModal(t)}>
+                      <td className="fa-compare-teacher">
+                        <b>{t.name}</b>
+                        <span>{t.era}</span>
+                      </td>
+                      <td className="fa-compare-trad">
+                        <span>{t.tradition}</span>
+                        <em>{t.lineage}</em>
+                      </td>
+                      <td className="fa-compare-essence">"{t.essence}"</td>
+                      <td>{t.practice}</td>
+                      <td>{t.bestFor}</td>
+                      <td className="fa-compare-trap">{t.trap}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              ))}
+            </table>
           </div>
         </section>
 

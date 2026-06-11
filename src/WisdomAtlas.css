@@ -850,6 +850,95 @@
   font-size: 11px;
 }
 
+/* ── comparison table ── */
+.fa-compare-wrap {
+  padding: 0;
+  overflow-x: auto;
+}
+
+.fa-compare-table {
+  width: 100%;
+  min-width: 1080px;
+  border-collapse: collapse;
+  text-align: left;
+}
+
+.fa-compare-table th {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  padding: 14px 16px;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--soft);
+  background: #0c1126;
+  border-bottom: 1px solid var(--edge);
+  white-space: nowrap;
+}
+
+.fa-compare-table td {
+  padding: 14px 16px;
+  vertical-align: top;
+  font-size: 13px;
+  line-height: 1.55;
+  color: var(--muted);
+  border-bottom: 1px solid rgba(255,255,255,.07);
+}
+
+.fa-compare-cat td {
+  padding: 16px;
+  background: rgba(124,92,255,.08);
+  border-bottom: 1px solid var(--edge);
+}
+.fa-compare-cat b {
+  display: block;
+  font-size: 14px;
+  color: var(--txt);
+  letter-spacing: -.01em;
+}
+.fa-compare-cat span {
+  display: block;
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--soft);
+}
+
+.fa-compare-row { cursor: pointer; transition: background .15s; }
+.fa-compare-row:hover { background: rgba(255,255,255,.045); }
+
+.fa-compare-teacher { min-width: 150px; }
+.fa-compare-teacher b {
+  display: block;
+  font-size: 14px;
+  color: var(--txt);
+}
+.fa-compare-teacher span {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  color: var(--soft);
+}
+
+.fa-compare-trad { min-width: 140px; }
+.fa-compare-trad span { display: block; }
+.fa-compare-trad em {
+  display: block;
+  margin-top: 2px;
+  font-size: 11px;
+  font-style: normal;
+  color: var(--gold);
+}
+
+.fa-compare-essence {
+  min-width: 180px;
+  font-style: italic;
+  color: #c9b8ff;
+}
+
+.fa-compare-trap { color: #ffb3b3; }
+
 /* ── keyframes ── */
 @keyframes fa-spin  { to { transform: rotate(360deg); } }
 @keyframes fa-float {
