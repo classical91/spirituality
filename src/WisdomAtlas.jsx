@@ -1108,13 +1108,12 @@ const lineages = [...new Set(teachers.map((t) => t.lineage))].sort();
 const teacherById = Object.fromEntries(teachers.map((t) => [t.id, t]));
 
 // Tabs split the atlas into focused views instead of one long scroll.
-const TABS = ['Teachers', 'Traditions', 'One Room', 'Compare', 'How to Begin'];
+const TABS = ['Teachers', 'Traditions', 'Compare', 'How to Begin'];
 
 // Map deep-link ?section= values (and legacy anchor ids) onto a tab.
 const SECTION_TO_TAB = {
   library: 'Teachers', teachers: 'Teachers', 'fa-library': 'Teachers',
   map: 'Traditions', traditions: 'Traditions', 'fa-map': 'Traditions',
-  models: 'One Room', 'one-room': 'One Room', 'fa-models': 'One Room',
   compare: 'Compare', 'fa-compare': 'Compare',
   builder: 'How to Begin', begin: 'How to Begin', 'how-to-begin': 'How to Begin', 'fa-builder': 'How to Begin',
 };
@@ -1314,7 +1313,6 @@ export default function WisdomAtlas({ onBack, initialSection }) {
   const [lineageFilter,  setLineageFilter]  = useState('all');
   const [modal,          setModal]          = useState(null);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
-  const [rotation,       setRotation]       = useState(35);
 
   // Follow deep-link changes (e.g. ?section=compare) after first mount.
   const [prevSection, setPrevSection] = useState(initialSection);
@@ -1539,51 +1537,6 @@ export default function WisdomAtlas({ onBack, initialSection }) {
                     </div>
                   ))}
                 </div>
-              </div>
-            </div>
-          </div>
-        </section>
-        )}
-
-        {/* many doors, one room */}
-        {tab === 'One Room' && (
-        <section className="fa-section" id="fa-models">
-          <div className="fa-section-head">
-            <div>
-              <h2 className="fa-h2">Many doors, one room</h2>
-              <p>These teachers use different language, but they keep pointing at the same inner shift. Turn it over and notice what they share.</p>
-            </div>
-          </div>
-          <div className="fa-model-lab">
-            <div className="fa-cube-stage fa-panel">
-              <div className="fa-cube" style={{ '--rot': `${rotation}deg` }}>
-                <div className="fa-face front">Imagination</div>
-                <div className="fa-face back">The Word</div>
-                <div className="fa-face right">Spiritual<br/>Law</div>
-                <div className="fa-face left">Surrender</div>
-                <div className="fa-face top">Shadow</div>
-                <div className="fa-face bottom">Presence</div>
-              </div>
-            </div>
-            <div className="fa-lab-copy fa-panel">
-              <h2 className="fa-h2">Different languages, one movement.</h2>
-              <p>One teacher calls it assumption, another calls it prayer, another surrender, another individuation. Underneath the words, each one asks you to change the inner state first — and let the outer life follow.</p>
-              <input
-                className="fa-range"
-                type="range"
-                min="0" max="360"
-                value={rotation}
-                onChange={(e) => setRotation(Number(e.target.value))}
-              />
-              <div className="fa-mini-tools">
-                {[
-                  ['Imagination', 'Assume the feeling of the wish fulfilled and live from the end.'],
-                  ['Surrender', 'Relax and release the grip of the inner voice; let life move through you.'],
-                  ['The Word', 'Speak and think only what you would want to see made real.'],
-                  ['Shadow', 'Meet what you have disowned so it no longer runs you from the dark.'],
-                ].map(([title, desc]) => (
-                  <div className="fa-tool-box" key={title}><b>{title}</b><span>{desc}</span></div>
-                ))}
               </div>
             </div>
           </div>

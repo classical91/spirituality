@@ -615,76 +615,6 @@
 .fa-pill-card b   { display: block; margin-bottom: 5px; font-size: 13px; }
 .fa-pill-card span { color: var(--soft); font-size: 12px; line-height: 1.35; }
 
-/* ── model lab ── */
-.fa-model-lab {
-  display: grid;
-  grid-template-columns: .9fr 1.1fr;
-  gap: 18px;
-  align-items: stretch;
-}
-
-.fa-cube-stage {
-  min-height: 400px;
-  display: grid;
-  place-items: center;
-  perspective: 900px;
-  overflow: hidden;
-  position: relative;
-}
-
-.fa-cube {
-  width: 190px;
-  height: 190px;
-  position: relative;
-  transform-style: preserve-3d;
-  transform: rotateX(-22deg) rotateY(var(--rot, 35deg));
-  transition: .1s transform;
-}
-
-.fa-face {
-  position: absolute;
-  inset: 0;
-  display: grid;
-  place-items: center;
-  text-align: center;
-  padding: 18px;
-  border: 1px solid rgba(255,255,255,.2);
-  border-radius: 22px;
-  background: rgba(255,255,255,.08);
-  backdrop-filter: blur(8px);
-  font-weight: 950;
-  font-size: 14px;
-  letter-spacing: -.02em;
-  box-shadow: 0 18px 60px rgba(0,0,0,.28);
-}
-.fa-face.front  { transform: translateZ(95px); }
-.fa-face.back   { transform: rotateY(180deg) translateZ(95px); }
-.fa-face.right  { transform: rotateY(90deg) translateZ(95px); }
-.fa-face.left   { transform: rotateY(-90deg) translateZ(95px); }
-.fa-face.top    { transform: rotateX(90deg) translateZ(95px); }
-.fa-face.bottom { transform: rotateX(-90deg) translateZ(95px); }
-
-.fa-lab-copy { padding: 28px; }
-.fa-lab-copy p { color: var(--muted); line-height: 1.7; margin: 12px 0; font-size: 14px; }
-
-.fa-range { width: 100%; accent-color: #7c5cff; margin-top: 16px; cursor: pointer; }
-
-.fa-mini-tools {
-  display: grid;
-  grid-template-columns: repeat(2,1fr);
-  gap: 12px;
-  margin-top: 16px;
-}
-
-.fa-tool-box {
-  padding: 14px;
-  border: 1px solid var(--edge);
-  border-radius: 18px;
-  background: rgba(255,255,255,.04);
-}
-.fa-tool-box b    { display: block; margin-bottom: 6px; font-size: 13px; }
-.fa-tool-box span { color: var(--muted); font-size: 12px; line-height: 1.45; }
-
 /* ── builder ── */
 .fa-builder {
   display: grid;
@@ -982,7 +912,7 @@
 
 /* ── responsive ── */
 @media (max-width: 1050px) {
-  .fa-hero, .fa-model-lab, .fa-map-wrap { grid-template-columns: 1fr; }
+  .fa-hero, .fa-map-wrap { grid-template-columns: 1fr; }
   .fa-grid      { grid-template-columns: repeat(2,1fr); }
   .fa-controls  { grid-template-columns: 1fr 1fr; }
   .fa-category-menu { position: relative; top: auto; }
@@ -995,7 +925,7 @@
   .fa-nav-links { display: none; }
   .fa-hero      { padding-top: 32px; }
   .fa-atlas-stage { min-height: 380px; }
-  .fa-grid, .fa-controls, .fa-detail-grid, .fa-builder, .fa-stat-row, .fa-mini-tools { grid-template-columns: 1fr; }
+  .fa-grid, .fa-controls, .fa-detail-grid, .fa-builder, .fa-stat-row { grid-template-columns: 1fr; }
   .fa-h1        { font-size: 40px; }
   .fa-related-row { flex-direction: column; }
   .fa-related-chip { min-width: 0; }
