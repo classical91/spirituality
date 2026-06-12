@@ -112,6 +112,7 @@
 
 .fa-nav-link {
   color: var(--muted);
+  font-family: inherit;
   font-size: 13px;
   padding: 8px 12px;
   border-radius: 999px;
@@ -122,6 +123,39 @@
   text-decoration: none;
 }
 .fa-nav-link:hover { color: var(--txt); border-color: var(--edge); background: var(--glass); }
+
+/* ── tab bar (primary navigation; visible on all screen sizes) ── */
+.fa-tabs {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 18px 0 6px;
+  position: sticky;
+  top: 64px;
+  z-index: 20;
+}
+
+.fa-tab {
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--muted);
+  padding: 9px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--edge);
+  background: rgba(255,255,255,.04);
+  cursor: pointer;
+  transition: .18s;
+  backdrop-filter: blur(8px);
+}
+.fa-tab:hover { color: var(--txt); border-color: var(--edge2); }
+.fa-tab.active {
+  color: #0a0c1c;
+  font-weight: 800;
+  border-color: transparent;
+  background: linear-gradient(120deg, #fff, #d7d2ff);
+  box-shadow: 0 8px 26px rgba(124,92,255,.32);
+}
 
 /* ── hero ── */
 .fa-hero {

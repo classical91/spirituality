@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import './WisdomAtlas.css';
 
 // Wisdom Atlas — a reflective library of spiritual teachers and inner-work
@@ -1107,6 +1107,23 @@ const lineages = [...new Set(teachers.map((t) => t.lineage))].sort();
 
 const teacherById = Object.fromEntries(teachers.map((t) => [t.id, t]));
 
+// Tabs split the atlas into focused views instead of one long scroll.
+const TABS = ['Teachers', 'Traditions', 'One Room', 'Compare', 'How to Begin'];
+
+// Map deep-link ?section= values (and legacy anchor ids) onto a tab.
+const SECTION_TO_TAB = {
+  library: 'Teachers', teachers: 'Teachers', 'fa-library': 'Teachers',
+  map: 'Traditions', traditions: 'Traditions', 'fa-map': 'Traditions',
+  models: 'One Room', 'one-room': 'One Room', 'fa-models': 'One Room',
+  compare: 'Compare', 'fa-compare': 'Compare',
+  builder: 'How to Begin', begin: 'How to Begin', 'how-to-begin': 'How to Begin', 'fa-builder': 'How to Begin',
+};
+
+function resolveInitialTab(initialSection) {
+  if (!initialSection) return 'Teachers';
+  return SECTION_TO_TAB[initialSection] || 'Teachers';
+}
+
 /* ─── TeacherCard: compact + expandable inline panel ─── */
 function TeacherCard({ t, onOpen }) {
   const [expanded, setExpanded] = useState(false);
@@ -1290,13 +1307,24 @@ function TeacherModal({ t, onClose }) {
 }
 
 /* ─── WisdomAtlas: main page ─── */
-export default function WisdomAtlas({ onBack }) {
+export default function WisdomAtlas({ onBack, initialSection }) {
+  const [tab,            setTab]            = useState(() => resolveInitialTab(initialSection));
   const [query,          setQuery]          = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [lineageFilter,  setLineageFilter]  = useState('all');
   const [modal,          setModal]          = useState(null);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
   const [rotation,       setRotation]       = useState(35);
+
+  // Follow deep-link changes (e.g. ?section=compare) after first mount.
+  const [prevSection, setPrevSection] = useState(initialSection);
+  if (initialSection !== prevSection) {
+    setPrevSection(initialSection);
+    setTab(resolveInitialTab(initialSection));
+  }
+
+  // Start each tab at the top rather than wherever the last one was scrolled.
+  useEffect(() => { window.scrollTo({ top: 0 }); }, [tab]);
 
   const filtered = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -1331,18 +1359,27 @@ export default function WisdomAtlas({ onBack }) {
           <div className="fa-logo">✦</div>
           <span>Wisdom Atlas</span>
         </div>
-        <nav className="fa-nav-links">
-          <a className="fa-nav-link" href="#fa-library">Teachers</a>
-          <a className="fa-nav-link" href="#fa-map">Traditions</a>
-          <a className="fa-nav-link" href="#fa-models">One Room</a>
-          <a className="fa-nav-link" href="#fa-compare">Compare</a>
-          <a className="fa-nav-link" href="#fa-builder">How to Begin</a>
-        </nav>
         <button className="fa-btn fa-topbar-random" onClick={openRandom}>✦ Random teacher</button>
       </div>
 
       <div className="fa-inner">
-        {/* hero */}
+        {/* tab bar — primary navigation, sticky below the top bar on all sizes */}
+        <nav className="fa-tabs" role="tablist">
+          {TABS.map((name) => (
+            <button
+              key={name}
+              role="tab"
+              aria-selected={tab === name}
+              className={`fa-tab ${tab === name ? 'active' : ''}`}
+              onClick={() => setTab(name)}
+            >
+              {name}
+            </button>
+          ))}
+        </nav>
+
+        {/* hero — only on the default Teachers tab */}
+        {tab === 'Teachers' && (
         <header className="fa-hero">
           <div>
             <div className="fa-eyebrow"><span className="fa-pulse" /> Teachers · Teachings · Inner Work</div>
@@ -1355,7 +1392,7 @@ export default function WisdomAtlas({ onBack }) {
             <div className="fa-hero-actions">
               <a className="fa-btn primary" href="#fa-library">Meet the teachers</a>
               <button className="fa-btn" onClick={openRandom}>✦ Read a random teacher</button>
-              <a className="fa-btn" href="#fa-builder">How to work with them</a>
+              <button className="fa-btn" onClick={() => setTab('How to Begin')}>How to work with them</button>
             </div>
             <div className="fa-stat-row">
               <div className="fa-stat"><strong>{teachers.length}</strong><span>Teachers</span></div>
@@ -1382,8 +1419,10 @@ export default function WisdomAtlas({ onBack }) {
             </div>
           </div>
         </header>
+        )}
 
         {/* library */}
+        {tab === 'Teachers' && (
         <section className="fa-section" id="fa-library">
           <div className="fa-section-head">
             <div>
@@ -1436,8 +1475,10 @@ export default function WisdomAtlas({ onBack }) {
             )}
           </div>
         </section>
+        )}
 
         {/* tradition pages */}
+        {tab === 'Traditions' && (
         <section className="fa-section" id="fa-map">
           <div className="fa-section-head">
             <div>
@@ -1502,8 +1543,10 @@ export default function WisdomAtlas({ onBack }) {
             </div>
           </div>
         </section>
+        )}
 
         {/* many doors, one room */}
+        {tab === 'One Room' && (
         <section className="fa-section" id="fa-models">
           <div className="fa-section-head">
             <div>
@@ -1545,8 +1588,10 @@ export default function WisdomAtlas({ onBack }) {
             </div>
           </div>
         </section>
+        )}
 
         {/* comparison table */}
+        {tab === 'Compare' && (
         <section className="fa-section" id="fa-compare">
           <div className="fa-section-head">
             <div>
@@ -1595,8 +1640,10 @@ export default function WisdomAtlas({ onBack }) {
             </table>
           </div>
         </section>
+        )}
 
         {/* how to begin */}
+        {tab === 'How to Begin' && (
         <section className="fa-section" id="fa-builder">
           <div className="fa-section-head">
             <div>
@@ -1619,6 +1666,7 @@ export default function WisdomAtlas({ onBack }) {
             ))}
           </div>
         </section>
+        )}
 
         <footer className="fa-footer">
           A reflective library, not a doctrine. These teachings are offered for contemplation and inner work — take what serves you and hold the rest lightly. Nothing here is medical, psychological, or religious advice.
