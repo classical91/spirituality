@@ -21,9 +21,11 @@ const tabGroups = [
     { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
     { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
     { id: 'gratitude',        icon: '✦', label: 'Gratitude Practice' },
+    { id: 'innercompass',     icon: 'C', label: 'Inner Compass' },
   ] },
   { group: 'Practice', items: [
     { id: 'dailyrituals',     icon: '☀', label: 'Daily Rituals' },
+    { id: 'journaling',       icon: 'J', label: 'Journaling' },
   ] },
 ];
 
@@ -769,31 +771,31 @@ function PhysicalActivity() {
         {
           name: 'Sauna', icon: '🧖',
           benefits: [
-            'Improves cardiovascular health comparable to moderate exercise',
-            'Flushes toxins through deep sweating',
-            'Reduces muscle soreness and speeds recovery',
-            'Triggers heat shock proteins that repair damaged cells',
-            'Regular use linked to lower risk of dementia and Alzheimer\'s',
+            'Provides relaxing heat exposure that can feel similar to light cardiovascular effort',
+            'Supports sweating and a warm recovery ritual without replacing medical detox care',
+            'May ease post-workout soreness for some people',
+            'Heat exposure is being studied for cellular stress-response pathways',
+            'Use gently, hydrate, and avoid sauna when overheated, ill, intoxicated, or medically advised not to',
           ],
         },
         {
           name: 'Cold Exposure / Cold Shower', icon: '🧊',
           benefits: [
-            'Dramatically boosts norepinephrine (focus, mood, alertness)',
-            'Activates brown fat, increasing metabolic rate',
-            'Strengthens immune response over time',
-            'Reduces inflammation and muscle soreness',
+            'Can feel sharply alerting and may support focus for some people',
+            'May train tolerance for brief, chosen discomfort',
+            'Can be used as a short reset after heat or exercise when appropriate',
+            'May reduce the sensation of soreness after intense activity',
             'Builds mental resilience and stress tolerance',
           ],
         },
         {
           name: 'Face Massage (self)', icon: '✋',
           benefits: [
-            'Stimulates lymphatic drainage, reducing puffiness and toxin buildup',
-            'Increases blood circulation, giving skin a natural glow',
+            'Gentle strokes may reduce the look of puffiness by moving surface fluid',
+            'Can increase local warmth and circulation temporarily',
             'Relaxes jaw, forehead, and temple tension linked to stress',
-            'Activates acupressure points associated with headache relief',
-            'Signals the nervous system to shift into a parasympathetic (calm) state',
+            'May feel soothing around the temples and jaw during mild tension',
+            'Can act as a calming self-care cue when pressure stays light',
           ],
         },
       ],
@@ -824,21 +826,21 @@ function PhysicalActivity() {
         {
           name: 'Cold Showers', icon: '🚿',
           benefits: [
-            'Surges norepinephrine by up to 300% — sharpens focus and lifts mood',
-            'Improves circulation as blood vessels dilate after the cold ends',
-            'Reduces muscle inflammation and speeds recovery after exercise',
+            'Can feel alerting and help some people shift out of sluggishness',
+            'Creates a clear temperature contrast as the body warms afterward',
+            'May help with the feeling of post-exercise soreness',
             'Builds deliberate stress tolerance and mental resilience',
-            'Activates brown fat thermogenesis, supporting metabolic health',
+            'Start briefly and avoid extreme cold if you have cardiovascular or circulation concerns',
           ],
         },
         {
           name: 'Smiling', icon: '😊',
           benefits: [
             'Activates facial feedback — even a mild smile reduces perceived stress',
-            'Releases dopamine, serotonin, and endorphins, lifting mood immediately',
-            'Lowers heart rate during stressful situations',
+            'Can give a small mood lift through facial feedback and social signaling',
+            'May support a calmer response during mild stress',
             'Signals safety to the social nervous system, improving relationships',
-            'Genuine smiling (Duchenne) is associated with longer lifespan in studies',
+            'Genuine smiling can help connection feel warmer and more approachable',
           ],
         },
       ],
@@ -849,7 +851,7 @@ function PhysicalActivity() {
         {
           name: 'Meditation', icon: '🧠',
           benefits: [
-            'Thickens the prefrontal cortex — the seat of focus and decision-making',
+            'Regular practice is associated with attention-related brain changes, including prefrontal control networks',
             'Lowers cortisol and baseline stress levels over time',
             'Improves emotional regulation and reduces reactivity',
             'Enhances sleep quality and reduces insomnia',
@@ -1248,6 +1250,7 @@ function DailyRituals() {
 
   const goalSetting = [
     { ritual: 'Daily planning (3–5 priorities)', why: 'Writing down specific tasks activates the prefrontal cortex and reduces cognitive load — the brain stops holding loose threads and can focus on execution.' },
+    { ritual: 'ABC goals', why: 'Sort goals into A goals you can act on today, B goals that need planning, and C goals that are long-range visions. This keeps ambition visible without turning every idea into immediate pressure.' },
     { ritual: 'Positive affirmations', why: 'Repeated intentional statements prime the reticular activating system (RAS) to notice aligned evidence and opportunities throughout the day, reinforcing the desired self-concept.' },
     { ritual: 'Identify your "one thing"', why: 'Single-tasking on the most important item each morning leverages peak prefrontal function and prevents the reactive drift of checking messages first.' },
   ];
@@ -1391,17 +1394,31 @@ function DailyRituals() {
           ))}
         </div>
 
+        {/* Cool compress */}
+        <div style={{ padding: '12px 20px', borderBottom: '1px solid rgba(0,0,0,0.06)' }}>
+          <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Cool Compress / Ice Pack</div>
+          {[
+            { benefit: 'Gentle temperature reset', detail: 'A cool cloth or wrapped ice pack can create a clear body signal that helps interrupt overthinking and return attention to sensation.' },
+            { benefit: 'Head and face comfort', detail: 'Brief cooling on the forehead, temples, or back of the neck may feel soothing during heat, tension, or emotional activation.' },
+            { benefit: 'Safety first', detail: 'Keep ice wrapped in cloth, limit contact to short intervals, and stop if skin hurts, numbs, burns, or changes color. Avoid extreme cold on the head or neck if you have circulation, migraine, nerve, or cardiovascular concerns unless a clinician says it is appropriate.' },
+          ].map((r, i, arr) => (
+            <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
+              <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--blue)' }}>{r.benefit}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+            </div>
+          ))}
+        </div>
+
         {/* Cold showers */}
         <div style={{ padding: '12px 20px' }}>
           <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Cold Showers</div>
           {[
-            { benefit: 'Mood & alertness', detail: 'Cold water triggers a large norepinephrine and dopamine release — studies show increases of 200–300% and 250% respectively. Creates a sharp, sustained lift in mood and focus.' },
-            { benefit: 'Circulation', detail: 'Cold causes peripheral vasoconstriction followed by vasodilation on warming. This pumping action trains vascular responsiveness and improves overall circulation over time.' },
-            { benefit: 'Immune resilience', detail: 'A Dutch study (Kox et al.) found cold shower practitioners had 29% fewer sick days. Repeated cold exposure trains the immune system\'s inflammatory response.' },
-            { benefit: 'Recovery & muscle soreness', detail: 'Cold water reduces inflammation and metabolic waste products in muscle tissue. Widely used by athletes as a post-exercise recovery tool.' },
+            { benefit: 'Mood & alertness', detail: 'Cold water can feel sharply alerting and may help some people shift into a more awake, focused state.' },
+            { benefit: 'Circulation', detail: 'Cold creates a temperature challenge followed by rewarming. Keep it brief and let the body recover comfortably afterward.' },
+            { benefit: 'Resilience practice', detail: 'Repeated short exposure to chosen discomfort can train the skill of staying calm while the body wants to avoid.' },
+            { benefit: 'Recovery & muscle soreness', detail: 'Cold water may reduce the feeling of soreness after exercise for some people, though it is not required for recovery.' },
             { benefit: 'Mental resilience', detail: 'Voluntarily entering discomfort trains the prefrontal cortex to override the impulse to avoid. This tolerance transfers to other areas — it is a deliberate practice in discomfort tolerance.' },
-            { benefit: 'Cortisol regulation', detail: 'Brief cold exposure raises cortisol acutely (a healthy stress response), but regular practice lowers baseline cortisol — similar to how exercise creates hormetic adaptation.' },
-            { benefit: 'Skin & hair', detail: 'Cold water causes pores and hair cuticles to contract, reducing moisture loss from skin and adding shine and smoothness to hair. Hot water strips natural oils; cold preserves them.' },
+            { benefit: 'Skin & hair comfort', detail: 'Cooler rinses may feel less drying than very hot water for some skin and hair types.' },
           ].map((r, i, arr) => (
             <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
               <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--blue)' }}>{r.benefit}</div>
@@ -1433,10 +1450,10 @@ function DailyRituals() {
         <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Smiling (Genuine & Deliberate)</div>
           {[
-            { benefit: 'Facial feedback loop', detail: 'The act of smiling — even deliberately — activates the same neural circuits as genuine happiness. The brain reads muscle position as emotional information and adjusts mood accordingly (Strack et al., replicated 2019).' },
-            { benefit: 'Endorphin & serotonin release', detail: 'Smiling triggers the release of endorphins, natural pain relievers, and serotonin — mood-supporting neurotransmitters that create a mild but measurable lift even from a brief smile.' },
-            { benefit: 'Cortisol reduction', detail: 'Studies show that even a maintained smile during a stressful task reduces heart rate recovery time and cortisol elevation — the body responds to the facial signal as a cue that safety is present.' },
-            { benefit: 'Social contagion', detail: 'Smiling is neurologically contagious — mirror neurons in observers automatically activate the same facial muscles. A smile tends to generate a smile back, creating a positive social feedback loop.' },
+            { benefit: 'Facial feedback loop', detail: 'The act of smiling, even deliberately, can nudge the emotional system through facial feedback. Treat it as a small state cue, not a demand to feel happy.' },
+            { benefit: 'Mood cue', detail: 'A brief smile may create a mild lift or soften the body during neutral moments, especially when paired with breath and genuine appreciation.' },
+            { benefit: 'Stress cue', detail: 'During mild stress, a relaxed face can remind the body that it does not need to brace as hard. Do not use it to bypass real emotion.' },
+            { benefit: 'Social warmth', detail: 'Smiling often makes interaction feel safer and warmer. It can invite connection without forcing positivity.' },
             { benefit: 'Perspective shift', detail: 'Deliberately choosing to smile during a neutral or mild negative moment can interrupt rumination. It is a physical state change that slightly shifts the emotional register.' },
           ].map((r, i, arr) => (
             <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
@@ -1450,11 +1467,11 @@ function DailyRituals() {
         <div style={{ padding: '12px 20px', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
           <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10 }}>Practising Om (Chanting)</div>
           {[
-            { benefit: 'Vagus nerve activation', detail: 'The extended exhale and vocal resonance of Om chanting directly stimulates the vagus nerve, shifting the nervous system from sympathetic (activation) to parasympathetic (rest). Measurable heart rate and cortisol reduction follow.' },
-            { benefit: 'Meditative state induction', detail: 'Sustained focus on the vibration and sound of Om occupies the mind\'s attention circuits — interrupting thought loops and producing brainwave patterns consistent with meditation (increased alpha and theta waves).' },
-            { benefit: 'Limbic system calming', detail: 'Research using fMRI shows that Om chanting deactivates the amygdala and limbic system — the brain\'s threat and emotion centres — more effectively than a control sound (ssss), suggesting something specific to the resonant quality.' },
-            { benefit: 'Breath regulation', detail: 'Om practice naturally lengthens the exhale relative to the inhale, which is one of the most effective breathing patterns for activating the parasympathetic response and reducing anxiety.' },
-            { benefit: 'Vibration & body awareness', detail: 'The physical resonance of Om is felt in the chest, throat, and skull. Tuning attention to this sensation builds interoception — awareness of the body\'s internal state — which is associated with better emotional regulation.' },
+            { benefit: 'Long exhale', detail: 'Om chanting naturally lengthens the exhale, which many people experience as calming and centering.' },
+            { benefit: 'Meditative focus', detail: 'Sustained focus on sound and vibration gives attention a simple anchor and can interrupt ordinary thought loops.' },
+            { benefit: 'Body awareness', detail: 'The vibration can be felt in the chest, throat, lips, and face. Tracking that sensation builds present-moment awareness.' },
+            { benefit: 'Ritual meaning', detail: 'For many traditions, Om is a sacred sound. Practice respectfully and let the meaning support stillness rather than performance.' },
+            { benefit: 'Gentle limits', detail: 'Keep the voice easy. Stop if chanting causes dizziness, throat strain, panic, or discomfort.' },
           ].map((r, i, arr) => (
             <div key={r.benefit} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '8px 0', borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.04)' : 'none' }}>
               <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--sage)' }}>{r.benefit}</div>
@@ -1914,6 +1931,156 @@ function GratitudePractice() {
 /* ─────────────────────────────────────────
    MAIN COMPONENT
 ───────────────────────────────────────── */
+function JournalingPractice() {
+  const methods = [
+    { name: 'Morning pages', detail: 'Write freely for 5-10 minutes without editing. The goal is to clear mental noise before the day starts.' },
+    { name: 'CBT thought record', detail: 'Capture the situation, automatic thought, emotion, evidence for and against, and a more balanced thought.' },
+    { name: 'Values check-in', detail: 'Ask what matters here, what action would match that value, and what fear is trying to choose instead.' },
+    { name: 'Evening review', detail: 'Name what went well, what drained you, what you learned, and one adjustment for tomorrow.' },
+  ];
+  const prompts = [
+    'What am I feeling, and where do I feel it in the body?',
+    'What story is my mind telling about this situation?',
+    'What is true, what is assumed, and what do I not know yet?',
+    'What would the calmest version of me do next?',
+    'Which value do I want to practice today?',
+    'What am I grateful for that I usually overlook?',
+    'What pattern keeps repeating, and what input can I change?',
+    'What small action would make tomorrow easier?',
+  ];
+  const structure = [
+    ['1. Name the state', 'Start with the honest mood: anxious, hopeful, tired, clear, resentful, peaceful.'],
+    ['2. Empty the loop', 'Write the repeated thoughts without trying to make them wise or polished.'],
+    ['3. Separate fact from interpretation', 'Facts are observable. Interpretations are meanings the mind adds.'],
+    ['4. Choose the next aligned action', 'End with one behavior that matches your values, not your most activated emotion.'],
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Journaling</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>How to Journal With Purpose</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 620 }}>Journaling turns inner weather into visible language. Use it to notice patterns, regulate emotion, clarify values, and choose one grounded next step.</p>
+      </div>
+
+      <div className="iba-grid-2">
+        <div className="iba-card">
+          <h3>Methods</h3>
+          <div className="iba-list" style={{ marginTop: 12 }}>
+            {methods.map((m) => (
+              <div className="iba-list-item" key={m.name}>
+                <div className="iba-list-item-body">
+                  <strong>{m.name}</strong>
+                  <span>{m.detail}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="iba-card">
+          <h3>Simple Structure</h3>
+          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
+            {structure.map(([step, detail]) => (
+              <div key={step} style={{ border: '1px solid var(--line)', borderRadius: 14, padding: '12px 14px', background: 'rgba(255,255,255,0.03)' }}>
+                <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>{step}</div>
+                <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{detail}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="iba-card">
+        <h3>Journaling Questions</h3>
+        <div className="iba-auto" style={{ marginTop: 14 }}>
+          {prompts.map((prompt) => (
+            <div key={prompt} className="iba-mini">
+              <p>{prompt}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function InnerCompass() {
+  const compass = [
+    { name: 'My core', detail: 'The stable center beneath mood: values, identity, conscience, body signals, and the commitments you keep when nobody is watching.' },
+    { name: 'Purpose in life', detail: 'Purpose is discovered through responsibility, service, devotion, curiosity, and the work that keeps calling for your best attention.' },
+    { name: 'States of mind', detail: 'A state is the mental-emotional posture you occupy: secure, rushed, grateful, defensive, creative, numb, loving, or courageous.' },
+    { name: 'Personal growth concepts', detail: 'Growth means repeated honest reflection, skill practice, feedback, resilience, humility, discipline, and better choices over time.' },
+  ];
+  const virtues = ['Courage', 'Temperance', 'Patience', 'Humility', 'Compassion', 'Integrity', 'Diligence', 'Gratitude'];
+  const modalities = [
+    { name: 'Reflective', detail: 'Journaling, contemplation, prayer, review.' },
+    { name: 'Somatic', detail: 'Breath, posture, movement, body awareness.' },
+    { name: 'Relational', detail: 'Listening, repair, service, honest speech.' },
+    { name: 'Creative', detail: 'Art, music, language, problem solving, beauty.' },
+  ];
+  const talents = [
+    { name: 'Discernment', detail: 'Sensing what is aligned, excessive, hollow, or true.' },
+    { name: 'Presence', detail: 'Staying here without fleeing into fantasy, fear, or performance.' },
+    { name: 'Devotion', detail: 'Giving steady attention to what is sacred or deeply valued.' },
+    { name: 'Transmutation', detail: 'Turning difficulty into maturity, service, skill, or wisdom.' },
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--lavender)', marginBottom: 8 }}>Inner Compass</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Core, Purpose, Virtue, and State</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 620 }}>A practical map for orienting your inner life: know your center, choose a state, practice a virtue, and express your talents through grounded action.</p>
+      </div>
+
+      <div className="iba-grid-2">
+        {compass.map((item) => (
+          <div className="iba-card" key={item.name}>
+            <h3>{item.name}</h3>
+            <p className="iba-sub">{item.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      <div className="iba-grid-3">
+        <div className="iba-card">
+          <h3>Virtues</h3>
+          <div className="iba-pill-row">
+            {virtues.map((v) => <span className="iba-pill" key={v}>{v}</span>)}
+          </div>
+        </div>
+        <div className="iba-card">
+          <h3>Modalities</h3>
+          <div className="iba-list" style={{ marginTop: 12 }}>
+            {modalities.map((m) => (
+              <div className="iba-list-item" key={m.name}>
+                <div className="iba-list-item-body"><strong>{m.name}</strong><span>{m.detail}</span></div>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="iba-card">
+          <h3>Spiritual Talents</h3>
+          <div className="iba-list" style={{ marginTop: 12 }}>
+            {talents.map((t) => (
+              <div className="iba-list-item" key={t.name}>
+                <div className="iba-list-item-body"><strong>{t.name}</strong><span>{t.detail}</span></div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="iba-card" style={{ background: 'rgba(169,145,217,0.08)', border: '1px solid rgba(169,145,217,0.22)' }}>
+        <h3>State Practice</h3>
+        <p style={{ margin: '8px 0 0', fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>
+          Ask: What state am I in? What state would serve this moment? What virtue would move me there? Then choose one small action that proves the new state in behavior.
+        </p>
+      </div>
+    </div>
+  );
+}
+
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
   const validInitial = tabs.some((t) => t.id === initialSection) ? initialSection : 'dashboard';
   const [activeTab, setActiveTab] = useState(validInitial);
@@ -1936,6 +2103,8 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     herbs:            <HerbsAdaptogens />,
     hair:             <HairHealth />,
     gratitude:        <GratitudePractice />,
+    journaling:       <JournalingPractice />,
+    innercompass:     <InnerCompass />,
   };
 
   return (

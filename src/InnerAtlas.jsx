@@ -17,6 +17,7 @@ const SECTION_MAP = {
   'colorpsychology':        { id: 'colorpsychology',       sub: null },
   'color-psychology':       { id: 'colorpsychology',       sub: null },
   'regulation':            { id: 'regulation',            sub: null },
+  'detox':                 { id: 'detox',                 sub: null },
   'emotions':              { id: 'emotions',              sub: null },
   'emotion-glossary':      { id: 'emotions',              sub: null },
   'guidance-spiral':       { id: 'emotions',              sub: null },
@@ -28,6 +29,11 @@ const SECTION_MAP = {
   physicalactivity:  { id: 'lifestyle',           sub: 'physicalactivity' },
   sleep:             { id: 'lifestyle',           sub: 'sleep' },
   nutrition:         { id: 'lifestyle',           sub: 'nutrition' },
+  dailyrituals:      { id: 'lifestyle',           sub: 'dailyrituals' },
+  journaling:        { id: 'lifestyle',           sub: 'journaling' },
+  innercompass:      { id: 'mood-neurochemistry', sub: 'innercompass' },
+  purpose:           { id: 'mood-neurochemistry', sub: 'innercompass' },
+  'my-core':         { id: 'mood-neurochemistry', sub: 'innercompass' },
   dashboard:         { id: null,                  sub: null },
   // Psychology Portal internal tab IDs
   overview:    { id: 'psychology', sub: 'overview' },
@@ -503,7 +509,7 @@ const DETOXES = [
   },
   {
     id: 'sauna', name: 'Infrared Sauna Detox', category: 'Physical',
-    desc: 'Far-infrared heat penetrates deeper than conventional saunas, promoting sweat-based elimination of toxins.',
+    desc: 'A heat-based recovery ritual that encourages sweating and relaxation. Hydrate well, keep sessions modest, and avoid use when heat exposure is unsafe for you.',
     recipe: 'Pre/Post Sauna Hydration Drink',
     ingredients: ['2 cups filtered water', 'Pinch of pink Himalayan salt', 'Juice of ½ lemon', '¼ tsp magnesium powder', '1 tsp raw honey or coconut water', 'Electrolyte minerals — drink before and after'],
   },
