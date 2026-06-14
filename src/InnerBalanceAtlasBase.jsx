@@ -16,16 +16,24 @@ const tabGroups = [
     { id: 'nutrition',        icon: '🥗', label: 'Nutrition' },
     { id: 'hair',             icon: '◎', label: 'Hair & Scalp Health' },
     { id: 'herbs',            icon: '🌿', label: 'Herbs & Adaptogens' },
+    { id: 'heatcold',         icon: '🌡', label: 'Heat & Cold Therapy' },
   ] },
   { group: 'Mind & Mood', items: [
     { id: 'mooduplift',       icon: '◑', label: 'Mood Uplift' },
     { id: 'stress',           icon: '⟳', label: 'Stress & Recovery' },
     { id: 'gratitude',        icon: '✦', label: 'Gratitude Practice' },
-    { id: 'innercompass',     icon: 'C', label: 'Inner Compass' },
+    { id: 'journaling',       icon: '✎', label: 'Journaling' },
+    { id: 'statesofmind',     icon: '◐', label: 'States of Mind' },
   ] },
   { group: 'Practice', items: [
     { id: 'dailyrituals',     icon: '☀', label: 'Daily Rituals' },
-    { id: 'journaling',       icon: 'J', label: 'Journaling' },
+    { id: 'productivity',     icon: '◆', label: 'Productivity & Focus' },
+  ] },
+  { group: 'Spirit & Purpose', items: [
+    { id: 'purpose',          icon: '✺', label: 'Purpose & Meaning' },
+    { id: 'mycore',           icon: '⊙', label: 'My Core' },
+    { id: 'virtues',          icon: '✧', label: 'Virtues & Talents' },
+    { id: 'soundfrequency',   icon: '♪', label: 'Sound & Frequency' },
   ] },
 ];
 
@@ -1929,73 +1937,634 @@ function GratitudePractice() {
 }
 
 /* ─────────────────────────────────────────
-   MAIN COMPONENT
+   HEAT & COLD THERAPY
 ───────────────────────────────────────── */
-function JournalingPractice() {
-  const methods = [
-    { name: 'Morning pages', detail: 'Write freely for 5-10 minutes without editing. The goal is to clear mental noise before the day starts.' },
-    { name: 'CBT thought record', detail: 'Capture the situation, automatic thought, emotion, evidence for and against, and a more balanced thought.' },
-    { name: 'Values check-in', detail: 'Ask what matters here, what action would match that value, and what fear is trying to choose instead.' },
-    { name: 'Evening review', detail: 'Name what went well, what drained you, what you learned, and one adjustment for tomorrow.' },
+function HeatColdTherapy() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14,
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  const sauna = [
+    { benefit: 'Cardiovascular load', detail: 'Heat raises heart rate and dilates blood vessels in a way that gently mimics light cardiovascular exercise. Long-term observational studies on traditional saunas associate frequent use with better heart and circulatory markers.' },
+    { benefit: 'Muscle relaxation & recovery', detail: 'Warmth increases blood flow to tired muscles and helps ease tension and post-exercise soreness, which is why many people use heat as a recovery tool.' },
+    { benefit: 'Deep relaxation', detail: 'The warmth and quiet of a sauna session encourage the nervous system to settle, often producing a calm, parasympathetic state similar to other slow-down rituals.' },
+    { benefit: 'Infrared vs traditional', detail: 'Infrared saunas warm the body directly with light at a lower air temperature, so they can feel gentler than a traditional hot-air or steam sauna. Comfort, not temperature, is the better guide.' },
   ];
-  const prompts = [
-    'What am I feeling, and where do I feel it in the body?',
-    'What story is my mind telling about this situation?',
-    'What is true, what is assumed, and what do I not know yet?',
-    'What would the calmest version of me do next?',
-    'Which value do I want to practice today?',
-    'What am I grateful for that I usually overlook?',
-    'What pattern keeps repeating, and what input can I change?',
-    'What small action would make tomorrow easier?',
+
+  const icePack = [
+    { benefit: 'Cooling & comfort', detail: 'A cool pack on the forehead, temples, or back of the neck can feel soothing during heat, tension, or a restless mind, and many people find it helps them settle before sleep.' },
+    { benefit: 'Tension & headache relief', detail: 'Gentle cold on the head or neck is a common, simple comfort measure some people use for tension or warmth-related discomfort. It is a soothing ritual, not a treatment.' },
+    { benefit: 'A quick state shift', detail: 'Brief, comfortable cold on the face or neck is one of the gentlest ways to interrupt an overwhelmed or overheated feeling and bring attention back to the body.' },
+    { benefit: 'Use it gently', detail: 'Always wrap ice in a cloth — never place it directly on skin — and keep contact brief (a few minutes). Comfort is the goal, not endurance.' },
   ];
-  const structure = [
-    ['1. Name the state', 'Start with the honest mood: anxious, hopeful, tired, clear, resentful, peaceful.'],
-    ['2. Empty the loop', 'Write the repeated thoughts without trying to make them wise or polished.'],
-    ['3. Separate fact from interpretation', 'Facts are observable. Interpretations are meanings the mind adds.'],
-    ['4. Choose the next aligned action', 'End with one behavior that matches your values, not your most activated emotion.'],
+
+  const whenWhich = [
+    ['Reach for warmth', 'Stiff muscles, a tense body, winding down in the evening, or simply wanting to relax and slow down.'],
+    ['Reach for cool', 'Feeling overheated, mentally over-activated, headachey from heat, or wanting a quick, gentle reset.'],
+    ['Contrast', 'Some people alternate warmth and brief cool exposure. If you do, always finish in a way that leaves you comfortable, never shivering or strained.'],
   ];
 
   return (
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Journaling</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>How to Journal With Purpose</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 620 }}>Journaling turns inner weather into visible language. Use it to notice patterns, regulate emotion, clarify values, and choose one grounded next step.</p>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Heat &amp; Cold Therapy</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Temperature as a Gentle Reset</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Warmth and cool are two of the oldest and simplest ways to shift how the body feels. Used gently, they can support relaxation, recovery, and a quick change of state — complementing, not replacing, sleep, movement, and care.</p>
       </div>
 
-      <div className="iba-grid-2">
-        <div className="iba-card">
-          <h3>Methods</h3>
-          <div className="iba-list" style={{ marginTop: 12 }}>
-            {methods.map((m) => (
-              <div className="iba-list-item" key={m.name}>
-                <div className="iba-list-item-body">
-                  <strong>{m.name}</strong>
-                  <span>{m.detail}</span>
-                </div>
+      <div className="iba-warning">
+        <strong>Use comfort as your guide:</strong> Heat and cold are wellness rituals, not medical treatments. Keep sessions moderate, stay hydrated, and stop if you feel faint, dizzy, or unwell. If you are pregnant, have heart, blood-pressure, or circulation conditions, or take medication that affects temperature regulation, check with a doctor first.
+      </div>
+
+      {/* Sauna / Infrared */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--rose)', textTransform: 'uppercase' }}>🧖 Sauna &amp; Infrared Sauna</span>
+        </div>
+        {sauna.map((r, i) => (
+          <div key={r.benefit} style={rowStyle(i, sauna)}>
+            <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--rose)' }}>{r.benefit}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+          </div>
+        ))}
+        <p style={{ margin: 0, padding: '12px 20px', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Gentle approach: start with shorter sessions (10–15 min), drink water before and after, and leave if you feel lightheaded. Wait until you have cooled and rehydrated before any cold exposure.</p>
+      </div>
+
+      {/* Ice pack on head */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>🧊 Ice Pack on the Head &amp; Neck</span>
+        </div>
+        {icePack.map((r, i) => (
+          <div key={r.benefit} style={rowStyle(i, icePack)}>
+            <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--blue)' }}>{r.benefit}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r.detail}</p>
+          </div>
+        ))}
+        <p style={{ margin: 0, padding: '12px 20px', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Always wrap cold packs in a thin cloth, limit contact to a few minutes, and never use on numb or broken skin. A persistent or severe headache deserves medical attention, not just a cold pack.</p>
+      </div>
+
+      {/* When to use which */}
+      <div className="iba-card" style={{ background: 'rgba(91,191,181,0.06)', border: '1px solid rgba(91,191,181,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Warmth or cool — when to reach for which</h4>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {whenWhich.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 4 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+        <p style={{ margin: '14px 0 0', fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.6 }}>See also <strong style={{ color: 'var(--sage)' }}>Physical Activity</strong> and <strong style={{ color: 'var(--gold)' }}>Daily Rituals</strong> for cold showers, cold exposure, and morning light.</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   JOURNALING
+───────────────────────────────────────── */
+function Journaling() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr', gap: 14,
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  const science = [
+    { finding: 'Externalises the loop', detail: 'Putting a worry into words moves it out of the looping, emotional part of the brain and into language. Research on expressive writing (Pennebaker) shows it can reduce distress and even support physical wellbeing.' },
+    { finding: 'Names the feeling', detail: 'Labelling an emotion ("affect labelling") reduces amygdala activity and helps the thinking brain regain footing. Writing is one of the easiest ways to do this deliberately.' },
+    { finding: 'Builds self-knowledge', detail: 'Returning to your own words over weeks reveals patterns — recurring triggers, values, and hopes — that are hard to see from inside a single day.' },
+    { finding: 'Closes the day', detail: 'A short evening entry creates psychological closure, which can quiet the rumination that otherwise disrupts sleep.' },
+  ];
+
+  const methods = [
+    { name: 'Morning pages', how: 'On waking, write three pages of unfiltered stream-of-consciousness — no editing, no judging. It clears mental clutter and surfaces what is actually on your mind.' },
+    { name: 'Gratitude journal', how: 'Note three specific things you appreciate. Specificity matters more than length (see the Gratitude Practice section for the full method).' },
+    { name: 'Thought record (CBT-style)', how: 'Write the situation, the automatic thought, the feeling, the evidence for and against the thought, and a more balanced reframe. Excellent for anxious or self-critical spirals.' },
+    { name: 'Reflective / evening review', how: 'Three quick prompts: What went well? What drained me? What do I want tomorrow to hold? Builds learning and closure in five minutes.' },
+    { name: 'Brain dump / list', how: 'Empty every open loop — tasks, worries, ideas — onto the page. Frees working memory and reduces the background hum of "things to remember."' },
+    { name: 'Letter (unsent)', how: 'Write to a person or a past self about something unresolved. The writing carries the benefit whether or not it is ever sent.' },
+  ];
+
+  const promptGroups = [
+    { label: 'Knowing yourself', color: 'var(--blue)', prompts: ['What am I feeling right now, and where do I feel it in my body?', 'What do I need today that I haven\'t given myself?', 'What am I avoiding, and why?', 'When did I feel most like myself this week?'] },
+    { label: 'Processing emotion', color: 'var(--rose)', prompts: ['What is really bothering me underneath the surface thing?', 'If this feeling could speak, what would it say it wants?', 'What would I tell a friend feeling exactly this?', 'What is one thing I can release and one thing I can act on?'] },
+    { label: 'Purpose & direction', color: 'var(--gold)', prompts: ['What made me lose track of time recently?', 'What would I do this year if I knew I could not fail?', 'Whose life or work do I quietly admire, and what does that reveal?', 'What matters to me that I have been treating as unimportant?'] },
+    { label: 'Growth & gratitude', color: 'var(--sage)', prompts: ['What did I learn from a recent mistake?', 'What is one small win I can build on?', 'What are three specific things I am grateful for today?', 'Who or what supported me recently, and have I acknowledged it?'] },
+  ];
+
+  const start = [
+    'Keep it tiny to begin — even two or three sentences counts. Consistency beats length.',
+    'Pick an anchor time: just after waking or just before bed work best for most people.',
+    'Write for your eyes only. Honesty matters more than grammar or neatness.',
+    'Use a prompt when the page feels blank — pick one question and answer just that.',
+    'Notice, don\'t judge. The goal is to observe your inner world, not grade it.',
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 8 }}>Journaling</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Thinking on Paper</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Journaling is one of the simplest, lowest-cost tools for emotional clarity. There is no right way to do it — only the way that gets you writing. This is a reflective practice, not a substitute for support during serious distress.</p>
+      </div>
+
+      {/* Science */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Why Writing Helps</span>
+        </div>
+        {science.map((s, i) => (
+          <div key={s.finding} style={rowStyle(i, science)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{s.finding}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Methods */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Ways to Journal</span>
+        </div>
+        {methods.map((m, i) => (
+          <div key={m.name} style={rowStyle(i, methods)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{m.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{m.how}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Journaling questions */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden', border: '1px solid rgba(127,184,239,0.22)' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(127,184,239,0.08)', borderBottom: '1px solid rgba(127,184,239,0.15)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>Journaling Questions — Prompts to Begin With</span>
+        </div>
+        <div style={{ padding: '16px 20px', display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
+          {promptGroups.map(g => (
+            <div key={g.label} style={{ background: 'rgba(255,255,255,0.03)', borderRadius: 8, padding: '12px 16px' }}>
+              <div style={{ fontSize: '0.78rem', fontWeight: 700, color: g.color, marginBottom: 8, textTransform: 'uppercase', letterSpacing: '0.06em' }}>{g.label}</div>
+              {g.prompts.map(p => (
+                <div key={p} style={{ fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.55, marginBottom: 6 }}>• {p}</div>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* How to start */}
+      <div className="iba-card" style={{ background: 'rgba(127,184,239,0.06)', border: '1px solid rgba(127,184,239,0.18)' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--blue)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>How to start (and keep going)</h4>
+        <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {start.map(s => (
+            <li key={s} style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   STATES OF MIND
+───────────────────────────────────────── */
+function StatesOfMind() {
+  const states = [
+    { state: 'Calm', body: 'Slow breath, relaxed muscles, parasympathetic tone, lower cortisol.', shift: 'Long exhales, warmth, nature, reduced input, magnesium-supporting foods.', color: 'var(--sage)' },
+    { state: 'Focus / clarity', body: 'Steady dopamine and acetylcholine, low distraction load, adequate glucose and hydration.', shift: 'Single-tasking, removing notifications, short movement, daylight, hydration.', color: 'var(--blue)' },
+    { state: 'Motivation / drive', body: 'Dopamine anticipation, a clear next step, a sense of progress.', shift: 'Define one small action, movement, momentum from an easy first win.', color: 'var(--gold)' },
+    { state: 'Flow', body: 'Full absorption — challenge matched to skill, time distortion, effortless attention.', shift: 'Clear goal, immediate feedback, remove interruptions, match difficulty to ability.', color: 'var(--lavender)' },
+    { state: 'Anxiety / activation', body: 'Sympathetic arousal, fast breath, racing thoughts, tense body.', shift: 'Slow extended exhale, name the feeling, cool water on the face, grounding to the senses.', color: 'var(--rose)' },
+    { state: 'Low mood / flatness', body: 'Reduced energy and reward sensitivity, withdrawal, heaviness.', shift: 'Gentle movement, daylight, connection, one small completed task, nourishing food.', color: 'var(--muted)' },
+    { state: 'Overwhelm', body: 'Too many open loops, working memory saturated, scattered attention.', shift: 'Brain-dump onto paper, pick one thing, narrow the field, brief reset break.', color: 'var(--rose)' },
+  ];
+
+  const principles = [
+    ['States are temporary weather, not climate', 'A mood is a passing state of the system, not a fixed fact about who you are. Watching a state without fusing with it is half of changing it.'],
+    ['States have inputs', 'Sleep, food, light, movement, breath, thoughts, and company all feed the state you are in. Change an input and the state often follows — sometimes faster than you expect.'],
+    ['Body leads, mind follows (and back again)', 'You can often shift a mental state through the body — breath, posture, temperature, movement — when thinking your way out isn\'t working.'],
+    ['Name it to tame it', 'Simply identifying the state ("this is overwhelm") creates a small gap between you and it, and that gap is where choice lives.'],
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--lavender)', marginBottom: 8 }}>States of Mind</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Reading &amp; Shifting Your Inner Weather</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>A state of mind is the passing condition of your attention, mood, and body at any moment. Most states have recognisable body signatures and gentle levers that help shift them. This is a map for everyday self-regulation, not a clinical guide.</p>
+      </div>
+
+      {/* States table */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '150px 1fr 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>State</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How it shows in the body</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Gentle levers to shift it</span>
+        </div>
+        {states.map((s, i) => (
+          <div key={s.state} style={{ display: 'grid', gridTemplateColumns: '150px 1fr 1fr', padding: '13px 20px', borderBottom: i < states.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none', gap: 14 }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: s.color, paddingTop: 2 }}>{s.state}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.body}</p>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--sage)', lineHeight: 1.6 }}>{s.shift}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Principles */}
+      <div className="iba-card" style={{ background: 'rgba(196,171,240,0.06)', border: '1px solid rgba(196,171,240,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--lavender)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>How states work</h4>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {principles.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 4 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>{body}</p>
+            </div>
+          ))}
+        </div>
+        <p style={{ margin: '14px 0 0', fontSize: '0.8rem', color: 'var(--muted)', lineHeight: 1.6 }}>If a low or anxious state is persistent, intense, or interfering with daily life, it deserves real support — speak with a doctor or a mental-health professional.</p>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   PRODUCTIVITY & FOCUS
+───────────────────────────────────────── */
+function Productivity() {
+  const rowStyle = (i, arr) => ({
+    display: 'grid', gridTemplateColumns: '200px 1fr', gap: 14,
+    padding: '13px 20px',
+    borderBottom: i < arr.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none',
+  });
+
+  const foundations = [
+    { name: 'Single-tasking', how: 'The brain does not multitask — it switches, and each switch carries a cost. Doing one thing at a time is the highest-leverage productivity habit there is.' },
+    { name: 'Protect your peak hours', how: 'Most people have a 2–4 hour window of sharpest focus (often mid-morning). Guard it for your most important work and push shallow tasks to the edges.' },
+    { name: 'Work with ultradian rhythms', how: 'Attention naturally cycles roughly every 90 minutes. Focused blocks followed by genuine breaks align with biology instead of fighting it.' },
+    { name: 'Remove friction & distraction', how: 'Out of sight is out of mind. A phone in another room beats willpower. Make the right action easy and the distracting one slightly harder.' },
+    { name: 'The two-minute rule', how: 'If something takes under two minutes, do it now. For bigger tasks, commit to just two minutes to break the inertia of starting.' },
+  ];
+
+  const abc = [
+    { tier: 'A — Must do', color: 'var(--rose)', detail: 'High-stakes tasks with real consequences if left undone. These get your peak hours and full focus first, before anything else competes for attention.' },
+    { tier: 'B — Should do', color: 'var(--gold)', detail: 'Tasks that matter but carry milder consequences. They come only after the A tasks are handled — never as a comfortable way to avoid the hard A.' },
+    { tier: 'C — Nice to do', color: 'var(--sage)', detail: 'Pleasant or low-impact tasks with no real consequence if delayed. Easy to confuse with progress. Do them last, or not at all.' },
+  ];
+
+  const goalQualities = [
+    ['Achievable', 'A goal stretches you but stays within reach. Goals that are impossibly large mostly produce avoidance; right-sized goals produce momentum.'],
+    ['Believable', 'You have to actually believe it is possible for you. A goal you privately doubt rarely mobilises real effort — belief is part of the engine.'],
+    ['Committed', 'Written down, time-bound, and backed by a concrete next action. Commitment turns a wish into a plan the brain can act on.'],
+  ];
+
+  const pfc = [
+    { lever: 'Sleep', detail: 'The prefrontal cortex (PFC) — the seat of focus, planning, and self-control — is the first region to suffer from poor sleep. Nothing trains focus like consistent rest.' },
+    { lever: 'Meditation & attention practice', detail: 'Regular meditation is associated with measurable changes in prefrontal regions and stronger attention control. Even short daily practice compounds.' },
+    { lever: 'Deliberate hard focus', detail: 'Choosing to stay with a difficult task — resisting the pull to switch — is itself the rep. Like a muscle, the PFC strengthens through repeated, effortful use.' },
+    { lever: 'Exercise', detail: 'Aerobic movement supports brain-derived growth factors and blood flow that benefit prefrontal function, learning, and mood.' },
+    { lever: 'Managing stress', detail: 'Chronic stress impairs the PFC and hands control to more reactive, impulsive circuits. Recovery practices protect your capacity to think clearly.' },
+  ];
+
+  const growthConcepts = [
+    'Progress over perfection — small consistent action beats occasional intensity.',
+    'Identity-based habits — ask "who do I want to become?" not just "what do I want to do?".',
+    'Compounding — tiny daily improvements stack into large change over months.',
+    'Discomfort as growth signal — meaningful growth usually sits just past the edge of easy.',
+    'Reflection loops — regularly review what is working and adjust; growth needs feedback.',
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Productivity &amp; Focus</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Doing What Matters, Sustainably</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Real productivity is not about doing more — it is about protecting your attention for what matters and building the brain and habits that make focus repeatable. These are tools, not pressure; rest is part of the system.</p>
+      </div>
+
+      {/* Foundations */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Foundations of Focus</span>
+        </div>
+        {foundations.map((f, i) => (
+          <div key={f.name} style={rowStyle(i, foundations)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{f.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{f.how}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* ABC prioritisation */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden', border: '1px solid rgba(240,192,104,0.22)' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(240,192,104,0.08)', borderBottom: '1px solid rgba(240,192,104,0.15)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>The ABC Method — Goals &amp; Priorities</span>
+        </div>
+        <div style={{ padding: '14px 20px' }}>
+          <p style={{ margin: '0 0 14px', fontSize: '0.85rem', color: 'var(--muted)', lineHeight: 1.65 }}>The ABC method sorts each day&apos;s tasks by consequence, so your best energy goes to what actually matters. Label every task, then work strictly in order — A before B, B before C.</p>
+          {abc.map((t, i) => (
+            <div key={t.tier} style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 14, padding: '10px 0', borderBottom: i < abc.length - 1 ? '1px solid rgba(0,0,0,0.05)' : 'none' }}>
+              <div style={{ fontSize: '0.86rem', fontWeight: 700, color: t.color }}>{t.tier}</div>
+              <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{t.detail}</p>
+            </div>
+          ))}
+          <div style={{ marginTop: 16 }}>
+            <div style={{ fontSize: '0.8rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 10, textTransform: 'uppercase', letterSpacing: '0.06em' }}>What makes an ABC goal stick</div>
+            {goalQualities.map(([title, body]) => (
+              <div key={title} style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 14, padding: '8px 0', borderBottom: '1px solid rgba(0,0,0,0.04)' }}>
+                <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--gold)' }}>{title}</div>
+                <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
               </div>
             ))}
           </div>
         </div>
-        <div className="iba-card">
-          <h3>Simple Structure</h3>
-          <div style={{ display: 'grid', gap: 10, marginTop: 12 }}>
-            {structure.map(([step, detail]) => (
-              <div key={step} style={{ border: '1px solid var(--line)', borderRadius: 14, padding: '12px 14px', background: 'rgba(255,255,255,0.03)' }}>
-                <div style={{ fontSize: '0.84rem', fontWeight: 700, color: 'var(--gold)', marginBottom: 4 }}>{step}</div>
-                <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{detail}</p>
-              </div>
-            ))}
-          </div>
-        </div>
       </div>
 
-      <div className="iba-card">
-        <h3>Journaling Questions</h3>
-        <div className="iba-auto" style={{ marginTop: 14 }}>
-          {prompts.map((prompt) => (
-            <div key={prompt} className="iba-mini">
-              <p>{prompt}</p>
+      {/* Prefrontal cortex growth */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>⌁ Strengthening the Prefrontal Cortex</span>
+        </div>
+        {pfc.map((p, i) => (
+          <div key={p.lever} style={rowStyle(i, pfc)}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{p.lever}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{p.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Personal growth concepts */}
+      <div className="iba-card" style={{ background: 'rgba(143,207,141,0.06)', border: '1px solid rgba(143,207,141,0.18)' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Personal growth concepts to carry</h4>
+        <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {growthConcepts.map(c => (
+            <li key={c} style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{c}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   PURPOSE & MEANING
+───────────────────────────────────────── */
+function PurposeMeaning() {
+  const sources = [
+    { source: 'What you love', detail: 'The activities and subjects that draw you in and energise you. Passion is a signal — it points toward where your attention naturally wants to go.', color: 'var(--rose)' },
+    { source: 'What you are good at', detail: 'Your strengths, skills, and the things others come to you for. Meaning grows where capability meets effort.', color: 'var(--blue)' },
+    { source: 'What the world needs', detail: 'Where your gifts meet a real need — in your family, community, or beyond. Contribution is one of the most reliable sources of lasting meaning.', color: 'var(--sage)' },
+    { source: 'What gives you meaning', detail: 'The values and beliefs that make an effort feel worth it to you, even when it is hard. This is the "why" beneath the "what".', color: 'var(--gold)' },
+  ];
+
+  const finding = [
+    ['Look back for threads', 'Review moments you felt most alive, useful, or absorbed. Recurring themes across your life often point more honestly toward purpose than abstract brainstorming.'],
+    ['Follow energy, not just logic', 'Notice what you do that makes you lose track of time, and what consistently drains you. Energy is data about alignment.'],
+    ['Start small and act', 'Purpose is usually discovered through doing, not deciding. Small experiments — a project, a volunteer day, a new skill — reveal more than thinking alone.'],
+    ['Aim it outward', 'Purpose tends to feel hollow when it stays self-focused. Connecting it to something or someone beyond yourself gives it durability.'],
+    ['Let it evolve', 'Purpose is not a single fixed answer found once. It shifts across seasons of life. Holding it lightly keeps it alive.'],
+  ];
+
+  const purposeVsGoals = [
+    ['Purpose', 'A direction — the "why" that gives your efforts meaning. It is ongoing and does not get "completed".'],
+    ['Goals', 'Concrete waypoints — the "what" that moves you along the direction. They get achieved and replaced.'],
+    ['Together', 'Goals without purpose can feel empty; purpose without goals can feel vague. The two anchor each other.'],
+  ];
+
+  const questions = ['What would I do with my time if money were not a concern?', 'What injustice or problem genuinely bothers me?', 'What did I love doing as a child, before being told what was practical?', 'Who do I most want to help, and how?', 'What would I want said about how I lived?'];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Purpose &amp; Meaning</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Purpose in Life</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>A sense of purpose is one of the strongest predictors of wellbeing, resilience, and even longevity. It is less a destination to arrive at and more a direction you keep choosing — discovered through reflection and, above all, through doing.</p>
+      </div>
+
+      {/* Sources of meaning */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Where Purpose Comes From</span>
+        </div>
+        {sources.map((s, i) => (
+          <div key={s.source} style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < sources.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: s.color, paddingTop: 2 }}>{s.source}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.detail}</p>
+          </div>
+        ))}
+        <p style={{ margin: 0, padding: '12px 20px', fontSize: '0.78rem', color: 'var(--muted)', fontStyle: 'italic', lineHeight: 1.5 }}>Where these four overlap is a useful place to look — a place where what you love, what you are good at, what the world needs, and what gives you meaning meet.</p>
+      </div>
+
+      {/* Finding it */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>How to Find &amp; Grow It</span>
+        </div>
+        {finding.map(([title, body], i) => (
+          <div key={title} style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < finding.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{title}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Purpose vs goals */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Purpose vs Goals</span>
+        </div>
+        {purposeVsGoals.map(([title, body], i) => (
+          <div key={title} style={{ display: 'grid', gridTemplateColumns: '150px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < purposeVsGoals.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--gold)', paddingTop: 2 }}>{title}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Reflective questions */}
+      <div className="iba-card" style={{ background: 'rgba(240,192,104,0.06)', border: '1px solid rgba(240,192,104,0.18)' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--gold)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Questions to sit with</h4>
+        <div style={{ display: 'grid', gap: 8 }}>
+          {questions.map(q => (
+            <div key={q} style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>• {q}</div>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   MY CORE
+───────────────────────────────────────── */
+function MyCore() {
+  const layers = [
+    { layer: 'Core values', detail: 'What you stand for — honesty, freedom, kindness, growth, family. Values are the most stable layer of the self and the truest compass for decisions.', color: 'var(--gold)' },
+    { layer: 'Authentic needs', detail: 'What you genuinely need to feel well — rest, connection, autonomy, creativity, safety. Honouring real needs is not selfishness; it is maintenance of the core.', color: 'var(--sage)' },
+    { layer: 'Identity & story', detail: 'The narrative you hold about who you are. This layer is more changeable than it feels — the story can be revised as you grow.', color: 'var(--blue)' },
+    { layer: 'Roles & masks', detail: 'The outer layer — how you show up at work, online, in different relationships. Useful, but the furthest from the core. Trouble comes when a mask is mistaken for the self.', color: 'var(--muted)' },
+  ];
+
+  const findValues = [
+    ['Notice peak moments', 'Recall times you felt deeply fulfilled or proud. Which values were being honoured? Those are likely core to you.'],
+    ['Notice what angers you', 'Strong anger or frustration usually marks a violated value. Resentment is a clue pointing back to what matters.'],
+    ['Choose, don\'t inherit', 'Some values you carry were handed to you, not chosen. Periodically ask which are genuinely yours and which you are ready to set down.'],
+    ['Narrow to a few', 'A handful of clearly named core values guide decisions better than a long, vague list. Three to five you can actually remember is plenty.'],
+  ];
+
+  const returning = [
+    'Pause and ask: "Does this choice move me toward or away from who I want to be?"',
+    'Spend brief time in stillness — meditation, prayer, or a quiet walk — where the noise of roles can fade.',
+    'Journal when you feel "off" — it often signals a gap between how you are living and what you value.',
+    'Protect a little time for what is intrinsically you, unrelated to anyone\'s expectations.',
+    'Surround yourself, where you can, with people who reflect your core back to you rather than distort it.',
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>My Core</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Self Beneath the Roles</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Your core is the steady centre underneath your changing moods, roles, and circumstances — your values, authentic needs, and sense of self. Knowing it gives you a place to return to when life pulls you in many directions.</p>
+      </div>
+
+      {/* Layers */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>The Layers of Self (core outward)</span>
+        </div>
+        {layers.map((l, i) => (
+          <div key={l.layer} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < layers.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: l.color, paddingTop: 2 }}>{l.layer}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{l.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Finding core values */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Finding Your Core Values</span>
+        </div>
+        {findValues.map(([title, body], i) => (
+          <div key={title} style={{ display: 'grid', gridTemplateColumns: '200px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < findValues.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{title}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{body}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Returning to core */}
+      <div className="iba-card" style={{ background: 'rgba(240,192,104,0.06)', border: '1px solid rgba(240,192,104,0.18)' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--gold)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>Returning to your core</h4>
+        <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {returning.map(r => (
+            <li key={r} style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{r}</li>
+          ))}
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+/* ─────────────────────────────────────────
+   VIRTUES & TALENTS
+───────────────────────────────────────── */
+function VirtuesTalents() {
+  const virtues = [
+    { name: 'Courage', detail: 'Acting well in the presence of fear — facing difficulty, telling the truth, doing the right thing when it costs something.' },
+    { name: 'Temperance', detail: 'Balance and self-mastery — the ability to enjoy without being ruled, and to restrain without becoming rigid.' },
+    { name: 'Justice', detail: 'Fairness and giving others their due — honesty, integrity, and care for the common good.' },
+    { name: 'Wisdom (prudence)', detail: 'Seeing clearly and choosing well — practical discernment about what matters and how to act.' },
+    { name: 'Compassion', detail: 'Sensitivity to suffering paired with the will to help — warmth that moves into kindness.' },
+    { name: 'Patience', detail: 'Steadiness with what unfolds slowly — tolerating discomfort and delay without losing your centre.' },
+    { name: 'Gratitude', detail: 'Recognising and honouring what is given — a virtue that also reshapes mood and attention (see Gratitude Practice).' },
+    { name: 'Humility', detail: 'An honest, unanxious view of yourself — open to learning, free of the need to inflate or shrink.' },
+  ];
+
+  const talents = [
+    { name: 'Intuition / inner knowing', detail: 'A felt sense of what is true or right that arrives ahead of reasoning. Worth listening to, and worth checking.' },
+    { name: 'Empathy / attunement', detail: 'Sensing and resonating with others\' emotional states. A gift for connection that also needs boundaries to stay healthy.' },
+    { name: 'Insight / meaning-making', detail: 'A talent for seeing pattern, symbol, and depth — finding meaning where others see only surface.' },
+    { name: 'Presence / stillness', detail: 'The capacity to be fully here, calm and undistracted — a quietly powerful gift in a noisy world.' },
+    { name: 'Expression / voice', detail: 'Giving form to inner truth through words, art, music, or movement so others can feel it too.' },
+    { name: 'Healing / care', detail: 'A natural orientation toward soothing, mending, and helping others return to wholeness.' },
+  ];
+
+  const modalities = [
+    { name: 'Stillness paths', detail: 'Meditation, prayer, contemplation, breath awareness — practices that quiet the mind and open inner space.' },
+    { name: 'Movement paths', detail: 'Yoga, walking, dance, conscious exercise — meeting the spirit through the body and its rhythms.' },
+    { name: 'Sound & vibration', detail: 'Chanting, mantra, OM, music, and tones used to shift state and focus attention (see Sound & Frequency).' },
+    { name: 'Service & relationship', detail: 'Growth through giving, generosity, and genuine connection — the spirit met in how we treat others.' },
+    { name: 'Study & reflection', detail: 'Reading wisdom traditions, journaling, and inner inquiry — meaning approached through understanding.' },
+    { name: 'Nature & beauty', detail: 'Time in the natural world and contact with beauty as a doorway to awe, perspective, and renewal.' },
+  ];
+
+  const states = [
+    ['Ordinary waking', 'Everyday alert consciousness — busy, task-focused, identified with thoughts and roles.'],
+    ['Calm presence', 'Settled, spacious awareness — relaxed and alert at once, common in meditation and nature.'],
+    ['Flow', 'Complete absorption in a task, with effortless attention and a quieted sense of self.'],
+    ['Awe & wonder', 'A felt sense of vastness — expansive, humbling, and often deeply restorative.'],
+    ['Connection / unity', 'A sense of belonging beyond the separate self — to others, to life, to something larger.'],
+  ];
+
+  return (
+    <div style={{ display: 'grid', gap: 28 }}>
+      <div>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--lavender)', marginBottom: 8 }}>Virtues &amp; Talents</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Virtues, Gifts, Paths &amp; States</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>A gentle map of the inner life: the virtues worth cultivating, the spiritual talents many people carry, the modalities or paths that develop them, and the states of being they open onto. Drawn from shared wisdom traditions, offered as reflection rather than doctrine.</p>
+      </div>
+
+      {/* Virtues */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--gold)', textTransform: 'uppercase' }}>✧ Virtues to Cultivate</span>
+        </div>
+        {virtues.map((v, i) => (
+          <div key={v.name} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < virtues.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{v.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{v.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Spiritual talents */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--sage)', textTransform: 'uppercase' }}>◎ Spiritual Talents &amp; Gifts</span>
+        </div>
+        {talents.map((t, i) => (
+          <div key={t.name} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < talents.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{t.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{t.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* Modalities */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--blue)', textTransform: 'uppercase' }}>◈ Modalities &amp; Paths</span>
+        </div>
+        {modalities.map((m, i) => (
+          <div key={m.name} style={{ display: 'grid', gridTemplateColumns: '180px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < modalities.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', paddingTop: 2 }}>{m.name}</div>
+            <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{m.detail}</p>
+          </div>
+        ))}
+      </div>
+
+      {/* States */}
+      <div className="iba-card" style={{ background: 'rgba(196,171,240,0.06)', border: '1px solid rgba(196,171,240,0.18)' }}>
+        <h4 style={{ margin: '0 0 14px', color: 'var(--lavender)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>States of being these paths open onto</h4>
+        <div style={{ display: 'grid', gap: 12 }}>
+          {states.map(([title, body]) => (
+            <div key={title}>
+              <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--deep)', marginBottom: 4 }}>{title}</div>
+              <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>{body}</p>
             </div>
           ))}
         </div>
@@ -2004,83 +2573,79 @@ function JournalingPractice() {
   );
 }
 
-function InnerCompass() {
-  const compass = [
-    { name: 'My core', detail: 'The stable center beneath mood: values, identity, conscience, body signals, and the commitments you keep when nobody is watching.' },
-    { name: 'Purpose in life', detail: 'Purpose is discovered through responsibility, service, devotion, curiosity, and the work that keeps calling for your best attention.' },
-    { name: 'States of mind', detail: 'A state is the mental-emotional posture you occupy: secure, rushed, grateful, defensive, creative, numb, loving, or courageous.' },
-    { name: 'Personal growth concepts', detail: 'Growth means repeated honest reflection, skill practice, feedback, resilience, humility, discipline, and better choices over time.' },
+/* ─────────────────────────────────────────
+   SOUND & FREQUENCY
+───────────────────────────────────────── */
+function SoundFrequency() {
+  const solfeggio = [
+    { hz: '174 Hz', theme: 'Grounding & ease', note: 'Associated in modern sound-healing traditions with a sense of safety and physical relaxation.' },
+    { hz: '285 Hz', theme: 'Renewal', note: 'Linked traditionally with feelings of restoration and wholeness.' },
+    { hz: '396 Hz', theme: 'Releasing fear', note: 'Said to support letting go of guilt and fear, and a turn toward security.' },
+    { hz: '417 Hz', theme: 'Change & clearing', note: 'Associated with facilitating change and clearing stuck feeling.' },
+    { hz: '528 Hz', theme: 'Harmony ("the love tone")', note: 'The best known Solfeggio tone, linked traditionally with balance and a centred, open feeling.' },
+    { hz: '639 Hz', theme: 'Connection', note: 'Associated with relationships, harmony, and warmth toward others.' },
+    { hz: '741 Hz', theme: 'Clarity & expression', note: 'Linked with clear thinking, problem-solving, and self-expression.' },
+    { hz: '852 Hz', theme: 'Inner awareness', note: 'Associated with intuition and a turn inward.' },
+    { hz: '963 Hz', theme: 'Stillness & spaciousness', note: 'The highest of the common Solfeggio tones, linked with a quiet, expansive sense of presence.' },
   ];
-  const virtues = ['Courage', 'Temperance', 'Patience', 'Humility', 'Compassion', 'Integrity', 'Diligence', 'Gratitude'];
-  const modalities = [
-    { name: 'Reflective', detail: 'Journaling, contemplation, prayer, review.' },
-    { name: 'Somatic', detail: 'Breath, posture, movement, body awareness.' },
-    { name: 'Relational', detail: 'Listening, repair, service, honest speech.' },
-    { name: 'Creative', detail: 'Art, music, language, problem solving, beauty.' },
-  ];
-  const talents = [
-    { name: 'Discernment', detail: 'Sensing what is aligned, excessive, hollow, or true.' },
-    { name: 'Presence', detail: 'Staying here without fleeing into fantasy, fear, or performance.' },
-    { name: 'Devotion', detail: 'Giving steady attention to what is sacred or deeply valued.' },
-    { name: 'Transmutation', detail: 'Turning difficulty into maturity, service, skill, or wisdom.' },
+
+  const howToUse = [
+    'Listen at a comfortable, low-to-moderate volume — never loud. Comfort is the measure.',
+    'Pair tones with something you already do — breathwork, journaling, stretching, or winding down.',
+    'Use it as an attention anchor: rest your focus on the sound when the mind wanders.',
+    'A few minutes is enough. Notice how you feel afterward, and keep what genuinely helps.',
   ];
 
   return (
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
-        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--lavender)', marginBottom: 8 }}>Inner Compass</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Core, Purpose, Virtue, and State</h2>
-        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 620 }}>A practical map for orienting your inner life: know your center, choose a state, practice a virtue, and express your talents through grounded action.</p>
+        <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 8 }}>Sound &amp; Frequency</div>
+        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Tones, Tuning &amp; the Solfeggio Scale</h2>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Sound is one of the oldest tools for shifting inner state. The Solfeggio frequencies are a set of tones used widely in modern sound-healing and meditation. Many people find them calming and focusing as listening anchors.</p>
       </div>
 
-      <div className="iba-grid-2">
-        {compass.map((item) => (
-          <div className="iba-card" key={item.name}>
-            <h3>{item.name}</h3>
-            <p className="iba-sub">{item.detail}</p>
+      <div className="iba-warning">
+        <strong>A gentle note on evidence:</strong> The specific claims attached to individual Solfeggio frequencies come from sound-healing tradition, not established science. Treat them as a relaxation and focus aid, not a medical treatment. Use comfortable volume to protect your hearing, and don&apos;t rely on tones for health conditions that need real care.
+      </div>
+
+      {/* Solfeggio table */}
+      <div className="iba-card" style={{ padding: 0, overflow: 'hidden' }}>
+        <div style={{ padding: '8px 20px', background: 'rgba(0,0,0,0.04)', borderBottom: '1px solid rgba(0,0,0,0.07)', display: 'grid', gridTemplateColumns: '110px 200px 1fr', gap: 14 }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Frequency</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>Traditional theme</span>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', color: 'var(--muted)', textTransform: 'uppercase' }}>What it is associated with</span>
+        </div>
+        {solfeggio.map((s, i) => (
+          <div key={s.hz} style={{ display: 'grid', gridTemplateColumns: '110px 200px 1fr', gap: 14, padding: '13px 20px', borderBottom: i < solfeggio.length - 1 ? '1px solid rgba(0,0,0,0.06)' : 'none' }}>
+            <div style={{ fontSize: '0.88rem', fontWeight: 700, color: 'var(--blue)', paddingTop: 2 }}>{s.hz}</div>
+            <div style={{ fontSize: '0.84rem', fontWeight: 600, color: 'var(--lavender)', paddingTop: 2 }}>{s.theme}</div>
+            <p style={{ margin: 0, fontSize: '0.83rem', color: 'var(--muted)', lineHeight: 1.6 }}>{s.note}</p>
           </div>
         ))}
       </div>
 
-      <div className="iba-grid-3">
-        <div className="iba-card">
-          <h3>Virtues</h3>
-          <div className="iba-pill-row">
-            {virtues.map((v) => <span className="iba-pill" key={v}>{v}</span>)}
-          </div>
-        </div>
-        <div className="iba-card">
-          <h3>Modalities</h3>
-          <div className="iba-list" style={{ marginTop: 12 }}>
-            {modalities.map((m) => (
-              <div className="iba-list-item" key={m.name}>
-                <div className="iba-list-item-body"><strong>{m.name}</strong><span>{m.detail}</span></div>
-              </div>
-            ))}
-          </div>
-        </div>
-        <div className="iba-card">
-          <h3>Spiritual Talents</h3>
-          <div className="iba-list" style={{ marginTop: 12 }}>
-            {talents.map((t) => (
-              <div className="iba-list-item" key={t.name}>
-                <div className="iba-list-item-body"><strong>{t.name}</strong><span>{t.detail}</span></div>
-              </div>
-            ))}
-          </div>
-        </div>
+      {/* OM cross-ref */}
+      <div className="iba-card" style={{ background: 'rgba(143,207,141,0.06)', border: '1px solid rgba(143,207,141,0.18)' }}>
+        <h4 style={{ margin: '0 0 10px', color: 'var(--sage)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>OM / AUM — sound you make yourself</h4>
+        <p style={{ margin: 0, fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.65 }}>You don&apos;t need a speaker to work with sound. Chanting a sustained OM (AUM) uses your own voice and breath — the long exhale and resonance settle the nervous system and anchor attention. The full practice lives in the <strong style={{ color: 'var(--gold)' }}>Daily Rituals</strong> section.</p>
       </div>
 
-      <div className="iba-card" style={{ background: 'rgba(169,145,217,0.08)', border: '1px solid rgba(169,145,217,0.22)' }}>
-        <h3>State Practice</h3>
-        <p style={{ margin: '8px 0 0', fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.7 }}>
-          Ask: What state am I in? What state would serve this moment? What virtue would move me there? Then choose one small action that proves the new state in behavior.
-        </p>
+      {/* How to use */}
+      <div className="iba-card" style={{ background: 'rgba(127,184,239,0.06)', border: '1px solid rgba(127,184,239,0.18)' }}>
+        <h4 style={{ margin: '0 0 12px', color: 'var(--blue)', fontFamily: 'Georgia, serif', fontWeight: 500 }}>How to use tones well</h4>
+        <ul style={{ margin: 0, padding: '0 0 0 18px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {howToUse.map(h => (
+            <li key={h} style={{ fontSize: '0.84rem', color: 'var(--muted)', lineHeight: 1.6 }}>{h}</li>
+          ))}
+        </ul>
       </div>
     </div>
   );
 }
 
+/* ─────────────────────────────────────────
+   MAIN COMPONENT
+───────────────────────────────────────── */
 export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection, activeSectionId, initialSection }) {
   const validInitial = tabs.some((t) => t.id === initialSection) ? initialSection : 'dashboard';
   const [activeTab, setActiveTab] = useState(validInitial);
@@ -2103,8 +2668,14 @@ export default function InnerBalanceAtlas({ onBack, onNavigate, onSelectSection,
     herbs:            <HerbsAdaptogens />,
     hair:             <HairHealth />,
     gratitude:        <GratitudePractice />,
-    journaling:       <JournalingPractice />,
-    innercompass:     <InnerCompass />,
+    heatcold:         <HeatColdTherapy />,
+    journaling:       <Journaling />,
+    statesofmind:     <StatesOfMind />,
+    productivity:     <Productivity />,
+    purpose:          <PurposeMeaning />,
+    mycore:           <MyCore />,
+    virtues:          <VirtuesTalents />,
+    soundfrequency:   <SoundFrequency />,
   };
 
   return (
