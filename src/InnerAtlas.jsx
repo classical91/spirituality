@@ -53,6 +53,16 @@ const SECTION_MAP = {
   // Consciousness Map section IDs
   'consciousness-map':                 { id: 'consciousness-map', sub: null },
   'consciousnessmap':                  { id: 'consciousness-map', sub: null },
+  'map-of-consciousness':              { id: 'consciousness-map', sub: null },
+  // Individual Map of Consciousness levels (deep-links from daily readings)
+  'shame':                             { id: 'consciousness-map', sub: 'shame' },
+  'guilt':                             { id: 'consciousness-map', sub: 'guilt' },
+  'fear':                              { id: 'consciousness-map', sub: 'fear' },
+  'anger':                             { id: 'consciousness-map', sub: 'anger' },
+  'courage':                           { id: 'consciousness-map', sub: 'courage' },
+  'acceptance':                        { id: 'consciousness-map', sub: 'acceptance' },
+  'love':                              { id: 'consciousness-map', sub: 'love' },
+  'enlightenment':                     { id: 'consciousness-map', sub: 'enlightenment' },
 };
 
 // Relationship Clarity & Patterns moved to the Sexual Energy portal. Old
@@ -627,7 +637,7 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'consciousness-map') {
-    return <ConsciousnessMap onBack={goHub} />;
+    return <ConsciousnessMap onBack={goHub} initialSection={deepSub} />;
   }
 
   if (activeSection === 'detox') {
