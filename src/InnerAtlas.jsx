@@ -17,6 +17,7 @@ const SECTION_MAP = {
   'colorpsychology':        { id: 'colorpsychology',       sub: null },
   'color-psychology':       { id: 'colorpsychology',       sub: null },
   'regulation':            { id: 'regulation',            sub: null },
+  'detox':                 { id: 'detox',                 sub: null },
   'emotions':              { id: 'emotions',              sub: null },
   'emotion-glossary':      { id: 'emotions',              sub: null },
   'guidance-spiral':       { id: 'emotions',              sub: null },
@@ -38,6 +39,7 @@ const SECTION_MAP = {
   productivity:      { id: 'lifestyle',           sub: 'productivity' },
   purpose:           { id: 'lifestyle',           sub: 'purpose' },
   mycore:            { id: 'lifestyle',           sub: 'mycore' },
+  'my-core':         { id: 'lifestyle',           sub: 'mycore' },
   virtues:           { id: 'lifestyle',           sub: 'virtues' },
   soundfrequency:    { id: 'lifestyle',           sub: 'soundfrequency' },
   dashboard:         { id: null,                  sub: null },
@@ -65,6 +67,9 @@ const SECTION_MAP = {
   // Consciousness Map section IDs
   'consciousness-map':                 { id: 'consciousness-map', sub: null },
   'consciousnessmap':                  { id: 'consciousness-map', sub: null },
+  // Manifestation Blocks
+  'manifestation':                     { id: 'manifestation', sub: null },
+  'manifestation-blocks':              { id: 'manifestation', sub: null },
 };
 
 // Relationship Clarity & Patterns moved to the Sexual Energy portal. Old
@@ -91,6 +96,7 @@ const PAL = {
   'awareness':             { c: '#7ee7d4', bg: 'rgba(126,231,212,0.08)', br: 'rgba(126,231,212,0.26)' },
   'consciousness-map':     { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
   'detox':                 { c: '#a3e635', bg: 'rgba(163,230,53,0.08)',  br: 'rgba(163,230,53,0.26)'  },
+  'manifestation':         { c: '#f59e0b', bg: 'rgba(245,158,11,0.08)',  br: 'rgba(245,158,11,0.26)'  },
 };
 
 // ─── Hub section definitions ────────────────────────────────────────────────
@@ -166,7 +172,243 @@ const SECTIONS = [
     description: '19 detox types — juice, herbal, liver, heavy metal, parasite, sauna, and more — each with ingredients and a smoothie or tonic recipe.',
     tags: ['Cleanse', 'Herbs', 'Reset'],
   },
+  {
+    id: 'manifestation',
+    icon: '✦',
+    title: 'Manifestation Blocks',
+    description: 'The 10 core barriers that delay or block manifestation — limiting beliefs, fear, attachment, low vibration, and more — with steps to clear each one.',
+    tags: ['Beliefs', 'Resistance', 'Alignment'],
+  },
 ];
+
+// ─── Manifestation Blocks data ────────────────────────────────────────────
+
+const MANIFESTATION_BLOCKS = [
+  {
+    id: 'limiting-beliefs',
+    name: 'Limiting Beliefs',
+    icon: '◈',
+    bullets: [
+      'Doubts about your worthiness or ability to achieve your desires.',
+      'Negative subconscious programming from childhood or past experiences.',
+      'Conflicting beliefs (e.g., wanting wealth but believing money is evil).',
+    ],
+    clear: 'Reprogram through daily affirmations, mirror work, and belief audits. Ask: "Where did I first learn this?" and consciously replace it with its opposite.',
+  },
+  {
+    id: 'fear-resistance',
+    name: 'Fear & Resistance',
+    icon: '△',
+    bullets: [
+      'Fear of failure or success.',
+      'Fear of change or the unknown.',
+      'Resistance to stepping out of your comfort zone.',
+    ],
+    clear: 'Name the fear specifically, then ask: "What is the worst realistic outcome?" Visualise moving through the fear with the outcome already handled.',
+  },
+  {
+    id: 'attachment-desperation',
+    name: 'Attachment & Desperation',
+    icon: '⊗',
+    bullets: [
+      'Obsessing over the outcome, creating energetic resistance.',
+      'Feeling like you need something to be happy instead of trusting divine timing.',
+      'Micromanaging how things should manifest instead of allowing them to unfold.',
+    ],
+    clear: 'Practice the "set it and forget it" method — state the intention clearly, then redirect your focus to daily joy. Surrender is not giving up; it is trusting.',
+  },
+  {
+    id: 'negative-thoughts',
+    name: 'Negative Thoughts & Emotions',
+    icon: '〜',
+    bullets: [
+      'Constantly focusing on what you do not want.',
+      'Chronic stress, anxiety, or pessimism lowering your vibrational energy.',
+      'Dwelling in lack rather than abundance.',
+    ],
+    clear: 'Use the 17-second rule (Abraham Hicks): hold a positive thought for 17 seconds to begin shifting momentum. Pair with gratitude lists and guided meditations.',
+  },
+  {
+    id: 'lack-of-alignment',
+    name: 'Lack of Alignment & Inspired Action',
+    icon: '⌁',
+    bullets: [
+      'Saying you want something but taking no steps toward it.',
+      'Acting out of alignment with your desires (e.g., wanting love but avoiding social interactions).',
+      'Ignoring intuition and inspired nudges.',
+    ],
+    clear: 'Ask daily: "What one action today would my future self thank me for?" Act on any nudge that feels light, not forced.',
+  },
+  {
+    id: 'environmental-influences',
+    name: 'Environmental & Social Influences',
+    icon: '◎',
+    bullets: [
+      'Surrounding yourself with negative or unsupportive people.',
+      'Being in a toxic environment that drains your energy.',
+      'Absorbing limiting societal norms or cultural beliefs.',
+    ],
+    clear: 'Audit your five closest influences. Consciously add one energy-raising person, podcast, or environment per week. You absorb the frequency around you.',
+  },
+  {
+    id: 'impatience-distrust',
+    name: 'Impatience & Lack of Trust',
+    icon: '◷',
+    bullets: [
+      'Feeling frustrated when things do not manifest instantly.',
+      'Constantly questioning "Why hasn\'t it happened yet?"',
+      'Not trusting divine timing and universal alignment.',
+    ],
+    clear: 'Look back at past manifestations — notice they always arrived at the right moment. Build a "proof journal" of times things worked out perfectly.',
+  },
+  {
+    id: 'low-self-worth',
+    name: 'Low Self-Worth & Self-Sabotage',
+    icon: '⊖',
+    bullets: [
+      'Feeling unworthy of receiving good things.',
+      'Subconsciously sabotaging opportunities out of fear or guilt.',
+      'Not allowing yourself to feel joy, love, or success.',
+    ],
+    clear: 'Begin a daily self-worth practice: write three things you appreciate about yourself. Catch self-sabotage patterns in real time by asking "Is this aligned with my desires?"',
+  },
+  {
+    id: 'lack-of-gratitude',
+    name: 'Lack of Gratitude & Presence',
+    icon: '☽',
+    bullets: [
+      'Focusing too much on the future rather than appreciating the present.',
+      'Not acknowledging what you already have, which reinforces scarcity.',
+      'Complaining about life instead of feeling gratitude for it.',
+    ],
+    clear: 'Write three specific gratitudes every morning — not generic, but detailed. Gratitude is the frequency that attracts more of what you appreciate.',
+  },
+  {
+    id: 'energetic-blocks',
+    name: 'Energetic Blocks & Past Trauma',
+    icon: '◬',
+    bullets: [
+      'Unhealed wounds or emotional baggage lowering your vibration.',
+      'Holding onto resentment, anger, or past disappointments.',
+      'Being stuck in old patterns that no longer serve you.',
+    ],
+    clear: 'Work with somatic release, EFT tapping, or inner-child journaling. Forgiveness (of yourself and others) is one of the most powerful frequency-raisers.',
+  },
+];
+
+const MANIFESTATION_CLEAR_STEPS = [
+  { icon: '✅', text: 'Reprogram limiting beliefs through affirmations and inner work.' },
+  { icon: '✅', text: 'Release fear and trust the process.' },
+  { icon: '✅', text: 'Practice gratitude and focus on abundance.' },
+  { icon: '✅', text: 'Take aligned, inspired action.' },
+  { icon: '✅', text: 'Let go of attachment and surrender to divine timing.' },
+  { icon: '✅', text: 'Heal emotional wounds and raise your vibration.' },
+];
+
+function ManifestationBlocks({ onBack, onSelectSection }) {
+  const [expanded, setExpanded] = useState(null);
+  const color = '#f59e0b';
+
+  const toggle = (id) => setExpanded(prev => prev === id ? null : id);
+
+  return (
+    <InnerAtlasShell activeId="manifestation" onBack={onBack} onSelectSection={onSelectSection} title="Manifestation Blocks">
+      <div className="ia-section-head">
+        <div className="ia-eyebrow">Law of attraction</div>
+        <h2 className="ia-title">Manifestation Blocks</h2>
+        <p className="ia-lede">
+          The 10 core barriers that delay or prevent manifestations — and how to clear each one. Tap any block to see what drives it and how to release it.
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 40 }}>
+        {MANIFESTATION_BLOCKS.map((block, i) => (
+          <div key={block.id}>
+            <button
+              type="button"
+              onClick={() => toggle(block.id)}
+              className="ia-card"
+              style={{
+                width: '100%', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit',
+                borderColor: expanded === block.id ? `${color}55` : `${color}20`,
+                background: expanded === block.id ? `${color}0d` : 'rgba(255,255,255,0.03)',
+                display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <span style={{
+                  fontSize: '0.7rem', fontWeight: 700, color, background: `${color}18`,
+                  border: `1px solid ${color}30`, borderRadius: 999,
+                  padding: '3px 9px', flexShrink: 0, marginTop: 2,
+                }}>
+                  {i + 1}
+                </span>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                    <span style={{ color, fontSize: '1rem' }}>{block.icon}</span>
+                    <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f1f5f9' }}>{block.name}</span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--ia-text-dim)', lineHeight: 1.6 }}>
+                    {block.bullets[0]}
+                  </div>
+                </div>
+              </div>
+              <span style={{ color, flexShrink: 0, fontSize: '0.9rem', marginTop: 4 }}>
+                {expanded === block.id ? '▲' : '▼'}
+              </span>
+            </button>
+
+            {expanded === block.id && (
+              <div style={{
+                background: `${color}08`, border: `1px solid ${color}28`,
+                borderTop: 'none', borderRadius: '0 0 14px 14px', padding: '16px 20px',
+              }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
+                  {block.bullets.map((b, bi) => (
+                    <div key={bi} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                      <span style={{ color, flexShrink: 0, marginTop: 1 }}>•</span>
+                      <span style={{ fontSize: '0.82rem', color: 'var(--ia-text-dim)', lineHeight: 1.6 }}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{
+                  background: `${color}12`, border: `1px solid ${color}28`,
+                  borderRadius: 10, padding: '12px 14px',
+                }}>
+                  <div style={{
+                    fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.15em',
+                    textTransform: 'uppercase', color, marginBottom: 6,
+                  }}>How to clear this block</div>
+                  <div style={{ fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.65 }}>
+                    {block.clear}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div style={{
+        background: `${color}08`, border: `1px solid ${color}28`,
+        borderRadius: 16, padding: '24px 22px',
+      }}>
+        <div style={{
+          fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.18em',
+          textTransform: 'uppercase', color, marginBottom: 16,
+        }}>How to remove these blocks</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {MANIFESTATION_CLEAR_STEPS.map((step, i) => (
+            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: '0.95rem', flexShrink: 0 }}>{step.icon}</span>
+              <span style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: 1.6 }}>{step.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </InnerAtlasShell>
+  );
+}
 
 // ─── Detox Guide data ──────────────────────────────────────────────────────
 
@@ -275,7 +517,7 @@ const DETOXES = [
   },
   {
     id: 'sauna', name: 'Infrared Sauna Detox', category: 'Physical',
-    desc: 'Far-infrared heat penetrates deeper than conventional saunas, promoting sweat-based elimination of toxins.',
+    desc: 'A heat-based recovery ritual that encourages sweating and relaxation. Hydrate well, keep sessions modest, and avoid use when heat exposure is unsafe for you.',
     recipe: 'Pre/Post Sauna Hydration Drink',
     ingredients: ['2 cups filtered water', 'Pinch of pink Himalayan salt', 'Juice of ½ lemon', '¼ tsp magnesium powder', '1 tsp raw honey or coconut water', 'Electrolyte minerals — drink before and after'],
   },
@@ -644,6 +886,10 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   if (activeSection === 'detox') {
     return <DetoxGuide onBack={goHub} onSelectSection={setActiveSection} />;
+  }
+
+  if (activeSection === 'manifestation') {
+    return <ManifestationBlocks onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase

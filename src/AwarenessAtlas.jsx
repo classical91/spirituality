@@ -298,6 +298,28 @@ const concepts = [
     ],
     cautions: 'If self-criticism dominates your practice, make kindness the priority. Practice is meant to soften the inner critic, not feed it.',
   },
+  {
+    id: 'stillness-spaciousness-silence',
+    title: 'Stillness, Spaciousness & Silence',
+    icon: '🕊️',
+    category: 'Inner Practice',
+    color: 'rgba(120,180,255,.20)',
+    summary: 'A simple three-part sitting practice — settle into stillness, open into spaciousness, and rest in silence — that returns the mind to the present and quiets worry about past and future.',
+    overview: 'This is a contemplative practice built on three gentle movements. Stillness settles the body: a quiet place, an upright but easy posture, and slow, full breathing through the nose. Spaciousness is what the mind feels as it unclenches — a sense of openness, with a quiet sharpness and clarity. Silence is resting in the present and meeting thoughts, emotions, and sensations as they actually are, rather than arguing with them. From that settled place you naturally dwell less on past regrets and worry less about the future, responding to what is real instead of to preconceived notions. A few everyday habits support the same calm: breathing deeply and slowly (which helps the body ease off stress hormones like cortisol), getting out into nature, naming one thing you are grateful for, and tending to good sleep.',
+    keyIdeas: [
+      'Stillness: a quiet place, a tall and settled posture, and slow nasal breathing calm the body.',
+      'Spaciousness: a felt sense of openness, sharpness, and clarity as the mind lets go.',
+      'Silence: rest in the present and accept thoughts and feelings for what they really are.',
+      'Dwelling less on the past and worrying less about the future lets you respond to reality, not to preconceived notions.',
+    ],
+    practice: [
+      'Stillness: find a quiet place and take a comfortable seat. Sit up tall, close your eyes, and breathe patiently and fully — yet gently and quietly — in and out through the nose.',
+      'Spaciousness: let a sense of openness arise, with a quiet sharpness and clarity, as if the space behind your eyes has widened.',
+      'Silence: focus on the present and accept each thought, emotion, and sensation for what it really is, without arguing with it.',
+      'Reduce regret by dwelling less on the past and worry less about the future; let your response come from what is real, not from preconceived notions.',
+    ],
+    cautions: 'This is a reflective wellness practice, not medical or psychiatric treatment. If sitting in silence stirs difficult emotion, open your eyes and widen to the sounds of the room, and reach out to a trusted person or professional for ongoing support.',
+  },
 ];
 
 const FILTERS = ['All', 'Awareness & Consciousness', 'Meditation & Brain States', 'Inner Practice'];
