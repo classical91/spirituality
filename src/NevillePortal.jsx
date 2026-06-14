@@ -7,6 +7,13 @@ const SECTION_ALIASES = {
   selfconcept: 'phrase-analyzer',
   'self-concept': 'phrase-analyzer',
   'language-studio': 'phrase-analyzer',
+  'power-ladder': 'power-ladder',
+  'power-stack': 'power-ladder',
+  'want-teachings': 'want-teachings',
+  want: 'want-teachings',
+  'doubt-tells': 'doubt-tells',
+  'doubt-language': 'doubt-tells',
+  doubt: 'doubt-tells',
   states: 'states-of-mind',
   'inner-state': 'living-end',
   imagination: 'living-end',
@@ -29,11 +36,11 @@ function normalizeInitialSection(initialSection) {
 
 function resolveInitialTab(initialSection) {
   const section = normalizeInitialSection(initialSection);
-  if (section === 'phrase-analyzer' || section === 'tone-traps') return 'Self-Concept Studio';
+  if (section === 'phrase-analyzer' || section === 'tone-traps' || section === 'power-ladder' || section === 'doubt-tells' || section === 'want-teachings') return 'Self-Concept Studio';
   if (section === 'sats') return 'SATS';
   if (section === 'revision') return 'Revision';
   if (section === 'mental-diet') return 'Mental Diet';
-  if (section === 'concepts' || section === 'frameworks' || CONCEPT_SECTIONS.has(section)) return 'Concepts';
+  if (section === 'concepts' || section === 'summary' || section === 'parallels' || section === 'frameworks' || CONCEPT_SECTIONS.has(section)) return 'Concepts';
   if (section === 'states-of-mind' || section === 'daily-structure' || section === 'state-builder') return 'Daily Alignment';
   return 'Daily Alignment';
 }
@@ -196,6 +203,26 @@ const CONCEPT_ACCENTS = {
   emerald: 'border-emerald-300/20 bg-emerald-400/[0.06]',
   amber: 'border-amber-300/20 bg-amber-400/[0.06]',
 };
+
+const CONCEPT_SUMMARY = [
+  { term: 'Imagination', meaning: 'The creative act — the inner world where everything begins.', accent: 'violet' },
+  { term: 'Belief', meaning: 'The acceptance that imagination is real.', accent: 'fuchsia' },
+  { term: 'Curiosity', meaning: 'The playful doorway into new states.', accent: 'cyan' },
+  { term: 'Manifestation', meaning: 'The outer proof, which always lags behind.', accent: 'amber' },
+  { term: 'Faith / Assumption / Feeling', meaning: 'The glue that holds imagination steady until it hardens into fact.', accent: 'emerald' },
+];
+
+const CONCEPT_PARALLELS = [
+  { modern: 'Mental rehearsal', neville: 'Imagination creates reality', desc: 'The mind rehearses an outcome until it feels familiar and real.' },
+  { modern: 'Visualization', neville: 'Enter the scene and feel it real', desc: 'See and feel the event as already happening, from the inside.' },
+  { modern: 'Embodiment', neville: 'Live in the end', desc: 'Think and feel from the wish fulfilled, not of it.' },
+  { modern: 'Emotional alignment', neville: 'Feeling is the secret', desc: 'The emotional tone you hold is what translates the state into reality.' },
+  { modern: 'Inner self-talk', neville: 'Inner conversations', desc: 'The silent conversations you repeat rehearse the state you live from.' },
+  { modern: 'Identity shift', neville: 'Assumption / I AM', desc: 'Assume the new self-concept as already true and let it feel natural.' },
+  { modern: 'Cognitive reframing', neville: 'Revision', desc: 'Replay a past or present event as the version you would have preferred.' },
+  { modern: 'Subconscious programming', neville: 'SATS (state akin to sleep)', desc: 'Impress the wish on the subconscious in a drowsy, relaxed state.' },
+  { modern: 'Consistency / habit', neville: 'Persistence', desc: 'Stay loyal to the assumption until it hardens into fact.' },
+];
 
 function cx(...cls) {
   return cls.filter(Boolean).join(' ');
@@ -360,6 +387,13 @@ const DAILY_TONES = {
   },
 };
 
+const DAILY_SECTIONS = [
+  ['state-builder', 'Start here'],
+  ['daily-structure', 'Daily structure'],
+  ['states-of-mind', 'State of mind'],
+  ['daily-checkin', 'Check-in'],
+];
+
 // ─── Daily Alignment Tab ──────────────────────────────────────────────────────
 
 function DailyAlignmentTab() {
@@ -400,9 +434,24 @@ function DailyAlignmentTab() {
 
   return (
     <div className="space-y-4">
+      <nav className="flex flex-wrap items-center gap-2 rounded-3xl border border-white/10 bg-white/[0.04] p-3">
+        <span className="px-2 text-[11px] font-black uppercase tracking-[0.22em] text-white/40">On this tab</span>
+        {DAILY_SECTIONS.map(([id, label], i) => (
+          <a
+            key={id}
+            href={`#${id}`}
+            className="flex items-center gap-2 rounded-xl border border-white/10 bg-black/20 px-3 py-1.5 text-sm font-bold text-white/70 transition hover:border-white/30 hover:text-white"
+          >
+            <span className="flex h-5 w-5 items-center justify-center rounded-full border border-white/15 text-[11px] text-white/50">{i + 1}</span>
+            {label}
+          </a>
+        ))}
+      </nav>
+
       <section id="state-builder" className="scroll-mt-24 grid gap-4 md:grid-cols-2">
         <div className="rounded-3xl border border-emerald-300/20 bg-emerald-400/5 p-6">
-          <h2 className="text-2xl font-black">Start Here (5 minutes)</h2>
+          <p className="text-xs font-black uppercase tracking-[0.26em] text-emerald-200/70">Step 1 · Set the state</p>
+          <h2 className="mt-2 text-2xl font-black">Start Here (5 minutes)</h2>
           <ol className="mt-4 list-decimal space-y-2 pl-5 text-white/80">
             <li>Choose one fulfilled desire sentence.</li>
             <li>Choose your "I AM" identity.</li>
@@ -435,7 +484,7 @@ function DailyAlignmentTab() {
       <section id="daily-structure" className="scroll-mt-24 rounded-3xl border border-white/10 bg-white/[0.04] p-6">
         <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-violet-200/70">Daily structure</p>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-violet-200/70">Step 2 · Daily structure</p>
             <h2 className="mt-2 text-2xl font-black">Neville practice around real life</h2>
             <p className="mt-2 max-w-2xl text-sm leading-6 text-white/60">
               A balanced day uses short state-setting moments around school, work, and responsibilities. The aim is steady assumption, not constant checking or forced visualization.
@@ -483,7 +532,7 @@ function DailyAlignmentTab() {
       <section id="states-of-mind" className="scroll-mt-24 rounded-3xl border border-sky-300/20 bg-sky-400/5 p-6">
         <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-sky-200/70">State of mind</p>
+            <p className="text-xs font-black uppercase tracking-[0.26em] text-sky-200/70">Step 3 · State of mind</p>
             <h2 className="mt-2 text-2xl font-black">The inner position you are living from</h2>
             <p className="mt-3 leading-relaxed text-white/70">
               A state of mind is your current mental, emotional, and imaginative condition. It is the inner weather you interpret life from: calm, anxious, confident, angry, loving, discouraged, focused, jealous, or grateful.
@@ -508,8 +557,9 @@ function DailyAlignmentTab() {
         </div>
       </section>
 
-      <section className="rounded-3xl border border-cyan-300/20 bg-cyan-400/5 p-6">
-        <h2 className="text-2xl font-black">Daily Check-in</h2>
+      <section id="daily-checkin" className="scroll-mt-24 rounded-3xl border border-cyan-300/20 bg-cyan-400/5 p-6">
+        <p className="text-xs font-black uppercase tracking-[0.26em] text-cyan-200/70">Step 4 · Check-in</p>
+        <h2 className="mt-2 text-2xl font-black">Daily Check-in</h2>
         <div className="mt-4 grid gap-2 md:grid-cols-3">
           {[
             ['morning', 'Morning state set'],
@@ -812,6 +862,48 @@ function ConceptsTab({ initialSection }) {
           The conceptual backbone of Neville's teaching. SATS, Revision, and Mental Diet have their own
           practice tabs — these are the states and principles behind them. Tap any concept to expand it.
         </p>
+      </div>
+
+      <div id="summary" className="mb-5 scroll-mt-24 rounded-3xl border border-amber-300/20 bg-amber-400/[0.05] p-5">
+        <div className="flex items-center gap-2">
+          <span className="text-lg" aria-hidden>🔑</span>
+          <p className="text-xs font-bold uppercase tracking-[0.3em] text-amber-200/80">Summary — the whole law in one glance</p>
+        </div>
+        <p className="mt-2 text-sm leading-6 text-white/65">
+          How the core terms relate: imagination creates, belief accepts, curiosity opens the door, feeling holds it steady — and manifestation is the proof that arrives last.
+        </p>
+        <div className="mt-4 grid gap-2.5 sm:grid-cols-2">
+          {CONCEPT_SUMMARY.map((row) => (
+            <div key={row.term} className={cx('rounded-2xl border p-4', CONCEPT_ACCENTS[row.accent] || 'border-white/10 bg-white/[0.05]')}>
+              <p className="text-sm font-black text-white">{row.term}</p>
+              <p className="mt-1 text-sm leading-6 text-white/72">{row.meaning}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div id="parallels" className="mb-5 scroll-mt-24 rounded-3xl border border-white/10 bg-white/[0.04] p-5">
+        <p className="text-xs font-bold uppercase tracking-[0.3em] text-cyan-300/70">Key parallels</p>
+        <p className="mt-2 text-sm leading-6 text-white/65">
+          The same inner work runs through modern psychology and coaching — Neville simply named it first. Here is how the familiar terms map onto his language.
+        </p>
+        <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
+          <div className="hidden grid-cols-[0.9fr_1.1fr_1.3fr] border-b border-white/10 bg-white/5 px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-white/45 sm:grid">
+            <div>Modern term</div>
+            <div>Neville's language</div>
+            <div>Description</div>
+          </div>
+          {CONCEPT_PARALLELS.map((row) => (
+            <div
+              key={row.modern}
+              className="grid gap-1.5 border-b border-white/10 bg-black/10 px-4 py-3.5 transition last:border-b-0 hover:bg-white/[0.03] sm:grid-cols-[0.9fr_1.1fr_1.3fr] sm:items-center sm:gap-3"
+            >
+              <p className="text-sm font-black text-white">{row.modern}</p>
+              <p className="text-sm font-semibold italic leading-6 text-cyan-100/85">“{row.neville}”</p>
+              <p className="text-sm leading-6 text-white/68">{row.desc}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="grid gap-3 md:grid-cols-2">
