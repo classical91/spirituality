@@ -49,6 +49,7 @@ const SECTION_MAP = {
   powerstack:  { id: 'psychology', sub: 'powerstack' },
   growth:      { id: 'psychology', sub: 'growth' },
   nutrients:   { id: 'psychology', sub: 'nutrients' },
+  manifest:    { id: 'psychology', sub: 'manifest' },
   // Awareness section IDs
   'awareness':                         { id: 'awareness', sub: null },
   'what-is-awareness':                 { id: 'awareness', sub: 'what-is-awareness' },
@@ -64,6 +65,7 @@ const SECTION_MAP = {
   'body-awareness':                    { id: 'awareness', sub: 'body-awareness' },
   'emotional-awareness':               { id: 'awareness', sub: 'emotional-awareness' },
   'returning-attention':               { id: 'awareness', sub: 'returning-attention' },
+  'stillness-spaciousness-silence':    { id: 'awareness', sub: 'stillness-spaciousness-silence' },
   // Consciousness Map section IDs
   'consciousness-map':                 { id: 'consciousness-map', sub: null },
   'consciousnessmap':                  { id: 'consciousness-map', sub: null },
