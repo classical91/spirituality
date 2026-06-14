@@ -49,6 +49,7 @@ const SECTION_MAP = {
   powerstack:  { id: 'psychology', sub: 'powerstack' },
   growth:      { id: 'psychology', sub: 'growth' },
   nutrients:   { id: 'psychology', sub: 'nutrients' },
+  manifest:    { id: 'psychology', sub: 'manifest' },
   // Awareness section IDs
   'awareness':                         { id: 'awareness', sub: null },
   'what-is-awareness':                 { id: 'awareness', sub: 'what-is-awareness' },
@@ -64,9 +65,20 @@ const SECTION_MAP = {
   'body-awareness':                    { id: 'awareness', sub: 'body-awareness' },
   'emotional-awareness':               { id: 'awareness', sub: 'emotional-awareness' },
   'returning-attention':               { id: 'awareness', sub: 'returning-attention' },
+  'stillness-spaciousness-silence':    { id: 'awareness', sub: 'stillness-spaciousness-silence' },
   // Consciousness Map section IDs
   'consciousness-map':                 { id: 'consciousness-map', sub: null },
   'consciousnessmap':                  { id: 'consciousness-map', sub: null },
+  'map-of-consciousness':              { id: 'consciousness-map', sub: null },
+  // Individual Map of Consciousness levels (deep-links from daily readings)
+  'shame':                             { id: 'consciousness-map', sub: 'shame' },
+  'guilt':                             { id: 'consciousness-map', sub: 'guilt' },
+  'fear':                              { id: 'consciousness-map', sub: 'fear' },
+  'anger':                             { id: 'consciousness-map', sub: 'anger' },
+  'courage':                           { id: 'consciousness-map', sub: 'courage' },
+  'acceptance':                        { id: 'consciousness-map', sub: 'acceptance' },
+  'love':                              { id: 'consciousness-map', sub: 'love' },
+  'enlightenment':                     { id: 'consciousness-map', sub: 'enlightenment' },
   // Manifestation Blocks
   'manifestation':                     { id: 'manifestation', sub: null },
   'manifestation-blocks':              { id: 'manifestation', sub: null },
@@ -881,7 +893,7 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'consciousness-map') {
-    return <ConsciousnessMap onBack={goHub} />;
+    return <ConsciousnessMap onBack={goHub} initialSection={deepSub} />;
   }
 
   if (activeSection === 'detox') {
