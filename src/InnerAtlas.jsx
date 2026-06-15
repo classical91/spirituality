@@ -56,6 +56,13 @@ const SECTION_MAP = {
   growth:      { id: 'psychology', sub: 'growth' },
   nutrients:   { id: 'psychology', sub: 'nutrients' },
   manifest:    { id: 'psychology', sub: 'manifest' },
+  // Psychology Portal framework deep-links
+  'inner-child':  { id: 'psychology', sub: 'inner-child' },
+  'self-trust':   { id: 'psychology', sub: 'self-trust' },
+  'discernment':  { id: 'psychology', sub: 'discernment' },
+  'projection':   { id: 'psychology', sub: 'projection' },
+  'parts-work':   { id: 'psychology', sub: 'parts-work' },
+  'integration':  { id: 'psychology', sub: 'integration' },
   // Awareness section IDs
   'awareness':                         { id: 'awareness', sub: null },
   'what-is-awareness':                 { id: 'awareness', sub: 'what-is-awareness' },
