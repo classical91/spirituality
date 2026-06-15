@@ -268,6 +268,120 @@ const frameworks = [
     ],
     avoidanceAntidote: "Not confrontation. Not rumination. Safe presence — 'I can stay with this without needing it to disappear.' Avoidance dissolves naturally when emotion is no longer perceived as dangerous. The practice is building enough capacity that feeling is a choice, not a threat.",
   },
+  {
+    id: 12,
+    sectionId: 'inner-child',
+    title: "Inner Child",
+    field: "Depth Psychology / Reparenting",
+    icon: "◎",
+    tone: "rose",
+    category: "awareness",
+    keyQuestion: "Is it me responding right now, or the younger version of me?",
+    use: "Understanding emotional overreactions, fear of abandonment, people-pleasing, or the urge to chase.",
+    how: "The inner child is the part of you that formed its core beliefs about love, safety, and worth in early childhood — often before you had words for it. When those beliefs are 'I must earn love,' 'Disapproval is dangerous,' or 'If I need too much, I'll be left,' they run silently in the background of adult relationships. Reparenting is the practice of giving yourself now what you needed then: consistent presence, safety, and compassion. It does not require revisiting every wound — it requires noticing when a current trigger is actually an old one, and responding as the adult, not the child.",
+    example: "You feel panic when she takes three hours to reply. The adult reality: she's busy. The inner child's reality: 'Silence means I've been abandoned. I need to fix it now.' Reparenting response: 'I notice the panic. That's old. I'm safe. I can wait.' Then, wait.",
+    prompts: [
+      "What am I feeling right now — and how old does this feeling feel?",
+      "What did the younger version of me need that I wasn't given? Can I offer that to myself now?",
+      "If I responded to this situation as a grounded adult rather than a frightened child, what would I do?",
+      "What belief about love or worth am I still carrying from early experiences — and is it still true?",
+    ],
+  },
+  {
+    id: 13,
+    sectionId: 'projection',
+    title: "Projection",
+    field: "Depth Psychology",
+    icon: "◇",
+    tone: "violet",
+    category: "awareness",
+    keyQuestion: "Am I seeing them clearly, or am I seeing myself?",
+    use: "Catching the moments when your own unacknowledged fears, desires, or judgments are being attributed to someone else.",
+    how: "Projection is the mind's way of externalising what it cannot yet own. What you cannot tolerate in yourself becomes what you insist you see in others. The person you judge as emotionally unavailable may be showing you something you avoid in yourself. The person you suspect of losing interest may be reflecting your own inner withdrawal. Projection is not a flaw — it is a map. What you repeatedly see in others without evidence tells you something true about your own interior. The practice is to pause before certainty and ask: is this actually about them — or is it about me?",
+    example: "You become convinced she's losing interest, though she's given no clear signal. On reflection: you've been emotionally distant yourself lately, pulling back to protect yourself from being hurt first. The projection: attributing your own withdrawal to her.",
+    prompts: [
+      "What am I absolutely certain about this person right now — and where is my evidence?",
+      "Is what I'm seeing in them something I also do, or something I'm afraid of in myself?",
+      "What would I have to own about myself if I removed the story I'm telling about them?",
+      "Am I responding to them — or to a version of them I've constructed from fear?",
+    ],
+  },
+  {
+    id: 14,
+    sectionId: 'parts-work',
+    title: "Parts Work (IFS)",
+    field: "Internal Family Systems",
+    icon: "⌘",
+    tone: "teal",
+    category: "awareness",
+    keyQuestion: "Which part of me is running the show right now?",
+    use: "Understanding why you simultaneously want closeness and push it away, or feel confident in some areas and terrified in others.",
+    how: "IFS (Internal Family Systems) holds that the mind is not a single unified self but a system of parts — each with its own role, feelings, and history. Common parts: the Manager (keeps you safe through control and planning), the Firefighter (extinguishes pain through distraction or numbing), the Exile (the wounded part carrying shame, grief, or fear that the others work to protect). Beneath all parts is the Self — calm, curious, compassionate, and clear. The practice is to notice which part is speaking rather than fusing with it: 'A part of me is panicking' is different from 'I am panicking.' Separation creates space. Space creates choice.",
+    example: "You have a genuine desire for closeness, but when intimacy increases you become critical or distant. This is not contradiction — it is two parts: one that yearns for connection (the Exile) and one that protects you from the vulnerability that connection requires (the Manager).",
+    prompts: [
+      "Which part of me is most active right now — the one that protects, the one that avoids, or the one that aches?",
+      "Can I notice this part without becoming it? Can I be curious rather than controlled?",
+      "What is this part trying to protect me from — and does it know that I, as an adult, can handle it?",
+      "What would my Self — calm, clear, and unafraid — do in this moment?",
+    ],
+  },
+  {
+    id: 15,
+    sectionId: 'self-trust',
+    title: "Self-Trust",
+    field: "Psychology / Inner Authority",
+    icon: "✦",
+    tone: "amber",
+    category: "identity",
+    keyQuestion: "Do I trust what I see, feel, and know?",
+    use: "Rebuilding inner authority after self-doubt, over-explaining yourself, or repeatedly deferring to others' interpretations of your own experience.",
+    how: "Self-trust is not confidence — it is the foundational belief that your perceptions, feelings, and judgment are valid data. When it's eroded (through gaslighting, excessive criticism, or years of dismissing your own instincts), you begin to outsource your inner life: seeking constant validation, second-guessing every decision, or deferring to others even when something feels wrong. The path back is not dramatic — it is returning to your own experience as the primary reference point. Notice what you feel. Name it. Don't immediately explain it away. Let your experience be real before you subject it to evaluation.",
+    example: "You feel uneasy after a conversation but immediately dismiss it: 'I'm probably just being sensitive.' Self-trust practice: sit with the unease first. 'I notice something feels off. That's real information, regardless of what it means.' Then investigate — don't bypass.",
+    prompts: [
+      "What do I actually perceive, feel, or know in this moment — before I start explaining it away?",
+      "Where have I been dismissing or minimising my own inner experience?",
+      "Whose voice am I hearing when I doubt myself — and does that voice deserve the authority I've given it?",
+      "What would I do if I trusted myself completely in this situation?",
+    ],
+  },
+  {
+    id: 16,
+    sectionId: 'discernment',
+    title: "Discernment",
+    field: "Psychology / Inner Clarity",
+    icon: "△",
+    tone: "sky",
+    category: "awareness",
+    keyQuestion: "Am I seeing clearly — or through the lens of what I want or fear?",
+    use: "Making grounded decisions rather than choices driven by hope, anxiety, or the story you've been telling yourself.",
+    how: "Discernment is the capacity to see what is actually there — not what you hope is there, not what you fear is there. It requires two things: emotional regulation (you cannot see clearly from a triggered state) and honest self-inquiry (your attachment to a particular outcome will bend your perception toward confirming it). Discernment asks you to see the pattern, not just the moment. One kind gesture doesn't rewrite a pattern of neglect. One difficult conversation doesn't erase months of security. The practice is to hold both evidence and feeling — neither dismissing the facts nor ignoring the signals your body sends — and arrive at what is actually true.",
+    example: "You've received three warm texts after weeks of inconsistency. Desire filters: 'Things are changing, this is the person I knew they could be.' Discernment asks: 'What is the pattern across time? Is this a turning point — or a cycle repeating?'",
+    prompts: [
+      "What is the actual evidence — separate from what I want to be true?",
+      "Am I seeing this person's pattern, or their best moments?",
+      "If a trusted friend described this situation to me, what would I tell them?",
+      "What am I afraid I would have to do or feel if I saw this clearly?",
+    ],
+  },
+  {
+    id: 17,
+    sectionId: 'integration',
+    title: "Integration",
+    field: "Psychology / Wholeness",
+    icon: "◈",
+    tone: "emerald",
+    category: "identity",
+    keyQuestion: "Have I made peace with all of what I am?",
+    use: "Moving beyond the split between the 'acceptable' self and the parts you hide, deny, or suppress.",
+    how: "Integration is the process of bringing the disowned, rejected, or unfamiliar parts of yourself back into a conscious relationship. The shadow (all that you've exiled from your self-image) does not disappear when ignored — it shapes behavior from below: sabotage, projection, shame spirals, or the persistent feeling that something is wrong with you. Integration doesn't mean acting on every impulse or accepting harmful behavior — it means seeing and owning what is there. You cannot heal what you refuse to acknowledge. When a disowned part is met with curiosity rather than judgment, its energy becomes available for your growth rather than your undoing.",
+    example: "You pride yourself on not needing anyone. But when a relationship ends, the grief is devastating. The disowned part: the longing for deep connection. Integration doesn't mean becoming needy — it means acknowledging the longing as real and giving it appropriate space.",
+    prompts: [
+      "What trait or feeling in myself have I most been denying, suppressing, or ashamed of?",
+      "What do I see in others that repels me — and could that be something I haven't yet accepted in myself?",
+      "What would a more complete version of me look like — one that includes the parts I've been hiding?",
+      "What would I stop fighting against if I accepted it as part of my reality?",
+    ],
+  },
 ];
 
 const tones = {
@@ -1156,12 +1270,15 @@ function ImaginationModal({ item, onClose, onReflect }) {
 }
 
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "brain", "emotions", "shadow", "manifest"].includes(initialSection)
-    ? initialSection
-    : "overview";
+  const linkedFramework = frameworks.find((f) => f.sectionId === initialSection) ?? null;
+  const validInitial = linkedFramework
+    ? "frameworks"
+    : ["overview", "frameworks", "powerstack", "growth", "nutrients", "brain", "emotions", "shadow", "manifest"].includes(initialSection)
+      ? initialSection
+      : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(linkedFramework);
   const [brainModal, setBrainModal] = useState(null);
   const [emotionModal, setEmotionModal] = useState(null);
   const [shadowModal, setShadowModal] = useState(null);
@@ -1212,6 +1329,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
       return next;
     });
   };
+
 
   return (
     <div className="ia-root text-slate-100" style={accentVars('psychology')}>
