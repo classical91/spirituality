@@ -43,6 +43,17 @@ function getDailyReading() {
   return READING_POOL[dayOfYear() % READING_POOL.length];
 }
 
+// Pick a different reading than the one currently shown, for the shuffle button.
+function getRandomReading(excludeTitle) {
+  if (READING_POOL.length === 0) return null;
+  if (READING_POOL.length === 1) return READING_POOL[0];
+  let pick;
+  do {
+    pick = READING_POOL[Math.floor(Math.random() * READING_POOL.length)];
+  } while (pick.title === excludeTitle);
+  return pick;
+}
+
 const LENS_COLORS = {
   Symbolic:      { border: 'rgba(167,139,250,0.30)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.16)', badgeText: '#c4b5fd' },
   Psychological: { border: 'rgba(6,182,212,0.30)',   bg: 'rgba(6,182,212,0.07)',   badge: 'rgba(6,182,212,0.16)',   badgeText: '#67e8f9' },
@@ -238,8 +249,13 @@ function DailyPrayerCard() {
 }
 
 function DailyReadingCard({ onNavigate }) {
-  const reading = useMemo(() => getDailyReading(), []);
+  const [reading, setReading] = useState(() => getDailyReading());
   if (!reading) return null;
+
+  const shuffle = (e) => {
+    e.stopPropagation();
+    setReading(getRandomReading(reading.title));
+  };
 
   const portal = portalsById[reading.portalId];
   const c = LENS_COLORS[reading.lens] || LENS_COLORS.Symbolic;
@@ -289,6 +305,20 @@ function DailyReadingCard({ onNavigate }) {
           {reading.lens}
         </span>
         <span style={{ marginLeft: 'auto', fontSize: '0.74rem', color: '#7a7096' }}>{dateLabel}</span>
+        <button
+          type="button"
+          onClick={shuffle}
+          aria-label="Show a different reading"
+          title="Show a different reading"
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: '28px', height: '28px', borderRadius: '999px',
+            border: `1px solid ${c.border}`, background: c.badge, color: c.badgeText,
+            cursor: 'pointer', fontSize: '0.85rem', lineHeight: 1, padding: 0,
+          }}
+        >
+          ⟳
+        </button>
       </div>
 
       <h3 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 900, color: '#f1eeff', margin: '0 0 8px' }}>
