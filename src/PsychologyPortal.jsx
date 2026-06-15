@@ -1270,12 +1270,15 @@ function ImaginationModal({ item, onClose, onReflect }) {
 }
 
 export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, initialSection }) {
-  const validInitial = ["overview", "frameworks", "powerstack", "growth", "nutrients", "brain", "emotions", "shadow", "manifest"].includes(initialSection)
-    ? initialSection
-    : "overview";
+  const linkedFramework = frameworks.find((f) => f.sectionId === initialSection) ?? null;
+  const validInitial = linkedFramework
+    ? "frameworks"
+    : ["overview", "frameworks", "powerstack", "growth", "nutrients", "brain", "emotions", "shadow", "manifest"].includes(initialSection)
+      ? initialSection
+      : "overview";
   const [activeTab, setActiveTab] = useState(validInitial);
   const [query, setQuery] = useState("");
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(linkedFramework);
   const [brainModal, setBrainModal] = useState(null);
   const [emotionModal, setEmotionModal] = useState(null);
   const [shadowModal, setShadowModal] = useState(null);
@@ -1327,13 +1330,6 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
     });
   };
 
-  useEffect(() => {
-    const match = frameworks.find((f) => f.sectionId === initialSection);
-    if (match) {
-      setActiveTab('frameworks');
-      setModal(match);
-    }
-  }, []); // run once on mount
 
   return (
     <div className="ia-root text-slate-100" style={accentVars('psychology')}>
