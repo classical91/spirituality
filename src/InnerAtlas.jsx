@@ -6,6 +6,7 @@ import EmotionsAtlas from './EmotionsAtlas';
 import AwarenessAtlas from './AwarenessAtlas';
 import ConsciousnessMap from './ConsciousnessMap';
 import InnerAtlasShell from './components/InnerAtlasShell';
+import SafetyNote from './components/SafetyNote';
 import { IA_ACCENTS } from './innerAtlasTheme';
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -17,6 +18,11 @@ const SECTION_MAP = {
   'colorpsychology':        { id: 'colorpsychology',       sub: null },
   'color-psychology':       { id: 'colorpsychology',       sub: null },
   'regulation':            { id: 'regulation',            sub: null },
+  'thought-patterns':      { id: 'thought-patterns',      sub: null },
+  'thoughts':              { id: 'thought-patterns',      sub: null },
+  'cognitive-distortions': { id: 'thought-patterns',      sub: null },
+  'cognitive-reappraisal': { id: 'thought-patterns',      sub: null },
+  'negative-thoughts':     { id: 'thought-patterns',      sub: null },
   'emotions':              { id: 'emotions',              sub: null },
   'emotion-glossary':      { id: 'emotions',              sub: null },
   'guidance-spiral':       { id: 'emotions',              sub: null },
@@ -75,6 +81,7 @@ const PAL = {
   'lifestyle':             { c: '#fbbf24', bg: 'rgba(251,191,36,0.08)',  br: 'rgba(251,191,36,0.26)'  },
   'colorpsychology':        { c: '#22d3ee', bg: 'rgba(34,211,238,0.08)',  br: 'rgba(34,211,238,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
+  'thought-patterns':      { c: '#818cf8', bg: 'rgba(129,140,248,0.08)', br: 'rgba(129,140,248,0.26)' },
   'emotions':              { c: '#f472b6', bg: 'rgba(244,114,182,0.08)', br: 'rgba(244,114,182,0.26)' },
   'awareness':             { c: '#7ee7d4', bg: 'rgba(126,231,212,0.08)', br: 'rgba(126,231,212,0.26)' },
   'consciousness-map':     { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
@@ -125,6 +132,13 @@ const SECTIONS = [
     title: 'Regulation Tools',
     description: 'Breathing, grounding, journaling, reframing, meditation, body release, and nervous-system reset.',
     tags: ['Breathing', 'Grounding', 'Meditation'],
+  },
+  {
+    id: 'thought-patterns',
+    icon: '◔',
+    title: 'Thought Patterns',
+    description: 'Twelve common negative automatic thought patterns — name the distortion, see the example, and practice a reappraisal.',
+    tags: ['Reappraisal', 'Distortions', 'CBT'],
   },
   {
     id: 'emotions',
@@ -496,6 +510,143 @@ function RegulationTools({ onBack, onSelectSection }) {
   );
 }
 
+// ─── Thought Patterns data ──────────────────────────────────────────────────
+// The twelve common negative automatic thought patterns, adapted from the
+// Harvard Stress & Development Lab's cognitive-reappraisal materials (in turn
+// drawn from David Burns / Aaron Beck's cognitive-distortion taxonomy). Each
+// pattern pairs the classic definition with a lived example and a reappraisal
+// prompt — a question you can ask yourself when you catch the pattern running.
+
+const THOUGHT_PATTERNS = [
+  {
+    name: 'All-or-Nothing Thinking',
+    desc: 'You see things in black-and-white categories. If your performance falls short of perfect, you see yourself as a total failure.',
+    example: '“I missed one question on the test, so I completely failed.”',
+    reframe: 'Where is the middle ground? What partial successes am I erasing by calling this all or nothing?',
+  },
+  {
+    name: 'Overgeneralization',
+    desc: 'You see a single negative event as a never-ending pattern of defeat.',
+    example: '“That date went badly — I’ll be alone forever.”',
+    reframe: 'Is this one event, or a real pattern? Do words like “always” or “never” actually fit the evidence?',
+  },
+  {
+    name: 'Mental Filter',
+    desc: 'You pick out a single negative detail and dwell on it exclusively so that your vision of all reality becomes darkened, like a drop of ink that discolours an entire beaker of water.',
+    example: 'One critical comment in a glowing review is all you can think about.',
+    reframe: 'What am I filtering out? If I listed the whole picture, what else was true today?',
+  },
+  {
+    name: 'Disqualifying the Positive',
+    desc: 'You reject positive experiences by insisting they “don’t count,” letting you keep a negative belief that your everyday experience contradicts.',
+    example: '“They only praised my work to be polite.”',
+    reframe: 'Would I dismiss this evidence so quickly if it were about someone else? What if the good thing simply counts?',
+  },
+  {
+    name: 'Jumping to Conclusions',
+    desc: 'You make a negative interpretation even though there are no definite facts that convincingly support your conclusion.',
+    example: '“They haven’t replied yet — something is clearly wrong.”',
+    reframe: 'What do I actually know versus what am I assuming? What are three other explanations?',
+  },
+  {
+    name: 'Mind Reading',
+    desc: 'You arbitrarily conclude that someone is reacting negatively to you, and you don’t bother to check it out.',
+    example: '“She seemed quiet — she must be annoyed with me.”',
+    reframe: 'Have I confirmed this, or invented it? Could I simply ask instead of guessing?',
+  },
+  {
+    name: 'Fortune Telling',
+    desc: 'You anticipate that things will turn out badly and feel convinced your prediction is an already-established fact.',
+    example: '“There’s no point applying — I won’t get it anyway.”',
+    reframe: 'Am I treating a prediction as a fact? What has happened the other times I expected the worst?',
+  },
+  {
+    name: 'Magnification or Minimization',
+    desc: 'You exaggerate the importance of things (your slip-up, someone else’s achievement) or shrink things until they look tiny (your own strengths, another’s flaws). Also called the “binocular trick.”',
+    example: '“My mistake was a disaster, and anything I do well is no big deal.”',
+    reframe: 'Am I looking through the wrong end of the binoculars? How big is this on a 1–10 scale, honestly?',
+  },
+  {
+    name: 'Emotional Reasoning',
+    desc: 'You assume that your negative emotions necessarily reflect the way things really are: “I feel it, therefore it must be true.”',
+    example: '“I feel like a burden, so I must be one.”',
+    reframe: 'A feeling is real, but is it accurate? What would I conclude from the facts alone, without the feeling?',
+  },
+  {
+    name: 'Should Statements',
+    desc: 'You try to motivate yourself with “shoulds” and “shouldn’ts,” as if you had to be punished before acting. Aimed inward they bring guilt; aimed at others, anger and resentment.',
+    example: '“I should be further along by now.”',
+    reframe: 'What if I swapped “should” for “I’d like to” or “it would help to”? Whose rule am I obeying?',
+  },
+  {
+    name: 'Labeling and Mislabeling',
+    desc: 'An extreme form of overgeneralization: instead of describing an error, you attach a label to yourself or someone else — “I’m a loser,” “he’s a louse” — using highly coloured, emotionally loaded language.',
+    example: '“I forgot the deadline — I’m such a failure.”',
+    reframe: 'Can I describe the behaviour instead of branding the person? “I made a mistake” is not “I am a mistake.”',
+  },
+  {
+    name: 'Personalization',
+    desc: 'You see yourself as the cause of some negative external event you were not primarily responsible for.',
+    example: '“The team missed the goal — it’s my fault.”',
+    reframe: 'What else contributed to this? What share is genuinely mine, and what belongs elsewhere?',
+  },
+];
+
+// ─── Thought Patterns ───────────────────────────────────────────────────────
+
+function ThoughtPatterns({ onBack, onSelectSection }) {
+  const color = '#818cf8';
+  return (
+    <InnerAtlasShell activeId="thought-patterns" onBack={onBack} onSelectSection={onSelectSection} title="Thought Patterns">
+      <div className="ia-section-head">
+        <div className="ia-eyebrow">Cognitive reappraisal</div>
+        <h2 className="ia-title">Identifying Negative Automatic Thought Patterns</h2>
+        <p className="ia-lede">
+          Sometimes we get stuck interpreting distressing situations the same way without examining the evidence.
+          Below are twelve common negative thinking patterns — see if any sound familiar. When you catch yourself
+          thinking this way, practising reappraisal can help.
+        </p>
+        <div style={{ marginTop: 14 }}>
+          <SafetyNote text="An educational self-reflection tool, not a diagnosis or a substitute for therapy. If distressing thoughts feel overwhelming, reach out to a mental-health professional." />
+        </div>
+      </div>
+
+      <div className="ia-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+        {THOUGHT_PATTERNS.map(p => (
+          <div key={p.name} className="ia-card" style={{ borderColor: `${color}2e` }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color, margin: '0 0 8px' }}>{p.name}</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--ia-text-dim)', margin: '0 0 12px', lineHeight: 1.6 }}>{p.desc}</p>
+            <div style={{
+              background: `${color}0d`,
+              border: `1px solid ${color}22`,
+              borderRadius: 10,
+              padding: '10px 14px',
+              marginBottom: 10,
+            }}>
+              <div style={{ fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color, marginBottom: 4 }}>Sounds like</div>
+              <div style={{ fontSize: '0.83rem', color: '#cbd5e1', lineHeight: 1.55, fontStyle: 'italic' }}>{p.example}</div>
+            </div>
+            <div style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.10)',
+              borderRadius: 10,
+              padding: '10px 14px',
+            }}>
+              <div style={{ fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: 4 }}>Reappraise</div>
+              <div style={{ fontSize: '0.83rem', color: '#cbd5e1', lineHeight: 1.55 }}>{p.reframe}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontSize: '0.72rem', color: 'var(--ia-text-dim)', margin: '28px 0 0', lineHeight: 1.6, textAlign: 'center', opacity: 0.8 }}>
+        Adapted from the Harvard Stress &amp; Development Lab, “Identifying Negative Automatic Thought Patterns,”
+        after the cognitive-distortion work of David Burns and Aaron Beck.
+      </p>
+    </InnerAtlasShell>
+  );
+}
+
 // ─── Hub landing page ────────────────────────────────────────────────────────
 
 function Hub({ onBack, onSelect }) {
@@ -616,6 +767,10 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   if (activeSection === 'regulation') {
     return <RegulationTools onBack={goHub} onSelectSection={setActiveSection} />;
+  }
+
+  if (activeSection === 'thought-patterns') {
+    return <ThoughtPatterns onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
   if (activeSection === 'emotions') {
