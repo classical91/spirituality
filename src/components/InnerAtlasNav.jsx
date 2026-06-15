@@ -5,6 +5,7 @@ const innerAtlasSections = [
   { id: 'lifestyle', label: 'Lifestyle' },
   { id: 'colorpsychology', label: 'Colors' },
   { id: 'regulation', label: 'Regulation' },
+  { id: 'thought-patterns', label: 'Thoughts' },
   { id: 'emotions', label: 'Emotions' },
 ];
 

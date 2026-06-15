@@ -12,6 +12,7 @@ export const IA_ACCENTS = {
   'emotions':            { hex: '#f472b6', rgb: '244, 114, 182' },
   'awareness':           { hex: '#7ee7d4', rgb: '126, 231, 212' },
   'consciousness-map':   { hex: '#a78bfa', rgb: '167, 139, 250' },
+  'thought-patterns':    { hex: '#818cf8', rgb: '129, 140, 248' },
   'detox':               { hex: '#a3e635', rgb: '163, 230, 53'  },
   'manifestation':       { hex: '#f59e0b', rgb: '245, 158, 11'  },
 };
