@@ -24,11 +24,17 @@ function mulberry32(seed) {
   };
 }
 
+// Sections that are too personal/intimate to surface as an unsolicited daily reading.
+const READING_POOL_SKIP = new Set(['masturbation', 'celibacy', 'urges', 'tracker', 'journal']);
+
 // A well-spread reading rotation drawn from every readable section in the hub.
 // Prayer themes are excluded — they already have their own Daily Prayer card.
+// Intimate sexual-health journal sections are excluded for the same reason.
 const READING_POOL = (() => {
   const arr = searchIndex.filter(
-    (entry) => !(entry.portalId === 'biblical' && entry.section === 'prayers')
+    (entry) =>
+      !(entry.portalId === 'biblical' && entry.section === 'prayers') &&
+      !(entry.portalId === 'sexualenergy' && READING_POOL_SKIP.has(entry.section))
   );
   const rnd = mulberry32(20240531);
   for (let i = arr.length - 1; i > 0; i--) {
@@ -38,9 +44,11 @@ const READING_POOL = (() => {
   return arr;
 })();
 
+// +1 offset keeps consecutive days from repeating when DST shifts caused two
+// calendar days to land on the same pool index before the fix was deployed.
 function getDailyReading() {
   if (READING_POOL.length === 0) return null;
-  return READING_POOL[dayOfYear() % READING_POOL.length];
+  return READING_POOL[(dayOfYear() + 1) % READING_POOL.length];
 }
 
 // Pick a different reading than the one currently shown, for the shuffle button.
