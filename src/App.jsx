@@ -8,6 +8,7 @@ import WisdomAtlas from './WisdomAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
+import DailyPracticePortal from './DailyPracticePortal';
 import NumerologyPortal from './NumerologyPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
@@ -28,6 +29,7 @@ const COMPONENTS = {
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
+  dailypractice: DailyPracticePortal,
   numerology: NumerologyPortal,
 };
 
@@ -99,13 +101,6 @@ export default function App() {
       window.history.replaceState({}, '', '/inner-atlas?section=psychology');
     }
     return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
-  }
-  if (path === '/relationships') {
-    const section = initialSection || 'relationship-clarity';
-    if (typeof window !== 'undefined') {
-      window.history.replaceState({}, '', `/sexual-energy?section=${encodeURIComponent(section)}`);
-    }
-    return <SexualEnergyDashboard onBack={goHome} onNavigate={goPortal} initialSection={section} />;
   }
   if (path === '/awareness') {
     const section = initialSection || 'awareness';

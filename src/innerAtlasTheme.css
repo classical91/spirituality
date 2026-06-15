@@ -116,3 +116,12 @@
   grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
   gap: 18px;
 }
+
+/* Horizontal scroll strip for the section nav on mobile — hide the scrollbar */
+.ia-nav-scroll {
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: none;
+}
+.ia-nav-scroll::-webkit-scrollbar {
+  display: none;
+}
