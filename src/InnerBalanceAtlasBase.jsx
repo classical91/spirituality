@@ -1,6 +1,16 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import './InnerBalanceAtlas.css';
 import InnerAtlasNav from './components/InnerAtlasNav';
+import { stressFactors, STRESS_FACTOR_SOURCES, STRESS_EFFECTS, STRESS_EVIDENCE_LEVELS } from './data/stressFactors';
+
+/* Effect → light-theme accent. Raises = warning red, Lowers = calming sage,
+   Stabilizes Rhythm = blue, Mixed/Context = gold. */
+const STRESS_EFFECT_COLOR = {
+  'Raises': '#e57373',
+  'Lowers': 'var(--sage)',
+  'Stabilizes Rhythm': 'var(--blue)',
+  'Mixed / Context': 'var(--gold)',
+};
 
 const tabGroups = [
   { group: 'Overview', items: [
@@ -1088,6 +1098,132 @@ function Nutrition() {
 /* ─────────────────────────────────────────
    STRESS & RECOVERY
 ───────────────────────────────────────── */
+/* Filterable stress-factor database — search + effect + evidence filters over
+   the 45-item library in data/stressFactors.js. */
+function StressFactorExplorer() {
+  const [query, setQuery] = useState('');
+  const [effect, setEffect] = useState('all');
+  const [evidence, setEvidence] = useState('all');
+
+  const categories = useMemo(
+    () => [...new Set(stressFactors.map(f => f.category))].sort(),
+    [],
+  );
+  const [category, setCategory] = useState('all');
+
+  const results = useMemo(() => {
+    const q = query.trim().toLowerCase();
+    return stressFactors.filter(f => {
+      const haystack = `${f.name} ${f.category} ${f.effect} ${f.evidence} ${f.timing} ${f.mechanism} ${f.action}`.toLowerCase();
+      return (!q || haystack.includes(q))
+        && (effect === 'all' || f.effect === effect)
+        && (evidence === 'all' || f.evidence === evidence)
+        && (category === 'all' || f.category === category);
+    });
+  }, [query, effect, evidence, category]);
+
+  const selectStyle = {
+    fontFamily: 'inherit', fontSize: '0.82rem', color: 'var(--deep)',
+    background: '#fff', border: '1px solid rgba(0,0,0,0.14)',
+    borderRadius: 10, padding: '9px 12px', cursor: 'pointer',
+  };
+
+  const reset = () => { setQuery(''); setEffect('all'); setEvidence('all'); setCategory('all'); };
+
+  return (
+    <div style={{ display: 'grid', gap: 16 }}>
+      <div>
+        <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.08em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 6 }}>Stress Factor Database</div>
+        <p style={{ margin: 0, color: 'var(--muted)', fontSize: 14, lineHeight: 1.6, maxWidth: 600 }}>
+          {stressFactors.length} things that raise, lower, or steady your stress load — each with its likely mechanism, evidence strength, and one concrete action. Tap a source to read the reference.
+        </p>
+      </div>
+
+      {/* Controls */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, alignItems: 'center' }}>
+        <input
+          type="search"
+          value={query}
+          onChange={e => setQuery(e.target.value)}
+          placeholder="Search caffeine, sleep, music, news…"
+          style={{ ...selectStyle, flex: '1 1 220px', cursor: 'text' }}
+        />
+        <select value={category} onChange={e => setCategory(e.target.value)} style={selectStyle}>
+          <option value="all">All categories</option>
+          {categories.map(c => <option key={c} value={c}>{c}</option>)}
+        </select>
+        <select value={effect} onChange={e => setEffect(e.target.value)} style={selectStyle}>
+          <option value="all">All effects</option>
+          {STRESS_EFFECTS.map(e => <option key={e} value={e}>{e}</option>)}
+        </select>
+        <select value={evidence} onChange={e => setEvidence(e.target.value)} style={selectStyle}>
+          <option value="all">All evidence</option>
+          {STRESS_EVIDENCE_LEVELS.map(e => <option key={e} value={e}>{e}</option>)}
+        </select>
+        <button
+          type="button"
+          onClick={reset}
+          style={{ ...selectStyle, fontWeight: 600, color: 'var(--muted)' }}
+        >Reset</button>
+        <span style={{ fontSize: '0.78rem', color: 'var(--muted)', marginLeft: 'auto' }}>
+          {results.length} of {stressFactors.length}
+        </span>
+      </div>
+
+      {/* Cards */}
+      {results.length === 0 ? (
+        <div className="iba-card" style={{ textAlign: 'center', color: 'var(--muted)', fontSize: '0.85rem' }}>
+          No matches. Try clearing a filter or a broader term.
+        </div>
+      ) : (
+        <div className="iba-grid-2" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(280px, 1fr))', alignItems: 'stretch' }}>
+          {results.map(f => {
+            const color = STRESS_EFFECT_COLOR[f.effect] || 'var(--muted)';
+            const src = STRESS_FACTOR_SOURCES[f.source];
+            return (
+              <div key={f.id} className="iba-card" style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+                <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10 }}>
+                  <div>
+                    <div style={{ fontSize: '0.95rem', fontWeight: 700, color: 'var(--deep)', lineHeight: 1.2 }}>{f.name}</div>
+                    <div style={{ fontSize: '0.72rem', color: 'var(--muted)', marginTop: 3 }}>{f.category}</div>
+                  </div>
+                  <span style={{
+                    flexShrink: 0, fontSize: '0.68rem', fontWeight: 700, whiteSpace: 'nowrap',
+                    color, background: `color-mix(in srgb, ${color} 14%, transparent)`,
+                    border: `1px solid color-mix(in srgb, ${color} 35%, transparent)`,
+                    borderRadius: 999, padding: '4px 10px',
+                  }}>{f.effect}</span>
+                </div>
+
+                <p style={{ margin: 0, fontSize: '0.82rem', color: 'var(--muted)', lineHeight: 1.55 }}>{f.mechanism}</p>
+
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, fontSize: '0.7rem' }}>
+                  {[['Impact', f.impact], ['Evidence', f.evidence], ['Timing', f.timing]].map(([k, v]) => (
+                    <span key={k} style={{ color: 'var(--muted)', background: 'rgba(0,0,0,0.04)', borderRadius: 8, padding: '3px 8px' }}>
+                      <strong style={{ color: 'var(--deep)', fontWeight: 600 }}>{k}:</strong> {v}
+                    </span>
+                  ))}
+                </div>
+
+                <p style={{ margin: 0, fontSize: '0.8rem', color: 'var(--deep)', lineHeight: 1.55, borderTop: '1px solid rgba(0,0,0,0.06)', paddingTop: 9, marginTop: 'auto' }}>
+                  <strong style={{ color: 'var(--sage)' }}>Try:</strong> {f.action}
+                </p>
+
+                {src && (
+                  <a href={src.url} target="_blank" rel="noopener noreferrer"
+                    style={{ fontSize: '0.72rem', color: 'var(--blue)', textDecoration: 'none', fontWeight: 600 }}>
+                    ↗ {src.label}
+                  </a>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      )}
+    </div>
+  );
+}
+
 function StressRecovery() {
   const rowStyle = (i, arr) => ({
     display: 'grid', gridTemplateColumns: '190px 1fr',
@@ -1234,6 +1370,8 @@ function StressRecovery() {
           </div>
         ))}
       </div>
+
+      <StressFactorExplorer />
     </div>
   );
 }
