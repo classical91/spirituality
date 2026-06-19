@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 const LEVELS = [
   {
@@ -292,6 +292,13 @@ const LEVELS = [
   },
 ];
 
+// Maps a deep-link section id (e.g. 'love', 'shame') to its level index, so a
+// "Reading for Today" card can land directly on a specific consciousness level.
+const SECTION_TO_INDEX = LEVELS.reduce((map, level, i) => {
+  map[level.emotion.toLowerCase()] = i;
+  return map;
+}, {});
+
 
 function LevelDetail({ level, onClose }) {
   return (
@@ -452,7 +459,7 @@ function ExploreView({ levels, selected, setSelected }) {
           const idx = levels.indexOf(level);
           const isSelected = selected === idx;
           return (
-            <div key={level.score}>
+            <div key={level.score} id={`moc-level-${idx}`}>
               <button
                 onClick={() => setSelected(isSelected ? null : idx)}
                 style={{
@@ -552,9 +559,23 @@ function AboutView() {
   );
 }
 
-export default function ConsciousnessMap({ onBack }) {
-  const [selected, setSelected] = useState(null);
-  const [tab, setTab] = useState('map');
+export default function ConsciousnessMap({ onBack, initialSection }) {
+  // Deep-link: a "Reading for Today" card can target a specific level by section
+  // id (e.g. 'love' → Unconditional Love). Land on the Explore tab with it open.
+  const initialIdx = initialSection != null
+    ? (SECTION_TO_INDEX[String(initialSection).toLowerCase()] ?? null)
+    : null;
+  const [selected, setSelected] = useState(initialIdx);
+  const [tab, setTab] = useState(initialIdx != null ? 'explore' : 'map');
+  const didScroll = useRef(false);
+
+  // Scroll the deep-linked level into view once after the Explore tab renders.
+  useEffect(() => {
+    if (initialIdx == null || didScroll.current) return;
+    didScroll.current = true;
+    const el = document.getElementById(`moc-level-${initialIdx}`);
+    el?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, [initialIdx]);
 
   const tabs = [
     ['map', 'Visual Map'],

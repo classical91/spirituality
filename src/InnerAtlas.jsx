@@ -6,6 +6,7 @@ import EmotionsAtlas from './EmotionsAtlas';
 import AwarenessAtlas from './AwarenessAtlas';
 import ConsciousnessMap from './ConsciousnessMap';
 import InnerAtlasShell from './components/InnerAtlasShell';
+import SafetyNote from './components/SafetyNote';
 import { IA_ACCENTS } from './innerAtlasTheme';
 // ─── Section mapping (handles legacy ?section= params from old portals) ──────
 
@@ -17,6 +18,12 @@ const SECTION_MAP = {
   'colorpsychology':        { id: 'colorpsychology',       sub: null },
   'color-psychology':       { id: 'colorpsychology',       sub: null },
   'regulation':            { id: 'regulation',            sub: null },
+  'thought-patterns':      { id: 'thought-patterns',      sub: null },
+  'thoughts':              { id: 'thought-patterns',      sub: null },
+  'cognitive-distortions': { id: 'thought-patterns',      sub: null },
+  'cognitive-reappraisal': { id: 'thought-patterns',      sub: null },
+  'negative-thoughts':     { id: 'thought-patterns',      sub: null },
+  'detox':                 { id: 'detox',                 sub: null },
   'emotions':              { id: 'emotions',              sub: null },
   'emotion-glossary':      { id: 'emotions',              sub: null },
   'guidance-spiral':       { id: 'emotions',              sub: null },
@@ -28,6 +35,19 @@ const SECTION_MAP = {
   physicalactivity:  { id: 'lifestyle',           sub: 'physicalactivity' },
   sleep:             { id: 'lifestyle',           sub: 'sleep' },
   nutrition:         { id: 'lifestyle',           sub: 'nutrition' },
+  hair:              { id: 'lifestyle',           sub: 'hair' },
+  herbs:             { id: 'lifestyle',           sub: 'herbs' },
+  gratitude:         { id: 'mood-neurochemistry', sub: 'gratitude' },
+  dailyrituals:      { id: 'lifestyle',           sub: 'dailyrituals' },
+  heatcold:          { id: 'lifestyle',           sub: 'heatcold' },
+  journaling:        { id: 'mood-neurochemistry', sub: 'journaling' },
+  statesofmind:      { id: 'mood-neurochemistry', sub: 'statesofmind' },
+  productivity:      { id: 'lifestyle',           sub: 'productivity' },
+  purpose:           { id: 'lifestyle',           sub: 'purpose' },
+  mycore:            { id: 'lifestyle',           sub: 'mycore' },
+  'my-core':         { id: 'lifestyle',           sub: 'mycore' },
+  virtues:           { id: 'lifestyle',           sub: 'virtues' },
+  soundfrequency:    { id: 'lifestyle',           sub: 'soundfrequency' },
   dashboard:         { id: null,                  sub: null },
   // Psychology Portal internal tab IDs
   overview:    { id: 'psychology', sub: 'overview' },
@@ -35,6 +55,14 @@ const SECTION_MAP = {
   powerstack:  { id: 'psychology', sub: 'powerstack' },
   growth:      { id: 'psychology', sub: 'growth' },
   nutrients:   { id: 'psychology', sub: 'nutrients' },
+  manifest:    { id: 'psychology', sub: 'manifest' },
+  // Psychology Portal framework deep-links
+  'inner-child':  { id: 'psychology', sub: 'inner-child' },
+  'self-trust':   { id: 'psychology', sub: 'self-trust' },
+  'discernment':  { id: 'psychology', sub: 'discernment' },
+  'projection':   { id: 'psychology', sub: 'projection' },
+  'parts-work':   { id: 'psychology', sub: 'parts-work' },
+  'integration':  { id: 'psychology', sub: 'integration' },
   // Awareness section IDs
   'awareness':                         { id: 'awareness', sub: null },
   'what-is-awareness':                 { id: 'awareness', sub: 'what-is-awareness' },
@@ -50,9 +78,23 @@ const SECTION_MAP = {
   'body-awareness':                    { id: 'awareness', sub: 'body-awareness' },
   'emotional-awareness':               { id: 'awareness', sub: 'emotional-awareness' },
   'returning-attention':               { id: 'awareness', sub: 'returning-attention' },
+  'stillness-spaciousness-silence':    { id: 'awareness', sub: 'stillness-spaciousness-silence' },
   // Consciousness Map section IDs
   'consciousness-map':                 { id: 'consciousness-map', sub: null },
   'consciousnessmap':                  { id: 'consciousness-map', sub: null },
+  'map-of-consciousness':              { id: 'consciousness-map', sub: null },
+  // Individual Map of Consciousness levels (deep-links from daily readings)
+  'shame':                             { id: 'consciousness-map', sub: 'shame' },
+  'guilt':                             { id: 'consciousness-map', sub: 'guilt' },
+  'fear':                              { id: 'consciousness-map', sub: 'fear' },
+  'anger':                             { id: 'consciousness-map', sub: 'anger' },
+  'courage':                           { id: 'consciousness-map', sub: 'courage' },
+  'acceptance':                        { id: 'consciousness-map', sub: 'acceptance' },
+  'love':                              { id: 'consciousness-map', sub: 'love' },
+  'enlightenment':                     { id: 'consciousness-map', sub: 'enlightenment' },
+  // Manifestation Blocks
+  'manifestation':                     { id: 'manifestation', sub: null },
+  'manifestation-blocks':              { id: 'manifestation', sub: null },
 };
 
 // Relationship Clarity & Patterns moved to the Sexual Energy portal. Old
@@ -75,10 +117,12 @@ const PAL = {
   'lifestyle':             { c: '#fbbf24', bg: 'rgba(251,191,36,0.08)',  br: 'rgba(251,191,36,0.26)'  },
   'colorpsychology':        { c: '#22d3ee', bg: 'rgba(34,211,238,0.08)',  br: 'rgba(34,211,238,0.26)'  },
   'regulation':            { c: '#34d399', bg: 'rgba(52,211,153,0.08)',  br: 'rgba(52,211,153,0.26)'  },
+  'thought-patterns':      { c: '#818cf8', bg: 'rgba(129,140,248,0.08)', br: 'rgba(129,140,248,0.26)' },
   'emotions':              { c: '#f472b6', bg: 'rgba(244,114,182,0.08)', br: 'rgba(244,114,182,0.26)' },
   'awareness':             { c: '#7ee7d4', bg: 'rgba(126,231,212,0.08)', br: 'rgba(126,231,212,0.26)' },
   'consciousness-map':     { c: '#a78bfa', bg: 'rgba(167,139,250,0.08)', br: 'rgba(167,139,250,0.26)' },
   'detox':                 { c: '#a3e635', bg: 'rgba(163,230,53,0.08)',  br: 'rgba(163,230,53,0.26)'  },
+  'manifestation':         { c: '#f59e0b', bg: 'rgba(245,158,11,0.08)',  br: 'rgba(245,158,11,0.26)'  },
 };
 
 // ─── Hub section definitions ────────────────────────────────────────────────
@@ -127,6 +171,13 @@ const SECTIONS = [
     tags: ['Breathing', 'Grounding', 'Meditation'],
   },
   {
+    id: 'thought-patterns',
+    icon: '◔',
+    title: 'Thought Patterns',
+    description: 'Twelve common negative automatic thought patterns — name the distortion, see the example, and practice a reappraisal.',
+    tags: ['Reappraisal', 'Distortions', 'CBT'],
+  },
+  {
     id: 'emotions',
     icon: '~',
     title: 'Emotions & Guidance Spiral',
@@ -154,7 +205,243 @@ const SECTIONS = [
     description: '19 detox types — juice, herbal, liver, heavy metal, parasite, sauna, and more — each with ingredients and a smoothie or tonic recipe.',
     tags: ['Cleanse', 'Herbs', 'Reset'],
   },
+  {
+    id: 'manifestation',
+    icon: '✦',
+    title: 'Manifestation Blocks',
+    description: 'The 10 core barriers that delay or block manifestation — limiting beliefs, fear, attachment, low vibration, and more — with steps to clear each one.',
+    tags: ['Beliefs', 'Resistance', 'Alignment'],
+  },
 ];
+
+// ─── Manifestation Blocks data ────────────────────────────────────────────
+
+const MANIFESTATION_BLOCKS = [
+  {
+    id: 'limiting-beliefs',
+    name: 'Limiting Beliefs',
+    icon: '◈',
+    bullets: [
+      'Doubts about your worthiness or ability to achieve your desires.',
+      'Negative subconscious programming from childhood or past experiences.',
+      'Conflicting beliefs (e.g., wanting wealth but believing money is evil).',
+    ],
+    clear: 'Reprogram through daily affirmations, mirror work, and belief audits. Ask: "Where did I first learn this?" and consciously replace it with its opposite.',
+  },
+  {
+    id: 'fear-resistance',
+    name: 'Fear & Resistance',
+    icon: '△',
+    bullets: [
+      'Fear of failure or success.',
+      'Fear of change or the unknown.',
+      'Resistance to stepping out of your comfort zone.',
+    ],
+    clear: 'Name the fear specifically, then ask: "What is the worst realistic outcome?" Visualise moving through the fear with the outcome already handled.',
+  },
+  {
+    id: 'attachment-desperation',
+    name: 'Attachment & Desperation',
+    icon: '⊗',
+    bullets: [
+      'Obsessing over the outcome, creating energetic resistance.',
+      'Feeling like you need something to be happy instead of trusting divine timing.',
+      'Micromanaging how things should manifest instead of allowing them to unfold.',
+    ],
+    clear: 'Practice the "set it and forget it" method — state the intention clearly, then redirect your focus to daily joy. Surrender is not giving up; it is trusting.',
+  },
+  {
+    id: 'negative-thoughts',
+    name: 'Negative Thoughts & Emotions',
+    icon: '〜',
+    bullets: [
+      'Constantly focusing on what you do not want.',
+      'Chronic stress, anxiety, or pessimism lowering your vibrational energy.',
+      'Dwelling in lack rather than abundance.',
+    ],
+    clear: 'Use the 17-second rule (Abraham Hicks): hold a positive thought for 17 seconds to begin shifting momentum. Pair with gratitude lists and guided meditations.',
+  },
+  {
+    id: 'lack-of-alignment',
+    name: 'Lack of Alignment & Inspired Action',
+    icon: '⌁',
+    bullets: [
+      'Saying you want something but taking no steps toward it.',
+      'Acting out of alignment with your desires (e.g., wanting love but avoiding social interactions).',
+      'Ignoring intuition and inspired nudges.',
+    ],
+    clear: 'Ask daily: "What one action today would my future self thank me for?" Act on any nudge that feels light, not forced.',
+  },
+  {
+    id: 'environmental-influences',
+    name: 'Environmental & Social Influences',
+    icon: '◎',
+    bullets: [
+      'Surrounding yourself with negative or unsupportive people.',
+      'Being in a toxic environment that drains your energy.',
+      'Absorbing limiting societal norms or cultural beliefs.',
+    ],
+    clear: 'Audit your five closest influences. Consciously add one energy-raising person, podcast, or environment per week. You absorb the frequency around you.',
+  },
+  {
+    id: 'impatience-distrust',
+    name: 'Impatience & Lack of Trust',
+    icon: '◷',
+    bullets: [
+      'Feeling frustrated when things do not manifest instantly.',
+      'Constantly questioning "Why hasn\'t it happened yet?"',
+      'Not trusting divine timing and universal alignment.',
+    ],
+    clear: 'Look back at past manifestations — notice they always arrived at the right moment. Build a "proof journal" of times things worked out perfectly.',
+  },
+  {
+    id: 'low-self-worth',
+    name: 'Low Self-Worth & Self-Sabotage',
+    icon: '⊖',
+    bullets: [
+      'Feeling unworthy of receiving good things.',
+      'Subconsciously sabotaging opportunities out of fear or guilt.',
+      'Not allowing yourself to feel joy, love, or success.',
+    ],
+    clear: 'Begin a daily self-worth practice: write three things you appreciate about yourself. Catch self-sabotage patterns in real time by asking "Is this aligned with my desires?"',
+  },
+  {
+    id: 'lack-of-gratitude',
+    name: 'Lack of Gratitude & Presence',
+    icon: '☽',
+    bullets: [
+      'Focusing too much on the future rather than appreciating the present.',
+      'Not acknowledging what you already have, which reinforces scarcity.',
+      'Complaining about life instead of feeling gratitude for it.',
+    ],
+    clear: 'Write three specific gratitudes every morning — not generic, but detailed. Gratitude is the frequency that attracts more of what you appreciate.',
+  },
+  {
+    id: 'energetic-blocks',
+    name: 'Energetic Blocks & Past Trauma',
+    icon: '◬',
+    bullets: [
+      'Unhealed wounds or emotional baggage lowering your vibration.',
+      'Holding onto resentment, anger, or past disappointments.',
+      'Being stuck in old patterns that no longer serve you.',
+    ],
+    clear: 'Work with somatic release, EFT tapping, or inner-child journaling. Forgiveness (of yourself and others) is one of the most powerful frequency-raisers.',
+  },
+];
+
+const MANIFESTATION_CLEAR_STEPS = [
+  { icon: '✅', text: 'Reprogram limiting beliefs through affirmations and inner work.' },
+  { icon: '✅', text: 'Release fear and trust the process.' },
+  { icon: '✅', text: 'Practice gratitude and focus on abundance.' },
+  { icon: '✅', text: 'Take aligned, inspired action.' },
+  { icon: '✅', text: 'Let go of attachment and surrender to divine timing.' },
+  { icon: '✅', text: 'Heal emotional wounds and raise your vibration.' },
+];
+
+function ManifestationBlocks({ onBack, onSelectSection }) {
+  const [expanded, setExpanded] = useState(null);
+  const color = '#f59e0b';
+
+  const toggle = (id) => setExpanded(prev => prev === id ? null : id);
+
+  return (
+    <InnerAtlasShell activeId="manifestation" onBack={onBack} onSelectSection={onSelectSection} title="Manifestation Blocks">
+      <div className="ia-section-head">
+        <div className="ia-eyebrow">Law of attraction</div>
+        <h2 className="ia-title">Manifestation Blocks</h2>
+        <p className="ia-lede">
+          The 10 core barriers that delay or prevent manifestations — and how to clear each one. Tap any block to see what drives it and how to release it.
+        </p>
+      </div>
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 40 }}>
+        {MANIFESTATION_BLOCKS.map((block, i) => (
+          <div key={block.id}>
+            <button
+              type="button"
+              onClick={() => toggle(block.id)}
+              className="ia-card"
+              style={{
+                width: '100%', textAlign: 'left', cursor: 'pointer', fontFamily: 'inherit',
+                borderColor: expanded === block.id ? `${color}55` : `${color}20`,
+                background: expanded === block.id ? `${color}0d` : 'rgba(255,255,255,0.03)',
+                display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 12,
+              }}
+            >
+              <div style={{ display: 'flex', alignItems: 'flex-start', gap: 12 }}>
+                <span style={{
+                  fontSize: '0.7rem', fontWeight: 700, color, background: `${color}18`,
+                  border: `1px solid ${color}30`, borderRadius: 999,
+                  padding: '3px 9px', flexShrink: 0, marginTop: 2,
+                }}>
+                  {i + 1}
+                </span>
+                <div>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
+                    <span style={{ color, fontSize: '1rem' }}>{block.icon}</span>
+                    <span style={{ fontSize: '0.95rem', fontWeight: 700, color: '#f1f5f9' }}>{block.name}</span>
+                  </div>
+                  <div style={{ fontSize: '0.82rem', color: 'var(--ia-text-dim)', lineHeight: 1.6 }}>
+                    {block.bullets[0]}
+                  </div>
+                </div>
+              </div>
+              <span style={{ color, flexShrink: 0, fontSize: '0.9rem', marginTop: 4 }}>
+                {expanded === block.id ? '▲' : '▼'}
+              </span>
+            </button>
+
+            {expanded === block.id && (
+              <div style={{
+                background: `${color}08`, border: `1px solid ${color}28`,
+                borderTop: 'none', borderRadius: '0 0 14px 14px', padding: '16px 20px',
+              }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginBottom: 16 }}>
+                  {block.bullets.map((b, bi) => (
+                    <div key={bi} style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+                      <span style={{ color, flexShrink: 0, marginTop: 1 }}>•</span>
+                      <span style={{ fontSize: '0.82rem', color: 'var(--ia-text-dim)', lineHeight: 1.6 }}>{b}</span>
+                    </div>
+                  ))}
+                </div>
+                <div style={{
+                  background: `${color}12`, border: `1px solid ${color}28`,
+                  borderRadius: 10, padding: '12px 14px',
+                }}>
+                  <div style={{
+                    fontSize: '0.68rem', fontWeight: 700, letterSpacing: '0.15em',
+                    textTransform: 'uppercase', color, marginBottom: 6,
+                  }}>How to clear this block</div>
+                  <div style={{ fontSize: '0.82rem', color: '#cbd5e1', lineHeight: 1.65 }}>
+                    {block.clear}
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+
+      <div style={{
+        background: `${color}08`, border: `1px solid ${color}28`,
+        borderRadius: 16, padding: '24px 22px',
+      }}>
+        <div style={{
+          fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.18em',
+          textTransform: 'uppercase', color, marginBottom: 16,
+        }}>How to remove these blocks</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+          {MANIFESTATION_CLEAR_STEPS.map((step, i) => (
+            <div key={i} style={{ display: 'flex', gap: 10, alignItems: 'flex-start' }}>
+              <span style={{ fontSize: '0.95rem', flexShrink: 0 }}>{step.icon}</span>
+              <span style={{ fontSize: '0.85rem', color: '#cbd5e1', lineHeight: 1.6 }}>{step.text}</span>
+            </div>
+          ))}
+        </div>
+      </div>
+    </InnerAtlasShell>
+  );
+}
 
 // ─── Detox Guide data ──────────────────────────────────────────────────────
 
@@ -263,7 +550,7 @@ const DETOXES = [
   },
   {
     id: 'sauna', name: 'Infrared Sauna Detox', category: 'Physical',
-    desc: 'Far-infrared heat penetrates deeper than conventional saunas, promoting sweat-based elimination of toxins.',
+    desc: 'A heat-based recovery ritual that encourages sweating and relaxation. Hydrate well, keep sessions modest, and avoid use when heat exposure is unsafe for you.',
     recipe: 'Pre/Post Sauna Hydration Drink',
     ingredients: ['2 cups filtered water', 'Pinch of pink Himalayan salt', 'Juice of ½ lemon', '¼ tsp magnesium powder', '1 tsp raw honey or coconut water', 'Electrolyte minerals — drink before and after'],
   },
@@ -496,6 +783,143 @@ function RegulationTools({ onBack, onSelectSection }) {
   );
 }
 
+// ─── Thought Patterns data ──────────────────────────────────────────────────
+// The twelve common negative automatic thought patterns, adapted from the
+// Harvard Stress & Development Lab's cognitive-reappraisal materials (in turn
+// drawn from David Burns / Aaron Beck's cognitive-distortion taxonomy). Each
+// pattern pairs the classic definition with a lived example and a reappraisal
+// prompt — a question you can ask yourself when you catch the pattern running.
+
+const THOUGHT_PATTERNS = [
+  {
+    name: 'All-or-Nothing Thinking',
+    desc: 'You see things in black-and-white categories. If your performance falls short of perfect, you see yourself as a total failure.',
+    example: '“I missed one question on the test, so I completely failed.”',
+    reframe: 'Where is the middle ground? What partial successes am I erasing by calling this all or nothing?',
+  },
+  {
+    name: 'Overgeneralization',
+    desc: 'You see a single negative event as a never-ending pattern of defeat.',
+    example: '“That date went badly — I’ll be alone forever.”',
+    reframe: 'Is this one event, or a real pattern? Do words like “always” or “never” actually fit the evidence?',
+  },
+  {
+    name: 'Mental Filter',
+    desc: 'You pick out a single negative detail and dwell on it exclusively so that your vision of all reality becomes darkened, like a drop of ink that discolours an entire beaker of water.',
+    example: 'One critical comment in a glowing review is all you can think about.',
+    reframe: 'What am I filtering out? If I listed the whole picture, what else was true today?',
+  },
+  {
+    name: 'Disqualifying the Positive',
+    desc: 'You reject positive experiences by insisting they “don’t count,” letting you keep a negative belief that your everyday experience contradicts.',
+    example: '“They only praised my work to be polite.”',
+    reframe: 'Would I dismiss this evidence so quickly if it were about someone else? What if the good thing simply counts?',
+  },
+  {
+    name: 'Jumping to Conclusions',
+    desc: 'You make a negative interpretation even though there are no definite facts that convincingly support your conclusion.',
+    example: '“They haven’t replied yet — something is clearly wrong.”',
+    reframe: 'What do I actually know versus what am I assuming? What are three other explanations?',
+  },
+  {
+    name: 'Mind Reading',
+    desc: 'You arbitrarily conclude that someone is reacting negatively to you, and you don’t bother to check it out.',
+    example: '“She seemed quiet — she must be annoyed with me.”',
+    reframe: 'Have I confirmed this, or invented it? Could I simply ask instead of guessing?',
+  },
+  {
+    name: 'Fortune Telling',
+    desc: 'You anticipate that things will turn out badly and feel convinced your prediction is an already-established fact.',
+    example: '“There’s no point applying — I won’t get it anyway.”',
+    reframe: 'Am I treating a prediction as a fact? What has happened the other times I expected the worst?',
+  },
+  {
+    name: 'Magnification or Minimization',
+    desc: 'You exaggerate the importance of things (your slip-up, someone else’s achievement) or shrink things until they look tiny (your own strengths, another’s flaws). Also called the “binocular trick.”',
+    example: '“My mistake was a disaster, and anything I do well is no big deal.”',
+    reframe: 'Am I looking through the wrong end of the binoculars? How big is this on a 1–10 scale, honestly?',
+  },
+  {
+    name: 'Emotional Reasoning',
+    desc: 'You assume that your negative emotions necessarily reflect the way things really are: “I feel it, therefore it must be true.”',
+    example: '“I feel like a burden, so I must be one.”',
+    reframe: 'A feeling is real, but is it accurate? What would I conclude from the facts alone, without the feeling?',
+  },
+  {
+    name: 'Should Statements',
+    desc: 'You try to motivate yourself with “shoulds” and “shouldn’ts,” as if you had to be punished before acting. Aimed inward they bring guilt; aimed at others, anger and resentment.',
+    example: '“I should be further along by now.”',
+    reframe: 'What if I swapped “should” for “I’d like to” or “it would help to”? Whose rule am I obeying?',
+  },
+  {
+    name: 'Labeling and Mislabeling',
+    desc: 'An extreme form of overgeneralization: instead of describing an error, you attach a label to yourself or someone else — “I’m a loser,” “he’s a louse” — using highly coloured, emotionally loaded language.',
+    example: '“I forgot the deadline — I’m such a failure.”',
+    reframe: 'Can I describe the behaviour instead of branding the person? “I made a mistake” is not “I am a mistake.”',
+  },
+  {
+    name: 'Personalization',
+    desc: 'You see yourself as the cause of some negative external event you were not primarily responsible for.',
+    example: '“The team missed the goal — it’s my fault.”',
+    reframe: 'What else contributed to this? What share is genuinely mine, and what belongs elsewhere?',
+  },
+];
+
+// ─── Thought Patterns ───────────────────────────────────────────────────────
+
+function ThoughtPatterns({ onBack, onSelectSection }) {
+  const color = '#818cf8';
+  return (
+    <InnerAtlasShell activeId="thought-patterns" onBack={onBack} onSelectSection={onSelectSection} title="Thought Patterns">
+      <div className="ia-section-head">
+        <div className="ia-eyebrow">Cognitive reappraisal</div>
+        <h2 className="ia-title">Identifying Negative Automatic Thought Patterns</h2>
+        <p className="ia-lede">
+          Sometimes we get stuck interpreting distressing situations the same way without examining the evidence.
+          Below are twelve common negative thinking patterns — see if any sound familiar. When you catch yourself
+          thinking this way, practising reappraisal can help.
+        </p>
+        <div style={{ marginTop: 14 }}>
+          <SafetyNote text="An educational self-reflection tool, not a diagnosis or a substitute for therapy. If distressing thoughts feel overwhelming, reach out to a mental-health professional." />
+        </div>
+      </div>
+
+      <div className="ia-grid" style={{ gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))' }}>
+        {THOUGHT_PATTERNS.map(p => (
+          <div key={p.name} className="ia-card" style={{ borderColor: `${color}2e` }}>
+            <h3 style={{ fontSize: '1.05rem', fontWeight: 700, color, margin: '0 0 8px' }}>{p.name}</h3>
+            <p style={{ fontSize: '0.85rem', color: 'var(--ia-text-dim)', margin: '0 0 12px', lineHeight: 1.6 }}>{p.desc}</p>
+            <div style={{
+              background: `${color}0d`,
+              border: `1px solid ${color}22`,
+              borderRadius: 10,
+              padding: '10px 14px',
+              marginBottom: 10,
+            }}>
+              <div style={{ fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color, marginBottom: 4 }}>Sounds like</div>
+              <div style={{ fontSize: '0.83rem', color: '#cbd5e1', lineHeight: 1.55, fontStyle: 'italic' }}>{p.example}</div>
+            </div>
+            <div style={{
+              background: 'rgba(255,255,255,0.03)',
+              border: '1px solid rgba(255,255,255,0.10)',
+              borderRadius: 10,
+              padding: '10px 14px',
+            }}>
+              <div style={{ fontSize: '0.66rem', fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase', color: '#94a3b8', marginBottom: 4 }}>Reappraise</div>
+              <div style={{ fontSize: '0.83rem', color: '#cbd5e1', lineHeight: 1.55 }}>{p.reframe}</div>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p style={{ fontSize: '0.72rem', color: 'var(--ia-text-dim)', margin: '28px 0 0', lineHeight: 1.6, textAlign: 'center', opacity: 0.8 }}>
+        Adapted from the Harvard Stress &amp; Development Lab, “Identifying Negative Automatic Thought Patterns,”
+        after the cognitive-distortion work of David Burns and Aaron Beck.
+      </p>
+    </InnerAtlasShell>
+  );
+}
+
 // ─── Hub landing page ────────────────────────────────────────────────────────
 
 function Hub({ onBack, onSelect }) {
@@ -618,6 +1042,10 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
     return <RegulationTools onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
+  if (activeSection === 'thought-patterns') {
+    return <ThoughtPatterns onBack={goHub} onSelectSection={setActiveSection} />;
+  }
+
   if (activeSection === 'emotions') {
     return <EmotionsAtlas onBack={goHub} onSelectSection={setActiveSection} />;
   }
@@ -627,11 +1055,15 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'consciousness-map') {
-    return <ConsciousnessMap onBack={goHub} />;
+    return <ConsciousnessMap onBack={goHub} initialSection={deepSub} />;
   }
 
   if (activeSection === 'detox') {
     return <DetoxGuide onBack={goHub} onSelectSection={setActiveSection} />;
+  }
+
+  if (activeSection === 'manifestation') {
+    return <ManifestationBlocks onBack={goHub} onSelectSection={setActiveSection} />;
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase

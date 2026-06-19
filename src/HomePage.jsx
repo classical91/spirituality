@@ -24,9 +24,18 @@ function mulberry32(seed) {
   };
 }
 
+// Sections that are too personal/intimate to surface as an unsolicited daily reading.
+const READING_POOL_SKIP = new Set(['masturbation', 'celibacy', 'urges', 'tracker', 'journal']);
+
 // A well-spread reading rotation drawn from every readable section in the hub.
+// Prayer themes are excluded — they already have their own Daily Prayer card.
+// Intimate sexual-health journal sections are excluded for the same reason.
 const READING_POOL = (() => {
-  const arr = searchIndex.slice();
+  const arr = searchIndex.filter(
+    (entry) =>
+      !(entry.portalId === 'biblical' && entry.section === 'prayers') &&
+      !(entry.portalId === 'sexualenergy' && READING_POOL_SKIP.has(entry.section))
+  );
   const rnd = mulberry32(20240531);
   for (let i = arr.length - 1; i > 0; i--) {
     const j = Math.floor(rnd() * (i + 1));
@@ -35,9 +44,22 @@ const READING_POOL = (() => {
   return arr;
 })();
 
+// +1 offset keeps consecutive days from repeating when DST shifts caused two
+// calendar days to land on the same pool index before the fix was deployed.
 function getDailyReading() {
   if (READING_POOL.length === 0) return null;
-  return READING_POOL[dayOfYear() % READING_POOL.length];
+  return READING_POOL[(dayOfYear() + 1) % READING_POOL.length];
+}
+
+// Pick a different reading than the one currently shown, for the shuffle button.
+function getRandomReading(excludeTitle) {
+  if (READING_POOL.length === 0) return null;
+  if (READING_POOL.length === 1) return READING_POOL[0];
+  let pick;
+  do {
+    pick = READING_POOL[Math.floor(Math.random() * READING_POOL.length)];
+  } while (pick.title === excludeTitle);
+  return pick;
 }
 
 const LENS_COLORS = {
@@ -191,6 +213,7 @@ function DailyPrayerCard() {
     'Virtue':         { border: 'rgba(52,211,153,0.28)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.15)',  badgeBorder: 'rgba(52,211,153,0.35)',  badgeText: '#6ee7b7' },
     'Deadly Sin':     { border: 'rgba(248,113,113,0.28)', bg: 'rgba(248,113,113,0.07)', badge: 'rgba(248,113,113,0.15)', badgeBorder: 'rgba(248,113,113,0.35)', badgeText: '#fca5a5' },
     "Dante's Inferno":{ border: 'rgba(167,139,250,0.28)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.15)', badgeBorder: 'rgba(167,139,250,0.35)', badgeText: '#c4b5fd' },
+    'Traditional':    { border: 'rgba(96,165,250,0.28)',  bg: 'rgba(96,165,250,0.07)',  badge: 'rgba(96,165,250,0.15)',  badgeBorder: 'rgba(96,165,250,0.35)',  badgeText: '#93c5fd' },
   };
   const c = typeColors[prayer.type] || typeColors['Commandment'];
 
@@ -234,8 +257,13 @@ function DailyPrayerCard() {
 }
 
 function DailyReadingCard({ onNavigate }) {
-  const reading = useMemo(() => getDailyReading(), []);
+  const [reading, setReading] = useState(() => getDailyReading());
   if (!reading) return null;
+
+  const shuffle = (e) => {
+    e.stopPropagation();
+    setReading(getRandomReading(reading.title));
+  };
 
   const portal = portalsById[reading.portalId];
   const c = LENS_COLORS[reading.lens] || LENS_COLORS.Symbolic;
@@ -285,6 +313,20 @@ function DailyReadingCard({ onNavigate }) {
           {reading.lens}
         </span>
         <span style={{ marginLeft: 'auto', fontSize: '0.74rem', color: '#7a7096' }}>{dateLabel}</span>
+        <button
+          type="button"
+          onClick={shuffle}
+          aria-label="Show a different reading"
+          title="Show a different reading"
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: '28px', height: '28px', borderRadius: '999px',
+            border: `1px solid ${c.border}`, background: c.badge, color: c.badgeText,
+            cursor: 'pointer', fontSize: '0.85rem', lineHeight: 1, padding: 0,
+          }}
+        >
+          ⟳
+        </button>
       </div>
 
       <h3 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 900, color: '#f1eeff', margin: '0 0 8px' }}>
