@@ -1306,7 +1306,7 @@ function TeacherPage({ t, onHome, onBackToAtlas, onOpenRelated }) {
     <div className="fa">
       {/* top bar */}
       <div className="fa-topbar">
-        <button className="fa-back-btn" onClick={onBackToAtlas}>← Wisdom Atlas</button>
+        <button className="fa-back-btn" onClick={onBackToAtlas}>← Teachers</button>
         <div className="fa-brand">
           <div className="fa-logo">✦</div>
           <span>Wisdom Atlas</span>
@@ -1365,11 +1365,11 @@ export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
   // shareable; the local id keeps it responsive before the URL settles.
   function openTeacher(t) {
     setLocalId(t.id);
-    if (onNavigate) onNavigate('wisdom', { section: t.id });
+    if (onNavigate) onNavigate('wisdomteachers', { section: t.id });
   }
   function backToAtlas() {
     setLocalId(null);
-    if (onNavigate) onNavigate('wisdom');
+    if (onNavigate) onNavigate('wisdomteachers');
   }
 
   // Start each tab at the top rather than wherever the last one was scrolled.
@@ -1415,7 +1415,7 @@ export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
     <div className="fa">
       {/* top bar */}
       <div className="fa-topbar">
-        <button className="fa-back-btn" onClick={onBack}>← Back</button>
+        <button className="fa-back-btn" onClick={() => (onNavigate ? onNavigate('wisdom') : onBack())}>← Wisdom Atlas</button>
         <div className="fa-brand">
           <div className="fa-logo">✦</div>
           <span>Wisdom Atlas</span>

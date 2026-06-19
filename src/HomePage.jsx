@@ -429,7 +429,7 @@ export default function HomePage({ onNavigate }) {
 
   const recentPortals = recentIds
     .map((id) => portalsById[id])
-    .filter(Boolean)
+    .filter((p) => p && !p.hidden)
     .slice(0, 3);
 
   return (
