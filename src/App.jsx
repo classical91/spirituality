@@ -13,6 +13,7 @@ import NumerologyPortal from './NumerologyPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
+import { getDailyReading } from './lib/dailyReading';
 
 const BIBLICAL_ROUTE = '/sacred-moral-atlas';
 const EMBEDDED_BIBLICAL_SECTIONS = {
@@ -93,6 +94,32 @@ export default function App() {
         initialSection={initialSection}
       />
     );
+  }
+
+  // Stable permalink: /today always resolves to whatever today's reading is,
+  // redirecting to that teacher/section page (the same target the homepage
+  // "Reading for Today" card opens).
+  if (path === '/today') {
+    const reading = getDailyReading();
+    const portal = reading ? portalsById[reading.portalId] : null;
+    if (portal && COMPONENTS[portal.id]) {
+      const section = reading.section;
+      const target = section
+        ? `${portal.path}?section=${encodeURIComponent(section)}`
+        : portal.path;
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', target);
+      }
+      const Component = COMPONENTS[portal.id];
+      return (
+        <Component onBack={goHome} onNavigate={goPortal} initialSection={section} />
+      );
+    }
+    // No resolvable reading → fall back to the hub.
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/');
+    }
+    return <HomePage onNavigate={goPortal} />;
   }
 
   // Backward-compat: old standalone routes redirect into InnerAtlas
