@@ -4,7 +4,9 @@ import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
 import InnerAtlas from './InnerAtlas';
+import WisdomHub from './WisdomHub';
 import WisdomAtlas from './WisdomAtlas';
+import AscendedMastersAtlas from './AscendedMastersAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
@@ -26,7 +28,9 @@ const COMPONENTS = {
   astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
   inneratlas: InnerAtlas,
-  wisdom: WisdomAtlas,
+  wisdom: WisdomHub,
+  wisdomteachers: WisdomAtlas,
+  ascended: AscendedMastersAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
