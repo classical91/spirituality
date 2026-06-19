@@ -796,6 +796,34 @@
   pointer-events: none;
 }
 .fa-related-chip:hover { border-color: var(--edge2); }
+.fa-related-chip.clickable { cursor: pointer; transition: transform .16s, border-color .16s; }
+.fa-related-chip.clickable:hover { transform: translateY(-2px); border-color: var(--soft); }
+
+/* ── teacher page: each teacher's own dedicated reading view ── */
+.fa-teacher-page {
+  position: relative;
+  width: min(940px, 100%);
+  margin: 18px auto 0;
+  border: 1px solid var(--edge2);
+  border-radius: 32px;
+  background: #0d1229;
+  box-shadow: 0 30px 120px rgba(0,0,0,.5);
+  overflow: hidden;
+}
+.fa-teacher-page > .fa-btn { margin: 0 24px 28px; }
+
+.fa-teacher-page-head {
+  padding: 26px 24px 18px;
+  border-bottom: 1px solid var(--edge);
+  background:
+    radial-gradient(120% 140% at 0% 0%, var(--cardGlow), transparent 60%),
+    rgba(13,18,41,.92);
+}
+.fa-teacher-page-title {
+  font-size: clamp(28px, 5vw, 40px);
+  letter-spacing: -.05em;
+  margin: 12px 0 4px;
+}
 .fa-related-chip strong { font-size: 13px; color: var(--txt); }
 .fa-related-chip span   { font-size: 12px; color: var(--soft); font-style: italic; line-height: 1.35; }
 

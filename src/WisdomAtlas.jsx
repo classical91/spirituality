@@ -3,8 +3,8 @@ import './WisdomAtlas.css';
 
 // Wisdom Atlas — a reflective library of spiritual teachers and inner-work
 // traditions. Each teacher is offered in three layers: a compact card with
-// the essence, an expandable panel with key ideas and practice, and a full
-// modal with the complete wisdom profile.
+// the essence, an expandable panel with key ideas and practice, and a
+// dedicated page (/wisdom?section=<id>) with the complete wisdom profile.
 // (CSS class names keep the historical `fa-` prefix; they are internal.)
 
 const teachers = [
@@ -1197,128 +1197,179 @@ function TeacherCard({ t, onOpen }) {
   );
 }
 
-/* ─── TeacherModal: complete wisdom profile ─── */
-function TeacherModal({ t, onClose }) {
-  if (!t) return null;
-
+/* ─── TeacherProfile: the complete wisdom profile body ─── */
+/* Shared by each teacher's dedicated page. Every section is guarded so   */
+/* teachers with a lighter record still read cleanly.                     */
+function TeacherProfile({ t, onOpenRelated }) {
   const related = (t.relatedTeachers || [])
     .map((id) => teacherById[id])
     .filter(Boolean);
 
   return (
-    <div className="fa-modal-overlay" onClick={onClose}>
-      <div className="fa-modal-card" onClick={(e) => e.stopPropagation()}>
+    <>
+      {/* essence banner */}
+      {t.essence && <div className="fa-modal-essence">"{t.essence}"</div>}
 
-        {/* sticky header */}
-        <div className="fa-modal-top">
-          <div>
+      {/* key ideas */}
+      {t.keyIdeas && t.keyIdeas.length > 0 && (
+        <div className="fa-modal-section">
+          <h4 className="fa-modal-label">Key ideas</h4>
+          <div className="fa-key-ideas large">
+            {t.keyIdeas.map((idea) => (
+              <span key={idea} className="fa-idea-pill">{idea}</span>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* core grid */}
+      <div className="fa-detail-grid">
+        <div className="fa-detail-box full">
+          <h4>Core teaching</h4>
+          <p>{t.core}</p>
+        </div>
+        <div className="fa-detail-box">
+          <h4>Main practice</h4>
+          <p>{t.practice}</p>
+        </div>
+        <div className="fa-detail-box">
+          <h4>Best for</h4>
+          <p>{t.bestFor}</p>
+        </div>
+        {t.misunderstanding && (
+          <div className="fa-detail-box">
+            <h4>Often misunderstood as</h4>
+            <p className="fa-misunderstanding">{t.misunderstanding}</p>
+          </div>
+        )}
+        {t.trap && (
+          <div className="fa-detail-box">
+            <h4>Common trap</h4>
+            <p>{t.trap}</p>
+          </div>
+        )}
+      </div>
+
+      {/* reflection prompt */}
+      {t.prompt && (
+        <div className="fa-detail-box full">
+          <h4>Reflection prompt</h4>
+          <div className="fa-prompt-box">{t.prompt}</div>
+        </div>
+      )}
+
+      {/* related teachers */}
+      {related.length > 0 && (
+        <div className="fa-modal-section">
+          <h4 className="fa-modal-label">Relates to</h4>
+          <div className="fa-related-row">
+            {related.map((r) => (
+              <div
+                key={r.id}
+                className={`fa-related-chip ${onOpenRelated ? 'clickable' : ''}`}
+                style={{ '--relGlow': r.color }}
+                onClick={onOpenRelated ? () => onOpenRelated(r) : undefined}
+                role={onOpenRelated ? 'button' : undefined}
+                tabIndex={onOpenRelated ? 0 : undefined}
+                onKeyDown={onOpenRelated ? (e) => { if (e.key === 'Enter') onOpenRelated(r); } : undefined}
+              >
+                <strong>{r.name}</strong>
+                <span>{r.essence || r.core}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* books */}
+      {t.books && t.books.length > 0 && (
+        <div className="fa-detail-box full">
+          <h4>Books to begin with</h4>
+          <ul>{t.books.map((b) => <li key={b}>{b}</li>)}</ul>
+        </div>
+      )}
+
+      {t.note && (
+        <div className="fa-detail-box full">
+          <h4>A note on sources</h4>
+          <p>{t.note}</p>
+        </div>
+      )}
+    </>
+  );
+}
+
+/* ─── TeacherPage: a teacher's own dedicated reading page ─── */
+/* Reached at /wisdom?section=<id> — where "Reading for Today" jumps in. */
+function TeacherPage({ t, onHome, onBackToAtlas, onOpenRelated }) {
+  return (
+    <div className="fa">
+      {/* top bar */}
+      <div className="fa-topbar">
+        <button className="fa-back-btn" onClick={onBackToAtlas}>← Wisdom Atlas</button>
+        <div className="fa-brand">
+          <div className="fa-logo">✦</div>
+          <span>Wisdom Atlas</span>
+        </div>
+        <button className="fa-btn fa-topbar-random" onClick={onHome}>⌂ Home</button>
+      </div>
+
+      <div className="fa-inner">
+        <article className="fa-teacher-page" style={{ '--cardGlow': t.color }}>
+          <header className="fa-teacher-page-head">
             <div className="fa-chip-row">
               <span className="fa-chip hot">{t.category}</span>
               <span className="fa-chip gold">{t.lineage}</span>
             </div>
-            <div className="fa-modal-title">{t.name}</div>
+            <h1 className="fa-teacher-page-title">{t.name}</h1>
             <div className="fa-modal-creator">{t.era} · {t.tradition}</div>
-          </div>
-          <button className="fa-close" onClick={onClose}>×</button>
-        </div>
+          </header>
 
-        <div className="fa-modal-body">
-          {/* essence banner */}
-          {t.essence && <div className="fa-modal-essence">"{t.essence}"</div>}
-
-          {/* key ideas */}
-          {t.keyIdeas && t.keyIdeas.length > 0 && (
-            <div className="fa-modal-section">
-              <h4 className="fa-modal-label">Key ideas</h4>
-              <div className="fa-key-ideas large">
-                {t.keyIdeas.map((idea) => (
-                  <span key={idea} className="fa-idea-pill">{idea}</span>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* core grid */}
-          <div className="fa-detail-grid">
-            <div className="fa-detail-box full">
-              <h4>Core teaching</h4>
-              <p>{t.core}</p>
-            </div>
-            <div className="fa-detail-box">
-              <h4>Main practice</h4>
-              <p>{t.practice}</p>
-            </div>
-            <div className="fa-detail-box">
-              <h4>Best for</h4>
-              <p>{t.bestFor}</p>
-            </div>
-            {t.misunderstanding && (
-              <div className="fa-detail-box">
-                <h4>Often misunderstood as</h4>
-                <p className="fa-misunderstanding">{t.misunderstanding}</p>
-              </div>
-            )}
-            <div className="fa-detail-box">
-              <h4>Common trap</h4>
-              <p>{t.trap}</p>
-            </div>
+          <div className="fa-modal-body">
+            <TeacherProfile t={t} onOpenRelated={onOpenRelated} />
           </div>
 
-          {/* reflection prompt */}
-          <div className="fa-detail-box full">
-            <h4>Reflection prompt</h4>
-            <div className="fa-prompt-box">{t.prompt}</div>
-          </div>
-
-          {/* related teachers */}
-          {related.length > 0 && (
-            <div className="fa-modal-section">
-              <h4 className="fa-modal-label">Relates to</h4>
-              <div className="fa-related-row">
-                {related.map((r) => (
-                  <div key={r.id} className="fa-related-chip" style={{ '--relGlow': r.color }}>
-                    <strong>{r.name}</strong>
-                    <span>{r.essence}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
-
-          {/* books */}
-          {t.books && t.books.length > 0 && (
-            <div className="fa-detail-box full">
-              <h4>Books to begin with</h4>
-              <ul>{t.books.map((b) => <li key={b}>{b}</li>)}</ul>
-            </div>
-          )}
-
-          {t.note && (
-            <div className="fa-detail-box full">
-              <h4>A note on sources</h4>
-              <p>{t.note}</p>
-            </div>
-          )}
-        </div>
+          <button className="fa-btn" onClick={onBackToAtlas}>← Back to all teachers</button>
+        </article>
       </div>
     </div>
   );
 }
 
 /* ─── WisdomAtlas: main page ─── */
-export default function WisdomAtlas({ onBack, initialSection }) {
+export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
   const [tab,            setTab]            = useState(() => resolveInitialTab(initialSection));
   const [query,          setQuery]          = useState('');
   const [categoryFilter, setCategoryFilter] = useState('all');
   const [lineageFilter,  setLineageFilter]  = useState('all');
-  const [modal,          setModal]          = useState(null);
   const [activeCategory, setActiveCategory] = useState(categories[0]);
+
+  // ?section= does double duty: a tab name (e.g. "compare") selects a tab,
+  // while a teacher id (e.g. "neville") opens that teacher's own page. `localId`
+  // keeps the page responsive before the URL settles, and as a fallback when no
+  // router navigation is wired in.
+  const [localId, setLocalId] = useState(initialSection && teacherById[initialSection] ? initialSection : null);
 
   // Follow deep-link changes (e.g. ?section=compare) after first mount.
   const [prevSection, setPrevSection] = useState(initialSection);
   if (initialSection !== prevSection) {
     setPrevSection(initialSection);
     setTab(resolveInitialTab(initialSection));
+    setLocalId(initialSection && teacherById[initialSection] ? initialSection : null);
+  }
+
+  const activeId = (initialSection && teacherById[initialSection]) ? initialSection : localId;
+  const activeTeacher = activeId ? teacherById[activeId] : null;
+
+  // Open a teacher's own page. Push the section URL when we can so the page is
+  // shareable; the local id keeps it responsive before the URL settles.
+  function openTeacher(t) {
+    setLocalId(t.id);
+    if (onNavigate) onNavigate('wisdom', { section: t.id });
+  }
+  function backToAtlas() {
+    setLocalId(null);
+    if (onNavigate) onNavigate('wisdom');
   }
 
   // Start each tab at the top rather than wherever the last one was scrolled.
@@ -1345,7 +1396,19 @@ export default function WisdomAtlas({ onBack, initialSection }) {
 
   function openRandom() {
     const random = teachers[Math.floor(Math.random() * teachers.length)];
-    setModal(random);
+    openTeacher(random);
+  }
+
+  // A teacher is open → show their dedicated reading page.
+  if (activeTeacher) {
+    return (
+      <TeacherPage
+        t={activeTeacher}
+        onHome={onBack}
+        onBackToAtlas={backToAtlas}
+        onOpenRelated={openTeacher}
+      />
+    );
   }
 
   return (
@@ -1465,7 +1528,7 @@ export default function WisdomAtlas({ onBack, initialSection }) {
 
           <div className="fa-grid">
             {filtered.length ? filtered.map((t) => (
-              <TeacherCard key={t.id} t={t} onOpen={setModal} />
+              <TeacherCard key={t.id} t={t} onOpen={openTeacher} />
             )) : (
               <div className="fa-panel" style={{ gridColumn: '1/-1', padding: 28, color: 'var(--muted)' }}>
                 No teachers match that. Try a broader word — like "surrender", "imagination", or "shadow".
@@ -1509,7 +1572,7 @@ export default function WisdomAtlas({ onBack, initialSection }) {
                 </div>
                 <div className="fa-lane-items">
                   {catTeachers.map((t) => (
-                    <div className="fa-pill-card" key={t.id} onClick={() => setModal(t)}>
+                    <div className="fa-pill-card" key={t.id} onClick={() => openTeacher(t)}>
                       <b>{t.name}</b>
                       <span className="fa-pill-essence">{t.essence}</span>
                       <span className="fa-pill-meta">{t.lineage} · {t.era}</span>
@@ -1573,7 +1636,7 @@ export default function WisdomAtlas({ onBack, initialSection }) {
                     </td>
                   </tr>
                   {teachers.filter((t) => t.category === c).map((t) => (
-                    <tr key={t.id} className="fa-compare-row" onClick={() => setModal(t)}>
+                    <tr key={t.id} className="fa-compare-row" onClick={() => openTeacher(t)}>
                       <td className="fa-compare-teacher">
                         <b>{t.name}</b>
                         <span>{t.era}</span>
@@ -1625,8 +1688,6 @@ export default function WisdomAtlas({ onBack, initialSection }) {
           A reflective library, not a doctrine. These teachings are offered for contemplation and inner work — take what serves you and hold the rest lightly. Nothing here is medical, psychological, or religious advice.
         </footer>
       </div>
-
-      {modal && <TeacherModal t={modal} onClose={() => setModal(null)} />}
     </div>
   );
 }
