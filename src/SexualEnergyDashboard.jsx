@@ -1133,7 +1133,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                 Sexual Energy, Self-Mastery &amp; Relationships
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                Two linked journeys in one space — <span className="text-slate-100">self-mastery</span> (masturbation, celibacy, urges, abstinence, porn-pattern awareness, relapse recovery) and <span className="text-slate-100">relationships &amp; love</span> (marriage, dynamics, scripting, relationship clarity, red flags, and attachment) — without turning you against your own body.
+                Two journeys, one space: master your <span className="text-slate-100">urges and habits</span> without shame, and build clarity in how you love. Pick a track below — <span className="text-slate-100">self-mastery</span> or <span className="text-slate-100">relationships &amp; love</span> — and go deeper.
               </p>
             </div>
             <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-5 lg:w-80">
