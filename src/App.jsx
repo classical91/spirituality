@@ -31,6 +31,43 @@ const COMPONENTS = {
   numerology: NumerologyPortal,
 };
 
+// A persistent way back to the hub from anywhere in the site. Sits below modal
+// overlays (z 50+) so it never covers a dialog, above ordinary page content.
+function FloatingHomeButton({ onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label="Go to home"
+      title="Home"
+      style={{
+        position: 'fixed',
+        right: 'max(16px, env(safe-area-inset-right))',
+        bottom: 'max(16px, env(safe-area-inset-bottom))',
+        zIndex: 45,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '11px 16px',
+        borderRadius: 999,
+        border: '1px solid rgba(255,255,255,0.18)',
+        background: 'rgba(10,12,20,0.72)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 800,
+        fontFamily: 'inherit',
+        cursor: 'pointer',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.45)',
+      }}
+    >
+      <span style={{ fontSize: 16, lineHeight: 1 }} aria-hidden="true">⌂</span>
+      Home
+    </button>
+  );
+}
+
 export default function App() {
   const route = useRoute();
   const [path, navigate] = route;
@@ -77,6 +114,18 @@ export default function App() {
     }
   }, [path]);
 
+  // `homeView` is set true only by the final HomePage fallback below, so the
+  // floating Home button shows on every other screen but not on home itself.
+  let homeView = false;
+  const content = renderRoute();
+  return (
+    <>
+      {content}
+      {!homeView && <FloatingHomeButton onClick={goHome} />}
+    </>
+  );
+
+  function renderRoute() {
   const activePortal = portalsByPath[path];
   if (activePortal) {
     // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
@@ -159,5 +208,7 @@ export default function App() {
     }
   }
 
+  homeView = true;
   return <HomePage onNavigate={goPortal} />;
+  }
 }
