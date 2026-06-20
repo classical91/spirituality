@@ -149,6 +149,29 @@ export default function App() {
     );
   }
 
+  // Focused sub-portals of the Sexual Energy hub: same component, but scoped
+  // to a single tab group instead of the full four-group dashboard.
+  if (path === '/sexual-energy/self-mastery') {
+    return (
+      <SexualEnergyDashboard
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+        initialGroup="self-mastery"
+      />
+    );
+  }
+  if (path === '/sexual-energy/relationships') {
+    return (
+      <SexualEnergyDashboard
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+        initialGroup="relationships"
+      />
+    );
+  }
+
   // Stable permalink: /today always resolves to whatever today's reading is,
   // redirecting to that teacher/section page (the same target the homepage
   // "Reading for Today" card opens).
