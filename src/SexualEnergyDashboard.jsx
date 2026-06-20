@@ -10,6 +10,7 @@ import RelationshipFoundations from "./RelationshipFoundations";
 const tabGroups = [
   {
     label: "Sexual Energy",
+    slug: "sexual-energy",
     accent: "violet",
     tabs: [
       { id: "energy", label: "Energy" },
@@ -18,6 +19,7 @@ const tabGroups = [
   },
   {
     label: "Self-Mastery",
+    slug: "self-mastery",
     accent: "sky",
     tabs: [
       { id: "overview", label: "Overview" },
@@ -30,6 +32,7 @@ const tabGroups = [
   },
   {
     label: "Relationships",
+    slug: "relationships",
     accent: "rose",
     tabs: [
       { id: "foundations", label: "Foundations" },
@@ -42,6 +45,7 @@ const tabGroups = [
   },
   {
     label: "Integration",
+    slug: "integration",
     accent: "emerald",
     tabs: [{ id: "integration", label: "Integration" }],
   },
@@ -136,6 +140,21 @@ const integrationPillars = [
     icon: "🌿",
   },
 ];
+
+// Header copy shown when this dashboard is opened as a focused sub-portal
+// (e.g. /sexual-energy/self-mastery) instead of the full four-group hub.
+const focusedHeaderCopy = {
+  "self-mastery": {
+    badges: [["sky", "Private dashboard"], ["violet", "Self-mastery"], ["emerald", "No-shame discipline"]],
+    title: "Self-Mastery",
+    subtitle: "Awareness, impulse control, and emotional regulation for masturbation, celibacy, urges, and relapse recovery — without shame and without repression.",
+  },
+  relationships: {
+    badges: [["sky", "Private dashboard"], ["rose", "Relationships"], ["emerald", "Secure connection"]],
+    title: "Relationships",
+    subtitle: "Marriage, dynamics, scripting, relationship clarity, red flags, and attachment — building the kind of connection sexual energy is meant to serve.",
+  },
+};
 
 const pillars = [
   {
@@ -594,9 +613,20 @@ function ProgressBar({ value }) {
   );
 }
 
-export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection }) {
+export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection, initialGroup }) {
+  // When initialGroup is set, this renders as a focused sub-portal (e.g.
+  // /sexual-energy/self-mastery) showing only that group's tabs instead of
+  // the full four-group hub.
+  const focusedGroup = initialGroup ? tabGroups.find((g) => g.slug === initialGroup) : null;
+  const visibleTabGroups = focusedGroup ? [focusedGroup] : tabGroups;
+  const defaultTabId = focusedGroup ? focusedGroup.tabs[0].id : "overview";
+
   const initialResolved = resolveSection(initialSection);
-  const [activeTab, setActiveTab] = useState(initialResolved.tab);
+  const startTab =
+    focusedGroup && !focusedGroup.tabs.some((t) => t.id === initialResolved.tab)
+      ? defaultTabId
+      : initialResolved.tab;
+  const [activeTab, setActiveTab] = useState(startTab);
   // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
   const [claritySub, setClaritySub] = useState(initialResolved.sub);
   const [prevInitialSection, setPrevInitialSection] = useState(initialSection);
@@ -1214,7 +1244,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
   if (activeTab === "relationship-clarity") {
     return (
       <RelationshipClarityPortal
-        onBack={() => { setClaritySub(null); setActiveTab("overview"); }}
+        onBack={() => { setClaritySub(null); setActiveTab(defaultTabId); }}
         onNavigate={(id, opts) => {
           // The portal navigates between its own concepts via
           // onNavigate("relationships", { section }); keep that in-tab by
@@ -1223,7 +1253,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
             setClaritySub(opts?.section ?? null);
           } else if (id === "sexualenergy" || id === "inneratlas") {
             setClaritySub(null);
-            setActiveTab("overview");
+            setActiveTab(defaultTabId);
           } else {
             onNavigate?.(id, opts);
           }
@@ -1233,7 +1263,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     );
   }
   if (activeTab === "relationship-patterns") {
-    return <RelationshipPatterns onBack={() => setActiveTab("overview")} />;
+    return <RelationshipPatterns onBack={() => setActiveTab(defaultTabId)} />;
   }
 
   return (
@@ -1257,17 +1287,27 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         <header className="mb-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
+              {focusedGroup && (
+                <button
+                  type="button"
+                  onClick={() => onNavigate?.("sexualenergy")}
+                  className="mb-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 hover:text-white"
+                >
+                  ← Sexual Energy hub
+                </button>
+              )}
               <div className="mb-4 flex flex-wrap gap-2">
-                <Badge tone="sky">Private dashboard</Badge>
-                <Badge tone="violet">Sexual energy</Badge>
-                <Badge tone="rose">Relationships &amp; love</Badge>
-                <Badge tone="emerald">No-shame discipline</Badge>
+                {(focusedGroup ? focusedHeaderCopy[focusedGroup.slug].badges : [["sky", "Private dashboard"], ["violet", "Sexual energy"], ["rose", "Relationships & love"], ["emerald", "No-shame discipline"]]).map(([tone, label]) => (
+                  <Badge key={label} tone={tone}>{label}</Badge>
+                ))}
               </div>
               <h1 className="max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                Sexual Energy, Self-Mastery, and Secure Relationships
+                {focusedGroup ? focusedHeaderCopy[focusedGroup.slug].title : "Sexual Energy, Self-Mastery, and Secure Relationships"}
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                One flow, four parts: understand the <span className="text-slate-100">energy</span> itself, build <span className="text-slate-100">self-mastery</span> over it, bring it into <span className="text-slate-100">relationships</span> with honesty, and let it all settle into <span className="text-slate-100">integration</span> — without shame, and without losing yourself to it.
+                {focusedGroup
+                  ? focusedHeaderCopy[focusedGroup.slug].subtitle
+                  : <>One flow, four parts: understand the <span className="text-slate-100">energy</span> itself, build <span className="text-slate-100">self-mastery</span> over it, bring it into <span className="text-slate-100">relationships</span> with honesty, and let it all settle into <span className="text-slate-100">integration</span> — without shame, and without losing yourself to it.</>}
               </p>
             </div>
             <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-5 lg:w-80">
@@ -1280,9 +1320,10 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-3 backdrop-blur-xl">
           {/* Each tab group renders as its own tinted, bordered cluster so the
               two journeys stay visually distinct. Clusters stack on mobile and
-              sit side by side (scrolling if needed) from sm: up. */}
+              sit side by side (scrolling if needed) from sm: up. When
+              focusedGroup is set, only that group's cluster renders. */}
           <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 sm:overflow-x-auto">
-            {tabGroups.map((group) => (
+            {visibleTabGroups.map((group) => (
               <div
                 key={group.label}
                 className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[group.accent]}`}
