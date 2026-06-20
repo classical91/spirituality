@@ -1144,10 +1144,12 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         </header>
 
         <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-2 backdrop-blur-xl">
-          <div className="flex items-center gap-3 overflow-x-auto">
+          {/* Wraps to multiple lines on small screens so every tab stays visible —
+              on larger screens it collapses to a single scrollable row. */}
+          <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3 sm:overflow-x-auto">
             {tabGroups.map((group, gi) => (
-              <div key={group.label} className="flex items-center gap-2">
-                {gi > 0 && <span className="h-7 w-px shrink-0 bg-white/10" aria-hidden="true" />}
+              <div key={group.label} className="flex flex-wrap items-center gap-2">
+                {gi > 0 && <span className="hidden h-7 w-px shrink-0 bg-white/10 sm:block" aria-hidden="true" />}
                 <button
                   type="button"
                   onClick={() => setActiveTab(group.tabs[0].id)}
