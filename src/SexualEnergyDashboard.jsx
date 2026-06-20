@@ -12,6 +12,7 @@ const tabGroups = [
     tabs: [
       { id: "overview", label: "Overview" },
       { id: "masturbation", label: "Masturbation" },
+      { id: "porn", label: "Porn" },
       { id: "celibacy", label: "Celibacy" },
       { id: "urges", label: "Urges" },
       { id: "tracker", label: "Tracker" },
@@ -197,6 +198,45 @@ const myths = [
   {
     myth: "Urges mean I have no discipline.",
     grounded: "Urges are normal. Discipline is what you do after the urge appears.",
+  },
+];
+
+const pornCritiques = [
+  {
+    title: "Addiction-like use",
+    text: "Compulsive, escalating use that the person cannot stop despite wanting to — driven by the same dopamine and novelty-seeking loops as other behavioral addictions.",
+  },
+  {
+    title: "Exploitation",
+    text: "Much of the industry runs on performers with limited bargaining power, financial pressure, or coercion — the supply chain is not neutral just because the content is legal.",
+  },
+  {
+    title: "Consent",
+    text: "Footage is sometimes filmed, shared, or recut without full or ongoing consent — including leaked, stolen, or non-consensually distributed material.",
+  },
+  {
+    title: "Objectification",
+    text: "Habitual consumption can train a viewer to see people as interchangeable stimuli rather than whole persons, flattening empathy in real relationships.",
+  },
+  {
+    title: "Loneliness",
+    text: "Used as a substitute for connection, it can deepen isolation — relieving a craving in the moment while leaving the underlying need for intimacy unmet.",
+  },
+  {
+    title: "Unrealistic expectations",
+    text: "Performance-oriented, edited content distorts expectations of bodies, consent dynamics, and sex itself, which can erode satisfaction and confidence in real partnerships.",
+  },
+  {
+    title: "Trafficking",
+    text: "Some content is produced through human trafficking or exploitation of minors — the anonymity of the medium makes it hard for a viewer to verify what they're funding.",
+  },
+  {
+    title: "Privacy",
+    text: "Viewing histories, payment data, and personal images are valuable and frequently breached, sold, or used for blackmail (sextortion).",
+  },
+  {
+    title: "Compulsive behavior",
+    text: "Even short of clinical addiction, habitual use can crowd out sleep, work, study, and relationships — a pattern worth noticing regardless of the label used for it.",
   },
 ];
 
@@ -651,6 +691,43 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     </div>
   );
 
+  const renderPorn = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Honest look"
+        title="Legitimate critiques of porn"
+        text="Porn is not automatically destructive for every viewer, but it is not neutral either. These are the critiques worth taking seriously — not as a verdict, but as questions to hold while you decide what role, if any, it has in your life."
+      />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {pornCritiques.map((item) => (
+          <Card key={item.title}>
+            <h3 className="font-bold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{item.text}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-6">
+        <h3 className="mb-3 text-xl font-bold text-white">Questions worth sitting with</h3>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            "Can I tell what I'm watching was made with full, ongoing consent?",
+            "Does my use escalate in frequency or intensity over time?",
+            "Am I using it to avoid loneliness, stress, or boredom rather than facing them?",
+            "Has it changed what I expect from real intimacy or from a partner's body?",
+            "Would I be comfortable if someone I respect knew exactly what and how much I watch?",
+          ].map((q) => (
+            <div key={q} className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-sm leading-6 text-slate-300">{q}</div>
+          ))}
+        </div>
+        <div className="mt-5 rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm leading-6 text-amber-100">
+          None of these critiques require shame to be useful. The point is informed choice — knowing what the medium costs, who it costs, and whether the pattern still serves you.
+        </div>
+      </Card>
+    </div>
+  );
+
   const renderCelibacy = () => (
     <div>
       <SectionTitle
@@ -987,6 +1064,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
   const renderTab = () => {
     if (activeTab === "overview") return renderOverview();
     if (activeTab === "masturbation") return renderMasturbation();
+    if (activeTab === "porn") return renderPorn();
     if (activeTab === "celibacy") return renderCelibacy();
     if (activeTab === "urges") return renderUrges();
     if (activeTab === "tracker") return renderTracker();
