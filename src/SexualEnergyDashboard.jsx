@@ -3,16 +3,25 @@ import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
 import RelationshipFoundations from "./RelationshipFoundations";
 
-// Tabs are split into two labeled clusters so the relationship & love content
-// is a visible, named group rather than a tail of unlabeled tabs.
+// Tabs are split into four labeled clusters that move energy → discipline →
+// connection → wholeness: what sexual energy is and how it gets shaped, how
+// to hold it with self-mastery, how it shows up in relationships, and how
+// the three tie together.
 const tabGroups = [
+  {
+    label: "Sexual Energy",
+    accent: "violet",
+    tabs: [
+      { id: "energy", label: "Energy" },
+      { id: "porn", label: "Porn" },
+    ],
+  },
   {
     label: "Self-Mastery",
     accent: "sky",
     tabs: [
       { id: "overview", label: "Overview" },
       { id: "masturbation", label: "Masturbation" },
-      { id: "porn", label: "Porn" },
       { id: "celibacy", label: "Celibacy" },
       { id: "urges", label: "Urges" },
       { id: "tracker", label: "Tracker" },
@@ -20,7 +29,7 @@ const tabGroups = [
     ],
   },
   {
-    label: "Relationships & Love",
+    label: "Relationships",
     accent: "rose",
     tabs: [
       { id: "foundations", label: "Foundations" },
@@ -31,6 +40,11 @@ const tabGroups = [
       { id: "relationship-patterns", label: "Relationship Patterns" },
     ],
   },
+  {
+    label: "Integration",
+    accent: "emerald",
+    tabs: [{ id: "integration", label: "Integration" }],
+  },
 ];
 
 const tabs = tabGroups.flatMap((g) => g.tabs);
@@ -38,13 +52,17 @@ const tabs = tabGroups.flatMap((g) => g.tabs);
 // Tinted chip styles for the clickable group labels in the tab navigator,
 // so they read as section markers that blend with the rounded tab buttons.
 const groupAccent = {
+  violet: "border-violet-400/30 bg-violet-400/10 text-violet-200 hover:bg-violet-400/20",
   sky: "border-sky-400/30 bg-sky-400/10 text-sky-200 hover:bg-sky-400/20",
   rose: "border-rose-400/30 bg-rose-400/10 text-rose-200 hover:bg-rose-400/20",
+  emerald: "border-emerald-400/30 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20",
 };
 
 const groupContainerAccent = {
+  violet: "border-violet-400/20 bg-violet-400/[0.04]",
   sky: "border-sky-400/20 bg-sky-400/[0.04]",
   rose: "border-rose-400/20 bg-rose-400/[0.04]",
+  emerald: "border-emerald-400/20 bg-emerald-400/[0.04]",
 };
 
 const tabIds = new Set(tabs.map((t) => t.id));
@@ -76,6 +94,48 @@ function resolveSection(section) {
   }
   return { tab: "overview", sub: null };
 }
+
+const energyExpressions = [
+  { title: "Desire & attraction", text: "The pull toward another person, body, or experience — the raw signal before any action is taken." },
+  { title: "Arousal & libido", text: "The physiological charge itself: how strong it runs, how often it shows up, how your body carries it." },
+  { title: "Fantasy & imagination", text: "The mental rehearsal of desire — useful for noticing what you want, risky when it replaces real life." },
+  { title: "Pleasure & passion", text: "The capacity to feel good in your body, and the drive that fuels creativity, ambition, and intensity outside the bedroom too." },
+  { title: "Bonding", text: "Sexual energy is also a bonding mechanism — it pulls people toward closeness, attachment, and shared vulnerability." },
+  { title: "Temptation", text: "The moment the pull asks for something you have not actually decided you want — worth noticing, not fearing." },
+];
+
+const energyShapers = [
+  "Porn and its scripts of escalation and availability",
+  "Repetition and conditioning — what you practice, your body learns to want",
+  "Imagination filling in for real intimacy",
+  "Emotional loneliness disguised as physical desire",
+  "Stress and the nervous system looking for fast relief",
+  "Insecurity seeking proof of being wanted",
+  "Idealization — chasing a fantasy version of a person or experience",
+];
+
+const integrationPillars = [
+  {
+    title: "Energy",
+    text: "Sexual energy itself is not the problem. It is raw fuel — desire, drive, creativity, the pull toward connection.",
+    icon: "⚡",
+  },
+  {
+    title: "Discipline",
+    text: "Self-mastery is what keeps that fuel from running you. Awareness and impulse control turn energy into choice.",
+    icon: "🧭",
+  },
+  {
+    title: "Connection",
+    text: "Relationships are where the energy is finally expressed — toward another person, with consent, safety, and honesty.",
+    icon: "🤝",
+  },
+  {
+    title: "Wholeness",
+    text: "Integration is what happens when none of the three is suppressed or running unchecked — desire, discipline, and love working together.",
+    icon: "🌿",
+  },
+];
 
 const pillars = [
   {
@@ -572,6 +632,43 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     return base[goal];
   }, [goal]);
 
+  const renderEnergy = () => (
+    <div>
+      <SectionTitle
+        eyebrow="The raw force"
+        title="What is sexual energy?"
+        text="Before any question about discipline or relationships, there is the energy itself — desire, attraction, arousal, fantasy, pleasure. It is not the enemy. It is fuel that can be felt, understood, and directed."
+      />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {energyExpressions.map((item) => (
+          <Card key={item.title}>
+            <h3 className="font-bold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{item.text}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-6">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <Badge tone="violet">How it gets shaped</Badge>
+        </div>
+        <h3 className="mb-3 text-xl font-bold text-white">The energy doesn't form in a vacuum</h3>
+        <p className="text-sm leading-7 text-slate-300">
+          What you desire, how strongly, and how often is shaped by more than biology. These forces bend the raw signal before you ever decide what to do with it:
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {energyShapers.map((item) => (
+            <div key={item} className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-sm leading-6 text-slate-300">{item}</div>
+          ))}
+        </div>
+        <div className="mt-5 rounded-2xl border border-violet-400/20 bg-violet-400/10 p-4 text-sm leading-6 text-violet-100">
+          Naming what is shaping your desire is not the same as judging it. It is the first step toward choosing what to do with it — which is what the Self-Mastery and Relationships sections are for.
+        </div>
+      </Card>
+    </div>
+  );
+
   const renderOverview = () => (
     <div>
       <SectionTitle
@@ -1066,7 +1163,39 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     </div>
   );
 
+  const renderIntegration = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Healthy masculine sexual energy"
+        title="Energy, discipline, connection, and wholeness"
+        text="Sexual energy becomes healthy when it is guided by self-awareness, emotional security, respect, and love — not when it is suppressed, and not when it runs unchecked. These four pieces work as one system, not four separate problems."
+      />
+
+      <div className="grid gap-4 md:grid-cols-4">
+        {integrationPillars.map((item) => (
+          <Card key={item.title}>
+            <div className="mb-4 text-3xl">{item.icon}</div>
+            <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
+            <p className="text-sm leading-6 text-slate-300">{item.text}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-6">
+        <h3 className="mb-3 text-xl font-bold text-white">A simple integration check</h3>
+        <p className="text-sm leading-7 text-slate-300">
+          When energy, discipline, and connection are working together, you can usually feel it: desire does not run the show, but it is not switched off either. You can want someone and still wait. You can feel tempted and still choose. You can love someone without needing them to complete you.
+        </p>
+        <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm leading-6 text-emerald-100">
+          If any one piece is missing — the energy is denied, the discipline is absent, or the connection is fear-based — the other two usually start to distort too. Use the Sexual Energy, Self-Mastery, and Relationships tabs as a loop, not a one-time read.
+        </div>
+      </Card>
+    </div>
+  );
+
   const renderTab = () => {
+    if (activeTab === "energy") return renderEnergy();
+    if (activeTab === "integration") return renderIntegration();
     if (activeTab === "overview") return renderOverview();
     if (activeTab === "masturbation") return renderMasturbation();
     if (activeTab === "porn") return renderPorn();
@@ -1135,10 +1264,10 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                 <Badge tone="emerald">No-shame discipline</Badge>
               </div>
               <h1 className="max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                Sexual Energy, Self-Mastery &amp; Relationships
+                Sexual Energy, Self-Mastery, and Secure Relationships
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                Two journeys, one space: master your <span className="text-slate-100">urges and habits</span> without shame, and build clarity in how you love. Pick a track below — <span className="text-slate-100">self-mastery</span> or <span className="text-slate-100">relationships &amp; love</span> — and go deeper.
+                One flow, four parts: understand the <span className="text-slate-100">energy</span> itself, build <span className="text-slate-100">self-mastery</span> over it, bring it into <span className="text-slate-100">relationships</span> with honesty, and let it all settle into <span className="text-slate-100">integration</span> — without shame, and without losing yourself to it.
               </p>
             </div>
             <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-5 lg:w-80">
