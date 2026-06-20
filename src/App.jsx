@@ -9,7 +9,7 @@ import WisdomAtlas from './WisdomAtlas';
 import AscendedMastersAtlas from './AscendedMastersAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
-import SexualEnergyDashboard from './SexualEnergyDashboard';
+import SexualEnergyDashboard, { resolveSexualEnergyGroup } from './SexualEnergyDashboard';
 import DailyPracticePortal from './DailyPracticePortal';
 import NumerologyPortal from './NumerologyPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
@@ -114,9 +114,11 @@ export default function App() {
   );
 
   // Opens a focused Sexual Energy sub-portal by group slug (e.g.
-  // "self-mastery" -> /sexual-energy/self-mastery).
+  // "sexuality" -> /sexual-energy/sexuality), optionally carrying a
+  // ?section= deep link into that sub-portal.
   const goSexualEnergyGroup = useCallback(
-    (groupSlug) => navigate(`/sexual-energy/${groupSlug}`),
+    (groupSlug, section) =>
+      navigate(`/sexual-energy/${groupSlug}${section ? `?section=${encodeURIComponent(section)}` : ''}`),
     [navigate]
   );
 
@@ -146,6 +148,26 @@ export default function App() {
     if (path !== activePortal.path && typeof window !== 'undefined') {
       window.history.replaceState({}, '', activePortal.path + (search || ''));
     }
+    // /sexual-energy is a two-card landing (Sexuality, Relationships) with
+    // no tabs of its own — a ?section= deep link (search results, daily
+    // reading) needs to resolve straight into whichever sub-portal owns it.
+    if (activePortal.id === 'sexualenergy' && initialSection) {
+      const groupSlug = resolveSexualEnergyGroup(initialSection);
+      if (groupSlug) {
+        const target = `/sexual-energy/${groupSlug}${search || ''}`;
+        if (typeof window !== 'undefined') window.history.replaceState({}, '', target);
+        return (
+          <SexualEnergyDashboard
+            key={target}
+            onBack={goHome}
+            onNavigate={goPortal}
+            initialSection={initialSection}
+            initialGroup={groupSlug}
+            onOpenGroup={goSexualEnergyGroup}
+          />
+        );
+      }
+    }
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component
@@ -159,17 +181,33 @@ export default function App() {
   }
 
   // Focused sub-portals of the Sexual Energy hub: same component, but scoped
-  // to a single tab group instead of the full four-group dashboard. Keyed by
-  // path so navigating hub <-> sub-portal remounts instead of reusing state
-  // (e.g. the active tab) from whichever view was showing before.
-  if (path === '/sexual-energy/self-mastery') {
+  // to a single portal's tabs instead of the hub's two-card landing. Keyed
+  // by path so navigating hub <-> sub-portal remounts instead of reusing
+  // state (e.g. the active tab) from whichever view was showing before.
+  if (path === '/sexual-energy/sexuality') {
     return (
       <SexualEnergyDashboard
         key={path}
         onBack={goHome}
         onNavigate={goPortal}
         initialSection={initialSection}
-        initialGroup="self-mastery"
+        initialGroup="sexuality"
+        onOpenGroup={goSexualEnergyGroup}
+      />
+    );
+  }
+  // Legacy alias from the previous "Self-Mastery" sub-portal naming.
+  if (path === '/sexual-energy/self-mastery') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/sexual-energy/sexuality' + (search || ''));
+    }
+    return (
+      <SexualEnergyDashboard
+        key="/sexual-energy/sexuality"
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+        initialGroup="sexuality"
         onOpenGroup={goSexualEnergyGroup}
       />
     );
@@ -195,6 +233,23 @@ export default function App() {
     const portal = reading ? portalsById[reading.portalId] : null;
     if (portal && COMPONENTS[portal.id]) {
       const section = reading.section;
+      if (portal.id === 'sexualenergy' && section) {
+        const groupSlug = resolveSexualEnergyGroup(section);
+        if (groupSlug) {
+          const target = `/sexual-energy/${groupSlug}?section=${encodeURIComponent(section)}`;
+          if (typeof window !== 'undefined') window.history.replaceState({}, '', target);
+          return (
+            <SexualEnergyDashboard
+              key={target}
+              onBack={goHome}
+              onNavigate={goPortal}
+              initialSection={section}
+              initialGroup={groupSlug}
+              onOpenGroup={goSexualEnergyGroup}
+            />
+          );
+        }
+      }
       const target = section
         ? `${portal.path}?section=${encodeURIComponent(section)}`
         : portal.path;

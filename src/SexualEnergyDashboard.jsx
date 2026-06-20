@@ -3,31 +3,23 @@ import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
 import RelationshipFoundations from "./RelationshipFoundations";
 
-// Tabs are split into four labeled clusters that move energy → discipline →
-// connection → wholeness: what sexual energy is and how it gets shaped, how
-// to hold it with self-mastery, how it shows up in relationships, and how
-// the three tie together.
+// Two standalone portals reached from the hub landing page: Sexuality (the
+// energy itself, self-mastery over it, and integration) and Relationships.
 const tabGroups = [
   {
-    label: "Sexual Energy",
-    slug: "sexual-energy",
+    label: "Sexuality",
+    slug: "sexuality",
     accent: "violet",
     tabs: [
       { id: "energy", label: "Energy" },
       { id: "porn", label: "Porn" },
-    ],
-  },
-  {
-    label: "Self-Mastery",
-    slug: "self-mastery",
-    accent: "sky",
-    tabs: [
       { id: "overview", label: "Overview" },
       { id: "masturbation", label: "Masturbation" },
       { id: "celibacy", label: "Celibacy" },
       { id: "urges", label: "Urges" },
       { id: "tracker", label: "Tracker" },
       { id: "journal", label: "Journal" },
+      { id: "integration", label: "Integration" },
     ],
   },
   {
@@ -43,33 +35,21 @@ const tabGroups = [
       { id: "relationship-patterns", label: "Relationship Patterns" },
     ],
   },
-  {
-    label: "Integration",
-    slug: "integration",
-    accent: "emerald",
-    tabs: [{ id: "integration", label: "Integration" }],
-  },
 ];
 
 const tabs = tabGroups.flatMap((g) => g.tabs);
 
-// Tinted chip styles for the clickable group labels in the tab navigator,
-// so they read as section markers that blend with the rounded tab buttons.
-const groupAccent = {
-  violet: "border-violet-400/30 bg-violet-400/10 text-violet-200 hover:bg-violet-400/20",
-  sky: "border-sky-400/30 bg-sky-400/10 text-sky-200 hover:bg-sky-400/20",
-  rose: "border-rose-400/30 bg-rose-400/10 text-rose-200 hover:bg-rose-400/20",
-  emerald: "border-emerald-400/30 bg-emerald-400/10 text-emerald-200 hover:bg-emerald-400/20",
-};
-
 const groupContainerAccent = {
   violet: "border-violet-400/20 bg-violet-400/[0.04]",
-  sky: "border-sky-400/20 bg-sky-400/[0.04]",
   rose: "border-rose-400/20 bg-rose-400/[0.04]",
-  emerald: "border-emerald-400/20 bg-emerald-400/[0.04]",
 };
 
 const tabIds = new Set(tabs.map((t) => t.id));
+
+// Tab id -> owning group slug, used to redirect a hub-level deep link
+// (e.g. /sexual-energy?section=masturbation) straight to its portal.
+const tabToGroupSlug = {};
+tabGroups.forEach((g) => g.tabs.forEach((t) => { tabToGroupSlug[t.id] = g.slug; }));
 
 // Deep-link concept ids inside Relationship Clarity → resolve to that tab,
 // carrying the concept id through as the sub-section the portal opens to.
@@ -97,6 +77,14 @@ function resolveSection(section) {
     return { tab: "relationship-clarity", sub: section };
   }
   return { tab: "overview", sub: null };
+}
+
+// Which sub-portal (slug) owns an incoming ?section= value, or null when
+// there's no section to resolve (the hub's own two-card landing applies).
+export function resolveSexualEnergyGroup(section) {
+  if (!section) return null;
+  const resolved = resolveSection(section);
+  return tabToGroupSlug[resolved.tab] ?? null;
 }
 
 const energyExpressions = [
@@ -142,18 +130,41 @@ const integrationPillars = [
 ];
 
 // Header copy shown when this dashboard is opened as a focused sub-portal
-// (e.g. /sexual-energy/self-mastery) instead of the full four-group hub.
+// (e.g. /sexual-energy/sexuality) instead of the hub's two-card landing.
 const focusedHeaderCopy = {
-  "self-mastery": {
-    badges: [["sky", "Private dashboard"], ["violet", "Self-mastery"], ["emerald", "No-shame discipline"]],
-    title: "Self-Mastery",
-    subtitle: "Awareness, impulse control, and emotional regulation for masturbation, celibacy, urges, and relapse recovery — without shame and without repression.",
+  sexuality: {
+    badges: [["violet", "Sexual energy"], ["sky", "Self-mastery"], ["emerald", "No-shame discipline"]],
+    title: "Sexuality",
+    subtitle: "The energy itself — desire, arousal, fantasy, porn-pattern awareness — plus self-mastery over it: masturbation, celibacy, urges, tracking, journaling, and integration, without shame and without repression.",
   },
   relationships: {
     badges: [["sky", "Private dashboard"], ["rose", "Relationships"], ["emerald", "Secure connection"]],
     title: "Relationships",
     subtitle: "Marriage, dynamics, scripting, relationship clarity, red flags, and attachment — building the kind of connection sexual energy is meant to serve.",
   },
+};
+
+// The hub's two portal cards.
+const PORTAL_CARDS = [
+  {
+    slug: "sexuality",
+    accent: "violet",
+    icon: "⚡",
+    title: "Sexuality",
+    description: "Sexual energy itself, self-mastery over it, and integration — desire, arousal, porn awareness, masturbation, celibacy, urges, tracking, and journaling.",
+  },
+  {
+    slug: "relationships",
+    accent: "rose",
+    icon: "🤝",
+    title: "Relationships",
+    description: "Marriage, relationship dynamics, scripting, relationship clarity, red flags, and attachment.",
+  },
+];
+
+const portalCardAccent = {
+  violet: "border-violet-400/25 bg-violet-400/[0.06] hover:border-violet-400/50 hover:bg-violet-400/[0.1]",
+  rose: "border-rose-400/25 bg-rose-400/[0.06] hover:border-rose-400/50 hover:bg-rose-400/[0.1]",
 };
 
 const pillars = [
@@ -613,28 +624,17 @@ function ProgressBar({ value }) {
   );
 }
 
-// Groups that collapse into a single "open sub-portal" link button on the
-// hub view instead of listing their tabs inline — keeps the four-group nav
-// from overflowing into a horizontal scroll on desktop.
-const LINKED_OUT_GROUPS = new Set(["self-mastery", "relationships"]);
-
 export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection, initialGroup, onOpenGroup }) {
   // When initialGroup is set, this renders as a focused sub-portal (e.g.
-  // /sexual-energy/self-mastery) showing only that group's tabs instead of
-  // the full four-group hub.
+  // /sexual-energy/sexuality) showing that portal's own tabs. Otherwise the
+  // hub renders as a plain two-card landing (Sexuality, Relationships).
   const focusedGroup = initialGroup ? tabGroups.find((g) => g.slug === initialGroup) : null;
-  const visibleTabGroups = focusedGroup ? [focusedGroup] : tabGroups;
-  const defaultTabId = focusedGroup ? focusedGroup.tabs[0].id : "overview";
+  const defaultTabId = focusedGroup ? focusedGroup.tabs[0].id : "energy";
 
   const initialResolved = resolveSection(initialSection);
   let startTab = initialResolved.tab;
-  if (focusedGroup) {
-    if (!focusedGroup.tabs.some((t) => t.id === startTab)) startTab = defaultTabId;
-  } else if (!initialSection) {
-    // Hub's default landing is the Sexual Energy group — Self-Mastery's
-    // Overview tab is no longer shown inline (it's a link-out button now),
-    // so it shouldn't be the implicit default here.
-    startTab = "energy";
+  if (focusedGroup && !focusedGroup.tabs.some((t) => t.id === startTab)) {
+    startTab = defaultTabId;
   }
   const [activeTab, setActiveTab] = useState(startTab);
   // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
@@ -1307,7 +1307,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                 </button>
               )}
               <div className="mb-4 flex flex-wrap gap-2">
-                {(focusedGroup ? focusedHeaderCopy[focusedGroup.slug].badges : [["sky", "Private dashboard"], ["violet", "Sexual energy"], ["rose", "Relationships & love"], ["emerald", "No-shame discipline"]]).map(([tone, label]) => (
+                {(focusedGroup ? focusedHeaderCopy[focusedGroup.slug].badges : [["sky", "Private dashboard"], ["violet", "Sexual energy"], ["rose", "Relationships & love"]]).map(([tone, label]) => (
                   <Badge key={label} tone={tone}>{label}</Badge>
                 ))}
               </div>
@@ -1317,7 +1317,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
                 {focusedGroup
                   ? focusedHeaderCopy[focusedGroup.slug].subtitle
-                  : <>One flow, four parts: understand the <span className="text-slate-100">energy</span> itself, build <span className="text-slate-100">self-mastery</span> over it, bring it into <span className="text-slate-100">relationships</span> with honesty, and let it all settle into <span className="text-slate-100">integration</span> — without shame, and without losing yourself to it.</>}
+                  : <>Two portals, one flow: build <span className="text-slate-100">self-mastery</span> over your own sexual energy, and bring it into <span className="text-slate-100">relationships</span> with honesty — without shame, and without losing yourself to it.</>}
               </p>
             </div>
             <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-5 lg:w-80">
@@ -1327,43 +1327,14 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
           </div>
         </header>
 
-        <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-3 backdrop-blur-xl">
-          {/* Each tab group renders as its own tinted, bordered cluster so the
-              journeys stay visually distinct. On the hub view, Self-Mastery
-              and Relationships collapse into a single "open sub-portal" link
-              instead of listing every tab inline — otherwise four groups'
-              worth of tabs overflow a single row on desktop. Clusters stack
-              on mobile and sit side by side from sm: up. When focusedGroup is
-              set, only that group's cluster renders (with its tabs inline). */}
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
-            {visibleTabGroups.map((group) => {
-              if (!focusedGroup && LINKED_OUT_GROUPS.has(group.slug)) {
-                return (
-                  <button
-                    key={group.label}
-                    type="button"
-                    onClick={() => onOpenGroup?.(group.slug)}
-                    className={`flex shrink-0 items-center gap-2 rounded-2xl border px-4 py-3 text-sm font-bold transition ${groupAccent[group.accent]}`}
-                  >
-                    {group.label}
-                    <span aria-hidden="true">→</span>
-                  </button>
-                );
-              }
-              return (
+        {focusedGroup ? (
+          <>
+            <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-3 backdrop-blur-xl">
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
                 <div
-                  key={group.label}
-                  className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[group.accent]}`}
+                  className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[focusedGroup.accent]}`}
                 >
-                  <button
-                    type="button"
-                    onClick={() => setActiveTab(group.tabs[0].id)}
-                    title={`Go to ${group.tabs[0].label}`}
-                    className={`shrink-0 cursor-pointer whitespace-nowrap rounded-xl border px-3 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition ${groupAccent[group.accent]}`}
-                  >
-                    {group.label}
-                  </button>
-                  {group.tabs.map((tab) => (
+                  {focusedGroup.tabs.map((tab) => (
                     <button
                       key={tab.id}
                       onClick={() => setActiveTab(tab.id)}
@@ -1373,12 +1344,30 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                     </button>
                   ))}
                 </div>
-              );
-            })}
-          </div>
-        </nav>
+              </div>
+            </nav>
 
-        <section>{renderTab()}</section>
+            <section>{renderTab()}</section>
+          </>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2">
+            {PORTAL_CARDS.map((card) => (
+              <button
+                key={card.slug}
+                type="button"
+                onClick={() => onOpenGroup?.(card.slug)}
+                className={`rounded-[2rem] border p-8 text-left shadow-2xl shadow-black/20 backdrop-blur transition ${portalCardAccent[card.accent]}`}
+              >
+                <div className="text-4xl">{card.icon}</div>
+                <h2 className="mt-4 text-2xl font-bold text-white">{card.title}</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{card.description}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white">
+                  Open <span aria-hidden="true">→</span>
+                </span>
+              </button>
+            ))}
+          </div>
+        )}
 
         <footer className="mt-10 grid gap-4 border-t border-white/10 pt-6 md:grid-cols-4">
           {sources.map((source) => (
