@@ -27,6 +27,17 @@ const SECTION_MAP = {
   'emotions':              { id: 'emotions',              sub: null },
   'emotion-glossary':      { id: 'emotions',              sub: null },
   'guidance-spiral':       { id: 'emotions',              sub: null },
+  // Emotion-family deep links (from the daily reading & search) open the
+  // glossary focused on the family the reading is actually about.
+  'emotions-basic':        { id: 'emotions',              sub: 'basic' },
+  'emotions-sad':          { id: 'emotions',              sub: 'sad' },
+  'emotions-angry':        { id: 'emotions',              sub: 'angry' },
+  'emotions-fear':         { id: 'emotions',              sub: 'fear' },
+  'emotions-love':         { id: 'emotions',              sub: 'love' },
+  'emotions-self':         { id: 'emotions',              sub: 'self' },
+  'emotions-social':       { id: 'emotions',              sub: 'social' },
+  'emotions-calm':         { id: 'emotions',              sub: 'calm' },
+  'emotions-mixed':        { id: 'emotions',              sub: 'mixed' },
   // Legacy InnerBalance Atlas tab IDs
   psychophysiology:  { id: 'nervous-system',      sub: 'psychophysiology' },
   stress:            { id: 'nervous-system',      sub: 'stress' },
@@ -1047,7 +1058,7 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'emotions') {
-    return <EmotionsAtlas onBack={goHub} onSelectSection={setActiveSection} />;
+    return <EmotionsAtlas onBack={goHub} onSelectSection={setActiveSection} initialFamily={deepSub} />;
   }
 
   if (activeSection === 'awareness') {
