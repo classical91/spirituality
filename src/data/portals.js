@@ -356,10 +356,10 @@ const portalCatalog = [
     badgeColor: 'rgba(34,211,238,0.14)',
     badgeBorder: 'rgba(34,211,238,0.32)',
     badgeText: '#a5f3fc',
-    title: 'Sexual Energy, Self-Mastery\n& Relationships',
-    titleFlat: 'Sexual Energy, Self-Mastery & Relationships',
+    title: 'Sexual Energy, Self-Mastery,\n& Secure Relationships',
+    titleFlat: 'Sexual Energy, Self-Mastery, and Secure Relationships',
     description:
-      'A no-shame dashboard for two linked journeys: sexual self-mastery (masturbation, celibacy, urges, abstinence, relapse recovery) and relationships & love (marriage, dynamics, scripting, relationship clarity, red flags, and attachment patterns).',
+      'A no-shame dashboard moving from energy to wholeness: sexual energy itself (desire, fantasy, porn-pattern awareness), self-mastery (masturbation, celibacy, urges, relapse recovery), relationships (marriage, dynamics, scripting, relationship clarity, red flags, attachment), and integration.',
     keywords: ['Self-Mastery', 'Urges', 'Relationships', 'Love'],
     searchTerms: [
       'sexual energy',
