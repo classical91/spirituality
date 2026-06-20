@@ -613,7 +613,12 @@ function ProgressBar({ value }) {
   );
 }
 
-export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection, initialGroup }) {
+// Groups that collapse into a single "open sub-portal" link button on the
+// hub view instead of listing their tabs inline — keeps the four-group nav
+// from overflowing into a horizontal scroll on desktop.
+const LINKED_OUT_GROUPS = new Set(["self-mastery", "relationships"]);
+
+export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection, initialGroup, onOpenGroup }) {
   // When initialGroup is set, this renders as a focused sub-portal (e.g.
   // /sexual-energy/self-mastery) showing only that group's tabs instead of
   // the full four-group hub.
@@ -622,10 +627,15 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
   const defaultTabId = focusedGroup ? focusedGroup.tabs[0].id : "overview";
 
   const initialResolved = resolveSection(initialSection);
-  const startTab =
-    focusedGroup && !focusedGroup.tabs.some((t) => t.id === initialResolved.tab)
-      ? defaultTabId
-      : initialResolved.tab;
+  let startTab = initialResolved.tab;
+  if (focusedGroup) {
+    if (!focusedGroup.tabs.some((t) => t.id === startTab)) startTab = defaultTabId;
+  } else if (!initialSection) {
+    // Hub's default landing is the Sexual Energy group — Self-Mastery's
+    // Overview tab is no longer shown inline (it's a link-out button now),
+    // so it shouldn't be the implicit default here.
+    startTab = "energy";
+  }
   const [activeTab, setActiveTab] = useState(startTab);
   // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
   const [claritySub, setClaritySub] = useState(initialResolved.sub);
@@ -1319,34 +1329,52 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
 
         <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-3 backdrop-blur-xl">
           {/* Each tab group renders as its own tinted, bordered cluster so the
-              two journeys stay visually distinct. Clusters stack on mobile and
-              sit side by side (scrolling if needed) from sm: up. When
-              focusedGroup is set, only that group's cluster renders. */}
-          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 sm:overflow-x-auto">
-            {visibleTabGroups.map((group) => (
-              <div
-                key={group.label}
-                className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[group.accent]}`}
-              >
-                <button
-                  type="button"
-                  onClick={() => setActiveTab(group.tabs[0].id)}
-                  title={`Go to ${group.tabs[0].label}`}
-                  className={`shrink-0 cursor-pointer whitespace-nowrap rounded-xl border px-3 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition ${groupAccent[group.accent]}`}
-                >
-                  {group.label}
-                </button>
-                {group.tabs.map((tab) => (
+              journeys stay visually distinct. On the hub view, Self-Mastery
+              and Relationships collapse into a single "open sub-portal" link
+              instead of listing every tab inline — otherwise four groups'
+              worth of tabs overflow a single row on desktop. Clusters stack
+              on mobile and sit side by side from sm: up. When focusedGroup is
+              set, only that group's cluster renders (with its tabs inline). */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+            {visibleTabGroups.map((group) => {
+              if (!focusedGroup && LINKED_OUT_GROUPS.has(group.slug)) {
+                return (
                   <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+                    key={group.label}
+                    type="button"
+                    onClick={() => onOpenGroup?.(group.slug)}
+                    className={`flex shrink-0 items-center gap-2 rounded-2xl border px-4 py-3 text-sm font-bold transition ${groupAccent[group.accent]}`}
                   >
-                    {tab.label}
+                    {group.label}
+                    <span aria-hidden="true">→</span>
                   </button>
-                ))}
-              </div>
-            ))}
+                );
+              }
+              return (
+                <div
+                  key={group.label}
+                  className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[group.accent]}`}
+                >
+                  <button
+                    type="button"
+                    onClick={() => setActiveTab(group.tabs[0].id)}
+                    title={`Go to ${group.tabs[0].label}`}
+                    className={`shrink-0 cursor-pointer whitespace-nowrap rounded-xl border px-3 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition ${groupAccent[group.accent]}`}
+                  >
+                    {group.label}
+                  </button>
+                  {group.tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              );
+            })}
           </div>
         </nav>
 

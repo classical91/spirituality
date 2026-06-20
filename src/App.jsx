@@ -113,6 +113,13 @@ export default function App() {
     [navigate]
   );
 
+  // Opens a focused Sexual Energy sub-portal by group slug (e.g.
+  // "self-mastery" -> /sexual-energy/self-mastery).
+  const goSexualEnergyGroup = useCallback(
+    (groupSlug) => navigate(`/sexual-energy/${groupSlug}`),
+    [navigate]
+  );
+
   useEffect(() => {
     const portal = portalsByPath[path];
     if (portal) {
@@ -142,32 +149,40 @@ export default function App() {
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component
+        key={path}
         onBack={goHome}
         onNavigate={goPortal}
         initialSection={initialSection}
+        onOpenGroup={goSexualEnergyGroup}
       />
     );
   }
 
   // Focused sub-portals of the Sexual Energy hub: same component, but scoped
-  // to a single tab group instead of the full four-group dashboard.
+  // to a single tab group instead of the full four-group dashboard. Keyed by
+  // path so navigating hub <-> sub-portal remounts instead of reusing state
+  // (e.g. the active tab) from whichever view was showing before.
   if (path === '/sexual-energy/self-mastery') {
     return (
       <SexualEnergyDashboard
+        key={path}
         onBack={goHome}
         onNavigate={goPortal}
         initialSection={initialSection}
         initialGroup="self-mastery"
+        onOpenGroup={goSexualEnergyGroup}
       />
     );
   }
   if (path === '/sexual-energy/relationships') {
     return (
       <SexualEnergyDashboard
+        key={path}
         onBack={goHome}
         onNavigate={goPortal}
         initialSection={initialSection}
         initialGroup="relationships"
+        onOpenGroup={goSexualEnergyGroup}
       />
     );
   }
@@ -188,7 +203,7 @@ export default function App() {
       }
       const Component = COMPONENTS[portal.id];
       return (
-        <Component onBack={goHome} onNavigate={goPortal} initialSection={section} />
+        <Component key={target} onBack={goHome} onNavigate={goPortal} initialSection={section} onOpenGroup={goSexualEnergyGroup} />
       );
     }
     // No resolvable reading → fall back to the hub.
