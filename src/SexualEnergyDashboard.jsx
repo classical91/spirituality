@@ -42,6 +42,11 @@ const groupAccent = {
   rose: "border-rose-400/30 bg-rose-400/10 text-rose-200 hover:bg-rose-400/20",
 };
 
+const groupContainerAccent = {
+  sky: "border-sky-400/20 bg-sky-400/[0.04]",
+  rose: "border-rose-400/20 bg-rose-400/[0.04]",
+};
+
 const tabIds = new Set(tabs.map((t) => t.id));
 
 // Deep-link concept ids inside Relationship Clarity → resolve to that tab,
@@ -1143,18 +1148,21 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
           </div>
         </header>
 
-        <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-2 backdrop-blur-xl">
-          {/* Wraps to multiple lines on small screens so every tab stays visible —
-              on larger screens it collapses to a single scrollable row. */}
-          <div className="flex flex-wrap items-center gap-2 sm:flex-nowrap sm:gap-3 sm:overflow-x-auto">
-            {tabGroups.map((group, gi) => (
-              <div key={group.label} className="flex flex-wrap items-center gap-2">
-                {gi > 0 && <span className="hidden h-7 w-px shrink-0 bg-white/10 sm:block" aria-hidden="true" />}
+        <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-3 backdrop-blur-xl">
+          {/* Each tab group renders as its own tinted, bordered cluster so the
+              two journeys stay visually distinct. Clusters stack on mobile and
+              sit side by side (scrolling if needed) from sm: up. */}
+          <div className="flex flex-col gap-2 sm:flex-row sm:gap-3 sm:overflow-x-auto">
+            {tabGroups.map((group) => (
+              <div
+                key={group.label}
+                className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[group.accent]}`}
+              >
                 <button
                   type="button"
                   onClick={() => setActiveTab(group.tabs[0].id)}
                   title={`Go to ${group.tabs[0].label}`}
-                  className={`shrink-0 cursor-pointer whitespace-nowrap rounded-2xl border px-3 py-3 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition ${groupAccent[group.accent]}`}
+                  className={`shrink-0 cursor-pointer whitespace-nowrap rounded-xl border px-3 py-2.5 text-[0.65rem] font-bold uppercase tracking-[0.16em] transition ${groupAccent[group.accent]}`}
                 >
                   {group.label}
                 </button>
@@ -1162,7 +1170,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                   <button
                     key={tab.id}
                     onClick={() => setActiveTab(tab.id)}
-                    className={`whitespace-nowrap rounded-2xl px-4 py-3 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+                    className={`whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
                   >
                     {tab.label}
                   </button>
