@@ -1,22 +1,45 @@
 # Sacred Pathways
 
-**Spirituality, psychology & symbolic frameworks toolkit.**
+**A personal spiritual, psychological, relationship, and self-mastery operating system.**
 
-Sacred Pathways is an interactive, browser-based reflection toolkit built with Vite, React, and Tailwind CSS v4. It bundles a set of self-contained portals into one explorable app — chakra work, natal astrology, sacred moral and mythic atlases, psychology frameworks, whole-system well-being, and a wisdom atlas of spiritual teachers and inner-work traditions.
+Sacred Pathways is an interactive, browser-based reflection toolkit built with Vite, React, and Tailwind CSS v4. It is built primarily for personal daily use — not as a generic public product — and bundles self-contained portals for spiritual study, inner work, relationships, self-mastery, daily practice, and symbolic systems into one explorable app. Personal language (affirmations, identity statements, relationship reflections) is intentional and kept throughout; the goal is a clear, well-organized tool for one person's ongoing practice, not a neutral reference site.
 
-## Portals
+## Portals, by purpose
 
-| Path | Portal | What it covers |
+**Daily Practice**
+| Path | Portal | What it's for |
+|------|--------|----------------|
+| `/daily-practice` | **Daily Practice Flow** | The "use this today" hub — morning alignment, midday resets, evening wind-down, and an emergency reset flow, each linking straight into the relevant portal. |
+
+**Self-Mastery**
+| Path | Portal | What it's for |
+|------|--------|----------------|
+| `/neville` | **Neville Alignment Portal** | Living in the End, SATS, revision, mental diet, and the Self-Concept Language Studio for identity/self-talk work. |
+| `/sexual-energy` | **Sexual Energy & Self-Mastery** | Desire, fantasy, porn-pattern awareness, masturbation/celibacy discipline, urges, and relapse recovery. |
+
+**Relationships**
+| Path | Portal | What it's for |
+|------|--------|----------------|
+| `/relationship-hub` | **Relationship Hub** | The single source of truth for relationship content — attachment, dating/attraction, mixed signals, boundaries, emotional safety, intimacy, shadow patterns, and relationship practice (marriage, dynamics, scripting). |
+
+**Inner Work**
+| Path | Portal | What it's for |
+|------|--------|----------------|
+| `/inner-atlas` | **InnerAtlas** | Nervous system, neurotransmitters, mood, psychology frameworks (attachment, CBT, stoicism, somatic work, shadow integration), and emotional regulation. |
+
+**Spiritual Study**
+| Path | Portal | What it's for |
+|------|--------|----------------|
+| `/sacred-moral-atlas` | **Sacred Moral & Mythic Atlas** | Biblical foundations, Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, angelology, demonology, and the Infernal & Mythic Codex. (Legacy `/biblical`, `/angelology`, `/demonology`, `/infernal-codex` redirect here.) |
+| `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, Joe Dispenza — plus the esoteric Ascended Masters library. (Legacy `/frameworks` redirects here.) |
+
+**Symbolic Systems**
+| Path | Portal | What it's for |
 |------|--------|----------------|
 | `/chakra` | **Chakra Visualizer** | Seven energy centers across three traditions (Hindu, Ra / Law of One, Alice Bailey), with affirmations, blockage patterns, and stretch references. |
-| `/astrology` | **Natal Chart Decoder** | Planets, signs, houses, aspects, and the alchemical metal correspondences. |
-| `/sacred-moral-atlas` | **Sacred Moral & Mythic Atlas** | Biblical foundations, Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, angelology, Demonology & Spiritual Adversaries, and the Infernal & Mythic Codex as one study board. (Legacy `/biblical`, `/angelology`, `/demonology`, and `/infernal-codex` redirect here.) |
-| `/psychology` | **Psychology Portal** | Ten frameworks for identity, attachment, CBT, stoicism, somatic work, and shadow integration. |
-| `/inner-balance` | **InnerBalance Atlas** | Nervous system, neurotransmitters, mood, psychophysiology, and daily well-being. |
-| `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, and Joe Dispenza — each with a core teaching, practice, and reflection. (Legacy `/frameworks` redirects here.) |
-| `/awareness` | **Awareness & Presence** | A calm hub for awareness and consciousness, meditation and brain states (alpha / theta / gamma, with an animated Mind Frequencies chart), and the inner practices of breath, body, and emotion. |
+| `/sacred-systems` | **Sacred Systems Atlas** | Crystals, sacred geometry, the pineal gland, Mer-Ka-Ba, prana, dimensions, the full natal chart (planets, signs, houses, aspects), and numerology — as a browsable card library. |
 
-Each portal carries its own symbolic / wellness safety note — content is for reflection and study, not for medical, psychiatric, or spiritual diagnosis.
+Each portal carries its own symbolic / wellness safety note — content is for personal reflection and study, not for medical, psychiatric, religious, or spiritual authority.
 
 ## Stack
 
