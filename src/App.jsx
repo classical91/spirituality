@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useMemo } from 'react';
 import HomePage from './HomePage';
 import Chakra3DVisualizer from './Chakra3DVisualizer';
-import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
 import InnerAtlas from './InnerAtlas';
 import WisdomHub from './WisdomHub';
@@ -11,7 +10,6 @@ import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import DailyPracticePortal from './DailyPracticePortal';
-import NumerologyPortal from './NumerologyPortal';
 import RelationshipHub from './RelationshipHub';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
@@ -49,7 +47,6 @@ const PRACTICE_SECTION_REDIRECTS = new Set(['foundations', 'marriage', 'dynamics
 
 const COMPONENTS = {
   chakra: Chakra3DVisualizer,
-  astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
   inneratlas: InnerAtlas,
   wisdom: WisdomHub,
@@ -59,9 +56,12 @@ const COMPONENTS = {
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
   dailypractice: DailyPracticePortal,
-  numerology: NumerologyPortal,
   relationshiphub: RelationshipHub,
 };
+
+// Natal Chart Decoder and Numerology used to be standalone portals; they now
+// live inside the Sacred Systems Atlas as tabs.
+const SACRED_SYSTEMS_PORTAL_IDS = new Set(['astrology', 'numerology']);
 
 // A persistent way back to the hub from anywhere in the site. Sits below modal
 // overlays (z 50+) so it never covers a dialog, above ordinary page content.
@@ -206,18 +206,40 @@ export default function App() {
     return <RelationshipHub onBack={goHome} onNavigate={goPortal} initialSection={section} />;
   }
 
+  // Natal Chart Decoder and Numerology now live as tabs inside the Sacred
+  // Systems Atlas rather than as standalone portals.
+  if (path === '/astrology') {
+    const section = initialSection || 'natal-chart';
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/sacred-systems?section=${encodeURIComponent(section)}`);
+    }
+    return <SacredSystemsAtlas onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+  }
+  if (path === '/numerology') {
+    const section = initialSection || 'numerology';
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/sacred-systems?section=${encodeURIComponent(section)}`);
+    }
+    return <SacredSystemsAtlas onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+  }
+
   // Stable permalink: /today always resolves to whatever today's reading is,
   // redirecting to that teacher/section page (the same target the homepage
   // "Reading for Today" card opens).
   if (path === '/today') {
     const reading = getDailyReading();
     const portal = reading ? portalsById[reading.portalId] : null;
-    if (portal && COMPONENTS[portal.id]) {
+    if (portal && (COMPONENTS[portal.id] || SACRED_SYSTEMS_PORTAL_IDS.has(portal.id))) {
       const section = reading.section;
       if (portal.id === 'sexualenergy' && section && PRACTICE_SECTION_REDIRECTS.has(section)) {
         const target = `/relationship-hub?section=${encodeURIComponent(section)}`;
         if (typeof window !== 'undefined') window.history.replaceState({}, '', target);
         return <RelationshipHub key={target} onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+      }
+      if (SACRED_SYSTEMS_PORTAL_IDS.has(portal.id)) {
+        const target = `/sacred-systems?section=${encodeURIComponent(section || portal.id)}`;
+        if (typeof window !== 'undefined') window.history.replaceState({}, '', target);
+        return <SacredSystemsAtlas key={target} onBack={goHome} onNavigate={goPortal} initialSection={section || portal.id} />;
       }
       const target = section
         ? `${portal.path}?section=${encodeURIComponent(section)}`
