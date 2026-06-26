@@ -4,15 +4,20 @@ import Chakra3DVisualizer from './Chakra3DVisualizer';
 import NatalChartDecoder from './NatalChartDecoder';
 import BibleConceptAtlas from './BibleConceptAtlas';
 import InnerAtlas from './InnerAtlas';
+import WisdomHub from './WisdomHub';
 import WisdomAtlas from './WisdomAtlas';
+import AscendedMastersAtlas from './AscendedMastersAtlas';
 import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
+import { resolveSexualEnergyGroup } from './lib/sexualEnergyRouting';
+import DailyPracticePortal from './DailyPracticePortal';
 import NumerologyPortal from './NumerologyPortal';
 import RelationshipHub from './RelationshipHub';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
+import { getDailyReading } from './lib/dailyReading';
 
 const BIBLICAL_ROUTE = '/sacred-moral-atlas';
 const EMBEDDED_BIBLICAL_SECTIONS = {
@@ -44,13 +49,53 @@ const COMPONENTS = {
   astrology: NatalChartDecoder,
   biblical: BibleConceptAtlas,
   inneratlas: InnerAtlas,
-  wisdom: WisdomAtlas,
+  wisdom: WisdomHub,
+  wisdomteachers: WisdomAtlas,
+  ascended: AscendedMastersAtlas,
   neville: NevillePortal,
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
+  dailypractice: DailyPracticePortal,
   numerology: NumerologyPortal,
   relationshiphub: RelationshipHub,
 };
+
+// A persistent way back to the hub from anywhere in the site. Sits below modal
+// overlays (z 50+) so it never covers a dialog, above ordinary page content.
+function FloatingHomeButton({ onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label="Go to home"
+      title="Home"
+      style={{
+        position: 'fixed',
+        right: 'max(16px, env(safe-area-inset-right))',
+        bottom: 'max(16px, env(safe-area-inset-bottom))',
+        zIndex: 45,
+        display: 'inline-flex',
+        alignItems: 'center',
+        gap: 8,
+        padding: '11px 16px',
+        borderRadius: 999,
+        border: '1px solid rgba(255,255,255,0.18)',
+        background: 'rgba(10,12,20,0.72)',
+        backdropFilter: 'blur(14px)',
+        WebkitBackdropFilter: 'blur(14px)',
+        color: '#fff',
+        fontSize: 14,
+        fontWeight: 800,
+        fontFamily: 'inherit',
+        cursor: 'pointer',
+        boxShadow: '0 10px 30px rgba(0,0,0,0.45)',
+      }}
+    >
+      <span style={{ fontSize: 16, lineHeight: 1 }} aria-hidden="true">⌂</span>
+      Home
+    </button>
+  );
+}
 
 export default function App() {
   const route = useRoute();
@@ -95,6 +140,15 @@ export default function App() {
     [navigate]
   );
 
+  // Opens a focused Sexual Energy sub-portal by group slug (e.g.
+  // "sexuality" -> /sexual-energy/sexuality), optionally carrying a
+  // ?section= deep link into that sub-portal.
+  const goSexualEnergyGroup = useCallback(
+    (groupSlug, section) =>
+      navigate(`/sexual-energy/${groupSlug}${section ? `?section=${encodeURIComponent(section)}` : ''}`),
+    [navigate]
+  );
+
   useEffect(() => {
     const portal = portalsByPath[path];
     if (portal) {
@@ -103,29 +157,154 @@ export default function App() {
     }
   }, [path]);
 
+  // `homeView` is set true only by the final HomePage fallback below, so the
+  // floating Home button shows on every other screen but not on home itself.
+  let homeView = false;
+  const content = renderRoute();
+  return (
+    <>
+      {content}
+      {!homeView && <FloatingHomeButton onClick={goHome} />}
+    </>
+  );
+
+  function renderRoute() {
   const activePortal = portalsByPath[path];
   if (activePortal) {
     // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
     if (path !== activePortal.path && typeof window !== 'undefined') {
       window.history.replaceState({}, '', activePortal.path + (search || ''));
     }
+    // /sexual-energy is a two-card landing (Sexuality, Relationships) with
+    // no tabs of its own — a ?section= deep link (search results, daily
+    // reading) needs to resolve straight into whichever sub-portal owns it.
+    if (activePortal.id === 'sexualenergy' && initialSection) {
+      const groupSlug = resolveSexualEnergyGroup(initialSection);
+      if (groupSlug) {
+        const target = `/sexual-energy/${groupSlug}${search || ''}`;
+        if (typeof window !== 'undefined') window.history.replaceState({}, '', target);
+        return (
+          <SexualEnergyDashboard
+            key={target}
+            onBack={goHome}
+            onNavigate={goPortal}
+            initialSection={initialSection}
+            initialGroup={groupSlug}
+            onOpenGroup={goSexualEnergyGroup}
+          />
+        );
+      }
+    }
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component
+        key={path}
         onBack={goHome}
         onNavigate={goPortal}
         initialSection={initialSection}
+        onOpenGroup={goSexualEnergyGroup}
       />
     );
   }
 
-  // Backward-compat: relationship content moved out of Sexual Energy into its
-  // own Relationship Hub portal. Redirect old deep-links there.
-  if (path === '/sexual-energy' && RELATIONSHIP_SECTION_REDIRECTS.has(initialSection)) {
+  // Focused sub-portals of the Sexual Energy hub: same component, but scoped
+  // to a single portal's tabs instead of the hub's two-card landing. Keyed
+  // by path so navigating hub <-> sub-portal remounts instead of reusing
+  // state (e.g. the active tab) from whichever view was showing before.
+  if (path === '/sexual-energy/sexuality') {
+    return (
+      <SexualEnergyDashboard
+        key={path}
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+        initialGroup="sexuality"
+        onOpenGroup={goSexualEnergyGroup}
+      />
+    );
+  }
+  // Legacy alias from the previous "Self-Mastery" sub-portal naming.
+  if (path === '/sexual-energy/self-mastery') {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/sexual-energy/sexuality' + (search || ''));
+    }
+    return (
+      <SexualEnergyDashboard
+        key="/sexual-energy/sexuality"
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+        initialGroup="sexuality"
+        onOpenGroup={goSexualEnergyGroup}
+      />
+    );
+  }
+  // Backward-compat: relationship clarity/patterns content moved out of
+  // Sexual Energy into its own Relationship Hub portal. Redirect old
+  // deep-links there; Foundations/Marriage/Dynamics/Scripts stay here.
+  if (
+    (path === '/sexual-energy' || path === '/sexual-energy/relationships') &&
+    RELATIONSHIP_SECTION_REDIRECTS.has(initialSection)
+  ) {
     if (typeof window !== 'undefined') {
       window.history.replaceState({}, '', `/relationship-hub?section=${encodeURIComponent(initialSection)}`);
     }
     return <RelationshipHub onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
+  }
+  if (path === '/sexual-energy/relationships') {
+    return (
+      <SexualEnergyDashboard
+        key={path}
+        onBack={goHome}
+        onNavigate={goPortal}
+        initialSection={initialSection}
+        initialGroup="relationships"
+        onOpenGroup={goSexualEnergyGroup}
+      />
+    );
+  }
+
+  // Stable permalink: /today always resolves to whatever today's reading is,
+  // redirecting to that teacher/section page (the same target the homepage
+  // "Reading for Today" card opens).
+  if (path === '/today') {
+    const reading = getDailyReading();
+    const portal = reading ? portalsById[reading.portalId] : null;
+    if (portal && COMPONENTS[portal.id]) {
+      const section = reading.section;
+      if (portal.id === 'sexualenergy' && section) {
+        const groupSlug = resolveSexualEnergyGroup(section);
+        if (groupSlug) {
+          const target = `/sexual-energy/${groupSlug}?section=${encodeURIComponent(section)}`;
+          if (typeof window !== 'undefined') window.history.replaceState({}, '', target);
+          return (
+            <SexualEnergyDashboard
+              key={target}
+              onBack={goHome}
+              onNavigate={goPortal}
+              initialSection={section}
+              initialGroup={groupSlug}
+              onOpenGroup={goSexualEnergyGroup}
+            />
+          );
+        }
+      }
+      const target = section
+        ? `${portal.path}?section=${encodeURIComponent(section)}`
+        : portal.path;
+      if (typeof window !== 'undefined') {
+        window.history.replaceState({}, '', target);
+      }
+      const Component = COMPONENTS[portal.id];
+      return (
+        <Component key={target} onBack={goHome} onNavigate={goPortal} initialSection={section} onOpenGroup={goSexualEnergyGroup} />
+      );
+    }
+    // No resolvable reading → fall back to the hub.
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', '/');
+    }
+    return <HomePage onNavigate={goPortal} />;
   }
 
   // Backward-compat: old standalone routes redirect into InnerAtlas
@@ -194,5 +373,7 @@ export default function App() {
     }
   }
 
+  homeView = true;
   return <HomePage onNavigate={goPortal} />;
+  }
 }
