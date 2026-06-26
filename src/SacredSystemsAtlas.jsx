@@ -1,7 +1,32 @@
 import { useMemo, useState } from 'react';
 import './SacredSystemsAtlas.css';
+import { astrologyCards, numerologyCards, ASTROLOGY_KEYWORDS, NUMEROLOGY_KEYWORDS } from './data/sacredSystemsCards';
 
-const concepts = [
+const PLANET_NAMES = new Set([
+  'sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto',
+]);
+const NUMEROLOGY_SECTION_IDS = new Set([
+  'life-path', 'expression', 'soul-urge', 'personality', 'birthday',
+  'angel-numbers', 'personal-year', 'calculator', 'journal',
+]);
+
+// Resolve an incoming ?section= value to a concept id to open directly.
+function resolveInitialConceptId(section) {
+  if (!section) return null;
+  if (section === 'natal-chart' || section === 'astrology') return null;
+  if (section === 'numerology') return null;
+  if (PLANET_NAMES.has(section.toLowerCase())) return `astro-planet-${section.toLowerCase()}`;
+  if (NUMEROLOGY_SECTION_IDS.has(section)) return `num-${section}`;
+  return null;
+}
+
+function resolveInitialFilter(section) {
+  if (section === 'natal-chart' || section === 'astrology' || PLANET_NAMES.has((section || '').toLowerCase())) return 'Astrology';
+  if (section === 'numerology' || NUMEROLOGY_SECTION_IDS.has(section)) return 'Numerology';
+  return 'All';
+}
+
+const handwrittenConcepts = [
   {
     id: 'crystals-overview',
     title: 'Crystals: Overview',
@@ -441,7 +466,9 @@ const concepts = [
   },
 ];
 
-const FILTERS = ['All', 'Crystals', 'Sacred Geometry', 'Chakras', 'Pineal', 'Mystic Systems'];
+const concepts = [...handwrittenConcepts, ...astrologyCards, ...numerologyCards];
+
+const FILTERS = ['All', 'Crystals', 'Sacred Geometry', 'Chakras', 'Pineal', 'Mystic Systems', 'Astrology', 'Numerology'];
 
 const KEYWORDS = {
   Crystals: ['intention', 'minerals', 'altar', 'ritual', 'meditation', 'energy focus'],
@@ -449,16 +476,27 @@ const KEYWORDS = {
   Chakras: ['energy body', 'balance', 'yoga', 'breath', 'emotion', 'self-awareness'],
   Pineal: ['third eye', 'melatonin', 'dreams', 'intuition', 'sleep', 'inner sight'],
   'Mystic Systems': ['light body', 'life force', 'consciousness', 'breath', 'ascension', 'grounding'],
+  Astrology: ASTROLOGY_KEYWORDS,
+  Numerology: NUMEROLOGY_KEYWORDS,
 };
 
 function getKeywords(concept) {
   return KEYWORDS[concept.category] || ['awareness', 'practice', 'symbolism'];
 }
 
-export default function SacredSystemsAtlas({ onBack }) {
-  const [activeFilter, setActiveFilter] = useState('All');
+export default function SacredSystemsAtlas({ onBack, initialSection }) {
+  const initialConceptId = useMemo(() => resolveInitialConceptId(initialSection), [initialSection]);
+  const initialFilter = useMemo(() => resolveInitialFilter(initialSection), [initialSection]);
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
   const [activeSearch, setActiveSearch] = useState('');
-  const [activeConceptId, setActiveConceptId] = useState('crystals-overview');
+  const [activeConceptId, setActiveConceptId] = useState(() => {
+    if (initialConceptId) return initialConceptId;
+    if (initialFilter !== 'All') {
+      const firstInFilter = concepts.find((c) => c.category === initialFilter);
+      if (firstInFilter) return firstInFilter.id;
+    }
+    return 'crystals-overview';
+  });
 
   const visible = useMemo(() => {
     const q = activeSearch.trim().toLowerCase();
