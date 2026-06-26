@@ -1,6 +1,4 @@
 import { useMemo, useState } from "react";
-import RelationshipClarityPortal from "./RelationshipClarityPortal";
-import RelationshipPatterns from "./RelationshipPatterns";
 import RelationshipFoundations from "./RelationshipFoundations";
 import { tabGroups, resolveSection } from "./lib/sexualEnergyRouting";
 
@@ -56,13 +54,13 @@ const integrationPillars = [
 const focusedHeaderCopy = {
   sexuality: {
     badges: [["violet", "Sexual energy"], ["sky", "Self-mastery"], ["emerald", "No-shame discipline"]],
-    title: "Sexuality",
+    title: "Self-Mastery",
     subtitle: "The energy itself — desire, arousal, fantasy, porn-pattern awareness — plus self-mastery over it: masturbation, celibacy, urges, tracking, journaling, and integration, without shame and without repression.",
   },
   relationships: {
-    badges: [["sky", "Private dashboard"], ["rose", "Relationships"], ["emerald", "Secure connection"]],
-    title: "Relationships",
-    subtitle: "Marriage, dynamics, scripting, relationship clarity, red flags, and attachment — building the kind of connection sexual energy is meant to serve.",
+    badges: [["sky", "Private dashboard"], ["rose", "Secure Relationships"], ["emerald", "Secure connection"]],
+    title: "Secure Relationships",
+    subtitle: "Marriage, dynamics, and scripting — how sexual energy is meant to be expressed inside a relationship. For attachment, red flags, and relationship patterns, see the Relationship Hub.",
   },
 };
 
@@ -72,15 +70,15 @@ const PORTAL_CARDS = [
     slug: "sexuality",
     accent: "violet",
     icon: "⚡",
-    title: "Sexuality",
+    title: "Self-Mastery",
     description: "Sexual energy itself, self-mastery over it, and integration — desire, arousal, porn awareness, masturbation, celibacy, urges, tracking, and journaling.",
   },
   {
     slug: "relationships",
     accent: "rose",
     icon: "🤝",
-    title: "Relationships",
-    description: "Marriage, relationship dynamics, scripting, relationship clarity, red flags, and attachment.",
+    title: "Secure Relationships",
+    description: "Marriage, relationship dynamics, and scripting — how sexual energy is meant to be expressed inside a relationship.",
   },
 ];
 
@@ -559,8 +557,6 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     startTab = defaultTabId;
   }
   const [activeTab, setActiveTab] = useState(startTab);
-  // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
-  const [claritySub, setClaritySub] = useState(initialResolved.sub);
   const [prevInitialSection, setPrevInitialSection] = useState(initialSection);
   const [goal, setGoal] = useState("reset");
   const [days, setDays] = useState(7);
@@ -575,7 +571,6 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (initialSection) {
       const resolved = resolveSection(initialSection);
       setActiveTab(resolved.tab);
-      setClaritySub(resolved.sub);
     }
   }
 
@@ -1098,6 +1093,19 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         title="Dynamics of a Relationship"
         text="Four categories of relationship dynamics — from healthy and fulfilling to toxic and destabilizing. Use this as a mirror to name what's present, what's missing, and what direction things are moving."
       />
+      {onNavigate && (
+        <button
+          type="button"
+          onClick={() => onNavigate('relationshiphub')}
+          className="mb-6 flex w-full items-center justify-between rounded-2xl border border-pink-400/25 bg-pink-400/10 px-5 py-4 text-left transition hover:bg-pink-400/15"
+        >
+          <span>
+            <span className="block text-sm font-bold text-pink-200">Want the full picture?</span>
+            <span className="block text-xs text-slate-300/80">Open the Relationship Hub — attachment, dating, intimacy, red flags, standards, and patterns in one place.</span>
+          </span>
+          <span className="text-pink-200">→</span>
+        </button>
+      )}
       <div className="grid gap-5 md:grid-cols-2">
         {relationshipDynamics.map((cat) => (
           <Card key={cat.id}>
@@ -1170,33 +1178,6 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (activeTab === "scripts") return renderScripts();
     return renderJournal();
   };
-
-  // Relationship sections are full-screen sub-portals with their own chrome;
-  // render them in place of the dashboard, returning to Overview on back.
-  if (activeTab === "relationship-clarity") {
-    return (
-      <RelationshipClarityPortal
-        onBack={() => { setClaritySub(null); setActiveTab(defaultTabId); }}
-        onNavigate={(id, opts) => {
-          // The portal navigates between its own concepts via
-          // onNavigate("relationships", { section }); keep that in-tab by
-          // driving the sub-concept from state instead of leaving.
-          if (id === "relationships") {
-            setClaritySub(opts?.section ?? null);
-          } else if (id === "sexualenergy" || id === "inneratlas") {
-            setClaritySub(null);
-            setActiveTab(defaultTabId);
-          } else {
-            onNavigate?.(id, opts);
-          }
-        }}
-        initialSection={claritySub}
-      />
-    );
-  }
-  if (activeTab === "relationship-patterns") {
-    return <RelationshipPatterns onBack={() => setActiveTab(defaultTabId)} />;
-  }
 
   return (
     <main className="relative min-h-screen bg-[#070914] text-slate-100">

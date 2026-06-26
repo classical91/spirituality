@@ -13,6 +13,7 @@ import SexualEnergyDashboard from './SexualEnergyDashboard';
 import { resolveSexualEnergyGroup } from './lib/sexualEnergyRouting';
 import DailyPracticePortal from './DailyPracticePortal';
 import NumerologyPortal from './NumerologyPortal';
+import RelationshipHub from './RelationshipHub';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -23,6 +24,25 @@ const EMBEDDED_BIBLICAL_SECTIONS = {
   demonology: 'demonology-atlas',
   infernalcodex: 'infernal-codex',
 };
+
+const RELATIONSHIP_SECTION_REDIRECTS = new Set([
+  'relationship-clarity', 'relationship-patterns',
+  'security-vs-fear', 'mixed-signals', 'chasing-vs-receiving', 'pedestalizing',
+  'trauma-bond-vs-true-love', 'attracted-vs-infatuated', 'attraction-pitfalls',
+  'limerence', 'dating-operant-conditioning', 'investment-vs-vulnerability',
+  'emotional-immaturity', 'closeness-vs-compatibility', 'crush-vs-love',
+  'datable', 'courting-vs-dating', 'companionship',
+  'reading-red-flags', 'love-bombing', 'control-and-isolation', 'gaslighting',
+  'contempt-and-criticism', 'jealousy-and-possessiveness', 'future-faking',
+  'standards', 'chosen-and-wanted', 'being-a-priority', 'safety-as-standard',
+  'seen-and-valued', 'being-together-emotionally', 'financial-partnership',
+  'boundaries', 'devotion', 'honest-direct', 'texting-urges',
+  'types-of-intimacy', 'types-of-kisses', 'forms-of-cuddling',
+  'mutual-interests', 'shared-experiences', 'milestones',
+  'gestures-of-affection', 'quality-time', 'forms-of-connection',
+  'emotions-of-being-together', 'forms-of-playfulness', 'core-beliefs-for-sex',
+  'clarity-check', 'pause-check',
+]);
 
 const COMPONENTS = {
   chakra: Chakra3DVisualizer,
@@ -37,6 +57,7 @@ const COMPONENTS = {
   sexualenergy: SexualEnergyDashboard,
   dailypractice: DailyPracticePortal,
   numerology: NumerologyPortal,
+  relationshiphub: RelationshipHub,
 };
 
 // A persistent way back to the hub from anywhere in the site. Sits below modal
@@ -101,6 +122,11 @@ export default function App() {
             ? section
             : EMBEDDED_BIBLICAL_SECTIONS[portalId];
         navigate(`${BIBLICAL_ROUTE}?section=${encodeURIComponent(embeddedSection)}`);
+        return;
+      }
+      // Legacy internal contract used by relationship sub-portals; route to the hub.
+      if (portalId === 'relationships') {
+        navigate(section ? `/relationship-hub?section=${encodeURIComponent(section)}` : '/relationship-hub');
         return;
       }
       const portal = portalsById[portalId];
@@ -213,6 +239,18 @@ export default function App() {
       />
     );
   }
+  // Backward-compat: relationship clarity/patterns content moved out of
+  // Sexual Energy into its own Relationship Hub portal. Redirect old
+  // deep-links there; Foundations/Marriage/Dynamics/Scripts stay here.
+  if (
+    (path === '/sexual-energy' || path === '/sexual-energy/relationships') &&
+    RELATIONSHIP_SECTION_REDIRECTS.has(initialSection)
+  ) {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/relationship-hub?section=${encodeURIComponent(initialSection)}`);
+    }
+    return <RelationshipHub onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
+  }
   if (path === '/sexual-energy/relationships') {
     return (
       <SexualEnergyDashboard
@@ -275,6 +313,13 @@ export default function App() {
       window.history.replaceState({}, '', '/inner-atlas?section=psychology');
     }
     return <InnerAtlas onBack={goHome} onNavigate={goPortal} initialSection="psychology" />;
+  }
+  if (path === '/relationships') {
+    const section = initialSection || 'relationship-clarity';
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/relationship-hub?section=${encodeURIComponent(section)}`);
+    }
+    return <RelationshipHub onBack={goHome} onNavigate={goPortal} initialSection={section} />;
   }
   if (path === '/awareness') {
     const section = initialSection || 'awareness';

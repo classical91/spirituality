@@ -2,7 +2,7 @@
 // energy itself, self-mastery over it, and integration) and Relationships.
 export const tabGroups = [
   {
-    label: "Sexuality",
+    label: "Self-Mastery",
     slug: "sexuality",
     accent: "violet",
     tabs: [
@@ -18,7 +18,7 @@ export const tabGroups = [
     ],
   },
   {
-    label: "Relationships",
+    label: "Secure Relationships",
     slug: "relationships",
     accent: "rose",
     tabs: [
@@ -26,8 +26,6 @@ export const tabGroups = [
       { id: "marriage", label: "Marriage" },
       { id: "dynamics", label: "Dynamics" },
       { id: "scripts", label: "Scripts" },
-      { id: "relationship-clarity", label: "Relationship Clarity" },
-      { id: "relationship-patterns", label: "Relationship Patterns" },
     ],
   },
 ];
@@ -41,31 +39,12 @@ export const tabIds = new Set(tabs.map((t) => t.id));
 const tabToGroupSlug = {};
 tabGroups.forEach((g) => g.tabs.forEach((t) => { tabToGroupSlug[t.id] = g.slug; }));
 
-// Deep-link concept ids inside Relationship Clarity → resolve to that tab,
-// carrying the concept id through as the sub-section the portal opens to.
-export const RELATIONSHIP_CLARITY_SECTIONS = new Set([
-  "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "pedestalizing",
-  "reading-red-flags", "love-bombing", "control-and-isolation", "gaslighting",
-  "contempt-and-criticism", "jealousy-and-possessiveness", "future-faking",
-  "standards", "boundaries", "devotion", "honest-direct", "texting-urges",
-  "clarity-check", "pause-check",
-]);
-
-// Legacy ?section= values from the former standalone Relationships & Love
-// portal → map onto the equivalent tab here.
-const SECTION_ALIASES = {
-  clarity: "relationship-clarity",
-  patterns: "relationship-patterns",
-};
-
-// Resolve an incoming ?section= value to { tab, sub }.
+// Resolve an incoming ?section= value to { tab, sub }. Relationship Clarity
+// & Patterns now live in the standalone Relationship Hub portal — App.jsx
+// intercepts those deep links before they reach this dashboard.
 export function resolveSection(section) {
   if (!section) return { tab: "overview", sub: null };
-  if (SECTION_ALIASES[section]) return { tab: SECTION_ALIASES[section], sub: null };
   if (tabIds.has(section)) return { tab: section, sub: null };
-  if (RELATIONSHIP_CLARITY_SECTIONS.has(section)) {
-    return { tab: "relationship-clarity", sub: section };
-  }
   return { tab: "overview", sub: null };
 }
 
