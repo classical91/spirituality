@@ -362,7 +362,7 @@ function ReflectionModal({ prompts, title, tone, onClose }) {
   );
 }
 
-function DetailModal({ item, onClose, onReflect }) {
+function DetailModal({ item, onClose, onReflect, onNavigate }) {
   if (!item) return null;
   const t = tones[item.tone] || tones.cyan;
 
@@ -412,13 +412,21 @@ function DetailModal({ item, onClose, onReflect }) {
           ))}
         </div>
 
-        <div className="border-t border-white/10 p-5">
+        <div className="space-y-3 border-t border-white/10 p-5">
           <button
             className="w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/5 py-4 text-sm font-semibold text-cyan-100 transition hover:bg-cyan-300/10"
             onClick={() => onReflect(item)}
           >
             ◈ Open Reflection Prompts for {item.title}
           </button>
+          {item.title === "Attachment Theory" && onNavigate && (
+            <button
+              className="w-full rounded-2xl border border-pink-300/20 bg-pink-300/5 py-4 text-sm font-semibold text-pink-200 transition hover:bg-pink-300/10"
+              onClick={() => onNavigate("relationshiphub")}
+            >
+              ♡ Go deeper in the Relationship Hub
+            </button>
+          )}
         </div>
       </div>
     </div>
@@ -1061,7 +1069,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
         </main>
       </div>
 
-      <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} />
+      <DetailModal item={modal} onClose={() => setModal(null)} onReflect={openReflection} onNavigate={onNavigate} />
 
       {reflectionModal && (
         <ReflectionModal

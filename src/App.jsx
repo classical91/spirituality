@@ -9,6 +9,7 @@ import NevillePortal from './NevillePortal';
 import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import NumerologyPortal from './NumerologyPortal';
+import RelationshipHub from './RelationshipHub';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -18,6 +19,25 @@ const EMBEDDED_BIBLICAL_SECTIONS = {
   demonology: 'demonology-atlas',
   infernalcodex: 'infernal-codex',
 };
+
+const RELATIONSHIP_SECTION_REDIRECTS = new Set([
+  'relationship-clarity', 'relationship-patterns',
+  'security-vs-fear', 'mixed-signals', 'chasing-vs-receiving', 'pedestalizing',
+  'trauma-bond-vs-true-love', 'attracted-vs-infatuated', 'attraction-pitfalls',
+  'limerence', 'dating-operant-conditioning', 'investment-vs-vulnerability',
+  'emotional-immaturity', 'closeness-vs-compatibility', 'crush-vs-love',
+  'datable', 'courting-vs-dating', 'companionship',
+  'reading-red-flags', 'love-bombing', 'control-and-isolation', 'gaslighting',
+  'contempt-and-criticism', 'jealousy-and-possessiveness', 'future-faking',
+  'standards', 'chosen-and-wanted', 'being-a-priority', 'safety-as-standard',
+  'seen-and-valued', 'being-together-emotionally', 'financial-partnership',
+  'boundaries', 'devotion', 'honest-direct', 'texting-urges',
+  'types-of-intimacy', 'types-of-kisses', 'forms-of-cuddling',
+  'mutual-interests', 'shared-experiences', 'milestones',
+  'gestures-of-affection', 'quality-time', 'forms-of-connection',
+  'emotions-of-being-together', 'forms-of-playfulness', 'core-beliefs-for-sex',
+  'clarity-check', 'pause-check',
+]);
 
 const COMPONENTS = {
   chakra: Chakra3DVisualizer,
@@ -29,6 +49,7 @@ const COMPONENTS = {
   sacredsystems: SacredSystemsAtlas,
   sexualenergy: SexualEnergyDashboard,
   numerology: NumerologyPortal,
+  relationshiphub: RelationshipHub,
 };
 
 export default function App() {
@@ -56,6 +77,11 @@ export default function App() {
             ? section
             : EMBEDDED_BIBLICAL_SECTIONS[portalId];
         navigate(`${BIBLICAL_ROUTE}?section=${encodeURIComponent(embeddedSection)}`);
+        return;
+      }
+      // Legacy internal contract used by relationship sub-portals; route to the hub.
+      if (portalId === 'relationships') {
+        navigate(section ? `/relationship-hub?section=${encodeURIComponent(section)}` : '/relationship-hub');
         return;
       }
       const portal = portalsById[portalId];
@@ -93,6 +119,15 @@ export default function App() {
     );
   }
 
+  // Backward-compat: relationship content moved out of Sexual Energy into its
+  // own Relationship Hub portal. Redirect old deep-links there.
+  if (path === '/sexual-energy' && RELATIONSHIP_SECTION_REDIRECTS.has(initialSection)) {
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/relationship-hub?section=${encodeURIComponent(initialSection)}`);
+    }
+    return <RelationshipHub onBack={goHome} onNavigate={goPortal} initialSection={initialSection} />;
+  }
+
   // Backward-compat: old standalone routes redirect into InnerAtlas
   if (path === '/psychology') {
     if (typeof window !== 'undefined') {
@@ -103,9 +138,9 @@ export default function App() {
   if (path === '/relationships') {
     const section = initialSection || 'relationship-clarity';
     if (typeof window !== 'undefined') {
-      window.history.replaceState({}, '', `/sexual-energy?section=${encodeURIComponent(section)}`);
+      window.history.replaceState({}, '', `/relationship-hub?section=${encodeURIComponent(section)}`);
     }
-    return <SexualEnergyDashboard onBack={goHome} onNavigate={goPortal} initialSection={section} />;
+    return <RelationshipHub onBack={goHome} onNavigate={goPortal} initialSection={section} />;
   }
   if (path === '/awareness') {
     const section = initialSection || 'awareness';

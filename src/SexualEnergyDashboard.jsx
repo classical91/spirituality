@@ -1,6 +1,4 @@
 import { useMemo, useState } from "react";
-import RelationshipClarityPortal from "./RelationshipClarityPortal";
-import RelationshipPatterns from "./RelationshipPatterns";
 
 const tabs = [
   { id: "overview", label: "Overview" },
@@ -12,30 +10,16 @@ const tabs = [
   { id: "marriage", label: "Marriage" },
   { id: "dynamics", label: "Dynamics" },
   { id: "scripts", label: "Scripts" },
-  { id: "relationship-clarity", label: "Relationship Clarity" },
-  { id: "relationship-patterns", label: "Relationship Patterns" },
 ];
 
 const tabIds = new Set(tabs.map((t) => t.id));
 
-// Deep-link concept ids inside Relationship Clarity → resolve to that tab,
-// carrying the concept id through as the sub-section the portal opens to.
-const RELATIONSHIP_CLARITY_SECTIONS = new Set([
-  "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "pedestalizing",
-  "reading-red-flags", "love-bombing", "control-and-isolation", "gaslighting",
-  "contempt-and-criticism", "jealousy-and-possessiveness", "future-faking",
-  "standards", "boundaries", "devotion", "honest-direct", "texting-urges",
-  "clarity-check", "pause-check",
-]);
-
-// Resolve an incoming ?section= value to { tab, sub }.
+// Resolve an incoming ?section= value to { tab }. Relationship Clarity &
+// Patterns now live in the standalone Relationship Hub portal.
 function resolveSection(section) {
-  if (!section) return { tab: "overview", sub: null };
-  if (tabIds.has(section)) return { tab: section, sub: null };
-  if (RELATIONSHIP_CLARITY_SECTIONS.has(section)) {
-    return { tab: "relationship-clarity", sub: section };
-  }
-  return { tab: "overview", sub: null };
+  if (!section) return { tab: "overview" };
+  if (tabIds.has(section)) return { tab: section };
+  return { tab: "overview" };
 }
 
 const pillars = [
@@ -459,8 +443,6 @@ function ProgressBar({ value }) {
 export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection }) {
   const initialResolved = resolveSection(initialSection);
   const [activeTab, setActiveTab] = useState(initialResolved.tab);
-  // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
-  const [claritySub, setClaritySub] = useState(initialResolved.sub);
   const [prevInitialSection, setPrevInitialSection] = useState(initialSection);
   const [goal, setGoal] = useState("reset");
   const [days, setDays] = useState(7);
@@ -475,7 +457,6 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (initialSection) {
       const resolved = resolveSection(initialSection);
       setActiveTab(resolved.tab);
-      setClaritySub(resolved.sub);
     }
   }
 
@@ -924,6 +905,19 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         title="Dynamics of a Relationship"
         text="Four categories of relationship dynamics — from healthy and fulfilling to toxic and destabilizing. Use this as a mirror to name what's present, what's missing, and what direction things are moving."
       />
+      {onNavigate && (
+        <button
+          type="button"
+          onClick={() => onNavigate('relationshiphub')}
+          className="mb-6 flex w-full items-center justify-between rounded-2xl border border-pink-400/25 bg-pink-400/10 px-5 py-4 text-left transition hover:bg-pink-400/15"
+        >
+          <span>
+            <span className="block text-sm font-bold text-pink-200">Want the full picture?</span>
+            <span className="block text-xs text-slate-300/80">Open the Relationship Hub — attachment, dating, intimacy, red flags, standards, and patterns in one place.</span>
+          </span>
+          <span className="text-pink-200">→</span>
+        </button>
+      )}
       <div className="grid gap-5 md:grid-cols-2">
         {relationshipDynamics.map((cat) => (
           <Card key={cat.id}>
@@ -962,33 +956,6 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (activeTab === "scripts") return renderScripts();
     return renderJournal();
   };
-
-  // Relationship sections are full-screen sub-portals with their own chrome;
-  // render them in place of the dashboard, returning to Overview on back.
-  if (activeTab === "relationship-clarity") {
-    return (
-      <RelationshipClarityPortal
-        onBack={() => { setClaritySub(null); setActiveTab("overview"); }}
-        onNavigate={(id, opts) => {
-          // The portal navigates between its own concepts via
-          // onNavigate("relationships", { section }); keep that in-tab by
-          // driving the sub-concept from state instead of leaving.
-          if (id === "relationships") {
-            setClaritySub(opts?.section ?? null);
-          } else if (id === "sexualenergy" || id === "inneratlas") {
-            setClaritySub(null);
-            setActiveTab("overview");
-          } else {
-            onNavigate?.(id, opts);
-          }
-        }}
-        initialSection={claritySub}
-      />
-    );
-  }
-  if (activeTab === "relationship-patterns") {
-    return <RelationshipPatterns onBack={() => setActiveTab("overview")} />;
-  }
 
   return (
     <main className="relative min-h-screen bg-[#070914] text-slate-100">
