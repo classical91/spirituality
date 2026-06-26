@@ -5,11 +5,15 @@
 import { useState } from "react";
 import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
+import RelationshipPractice from "./RelationshipPractice";
 
 const TABS = [
   { id: "clarity", label: "Relationship Clarity" },
   { id: "patterns", label: "Relationship Patterns" },
+  { id: "practice", label: "Relationship Practice" },
 ];
+
+const PRACTICE_SECTION_IDS = new Set(["foundations", "marriage", "dynamics", "scripts"]);
 
 const CLARITY_SECTION_IDS = new Set([
   "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "pedestalizing",
@@ -34,7 +38,9 @@ function resolveSection(section) {
   if (!section) return { tab: "overview", sub: null };
   if (section === "patterns" || section === "relationship-patterns") return { tab: "patterns", sub: null };
   if (section === "clarity" || section === "relationship-clarity") return { tab: "clarity", sub: null };
+  if (section === "practice" || section === "relationship-practice") return { tab: "practice", sub: null };
   if (CLARITY_SECTION_IDS.has(section)) return { tab: "clarity", sub: section };
+  if (PRACTICE_SECTION_IDS.has(section)) return { tab: "practice", sub: section };
   return { tab: "overview", sub: null };
 }
 
@@ -47,6 +53,7 @@ const CATEGORIES = [
   { title: "Boundaries", desc: "Boundaries vs walls, safety as a standard, contempt, control & isolation.", tags: ["Boundaries", "Safety", "Standards"] },
   { title: "Secure Relationships", desc: "Devotion, being chosen, financial partnership, emotional togetherness.", tags: ["Devotion", "Priority", "Partnership"] },
   { title: "Shadow Patterns", desc: "Pedestalizing, gaslighting, love bombing, future-faking, red flags.", tags: ["Red Flags", "Shadow Work", "Patterns"] },
+  { title: "Relationship Practice", desc: "Marriage themes, relationship dynamics, and conscious scripting — living it out day to day.", tags: ["Marriage", "Dynamics", "Scripts"] },
 ];
 
 function Overview({ onOpenTab }) {
@@ -76,6 +83,13 @@ function Overview({ onOpenTab }) {
             className="rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:bg-white/[0.1]"
           >
             Open Relationship Patterns
+          </button>
+          <button
+            type="button"
+            onClick={() => onOpenTab("practice")}
+            className="rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:bg-white/[0.1]"
+          >
+            Open Relationship Practice
           </button>
         </div>
       </div>
@@ -122,6 +136,24 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
 
   if (tab === "patterns") {
     return <RelationshipPatterns onBack={() => setTab("overview")} />;
+  }
+
+  if (tab === "practice") {
+    return (
+      <div className="min-h-screen bg-[#0a0511] text-white">
+        <div className="pointer-events-none fixed inset-0 overflow-hidden">
+          <div className="absolute left-[-10%] top-[-10%] h-[32rem] w-[32rem] rounded-full bg-rose-500/20 blur-3xl" />
+          <div className="absolute right-[-12%] top-[18%] h-[30rem] w-[30rem] rounded-full bg-violet-600/15 blur-3xl" />
+        </div>
+        <button
+          onClick={() => setTab("overview")}
+          className="fixed left-4 top-4 z-50 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
+        >
+          ← Back
+        </button>
+        <RelationshipPractice initialSection={initial.sub} />
+      </div>
+    );
   }
 
   return (
