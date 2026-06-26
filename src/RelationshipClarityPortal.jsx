@@ -855,6 +855,26 @@ const concepts = [
   },
 
   {
+    id: "relationship-lifecycle",
+    label: "Relationship Lifecycle",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "A relationship is not one feeling. It is a sequence of choices, tests, repairs, and deepening.",
+    inventory: true,
+    intro: "Use this as a map, not a rigid timeline. Healthy relationships usually move through these stages with honesty, pacing, repair, and mutual investment. Unhealthy ones often skip stages, fake closeness, or use intensity to cover missing structure.",
+    items: [
+      { name: "Attraction", note: "The initial pull: chemistry, curiosity, beauty, resonance, or nervous-system familiarity. Treat it as data, not destiny." },
+      { name: "Initiation", note: "Someone reaches, responds, asks, flirts, or creates contact. The question is whether interest becomes mutual action." },
+      { name: "Discovery", note: "You learn who the person actually is: values, rhythm, availability, communication, faith, habits, and emotional maturity." },
+      { name: "Intimacy building", note: "Closeness grows through self-disclosure, responsiveness, touch, shared experience, and the feeling of being safely known." },
+      { name: "Consistency", note: "The relationship becomes less about peaks and more about repeated follow-through: showing up, making plans, repairing small misses." },
+      { name: "Conflict and repair", note: "Differences surface. The test is not whether conflict happens; it is whether both people can stay respectful and repair." },
+      { name: "Commitment", note: "The connection is chosen in clearer terms: exclusivity, shared direction, public acknowledgement, or a concrete future." },
+      { name: "Maintenance", note: "Love stays alive through rituals, appreciation, honest talks, quality time, boundaries, play, and ordinary care." },
+      { name: "Renewal or release", note: "Some relationships deepen into a new season. Others end cleanly when the structure no longer matches the truth." },
+    ],
+  },
+  {
     id: "types-of-intimacy",
     label: "Types of Intimacy",
     kicker: "Inventory",

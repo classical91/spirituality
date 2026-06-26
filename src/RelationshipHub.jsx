@@ -22,7 +22,7 @@ const CLARITY_SECTION_IDS = new Set([
   "standards", "chosen-and-wanted", "being-a-priority", "safety-as-standard",
   "seen-and-valued", "being-together-emotionally", "financial-partnership",
   "boundaries", "devotion", "honest-direct", "texting-urges",
-  "types-of-intimacy", "types-of-kisses", "forms-of-cuddling",
+  "relationship-lifecycle", "types-of-intimacy", "types-of-kisses", "forms-of-cuddling",
   "mutual-interests", "shared-experiences", "milestones",
   "gestures-of-affection", "quality-time", "forms-of-connection",
   "emotions-of-being-together", "forms-of-playfulness", "core-beliefs-for-sex",
