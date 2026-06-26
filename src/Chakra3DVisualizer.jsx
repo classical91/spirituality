@@ -1194,7 +1194,7 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
   );
 }
 
-export default function Chakra3DVisualizer({ onBack, initialSection }) {
+export default function Chakra3DVisualizer({ onBack, onNavigate, initialSection }) {
   const [systemId, setSystemId] = useState("hindu");
   const [selectedId, setSelectedId] = useState(() => initialSection || "heart");
   const [rotate, setRotate] = useState(true);
@@ -1272,6 +1272,15 @@ export default function Chakra3DVisualizer({ onBack, initialSection }) {
             >
               {rotate ? "Pause 3D" : "Rotate 3D"}
             </button>
+            {onNavigate && (selectedChakra.id === "heart" || selectedChakra.id === "sacral") && (
+              <button
+                type="button"
+                onClick={() => onNavigate("relationshiphub")}
+                className="rounded-2xl border border-pink-300/30 bg-pink-400/10 px-5 py-4 font-semibold text-pink-100 shadow-xl backdrop-blur-md transition hover:bg-pink-400/20 active:scale-95"
+              >
+                ♡ Relationship Hub
+              </button>
+            )}
           </div>
         </div>
 

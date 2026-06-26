@@ -1,42 +1,91 @@
 import { useMemo, useState } from "react";
-import RelationshipClarityPortal from "./RelationshipClarityPortal";
-import RelationshipPatterns from "./RelationshipPatterns";
+import RelationshipFoundations from "./RelationshipFoundations";
+import { tabGroups, resolveSection } from "./lib/sexualEnergyRouting";
 
-const tabs = [
-  { id: "overview", label: "Overview" },
-  { id: "masturbation", label: "Masturbation" },
-  { id: "celibacy", label: "Celibacy" },
-  { id: "urges", label: "Urges" },
-  { id: "tracker", label: "Tracker" },
-  { id: "journal", label: "Journal" },
-  { id: "marriage", label: "Marriage" },
-  { id: "dynamics", label: "Dynamics" },
-  { id: "scripts", label: "Scripts" },
-  { id: "relationship-clarity", label: "Relationship Clarity" },
-  { id: "relationship-patterns", label: "Relationship Patterns" },
+const groupContainerAccent = {
+  violet: "border-violet-400/20 bg-violet-400/[0.04]",
+  rose: "border-rose-400/20 bg-rose-400/[0.04]",
+};
+
+const energyExpressions = [
+  { title: "Desire & attraction", text: "The pull toward another person, body, or experience — the raw signal before any action is taken." },
+  { title: "Arousal & libido", text: "The physiological charge itself: how strong it runs, how often it shows up, how your body carries it." },
+  { title: "Fantasy & imagination", text: "The mental rehearsal of desire — useful for noticing what you want, risky when it replaces real life." },
+  { title: "Pleasure & passion", text: "The capacity to feel good in your body, and the drive that fuels creativity, ambition, and intensity outside the bedroom too." },
+  { title: "Bonding", text: "Sexual energy is also a bonding mechanism — it pulls people toward closeness, attachment, and shared vulnerability." },
+  { title: "Temptation", text: "The moment the pull asks for something you have not actually decided you want — worth noticing, not fearing." },
 ];
 
-const tabIds = new Set(tabs.map((t) => t.id));
+const energyShapers = [
+  "Porn and its scripts of escalation and availability",
+  "Repetition and conditioning — what you practice, your body learns to want",
+  "Imagination filling in for real intimacy",
+  "Emotional loneliness disguised as physical desire",
+  "Stress and the nervous system looking for fast relief",
+  "Insecurity seeking proof of being wanted",
+  "Idealization — chasing a fantasy version of a person or experience",
+];
 
-// Deep-link concept ids inside Relationship Clarity → resolve to that tab,
-// carrying the concept id through as the sub-section the portal opens to.
-const RELATIONSHIP_CLARITY_SECTIONS = new Set([
-  "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "pedestalizing",
-  "reading-red-flags", "love-bombing", "control-and-isolation", "gaslighting",
-  "contempt-and-criticism", "jealousy-and-possessiveness", "future-faking",
-  "standards", "boundaries", "devotion", "honest-direct", "texting-urges",
-  "clarity-check", "pause-check",
-]);
+const integrationPillars = [
+  {
+    title: "Energy",
+    text: "Sexual energy itself is not the problem. It is raw fuel — desire, drive, creativity, the pull toward connection.",
+    icon: "⚡",
+  },
+  {
+    title: "Discipline",
+    text: "Self-mastery is what keeps that fuel from running you. Awareness and impulse control turn energy into choice.",
+    icon: "🧭",
+  },
+  {
+    title: "Connection",
+    text: "Relationships are where the energy is finally expressed — toward another person, with consent, safety, and honesty.",
+    icon: "🤝",
+  },
+  {
+    title: "Wholeness",
+    text: "Integration is what happens when none of the three is suppressed or running unchecked — desire, discipline, and love working together.",
+    icon: "🌿",
+  },
+];
 
-// Resolve an incoming ?section= value to { tab, sub }.
-function resolveSection(section) {
-  if (!section) return { tab: "overview", sub: null };
-  if (tabIds.has(section)) return { tab: section, sub: null };
-  if (RELATIONSHIP_CLARITY_SECTIONS.has(section)) {
-    return { tab: "relationship-clarity", sub: section };
-  }
-  return { tab: "overview", sub: null };
-}
+// Header copy shown when this dashboard is opened as a focused sub-portal
+// (e.g. /sexual-energy/sexuality) instead of the hub's two-card landing.
+const focusedHeaderCopy = {
+  sexuality: {
+    badges: [["violet", "Sexual energy"], ["sky", "Self-mastery"], ["emerald", "No-shame discipline"]],
+    title: "Self-Mastery",
+    subtitle: "The energy itself — desire, arousal, fantasy, porn-pattern awareness — plus self-mastery over it: masturbation, celibacy, urges, tracking, journaling, and integration, without shame and without repression.",
+  },
+  relationships: {
+    badges: [["sky", "Private dashboard"], ["rose", "Relationship Practice"], ["emerald", "Secure connection"]],
+    title: "Relationship Practice",
+    subtitle: "Marriage, dynamics, and scripting — how sexual energy is meant to be expressed inside a relationship. For attachment, red flags, and relationship patterns, see the Relationship Hub.",
+  },
+};
+
+// The hub's two portal cards.
+const PORTAL_CARDS = [
+  {
+    slug: "sexuality",
+    accent: "violet",
+    icon: "⚡",
+    title: "Self-Mastery",
+    description: "Sexual energy itself, self-mastery over it, and integration — desire, arousal, porn awareness, masturbation, celibacy, urges, tracking, and journaling.",
+  },
+  {
+    slug: "relationships",
+    accent: "rose",
+    icon: "🤝",
+    title: "Relationship Practice",
+    description: "Marriage, relationship dynamics, and scripting — how sexual energy is meant to be expressed inside a relationship.",
+  },
+];
+
+const portalCardAccent = {
+  violet: "border-violet-400/25 bg-violet-400/[0.06] hover:border-violet-400/50 hover:bg-violet-400/[0.1]",
+  rose: "border-rose-400/25 bg-rose-400/[0.06] hover:border-rose-400/50 hover:bg-rose-400/[0.1]",
+};
 
 const pillars = [
   {
@@ -164,6 +213,45 @@ const myths = [
   {
     myth: "Urges mean I have no discipline.",
     grounded: "Urges are normal. Discipline is what you do after the urge appears.",
+  },
+];
+
+const pornCritiques = [
+  {
+    title: "Addiction-like use",
+    text: "Compulsive, escalating use that the person cannot stop despite wanting to — driven by the same dopamine and novelty-seeking loops as other behavioral addictions.",
+  },
+  {
+    title: "Exploitation",
+    text: "Much of the industry runs on performers with limited bargaining power, financial pressure, or coercion — the supply chain is not neutral just because the content is legal.",
+  },
+  {
+    title: "Consent",
+    text: "Footage is sometimes filmed, shared, or recut without full or ongoing consent — including leaked, stolen, or non-consensually distributed material.",
+  },
+  {
+    title: "Objectification",
+    text: "Habitual consumption can train a viewer to see people as interchangeable stimuli rather than whole persons, flattening empathy in real relationships.",
+  },
+  {
+    title: "Loneliness",
+    text: "Used as a substitute for connection, it can deepen isolation — relieving a craving in the moment while leaving the underlying need for intimacy unmet.",
+  },
+  {
+    title: "Unrealistic expectations",
+    text: "Performance-oriented, edited content distorts expectations of bodies, consent dynamics, and sex itself, which can erode satisfaction and confidence in real partnerships.",
+  },
+  {
+    title: "Trafficking",
+    text: "Some content is produced through human trafficking or exploitation of minors — the anonymity of the medium makes it hard for a viewer to verify what they're funding.",
+  },
+  {
+    title: "Privacy",
+    text: "Viewing histories, payment data, and personal images are valuable and frequently breached, sold, or used for blackmail (sextortion).",
+  },
+  {
+    title: "Compulsive behavior",
+    text: "Even short of clinical addiction, habitual use can crowd out sleep, work, study, and relationships — a pattern worth noticing regardless of the label used for it.",
   },
 ];
 
@@ -456,11 +544,19 @@ function ProgressBar({ value }) {
   );
 }
 
-export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection }) {
+export default function SexualEnergyDashboard({ onBack, onNavigate, initialSection, initialGroup, onOpenGroup }) {
+  // When initialGroup is set, this renders as a focused sub-portal (e.g.
+  // /sexual-energy/sexuality) showing that portal's own tabs. Otherwise the
+  // hub renders as a plain two-card landing (Sexuality, Relationships).
+  const focusedGroup = initialGroup ? tabGroups.find((g) => g.slug === initialGroup) : null;
+  const defaultTabId = focusedGroup ? focusedGroup.tabs[0].id : "energy";
+
   const initialResolved = resolveSection(initialSection);
-  const [activeTab, setActiveTab] = useState(initialResolved.tab);
-  // Sub-concept to open inside Relationship Clarity (e.g. "love-bombing").
-  const [claritySub, setClaritySub] = useState(initialResolved.sub);
+  let startTab = initialResolved.tab;
+  if (focusedGroup && !focusedGroup.tabs.some((t) => t.id === startTab)) {
+    startTab = defaultTabId;
+  }
+  const [activeTab, setActiveTab] = useState(startTab);
   const [prevInitialSection, setPrevInitialSection] = useState(initialSection);
   const [goal, setGoal] = useState("reset");
   const [days, setDays] = useState(7);
@@ -475,7 +571,6 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     if (initialSection) {
       const resolved = resolveSection(initialSection);
       setActiveTab(resolved.tab);
-      setClaritySub(resolved.sub);
     }
   }
 
@@ -493,6 +588,43 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     };
     return base[goal];
   }, [goal]);
+
+  const renderEnergy = () => (
+    <div>
+      <SectionTitle
+        eyebrow="The raw force"
+        title="What is sexual energy?"
+        text="Before any question about discipline or relationships, there is the energy itself — desire, attraction, arousal, fantasy, pleasure. It is not the enemy. It is fuel that can be felt, understood, and directed."
+      />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {energyExpressions.map((item) => (
+          <Card key={item.title}>
+            <h3 className="font-bold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{item.text}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-6">
+        <div className="mb-4 flex flex-wrap items-center gap-2">
+          <Badge tone="violet">How it gets shaped</Badge>
+        </div>
+        <h3 className="mb-3 text-xl font-bold text-white">The energy doesn't form in a vacuum</h3>
+        <p className="text-sm leading-7 text-slate-300">
+          What you desire, how strongly, and how often is shaped by more than biology. These forces bend the raw signal before you ever decide what to do with it:
+        </p>
+        <div className="mt-4 grid gap-3 sm:grid-cols-2">
+          {energyShapers.map((item) => (
+            <div key={item} className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-sm leading-6 text-slate-300">{item}</div>
+          ))}
+        </div>
+        <div className="mt-5 rounded-2xl border border-violet-400/20 bg-violet-400/10 p-4 text-sm leading-6 text-violet-100">
+          Naming what is shaping your desire is not the same as judging it. It is the first step toward choosing what to do with it — which is what the Self-Mastery and Relationships sections are for.
+        </div>
+      </Card>
+    </div>
+  );
 
   const renderOverview = () => (
     <div>
@@ -615,6 +747,43 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
           </Card>
         ))}
       </div>
+    </div>
+  );
+
+  const renderPorn = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Honest look"
+        title="Legitimate critiques of porn"
+        text="Porn is not automatically destructive for every viewer, but it is not neutral either. These are the critiques worth taking seriously — not as a verdict, but as questions to hold while you decide what role, if any, it has in your life."
+      />
+
+      <div className="grid gap-4 md:grid-cols-3">
+        {pornCritiques.map((item) => (
+          <Card key={item.title}>
+            <h3 className="font-bold text-white">{item.title}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-300">{item.text}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-6">
+        <h3 className="mb-3 text-xl font-bold text-white">Questions worth sitting with</h3>
+        <div className="grid gap-3 sm:grid-cols-2">
+          {[
+            "Can I tell what I'm watching was made with full, ongoing consent?",
+            "Does my use escalate in frequency or intensity over time?",
+            "Am I using it to avoid loneliness, stress, or boredom rather than facing them?",
+            "Has it changed what I expect from real intimacy or from a partner's body?",
+            "Would I be comfortable if someone I respect knew exactly what and how much I watch?",
+          ].map((q) => (
+            <div key={q} className="rounded-2xl border border-white/10 bg-slate-950/50 p-4 text-sm leading-6 text-slate-300">{q}</div>
+          ))}
+        </div>
+        <div className="mt-5 rounded-2xl border border-amber-400/20 bg-amber-400/10 p-4 text-sm leading-6 text-amber-100">
+          None of these critiques require shame to be useful. The point is informed choice — knowing what the medium costs, who it costs, and whether the pattern still serves you.
+        </div>
+      </Card>
     </div>
   );
 
@@ -924,6 +1093,19 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         title="Dynamics of a Relationship"
         text="Four categories of relationship dynamics — from healthy and fulfilling to toxic and destabilizing. Use this as a mirror to name what's present, what's missing, and what direction things are moving."
       />
+      {onNavigate && (
+        <button
+          type="button"
+          onClick={() => onNavigate('relationshiphub')}
+          className="mb-6 flex w-full items-center justify-between rounded-2xl border border-pink-400/25 bg-pink-400/10 px-5 py-4 text-left transition hover:bg-pink-400/15"
+        >
+          <span>
+            <span className="block text-sm font-bold text-pink-200">Want the full picture?</span>
+            <span className="block text-xs text-slate-300/80">Open the Relationship Hub — attachment, dating, intimacy, red flags, standards, and patterns in one place.</span>
+          </span>
+          <span className="text-pink-200">→</span>
+        </button>
+      )}
       <div className="grid gap-5 md:grid-cols-2">
         {relationshipDynamics.map((cat) => (
           <Card key={cat.id}>
@@ -951,44 +1133,51 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
     </div>
   );
 
+  const renderIntegration = () => (
+    <div>
+      <SectionTitle
+        eyebrow="Healthy masculine sexual energy"
+        title="Energy, discipline, connection, and wholeness"
+        text="Sexual energy becomes healthy when it is guided by self-awareness, emotional security, respect, and love — not when it is suppressed, and not when it runs unchecked. These four pieces work as one system, not four separate problems."
+      />
+
+      <div className="grid gap-4 md:grid-cols-4">
+        {integrationPillars.map((item) => (
+          <Card key={item.title}>
+            <div className="mb-4 text-3xl">{item.icon}</div>
+            <h3 className="mb-2 font-semibold text-white">{item.title}</h3>
+            <p className="text-sm leading-6 text-slate-300">{item.text}</p>
+          </Card>
+        ))}
+      </div>
+
+      <Card className="mt-6">
+        <h3 className="mb-3 text-xl font-bold text-white">A simple integration check</h3>
+        <p className="text-sm leading-7 text-slate-300">
+          When energy, discipline, and connection are working together, you can usually feel it: desire does not run the show, but it is not switched off either. You can want someone and still wait. You can feel tempted and still choose. You can love someone without needing them to complete you.
+        </p>
+        <div className="mt-5 rounded-2xl border border-emerald-400/20 bg-emerald-400/10 p-4 text-sm leading-6 text-emerald-100">
+          If any one piece is missing — the energy is denied, the discipline is absent, or the connection is fear-based — the other two usually start to distort too. Use the Sexual Energy, Self-Mastery, and Relationships tabs as a loop, not a one-time read.
+        </div>
+      </Card>
+    </div>
+  );
+
   const renderTab = () => {
+    if (activeTab === "energy") return renderEnergy();
+    if (activeTab === "integration") return renderIntegration();
     if (activeTab === "overview") return renderOverview();
     if (activeTab === "masturbation") return renderMasturbation();
+    if (activeTab === "porn") return renderPorn();
     if (activeTab === "celibacy") return renderCelibacy();
     if (activeTab === "urges") return renderUrges();
     if (activeTab === "tracker") return renderTracker();
+    if (activeTab === "foundations") return <RelationshipFoundations />;
     if (activeTab === "marriage") return renderMarriage();
     if (activeTab === "dynamics") return renderDynamics();
     if (activeTab === "scripts") return renderScripts();
     return renderJournal();
   };
-
-  // Relationship sections are full-screen sub-portals with their own chrome;
-  // render them in place of the dashboard, returning to Overview on back.
-  if (activeTab === "relationship-clarity") {
-    return (
-      <RelationshipClarityPortal
-        onBack={() => { setClaritySub(null); setActiveTab("overview"); }}
-        onNavigate={(id, opts) => {
-          // The portal navigates between its own concepts via
-          // onNavigate("relationships", { section }); keep that in-tab by
-          // driving the sub-concept from state instead of leaving.
-          if (id === "relationships") {
-            setClaritySub(opts?.section ?? null);
-          } else if (id === "sexualenergy" || id === "inneratlas") {
-            setClaritySub(null);
-            setActiveTab("overview");
-          } else {
-            onNavigate?.(id, opts);
-          }
-        }}
-        initialSection={claritySub}
-      />
-    );
-  }
-  if (activeTab === "relationship-patterns") {
-    return <RelationshipPatterns onBack={() => setActiveTab("overview")} />;
-  }
 
   return (
     <main className="relative min-h-screen bg-[#070914] text-slate-100">
@@ -1011,16 +1200,27 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
         <header className="mb-8 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.055] p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-8">
           <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
             <div>
+              {focusedGroup && (
+                <button
+                  type="button"
+                  onClick={() => onNavigate?.("sexualenergy")}
+                  className="mb-3 inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400 hover:text-white"
+                >
+                  ← Sexual Energy hub
+                </button>
+              )}
               <div className="mb-4 flex flex-wrap gap-2">
-                <Badge tone="sky">Private dashboard</Badge>
-                <Badge tone="violet">Sexual energy</Badge>
-                <Badge tone="emerald">No-shame discipline</Badge>
+                {(focusedGroup ? focusedHeaderCopy[focusedGroup.slug].badges : [["sky", "Private dashboard"], ["violet", "Sexual energy"], ["rose", "Relationships & love"]]).map(([tone, label]) => (
+                  <Badge key={label} tone={tone}>{label}</Badge>
+                ))}
               </div>
               <h1 className="max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                Sexual Energy &amp; Self-Mastery
+                {focusedGroup ? focusedHeaderCopy[focusedGroup.slug].title : "Sexual Energy & Self-Mastery"}
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
-                A dashboard for masturbation, celibacy, urges, abstinence, porn-pattern awareness, relapse recovery, and values-based discipline — without turning you against your own body.
+                {focusedGroup
+                  ? focusedHeaderCopy[focusedGroup.slug].subtitle
+                  : <>Two portals, one flow: build <span className="text-slate-100">self-mastery</span> over your own sexual energy, and bring it into <span className="text-slate-100">relationships</span> with honesty — without shame, and without losing yourself to it.</>}
               </p>
             </div>
             <div className="rounded-3xl border border-cyan-400/20 bg-cyan-400/10 p-5 lg:w-80">
@@ -1030,21 +1230,47 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
           </div>
         </header>
 
-        <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-2 backdrop-blur-xl">
-          <div className="flex gap-2 overflow-x-auto">
-            {tabs.map((tab) => (
+        {focusedGroup ? (
+          <>
+            <nav className="sticky top-3 z-20 mb-8 rounded-3xl border border-white/10 bg-[#070914]/80 p-3 backdrop-blur-xl">
+              <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap">
+                <div
+                  className={`flex flex-wrap items-center gap-1.5 rounded-2xl border p-1.5 sm:shrink-0 ${groupContainerAccent[focusedGroup.accent]}`}
+                >
+                  {focusedGroup.tabs.map((tab) => (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveTab(tab.id)}
+                      className={`whitespace-nowrap rounded-xl px-3.5 py-2.5 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+                    >
+                      {tab.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </nav>
+
+            <section>{renderTab()}</section>
+          </>
+        ) : (
+          <div className="grid gap-6 md:grid-cols-2">
+            {PORTAL_CARDS.map((card) => (
               <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`whitespace-nowrap rounded-2xl px-4 py-3 text-sm font-medium transition ${activeTab === tab.id ? "bg-white text-slate-950" : "text-slate-300 hover:bg-white/10 hover:text-white"}`}
+                key={card.slug}
+                type="button"
+                onClick={() => onOpenGroup?.(card.slug)}
+                className={`rounded-[2rem] border p-8 text-left shadow-2xl shadow-black/20 backdrop-blur transition ${portalCardAccent[card.accent]}`}
               >
-                {tab.label}
+                <div className="text-4xl">{card.icon}</div>
+                <h2 className="mt-4 text-2xl font-bold text-white">{card.title}</h2>
+                <p className="mt-3 text-sm leading-6 text-slate-300">{card.description}</p>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white">
+                  Open <span aria-hidden="true">→</span>
+                </span>
               </button>
             ))}
           </div>
-        </nav>
-
-        <section>{renderTab()}</section>
+        )}
 
         <footer className="mt-10 grid gap-4 border-t border-white/10 pt-6 md:grid-cols-4">
           {sources.map((source) => (

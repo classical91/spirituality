@@ -130,7 +130,94 @@ const toneTrapWordGroups = [
       { word: "Different", negative: "They are different.", cleaner: "They have a distinct way of moving through life." },
       { word: "Sensitive", negative: "I am too sensitive.", cleaner: "I notice subtle things and keep my center." }
     ]
+  },
+  {
+    title: "Relationship language",
+    tag: "Connection",
+    watch: "Can sound caring or neutral but signal control, jealousy, or conditional love.",
+    words: ["Loyal", "Devoted", "Committed", "Protective", "Honest", "Real", "Serious"],
+    examples: [
+      { word: "Loyal", negative: "If you were loyal you would stay.", cleaner: "I value consistency and can express that directly." },
+      { word: "Honest", negative: "I am just being honest.", cleaner: "I can say what is true without using it as a weapon." },
+      { word: "Serious", negative: "Are you even serious about this?", cleaner: "I want to know where we both stand." }
+    ]
+  },
+  {
+    title: "Self-talk and inner dialogue",
+    tag: "Self",
+    watch: "Can feel motivating on the surface but quietly reinforce shame or limitation.",
+    words: ["Try", "Should", "Need", "Just", "Only", "Enough", "Better"],
+    examples: [
+      { word: "Should", negative: "I should be further along by now.", cleaner: "I am exactly where I need to be to take the next step." },
+      { word: "Just", negative: "I just want to be happy.", cleaner: "Happiness is something I am actively building." },
+      { word: "Enough", negative: "I am not enough.", cleaner: "I am whole and continuing to grow." }
+    ]
+  },
+  {
+    title: "Criticism and feedback",
+    tag: "Critique",
+    watch: "Can disguise judgment as helpful observation or objective fact.",
+    words: ["Constructive", "Blunt", "Direct", "Realistic", "Logical", "Practical", "Fair"],
+    examples: [
+      { word: "Constructive", negative: "I am just being constructive.", cleaner: "I can offer feedback in a way that opens rather than closes." },
+      { word: "Realistic", negative: "Let us be realistic — that will never work.", cleaner: "I can hold honest doubt without foreclosing possibility." },
+      { word: "Logical", negative: "Logically, you are wrong.", cleaner: "Here is another way to look at it." }
+    ]
+  },
+  {
+    title: "Spiritual and motivational language",
+    tag: "Spiritual",
+    watch: "Can be used to bypass, shame, or spiritually bypass genuine emotion and struggle.",
+    words: ["Surrender", "Trust", "Faith", "Vibration", "Manifest", "Aligned", "Grateful"],
+    examples: [
+      { word: "Surrender", negative: "You just need to surrender and let go.", cleaner: "Releasing what I cannot control is a practice, not a demand." },
+      { word: "Vibration", negative: "Your vibration is too low.", cleaner: "Something in my energy feels off and I can work with that." },
+      { word: "Grateful", negative: "You should be grateful for what you have.", cleaner: "Gratitude is a state I return to — not a silencer for pain." }
+    ]
   }
+];
+
+const powerLadder = [
+  { phrase: "I am", icon: "🔥", level: "Max Power", note: "Full embodiment", power: 100, tier: "peak", example: "I am loved and chosen." },
+  { phrase: "I have", icon: "💎", level: "Ownership", note: "You possess it now", power: 94, tier: "peak", example: "I have a loving relationship." },
+  { phrase: "I know", icon: "💥", level: "Certainty", note: "Unshakable belief", power: 88, tier: "peak", example: "I know she is mine." },
+  { phrase: "It is done", icon: "🏁", level: "Completion", note: "Final state", power: 80, tier: "strong", example: "It is done — the matter is settled." },
+  { phrase: "It is natural", icon: "🌱", level: "Normalization", note: "“Of course I have it.”", power: 72, tier: "strong", example: "It is natural for me to be loved." },
+  { phrase: "I'm aware", icon: "✅", level: "Medium-High", note: "Consciousness of truth", power: 60, tier: "medium", example: "I'm aware that I am loved." },
+  { phrase: "I am realizing", icon: "⚠️", level: "Medium", note: "Transitional awareness", power: 50, tier: "medium", example: "I am realizing how loved I am." },
+  { phrase: "I am becoming", icon: "🌗", level: "Low-Medium", note: "Still in motion, not yet arrived", power: 38, tier: "low", example: "I am becoming the man she loves." },
+  { phrase: "I want / I need", icon: "🪫", level: "Low", note: "Names the gap, not the having", power: 22, tier: "low", example: "I want her to love me." },
+  { phrase: "I hope / I'm trying", icon: "🌫️", level: "Lowest", note: "Effort and doubt, future-leaning", power: 12, tier: "low", example: "I hope she comes back." }
+];
+
+const ladderTierStyles = {
+  peak: { badge: "border-emerald-300/30 bg-emerald-400/15 text-emerald-100", bar: "from-emerald-400 to-cyan-400", ring: "hover:border-emerald-300/40" },
+  strong: { badge: "border-violet-300/30 bg-violet-400/15 text-violet-100", bar: "from-violet-400 to-fuchsia-400", ring: "hover:border-violet-300/40" },
+  medium: { badge: "border-amber-300/30 bg-amber-400/15 text-amber-100", bar: "from-amber-400 to-orange-400", ring: "hover:border-amber-300/40" },
+  low: { badge: "border-rose-300/30 bg-rose-400/15 text-rose-100", bar: "from-rose-400 to-slate-500", ring: "hover:border-rose-300/40" }
+};
+
+const doubtTells = [
+  { phrase: "“Maybe.”", signal: "Leaves the outcome open so you never have to commit to it.", reframe: "Yes — it is so." },
+  { phrase: "“I guess so.”", signal: "Agrees on the surface while quietly withholding belief.", reframe: "I know so." },
+  { phrase: "“I'm not sure.”", signal: "Names the absence of certainty instead of the certainty itself.", reframe: "I'm certain." },
+  { phrase: "“Probably not.”", signal: "Pre-writes the disappointment before it has even arrived.", reframe: "It's already done." },
+  { phrase: "“I have a feeling, but…”", signal: "The “but” quietly cancels the knowing that came before it.", reframe: "I have a feeling, and I trust it." },
+  { phrase: "“I think, but I could be wrong.”", signal: "Builds in an escape hatch so the assumption can't fully land.", reframe: "I know this is true." },
+  { phrase: "“Let me double-check.”", signal: "Sends you outside yourself for proof you already hold within.", reframe: "I already know — I don't need to check." },
+  { phrase: "“We'll see.”", signal: "Hands the outcome to time and waits to be told what's true.", reframe: "I've already decided how this goes." },
+  { phrase: "“Hopefully.”", signal: "Wishes toward a thing you haven't yet claimed as yours.", reframe: "It is mine." }
+];
+
+const wantTeachings = [
+  { teacher: "Napoleon Hill", teaching: "“What do you want most?” — desire is the seed of achievement.", why: "“Want” is a positive spark, but it must become a definite plan." },
+  { teacher: "Neville Goddard", teaching: "“To want is to confess you do not have.”", why: "Shift from “want” to “I AM” or “I HAVE” — the wish already fulfilled." },
+  { teacher: "Joseph Murphy", teaching: "Avoid saying “I want” — impress the subconscious with “I accept” or “I choose.”", why: "“Want” programs the subconscious to keep producing lack." },
+  { teacher: "Earl Nightingale", teaching: "Asking “What do you want?” clarifies purpose — then focus on action.", why: "“Want” is the starting point, not the end: clarity leads to goals." },
+  { teacher: "Bob Proctor", teaching: "Wanting reveals potential, but repeating “I want” only attracts more wanting.", why: "“Want” shows desire, yet needs a self-image shift to “I already am.”" },
+  { teacher: "Wayne Dyer", teaching: "“Wanting keeps you in the energy of not having.”", why: "Replace “I want” with “I intend” or “I am.”" },
+  { teacher: "Rhonda Byrne", teaching: "“The universe gives you more of what you say — wanting attracts wanting.”", why: "Gratitude and imagining you already have it works better than wanting." },
+  { teacher: "Abraham-Hicks", teaching: "Wanting is useful contrast — it helps you identify desire, then shift beyond it.", why: "“Want” is step one; then move into expectation and alignment." }
 ];
 
 const phrasebookBanks = [
@@ -476,6 +563,9 @@ function detectMisalignment(text) {
   if (/\bnot rejected|not abandoned|not ignored|no longer|stop\b/.test(t)) {
     notes.push("This focuses on avoiding pain. Try naming the positive state directly: chosen, secure, loved, prioritized.");
   }
+  if (/\b(maybe|i guess|not sure|probably|could be wrong|we'?ll see|hopefully|kind of|sort of)\b/.test(t)) {
+    notes.push("There is a doubt tell here — a hedge like \"maybe\", \"I guess\", or \"not sure\". It quietly keeps the wish unfulfilled. Try stating the outcome with certainty.");
+  }
   if (/\bher man\b/.test(t)) {
     notes.push("'Her man' is strong identity language. It sounds direct, embodied, and relational.");
   }
@@ -514,6 +604,7 @@ function identityScore(text) {
   if (/^i\s+have\b|^i've\b/.test(t)) score += 14;
   if (/\b(chosen|loved|valued|secure|cherished|wanted|prioritized|devoted|faithful|her man|the man she loves)\b/.test(t)) score += 16;
   if (/\b(want|need|hope|trying|waiting|soon|someday|one day|will|manifesting)\b/.test(t)) score -= 25;
+  if (/\b(maybe|i guess|not sure|probably|could be wrong|we'?ll see|hopefully|kind of|sort of)\b/.test(t)) score -= 18;
   if (/\bnot|never|no longer|stop\b/.test(t)) score -= 10;
   if (t.length < 8) score -= 8;
 
@@ -633,6 +724,157 @@ function ToneTrapWords() {
           </article>
         ))}
       </div>
+    </section>
+  );
+}
+
+function PowerLadder() {
+  return (
+    <section id="power-ladder" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-fuchsia-200">🪜 Power ladder</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Where each opener fits in the power ladder</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            The same desire can be worded from full embodiment all the way down to hope. The higher the rung, the more the sentence speaks as if the wish is already fulfilled — the lower rungs quietly reintroduce time, effort, and the gap you are trying to close.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-fuchsia-200/20 bg-fuchsia-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-fuchsia-100">
+          {powerLadder.length} rungs
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-3xl border border-white/10">
+        <div className="hidden grid-cols-[1.1fr_1fr_1.2fr] border-b border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] text-slate-400 sm:grid">
+          <div>Phrase</div>
+          <div>Power level</div>
+          <div>What it does</div>
+        </div>
+        {powerLadder.map((rung) => {
+          const style = ladderTierStyles[rung.tier];
+          return (
+            <div
+              key={rung.phrase}
+              className={cx(
+                "grid gap-3 border-b border-white/10 bg-slate-950/40 px-4 py-4 transition last:border-b-0 sm:grid-cols-[1.1fr_1fr_1.2fr] sm:items-center",
+                "border-l-2 border-l-transparent",
+                style.ring
+              )}
+            >
+              <div className="flex items-center gap-3">
+                <span className="text-xl" aria-hidden>{rung.icon}</span>
+                <p className="text-lg font-black text-white">{rung.phrase}</p>
+              </div>
+
+              <div>
+                <span className={cx("inline-flex rounded-full border px-2.5 py-1 text-xs font-bold", style.badge)}>
+                  {rung.level}
+                </span>
+                <div className="mt-2 h-2 w-full max-w-[10rem] overflow-hidden rounded-full bg-slate-900 ring-1 ring-white/10">
+                  <div className={cx("h-full rounded-full bg-gradient-to-r", style.bar)} style={{ width: `${rung.power}%` }} />
+                </div>
+              </div>
+
+              <div className="flex items-start justify-between gap-3">
+                <div>
+                  <p className="text-sm font-semibold leading-6 text-slate-200">{rung.note}</p>
+                  <p className="mt-1 text-xs italic leading-5 text-slate-500">e.g. {rung.example}</p>
+                </div>
+                <CopyButton text={rung.example} />
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">
+        Rule of thumb: when a sentence feels shaky, climb one rung. “I am realizing I'm loved” becomes “I'm aware I'm loved,” then simply “I am loved.” Drop the scaffolding the moment it stops being honest — the cleanest rung you can say without flinching is the right one.
+      </p>
+    </section>
+  );
+}
+
+function WantTeachings() {
+  return (
+    <section id="want-teachings" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-rose-200">🧲 The word “want”</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">What the teachers say about wanting</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            “I want” is the lowest rung on the power ladder for a reason — it quietly affirms not-having. Across New Thought and success teaching, the same correction keeps appearing: let want point the direction, then step into already having.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-rose-200/20 bg-rose-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-rose-100">
+          {wantTeachings.length} teachers
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-3xl border border-white/10">
+        <div className="hidden grid-cols-[0.8fr_1.3fr_1.1fr] border-b border-white/10 bg-white/5 px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-slate-400 sm:grid">
+          <div>Teacher</div>
+          <div>Teaching on “want”</div>
+          <div>Why it matters</div>
+        </div>
+        {wantTeachings.map((row) => (
+          <div
+            key={row.teacher}
+            className="grid gap-1.5 border-b border-white/10 bg-slate-950/40 px-4 py-3.5 transition last:border-b-0 hover:border-rose-300/30 sm:grid-cols-[0.8fr_1.3fr_1.1fr] sm:items-start sm:gap-3"
+          >
+            <p className="text-sm font-black text-white">{row.teacher}</p>
+            <p className="text-sm leading-6 text-slate-300">{row.teaching}</p>
+            <p className="text-sm leading-6 text-slate-400">{row.why}</p>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">
+        The throughline: wanting is a useful compass, not a resting place. Name the desire once, then live from “I am” / “I have” — the language the studio above is built to help you find.
+      </p>
+    </section>
+  );
+}
+
+function DoubtTells() {
+  return (
+    <section id="doubt-tells" className="mt-6 scroll-mt-24 rounded-[2rem] border border-white/10 bg-slate-950/70 p-5 backdrop-blur-xl sm:p-6">
+      <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div>
+          <p className="text-sm font-bold uppercase tracking-[0.25em] text-sky-200">🗣️ Doubt tells</p>
+          <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Everyday expressions of doubt</h2>
+          <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">
+            These are the small, ordinary phrases that leak uncertainty into daily talk. None of them are wrong — doubt is honest information. But in self-concept work they quietly hold the wish open instead of fulfilled. Learn to hear them, then choose whether to climb to the certain version.
+          </p>
+        </div>
+        <span className="w-fit rounded-full border border-sky-200/20 bg-sky-300/10 px-3 py-1.5 text-xs font-black uppercase tracking-[0.16em] text-sky-100">
+          {doubtTells.length} tells
+        </span>
+      </div>
+
+      <div className="overflow-hidden rounded-3xl border border-white/10">
+        <div className="hidden grid-cols-[0.9fr_1.2fr_1fr] border-b border-white/10 bg-white/5 px-4 py-3 text-xs font-black uppercase tracking-[0.2em] text-slate-400 sm:grid">
+          <div>Doubt phrase</div>
+          <div>What it signals</div>
+          <div>Certain reframe</div>
+        </div>
+        {doubtTells.map((tell) => (
+          <div
+            key={tell.phrase}
+            className="grid gap-3 border-b border-white/10 bg-slate-950/40 px-4 py-4 transition last:border-b-0 hover:border-sky-300/30 sm:grid-cols-[0.9fr_1.2fr_1fr] sm:items-center"
+          >
+            <p className="text-base font-black text-sky-100">{tell.phrase}</p>
+            <p className="text-sm leading-6 text-slate-400">{tell.signal}</p>
+            <div className="flex items-start justify-between gap-3 rounded-2xl border border-emerald-300/15 bg-emerald-300/5 p-3">
+              <p className="text-sm font-black leading-6 text-emerald-50">{tell.reframe}</p>
+              <CopyButton text={tell.reframe} />
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <p className="mt-4 text-xs leading-6 text-slate-500">
+        The phrase lab above flags these hedges live — type “maybe” or “I think, but I could be wrong” and watch the identity score and misalignment notes respond.
+      </p>
     </section>
   );
 }
@@ -891,6 +1133,12 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
             </div>
           </div>
         </section>
+
+        <PowerLadder />
+
+        <WantTeachings />
+
+        <DoubtTells />
 
         <ToneTrapWords />
 

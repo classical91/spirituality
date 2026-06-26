@@ -2,42 +2,25 @@ import { useEffect, useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything } from './data/portals';
-import { searchIndex } from './data/searchIndex';
 import { getRecentPortals } from './lib/storage';
 import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
 import { dayOfYear } from './lib/dateUtils';
+import { getDailyReading, READING_POOL } from './lib/dailyReading';
 
 function getDailyPrayer() {
   return prayerPool[dayOfYear() % prayerPool.length];
 }
 
-// Deterministic shuffle so consecutive days don't walk through same-portal
-// entries in order. Fixed seed → same rotation order for everyone, every day.
-function mulberry32(seed) {
-  return function () {
-    seed |= 0;
-    seed = (seed + 0x6d2b79f5) | 0;
-    let t = Math.imul(seed ^ (seed >>> 15), 1 | seed);
-    t = (t + Math.imul(t ^ (t >>> 7), 61 | t)) ^ t;
-    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
-  };
-}
-
-// A well-spread reading rotation drawn from every readable section in the hub.
-const READING_POOL = (() => {
-  const arr = searchIndex.slice();
-  const rnd = mulberry32(20240531);
-  for (let i = arr.length - 1; i > 0; i--) {
-    const j = Math.floor(rnd() * (i + 1));
-    [arr[i], arr[j]] = [arr[j], arr[i]];
-  }
-  return arr;
-})();
-
-function getDailyReading() {
+// Pick a different reading than the one currently shown, for the shuffle button.
+function getRandomReading(excludeTitle) {
   if (READING_POOL.length === 0) return null;
-  return READING_POOL[dayOfYear() % READING_POOL.length];
+  if (READING_POOL.length === 1) return READING_POOL[0];
+  let pick;
+  do {
+    pick = READING_POOL[Math.floor(Math.random() * READING_POOL.length)];
+  } while (pick.title === excludeTitle);
+  return pick;
 }
 
 const LENS_COLORS = {
@@ -191,6 +174,7 @@ function DailyPrayerCard() {
     'Virtue':         { border: 'rgba(52,211,153,0.28)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.15)',  badgeBorder: 'rgba(52,211,153,0.35)',  badgeText: '#6ee7b7' },
     'Deadly Sin':     { border: 'rgba(248,113,113,0.28)', bg: 'rgba(248,113,113,0.07)', badge: 'rgba(248,113,113,0.15)', badgeBorder: 'rgba(248,113,113,0.35)', badgeText: '#fca5a5' },
     "Dante's Inferno":{ border: 'rgba(167,139,250,0.28)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.15)', badgeBorder: 'rgba(167,139,250,0.35)', badgeText: '#c4b5fd' },
+    'Traditional':    { border: 'rgba(96,165,250,0.28)',  bg: 'rgba(96,165,250,0.07)',  badge: 'rgba(96,165,250,0.15)',  badgeBorder: 'rgba(96,165,250,0.35)',  badgeText: '#93c5fd' },
   };
   const c = typeColors[prayer.type] || typeColors['Commandment'];
 
@@ -234,8 +218,13 @@ function DailyPrayerCard() {
 }
 
 function DailyReadingCard({ onNavigate }) {
-  const reading = useMemo(() => getDailyReading(), []);
+  const [reading, setReading] = useState(() => getDailyReading());
   if (!reading) return null;
+
+  const shuffle = (e) => {
+    e.stopPropagation();
+    setReading(getRandomReading(reading.title));
+  };
 
   const portal = portalsById[reading.portalId];
   const c = LENS_COLORS[reading.lens] || LENS_COLORS.Symbolic;
@@ -285,6 +274,20 @@ function DailyReadingCard({ onNavigate }) {
           {reading.lens}
         </span>
         <span style={{ marginLeft: 'auto', fontSize: '0.74rem', color: '#7a7096' }}>{dateLabel}</span>
+        <button
+          type="button"
+          onClick={shuffle}
+          aria-label="Show a different reading"
+          title="Show a different reading"
+          style={{
+            display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+            width: '28px', height: '28px', borderRadius: '999px',
+            border: `1px solid ${c.border}`, background: c.badge, color: c.badgeText,
+            cursor: 'pointer', fontSize: '0.85rem', lineHeight: 1, padding: 0,
+          }}
+        >
+          ⟳
+        </button>
       </div>
 
       <h3 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 900, color: '#f1eeff', margin: '0 0 8px' }}>
@@ -426,7 +429,7 @@ export default function HomePage({ onNavigate }) {
 
   const recentPortals = recentIds
     .map((id) => portalsById[id])
-    .filter(Boolean)
+    .filter((p) => p && !p.hidden)
     .slice(0, 3);
 
   return (

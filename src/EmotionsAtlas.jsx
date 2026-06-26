@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import InnerAtlasNav from './components/InnerAtlasNav';
 import './innerAtlasTheme.css';
 import { accentVars } from './innerAtlasTheme';
@@ -501,6 +501,22 @@ const ALL_EMOTIONS = SPIRAL_LEVELS.flatMap((level, levelIndex) =>
   }))
 ).filter((emotion, index, list) => list.findIndex((item) => item.id === emotion.id) === index);
 
+// When a daily reading or search lands on a specific emotion family, open the
+// page focused on that family: select a representative state on the spiral so
+// the detail panel reflects it, and highlight the matching glossary card.
+const FAMILY_SPIRAL_ANCHOR = {
+  basic: 'ascending-joy',
+  sad: 'descending-grief',
+  angry: 'descending-anger',
+  fear: 'descending-fear',
+  love: 'ascending-compassion',
+  self: 'ascending-confidence',
+  social: 'ascending-empathy',
+  calm: 'ascending-acceptance',
+  mixed: 'ascending-courage',
+};
+const DEFINITION_GROUP_IDS = new Set(DEFINITION_GROUPS.map((group) => group.id));
+
 function SpiralRibbon() {
   const loops = 11;
   const segments = Array.from({ length: loops }, (_, index) => {
@@ -719,10 +735,26 @@ function EmotionPortalNav() {
   );
 }
 
-export default function EmotionsAtlas({ onBack, onSelectSection }) {
+export default function EmotionsAtlas({ onBack, onSelectSection, initialFamily }) {
+  const focusFamily = initialFamily && DEFINITION_GROUP_IDS.has(initialFamily) ? initialFamily : null;
   const [activeDirection, setActiveDirection] = useState('all');
   const [query, setQuery] = useState('');
-  const [selectedId, setSelectedId] = useState('ascending-joy');
+  const [selectedId, setSelectedId] = useState(
+    () => (focusFamily && FAMILY_SPIRAL_ANCHOR[focusFamily]) || 'ascending-joy'
+  );
+  const [highlightFamily, setHighlightFamily] = useState(focusFamily);
+
+  // On a family deep link, scroll to that family's glossary card and let the
+  // highlight fade after a moment so the page "lands" on the right emotions.
+  useEffect(() => {
+    if (!focusFamily) return undefined;
+    document
+      .getElementById(`emotion-family-${focusFamily}`)
+      ?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    const timer = setTimeout(() => setHighlightFamily(null), 2800);
+    return () => clearTimeout(timer);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const visibleEmotions = useMemo(() => {
     const q = query.trim().toLowerCase();
@@ -959,11 +991,15 @@ export default function EmotionsAtlas({ onBack, onSelectSection }) {
             {DEFINITION_GROUPS.map((group) => (
               <article
                 key={group.id}
+                id={`emotion-family-${group.id}`}
                 style={{
                   borderRadius: 20,
-                  border: `1px solid ${group.color}38`,
-                  background: `linear-gradient(135deg, ${group.color}12, rgba(255,255,255,0.03))`,
+                  border: `1px solid ${highlightFamily === group.id ? group.color : `${group.color}38`}`,
+                  background: `linear-gradient(135deg, ${group.color}${highlightFamily === group.id ? '26' : '12'}, rgba(255,255,255,0.03))`,
                   padding: 18,
+                  scrollMarginTop: 132,
+                  boxShadow: highlightFamily === group.id ? `0 0 0 1px ${group.color}, 0 0 34px ${group.color}55` : 'none',
+                  transition: 'box-shadow 0.45s ease, border-color 0.45s ease, background 0.45s ease',
                 }}
               >
                 <h3 style={{ margin: 0, color: group.color, fontSize: 15, fontWeight: 900 }}>{group.name}</h3>

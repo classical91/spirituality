@@ -3,16 +3,204 @@ import './NatalChartDecoder.css';
 import SafetyNote from './components/SafetyNote';
 
 const planets = [
-  { name: "Sun", symbol: "☉", metal: "Gold", metalSymbol: "Au", metalMeaning: "Gold symbolizes vitality, royalty, incorruptibility, radiance, life force, and the centered self.", symbolicBridge: "Sun and gold both point to the center: the radiant, visible, life-giving principle.", keywords: "identity, vitality, confidence, purpose", meaning: "The Sun shows your core identity, life force, confidence, and the part of you that wants to become fully expressed.", beginner: "Think of the Sun as the center of the chart. It shows the main character energy.", deeper: "The Sun is not every part of your personality. It is the part that seeks coherence, direction, visibility, and conscious self-expression.", watch: "Do not reduce the whole chart to the Sun sign. It is important, but it is only one piece.", example: "Sun in Leo in the 10th House may seek recognition through creativity, leadership, or public achievement." },
-  { name: "Moon", symbol: "☽", metal: "Silver", metalSymbol: "Ag", metalMeaning: "Silver symbolizes reflection, receptivity, intuition, emotional tides, memory, and lunar sensitivity.", symbolicBridge: "Moon and silver both reflect light rather than generate it. They symbolize feeling, memory, and emotional response.", keywords: "emotions, instincts, needs, comfort", meaning: "The Moon shows emotional needs, instinctive reactions, attachment patterns, memory, and what helps someone feel safe.", beginner: "The Moon is the private emotional self.", deeper: "It describes how someone self-soothes, bonds, protects themselves, and responds when they are vulnerable.", watch: "A person may not show their Moon immediately. It often appears in private, family, stress, and intimacy.", example: "Moon in Scorpio in the 7th House may need deep emotional bonding through partnership." },
-  { name: "Mercury", symbol: "☿", metal: "Quicksilver / Mercury", metalSymbol: "Hg", metalMeaning: "Mercury symbolizes movement, exchange, transformation, language, cleverness, and fluid intelligence.", symbolicBridge: "Mercury as a metal is fluid and hard to pin down, matching Mercury as the planet of mind, speech, trade, and movement.", keywords: "mind, communication, learning, speech", meaning: "Mercury shows how someone thinks, speaks, learns, processes information, and makes connections.", beginner: "Mercury is the mental and communication style.", deeper: "It shows how the nervous system gathers data, names experiences, asks questions, and translates thoughts into words.", watch: "Mercury does not show intelligence level. It shows the style of thinking.", example: "Mercury in Gemini in the 3rd House may be quick, verbal, curious, and mentally restless." },
-  { name: "Venus", symbol: "♀", metal: "Copper", metalSymbol: "Cu", metalMeaning: "Copper symbolizes beauty, attraction, conductivity, harmony, softness, sensuality, and bonding.", symbolicBridge: "Venus and copper both carry the theme of connection: attraction, beauty, magnetism, and relational warmth.", keywords: "love, attraction, beauty, values, pleasure", meaning: "Venus shows love style, affection, attraction, pleasure, harmony, taste, and what someone values.", beginner: "Venus is how someone gives and receives affection.", deeper: "It reveals relational preferences, aesthetic taste, sensual enjoyment, and what feels desirable or worth preserving.", watch: "Venus is not the whole relationship pattern. Also check Moon, Mars, 5th House, 7th House, and aspects.", example: "Venus in Cancer in the 5th House may love through tenderness, romance, nostalgia, and emotional care." },
-  { name: "Mars", symbol: "♂", metal: "Iron", metalSymbol: "Fe", metalMeaning: "Iron symbolizes force, blood, weaponry, heat, conflict, courage, effort, and raw physical action.", symbolicBridge: "Mars and iron both carry the energy of strength, conflict, assertion, survival, and direct action.", keywords: "drive, action, desire, anger, pursuit", meaning: "Mars shows action, drive, courage, sexual energy, anger, conflict style, and how someone goes after what they want.", beginner: "Mars is the engine.", deeper: "It describes how someone asserts themselves, handles frustration, initiates, competes, protects, and moves toward desire.", watch: "Mars can be healthy assertion or reactive aggression depending on awareness and context.", example: "Mars in Aries in the 1st House may act quickly, directly, and independently." },
-  { name: "Jupiter", symbol: "♃", metal: "Tin", metalSymbol: "Sn", metalMeaning: "Tin symbolizes expansion, generosity, protection, teaching, law, blessing, and the growth principle.", symbolicBridge: "Jupiter and tin share the image of expansion, benevolence, wisdom, increase, and social order.", keywords: "growth, faith, opportunity, wisdom", meaning: "Jupiter shows expansion, optimism, belief, wisdom, luck, teaching, and the areas where life wants to grow larger.", beginner: "Jupiter is where life expands.", deeper: "It can show faith, philosophy, education, generosity, confidence, and sometimes excess.", watch: "Jupiter can overdo things. Growth needs grounding.", example: "Jupiter in Sagittarius in the 9th House may grow through travel, learning, faith, and teaching." },
-  { name: "Saturn", symbol: "♄", metal: "Lead", metalSymbol: "Pb", metalMeaning: "Lead symbolizes heaviness, time, weight, limitation, endurance, density, mortality, and slow transformation.", symbolicBridge: "Saturn and lead both describe what is heavy, slow, serious, binding, structured, and eventually mastered.", keywords: "discipline, limits, maturity, responsibility", meaning: "Saturn shows structure, responsibility, fear, discipline, delay, mastery, and long-term growth.", beginner: "Saturn is where life asks for maturity.", deeper: "It often points to pressure, insecurity, boundaries, and the area where effort eventually creates strength.", watch: "Saturn is not only restriction. It can become mastery and stability.", example: "Saturn in the 11th House may create lessons around friendships, belonging, and long-term goals." },
-  { name: "Uranus", symbol: "♅", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Uranus was not part of the traditional seven-planet metal system. It can be treated as an advanced modern layer.", symbolicBridge: "Uranus can be linked symbolically with electricity, rebellion, disruption, invention, and sudden awakening.", keywords: "freedom, disruption, originality, rebellion", meaning: "Uranus shows originality, sudden change, independence, innovation, rebellion, and the need for freedom.", beginner: "Uranus is the rule-breaker.", deeper: "It disrupts stale patterns and awakens individuality, but it can also create instability or emotional distance.", watch: "Uranus can confuse freedom with avoidance.", example: "Uranus in the 12th House may show hidden restlessness or sudden inner awakenings." },
-  { name: "Neptune", symbol: "♆", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Neptune was not part of the traditional seven-planet metal system. It belongs to the modern planetary layer.", symbolicBridge: "Neptune can be linked symbolically with mist, oceans, dreams, dissolution, spirituality, and illusion.", keywords: "dreams, spirituality, imagination, illusion", meaning: "Neptune shows imagination, spirituality, compassion, fantasy, idealization, confusion, and dissolving boundaries.", beginner: "Neptune is the dream world.", deeper: "It can show mystical sensitivity, artistic inspiration, escapism, longing, and places where reality can blur.", watch: "Neptune can idealize people or situations. Clarity matters.", example: "Neptune in the 1st House may make someone appear sensitive, mysterious, or hard to define." },
-  { name: "Pluto", symbol: "♇", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Pluto was not part of the traditional seven-planet metal system. It belongs to modern astrology.", symbolicBridge: "Pluto can be linked symbolically with underworld matter, pressure, decay, purification, power, and rebirth.", keywords: "power, shadow, transformation, obsession", meaning: "Pluto shows transformation, intensity, control, shadow material, psychological depth, and rebirth.", beginner: "Pluto is deep transformation.", deeper: "It exposes what is buried, compulsive, feared, or powerful so it can be faced and transformed.", watch: "Pluto can become obsession, power struggle, or emotional extremity when unconscious.", example: "Pluto in the 8th House may intensify intimacy, trust, secrets, and shared resources." },
+  { name: "Sun", symbol: "☉", metal: "Gold", metalSymbol: "Au", metalMeaning: "Gold symbolizes vitality, royalty, incorruptibility, radiance, life force, and the centered self.", symbolicBridge: "Sun and gold both point to the center: the radiant, visible, life-giving principle.", keywords: "identity, vitality, confidence, purpose", meaning: "The Sun shows your core identity, life force, confidence, and the part of you that wants to become fully expressed.", beginner: "Think of the Sun as the center of the chart. It shows the main character energy.", deeper: "The Sun is not every part of your personality. It is the part that seeks coherence, direction, visibility, and conscious self-expression.", watch: "Do not reduce the whole chart to the Sun sign. It is important, but it is only one piece.", example: "Sun in Leo in the 10th House may seek recognition through creativity, leadership, or public achievement.",
+    myth: "Apollo and Helios in Greece, Ra in Egypt, Sol Invictus in Rome — the solar deity who drives the chariot of light across the sky each day. The Sun is the hero who illuminates, the conscious self that brings order out of darkness.",
+    shadow: "When unconscious, the Sun becomes ego inflation: arrogance, a fragile pride that needs constant admiration, and a fear of being unseen. The shadow side overshadows others to feel real, or collapses into emptiness when not the center of attention.",
+    body: "Rules the heart, the spine, the upper back, and overall circulation. As the vital principle, it governs the body's core life force, energy, and the constitution's underlying strength.",
+    houses: [
+      "Identity expressed through the body, appearance, and personal presence. The self is the project.",
+      "Identity built through values, possessions, and material self-sufficiency. Worth is tied to what is earned.",
+      "Identity through ideas, communication, and intellectual connection. The mind defines the self.",
+      "Identity rooted in home, ancestry, and emotional belonging. The inner world is the foundation.",
+      "Identity expressed through creativity, self-expression, romance, and joy. Life is meant to shine.",
+      "Identity through work, health, and daily contribution. Purpose is found in service and craft.",
+      "Identity shaped through relationship. The self comes into focus through partnership and others.",
+      "Identity through transformation, depth, and confronting what is hidden. Rebirth is the path.",
+      "Identity through exploration, philosophy, and the search for meaning. The quest defines the self.",
+      "Identity through career, achievement, and public contribution. Legacy and reputation matter deeply.",
+      "Identity through community, friendship, and collective vision. Purpose found in belonging to something larger.",
+      "Identity found in solitude, retreat, and spiritual deepening. The hidden self holds the truth.",
+    ]
+  },
+  { name: "Moon", symbol: "☽", metal: "Silver", metalSymbol: "Ag", metalMeaning: "Silver symbolizes reflection, receptivity, intuition, emotional tides, memory, and lunar sensitivity.", symbolicBridge: "Moon and silver both reflect light rather than generate it. They symbolize feeling, memory, and emotional response.", keywords: "emotions, instincts, needs, comfort", meaning: "The Moon shows emotional needs, instinctive reactions, attachment patterns, memory, and what helps someone feel safe.", beginner: "The Moon is the private emotional self.", deeper: "It describes how someone self-soothes, bonds, protects themselves, and responds when they are vulnerable.", watch: "A person may not show their Moon immediately. It often appears in private, family, stress, and intimacy.", example: "Moon in Scorpio in the 7th House may need deep emotional bonding through partnership.",
+    myth: "Artemis and Selene in Greece, Luna in Rome — the lunar goddess of cycles, instinct, and the night. The Moon is the mother, the keeper of memory and tides, the one who waxes and wanes with the rhythm of feeling.",
+    shadow: "When unconscious, the Moon becomes moodiness, emotional dependency, and regression — clinging to the past, to childhood patterns, or to whoever provides comfort. The shadow side reacts from old wounds instead of present reality.",
+    body: "Rules the stomach, breasts, digestive lining, and the lymphatic system. As the watery principle, it governs the body's fluids, hormonal tides, and the felt sense of comfort or unease in the gut.",
+    houses: [
+      "Emotions visible on the surface; moods shape the outer expression and first impression.",
+      "Security tied to material comfort and financial stability. Feelings calm when basic needs are met.",
+      "Emotional comfort through communication, learning, and familiar surroundings. Talking processes feeling.",
+      "Deep bond to home and family. The inner world is strongly rooted in origin and early life.",
+      "Emotional expression through creativity, play, and romance. Feelings flow through joy and self-expression.",
+      "Feelings processed through routine, service, and practical care. Helping others soothes the inner world.",
+      "Emotional security sought through close partnership. The inner life is shaped by relationship.",
+      "Intense emotional depth; instinctive pull toward transformation, intimacy, and what is hidden.",
+      "Emotional comfort through exploration, belief, and expanding understanding. Freedom soothes.",
+      "Feelings tied to reputation, achievement, and public role. Emotional life influenced by authority figures.",
+      "Emotional connection through friendship, group belonging, and shared ideals.",
+      "Rich private emotional world. Needs solitude to process. Strong unconscious emotional layer.",
+    ]
+  },
+  { name: "Mercury", symbol: "☿", metal: "Quicksilver / Mercury", metalSymbol: "Hg", metalMeaning: "Mercury symbolizes movement, exchange, transformation, language, cleverness, and fluid intelligence.", symbolicBridge: "Mercury as a metal is fluid and hard to pin down, matching Mercury as the planet of mind, speech, trade, and movement.", keywords: "mind, communication, learning, speech", meaning: "Mercury shows how someone thinks, speaks, learns, processes information, and makes connections.", beginner: "Mercury is the mental and communication style.", deeper: "It shows how the nervous system gathers data, names experiences, asks questions, and translates thoughts into words.", watch: "Mercury does not show intelligence level. It shows the style of thinking.", example: "Mercury in Gemini in the 3rd House may be quick, verbal, curious, and mentally restless.",
+    myth: "Hermes in Greece, Mercury in Rome — the winged messenger of the gods, trickster, merchant, and psychopomp who guides souls between worlds. He moves freely between the living and the dead, the divine and the mortal.",
+    shadow: "When unconscious, Mercury becomes deception, manipulation through clever words, restless overthinking, and nervous scattering. The shadow side talks to avoid feeling, twists the truth, or drowns in analysis without ever landing.",
+    body: "Rules the nervous system, the brain, the hands, the lungs, and the respiratory system. It governs the body's signaling — nerves, reflexes, and the breath that carries thought into speech.",
+    retrograde: "Natal Mercury retrograde turns the mind inward. Thinking is reflective, revising, and internalized rather than quick and outward. These are original, independent thinkers who process privately, often understanding things deeply before they can explain them. Communication may feel out of step with the mainstream — a gift once trusted.",
+    houses: [
+      "Mind expressed outwardly through personality and first impression. Quick to speak, form opinions, and engage.",
+      "Practical thinking around money, values, and material matters. The mind is focused on what is useful.",
+      "At home here — curious, verbal, and socially connected. Communication flows easily and constantly.",
+      "Thinking shaped by family background and inner life. Processes privately, often at home.",
+      "Creative and playful mind. Communication through story, humor, and self-expression.",
+      "Detail-oriented and analytical. Mind focused on work, improvement, and practical problem-solving.",
+      "Thinking engaged through dialogue and relationship. The other person stimulates and sharpens thought.",
+      "Penetrating and investigative mind. Drawn to psychology, hidden patterns, and deep knowledge.",
+      "Philosophical thinker. Mind expands through travel, higher study, and the search for meaning.",
+      "Strategic communicator. Thinking shaped by career, reputation, and long-term ambition.",
+      "Ideas flow through networks, friendship, and collective interests. The mind is socially engaged.",
+      "Rich inner life. Thought is private, intuitive, and often more developed than what is spoken.",
+    ]
+  },
+  { name: "Venus", symbol: "♀", metal: "Copper", metalSymbol: "Cu", metalMeaning: "Copper symbolizes beauty, attraction, conductivity, harmony, softness, sensuality, and bonding.", symbolicBridge: "Venus and copper both carry the theme of connection: attraction, beauty, magnetism, and relational warmth.", keywords: "love, attraction, beauty, values, pleasure", meaning: "Venus shows love style, affection, attraction, pleasure, harmony, taste, and what someone values.", beginner: "Venus is how someone gives and receives affection.", deeper: "It reveals relational preferences, aesthetic taste, sensual enjoyment, and what feels desirable or worth preserving.", watch: "Venus is not the whole relationship pattern. Also check Moon, Mars, 5th House, 7th House, and aspects.", example: "Venus in Cancer in the 5th House may love through tenderness, romance, nostalgia, and emotional care.",
+    myth: "Aphrodite in Greece, Venus in Rome — goddess of love, beauty, and desire, born from the sea foam. She is attraction itself, the magnetic pull that draws things together, and the pleasure of being alive in a body.",
+    shadow: "When unconscious, Venus becomes vanity, people-pleasing, and transactional love — earning affection through performance, indulging to numb, or staying in relationships out of comfort rather than truth. The shadow side confuses being wanted with being loved.",
+    body: "Rules the throat, the kidneys, the skin, the sense of touch, and the veins. It governs the body's harmony and balance — the internal chemistry of attraction, sweetness, and sensual pleasure.",
+    retrograde: "Natal Venus retrograde turns love and values inward. There is often a relearning of self-worth from the inside out, attraction to the unconventional, and a tendency to revisit old relationships or unresolved love. These people question inherited ideas of beauty and romance, developing their own genuine standard over time.",
+    houses: [
+      "Beauty expressed through appearance and personal presence. Charming, warm, and naturally attractive first impression.",
+      "Love of comfort, sensual pleasure, and financial security. Values what is stable, beautiful, and lasting.",
+      "Affection through words, conversation, and lighthearted connection. Warmth expressed through communication.",
+      "Home as sanctuary. Warmth and beauty in domestic life matter deeply. Loving family atmosphere is a priority.",
+      "Romance, creativity, and heartfelt pleasure. Love expressed playfully, passionately, and with joy.",
+      "Love through care, acts of service, and health-oriented routines. Affection shown in practical, helpful ways.",
+      "Strong pull toward partnership. Love and relationship are central to identity and daily life.",
+      "Intense attraction. Love involves depth, transformation, and shared vulnerability. Values go beneath the surface.",
+      "Freedom in love. Attracted to adventure, philosophy, and expansive partners. Needs space to grow within relationship.",
+      "Aesthetic sense applied to public life. Attracted to accomplished or admired people. Career and beauty intersect.",
+      "Affection through friendship, shared causes, and social networks. Love feels most real in community.",
+      "Private or hidden love life. Deep compassion expressed quietly or in solitude. Love may be unconventional.",
+    ]
+  },
+  { name: "Mars", symbol: "♂", metal: "Iron", metalSymbol: "Fe", metalMeaning: "Iron symbolizes force, blood, weaponry, heat, conflict, courage, effort, and raw physical action.", symbolicBridge: "Mars and iron both carry the energy of strength, conflict, assertion, survival, and direct action.", keywords: "drive, action, desire, anger, pursuit", meaning: "Mars shows action, drive, courage, sexual energy, anger, conflict style, and how someone goes after what they want.", beginner: "Mars is the engine.", deeper: "It describes how someone asserts themselves, handles frustration, initiates, competes, protects, and moves toward desire.", watch: "Mars can be healthy assertion or reactive aggression depending on awareness and context.", example: "Mars in Aries in the 1st House may act quickly, directly, and independently.",
+    myth: "Ares in Greece, Mars in Rome — god of war, raw courage, and the warrior's fury. Where the Greeks feared Ares as blind violence, the Romans honored Mars as the disciplined protector and father of the people.",
+    shadow: "When unconscious, Mars becomes rage, cruelty, recklessness, and domination — bullying, sexual aggression, or self-destructive impulse. The shadow side either explodes without control or, when suppressed, turns the anger inward as depression and passivity.",
+    body: "Rules the muscles, the adrenal glands, the red blood cells, the reproductive organs, and the head. It governs the body's heat, inflammation, physical strength, and the fight-or-flight surge of adrenaline.",
+    retrograde: "Natal Mars retrograde turns drive inward. Anger and assertion may be suppressed, strategic, or expressed indirectly rather than head-on. These people often wrestle with how to claim what they want, learning over time to channel their energy with intention instead of either explosion or avoidance.",
+    houses: [
+      "Strong drive expressed through the body and personality. Confident, direct, and independent in action.",
+      "Energy directed toward earning and building material security. Motivated by financial goals.",
+      "Active and sharp communicator. Energy moves through words, ideas, and local connection.",
+      "Drive expressed within the home and family. Can create domestic tension or fierce protection of loved ones.",
+      "Passionate self-expression. Competitive in creativity and romance. High physical and sexual energy.",
+      "Hard worker. Energy directed toward practical tasks, health, and service. Productive and exacting.",
+      "Drive channeled through relationship. Can attract or become rivals with partners. Needs balanced assertion.",
+      "Intense desire. Energy directed toward transformation, shared depth, and what is hidden or taboo.",
+      "Action through adventure, travel, belief, and philosophical pursuit. Motivated by freedom and meaning.",
+      "Ambitious drive toward career and public achievement. Energy is disciplined and goal-oriented.",
+      "Motivated by group causes and collective action. Can be an activist or competitive in community.",
+      "Hidden or unconscious drive. Energy benefits from spiritual, creative, or behind-the-scenes outlets.",
+    ]
+  },
+  { name: "Jupiter", symbol: "♃", metal: "Tin", metalSymbol: "Sn", metalMeaning: "Tin symbolizes expansion, generosity, protection, teaching, law, blessing, and the growth principle.", symbolicBridge: "Jupiter and tin share the image of expansion, benevolence, wisdom, increase, and social order.", keywords: "growth, faith, opportunity, wisdom", meaning: "Jupiter shows expansion, optimism, belief, wisdom, luck, teaching, and the areas where life wants to grow larger.", beginner: "Jupiter is where life expands.", deeper: "It can show faith, philosophy, education, generosity, confidence, and sometimes excess.", watch: "Jupiter can overdo things. Growth needs grounding.", example: "Jupiter in Sagittarius in the 9th House may grow through travel, learning, faith, and teaching.",
+    myth: "Zeus in Greece, Jupiter in Rome — king of the gods, the sky father who rules from the heights with thunder and law. He is expansion, blessing, and benevolent authority, the principle that makes things grow larger and reach further.",
+    shadow: "When unconscious, Jupiter becomes excess, arrogance, and dogmatism — overindulgence, empty promises, self-righteousness, and the belief that one's own truth is the only truth. The shadow side inflates without grounding, promising more than it can deliver.",
+    body: "Rules the liver, the thighs, the hips, and the body's growth and fat metabolism. As the principle of expansion, it governs how the body grows, stores, and sometimes overextends its resources.",
+    retrograde: "Natal Jupiter retrograde turns faith and growth inward. Meaning is found through inner philosophy rather than inherited belief, and these people often question received religion or dogma to build their own wisdom. The blessings of Jupiter come from within — self-generated optimism and an internal moral compass.",
+    houses: [
+      "Natural optimism and confidence expressed through personality and appearance. Life tends to expand outward.",
+      "Financial generosity and abundance in values. Tends toward material comfort and a generous relationship with resources.",
+      "Growth through learning, writing, communication, and local connection. The mind is blessed with breadth.",
+      "Expansion in home and family life. Strong sense of roots and belonging. Family may be large or supportive.",
+      "Luck and joy in creativity, romance, and self-expression. Children or creative projects may be especially fulfilling.",
+      "Growth through service, health work, and improving everyday life. Generous in daily contribution.",
+      "Blessings through partnership. Expansive, generous, and lucky in relationship. Marriage may bring growth.",
+      "Growth through transformation, shared resources, and deep investigation. Benefits from inheritance or collaboration.",
+      "At home here — wisdom, travel, philosophy, and higher education flourish. Life expands through belief.",
+      "Career success and public recognition. Tends toward respected, influential, or teaching roles.",
+      "Luck through friendship, networks, and community involvement. Growth happens in collective settings.",
+      "Spiritual growth through solitude, inner retreat, and compassion. Behind-the-scenes work is deeply rewarding.",
+    ]
+  },
+  { name: "Saturn", symbol: "♄", metal: "Lead", metalSymbol: "Pb", metalMeaning: "Lead symbolizes heaviness, time, weight, limitation, endurance, density, mortality, and slow transformation.", symbolicBridge: "Saturn and lead both describe what is heavy, slow, serious, binding, structured, and eventually mastered.", keywords: "discipline, limits, maturity, responsibility", meaning: "Saturn shows structure, responsibility, fear, discipline, delay, mastery, and long-term growth.", beginner: "Saturn is where life asks for maturity.", deeper: "It often points to pressure, insecurity, boundaries, and the area where effort eventually creates strength.", watch: "Saturn is not only restriction. It can become mastery and stability.", example: "Saturn in the 11th House may create lessons around friendships, belonging, and long-term goals.",
+    myth: "Kronos in Greece, Saturn in Rome — the old god of time, harvest, and limits who devoured his own children for fear of being overthrown. He is the keeper of boundaries, the weight of consequence, and the discipline that turns time into mastery.",
+    shadow: "When unconscious, Saturn becomes harsh self-criticism, coldness, and fear-based control — rigidity, a scarcity mindset, chronic pessimism, and the inner voice that says you are never enough. The shadow side builds walls instead of structures.",
+    body: "Rules the bones, the teeth, the skin, the joints, and the knees — the skeletal structure itself. As the principle of limitation and time, it governs the body's framework, its hardening, and the wear of aging.",
+    retrograde: "Natal Saturn retrograde internalizes authority and discipline. The lessons of Saturn are felt as an inner critic and a deeply personal standard rather than external rules. These people often had to become their own authority early, learning over time to replace harsh self-judgment with genuine self-trust and self-respect.",
+    houses: [
+      "Serious or reserved presence. Lessons around identity, the body, and self-worth. Slow to build confidence but deeply earned.",
+      "Lessons around money, values, and material self-sufficiency. Fear of lack drives discipline around resources.",
+      "Discipline in communication. May feel unheard or struggle to express early in life. Writing and precision develop over time.",
+      "Structured or difficult early home life. Lessons around emotional security and the meaning of belonging.",
+      "Blocks around creativity, play, and romantic expression. Slow to open emotionally but capable of serious creative depth.",
+      "Strong work ethic and discipline around health. Risk of over-functioning in service or ignoring the body's limits.",
+      "Serious approach to partnership. Relationships involve commitment, hard lessons, and long-term responsibility.",
+      "Deep lessons around intimacy, shared resources, and confronting mortality. Transformation comes through facing fear.",
+      "Structured belief system. Wisdom arrives through experience, discipline, and questioning assumptions over time.",
+      "Central life lesson around career, authority, and long-term integrity. Public reputation is built slowly and carefully.",
+      "Lessons around belonging, friendship, and working toward long-term collective goals. Community takes effort.",
+      "Deep inner work and confronting unconscious fears over time. Spiritual discipline is the path to freedom.",
+    ]
+  },
+  { name: "Uranus", symbol: "♅", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Uranus was not part of the traditional seven-planet metal system. It can be treated as an advanced modern layer.", symbolicBridge: "Uranus can be linked symbolically with electricity, rebellion, disruption, invention, and sudden awakening.", keywords: "freedom, disruption, originality, rebellion", meaning: "Uranus shows originality, sudden change, independence, innovation, rebellion, and the need for freedom.", beginner: "Uranus is the rule-breaker.", deeper: "It disrupts stale patterns and awakens individuality, but it can also create instability or emotional distance.", watch: "Uranus can confuse freedom with avoidance.", example: "Uranus in the 12th House may show hidden restlessness or sudden inner awakenings.",
+    myth: "Ouranos in Greece — the primordial sky god, the vast over-arching heavens and father of the Titans. He is the cosmic principle that stands above and beyond, distant and impersonal, associated in modern astrology with lightning, awakening, and revolution.",
+    shadow: "When unconscious, Uranus becomes detachment, alienation, and chaos for its own sake — contrarianism, emotional coldness, and breaking things simply to resist. The shadow side mistakes disconnection for freedom and rebellion for genuine individuality.",
+    body: "Rules the ankles, the circulatory rhythm, and the electrical signaling of the nervous system. It governs sudden surges and spasms, the body's quickening, and the erratic, lightning-like discharges of energy.",
+    retrograde: "Natal Uranus retrograde turns rebellion inward. Nonconformity is private and internal before it shows outwardly — these people awaken within themselves first, questioning their own assumptions deeply. The drive for freedom is felt as an inner imperative rather than a public statement. (Note: Uranus is retrograde about 40% of the year, so this is common.)",
+    houses: [
+      "Unconventional personality and appearance. Strong need for personal freedom and the right to self-define.",
+      "Unpredictable finances. Disrupts conventional relationship to money, values, and material security.",
+      "Original and inventive thinker. Unconventional or disrupted education. Communication comes in flashes.",
+      "Disrupted or non-traditional home life. Freedom from family expectations is important and sometimes necessary.",
+      "Creative originality and unconventional romance. Sudden breaks or unexpected awakenings in self-expression.",
+      "Innovative work style. Disrupts rigid routines. Health approached through alternative or experimental methods.",
+      "Attracts unusual or freedom-loving partners. Tension between needing closeness and needing independence.",
+      "Sudden transformation. Unexpected changes in shared resources, deep psychology, or intimate dynamics.",
+      "Original philosophy and breaks from traditional belief. Unconventional travel, education, or spiritual path.",
+      "Disrupts or reinvents career. Unusual or pioneering public path. Professional life resists convention.",
+      "At home here — visionary friendship, collective innovation, and social change. Community is where awakening happens.",
+      "Hidden awakening and sudden spiritual insights. Unconscious rebellion that eventually becomes liberation.",
+    ]
+  },
+  { name: "Neptune", symbol: "♆", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Neptune was not part of the traditional seven-planet metal system. It belongs to the modern planetary layer.", symbolicBridge: "Neptune can be linked symbolically with mist, oceans, dreams, dissolution, spirituality, and illusion.", keywords: "dreams, spirituality, imagination, illusion", meaning: "Neptune shows imagination, spirituality, compassion, fantasy, idealization, confusion, and dissolving boundaries.", beginner: "Neptune is the dream world.", deeper: "It can show mystical sensitivity, artistic inspiration, escapism, longing, and places where reality can blur.", watch: "Neptune can idealize people or situations. Clarity matters.", example: "Neptune in the 1st House may make someone appear sensitive, mysterious, or hard to define.",
+    myth: "Poseidon in Greece, Neptune in Rome — god of the sea, the vast and unfathomable deep. The ocean is the unconscious itself: boundless, dissolving, source of both inspiration and drowning, where all boundaries blur into one.",
+    shadow: "When unconscious, Neptune becomes escapism, addiction, and deception — victimhood, martyrdom, and the slow dissolution of self into fantasy or substance. The shadow side avoids reality, idealizes to the point of self-betrayal, and loses the boundary between dream and truth.",
+    body: "Rules the pineal gland, the feet, the immune system, and lymphatic drainage. It governs the body's subtle sensitivities, its porousness to the environment, and susceptibility to substances, allergies, and the unseen.",
+    retrograde: "Natal Neptune retrograde directs imagination and spirituality inward. These people are often less swept up by outer illusions and collective fantasy, with a clearer, more private inner vision. The mystical sensitivity is real but internalized — spirituality lived quietly rather than performed. (Note: Neptune is retrograde about 40% of the year, so this is common.)",
+    houses: [
+      "Elusive or sensitive presence. Others may project onto or idealize the person. Identity can feel fluid or undefined.",
+      "Confused or idealized relationship with money and material security. Boundaries around resources need attention.",
+      "Dreamy communicator and imaginative thinker. Creative writer or speaker. Early education may feel unclear.",
+      "Spiritual sensitivity rooted in family and home. The domestic life may feel idealized or emotionally blurred.",
+      "Romantic idealism and creative imagination. Falls in love with visions and ideals. Art is deeply felt.",
+      "Healing through compassionate service. Health routines need grounding and realistic structure.",
+      "Idealized partners. May struggle to see relationships clearly. Compassion and confusion can mix in partnership.",
+      "Deep spiritual sensitivity around transformation, loss, and shared depth. The unconscious is very active.",
+      "Mystical philosophy and spiritual seeking. Beliefs dissolve and reform. Drawn to transcendence and the infinite.",
+      "Unclear or idealized career. Drawn to artistic, healing, or spiritual vocations. Public image may be elusive.",
+      "Idealistic friendships and connection to spiritual or creative collective movements. Community can feel otherworldly.",
+      "At home here — deep spiritual sensitivity, vivid dreams, and the unconscious inner world. A natural mystic.",
+    ]
+  },
+  { name: "Pluto", symbol: "♇", metal: "Modern / no classical metal", metalSymbol: "—", metalMeaning: "Pluto was not part of the traditional seven-planet metal system. It belongs to modern astrology.", symbolicBridge: "Pluto can be linked symbolically with underworld matter, pressure, decay, purification, power, and rebirth.", keywords: "power, shadow, transformation, obsession", meaning: "Pluto shows transformation, intensity, control, shadow material, psychological depth, and rebirth.", beginner: "Pluto is deep transformation.", deeper: "It exposes what is buried, compulsive, feared, or powerful so it can be faced and transformed.", watch: "Pluto can become obsession, power struggle, or emotional extremity when unconscious.", example: "Pluto in the 8th House may intensify intimacy, trust, secrets, and shared resources.",
+    myth: "Hades in Greece, Pluto in Rome — lord of the underworld, ruler of the dead and of the hidden riches buried beneath the earth. He governs what is unseen, what is buried, and the wealth that comes only from descending into the depths.",
+    shadow: "When unconscious, Pluto becomes obsession, manipulation, and the will to dominate — vengeance, compulsion, and destructiveness aimed at others or the self. The shadow side seeks control to avoid feeling powerless, and can destroy rather than transform.",
+    body: "Rules the reproductive and eliminative organs, cellular regeneration, and DNA. As the principle of death and rebirth, it governs the body's deep recycling — the breaking down and rebuilding at the most fundamental level.",
+    retrograde: "Natal Pluto retrograde turns transformation inward. The work of facing shadow, power, and buried material happens through deep psychological self-excavation rather than outer drama. These people reclaim their power from within, often becoming intensely self-aware about their own depths. (Note: Pluto is retrograde about 43% of the year, so this is very common.)",
+    houses: [
+      "Intense magnetism and presence. Identity shaped by deep transformation. The self is repeatedly reborn.",
+      "Power dynamics around money and values. Transformation comes through confronting attachment to security.",
+      "Penetrating mind and intense communication. Transformative education or sibling experiences mark the path.",
+      "Deep family power dynamics and ancestral patterns. Transformation through confronting the roots.",
+      "Intense creative and romantic experiences. Powerful bond with children or art. Love is never surface-level.",
+      "Transformation through work and health. Driven in healing or service roles. The daily life holds deep power.",
+      "Power dynamics in relationships. Transformative partnerships that change both people at the core.",
+      "At home here — intense, deep, and transformative in intimacy, shared resources, and psychological depth.",
+      "Transformation through philosophy, travel, and radical shifts in belief. Old worldviews die and are reborn.",
+      "Power in the public sphere. Career involves transformation, depth, or subject matter others avoid.",
+      "Transformation through collective causes. Power dynamics in group settings. The community holds shadow material.",
+      "Deep unconscious material surfaces over time. Spiritual transformation through facing what has been buried.",
+    ]
+  },
 ];
 
 const signs = [
@@ -198,10 +386,35 @@ function ModalContent({ type, data }) {
           <p>{data.metalMeaning}</p>
         </div>
         <div className="modal-section"><h4>Symbolic bridge</h4><p>{data.symbolicBridge}</p></div>
+        {data.myth && <div className="modal-section"><h4>Mythological root</h4><p>{data.myth}</p></div>}
         <div className="modal-section"><h4>Beginner meaning</h4><p>{data.beginner}</p></div>
         <div className="modal-section"><h4>Deeper layer</h4><p>{data.deeper}</p></div>
         <div className="modal-section"><h4>Watch for</h4><p>{data.watch}</p></div>
+        {data.shadow && <div className="modal-section"><h4>Shadow expression</h4><p>{data.shadow}</p></div>}
+        {data.body && <div className="modal-section"><h4>Body rulership</h4><p>{data.body}</p></div>}
         <div className="modal-section"><h4>Example</h4><p>{data.example}</p></div>
+        {data.houses && (
+          <div className="modal-section">
+            <h4>In the houses</h4>
+            <p style={{ marginBottom: '12px', opacity: 0.7, fontSize: '0.85em' }}>The house shows <em>where</em> in life this planet's energy plays out.</p>
+            <div className="decan-list">
+              {data.houses.map((desc, i) => (
+                <div key={i} className="decan-row">
+                  <div className="decan-head">
+                    <span className="decan-range">{i + 1}{['st','nd','rd'][i] ?? 'th'} House</span>
+                  </div>
+                  <p>{desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+        {data.retrograde && (
+          <div className="modal-section">
+            <h4>Retrograde in the natal chart</h4>
+            <p>{data.retrograde}</p>
+          </div>
+        )}
       </>
     );
   }
@@ -252,9 +465,13 @@ function ModalContent({ type, data }) {
   );
 }
 
-export default function NatalChartDecoder({ onBack }) {
+export default function NatalChartDecoder({ onBack, initialSection }) {
   const [activeTab, setActiveTab] = useState('overview');
-  const [modal, setModal] = useState(null);
+  const [modal, setModal] = useState(() => {
+    if (!initialSection) return null;
+    const matched = planets.find(p => p.name.toLowerCase() === initialSection.toLowerCase());
+    return matched ? { type: 'planet', name: matched.name } : null;
+  });
   const [glossaryQuery, setGlossaryQuery] = useState('');
 
   useEffect(() => {
