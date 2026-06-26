@@ -58,8 +58,8 @@ const focusedHeaderCopy = {
     subtitle: "The energy itself — desire, arousal, fantasy, porn-pattern awareness — plus self-mastery over it: masturbation, celibacy, urges, tracking, journaling, and integration, without shame and without repression.",
   },
   relationships: {
-    badges: [["sky", "Private dashboard"], ["rose", "Secure Relationships"], ["emerald", "Secure connection"]],
-    title: "Secure Relationships",
+    badges: [["sky", "Private dashboard"], ["rose", "Relationship Practice"], ["emerald", "Secure connection"]],
+    title: "Relationship Practice",
     subtitle: "Marriage, dynamics, and scripting — how sexual energy is meant to be expressed inside a relationship. For attachment, red flags, and relationship patterns, see the Relationship Hub.",
   },
 };
@@ -77,7 +77,7 @@ const PORTAL_CARDS = [
     slug: "relationships",
     accent: "rose",
     icon: "🤝",
-    title: "Secure Relationships",
+    title: "Relationship Practice",
     description: "Marriage, relationship dynamics, and scripting — how sexual energy is meant to be expressed inside a relationship.",
   },
 ];
@@ -1215,7 +1215,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                 ))}
               </div>
               <h1 className="max-w-4xl text-4xl font-black tracking-tight text-white md:text-6xl">
-                {focusedGroup ? focusedHeaderCopy[focusedGroup.slug].title : "Sexual Energy, Self-Mastery, and Secure Relationships"}
+                {focusedGroup ? focusedHeaderCopy[focusedGroup.slug].title : "Sexual Energy & Self-Mastery"}
               </h1>
               <p className="mt-4 max-w-3xl text-base leading-7 text-slate-300 md:text-lg">
                 {focusedGroup

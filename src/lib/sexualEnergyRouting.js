@@ -18,7 +18,7 @@ export const tabGroups = [
     ],
   },
   {
-    label: "Secure Relationships",
+    label: "Relationship Practice",
     slug: "relationships",
     accent: "rose",
     tabs: [
