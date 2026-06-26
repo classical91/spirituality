@@ -72,7 +72,6 @@ src/
   main.jsx
   index.css
   Chakra3DVisualizer.jsx
-  NatalChartDecoder.jsx
   BibleConceptAtlas.jsx
   PsychologyPortal.jsx
   InnerBalanceAtlas.jsx

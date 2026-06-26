@@ -1,7 +1,6 @@
 import { useMemo, useState } from 'react';
 import './SacredSystemsAtlas.css';
-import NatalChartDecoder from './NatalChartDecoder';
-import NumerologyPortal from './NumerologyPortal';
+import { astrologyCards, numerologyCards, ASTROLOGY_KEYWORDS, NUMEROLOGY_KEYWORDS } from './data/sacredSystemsCards';
 
 const PLANET_NAMES = new Set([
   'sun', 'moon', 'mercury', 'venus', 'mars', 'jupiter', 'saturn', 'uranus', 'neptune', 'pluto',
@@ -11,25 +10,23 @@ const NUMEROLOGY_SECTION_IDS = new Set([
   'angel-numbers', 'personal-year', 'calculator', 'journal',
 ]);
 
-const SYSTEM_TABS = [
-  { id: 'library', label: 'Library' },
-  { id: 'natal-chart', label: 'Natal Chart' },
-  { id: 'numerology', label: 'Numerology' },
-];
-
-// Resolve an incoming ?section= value to which system tab opens, and any
-// sub-section within it (a planet for the natal chart, a concept id for
-// numerology).
-function resolveSystemSection(section) {
-  if (!section) return { tab: 'library', sub: null };
-  if (section === 'natal-chart' || section === 'astrology') return { tab: 'natal-chart', sub: null };
-  if (section === 'numerology') return { tab: 'numerology', sub: null };
-  if (PLANET_NAMES.has(section.toLowerCase())) return { tab: 'natal-chart', sub: section };
-  if (NUMEROLOGY_SECTION_IDS.has(section)) return { tab: 'numerology', sub: section };
-  return { tab: 'library', sub: null };
+// Resolve an incoming ?section= value to a concept id to open directly.
+function resolveInitialConceptId(section) {
+  if (!section) return null;
+  if (section === 'natal-chart' || section === 'astrology') return null;
+  if (section === 'numerology') return null;
+  if (PLANET_NAMES.has(section.toLowerCase())) return `astro-planet-${section.toLowerCase()}`;
+  if (NUMEROLOGY_SECTION_IDS.has(section)) return `num-${section}`;
+  return null;
 }
 
-const concepts = [
+function resolveInitialFilter(section) {
+  if (section === 'natal-chart' || section === 'astrology' || PLANET_NAMES.has((section || '').toLowerCase())) return 'Astrology';
+  if (section === 'numerology' || NUMEROLOGY_SECTION_IDS.has(section)) return 'Numerology';
+  return 'All';
+}
+
+const handwrittenConcepts = [
   {
     id: 'crystals-overview',
     title: 'Crystals: Overview',
@@ -469,7 +466,9 @@ const concepts = [
   },
 ];
 
-const FILTERS = ['All', 'Crystals', 'Sacred Geometry', 'Chakras', 'Pineal', 'Mystic Systems'];
+const concepts = [...handwrittenConcepts, ...astrologyCards, ...numerologyCards];
+
+const FILTERS = ['All', 'Crystals', 'Sacred Geometry', 'Chakras', 'Pineal', 'Mystic Systems', 'Astrology', 'Numerology'];
 
 const KEYWORDS = {
   Crystals: ['intention', 'minerals', 'altar', 'ritual', 'meditation', 'energy focus'],
@@ -477,18 +476,27 @@ const KEYWORDS = {
   Chakras: ['energy body', 'balance', 'yoga', 'breath', 'emotion', 'self-awareness'],
   Pineal: ['third eye', 'melatonin', 'dreams', 'intuition', 'sleep', 'inner sight'],
   'Mystic Systems': ['light body', 'life force', 'consciousness', 'breath', 'ascension', 'grounding'],
+  Astrology: ASTROLOGY_KEYWORDS,
+  Numerology: NUMEROLOGY_KEYWORDS,
 };
 
 function getKeywords(concept) {
   return KEYWORDS[concept.category] || ['awareness', 'practice', 'symbolism'];
 }
 
-export default function SacredSystemsAtlas({ onBack, onNavigate, initialSection }) {
-  const initial = useMemo(() => resolveSystemSection(initialSection), [initialSection]);
-  const [systemTab, setSystemTab] = useState(initial.tab);
-  const [activeFilter, setActiveFilter] = useState('All');
+export default function SacredSystemsAtlas({ onBack, initialSection }) {
+  const initialConceptId = useMemo(() => resolveInitialConceptId(initialSection), [initialSection]);
+  const initialFilter = useMemo(() => resolveInitialFilter(initialSection), [initialSection]);
+  const [activeFilter, setActiveFilter] = useState(initialFilter);
   const [activeSearch, setActiveSearch] = useState('');
-  const [activeConceptId, setActiveConceptId] = useState('crystals-overview');
+  const [activeConceptId, setActiveConceptId] = useState(() => {
+    if (initialConceptId) return initialConceptId;
+    if (initialFilter !== 'All') {
+      const firstInFilter = concepts.find((c) => c.category === initialFilter);
+      if (firstInFilter) return firstInFilter.id;
+    }
+    return 'crystals-overview';
+  });
 
   const visible = useMemo(() => {
     const q = activeSearch.trim().toLowerCase();
@@ -500,25 +508,6 @@ export default function SacredSystemsAtlas({ onBack, onNavigate, initialSection 
   }, [activeFilter, activeSearch]);
 
   const activeConcept = concepts.find((c) => c.id === activeConceptId) || concepts[0];
-
-  if (systemTab === 'natal-chart') {
-    return (
-      <NatalChartDecoder
-        onBack={() => setSystemTab('library')}
-        initialSection={initial.tab === 'natal-chart' ? initial.sub : null}
-      />
-    );
-  }
-
-  if (systemTab === 'numerology') {
-    return (
-      <NumerologyPortal
-        onBack={() => setSystemTab('library')}
-        onNavigate={onNavigate}
-        initialSection={initial.tab === 'numerology' ? initial.sub : null}
-      />
-    );
-  }
 
   const selectConcept = (id) => {
     setActiveConceptId(id);
@@ -552,18 +541,6 @@ export default function SacredSystemsAtlas({ onBack, onNavigate, initialSection 
 
       <div className="ssa-app">
         <button onClick={onBack} className="ssa-back">← Back</button>
-
-        <nav className="ssa-filters" style={{ marginTop: '12px' }}>
-          {SYSTEM_TABS.map((t) => (
-            <button
-              key={t.id}
-              className={`ssa-filter${systemTab === t.id ? ' active' : ''}`}
-              onClick={() => setSystemTab(t.id)}
-            >
-              {t.label}
-            </button>
-          ))}
-        </nav>
 
         {/* Hero */}
         <header className="ssa-hero">
