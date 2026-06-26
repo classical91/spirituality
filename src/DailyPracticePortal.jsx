@@ -126,6 +126,46 @@ const PERIODS = [
       },
     ],
   },
+  {
+    id: 'emergency',
+    label: 'Emergency Reset',
+    icon: '⚡',
+    accent: '#fb7185',
+    accentBg: 'rgba(251,113,133,0.10)',
+    accentBorder: 'rgba(251,113,133,0.28)',
+    practices: [
+      {
+        id: 'emergency-grounding',
+        icon: '◍',
+        title: 'Grounding Reset',
+        duration: '1–2 min',
+        description:
+          'Spiraling or flooded right now? 5-4-3-2-1 senses, cold water, or feet on the floor — get back into your body first.',
+        portal: 'inneratlas',
+        section: 'regulation',
+      },
+      {
+        id: 'emergency-security-check',
+        icon: '♡',
+        title: 'Security vs Fear Check',
+        duration: '1–2 min',
+        description:
+          'Before you text, react, or decide anything: am I moving from security or from fear right now?',
+        portal: 'relationshiphub',
+        section: 'security-vs-fear',
+      },
+      {
+        id: 'emergency-self-concept',
+        icon: '◈',
+        title: 'Reclaim the I AM',
+        duration: '1–2 min',
+        description:
+          'Catch the panicked or self-attacking sentence running in your head and replace it with one true, steady I AM statement.',
+        portal: 'neville',
+        section: 'phrase-analyzer',
+      },
+    ],
+  },
 ];
 
 const KEY_INSIGHTS = [

@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
-import { portals, portalsById, searchEverything } from './data/portals';
+import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
 import { getRecentPortals } from './lib/storage';
 import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
@@ -422,6 +422,7 @@ export default function HomePage({ onNavigate }) {
     [query]
   );
   const recentSet = useMemo(() => new Set(recentIds), [recentIds]);
+  const groupedPortals = useMemo(() => groupPortalsByCategory(filtered), [filtered]);
 
   const handleSectionPick = (entry) => {
     onNavigate(entry.portalId, entry.section ? { section: entry.section } : undefined);
@@ -656,23 +657,38 @@ export default function HomePage({ onNavigate }) {
         )}
 
         {filtered.length > 0 ? (
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-              gap: '20px',
-              width: '100%',
-              maxWidth: '820px',
-              margin: '0 auto',
-            }}
-          >
-            {filtered.map((portal) => (
-              <PortalCard
-                key={portal.id}
-                portal={portal}
-                onNavigate={onNavigate}
-                recent={!query && recentSet.has(portal.id)}
-              />
+          <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '28px' }}>
+            {groupedPortals.map((group) => (
+              <div key={group.category}>
+                <div
+                  style={{
+                    fontSize: '0.78rem',
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    textTransform: 'uppercase',
+                    color: '#a89ec4',
+                    marginBottom: '12px',
+                  }}
+                >
+                  {group.category}
+                </div>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
+                    gap: '20px',
+                  }}
+                >
+                  {group.portals.map((portal) => (
+                    <PortalCard
+                      key={portal.id}
+                      portal={portal}
+                      onNavigate={onNavigate}
+                      recent={!query && recentSet.has(portal.id)}
+                    />
+                  ))}
+                </div>
+              </div>
             ))}
           </div>
         ) : sectionResults.length === 0 ? (

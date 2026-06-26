@@ -1,9 +1,20 @@
 // Portal catalog. Single source of truth for HomePage cards, routing, and search.
 import { searchSections } from './searchIndex';
 
+// Categories group the home grid by purpose rather than just topic.
+export const CATEGORIES = [
+  'Daily Practice',
+  'Self-Mastery',
+  'Relationships',
+  'Inner Work',
+  'Spiritual Study',
+  'Symbolic Systems',
+];
+
 const portalCatalog = [
   {
     id: 'chakra',
+    category: 'Symbolic Systems',
     path: '/chakra',
     icon: '◎',
     badge: 'Energy Centers',
@@ -31,7 +42,7 @@ const portalCatalog = [
       'affirmation',
       'shadow work',
     ],
-    cta: 'Enter Portal',
+    cta: 'Explore the chakras',
     ctaColor: '#c084fc',
     iconBg: 'linear-gradient(135deg, rgba(168,85,247,0.4), rgba(139,92,246,0.2))',
     iconBorder: 'rgba(168,85,247,0.4)',
@@ -40,6 +51,7 @@ const portalCatalog = [
   },
   {
     id: 'sacredsystems',
+    category: 'Symbolic Systems',
     path: '/sacred-systems',
     icon: '✸',
     badge: 'Sacred Systems Atlas',
@@ -86,7 +98,7 @@ const portalCatalog = [
       'angel numbers',
       'personal year',
     ],
-    cta: 'Enter Portal',
+    cta: 'Explore sacred systems',
     ctaColor: '#fde68a',
     iconBg: 'linear-gradient(135deg, rgba(255,212,121,0.38), rgba(183,140,255,0.2))',
     iconBorder: 'rgba(255,212,121,0.4)',
@@ -170,6 +182,7 @@ const portalCatalog = [
   },
   {
     id: 'biblical',
+    category: 'Spiritual Study',
     path: '/sacred-moral-atlas',
     aliases: ['/biblical'],
     icon: '✠',
@@ -225,7 +238,7 @@ const portalCatalog = [
       'ars goetia',
       'spiritual adversaries',
     ],
-    cta: 'Enter Portal',
+    cta: 'Study sacred traditions',
     ctaColor: '#fde68a',
     iconBg: 'linear-gradient(135deg, rgba(120,53,15,0.6), rgba(30,27,75,0.4))',
     iconBorder: 'rgba(251,191,36,0.3)',
@@ -234,6 +247,7 @@ const portalCatalog = [
   },
   {
     id: 'inneratlas',
+    category: 'Inner Work',
     path: '/inner-atlas',
     icon: '◍',
     badge: 'InnerAtlas',
@@ -312,7 +326,7 @@ const portalCatalog = [
       'expanded awareness',
       'contracted awareness',
     ],
-    cta: 'Enter Portal',
+    cta: 'Map the inner world',
     ctaColor: '#86efac',
     iconBg: 'linear-gradient(135deg, rgba(122,171,121,0.38), rgba(216,169,72,0.18))',
     iconBorder: 'rgba(122,171,121,0.4)',
@@ -321,6 +335,7 @@ const portalCatalog = [
   },
   {
     id: 'neville',
+    category: 'Self-Mastery',
     path: '/neville',
     icon: '✧',
     badge: 'Neville Goddard',
@@ -355,7 +370,7 @@ const portalCatalog = [
       'self-image',
       'subconscious',
     ],
-    cta: 'Enter Portal',
+    cta: 'Practice self-concept',
     ctaColor: '#c4b5fd',
     iconBg: 'linear-gradient(135deg, rgba(139,92,246,0.4), rgba(6,182,212,0.2))',
     iconBorder: 'rgba(139,92,246,0.4)',
@@ -364,6 +379,7 @@ const portalCatalog = [
   },
   {
     id: 'sexualenergy',
+    category: 'Self-Mastery',
     path: '/sexual-energy',
     icon: '✶',
     badge: 'Sexual Energy · Self-Mastery',
@@ -397,7 +413,7 @@ const portalCatalog = [
       'transmutation',
       'desire',
     ],
-    cta: 'Enter Portal',
+    cta: 'Practice self-mastery',
     ctaColor: '#67e8f9',
     iconBg: 'linear-gradient(135deg, rgba(34,211,238,0.38), rgba(139,92,246,0.2))',
     iconBorder: 'rgba(34,211,238,0.4)',
@@ -406,6 +422,7 @@ const portalCatalog = [
   },
   {
     id: 'relationshiphub',
+    category: 'Relationships',
     path: '/relationship-hub',
     icon: '♡',
     badge: 'Relationship Hub',
@@ -466,7 +483,7 @@ const portalCatalog = [
       'milestones',
       'quality time',
     ],
-    cta: 'Enter Portal',
+    cta: 'Study relationship patterns',
     ctaColor: '#f9a8d4',
     iconBg: 'linear-gradient(135deg, rgba(244,114,182,0.4), rgba(168,85,247,0.2))',
     iconBorder: 'rgba(244,114,182,0.4)',
@@ -475,6 +492,7 @@ const portalCatalog = [
   },
   {
     id: 'dailypractice',
+    category: 'Daily Practice',
     path: '/daily-practice',
     icon: '◎',
     badge: 'Daily Practice',
@@ -509,7 +527,7 @@ const portalCatalog = [
       'wind-down',
       'self-concept',
     ],
-    cta: 'Enter Portal',
+    cta: 'Start daily practice',
     ctaColor: '#fbbf24',
     iconBg: 'linear-gradient(135deg, rgba(245,158,11,0.38), rgba(251,191,36,0.2))',
     iconBorder: 'rgba(245,158,11,0.4)',
@@ -518,6 +536,7 @@ const portalCatalog = [
   },
   {
     id: 'wisdom',
+    category: 'Spiritual Study',
     path: '/wisdom',
     // Legacy route kept as a backward-compatible alias (redirects to /wisdom).
     aliases: ['/frameworks'],
@@ -564,7 +583,7 @@ const portalCatalog = [
       'saint germain',
       'el morya',
     ],
-    cta: 'Enter Portal',
+    cta: 'Study the wisdom teachers',
     ctaColor: '#c9b8ff',
     iconBg: 'linear-gradient(135deg, rgba(124,92,255,0.38), rgba(0,214,255,0.18))',
     iconBorder: 'rgba(124,92,255,0.4)',
@@ -944,6 +963,16 @@ export const portalsByPath = Object.fromEntries(
       ...(p.aliases || []).map((alias) => [alias, p]),
     ])
 );
+
+// Groups visible portals by purpose (CATEGORIES order) for the homepage grid.
+export function groupPortalsByCategory(portalList) {
+  return CATEGORIES
+    .map((category) => ({
+      category,
+      portals: portalList.filter((p) => p.category === category),
+    }))
+    .filter((group) => group.portals.length > 0);
+}
 
 export function searchPortals(query) {
   const q = query.trim().toLowerCase();
