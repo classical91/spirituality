@@ -220,7 +220,115 @@ const wantTeachings = [
   { teacher: "Abraham-Hicks", teaching: "Wanting is useful contrast — it helps you identify desire, then shift beyond it.", why: "“Want” is step one; then move into expectation and alignment." }
 ];
 
+// Order the phrasebook is grouped into. Banks without an explicit `category`
+// default to "Love & Relationship" (the original focus of this studio).
+const PHRASE_CATEGORIES = [
+  "Identity",
+  "Love & Relationship",
+  "Confidence",
+  "Security",
+  "Emotional Regulation",
+  "Work & School",
+  "Spiritual Alignment",
+];
+
 const phrasebookBanks = [
+  {
+    title: "Who I am",
+    tag: "Self",
+    category: "Identity",
+    desc: "Core identity statements about the man you are — independent of any relationship or circumstance.",
+    examples: [
+      "I am a grounded, self-led man.",
+      "I am steady under pressure.",
+      "I know who I am.",
+      "I am someone people can rely on.",
+      "I am at home in myself.",
+      "I am whole on my own.",
+      "I live by my own values.",
+      "I am becoming more myself every day."
+    ]
+  },
+  {
+    title: "Confidence and self-worth",
+    tag: "Confidence",
+    category: "Confidence",
+    desc: "Language that names your worth as already settled — not something to be earned or proven.",
+    examples: [
+      "I am enough, exactly as I am.",
+      "I trust myself to handle what comes.",
+      "I carry myself with quiet confidence.",
+      "I don't need to perform to be valued.",
+      "I belong in the rooms I walk into.",
+      "My worth isn't up for debate.",
+      "I back myself.",
+      "I speak and people listen."
+    ]
+  },
+  {
+    title: "Safety and security",
+    tag: "Security",
+    category: "Security",
+    desc: "Phrases for the felt sense of being safe, grounded, and supported — the baseline the nervous system can rest on.",
+    examples: [
+      "I am safe in this moment.",
+      "I am grounded and steady.",
+      "I trust life to support me.",
+      "I have everything I need right now.",
+      "I am secure within myself.",
+      "I can rest — nothing is chasing me.",
+      "My feet are on the ground.",
+      "I am held."
+    ]
+  },
+  {
+    title: "Calming and regulating",
+    tag: "Regulation",
+    category: "Emotional Regulation",
+    desc: "Short, present-tense lines to say when activated — for returning the body and mind to center.",
+    examples: [
+      "I am calm, and I am returning to calm.",
+      "This feeling is moving through me, not staying.",
+      "I can feel this and still be okay.",
+      "I am bigger than this wave.",
+      "I breathe, and my body settles.",
+      "I don't have to react right now.",
+      "I am the calm beneath the storm.",
+      "I come back to the present."
+    ]
+  },
+  {
+    title: "Work and school",
+    tag: "Work",
+    category: "Work & School",
+    desc: "Identity language for focus, capability, and follow-through in work, study, and discipline.",
+    examples: [
+      "I am focused and capable.",
+      "I do the work, consistently.",
+      "I learn quickly and apply what I learn.",
+      "I finish what I start.",
+      "I am disciplined when it matters.",
+      "I handle hard tasks with a clear head.",
+      "I am building something that lasts.",
+      "I show up prepared."
+    ]
+  },
+  {
+    title: "Spiritual alignment",
+    tag: "Spiritual",
+    category: "Spiritual Alignment",
+    desc: "Language for trust, surrender, and alignment with something larger — without bypassing real feeling.",
+    examples: [
+      "I am aligned with who I truly am.",
+      "I trust the unfolding of my life.",
+      "I am guided, even when the path is unclear.",
+      "I release what I cannot control.",
+      "I am connected to something larger than me.",
+      "I live in faith, not in fear.",
+      "I am exactly where I need to be.",
+      "I move with life, not against it."
+    ]
+  },
   {
     title: "Terms of endearment",
     tag: "Names",
@@ -1055,31 +1163,42 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
         <section className="mt-10">
           <div className="mb-5 flex flex-wrap items-end justify-between gap-3">
             <div>
-              <p className="text-sm font-bold uppercase tracking-[0.25em] text-rose-200">Relationship phrasebook</p>
-              <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Ways of saying the love you live in.</h2>
-              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Vocabulary banks for naming her, naming what you feel, and naming the shared life — without recycling the same three phrases.</p>
+              <p className="text-sm font-bold uppercase tracking-[0.25em] text-rose-200">Self-concept phrasebook</p>
+              <h2 className="mt-2 text-2xl font-black text-white sm:text-3xl">Ways of saying who you are and the life you live in.</h2>
+              <p className="mt-2 max-w-2xl text-sm leading-6 text-slate-400">Vocabulary banks grouped by area — identity, love, confidence, security, regulation, work, and spiritual alignment — so you have ready language for whatever you're working on, not just the same three phrases.</p>
             </div>
             <span className="rounded-full bg-white px-3 py-1.5 text-xs font-black text-slate-950">{phrasebookBanks.length} banks</span>
           </div>
-          <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-            {phrasebookBanks.map((bank) => (
-              <article key={bank.title} className="rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 backdrop-blur-xl">
-                <div className="flex items-center justify-between gap-3">
-                  <h3 className="text-xl font-black text-white">{bank.title}</h3>
-                  <span className="rounded-full border border-rose-300/20 bg-rose-300/10 px-3 py-1 text-xs font-bold text-rose-100">{bank.tag}</span>
-                </div>
-                <p className="mt-3 text-sm leading-6 text-slate-400">{bank.desc}</p>
-                <div className="mt-5 space-y-2">
-                  {bank.examples.map((example) => (
-                    <div key={example} className="group flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-3 transition hover:border-rose-300/30">
-                      <p className="text-sm font-semibold leading-6 text-slate-200">{example}</p>
-                      <CopyButton text={example} />
-                    </div>
+          {PHRASE_CATEGORIES
+            .map((category) => ({
+              category,
+              banks: phrasebookBanks.filter((bank) => (bank.category || "Love & Relationship") === category),
+            }))
+            .filter((group) => group.banks.length > 0)
+            .map((group) => (
+              <div key={group.category} className="mt-8 first:mt-0">
+                <h3 className="mb-4 text-sm font-bold uppercase tracking-[0.18em] text-slate-300">{group.category}</h3>
+                <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+                  {group.banks.map((bank) => (
+                    <article key={bank.title} className="rounded-[2rem] border border-white/10 bg-white/[0.055] p-5 backdrop-blur-xl">
+                      <div className="flex items-center justify-between gap-3">
+                        <h4 className="text-xl font-black text-white">{bank.title}</h4>
+                        <span className="rounded-full border border-rose-300/20 bg-rose-300/10 px-3 py-1 text-xs font-bold text-rose-100">{bank.tag}</span>
+                      </div>
+                      <p className="mt-3 text-sm leading-6 text-slate-400">{bank.desc}</p>
+                      <div className="mt-5 space-y-2">
+                        {bank.examples.map((example) => (
+                          <div key={example} className="group flex items-start justify-between gap-3 rounded-2xl border border-white/10 bg-slate-950/60 p-3 transition hover:border-rose-300/30">
+                            <p className="text-sm font-semibold leading-6 text-slate-200">{example}</p>
+                            <CopyButton text={example} />
+                          </div>
+                        ))}
+                      </div>
+                    </article>
                   ))}
                 </div>
-              </article>
+              </div>
             ))}
-          </div>
         </section>
 
         <section className="mt-6 grid gap-5 lg:grid-cols-[.9fr_1.1fr]">
