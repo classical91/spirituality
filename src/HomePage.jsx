@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
-import { getRecentPortals } from './lib/storage';
+import { getRecentPortals, getLastPortal } from './lib/storage';
 import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
 import { dayOfYear } from './lib/dateUtils';
@@ -408,9 +408,84 @@ function RefreshingAffirmationCard({ affirmation }) {
   );
 }
 
+// Quick daily-use shortcuts — the handful of things worth one tap from home.
+const DAILY_SHORTCUTS = [
+  { label: 'Daily practice', sub: 'Morning → evening flow', icon: '◎', portalId: 'dailypractice', color: '#fbbf24' },
+  { label: 'Emergency reset', sub: 'Spiraling? Start here', icon: '⚡', portalId: 'dailypractice', section: 'emergency', color: '#fb7185' },
+  { label: 'Self-concept', sub: 'Identity & self-talk', icon: '✧', portalId: 'neville', color: '#c4b5fd' },
+  { label: 'Relationship work', sub: 'Clarity & patterns', icon: '♡', portalId: 'relationshiphub', color: '#f9a8d4' },
+];
+
+function DailyShortcuts({ onNavigate }) {
+  return (
+    <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto 20px' }}>
+      <div
+        style={{
+          fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.12em',
+          textTransform: 'uppercase', color: '#a89ec4', marginBottom: '12px',
+        }}
+      >
+        Use today
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '10px' }}>
+        {DAILY_SHORTCUTS.map((s) => (
+          <button
+            key={s.label}
+            onClick={() => onNavigate(s.portalId, s.section ? { section: s.section } : undefined)}
+            style={{
+              display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
+              border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)',
+              borderRadius: '16px', padding: '14px 16px', cursor: 'pointer',
+              fontFamily: 'inherit', color: '#f1eeff',
+              transition: 'transform 0.15s ease, border-color 0.15s ease',
+            }}
+            onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = `${s.color}66`; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+          >
+            <span aria-hidden="true" style={{ fontSize: '1.4rem', color: s.color }}>{s.icon}</span>
+            <span style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
+              <span style={{ fontSize: '0.92rem', fontWeight: 800 }}>{s.label}</span>
+              <span style={{ fontSize: '0.74rem', color: '#a89ec4' }}>{s.sub}</span>
+            </span>
+          </button>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function ContinueCard({ portal, onNavigate }) {
+  return (
+    <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto 20px' }}>
+      <button
+        onClick={() => onNavigate(portal.id)}
+        style={{
+          width: '100%', display: 'flex', alignItems: 'center', gap: '14px', textAlign: 'left',
+          border: `1px solid ${portal.hoverBorder || 'rgba(255,255,255,0.16)'}`,
+          background: 'rgba(255,255,255,0.05)', borderRadius: '18px', padding: '16px 18px',
+          cursor: 'pointer', fontFamily: 'inherit', color: '#f1eeff',
+          transition: 'transform 0.15s ease',
+        }}
+        onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
+        onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; }}
+      >
+        <span aria-hidden="true" style={{ fontSize: '1.8rem', color: portal.ctaColor }}>{portal.icon}</span>
+        <span style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
+          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#a89ec4' }}>
+            Continue where you left off
+          </span>
+          <span style={{ fontSize: '1.05rem', fontWeight: 800 }}>{portal.titleFlat}</span>
+        </span>
+        <span style={{ marginLeft: 'auto', fontSize: '0.85rem', fontWeight: 700, color: portal.ctaColor }}>{portal.cta} →</span>
+      </button>
+    </div>
+  );
+}
+
 export default function HomePage({ onNavigate }) {
   const [query, setQuery] = useState('');
   const [recentIds] = useState(() => getRecentPortals());
+  const [lastPortalId] = useState(() => getLastPortal());
   const [surpriseTheme, setSurpriseTheme] = useState(null);
   const [refreshingAffirmation] = useState(() => getRefreshingAffirmation());
 
@@ -432,6 +507,8 @@ export default function HomePage({ onNavigate }) {
     .map((id) => portalsById[id])
     .filter((p) => p && !p.hidden)
     .slice(0, 3);
+
+  const continuePortal = lastPortalId ? portalsById[lastPortalId] : null;
 
   return (
     <div
@@ -606,6 +683,12 @@ export default function HomePage({ onNavigate }) {
           sectionResults={sectionResults}
           onSectionPick={handleSectionPick}
         />
+
+        {continuePortal && !continuePortal.hidden && !query && (
+          <ContinueCard portal={continuePortal} onNavigate={onNavigate} />
+        )}
+
+        {!query && <DailyShortcuts onNavigate={onNavigate} />}
 
         {recentPortals.length > 0 && !query && (
           <div
