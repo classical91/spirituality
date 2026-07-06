@@ -1,9 +1,8 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
 import { getRecentPortals, getLastPortal } from './lib/storage';
-import { getRandomPrayerTheme } from './data/prayerThemes';
 import { prayerPool } from './prayerPool';
 import { dayOfYear } from './lib/dateUtils';
 import { getDailyReading, READING_POOL } from './lib/dailyReading';
@@ -30,8 +29,6 @@ const LENS_COLORS = {
   Wellness:      { border: 'rgba(52,211,153,0.30)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.16)',  badgeText: '#6ee7b7' },
   Reflection:    { border: 'rgba(244,114,182,0.30)', bg: 'rgba(244,114,182,0.07)', badge: 'rgba(244,114,182,0.16)', badgeText: '#fbcfe8' },
 };
-
-const ASTRO_CHART_URL = 'https://astro.cafeastrology.com/horoscope.php?date=12/28/1991&d1hour=12&d1min=0&tz=0.00&dformat=0&date2=06/03/2026&d2hour=18&d2min=47&lang=en';
 
 const REFRESHING_AFFIRMATIONS = [
   { title: 'Alignment', lines: ['I am aligned with who I truly am.', 'I live in harmony with my values.', 'I naturally make choices that feel right for me.'] },
@@ -73,98 +70,6 @@ const REFRESHING_AFFIRMATIONS = [
 
 function getRefreshingAffirmation() {
   return REFRESHING_AFFIRMATIONS[Math.floor(Math.random() * REFRESHING_AFFIRMATIONS.length)];
-}
-
-function SurprisePrayerModal({ theme, onClose, onReshuffle }) {
-  useEffect(() => {
-    const handler = (e) => { if (e.key === 'Escape') onClose(); };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
-
-  return (
-    <div
-      onClick={onClose}
-      style={{
-        position: 'fixed', inset: 0, zIndex: 1000,
-        background: 'rgba(4,4,16,0.88)',
-        backdropFilter: 'blur(18px)',
-        display: 'flex', alignItems: 'center', justifyContent: 'center',
-        padding: '20px',
-      }}
-    >
-      <div
-        onClick={(e) => e.stopPropagation()}
-        style={{
-          width: '100%', maxWidth: '520px',
-          maxHeight: '88vh', overflowY: 'auto',
-          background: '#0b0d18',
-          border: '1px solid rgba(255,255,255,0.12)',
-          borderRadius: '28px',
-          boxShadow: '0 32px 80px rgba(0,0,0,0.6)',
-        }}
-      >
-        <div style={{
-          position: 'sticky', top: 0,
-          borderBottom: '1px solid rgba(255,255,255,0.08)',
-          background: 'rgba(11,13,24,0.97)',
-          padding: '20px 24px',
-          borderRadius: '28px 28px 0 0',
-          display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between',
-          gap: '12px',
-        }}>
-          <div>
-            <p style={{ fontSize: '0.7rem', fontWeight: 700, letterSpacing: '0.25em', textTransform: 'uppercase', color: 'rgba(196,165,255,0.6)', marginBottom: '4px' }}>
-              Prayer Theme
-            </p>
-            <h2 style={{ fontSize: '1.25rem', fontWeight: 900, color: '#fff', margin: 0 }}>{theme.title}</h2>
-            <p style={{ fontSize: '0.75rem', color: 'rgba(255,255,255,0.35)', marginTop: '3px' }}>{theme.category}</p>
-          </div>
-          <button
-            onClick={onClose}
-            style={{ background: 'rgba(255,255,255,0.08)', border: 'none', borderRadius: '50%', width: '32px', height: '32px', color: '#fff', cursor: 'pointer', fontSize: '1rem', flexShrink: 0 }}
-          >×</button>
-        </div>
-
-        <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: '14px' }}>
-          {theme.prayers.map((prayer, i) => (
-            <div key={i} style={{
-              background: 'rgba(196,165,255,0.04)',
-              border: '1px solid rgba(196,165,255,0.12)',
-              borderRadius: '16px',
-              padding: '18px',
-            }}>
-              <p style={{ fontSize: '0.65rem', fontWeight: 700, letterSpacing: '0.2em', textTransform: 'uppercase', color: 'rgba(255,255,255,0.3)', marginBottom: '8px' }}>Prayer {i + 1}</p>
-              <p style={{ fontSize: '0.92rem', lineHeight: 1.75, color: '#d8ceff', margin: 0 }}>{prayer}</p>
-            </div>
-          ))}
-        </div>
-
-        <div style={{ padding: '0 24px 20px', display: 'flex', gap: '10px' }}>
-          <button
-            onClick={onReshuffle}
-            style={{
-              flex: 1, padding: '12px', borderRadius: '14px',
-              background: 'rgba(196,165,255,0.1)', border: '1px solid rgba(196,165,255,0.2)',
-              color: '#c4a5ff', fontWeight: 700, fontSize: '0.85rem', cursor: 'pointer',
-            }}
-          >
-            ⟳ Another theme
-          </button>
-          <button
-            onClick={onClose}
-            style={{
-              flex: 1, padding: '12px', borderRadius: '14px',
-              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-              color: 'rgba(255,255,255,0.5)', fontWeight: 600, fontSize: '0.85rem', cursor: 'pointer',
-            }}
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </div>
-  );
 }
 
 function DailyPrayerCard() {
@@ -314,47 +219,6 @@ function DailyReadingCard({ onNavigate }) {
   );
 }
 
-function AstroChartLink() {
-  return (
-    <a
-      href={ASTRO_CHART_URL}
-      target="_blank"
-      rel="noopener noreferrer"
-      style={{
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        border: '1px solid rgba(147,197,253,0.26)',
-        background: 'rgba(147,197,253,0.08)',
-        color: '#bfdbfe',
-        padding: '11px 18px',
-        borderRadius: '999px',
-        fontSize: '0.88rem',
-        fontWeight: 800,
-        textDecoration: 'none',
-        backdropFilter: 'blur(14px)',
-        letterSpacing: '0.01em',
-        transition: 'border-color 0.2s ease, background 0.2s ease, transform 0.2s ease',
-      }}
-      onMouseEnter={(e) => {
-        e.currentTarget.style.background = 'rgba(147,197,253,0.14)';
-        e.currentTarget.style.borderColor = 'rgba(147,197,253,0.46)';
-        e.currentTarget.style.transform = 'translateY(-2px)';
-      }}
-      onMouseLeave={(e) => {
-        e.currentTarget.style.background = 'rgba(147,197,253,0.08)';
-        e.currentTarget.style.borderColor = 'rgba(147,197,253,0.26)';
-        e.currentTarget.style.transform = 'none';
-      }}
-    >
-      <span aria-hidden="true">☉</span>
-      Transit chart
-      <span aria-hidden="true" style={{ opacity: 0.7 }}>↗</span>
-    </a>
-  );
-}
-
 function RefreshingAffirmationCard({ affirmation }) {
   return (
     <aside
@@ -486,11 +350,7 @@ export default function HomePage({ onNavigate }) {
   const [query, setQuery] = useState('');
   const [recentIds] = useState(() => getRecentPortals());
   const [lastPortalId] = useState(() => getLastPortal());
-  const [surpriseTheme, setSurpriseTheme] = useState(null);
   const [refreshingAffirmation] = useState(() => getRefreshingAffirmation());
-
-  const openSurprise = () => setSurpriseTheme(getRandomPrayerTheme());
-  const reshuffleSurprise = () => setSurpriseTheme(getRandomPrayerTheme());
 
   const { portals: filtered, sections: sectionResults } = useMemo(
     () => searchEverything(query),
@@ -572,34 +432,13 @@ export default function HomePage({ onNavigate }) {
           }}
         >
           <div>
-            <div
-              style={{
-                display: 'inline-flex',
-                alignItems: 'center',
-                gap: '8px',
-                border: '1px solid rgba(255,255,255,0.12)',
-                background: 'rgba(255,255,255,0.06)',
-                color: '#d8ceff',
-                padding: '8px 14px',
-                borderRadius: '999px',
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                backdropFilter: 'blur(14px)',
-                marginBottom: '18px',
-                letterSpacing: '0.04em',
-                textTransform: 'uppercase',
-              }}
-            >
-              <span aria-hidden="true">✦</span> Spiritual toolkit
-            </div>
-
             <h1
               style={{
-                fontSize: 'clamp(3.1rem, 8vw, 6.5rem)',
+                fontSize: 'clamp(2.2rem, 6vw, 4.2rem)',
                 fontWeight: 950,
                 lineHeight: 0.9,
                 letterSpacing: '-0.06em',
-                margin: '0 0 14px',
+                margin: 0,
               }}
             >
               Sacred
@@ -615,51 +454,6 @@ export default function HomePage({ onNavigate }) {
                 Pathways
               </span>
             </h1>
-
-            <p
-              style={{
-                maxWidth: '560px',
-                color: '#a89ec4',
-                fontSize: 'clamp(0.98rem, 2vw, 1.1rem)',
-                lineHeight: 1.65,
-                margin: '0 0 18px',
-              }}
-            >
-              {portals.length} portals for inner symbolism, spiritual tradition, psychology, astrology, manifestation, relationships, and self-mastery.
-            </p>
-
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: '10px',
-                flexWrap: 'wrap',
-              }}
-            >
-              <button
-                onClick={openSurprise}
-                style={{
-                  display: 'inline-flex', alignItems: 'center', gap: '8px',
-                  border: '1px solid rgba(196,165,255,0.25)',
-                  background: 'rgba(196,165,255,0.08)',
-                  color: '#c4a5ff',
-                  padding: '11px 18px',
-                  borderRadius: '999px',
-                  fontSize: '0.88rem',
-                  fontWeight: 800,
-                  cursor: 'pointer',
-                  backdropFilter: 'blur(14px)',
-                  letterSpacing: '0.01em',
-                  transition: 'all 0.2s ease',
-                  fontFamily: 'inherit',
-                }}
-                onMouseEnter={(e) => { e.currentTarget.style.background = 'rgba(196,165,255,0.15)'; e.currentTarget.style.borderColor = 'rgba(196,165,255,0.45)'; e.currentTarget.style.transform = 'translateY(-2px)'; }}
-                onMouseLeave={(e) => { e.currentTarget.style.background = 'rgba(196,165,255,0.08)'; e.currentTarget.style.borderColor = 'rgba(196,165,255,0.25)'; e.currentTarget.style.transform = 'none'; }}
-              >
-                <span style={{ fontSize: '1rem' }}>⟳</span> Random prayer
-              </button>
-              <AstroChartLink />
-            </div>
           </div>
 
           <div
@@ -791,14 +585,6 @@ export default function HomePage({ onNavigate }) {
           </div>
         ) : null}
       </div>
-
-      {surpriseTheme && (
-        <SurprisePrayerModal
-          theme={surpriseTheme}
-          onClose={() => setSurpriseTheme(null)}
-          onReshuffle={reshuffleSurprise}
-        />
-      )}
 
       <p
         style={{
