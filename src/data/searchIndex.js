@@ -1,4 +1,5 @@
 // Curated cross-portal content index for Deep Search.
+import { sacredSystemsSearchEntries } from './sacredSystemsCards';
 //
 // Each entry surfaces a section *inside* a portal, so a query like
 // "abandonment" can return Heart Chakra, Attachment Theory, and the
@@ -23,18 +24,8 @@ export const searchIndex = [
   { id: 'chakra-third-eye',   portalId: 'chakra', section: 'thirdeye',    title: 'Third Eye Chakra (Ajna)',     summary: 'Insight, intuition, vision, and inner knowing beyond the senses.',                            tags: ['intuition','vision','insight','imagination','indigo','clarity','perception'],             lens: 'Symbolic' },
   { id: 'chakra-crown',       portalId: 'chakra', section: 'crown',       title: 'Crown Chakra (Sahasrara)',    summary: 'Spiritual connection, meaning, surrender, and union beyond the self.',                        tags: ['spirit','meaning','surrender','union','violet','divine','transcendence'],                 lens: 'Symbolic' },
 
-  // ─── Natal Chart Decoder (planets) ───────────────────────────────────
-  { id: 'astro-sun',     portalId: 'astrology', section: 'Sun',     title: 'Sun ☉',     summary: 'Core identity, vitality, and the part of you that wants to be seen.',                tags: ['identity','self','vitality','purpose','leo','gold'],            lens: 'Symbolic' },
-  { id: 'astro-moon',    portalId: 'astrology', section: 'Moon',    title: 'Moon ☽',    summary: 'Emotional needs, instincts, comfort, and how you self-soothe.',                       tags: ['emotion','needs','mother','comfort','cancer','silver','attachment'], lens: 'Symbolic' },
-  { id: 'astro-mercury', portalId: 'astrology', section: 'Mercury', title: 'Mercury ☿', summary: 'Mind, speech, learning, and how you process information.',                            tags: ['mind','communication','learning','speech','gemini','virgo','mercury'], lens: 'Symbolic' },
-  { id: 'astro-venus',   portalId: 'astrology', section: 'Venus',   title: 'Venus ♀',   summary: 'Love style, attraction, beauty, values, and pleasure.',                               tags: ['love','attraction','beauty','values','taurus','libra','copper'], lens: 'Symbolic' },
-  { id: 'astro-mars',    portalId: 'astrology', section: 'Mars',    title: 'Mars ♂',    summary: 'Drive, action, desire, anger, and the engine of pursuit.',                            tags: ['drive','anger','action','desire','aries','iron','assertion'],   lens: 'Symbolic' },
-  { id: 'astro-jupiter', portalId: 'astrology', section: 'Jupiter', title: 'Jupiter ♃', summary: 'Growth, faith, expansion, philosophy, and generosity.',                               tags: ['growth','faith','luck','meaning','sagittarius','tin'],          lens: 'Symbolic' },
-  { id: 'astro-saturn',  portalId: 'astrology', section: 'Saturn',  title: 'Saturn ♄',  summary: 'Discipline, limits, maturity, fear, and slowly earned mastery.',                       tags: ['discipline','limits','fear','responsibility','capricorn','lead'], lens: 'Symbolic' },
-  { id: 'astro-uranus',  portalId: 'astrology', section: 'Uranus',  title: 'Uranus ♅',  summary: 'Originality, sudden change, freedom, and rebellion.',                                 tags: ['freedom','disruption','originality','rebellion','aquarius'],    lens: 'Symbolic' },
-  { id: 'astro-neptune', portalId: 'astrology', section: 'Neptune', title: 'Neptune ♆', summary: 'Imagination, spirituality, dreams, and dissolving boundaries.',                       tags: ['dreams','spirituality','illusion','pisces','imagination'],     lens: 'Symbolic' },
-  { id: 'astro-pluto',   portalId: 'astrology', section: 'Pluto',   title: 'Pluto ♇',   summary: 'Transformation, power, shadow material, and rebirth.',                                tags: ['power','shadow','transformation','scorpio','rebirth','intensity'], lens: 'Symbolic' },
-  { id: 'astro-alchemy', portalId: 'astrology', title: 'Planet–metal correspondences', summary: 'The seven classical metals as symbolic mirrors of the seven planets.', tags: ['alchemy','metals','gold','silver','correspondence','hermetic'], lens: 'Historical' },
+  // Sacred Systems Atlas: natal chart + numerology concept pages
+  ...sacredSystemsSearchEntries,
 
   // ─── Sacred Moral & Mythic Atlas ─────────────────────────────────────
   { id: 'bible-commandments',  portalId: 'biblical', section: 'commandments',     title: 'The Ten Commandments',           summary: 'Sacred boundaries on worship, speech, family, sex, property, and truth.',          tags: ['commandments','law','moses','sinai','boundaries','ethics'],                            lens: 'Historical' },
@@ -245,17 +236,6 @@ export const searchIndex = [
 
   // ─── Infernal & Mythic Codex ─────────────────────────────────────────
   { id: 'ic-codex',         portalId: 'biblical', section: 'infernal-codex',                 title: 'Infernal & Mythic Codex',         summary: 'A navigable concept database — browse demons, spirits, deities, sins, and concepts by category, type, or A–Z.',  tags: ['codex','database','goetia','ars goetia','deities','seven princes','seals','sigils','gnosticism','a-z','browse'], lens: 'Historical' },
-
-  // ─── Numerology ──────────────────────────────────────────────────────
-  { id: 'num-life-path',    portalId: 'numerology', section: 'life-path',     title: 'Life Path Number',                summary: 'Your core path, lesson, and direction based on your birth date.',                            tags: ['numerology','life path','birth date','core number','master number','11','22','33'], lens: 'Symbolic' },
-  { id: 'num-expression',   portalId: 'numerology', section: 'expression',    title: 'Expression / Destiny Number',     summary: 'The symbolic pattern of your full birth name.',                                              tags: ['numerology','expression','destiny','name','letter chart','talents'],                 lens: 'Symbolic' },
-  { id: 'num-soul-urge',    portalId: 'numerology', section: 'soul-urge',     title: 'Soul Urge Number',                summary: 'Inner desire, emotional motivation, and what the heart seeks.',                              tags: ['numerology','soul urge','hearts desire','vowels','motivation','desire'],             lens: 'Symbolic' },
-  { id: 'num-personality',  portalId: 'numerology', section: 'personality',   title: 'Personality Number',              summary: 'How your energy may appear outwardly to others.',                                            tags: ['numerology','personality','consonants','first impression','social mask'],            lens: 'Symbolic' },
-  { id: 'num-birthday',     portalId: 'numerology', section: 'birthday',      title: 'Birthday Number',                 summary: 'The symbolic meaning of the day you were born.',                                             tags: ['numerology','birthday number','day of birth','talent'],                              lens: 'Symbolic' },
-  { id: 'num-angel',        portalId: 'numerology', section: 'angel-numbers', title: 'Angel Numbers / Repeating Numbers', summary: 'Repeated number patterns used for reflection and meaning-making.',                          tags: ['angel numbers','repeating numbers','111','222','333','444','555','synchronicity'],   lens: 'Reflection' },
-  { id: 'num-personal-year',portalId: 'numerology', section: 'personal-year', title: 'Personal Year Number',            summary: 'A symbolic yearly theme based on your birth date and the current year.',                     tags: ['numerology','personal year','yearly theme','cycle','timing'],                        lens: 'Symbolic' },
-  { id: 'num-calculator',   portalId: 'numerology', section: 'calculator',    title: 'Numerology Calculator',           summary: 'Calculate core numerology numbers from birth date and name.',                                tags: ['numerology','calculator','life path','expression','soul urge','tool'],               lens: 'Symbolic' },
-  { id: 'num-journal',      portalId: 'numerology', section: 'journal',       title: 'Numerology Journal',              summary: 'Track repeated numbers, context, feelings, and grounded actions.',                           tags: ['numerology','journal','prompts','reflection','grounded action','tool'],              lens: 'Reflection' },
 
   // ─── Map of Consciousness (Hawkins) ─────────────────────────────────
   { id: 'moc-overview',      portalId: 'inneratlas', section: 'map-of-consciousness', title: 'Map of Consciousness Overview',      summary: 'Hawkins\'s logarithmic scale from Shame (20) to Enlightenment (1000) — the 200 threshold is the turning point.',  tags: ['hawkins','map of consciousness','power vs force','logarithmic','attractor field','200 threshold'],             lens: 'Reflection' },

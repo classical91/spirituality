@@ -183,7 +183,7 @@ export default function App() {
     const Component = COMPONENTS[activePortal.id];
     return (
       <Component
-        key={path}
+        key={`${path}${search || ''}`}
         onBack={goHome}
         onNavigate={goPortal}
         initialSection={initialSection}

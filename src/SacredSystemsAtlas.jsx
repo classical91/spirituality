@@ -10,22 +10,6 @@ const NUMEROLOGY_SECTION_IDS = new Set([
   'angel-numbers', 'personal-year', 'calculator', 'journal',
 ]);
 
-// Resolve an incoming ?section= value to a concept id to open directly.
-function resolveInitialConceptId(section) {
-  if (!section) return null;
-  if (section === 'natal-chart' || section === 'astrology') return null;
-  if (section === 'numerology') return null;
-  if (PLANET_NAMES.has(section.toLowerCase())) return `astro-planet-${section.toLowerCase()}`;
-  if (NUMEROLOGY_SECTION_IDS.has(section)) return `num-${section}`;
-  return null;
-}
-
-function resolveInitialFilter(section) {
-  if (section === 'natal-chart' || section === 'astrology' || PLANET_NAMES.has((section || '').toLowerCase())) return 'Astrology';
-  if (section === 'numerology' || NUMEROLOGY_SECTION_IDS.has(section)) return 'Numerology';
-  return 'All';
-}
-
 const handwrittenConcepts = [
   {
     id: 'crystals-overview',
@@ -468,6 +452,30 @@ const handwrittenConcepts = [
 
 const concepts = [...handwrittenConcepts, ...astrologyCards, ...numerologyCards];
 
+const conceptIds = new Set(concepts.map((c) => c.id));
+
+// Resolve an incoming ?section= value to a concept id to open directly.
+function resolveInitialConceptId(section) {
+  if (!section) return null;
+  const normalized = section.trim();
+  const lower = normalized.toLowerCase();
+  if (conceptIds.has(normalized)) return normalized;
+  if (conceptIds.has(lower)) return lower;
+  if (lower === 'natal-chart' || lower === 'astrology') return 'astro-formula-chart-formula';
+  if (lower === 'numerology') return 'num-life-path';
+  if (PLANET_NAMES.has(lower)) return `astro-planet-${lower}`;
+  if (NUMEROLOGY_SECTION_IDS.has(lower)) return `num-${lower}`;
+  return null;
+}
+
+function resolveInitialFilter(section) {
+  const conceptId = resolveInitialConceptId(section);
+  if (conceptId) {
+    return concepts.find((c) => c.id === conceptId)?.category || 'All';
+  }
+  return 'All';
+}
+
 const FILTERS = ['All', 'Crystals', 'Sacred Geometry', 'Chakras', 'Pineal', 'Mystic Systems', 'Astrology', 'Numerology'];
 
 const KEYWORDS = {
@@ -511,6 +519,11 @@ export default function SacredSystemsAtlas({ onBack, initialSection }) {
 
   const selectConcept = (id) => {
     setActiveConceptId(id);
+    const concept = concepts.find((c) => c.id === id);
+    if (concept) setActiveFilter(concept.category);
+    if (typeof window !== 'undefined') {
+      window.history.replaceState({}, '', `/sacred-systems?section=${encodeURIComponent(id)}`);
+    }
     document.getElementById('ssa-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 

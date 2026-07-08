@@ -328,3 +328,35 @@ export const numerologyCards = [
 
 export const ASTROLOGY_KEYWORDS = ['planets', 'signs', 'houses', 'aspects', 'natal chart', 'symbolism'];
 export const NUMEROLOGY_KEYWORDS = ['life path', 'numbers', 'name', 'reflection', 'journaling', 'symbolism'];
+
+function uniqueTags(values) {
+  return [...new Set(values
+    .flatMap((value) => String(value || '').toLowerCase().split(/[^a-z0-9+-]+/))
+    .filter((value) => value.length > 2)
+    .slice(0, 18))];
+}
+
+function toSearchEntry(card, portalId, lens = 'Symbolic') {
+  return {
+    id: card.id,
+    portalId,
+    section: card.id,
+    title: card.title,
+    summary: card.summary,
+    tags: uniqueTags([
+      card.title,
+      card.category,
+      card.summary,
+      card.overview,
+      ...(card.keyIdeas || []),
+      ...(card.category === 'Astrology' ? ['astrology', 'natal chart', 'birth chart'] : []),
+      ...(card.category === 'Numerology' ? ['numerology', 'number symbolism'] : []),
+    ]),
+    lens,
+  };
+}
+
+export const sacredSystemsSearchEntries = [
+  ...astrologyCards.map((card) => toSearchEntry(card, 'astrology')),
+  ...numerologyCards.map((card) => toSearchEntry(card, 'numerology')),
+];
