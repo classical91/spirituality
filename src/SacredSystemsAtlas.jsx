@@ -476,8 +476,6 @@ function resolveInitialFilter(section) {
   return 'All';
 }
 
-const FILTERS = ['All', 'Crystals', 'Sacred Geometry', 'Chakras', 'Pineal', 'Mystic Systems', 'Astrology', 'Numerology'];
-
 const KEYWORDS = {
   Crystals: ['intention', 'minerals', 'altar', 'ritual', 'meditation', 'energy focus'],
   'Sacred Geometry': ['patterns', 'circles', 'creation', 'harmony', 'symbols', 'grid work'],
@@ -492,10 +490,54 @@ function getKeywords(concept) {
   return KEYWORDS[concept.category] || ['awareness', 'practice', 'symbolism'];
 }
 
+function getConceptMenuGroup(concept) {
+  if (concept.category === 'Astrology') {
+    if (concept.id.startsWith('astro-planet-')) return { key: 'astrology-planets', label: 'Planets', category: 'Astrology' };
+    if (concept.id.startsWith('astro-sign-')) return { key: 'astrology-signs', label: 'Zodiac Signs', category: 'Astrology' };
+    if (concept.id.startsWith('astro-house-')) return { key: 'astrology-houses', label: 'Houses', category: 'Astrology' };
+    if (concept.id.startsWith('astro-aspect-')) return { key: 'astrology-aspects', label: 'Aspects', category: 'Astrology' };
+    if (concept.id.startsWith('astro-formula-')) return { key: 'astrology-reading', label: 'Chart Reading', category: 'Astrology' };
+    if (concept.id.startsWith('astro-angle-')) return { key: 'astrology-angles', label: 'Angles', category: 'Astrology' };
+    if (concept.id.startsWith('astro-dignity-')) return { key: 'astrology-dignities', label: 'Dignities', category: 'Astrology' };
+    if (concept.id.startsWith('astro-configuration-')) return { key: 'astrology-configurations', label: 'Configurations', category: 'Astrology' };
+    return { key: 'astrology-reference', label: 'Reference', category: 'Astrology' };
+  }
+
+  if (concept.category === 'Numerology') {
+    if (concept.id === 'num-calculator' || concept.id === 'num-journal') {
+      return { key: 'numerology-tools', label: 'Tools', category: 'Numerology' };
+    }
+    if (concept.id === 'num-angel-numbers' || concept.id === 'num-personal-year') {
+      return { key: 'numerology-patterns', label: 'Patterns & Cycles', category: 'Numerology' };
+    }
+    return { key: 'numerology-core', label: 'Core Numbers', category: 'Numerology' };
+  }
+
+  return {
+    key: concept.category.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+    label: concept.category,
+    category: concept.category,
+  };
+}
+
+function groupConcepts(menuConcepts) {
+  const groups = [];
+  const byKey = new Map();
+  for (const concept of menuConcepts) {
+    const groupMeta = getConceptMenuGroup(concept);
+    if (!byKey.has(groupMeta.key)) {
+      const group = { ...groupMeta, concepts: [] };
+      byKey.set(groupMeta.key, group);
+      groups.push(group);
+    }
+    byKey.get(groupMeta.key).concepts.push(concept);
+  }
+  return groups;
+}
+
 export default function SacredSystemsAtlas({ onBack, initialSection }) {
   const initialConceptId = useMemo(() => resolveInitialConceptId(initialSection), [initialSection]);
   const initialFilter = useMemo(() => resolveInitialFilter(initialSection), [initialSection]);
-  const [activeFilter, setActiveFilter] = useState(initialFilter);
   const [activeSearch, setActiveSearch] = useState('');
   const [activeConceptId, setActiveConceptId] = useState(() => {
     if (initialConceptId) return initialConceptId;
@@ -505,43 +547,57 @@ export default function SacredSystemsAtlas({ onBack, initialSection }) {
     }
     return 'crystals-overview';
   });
+  const [openGroups, setOpenGroups] = useState(() => {
+    const initialConcept = concepts.find((c) => c.id === initialConceptId)
+      || concepts.find((c) => c.category === initialFilter)
+      || concepts[0];
+    return new Set([getConceptMenuGroup(initialConcept).key]);
+  });
 
   const visible = useMemo(() => {
     const q = activeSearch.trim().toLowerCase();
     return concepts.filter((c) => {
-      const matchesFilter = activeFilter === 'All' || c.category === activeFilter;
       const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return matchesFilter && (!q || haystack.includes(q));
+      return !q || haystack.includes(q);
     });
-  }, [activeFilter, activeSearch]);
+  }, [activeSearch]);
+  const groupedVisible = useMemo(() => groupConcepts(visible), [visible]);
 
   const activeConcept = concepts.find((c) => c.id === activeConceptId) || concepts[0];
+  const activeGroupKey = getConceptMenuGroup(activeConcept).key;
+  const hasSearch = activeSearch.trim().length > 0;
 
   const selectConcept = (id) => {
     setActiveConceptId(id);
     const concept = concepts.find((c) => c.id === id);
-    if (concept) setActiveFilter(concept.category);
+    if (concept) {
+      setOpenGroups((current) => {
+        const next = new Set(current);
+        next.add(getConceptMenuGroup(concept).key);
+        return next;
+      });
+    }
     if (typeof window !== 'undefined') {
       window.history.replaceState({}, '', `/sacred-systems?section=${encodeURIComponent(id)}`);
     }
     document.getElementById('ssa-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleFilterChange = (filter) => {
-    setActiveFilter(filter);
-    const vis = concepts.filter((c) => filter === 'All' || c.category === filter);
-    if (vis.length && !vis.some((c) => c.id === activeConceptId)) {
-      setActiveConceptId(vis[0].id);
-    }
+  const toggleGroup = (key) => {
+    setOpenGroups((current) => {
+      const next = new Set(current);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
   const handleSearch = (query) => {
     setActiveSearch(query);
     const q = query.trim().toLowerCase();
     const vis = concepts.filter((c) => {
-      const matchesFilter = activeFilter === 'All' || c.category === activeFilter;
       const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return matchesFilter && (!q || haystack.includes(q));
+      return !q || haystack.includes(q);
     });
     if (vis.length && !vis.some((c) => c.id === activeConceptId)) {
       setActiveConceptId(vis[0].id);
@@ -576,28 +632,6 @@ export default function SacredSystemsAtlas({ onBack, initialSection }) {
           </div>
         </header>
 
-        {/* Controls */}
-        <section>
-          <input
-            className="ssa-search"
-            type="search"
-            value={activeSearch}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search crystals, torus, chakras, pineal, Mer-Ka-Ba, prana..."
-          />
-          <div className="ssa-filters" style={{ marginTop: '12px' }}>
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                className={`ssa-filter${activeFilter === f ? ' active' : ''}`}
-                onClick={() => handleFilterChange(f)}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-        </section>
-
         {/* Layout */}
         <main className="ssa-layout" style={{ marginTop: '24px' }}>
           {/* Sidebar */}
@@ -605,48 +639,60 @@ export default function SacredSystemsAtlas({ onBack, initialSection }) {
             <div className="ssa-sidebar-header">
               <h2>Concept Pages</h2>
               <p>Every topic is listed here. Click one to open its full explanation.</p>
+              <input
+                className="ssa-search ssa-sidebar-search"
+                type="search"
+                value={activeSearch}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Search concepts..."
+              />
             </div>
             <div className="ssa-concept-list">
-              {visible.map((c) => (
-                <button
-                  key={c.id}
-                  className={`ssa-concept-link${activeConceptId === c.id ? ' active' : ''}`}
-                  onClick={() => selectConcept(c.id)}
-                >
-                  <div className="ssa-mini-icon">{c.icon}</div>
-                  <div>
-                    <strong>{c.title}</strong>
-                    <span>{c.category}</span>
-                  </div>
-                </button>
-              ))}
+              {visible.length === 0 ? (
+                <div className="ssa-sidebar-empty">No concepts found.</div>
+              ) : (
+                groupedVisible.map((group) => {
+                  const isOpen = hasSearch || openGroups.has(group.key) || group.key === activeGroupKey;
+                  return (
+                    <div key={group.key} className="ssa-menu-group">
+                      <button
+                        type="button"
+                        className={`ssa-menu-group-toggle${isOpen ? ' open' : ''}`}
+                        onClick={() => toggleGroup(group.key)}
+                        aria-expanded={isOpen}
+                      >
+                        <span>
+                          <strong>{group.label}</strong>
+                          <em>{group.category}</em>
+                        </span>
+                        <b>{group.concepts.length}</b>
+                      </button>
+                      {isOpen && (
+                        <div className="ssa-menu-group-items">
+                          {group.concepts.map((c) => (
+                            <button
+                              key={c.id}
+                              className={`ssa-concept-link${activeConceptId === c.id ? ' active' : ''}`}
+                              onClick={() => selectConcept(c.id)}
+                            >
+                              <div className="ssa-mini-icon">{c.icon}</div>
+                              <div>
+                                <strong>{c.title}</strong>
+                                <span>{c.category}</span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
             </div>
           </aside>
 
           {/* Main */}
           <section className="ssa-main">
-            {visible.length === 0 ? (
-              <div className="ssa-empty">No concepts found. Try a different keyword.</div>
-            ) : (
-              <div className="ssa-grid">
-                {visible.map((c) => (
-                  <button
-                    key={c.id}
-                    className="ssa-card"
-                    style={{ '--glow': c.color }}
-                    onClick={() => selectConcept(c.id)}
-                  >
-                    <div className="ssa-card-top">
-                      <div className="ssa-icon">{c.icon}</div>
-                      <div className="ssa-tag">{c.category}</div>
-                    </div>
-                    <h3>{c.title}</h3>
-                    <p>{c.summary}</p>
-                  </button>
-                ))}
-              </div>
-            )}
-
             {/* Detail */}
             <article
               id="ssa-detail"
