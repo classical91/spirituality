@@ -322,8 +322,6 @@ const concepts = [
   },
 ];
 
-const FILTERS = ['All', 'Awareness & Consciousness', 'Meditation & Brain States', 'Inner Practice'];
-
 const KEYWORDS = {
   'Awareness & Consciousness': ['attention', 'presence', 'noticing', 'the witness', 'consciousness', 'clarity'],
   'Meditation & Brain States': ['meditation', 'brain waves', 'alpha', 'theta', 'gamma', 'relaxation'],
@@ -334,44 +332,70 @@ function getKeywords(concept) {
   return KEYWORDS[concept.category] || ['awareness', 'presence', 'practice'];
 }
 
+function groupConcepts(menuConcepts) {
+  const groups = [];
+  const byCategory = new Map();
+  for (const concept of menuConcepts) {
+    if (!byCategory.has(concept.category)) {
+      const group = { key: concept.category, label: concept.category, concepts: [] };
+      byCategory.set(concept.category, group);
+      groups.push(group);
+    }
+    byCategory.get(concept.category).concepts.push(concept);
+  }
+  return groups;
+}
+
 export default function AwarenessAtlas({ onBack, initialSection }) {
-  const [activeFilter, setActiveFilter] = useState('All');
   const [activeSearch, setActiveSearch] = useState('');
   const [activeConceptId, setActiveConceptId] = useState(
     () => (initialSection && concepts.some((c) => c.id === initialSection) ? initialSection : concepts[0].id)
   );
+  const [openGroups, setOpenGroups] = useState(() => {
+    const initialConcept = concepts.find((c) => c.id === initialSection) || concepts[0];
+    return new Set([initialConcept.category]);
+  });
 
   const visible = useMemo(() => {
     const q = activeSearch.trim().toLowerCase();
     return concepts.filter((c) => {
-      const matchesFilter = activeFilter === 'All' || c.category === activeFilter;
       const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return matchesFilter && (!q || haystack.includes(q));
+      return !q || haystack.includes(q);
     });
-  }, [activeFilter, activeSearch]);
+  }, [activeSearch]);
+  const groupedVisible = useMemo(() => groupConcepts(visible), [visible]);
 
   const activeConcept = concepts.find((c) => c.id === activeConceptId) || concepts[0];
+  const hasSearch = activeSearch.trim().length > 0;
 
   const selectConcept = (id) => {
     setActiveConceptId(id);
+    const concept = concepts.find((c) => c.id === id);
+    if (concept) {
+      setOpenGroups((current) => {
+        const next = new Set(current);
+        next.add(concept.category);
+        return next;
+      });
+    }
     document.getElementById('aw-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleFilterChange = (filter) => {
-    setActiveFilter(filter);
-    const vis = concepts.filter((c) => filter === 'All' || c.category === filter);
-    if (vis.length && !vis.some((c) => c.id === activeConceptId)) {
-      setActiveConceptId(vis[0].id);
-    }
+  const toggleGroup = (key) => {
+    setOpenGroups((current) => {
+      const next = new Set(current);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
   };
 
   const handleSearch = (query) => {
     setActiveSearch(query);
     const q = query.trim().toLowerCase();
     const vis = concepts.filter((c) => {
-      const matchesFilter = activeFilter === 'All' || c.category === activeFilter;
       const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return matchesFilter && (!q || haystack.includes(q));
+      return !q || haystack.includes(q);
     });
     if (vis.length && !vis.some((c) => c.id === activeConceptId)) {
       setActiveConceptId(vis[0].id);
@@ -408,28 +432,6 @@ export default function AwarenessAtlas({ onBack, initialSection }) {
           </div>
         </header>
 
-        {/* Controls */}
-        <section>
-          <input
-            className="aw-search"
-            type="search"
-            value={activeSearch}
-            onChange={(e) => handleSearch(e.target.value)}
-            placeholder="Search awareness, presence, brain waves, breath, body scan..."
-          />
-          <div className="aw-filters" style={{ marginTop: '12px' }}>
-            {FILTERS.map((f) => (
-              <button
-                key={f}
-                className={`aw-filter${activeFilter === f ? ' active' : ''}`}
-                onClick={() => handleFilterChange(f)}
-              >
-                {f}
-              </button>
-            ))}
-          </div>
-        </section>
-
         {/* Layout */}
         <main className="aw-layout" style={{ marginTop: '24px' }}>
           {/* Sidebar */}
@@ -437,48 +439,60 @@ export default function AwarenessAtlas({ onBack, initialSection }) {
             <div className="aw-sidebar-header">
               <h2>Topic Pages</h2>
               <p>Every topic in the hub is listed here. Click one to open its full explanation.</p>
+              <input
+                className="aw-search aw-sidebar-search"
+                type="search"
+                value={activeSearch}
+                onChange={(e) => handleSearch(e.target.value)}
+                placeholder="Search topics..."
+              />
             </div>
             <div className="aw-concept-list">
-              {visible.map((c) => (
-                <button
-                  key={c.id}
-                  className={`aw-concept-link${activeConceptId === c.id ? ' active' : ''}`}
-                  onClick={() => selectConcept(c.id)}
-                >
-                  <div className="aw-mini-icon">{c.icon}</div>
-                  <div>
-                    <strong>{c.title}</strong>
-                    <span>{c.category}</span>
-                  </div>
-                </button>
-              ))}
+              {visible.length === 0 ? (
+                <div className="aw-sidebar-empty">No topics found.</div>
+              ) : (
+                groupedVisible.map((group) => {
+                  const isOpen = hasSearch || openGroups.has(group.key) || group.key === activeConcept.category;
+                  return (
+                    <div key={group.key} className="aw-menu-group">
+                      <button
+                        type="button"
+                        className={`aw-menu-group-toggle${isOpen ? ' open' : ''}`}
+                        onClick={() => toggleGroup(group.key)}
+                        aria-expanded={isOpen}
+                      >
+                        <span>
+                          <strong>{group.label}</strong>
+                          <em>{group.concepts.length} topics</em>
+                        </span>
+                        <b>{group.concepts.length}</b>
+                      </button>
+                      {isOpen && (
+                        <div className="aw-menu-group-items">
+                          {group.concepts.map((c) => (
+                            <button
+                              key={c.id}
+                              className={`aw-concept-link${activeConceptId === c.id ? ' active' : ''}`}
+                              onClick={() => selectConcept(c.id)}
+                            >
+                              <div className="aw-mini-icon">{c.icon}</div>
+                              <div>
+                                <strong>{c.title}</strong>
+                                <span>{c.category}</span>
+                              </div>
+                            </button>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })
+              )}
             </div>
           </aside>
 
           {/* Main */}
           <section className="aw-main">
-            {visible.length === 0 ? (
-              <div className="aw-empty">No topics found. Try a different keyword.</div>
-            ) : (
-              <div className="aw-grid">
-                {visible.map((c) => (
-                  <button
-                    key={c.id}
-                    className="aw-card"
-                    style={{ '--glow': c.color }}
-                    onClick={() => selectConcept(c.id)}
-                  >
-                    <div className="aw-card-top">
-                      <div className="aw-icon">{c.icon}</div>
-                      <div className="aw-tag">{c.category}</div>
-                    </div>
-                    <h3>{c.title}</h3>
-                    <p>{c.summary}</p>
-                  </button>
-                ))}
-              </div>
-            )}
-
             {/* Detail */}
             <article
               id="aw-detail"
