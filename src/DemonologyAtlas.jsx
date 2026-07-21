@@ -1,4 +1,4 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useRef, useEffect } from 'react';
 import { demons, DEMON_FILTERS } from './data/demonology';
 import './DemonologyAtlas.css';
 
@@ -261,6 +261,11 @@ function IntroPanel() {
 export default function DemonologyAtlas({ onBack, onNavigate, initialSection, embedded = false }) {
   const [activeFilter, setActiveFilter] = useState('All');
   const [search, setSearch] = useState('');
+  // Mobile-only: the topic index is collapsed behind a toggle so readers
+  // don't have to scroll past ~90 links to reach the content.
+  const [navOpen, setNavOpen] = useState(false);
+  const contentRef = useRef(null);
+  const pendingScroll = useRef(false);
   // Honor a ?section= deep-link if it matches an entry id.
   const [activeId, setActiveId] = useState(() =>
     initialSection && BY_ID[initialSection] ? initialSection : null
@@ -297,10 +302,23 @@ export default function DemonologyAtlas({ onBack, onNavigate, initialSection, em
 
   const handleSelect = (id) => {
     setActiveId((prev) => (prev === id ? null : id));
-    if (typeof window !== 'undefined') {
+    setNavOpen(false);
+    pendingScroll.current = true;
+  };
+
+  // Scroll after the re-render so the collapsed index doesn't throw off the
+  // measured position.
+  useEffect(() => {
+    if (!pendingScroll.current) return;
+    pendingScroll.current = false;
+    if (typeof window === 'undefined') return;
+    if (window.innerWidth <= 900 && contentRef.current) {
+      // On mobile the hero + index sit above the article; jump straight to it.
+      contentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    } else {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
-  };
+  }, [activeId]);
 
   const showIntro = !activeEntry && !search.trim() && activeFilter === 'All';
 
@@ -370,8 +388,18 @@ export default function DemonologyAtlas({ onBack, onNavigate, initialSection, em
 
       {/* Main layout */}
       <div className="dm-layout">
+        {/* Mobile-only toggle for the topic index */}
+        <button
+          className="dm-sidebar-toggle"
+          onClick={() => setNavOpen((o) => !o)}
+          aria-expanded={navOpen}
+        >
+          <span>☰ Browse all topics ({visible.length})</span>
+          <span className={`dm-sidebar-toggle-arrow ${navOpen ? 'open' : ''}`}>▾</span>
+        </button>
+
         {/* Sidebar */}
-        <nav className="dm-sidebar">
+        <nav className={`dm-sidebar ${navOpen ? 'dm-sidebar-open' : ''}`}>
           {BY_CATEGORY.map(({ label, entries }) => {
             const filtered = entries.filter((d) => visible.some((v) => v.id === d.id));
             if (filtered.length === 0) return null;
@@ -394,7 +422,7 @@ export default function DemonologyAtlas({ onBack, onNavigate, initialSection, em
         </nav>
 
         {/* Content */}
-        <div>
+        <div ref={contentRef} className="dm-content">
           {activeEntry ? (
             <DetailPanel entry={activeEntry} onSelect={handleSelect} />
           ) : (
