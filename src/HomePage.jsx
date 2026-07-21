@@ -569,8 +569,8 @@ export default function HomePage({ onNavigate }) {
                 <div
                   style={{
                     display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))',
-                    gap: '20px',
+                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                    gap: '14px',
                   }}
                 >
                   {group.portals.map((portal) => (
