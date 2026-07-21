@@ -132,6 +132,16 @@ export default function App() {
         navigate(section ? `/relationship-hub?section=${encodeURIComponent(section)}` : '/relationship-hub');
         return;
       }
+      // Natal Chart Decoder and Numerology now live as tabs inside the Sacred
+      // Systems Atlas. Route straight there instead of through the routeHidden
+      // /astrology and /numerology aliases — those are excluded from
+      // portalsByPath, so landing on them (then rewriting the URL at render
+      // time) never registers a "recently viewed" visit at all.
+      if (SACRED_SYSTEMS_PORTAL_IDS.has(portalId)) {
+        const target = section || (portalId === 'astrology' ? 'natal-chart' : 'numerology');
+        navigate(`/sacred-systems?section=${encodeURIComponent(target)}`);
+        return;
+      }
       const portal = portalsById[portalId];
       if (!portal) return;
       if (portal.external && portal.externalUrl) {
