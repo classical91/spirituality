@@ -184,7 +184,7 @@ function BrowseView({ onOpen, notFoundId }) {
       </p>
 
       {results.length > 0 ? (
-        <div style={{ display: 'grid', gap: 16, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 280px), 1fr))' }}>
+        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 210px), 1fr))' }}>
           {results.map((topic) => (
             <TopicCard key={topic.id} topic={topic} onOpen={onOpen} />
           ))}
