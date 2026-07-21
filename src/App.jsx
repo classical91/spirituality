@@ -11,6 +11,7 @@ import SacredSystemsAtlas from './SacredSystemsAtlas';
 import SexualEnergyDashboard from './SexualEnergyDashboard';
 import DailyPracticePortal from './DailyPracticePortal';
 import RelationshipHub from './RelationshipHub';
+import TopicsPortal from './TopicsPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
@@ -57,6 +58,7 @@ const COMPONENTS = {
   sexualenergy: SexualEnergyDashboard,
   dailypractice: DailyPracticePortal,
   relationshiphub: RelationshipHub,
+  topics: TopicsPortal,
 };
 
 // Natal Chart Decoder and Numerology used to be standalone portals; they now

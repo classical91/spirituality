@@ -30,6 +30,7 @@ Sacred Pathways is an interactive, browser-based reflection toolkit built with V
 **Spiritual Study**
 | Path | Portal | What it's for |
 |------|--------|----------------|
+| `/topics` | **Spiritual Topics & Dictionary** | A searchable concept library — definitions, comparisons ("contentment vs fulfillment"), practices, and reflection questions for spiritual, emotional, relationship, and self-concept terms. Acts as an index and navigation layer that links out to the deeper portals rather than duplicating them. |
 | `/sacred-moral-atlas` | **Sacred Moral & Mythic Atlas** | Biblical foundations, Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, angelology, demonology, and the Infernal & Mythic Codex. (Legacy `/biblical`, `/angelology`, `/demonology`, `/infernal-codex` redirect here.) |
 | `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, Joe Dispenza — plus the esoteric Ascended Masters library. (Legacy `/frameworks` redirects here.) |
 
@@ -100,29 +101,92 @@ src/
   InnerBalanceAtlas.jsx
   WisdomAtlas.jsx
   VitaminsMineralsAtlas.jsx
+  TopicsPortal.jsx           # Spiritual Topics & Dictionary (/topics)
   components/
     PortalCard.jsx           # Home grid card
     GlobalSearch.jsx         # Cross-portal search bar
+    TopicCard.jsx            # Topic browse card
+    TopicDetail.jsx          # Topic full-page detail view
     SafetyNote.jsx           # Reusable wellness / symbolic disclaimer
     BackButton.jsx
   data/
     portals.js               # Portal catalog (routes, copy, search terms)
+    searchIndex.js           # Curated cross-portal Deep Search index
+    spiritualTopics.js       # Topics & Dictionary content (pure data module)
     hinduChakras.js
     raChakras.js
     baileyChakras.js
   hooks/
     useRoute.js              # History-API routing hook
   lib/
-    storage.js               # localStorage helpers (recents, last portal)
+    storage.js               # localStorage helpers (recents, last portal, recent topics)
 ```
 
 ## Routing
 
 Each portal has a real URL (`/chakra`, `/astrology`, etc.) backed by `window.history.pushState` — back/forward buttons work, links are shareable, and unknown paths fall back to the home page.
 
+## Spiritual Topics & Dictionary (`/topics`)
+
+The Topics portal is a **data-driven concept library**. It exists to make the app easier to navigate — organizing the ideas that live across Neville, the Relationship Hub, InnerAtlas, the Chakra Visualizer, and other portals into searchable, cross-linked topic pages — *without* re-hosting that content. Deeper dives always link out to the owning portal.
+
+### How topic data is structured
+
+Every topic is one plain object in [`src/data/spiritualTopics.js`](src/data/spiritualTopics.js). That module imports nothing (no components, no portal catalog, no search index), so it stays a pure content module and can be spread into the search index without a circular import. Key fields:
+
+| Field | Purpose |
+|-------|---------|
+| `id` | kebab-case slug; also the `?section=` deep link (`/topics?section=receptivity`) |
+| `title`, `summary`, `category` | card + header copy (`category` is one of `TOPIC_CATEGORIES`) |
+| `type` | `'concept'` or `'comparison'` (comparisons render through the same detail view) |
+| `definition`, `keyIdea` | 1–2 paragraphs + the single core idea |
+| `distinctions` | `[{ label, explanation }]` — carries the "X vs Y" content |
+| `signs` | `{ balanced: [...], imbalanced: [...] }` |
+| `practices`, `reflectionQuestions` | small concrete exercises + prompts |
+| `relatedTopicIds` | ids of other topics (rendered as related-concept links) |
+| `portalLinks` | `[{ portalId, section, label }]` — links into existing portals |
+| `tags`, `lens` | search keywords + the display lens |
+| `note` | optional grounding / safety / interpretation note |
+
+### How to add a topic
+
+Append one object to the `spiritualTopics` array — **that's the whole change.** No routing, component, or search edits are needed: the deep link and the global-search entry are generated automatically.
+
+```js
+{
+  id: 'example-topic',
+  title: 'Example Topic',
+  category: 'Inner Foundation',       // one of TOPIC_CATEGORIES
+  type: 'concept',                    // or 'comparison'
+  summary: 'One sentence shown on the card and in global search.',
+  definition: ['A short paragraph.', 'Optionally a second.'],
+  keyIdea: 'The single thing to remember.',
+  distinctions: [{ label: 'X vs Y', explanation: '…' }],
+  signs: { balanced: ['…'], imbalanced: ['…'] },
+  practices: ['…'],
+  reflectionQuestions: ['…'],
+  relatedTopicIds: ['self-trust'],
+  portalLinks: [{ portalId: 'inneratlas', section: 'self-trust', label: 'Self-trust' }],
+  tags: ['example', 'concept'],
+  lens: 'Reflection',
+}
+```
+
+### How to create an internal portal link
+
+Use a `portalLinks` entry with a **real** `portalId` and `section`. At render time the detail view calls the app's `onNavigate(portalId, { section })` — the same navigation contract every portal uses — so it deep-links correctly and keeps browser history working. Do **not** hardcode a URL. Confirm the `section` value against the target portal's existing section IDs (grep the portal or `src/data/searchIndex.js`) before adding it.
+
+### How search entries are generated
+
+`spiritualTopics.js` exports `spiritualTopicSearchEntries`, one `{ id, portalId: 'topics', section, title, summary, tags, lens }` per topic. `src/data/searchIndex.js` spreads that array into the global index, so searching a term like `receptivity` or `sovereignty` returns the topic page and opens it via `/topics?section=<id>`.
+
+### Topic entry vs full portal section
+
+A **topic entry** is a concise concept guide (definition, comparison, a few practices) that lives entirely in data and links out for depth. A **full portal section** is a rich, interactive experience inside a dedicated React portal (Neville's SATS tool, InnerAtlas's neurotransmitter pages, etc.). When a concept already has a real home, add a *topic* that links to it rather than copying the section.
+
 ## Persistence
 
-The home page remembers the last few portals visited via `localStorage` (key prefix `sacred-pathways:`). Nothing is sent anywhere — it's local-only progress for a smoother return visit.
+The home page remembers the last few portals visited via `localStorage` (key prefix `sacred-pathways:`). The Topics portal separately remembers recently viewed topics under `sacred-pathways:recent-topics`. Nothing is sent anywhere — it's local-only progress for a smoother return visit.
 
 ## Content safety
 
