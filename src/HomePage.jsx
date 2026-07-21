@@ -22,6 +22,12 @@ function getRandomReading(excludeTitle) {
   return pick;
 }
 
+// Any topic across the whole hub, for the "Random topic" shortcut.
+function getRandomTopic() {
+  if (READING_POOL.length === 0) return null;
+  return READING_POOL[Math.floor(Math.random() * READING_POOL.length)];
+}
+
 const LENS_COLORS = {
   Symbolic:      { border: 'rgba(167,139,250,0.30)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.16)', badgeText: '#c4b5fd' },
   Psychological: { border: 'rgba(6,182,212,0.30)',   bg: 'rgba(6,182,212,0.07)',   badge: 'rgba(6,182,212,0.16)',   badgeText: '#67e8f9' },
@@ -278,9 +284,19 @@ const DAILY_SHORTCUTS = [
   { label: 'Emergency reset', sub: 'Spiraling? Start here', icon: '⚡', portalId: 'dailypractice', section: 'emergency', color: '#fb7185' },
   { label: 'Self-concept', sub: 'Identity & self-talk', icon: '✧', portalId: 'neville', color: '#c4b5fd' },
   { label: 'Relationship work', sub: 'Clarity & patterns', icon: '♡', portalId: 'relationshiphub', color: '#f9a8d4' },
+  { label: 'Random topic', sub: 'Surprise me', icon: '🎲', random: true, color: '#2dd4bf' },
 ];
 
 function DailyShortcuts({ onNavigate }) {
+  const openShortcut = (s) => {
+    if (s.random) {
+      const topic = getRandomTopic();
+      if (topic) onNavigate(topic.portalId, topic.section ? { section: topic.section } : undefined);
+      return;
+    }
+    onNavigate(s.portalId, s.section ? { section: s.section } : undefined);
+  };
+
   return (
     <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto 20px' }}>
       <div
@@ -295,16 +311,17 @@ function DailyShortcuts({ onNavigate }) {
         {DAILY_SHORTCUTS.map((s) => (
           <button
             key={s.label}
-            onClick={() => onNavigate(s.portalId, s.section ? { section: s.section } : undefined)}
+            onClick={() => openShortcut(s)}
             style={{
               display: 'flex', alignItems: 'center', gap: '12px', textAlign: 'left',
-              border: '1px solid rgba(255,255,255,0.12)', background: 'rgba(255,255,255,0.05)',
+              border: `1px solid ${s.random ? `${s.color}40` : 'rgba(255,255,255,0.12)'}`,
+              background: s.random ? `${s.color}14` : 'rgba(255,255,255,0.05)',
               borderRadius: '16px', padding: '14px 16px', cursor: 'pointer',
               fontFamily: 'inherit', color: '#f1eeff',
               transition: 'transform 0.15s ease, border-color 0.15s ease',
             }}
             onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; e.currentTarget.style.borderColor = `${s.color}66`; }}
-            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = 'rgba(255,255,255,0.12)'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; e.currentTarget.style.borderColor = s.random ? `${s.color}40` : 'rgba(255,255,255,0.12)'; }}
           >
             <span aria-hidden="true" style={{ fontSize: '1.4rem', color: s.color }}>{s.icon}</span>
             <span style={{ display: 'flex', flexDirection: 'column', gap: '2px' }}>
