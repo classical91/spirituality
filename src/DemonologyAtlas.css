@@ -197,7 +197,9 @@
 /* ── Layout ───────────────────────────────────────────────── */
 .dm-layout {
   display: grid;
-  grid-template-columns: 280px 1fr;
+  /* minmax(0, 1fr): don't let wide content (e.g. the comparison table)
+     blow the column out past the viewport. */
+  grid-template-columns: 280px minmax(0, 1fr);
   gap: 1.5rem;
   max-width: 1240px;
   margin: 0 auto;
@@ -206,6 +208,30 @@
 }
 
 /* ── Sidebar ──────────────────────────────────────────────── */
+/* Mobile-only toggle; hidden on desktop where the sidebar is always visible */
+.dm-sidebar-toggle {
+  display: none;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.6rem;
+  width: 100%;
+  padding: 0.7rem 1rem;
+  border-radius: 12px;
+  border: 1px solid rgba(220,80,80,0.22);
+  background: rgba(220,80,80,0.07);
+  color: #e8baba;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: border-color 0.2s, background 0.2s;
+}
+.dm-sidebar-toggle:active { background: rgba(220,80,80,0.14); }
+.dm-sidebar-toggle-arrow {
+  transition: transform 0.2s;
+  color: #ff9a8a;
+}
+.dm-sidebar-toggle-arrow.open { transform: rotate(180deg); }
+
 .dm-sidebar {
   position: sticky;
   top: 1.5rem;
@@ -613,23 +639,36 @@
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   .dm-layout {
-    grid-template-columns: 1fr;
+    grid-template-columns: minmax(0, 1fr);
     padding: 0.75rem 1rem 2.5rem;
+    gap: 0.75rem;
   }
+  .dm-sidebar-toggle { display: flex; }
+  /* Collapsed by default so the content is reachable without scrolling
+     past the whole topic index; the toggle above expands it. */
   .dm-sidebar {
+    display: none;
     position: static;
+    max-height: none;
+  }
+  .dm-sidebar.dm-sidebar-open {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     gap: 0.35rem;
-    max-height: none;
   }
   .dm-sidebar-label { grid-column: 1 / -1; }
+  /* Keep the article top visible below the app's sticky header on jump. */
+  .dm-content { scroll-margin-top: 4.5rem; }
+  .dm-hero { padding: 2rem 1.25rem 1.5rem; }
   .dm-hero-title { font-size: 1.8rem; }
-  .dm-orb-wrap { width: 100px; height: 100px; }
-  .dm-orb { width: 100px; height: 100px; }
-  .dm-ring-1 { width: 126px; height: 126px; }
-  .dm-ring-2 { width: 155px; height: 155px; }
+  .dm-hero-subtitle { font-size: 0.9rem; margin-bottom: 1rem; }
+  .dm-orb-wrap { width: 84px; height: 84px; margin-bottom: 1.1rem; }
+  .dm-orb { width: 84px; height: 84px; }
+  .dm-ring-1 { width: 106px; height: 106px; }
+  .dm-ring-2 { width: 130px; height: 130px; }
   .dm-ring-3 { display: none; }
+  .dm-disclaimer { font-size: 0.78rem; padding: 0.65rem 0.9rem; }
+  .dm-search-wrap { margin-top: 0.9rem; }
 }
 
 @media (max-width: 600px) {
@@ -638,4 +677,15 @@
   .dm-assoc-grid { grid-template-columns: 1fr; }
   .dm-detail-body { padding: 1rem 1.2rem 1.4rem; }
   .dm-detail-header { padding: 1.2rem 1.2rem 1rem; }
+  /* One horizontally-scrollable row of filter chips instead of ~5 rows. */
+  .dm-filters {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    justify-content: flex-start;
+    padding: 0.75rem 1rem 0.5rem;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+  }
+  .dm-filters::-webkit-scrollbar { display: none; }
+  .dm-chip { flex-shrink: 0; }
 }
