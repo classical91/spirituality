@@ -2,10 +2,17 @@
 // intimacy, heartbreak, boundaries, and relationship patterns. Other portals
 // (Chakra, Sexual Energy, Psychology) link into this hub rather than holding
 // their own copies of relationship content.
+//
+// Navigation metadata (routable section IDs, overview categories, and search
+// entries) lives in src/data/relationshipIndex.js so the overview cards,
+// deep-link routing, and global search cannot drift apart. The full
+// educational content stays in the tab components (Clarity, Patterns,
+// Practice, Foundations).
 import { useState } from "react";
 import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
 import RelationshipPractice from "./RelationshipPractice";
+import { relationshipCategories, resolveOwner } from "./data/relationshipIndex";
 
 const TABS = [
   { id: "clarity", label: "Relationship Clarity" },
@@ -13,50 +20,22 @@ const TABS = [
   { id: "practice", label: "Relationship Practice" },
 ];
 
-const PRACTICE_SECTION_IDS = new Set(["foundations", "marriage", "dynamics", "scripts"]);
-
-const CLARITY_SECTION_IDS = new Set([
-  "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "pedestalizing",
-  "trauma-bond-vs-true-love", "attracted-vs-infatuated", "attraction-pitfalls",
-  "limerence", "dating-operant-conditioning", "investment-vs-vulnerability",
-  "emotional-immaturity", "closeness-vs-compatibility", "crush-vs-love",
-  "datable", "courting-vs-dating", "companionship",
-  "reading-red-flags", "love-bombing", "control-and-isolation", "gaslighting",
-  "contempt-and-criticism", "jealousy-and-possessiveness", "future-faking",
-  "standards", "chosen-and-wanted", "being-a-priority", "safety-as-standard",
-  "seen-and-valued", "being-together-emotionally", "financial-partnership",
-  "boundaries", "devotion", "honest-direct", "texting-urges",
-  "relationship-lifecycle", "types-of-intimacy", "types-of-kisses", "forms-of-cuddling",
-  "mutual-interests", "shared-experiences", "milestones",
-  "gestures-of-affection", "quality-time", "forms-of-connection",
-  "emotions-of-being-together", "forms-of-playfulness", "core-beliefs-for-sex",
-  "clarity-check", "pause-check",
-]);
-
-// Resolve an incoming ?section= value to { tab, sub }.
+// Resolve an incoming ?section= value to { tab, sub }. Ownership is derived
+// from relationshipIndex.js, so adding a section there is all that is needed
+// to make its deep link route to the correct tab.
 function resolveSection(section) {
   if (!section) return { tab: "overview", sub: null };
   if (section === "patterns" || section === "relationship-patterns") return { tab: "patterns", sub: null };
   if (section === "clarity" || section === "relationship-clarity") return { tab: "clarity", sub: null };
   if (section === "practice" || section === "relationship-practice") return { tab: "practice", sub: null };
-  if (CLARITY_SECTION_IDS.has(section)) return { tab: "clarity", sub: section };
-  if (PRACTICE_SECTION_IDS.has(section)) return { tab: "practice", sub: section };
+  const owner = resolveOwner(section);
+  if (owner === "clarity") return { tab: "clarity", sub: section };
+  if (owner === "patterns") return { tab: "patterns", sub: section };
+  if (owner === "practice") return { tab: "practice", sub: section };
   return { tab: "overview", sub: null };
 }
 
-const CATEGORIES = [
-  { title: "Love & Attachment", desc: "Attachment styles, secure love, emotional independence, the neediness loop.", tags: ["Attachment", "Secure Love", "Independence"] },
-  { title: "Dating & Attraction", desc: "Attraction vs infatuation, limerence, courting, datable, companionship.", tags: ["Attraction", "Limerence", "Courting"] },
-  { title: "Intimacy & Bonding", desc: "Types of intimacy, quality time, shared experiences, milestones, playfulness.", tags: ["Intimacy", "Bonding", "Closeness"] },
-  { title: "Sexual Desire", desc: "Core beliefs for sex, kisses, cuddling — desire held with mutual respect.", tags: ["Desire", "Consent", "Pleasure"] },
-  { title: "Heartbreak & Healing", desc: "Ghosting wounds, trauma bonds, ending cycles that look like love but feel like anxiety.", tags: ["Ghosting", "Trauma Bond", "Healing"] },
-  { title: "Boundaries", desc: "Boundaries vs walls, safety as a standard, contempt, control & isolation.", tags: ["Boundaries", "Safety", "Standards"] },
-  { title: "Secure Relationships", desc: "Devotion, being chosen, financial partnership, emotional togetherness.", tags: ["Devotion", "Priority", "Partnership"] },
-  { title: "Shadow Patterns", desc: "Pedestalizing, gaslighting, love bombing, future-faking, red flags.", tags: ["Red Flags", "Shadow Work", "Patterns"] },
-  { title: "Relationship Practice", desc: "Marriage themes, relationship dynamics, and conscious scripting — living it out day to day.", tags: ["Marriage", "Dynamics", "Scripts"] },
-];
-
-function Overview({ onOpenTab }) {
+function Overview({ onOpenTab, onOpenSection }) {
   return (
     <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
       <div className="mb-10 rounded-[2.5rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-10">
@@ -94,16 +73,21 @@ function Overview({ onOpenTab }) {
         </div>
       </div>
 
-      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {CATEGORIES.map((cat) => (
+      <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        {relationshipCategories.map((cat) => (
           <div key={cat.title} className="rounded-3xl border border-white/10 bg-white/[0.05] p-5">
             <h3 className="text-base font-black text-white">{cat.title}</h3>
-            <p className="mt-2 text-xs leading-5 text-white/55">{cat.desc}</p>
+            {cat.summary && <p className="mt-2 text-xs leading-5 text-white/55">{cat.summary}</p>}
             <div className="mt-3 flex flex-wrap gap-1.5">
-              {cat.tags.map((tag) => (
-                <span key={tag} className="rounded-full border border-rose-300/20 bg-rose-500/10 px-2.5 py-1 text-[10px] font-bold text-rose-200/80">
-                  {tag}
-                </span>
+              {cat.chips.map((chip) => (
+                <button
+                  key={chip.id}
+                  type="button"
+                  onClick={() => onOpenSection(chip.section)}
+                  className="rounded-full border border-rose-300/20 bg-rose-500/10 px-2.5 py-1 text-[11px] font-bold text-rose-100/85 transition hover:border-rose-300/50 hover:bg-rose-500/20 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/70"
+                >
+                  {chip.title}
+                </button>
               ))}
             </div>
           </div>
@@ -117,6 +101,12 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
   const initial = resolveSection(initialSection);
   const [tab, setTab] = useState(initial.tab);
   const [claritySub, setClaritySub] = useState(initial.sub);
+
+  // Overview chips deep-link through the app router (?section=…) so browser
+  // back/forward and refresh preserve the selected section.
+  const openSection = (section) => {
+    if (onNavigate) onNavigate("relationshiphub", { section });
+  };
 
   if (tab === "clarity") {
     return (
@@ -135,7 +125,7 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
   }
 
   if (tab === "patterns") {
-    return <RelationshipPatterns onBack={() => setTab("overview")} />;
+    return <RelationshipPatterns onBack={() => setTab("overview")} initialSection={initial.sub} />;
   }
 
   if (tab === "practice") {
@@ -189,7 +179,7 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
           </button>
         ))}
       </nav>
-      <Overview onOpenTab={setTab} />
+      <Overview onOpenTab={setTab} onOpenSection={openSection} />
     </div>
   );
 }
