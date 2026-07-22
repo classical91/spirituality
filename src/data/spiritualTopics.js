@@ -365,6 +365,228 @@ export const spiritualTopics = [
     tags: ['devotion', 'attachment', 'anxious attachment', 'commitment', 'clinging', 'fear', 'love'],
     lens: 'Psychological',
   },
+  {
+    id: 'forms-of-love',
+    title: 'Forms of Love',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'Love is not one thing — romantic, companionate, compassionate, platonic, familial, and self-love are distinct forms.',
+    definition: [
+      'Love takes many forms, each with its own shape and place: romantic and passionate love, the steady companionate love of a shared life, compassionate love oriented toward another’s wellbeing, platonic and friendship love, familial and parental love, and self-love.',
+      'Naming the forms keeps a genuine form of love from being confused with a psychological state (limerence), an unhealthy pattern (obsessive love), or a passing physical response (lovesickness).',
+    ],
+    keyIdea:
+      'Love does not remove consent, boundaries, compatibility, or mutual choice. Strong feeling for someone is never, by itself, a claim on them.',
+    relatedTopicIds: ['love-without-possession', 'compatibility'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'forms-of-love', label: 'Forms of Love' },
+    ],
+    tags: ['forms of love', 'romantic love', 'platonic love', 'companionate love', 'compassionate love', 'familial love', 'self-love', 'unconditional love'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'compatibility',
+    title: 'Compatibility',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'How well two people can actually build a life together — across values, lifestyle, communication, sex, money, and long-term goals.',
+    definition: [
+      'Compatibility is the degree to which two people fit for a shared life: core values, lifestyle, emotional availability, communication and conflict styles, sexual and financial expectations, and long-term goals.',
+      'It is different from attraction and chemistry, which tell you who you want — not who you can build with.',
+    ],
+    keyIdea:
+      'A preference is something you’d like; a deal-breaker is something you can’t build a life around. Two good people can simply be incompatible.',
+    distinctions: [
+      { label: 'Attraction vs compatibility', explanation: 'Attraction is a pull; compatibility is fit. You can feel one without the other.' },
+      { label: 'Potential vs present reality', explanation: 'Compatibility is measured by who someone actually is now, not who they might become.' },
+    ],
+    relatedTopicIds: ['forms-of-love'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'compatibility-and-choosing', label: 'Compatibility and Choosing' },
+    ],
+    tags: ['compatibility', 'deal-breakers', 'partner selection', 'choosing a partner', 'values', 'long-term fit'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'communication',
+    title: 'Communication',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'Naming feelings and needs clearly, making requests rather than demands, and listening to understand.',
+    definition: [
+      'Healthy relationship communication means expressing what is true — feelings, needs, requests — directly, and listening well enough to reflect back what you heard.',
+      'A request leaves room for a no; a demand punishes it. Asking beats assuming.',
+    ],
+    keyIdea:
+      'Most conflict is not about the topic but about how it is raised and received. “When X happened, I felt Y; what I need is Z” carries more than any accusation.',
+    relatedTopicIds: ['conflict-repair', 'consent'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'skills', label: 'Relationship Skills — Communication' },
+      { portalId: 'relationshiphub', section: 'honest-direct', label: 'Honest, calm, direct' },
+    ],
+    tags: ['communication', 'expressing needs', 'requests vs demands', 'active listening', 'emotional validation'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'conflict-repair',
+    title: 'Conflict Repair',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'Fighting fair and reconnecting afterward — staying on one issue, taking responsibility, and making repair attempts.',
+    definition: [
+      'Conflict repair is the set of moves that keep disagreement from eroding a relationship: regulating before responding, staying on one issue, replacing criticism and contempt with specific complaints and respect, and reconnecting afterward.',
+      'Repair attempts — a joke, a hand, “let’s slow down” — are what separate couples who recover from those who spiral.',
+    ],
+    keyIdea:
+      'It is not whether you fight but how you repair. A complete apology names what happened, owns the impact without excuses, and is backed by changed behavior.',
+    relatedTopicIds: ['communication', 'reconciliation'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'conflict-patterns', label: 'Conflict Patterns' },
+      { portalId: 'relationshiphub', section: 'skills', label: 'Relationship Skills — Conflict and Repair' },
+    ],
+    tags: ['conflict repair', 'conflict', 'apology', 'repair attempts', 'criticism', 'contempt', 'defensiveness'],
+    lens: 'Reflection',
+    note: 'Ordinary conflict is not abuse. Contempt, threats, or punishment that leave you afraid or controlled are a different category — prioritize safety.',
+  },
+  {
+    id: 'consent',
+    title: 'Consent',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'Agreement that is freely given, specific, ongoing, and revocable — and never assumed from silence, pressure, or a relationship.',
+    definition: [
+      'Consent is a clear, freely given yes. It is specific to what is agreed, ongoing rather than granted once, and can be withdrawn at any time.',
+      'Silence is not consent, pressure is not consent, and past consent does not guarantee present consent. A relationship or marriage creates no sexual entitlement.',
+    ],
+    keyIdea:
+      'The only reliable consent is an enthusiastic, present yes that either person is free to change. Anything won by pressure is not consent.',
+    relatedTopicIds: ['communication'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'skills', label: 'Relationship Skills — Consent' },
+    ],
+    tags: ['consent', 'ongoing consent', 'sexual boundaries', 'sexual communication', 'autonomy'],
+    lens: 'Reflection',
+    note: 'Pressuring, coercing, or ignoring a no is a violation, and sharing intimate images without consent is abuse. If this is happening to you, support is available.',
+  },
+  {
+    id: 'codependency-vs-interdependence',
+    title: 'Codependency vs Interdependence',
+    category: 'Love & Relationships',
+    type: 'comparison',
+    summary:
+      'Losing yourself to be needed, versus two whole people who rely on each other by choice.',
+    definition: [
+      'Codependency ties self-worth to being needed — rescuing, caretaking, enabling, and self-abandonment. Healthy interdependence lets two capable people lean on one another without either losing identity, agency, or responsibility.',
+      'Independence is part of the picture, but the goal is not never needing anyone; it is needing without self-erasure.',
+    ],
+    keyIdea:
+      'Codependence asks “who am I if they don’t need me?” Interdependence can say “I choose you” and still stand on its own.',
+    distinctions: [
+      { label: 'Rescuing vs supporting', explanation: 'Rescuing removes another’s responsibility; support respects it.' },
+      { label: 'Self-abandonment vs mutuality', explanation: 'Self-abandonment erases you to keep the peace; mutuality keeps both people intact.' },
+    ],
+    relatedTopicIds: ['love-without-possession'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'codependency-vs-interdependence', label: 'Codependency vs Interdependence' },
+    ],
+    tags: ['codependency', 'interdependence', 'healthy interdependence', 'rescuing', 'enabling', 'self-abandonment', 'emotional boundaries'],
+    lens: 'Psychological',
+  },
+  {
+    id: 'relationship-grief',
+    title: 'Relationship Grief',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'The real loss felt at the end of a relationship — grief that comes in waves, not tidy stages.',
+    definition: [
+      'The end of a relationship is a genuine loss, and grief is the honest response to it. It moves in waves and loops rather than fixed, linear stages.',
+      'Ambiguous loss — a ghosting or a fade with no explanation — is harder because the mind has no clear ending to hold onto.',
+    ],
+    keyIdea:
+      'You can grieve a relationship, honor that the love was real, and still let it go. Grieving is not proof you chose wrong.',
+    relatedTopicIds: ['closure', 'reconciliation'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'breakups-grief-and-closure', label: 'Breakups, Grief, and Closure' },
+    ],
+    tags: ['relationship grief', 'grief', 'breakup', 'ambiguous loss', 'ghosting', 'loss'],
+    lens: 'Reflection',
+    note: 'If loss brings thoughts of self-harm, or an ex is stalking or threatening you, reach out to a trusted person or crisis line right away.',
+  },
+  {
+    id: 'closure',
+    title: 'Closure',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'The internal sense of completion after a loss — built by you, not owed by the other person.',
+    definition: [
+      'Closure is the settled sense that a chapter is complete. It is not something the other person is obligated to provide, and waiting for it can keep a wound open.',
+      'It is built internally: an honest accounting of what was real, what was lost, and what you now choose.',
+    ],
+    keyIdea:
+      'Closure is an act you perform for yourself. It does not require the other person’s apology, explanation, or participation.',
+    relatedTopicIds: ['relationship-grief'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'breakups-grief-and-closure', label: 'Breakups, Grief, and Closure' },
+    ],
+    tags: ['closure', 'grief', 'no contact', 'letting go', 'acceptance', 'healing'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'trust-repair',
+    title: 'Trust Repair',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'Rebuilding trust through changed behavior over time — not demanded back, and not owed.',
+    definition: [
+      'Trust is rebuilt slowly, through consistency and changed behavior — never restored by a single apology or granted on a timeline.',
+      'An apology is words; accountability is owning the impact without excuses; changed behavior is the proof.',
+    ],
+    keyIdea:
+      'Trust cannot be demanded. You are always free to decide it has not been re-earned, even when the other person wants it to be.',
+    distinctions: [
+      { label: 'Apology vs accountability', explanation: 'An apology says sorry; accountability owns the impact and changes.' },
+      { label: 'Rebuilding trust vs demanding trust', explanation: 'One earns it over time; the other insists on it now.' },
+    ],
+    relatedTopicIds: ['reconciliation', 'conflict-repair'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'reconciliation-and-trust-repair', label: 'Reconciliation and Trust Repair' },
+    ],
+    tags: ['trust repair', 'rebuilding trust', 'accountability', 'consistency', 'changed behavior'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'reconciliation',
+    title: 'Reconciliation',
+    category: 'Love & Relationships',
+    type: 'concept',
+    summary:
+      'Coming back together after a rupture — possible under real conditions, and distinct from forgiveness.',
+    definition: [
+      'Reconciliation is the mutual rebuilding of a relationship after a breach. It requires clear accountability, changed behavior, consistency over time, and a shared, realistic desire to repair.',
+      'Forgiveness is something you can do alone for your own peace; reconciliation takes two people and real conditions — and is not the same as returning to the old relationship.',
+    ],
+    keyIdea:
+      'You can forgive without reconciling, and you are free to decide against reconciliation even if the other person wants it.',
+    distinctions: [
+      { label: 'Forgiveness vs reconciliation', explanation: 'Forgiveness is internal and solo; reconciliation is mutual and conditional.' },
+      { label: 'Reconciliation vs returning to the old relationship', explanation: 'Genuine repair builds something healthier, not a restored old dynamic.' },
+    ],
+    relatedTopicIds: ['trust-repair', 'relationship-grief'],
+    portalLinks: [
+      { portalId: 'relationshiphub', section: 'reconciliation-and-trust-repair', label: 'Reconciliation and Trust Repair' },
+    ],
+    tags: ['reconciliation', 'getting back together', 'forgiveness', 'repair', 'accountability'],
+    lens: 'Reflection',
+    note: 'If a relationship involved abuse, coercion, or threats, an apology is not a reason to return — safety comes first.',
+  },
 
   // ── Emotional Life ──────────────────────────────────────────────────────
   {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
-// Foundations of conscious love. Moved here from the former standalone
-// Relationships & Love portal so it can live as a tab inside the
-// Sexual Energy, Self-Mastery & Relationships dashboard.
+// Foundations of conscious love — trust, safety, vulnerability, mutuality, and
+// the anatomy of conscious love. This content belongs to the Relationship Hub
+// and renders as the "Foundations" tab inside Relationship Practice.
 const FOUNDATIONS = [
   {
     id: 'trust',

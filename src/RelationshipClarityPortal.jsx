@@ -148,6 +148,62 @@ const concepts = [
       "Map the last two weeks on paper. Not the peaks — the average day. Was the average day calm and respectful, or were you bracing? Bonded relationships are loud in memory; loved relationships are quiet in the body. Trust the body's record over the highlight reel.",
   },
   {
+    id: "breakups-grief-and-closure",
+    label: "Breakups, Grief, and Closure",
+    kicker: "Healing",
+    group: "Reflection",
+    short: "You can grieve a relationship, honor that the love was real, and still let it go.",
+    question: "Am I moving toward healing, or holding the door open because letting go feels like erasing what we had?",
+    explanation:
+      "The end of a relationship is a real loss, and grief is the honest response to it — not a sign you chose wrong. Grief does not move through fixed, tidy stages; it comes in waves, loops back, and takes the time it takes. Ambiguous loss — a ghosting, a fade, an ending with no explanation — is harder precisely because the mind has no closure to hold onto. But closure is not something the other person owes you or can reliably give. It is something you build internally: an accounting of what was real, what was lost, and what you now choose. Letting go does not require deciding the love was fake.",
+    fear: [
+      "Reaching out for contact to relieve the ache, then feeling worse.",
+      "Refusing to grieve because grieving feels like admitting it's over.",
+      "Rewriting the whole relationship as worthless to make leaving hurt less.",
+      "Waiting for the other person to explain, apologize, or grant closure first.",
+      "Jumping straight into a rebound to skip the empty stretch.",
+    ],
+    secure: [
+      "Letting grief come in waves without forcing a timeline on it.",
+      "Choosing no-contact when contact keeps reopening the wound.",
+      "Holding two truths: the love was real, and it still needed to end.",
+      "Creating closure yourself — naming what happened and what you keep.",
+      "Recognizing when continued contact is harmful and stepping back.",
+    ],
+    practice:
+      "Write the relationship a closing letter you will not send. Name what was genuinely good, what you lost, what you learned, and what you are choosing now. Closure is an act you perform for yourself — it does not require the other person's participation.",
+    note:
+      "Grief after a breakup is normal. But if the loss brings thoughts of harming yourself, or if an ex is stalking, threatening, or refusing to let you go, that is not grief to sit with alone — reach out to someone you trust, a therapist, or a crisis line right away.",
+  },
+  {
+    id: "reconciliation-and-trust-repair",
+    label: "Reconciliation and Trust Repair",
+    kicker: "Repair",
+    group: "Reflection",
+    short: "Trust is rebuilt through changed behavior over time — not granted on demand, and not owed.",
+    question: "Are the conditions for genuine repair actually here, or am I hoping an apology will stand in for change?",
+    explanation:
+      "Reconciliation is possible, but it is not automatic and it is not the same as returning to the old relationship. Forgiveness is something you can do alone, for your own peace; reconciliation takes two people and real conditions. An apology is words; accountability is owning the impact without excuses. Regret is a feeling; changed behavior is the proof. Trust cannot be demanded back — it is rebuilt slowly through consistency, and you are always free to decide against reconciling even if the other person wants it. Genuine repair asks for clear accountability, honest disclosure, changed behavior, consistency over time, respect for boundaries, willingness to hear the hurt, and a shared, realistic desire to rebuild.",
+    fear: [
+      "Accepting an apology as proof, before any behavior has changed.",
+      "Demanding trust back on a timeline instead of letting it rebuild.",
+      "Confusing intense regret or promises with actual change.",
+      "Returning to the exact old relationship and expecting a different result.",
+      "Overriding your own boundaries because they say the right words.",
+    ],
+    secure: [
+      "Watching for clear accountability, not just remorse.",
+      "Letting consistency over time — not a single conversation — rebuild trust.",
+      "Naming the hurt and needing it genuinely heard.",
+      "Keeping the freedom to decide against reconciliation.",
+      "Rebuilding something new and healthier, not restoring the old dynamic.",
+    ],
+    practice:
+      "List the specific, observable changes you would need to see sustained over time before trust could reasonably return. Then notice what has actually happened so far — not what was promised. The gap between the two is your answer for now.",
+    note:
+      "Repair language can be misused to pull someone back into a harmful situation. If a relationship involved abuse, coercion, or threats, 'they apologized' is not a reason to return — your safety comes first, and a domestic-violence advocate can help you think it through privately.",
+  },
+  {
     id: "attracted-vs-infatuated",
     label: "Attracted vs Infatuated",
     kicker: "Reflection",
@@ -875,6 +931,58 @@ const concepts = [
     ],
   },
   {
+    id: "forms-of-love",
+    label: "Forms of Love",
+    kicker: "Inventory",
+    group: "Inventory",
+    short: "Love is not one thing — it comes in many forms, and naming them prevents confusion.",
+    inventory: true,
+    intro:
+      "There are many kinds of love, each with its own shape and place. Naming them keeps a form of love from being confused with a psychological state (like limerence), an unhealthy pattern (like obsessive love), a compulsive dynamic (like love addiction), or a passing physical response (like lovesickness). Those are covered elsewhere in the hub — this page is only the forms love genuinely takes.",
+    items: [
+      { name: "Romantic love", note: "The blend of attraction, affection, and desire directed toward a partner." },
+      { name: "Passionate love", note: "The intense, high-arousal early phase — longing, excitement, absorption. It naturally cools." },
+      { name: "Companionate love", note: "The warm, steady bond of deep friendship and shared life that outlasts the early rush." },
+      { name: "Compassionate love", note: "Care oriented toward another's wellbeing — tenderness, patience, and goodwill." },
+      { name: "Platonic love", note: "Deep, non-sexual affection and loyalty between friends." },
+      { name: "Friendship love (philia)", note: "Mutual regard, trust, and enjoyment between equals." },
+      { name: "Familial love", note: "The bond of family — belonging, obligation, and history." },
+      { name: "Parental love", note: "Protective, nurturing love oriented toward a child's growth." },
+      { name: "Self-love", note: "Regard and care for yourself — the ground the other forms rest on." },
+      { name: "Unconditional love", note: "Care that does not depend on performance — offered without a scorecard." },
+      { name: "Unrequited love", note: "Love that is felt but not returned — real, and painful, and not a claim on the other person." },
+    ],
+    note:
+      "Love does not remove consent, boundaries, compatibility, or mutual choice. Strong feeling for someone is never, on its own, a reason they owe you access, agreement, or a relationship.",
+  },
+  {
+    id: "compatibility-and-choosing",
+    label: "Compatibility and Choosing",
+    kicker: "Compatibility",
+    group: "Standards",
+    short: "Attraction tells you who you want; compatibility tells you who you can build with.",
+    inventory: true,
+    intro:
+      "Attraction is not compatibility, chemistry is not long-term fit, and potential is not present reality. A preference is something you'd like; a deal-breaker is something you can't build a life around. Similarity helps, but so does healthy complementarity. Use the dimensions below as a checklist — not to grade a person, but to see clearly where you actually align and where you don't.",
+    items: [
+      { name: "Core values", note: "The non-negotiables about how life should be lived." },
+      { name: "Lifestyle", note: "Daily rhythm, energy, social needs, tidiness, health habits." },
+      { name: "Emotional availability", note: "Can this person show up, invest, and stay reachable?" },
+      { name: "Communication style", note: "How you each express, listen, and ask for what you need." },
+      { name: "Conflict style", note: "How you each handle disagreement, repair, and stress." },
+      { name: "Sexual compatibility", note: "Desire, pace, and openness held with mutual consent." },
+      { name: "Financial expectations", note: "Earning, spending, saving, and how money decisions get made." },
+      { name: "Marriage expectations", note: "Whether, when, and what commitment means to each of you." },
+      { name: "Children and parenting", note: "Whether you want them, and how you'd raise them." },
+      { name: "Religion or spirituality", note: "Shared or respected belief, practice, and meaning." },
+      { name: "Long-term goals", note: "The life each of you is actually moving toward." },
+      { name: "Geography and career", note: "Where you'll live and how work fits the shared plan." },
+      { name: "Capacity for commitment", note: "Readiness and willingness to actually choose a partnership." },
+    ],
+    note:
+      "A checklist clarifies fit; it does not decide worth. Two good people can simply be incompatible. Naming a deal-breaker is respect for both of you — not a verdict on either.",
+  },
+  {
     id: "types-of-intimacy",
     label: "Types of Intimacy",
     kicker: "Inventory",
@@ -1216,6 +1324,13 @@ function ReflectionConcept({ concept }) {
       </div>
 
       <InfoBox label="Practice" tone="violet">{concept.practice}</InfoBox>
+
+      {concept.note && (
+        <div className="rounded-2xl border border-amber-300/20 bg-amber-500/10 p-4 text-sm leading-6 text-white/80">
+          <span className="mr-1 font-black text-amber-200/90">Safety note.</span>
+          {concept.note}
+        </div>
+      )}
     </div>
   );
 }
@@ -1501,6 +1616,13 @@ function InventoryConcept({ concept }) {
           </div>
         ))}
       </div>
+
+      {concept.note && (
+        <div className="rounded-2xl border border-amber-300/20 bg-amber-500/10 p-4 text-sm leading-6 text-white/80">
+          <span className="mr-1 font-black text-amber-200/90">Grounding note.</span>
+          {concept.note}
+        </div>
+      )}
     </div>
   );
 }

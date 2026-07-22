@@ -126,6 +126,55 @@ src/
 
 Each portal has a real URL (`/chakra`, `/astrology`, etc.) backed by `window.history.pushState` — back/forward buttons work, links are shareable, and unknown paths fall back to the home page.
 
+## Relationship Hub (`/relationship-hub`)
+
+The Relationship Hub is the **single canonical home** for relationship education. Other portals (Chakra, Sexual Energy, Psychology) and the Topics dictionary link *into* it rather than holding their own copies. Do not create another top-level relationship portal.
+
+### Ownership rules
+
+The Hub has three content tabs, each owned by one component:
+
+| Tab | Owner value | Component | What it holds |
+|-----|-------------|-----------|---------------|
+| Relationship Clarity | `clarity` | [`src/RelationshipClarityPortal.jsx`](src/RelationshipClarityPortal.jsx) | Understanding what is happening — reflections, red flags, standards, inventories, tools. |
+| Relationship Patterns | `patterns` | [`src/RelationshipPatterns.jsx`](src/RelationshipPatterns.jsx) | Repeating psychological dynamics. |
+| Relationship Practice | `practice` | [`src/RelationshipPractice.jsx`](src/RelationshipPractice.jsx) (+ [`RelationshipFoundations.jsx`](src/RelationshipFoundations.jsx)) | Healthy skills and lived application — foundations, skills, marriage, dynamics, scripts. |
+
+Navigation metadata is centralized in [`src/data/relationshipIndex.js`](src/data/relationshipIndex.js). That module holds **navigation + search metadata only** — the full educational content stays in the components above. It exports:
+
+- `claritySectionIds`, `patternSectionIds`, `practiceSectionIds` — the authoritative routable `?section=` IDs per tab. `resolveOwner(section)` maps a section to its owning tab, and [`RelationshipHub.jsx`](src/RelationshipHub.jsx) uses it to route deep links.
+- `relationshipSections` — curated nav entries (`{ id, title, category, owner, section, summary, tags }`) that back the overview chips and global search.
+- `relationshipCategories` — the overview categories with their clickable topic chips, derived from `relationshipSections`.
+- `relationshipSearchEntries` — generated global-search entries (see below).
+
+Each section id must appear in exactly one owner's `*SectionIds` list so a `?section=` value never routes ambiguously.
+
+### How to add a Clarity topic
+
+1. Append a concept object to the `concepts` array in [`RelationshipClarityPortal.jsx`](src/RelationshipClarityPortal.jsx). Give it a stable kebab-case `id`, a `group` (one of `CONCEPT_GROUPS`), and the fields for its render type — reflection (`question`/`explanation`/`fear`/`secure`/`practice`), `redflag: true` (`flags`/`green`), or `inventory: true` (`intro`/`items`). Optional `note` renders a grounding/safety callout.
+2. Add the same `id` to `claritySectionIds` in [`relationshipIndex.js`](src/data/relationshipIndex.js) so its deep link routes to the Clarity tab.
+3. To surface it as an overview chip, add a `relationshipSections` entry with `owner: 'clarity'` and `section: '<id>'`.
+
+### How to add a Pattern
+
+1. Append a pattern object to `RELATIONSHIP_PATTERNS` in [`RelationshipPatterns.jsx`](src/RelationshipPatterns.jsx) with a stable `id`, `name`, `color`, `keyInsight`, `items`, and optional `note` (safety callout). Arriving with `initialSection` matching the `id` scrolls the card into view and highlights it — no modal.
+2. Add the `id` to `patternSectionIds` in [`relationshipIndex.js`](src/data/relationshipIndex.js).
+3. Optionally add a `relationshipSections` entry with `owner: 'patterns'` for an overview chip.
+
+### How to add a Practice section
+
+1. Add a tab to `PRACTICE_TABS` in [`RelationshipPractice.jsx`](src/RelationshipPractice.jsx) and render it from `renderTab()`.
+2. Add the tab `id` to `practiceSectionIds` in [`relationshipIndex.js`](src/data/relationshipIndex.js) so `/relationship-hub?section=<id>` opens that tab.
+3. Optionally add a `relationshipSections` entry with `owner: 'practice'`.
+
+### How relationship sections enter global search
+
+`relationshipIndex.js` maps `relationshipSections` to `relationshipSearchEntries` (`{ id, portalId: 'relationshiphub', section, title, summary, tags, lens }`). [`src/data/searchIndex.js`](src/data/searchIndex.js) spreads that array into the global index, so any curated section is searchable automatically. Titles carry a `— relationship lens` suffix so terms shared with the Psychology portal (e.g. *attachment*) stay distinguishable in results.
+
+### How dictionary entries link to canonical Hub content
+
+Short dictionary entries in [`src/data/spiritualTopics.js`](src/data/spiritualTopics.js) (Forms of Love, Compatibility, Consent, Codependency vs Interdependence, Relationship Grief, Closure, Trust Repair, Reconciliation, …) stay concise and point to the canonical section via `portalLinks: [{ portalId: 'relationshiphub', section: '<hub-section-id>', label }]`. Do **not** copy full Hub content into the dictionary — link out instead.
+
 ## Spiritual Topics & Dictionary (`/topics`)
 
 The Topics portal is a **data-driven concept library**. It exists to make the app easier to navigate — organizing the ideas that live across Neville, the Relationship Hub, InnerAtlas, the Chakra Visualizer, and other portals into searchable, cross-linked topic pages — *without* re-hosting that content. Deeper dives always link out to the owning portal.

@@ -1,6 +1,7 @@
 // Curated cross-portal content index for Deep Search.
 import { sacredSystemsSearchEntries } from './sacredSystemsCards';
 import { spiritualTopicSearchEntries } from './spiritualTopics';
+import { relationshipSearchEntries } from './relationshipIndex';
 //
 // Each entry surfaces a section *inside* a portal, so a query like
 // "abandonment" can return Heart Chakra, Attachment Theory, and the
@@ -292,6 +293,14 @@ export const searchIndex = [
   { id: 'psy-projection',    portalId: 'inneratlas', section: 'projection',   title: 'Projection',       summary: 'Unconsciously attributing your own disowned feelings or traits to someone else.', tags: ['projection','shadow','jung','disowned','unconscious','relationships','blame'], lens: 'Psychological' },
   { id: 'psy-parts-work',    portalId: 'inneratlas', section: 'parts-work',   title: 'Parts Work (IFS)', summary: 'Internal Family Systems — your psyche as a system of parts, each with a role and a need.', tags: ['parts work','ifs','internal family systems','parts','managers','exiles','firefighters','protectors'], lens: 'Psychological' },
   { id: 'psy-integration',   portalId: 'inneratlas', section: 'integration',  title: 'Integration',      summary: 'Bringing disowned, suppressed, or split-off aspects of the self back into wholeness.', tags: ['integration','wholeness','shadow work','jung','healing','acceptance','reclaiming','identity'], lens: 'Psychological' },
+
+  // ─── Relationship Hub (navigation index) ─────────────────────────────
+  // Generated from src/data/relationshipIndex.js — one entry per curated
+  // relationship section. Adding a section to relationshipSections there
+  // surfaces it in global search automatically. Titles carry a "— relationship
+  // lens" suffix so terms shared with the Psychology portal (e.g. attachment)
+  // are distinguishable in results.
+  ...relationshipSearchEntries,
 
   // ─── Spiritual Topics & Dictionary ───────────────────────────────────
   // Generated from src/data/spiritualTopics.js — one entry per topic. Adding a
