@@ -930,6 +930,229 @@
 }
 
 .fa-compare-trap { color: #ffb3b3; }
+.fa-compare-distinction { min-width: 150px; color: #cfd8f5; }
+
+/* ── dedicated teacher profile ── */
+.fa-profile {
+  display: grid;
+  gap: 18px;
+  min-width: 0;
+}
+
+.fa-profile-section {
+  border: 1px solid var(--edge);
+  border-radius: 24px;
+  background: rgba(255,255,255,.035);
+  padding: 20px;
+  min-width: 0;
+}
+.fa-profile-section.collapsible { padding: 6px 20px; }
+.fa-profile-section.collapsible.open { padding-bottom: 20px; }
+
+.fa-profile-heading {
+  margin: 0 0 4px;
+  font-size: 13px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .12em;
+  color: var(--soft);
+}
+
+.fa-profile-toggle {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 14px 0;
+  background: none;
+  border: 0;
+  color: inherit;
+  font: inherit;
+  letter-spacing: inherit;
+  text-transform: inherit;
+  text-align: left;
+  cursor: pointer;
+  border-radius: 12px;
+}
+.fa-profile-toggle:hover { color: var(--txt); }
+.fa-profile-toggle:focus-visible {
+  outline: 2px solid var(--accent2);
+  outline-offset: 3px;
+}
+.fa-profile-caret {
+  font-size: 20px;
+  line-height: 1;
+  color: var(--soft);
+  flex-shrink: 0;
+}
+
+.fa-profile-sub {
+  margin: 0 0 12px;
+  color: var(--soft);
+  font-size: 13px;
+  line-height: 1.6;
+  max-width: 68ch;
+}
+
+.fa-profile-body { display: grid; gap: 14px; min-width: 0; }
+
+.fa-prose p {
+  color: var(--muted);
+  line-height: 1.75;
+  font-size: 15px;
+  max-width: 68ch;
+  margin-bottom: 12px;
+}
+.fa-prose p:last-child { margin-bottom: 0; }
+
+/* historical context */
+.fa-context-list { display: grid; gap: 10px; margin: 0; }
+.fa-context-list dt {
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--soft);
+}
+.fa-context-list dd {
+  margin: 4px 0 0;
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 68ch;
+}
+
+/* central teachings */
+.fa-teaching-list { display: grid; gap: 12px; }
+.fa-teaching {
+  border: 1px solid var(--edge);
+  border-radius: 20px;
+  padding: 16px 18px;
+  background: rgba(255,255,255,.04);
+}
+.fa-teaching h3 {
+  margin: 0 0 8px;
+  font-size: 16px;
+  letter-spacing: -.02em;
+  color: var(--txt);
+}
+.fa-teaching p {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 68ch;
+}
+.fa-teaching-why { margin-top: 10px; color: var(--soft); }
+.fa-inline-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: .1em;
+  color: var(--accent2);
+  margin-bottom: 3px;
+}
+
+/* step-by-step practice */
+.fa-step-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 20px;
+}
+.fa-step-list li { color: var(--muted); line-height: 1.7; font-size: 14px; }
+.fa-step-list li::marker { color: var(--accent2); font-weight: 800; }
+.fa-step-list strong { display: block; color: var(--txt); font-size: 14px; margin-bottom: 3px; }
+.fa-step-list span { display: block; max-width: 68ch; }
+
+/* everyday example */
+.fa-example {
+  border: 1px solid rgba(0,214,255,.24);
+  border-radius: 20px;
+  padding: 16px 18px;
+  background: rgba(0,214,255,.06);
+}
+.fa-example h3 { margin: 0 0 8px; font-size: 15px; color: var(--txt); }
+.fa-example p { color: var(--muted); line-height: 1.75; font-size: 14px; max-width: 68ch; }
+
+/* distinctions */
+.fa-distinction-list { display: grid; gap: 12px; margin: 0; }
+.fa-distinction {
+  border-left: 2px solid var(--edge2);
+  padding-left: 14px;
+}
+.fa-distinction dt { color: var(--txt); font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+.fa-distinction dd { margin: 0; color: var(--muted); line-height: 1.7; font-size: 14px; max-width: 68ch; }
+
+/* cautions */
+.fa-caution-list {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding-left: 18px;
+}
+.fa-caution-list li { color: var(--muted); line-height: 1.7; font-size: 14px; }
+.fa-caution-list li::marker { color: var(--red); }
+.fa-caution-list strong { display: block; color: #ffd6d6; margin-bottom: 3px; }
+.fa-caution-list span { display: block; max-width: 68ch; }
+
+/* reflection questions */
+.fa-question-list { display: grid; gap: 10px; margin: 0; padding-left: 18px; }
+.fa-question-list li {
+  color: var(--muted);
+  line-height: 1.7;
+  font-size: 14px;
+  max-width: 68ch;
+}
+.fa-question-list li::marker { color: var(--gold); }
+
+/* related-teacher explanation line */
+.fa-related-note {
+  font-style: normal;
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.5;
+  margin-top: 4px;
+}
+.fa-related-chip { max-width: 100%; }
+.fa-profile .fa-related-chip { flex: 1 1 260px; }
+
+/* suggested reading */
+.fa-reading-list { display: grid; gap: 12px; margin: 0; padding: 0; list-style: none; }
+.fa-reading-list li {
+  border: 1px solid var(--edge);
+  border-radius: 18px;
+  padding: 12px 14px;
+  background: rgba(255,255,255,.04);
+}
+.fa-reading-head {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+.fa-reading-head strong { color: var(--txt); font-size: 14px; }
+.fa-reading-focus {
+  display: block;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.65;
+  max-width: 68ch;
+}
+
+/* source note */
+.fa-source-note {
+  border: 1px solid rgba(255,209,102,.28);
+  border-radius: 18px;
+  background: rgba(255,209,102,.07);
+  padding: 14px 16px;
+  color: var(--muted);
+  font-size: 13px;
+  line-height: 1.7;
+  max-width: 72ch;
+}
 
 /* ── keyframes ── */
 @keyframes fa-spin  { to { transform: rotate(360deg); } }
@@ -957,4 +1180,10 @@
   .fa-h1        { font-size: 40px; }
   .fa-related-row { flex-direction: column; }
   .fa-related-chip { min-width: 0; }
+  .fa-modal-body { padding: 16px; }
+  .fa-profile-section { padding: 16px; border-radius: 20px; }
+  .fa-profile-section.collapsible { padding: 2px 16px; }
+  .fa-profile-section.collapsible.open { padding-bottom: 16px; }
+  .fa-teaching, .fa-example { padding: 14px; }
+  .fa-step-list, .fa-caution-list, .fa-question-list { padding-left: 16px; }
 }
