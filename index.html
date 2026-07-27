@@ -5,10 +5,97 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="description" content="A personal spiritual, psychological, relationship, and self-mastery reflection toolkit." />
+    <meta name="theme-color" content="#10161a" />
     <title>Sacred Pathways | Personal Spiritual Toolkit</title>
+    <style>
+      html {
+        min-height: 100%;
+        background: #10161a;
+      }
+
+      body {
+        min-height: 100vh;
+        margin: 0;
+        background:
+          radial-gradient(circle at 12% 8%, rgba(91, 50, 134, 0.28), transparent 38rem),
+          linear-gradient(135deg, #171022 0%, #10161a 72%);
+        color: #f4efff;
+        font-family: ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      }
+
+      .boot-fallback {
+        box-sizing: border-box;
+        width: min(92%, 34rem);
+        margin: 0 auto;
+        padding: max(4rem, env(safe-area-inset-top)) 0 3rem;
+      }
+
+      .boot-fallback__title {
+        margin: 0;
+        font-size: clamp(2.5rem, 13vw, 4.5rem);
+        line-height: 0.9;
+        letter-spacing: -0.07em;
+      }
+
+      .boot-fallback__title span {
+        display: block;
+        color: #d58cff;
+      }
+
+      .boot-fallback__card {
+        margin-top: 2rem;
+        padding: 1.25rem;
+        border: 1px solid rgba(206, 183, 255, 0.34);
+        border-radius: 1.25rem;
+        background: rgba(30, 34, 45, 0.92);
+        box-shadow: 0 1.5rem 4rem rgba(0, 0, 0, 0.26);
+      }
+
+      .boot-fallback__eyebrow {
+        margin: 0 0 0.6rem;
+        color: #cbb6e7;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.15em;
+        text-transform: uppercase;
+      }
+
+      .boot-fallback__card h2 {
+        margin: 0 0 0.65rem;
+        font-size: 1.25rem;
+      }
+
+      .boot-fallback__card p {
+        margin: 0;
+        color: #d3cadf;
+        font-size: 1rem;
+        line-height: 1.6;
+      }
+
+      .boot-fallback__card a {
+        display: inline-flex;
+        margin-top: 1rem;
+        padding: 0.8rem 1rem;
+        border: 1px solid rgba(103, 232, 249, 0.5);
+        border-radius: 999px;
+        color: #67e8f9;
+        font-weight: 800;
+        text-decoration: none;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
+    <div id="root">
+      <main class="boot-fallback" id="boot-fallback">
+        <h1 class="boot-fallback__title">Sacred <span>Pathways</span></h1>
+        <section class="boot-fallback__card" aria-labelledby="brave-recovery-title">
+          <p class="boot-fallback__eyebrow">Browser recovery</p>
+          <h2 id="brave-recovery-title">Brave has paused the app</h2>
+          <p>Tap the orange lion in the address bar, turn Shields off for this site, then reload the page.</p>
+          <a href="/?reload=20260727">Reload Sacred Pathways</a>
+        </section>
+      </main>
+    </div>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>
