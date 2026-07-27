@@ -3,12 +3,12 @@ import { searchSections } from './searchIndex';
 
 // Categories group the home grid by purpose rather than just topic.
 export const CATEGORIES = [
+  'Symbolic Systems',
   'Daily Practice',
   'Self-Mastery',
   'Relationships',
   'Inner Work',
   'Spiritual Study',
-  'Symbolic Systems',
 ];
 
 const portalCatalog = [

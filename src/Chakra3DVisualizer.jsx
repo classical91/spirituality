@@ -1227,6 +1227,15 @@ export default function Chakra3DVisualizer({ onBack, onNavigate, initialSection 
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.035)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.035)_1px,transparent_1px)] bg-[size:42px_42px] opacity-25" />
 
       <section className="relative z-10 mx-auto max-w-7xl">
+        {onBack && (
+          <button
+            type="button"
+            onClick={onBack}
+            className="mb-5 rounded-2xl border border-white/20 bg-white/10 px-5 py-4 font-semibold text-white shadow-xl backdrop-blur-md transition hover:bg-white/20 active:scale-95"
+          >
+            ← Home
+          </button>
+        )}
         <div className="mb-8 flex flex-col justify-between gap-5 lg:flex-row lg:items-end">
           <div>
             <h1 className="max-w-3xl text-2xl font-black tracking-tight sm:text-4xl lg:text-5xl">Chakra Visualizer</h1>
@@ -1256,15 +1265,6 @@ export default function Chakra3DVisualizer({ onBack, onNavigate, initialSection 
           </div>
 
           <div className="flex flex-wrap gap-3">
-            {onBack && (
-              <button
-                type="button"
-                onClick={onBack}
-                className="rounded-2xl border border-white/20 bg-white/10 px-5 py-4 font-semibold text-white shadow-xl backdrop-blur-md transition hover:bg-white/20 active:scale-95"
-              >
-                ← Home
-              </button>
-            )}
             <button
               type="button"
               onClick={() => setRotate((v) => !v)}

@@ -2,10 +2,10 @@ import { useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
-import { getRecentPortals, getLastPortal } from './lib/storage';
 import { prayerPool } from './prayerPool';
 import { dayOfYear } from './lib/dateUtils';
 import { getDailyReading, READING_POOL } from './lib/dailyReading';
+import './HomePage.css';
 
 function getDailyPrayer() {
   return prayerPool[dayOfYear() % prayerPool.length];
@@ -298,7 +298,7 @@ function DailyShortcuts({ onNavigate }) {
   };
 
   return (
-    <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto 20px' }}>
+    <div className="home-shortcuts">
       <div
         style={{
           fontSize: '0.78rem', fontWeight: 700, letterSpacing: '0.12em',
@@ -307,7 +307,7 @@ function DailyShortcuts({ onNavigate }) {
       >
         Use today
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(170px, 1fr))', gap: '10px' }}>
+      <div className="home-shortcut-grid">
         {DAILY_SHORTCUTS.map((s) => (
           <button
             key={s.label}
@@ -335,57 +335,19 @@ function DailyShortcuts({ onNavigate }) {
   );
 }
 
-function ContinueCard({ portal, onNavigate }) {
-  return (
-    <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto 20px' }}>
-      <button
-        onClick={() => onNavigate(portal.id)}
-        style={{
-          width: '100%', display: 'flex', alignItems: 'center', gap: '14px', textAlign: 'left',
-          border: `1px solid ${portal.hoverBorder || 'rgba(255,255,255,0.16)'}`,
-          background: 'rgba(255,255,255,0.05)', borderRadius: '18px', padding: '16px 18px',
-          cursor: 'pointer', fontFamily: 'inherit', color: '#f1eeff',
-          transition: 'transform 0.15s ease',
-        }}
-        onMouseEnter={(e) => { e.currentTarget.style.transform = 'translateY(-2px)'; }}
-        onMouseLeave={(e) => { e.currentTarget.style.transform = 'none'; }}
-      >
-        <span aria-hidden="true" style={{ fontSize: '1.8rem', color: portal.ctaColor }}>{portal.icon}</span>
-        <span style={{ display: 'flex', flexDirection: 'column', gap: '3px' }}>
-          <span style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#a89ec4' }}>
-            Continue where you left off
-          </span>
-          <span style={{ fontSize: '1.05rem', fontWeight: 800 }}>{portal.titleFlat}</span>
-        </span>
-        <span style={{ marginLeft: 'auto', fontSize: '0.85rem', fontWeight: 700, color: portal.ctaColor }}>{portal.cta} →</span>
-      </button>
-    </div>
-  );
-}
-
 export default function HomePage({ onNavigate }) {
   const [query, setQuery] = useState('');
-  const [recentIds] = useState(() => getRecentPortals());
-  const [lastPortalId] = useState(() => getLastPortal());
   const [refreshingAffirmation] = useState(() => getRefreshingAffirmation());
 
   const { portals: filtered, sections: sectionResults } = useMemo(
     () => searchEverything(query),
     [query]
   );
-  const recentSet = useMemo(() => new Set(recentIds), [recentIds]);
   const groupedPortals = useMemo(() => groupPortalsByCategory(filtered), [filtered]);
 
   const handleSectionPick = (entry) => {
     onNavigate(entry.portalId, entry.section ? { section: entry.section } : undefined);
   };
-
-  const recentPortals = recentIds
-    .map((id) => portalsById[id])
-    .filter((p) => p && !p.hidden)
-    .slice(0, 3);
-
-  const continuePortal = lastPortalId ? portalsById[lastPortalId] : null;
 
   return (
     <div
@@ -425,19 +387,19 @@ export default function HomePage({ onNavigate }) {
       />
 
       <div
+        className="home-page-stage"
         style={{
           position: 'relative',
           zIndex: 1,
           flex: 1,
-          display: 'flex',
-          flexDirection: 'column',
           alignItems: 'stretch',
           justifyContent: 'flex-start',
           padding: 'clamp(24px, 5vw, 56px) clamp(16px, 4vw, 40px) clamp(40px, 6vw, 72px)',
           textAlign: 'left',
         }}
       >
-        <section
+        <aside className="home-sidebar" aria-label="Sacred Pathways controls">
+          <section
           style={{
             width: '100%',
             maxWidth: '1120px',
@@ -450,6 +412,7 @@ export default function HomePage({ onNavigate }) {
         >
           <div>
             <h1
+              className="home-title"
               style={{
                 fontSize: 'clamp(2.2rem, 6vw, 4.2rem)',
                 fontWeight: 950,
@@ -484,109 +447,71 @@ export default function HomePage({ onNavigate }) {
             <DailyPrayerCard />
             <DailyReadingCard onNavigate={onNavigate} />
           </div>
-        </section>
+          </section>
 
-        <GlobalSearch
-          value={query}
-          onChange={setQuery}
-          resultCount={filtered.length}
-          totalCount={portals.length}
-          sectionResults={sectionResults}
-          onSectionPick={handleSectionPick}
-        />
+          <div className="home-search-mobile">
+            <GlobalSearch
+              value={query}
+              onChange={setQuery}
+              resultCount={filtered.length}
+              totalCount={portals.length}
+              sectionResults={sectionResults}
+              onSectionPick={handleSectionPick}
+            />
+          </div>
 
-        {continuePortal && !continuePortal.hidden && !query && (
-          <ContinueCard portal={continuePortal} onNavigate={onNavigate} />
-        )}
+          {!query && <DailyShortcuts onNavigate={onNavigate} />}
+        </aside>
 
-        {!query && <DailyShortcuts onNavigate={onNavigate} />}
-
-        {recentPortals.length > 0 && !query && (
-          <div
-            style={{
-              width: '100%',
-              maxWidth: '820px',
-              margin: '0 auto 20px',
-              textAlign: 'left',
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              gap: '12px',
-              flexWrap: 'wrap',
-            }}
-          >
-            <div
-              style={{
-                fontSize: '0.78rem',
-                fontWeight: 700,
-                letterSpacing: '0.12em',
-                textTransform: 'uppercase',
-                color: '#a89ec4',
-              }}
-            >
-              Recently viewed
-            </div>
-            <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
-              {recentPortals.map((p) => (
-                <button
-                  key={p.id}
-                  onClick={() => onNavigate(p.id)}
-                  style={{
-                    border: '1px solid rgba(255,255,255,0.14)',
-                    background: 'rgba(255,255,255,0.06)',
-                    color: '#d8ceff',
-                    padding: '6px 12px',
-                    borderRadius: '999px',
-                    fontSize: '0.78rem',
-                    fontWeight: 600,
-                    cursor: 'pointer',
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  {p.titleFlat}
-                </button>
+        <main className="home-websites">
+          <div className="home-search-desktop">
+            <GlobalSearch
+              value={query}
+              onChange={setQuery}
+              resultCount={filtered.length}
+              totalCount={portals.length}
+              sectionResults={sectionResults}
+              onSectionPick={handleSectionPick}
+            />
+          </div>
+          {filtered.length > 0 ? (
+            <div className="home-content-layout">
+            <div className="home-portal-groups">
+              {groupedPortals.map((group) => (
+                <div key={group.category}>
+                  <div
+                    style={{
+                      fontSize: '0.78rem',
+                      fontWeight: 700,
+                      letterSpacing: '0.12em',
+                      textTransform: 'uppercase',
+                      color: '#a89ec4',
+                      marginBottom: '12px',
+                    }}
+                  >
+                    {group.category}
+                  </div>
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
+                      gap: '14px',
+                    }}
+                  >
+                    {group.portals.map((portal) => (
+                          <PortalCard
+                            key={portal.id}
+                            portal={portal}
+                            onNavigate={onNavigate}
+                          />
+                    ))}
+                  </div>
+                </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {filtered.length > 0 ? (
-          <div style={{ width: '100%', maxWidth: '820px', margin: '0 auto', display: 'flex', flexDirection: 'column', gap: '28px' }}>
-            {groupedPortals.map((group) => (
-              <div key={group.category}>
-                <div
-                  style={{
-                    fontSize: '0.78rem',
-                    fontWeight: 700,
-                    letterSpacing: '0.12em',
-                    textTransform: 'uppercase',
-                    color: '#a89ec4',
-                    marginBottom: '12px',
-                  }}
-                >
-                  {group.category}
-                </div>
-                <div
-                  style={{
-                    display: 'grid',
-                    gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
-                    gap: '14px',
-                  }}
-                >
-                  {group.portals.map((portal) => (
-                    <PortalCard
-                      key={portal.id}
-                      portal={portal}
-                      onNavigate={onNavigate}
-                      recent={!query && recentSet.has(portal.id)}
-                    />
-                  ))}
-                </div>
-              </div>
-            ))}
-          </div>
-        ) : sectionResults.length === 0 ? (
-          <div
+            </div>
+          ) : sectionResults.length === 0 ? (
+            <div
             style={{
               padding: '36px 24px',
               borderRadius: '24px',
@@ -599,8 +524,9 @@ export default function HomePage({ onNavigate }) {
             }}
           >
             Nothing matched "{query}". Try a broader term — for example "shadow", "mood", or "alchemy".
-          </div>
-        ) : null}
+            </div>
+          ) : null}
+        </main>
       </div>
 
       <p
