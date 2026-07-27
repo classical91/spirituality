@@ -1,21 +1,22 @@
-import { useCallback, useEffect, useMemo } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useMemo } from 'react';
 import HomePage from './HomePage';
-import Chakra3DVisualizer from './Chakra3DVisualizer';
-import BibleConceptAtlas from './BibleConceptAtlas';
-import InnerAtlas from './InnerAtlas';
-import WisdomHub from './WisdomHub';
-import WisdomAtlas from './WisdomAtlas';
-import AscendedMastersAtlas from './AscendedMastersAtlas';
-import NevillePortal from './NevillePortal';
-import SacredSystemsAtlas from './SacredSystemsAtlas';
-import SexualEnergyDashboard from './SexualEnergyDashboard';
-import DailyPracticePortal from './DailyPracticePortal';
-import RelationshipHub from './RelationshipHub';
-import TopicsPortal from './TopicsPortal';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
 import { getDailyReading } from './lib/dailyReading';
+
+const Chakra3DVisualizer = lazy(() => import('./Chakra3DVisualizer'));
+const BibleConceptAtlas = lazy(() => import('./BibleConceptAtlas'));
+const InnerAtlas = lazy(() => import('./InnerAtlas'));
+const WisdomHub = lazy(() => import('./WisdomHub'));
+const WisdomAtlas = lazy(() => import('./WisdomAtlas'));
+const AscendedMastersAtlas = lazy(() => import('./AscendedMastersAtlas'));
+const NevillePortal = lazy(() => import('./NevillePortal'));
+const SacredSystemsAtlas = lazy(() => import('./SacredSystemsAtlas'));
+const SexualEnergyDashboard = lazy(() => import('./SexualEnergyDashboard'));
+const DailyPracticePortal = lazy(() => import('./DailyPracticePortal'));
+const RelationshipHub = lazy(() => import('./RelationshipHub'));
+const TopicsPortal = lazy(() => import('./TopicsPortal'));
 
 const BIBLICAL_ROUTE = '/sacred-moral-atlas';
 const EMBEDDED_BIBLICAL_SECTIONS = {
@@ -102,6 +103,31 @@ function FloatingHomeButton({ onClick }) {
   );
 }
 
+function AppLoadingScreen() {
+  return (
+    <div
+      role="status"
+      aria-live="polite"
+      style={{
+        minHeight: '100vh',
+        display: 'grid',
+        placeItems: 'center',
+        padding: 24,
+        background: '#07090f',
+        color: '#d8ceff',
+        fontFamily: 'Inter, ui-sans-serif, system-ui, -apple-system, sans-serif',
+      }}
+    >
+      <div style={{ textAlign: 'center' }}>
+        <div style={{ fontSize: 28, lineHeight: 1, marginBottom: 12 }} aria-hidden="true">✦</div>
+        <div style={{ fontSize: 14, fontWeight: 800, letterSpacing: '0.12em', textTransform: 'uppercase' }}>
+          Opening Sacred Pathways
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export default function App() {
   const route = useRoute();
   const [path, navigate] = route;
@@ -169,7 +195,7 @@ export default function App() {
   const content = renderRoute();
   return (
     <>
-      {content}
+      <Suspense fallback={<AppLoadingScreen />}>{content}</Suspense>
       {!homeView && <FloatingHomeButton onClick={goHome} />}
     </>
   );
