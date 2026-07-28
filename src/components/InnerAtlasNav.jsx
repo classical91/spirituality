@@ -1,3 +1,5 @@
+// Mirrors the twelve sections on the InnerAtlas hub, in the same order, so the
+// nav is a complete map of the atlas rather than a partial one.
 const innerAtlasSections = [
   { id: 'nervous-system', label: 'Nervous System' },
   { id: 'psychology', label: 'Psychology' },
@@ -7,6 +9,10 @@ const innerAtlasSections = [
   { id: 'regulation', label: 'Regulation' },
   { id: 'thought-patterns', label: 'Thoughts' },
   { id: 'emotions', label: 'Emotions' },
+  { id: 'awareness', label: 'Awareness' },
+  { id: 'consciousness-map', label: 'Consciousness' },
+  { id: 'detox', label: 'Detox' },
+  { id: 'manifestation', label: 'Manifestation' },
 ];
 
 export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title, backLabel = 'InnerAtlas' }) {
@@ -39,6 +45,7 @@ export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title
                 key={section.id}
                 type="button"
                 onClick={() => onSelectSection?.(section.id)}
+                aria-current={isActive ? 'page' : undefined}
                 className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1.5 text-xs font-bold transition ${
                   isActive
                     ? ''

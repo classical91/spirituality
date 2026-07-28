@@ -1018,7 +1018,9 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
 
   const mapped = SECTION_MAP[initialSection] ?? null;
   const [activeSection, setActiveSection] = useState(mapped?.id ?? null);
-  const deepSub = mapped?.sub ?? null;
+  // The deep-linked sub-section belongs to the section the link aimed at. Once
+  // the nav takes you somewhere else, drop it so the new section opens clean.
+  const deepSub = activeSection === mapped?.id ? mapped?.sub ?? null : null;
 
   const goHub = () => {
     setActiveSection(null);
@@ -1062,11 +1064,11 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'awareness') {
-    return <AwarenessAtlas onBack={goHub} initialSection={deepSub} />;
+    return <AwarenessAtlas onBack={goHub} onSelectSection={setActiveSection} initialSection={deepSub} />;
   }
 
   if (activeSection === 'consciousness-map') {
-    return <ConsciousnessMap onBack={goHub} initialSection={deepSub} />;
+    return <ConsciousnessMap onBack={goHub} onSelectSection={setActiveSection} initialSection={deepSub} />;
   }
 
   if (activeSection === 'detox') {

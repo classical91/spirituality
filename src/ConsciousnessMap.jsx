@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import InnerAtlasShell from './components/InnerAtlasShell';
 
 const LEVELS = [
   {
@@ -559,7 +560,7 @@ function AboutView() {
   );
 }
 
-export default function ConsciousnessMap({ onBack, initialSection }) {
+export default function ConsciousnessMap({ onBack, onSelectSection, initialSection }) {
   // Deep-link: a "Reading for Today" card can target a specific level by section
   // id (e.g. 'love' → Unconditional Love). Land on the Explore tab with it open.
   const initialIdx = initialSection != null
@@ -584,18 +585,19 @@ export default function ConsciousnessMap({ onBack, initialSection }) {
   ];
 
   return (
-    <div style={{ background: '#0a0a0f', minHeight: '100vh', color: '#e2e8f0', fontFamily: 'system-ui, sans-serif' }}>
+    <InnerAtlasShell
+      activeId="consciousness-map"
+      onBack={onBack}
+      onSelectSection={onSelectSection}
+      title="Map of Consciousness"
+      container={false}
+    >
+      <div style={{ color: '#e2e8f0', fontFamily: 'system-ui, sans-serif' }}>
       {/* Header */}
       <div style={{
         borderBottom: '1px solid rgba(255,255,255,0.08)',
         padding: '16px 20px',
-        display: 'flex', alignItems: 'center', gap: 14,
       }}>
-        <button onClick={onBack} style={{
-          background: 'none', border: '1px solid rgba(255,255,255,0.1)',
-          borderRadius: 8, color: '#94a3b8', cursor: 'pointer',
-          fontSize: 16, padding: '6px 12px', lineHeight: 1,
-        }}>←</button>
         <div>
           <div style={{ fontSize: 11, letterSpacing: 2, color: '#6d28d9', textTransform: 'uppercase', fontWeight: 700 }}>
             Consciousness Studies
@@ -636,6 +638,7 @@ export default function ConsciousnessMap({ onBack, initialSection }) {
         )}
         {tab === 'about' && <AboutView />}
       </div>
-    </div>
+      </div>
+    </InnerAtlasShell>
   );
 }
