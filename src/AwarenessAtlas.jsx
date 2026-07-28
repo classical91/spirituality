@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react';
 import MindFrequencies from './MindFrequencies';
+import InnerAtlasShell from './components/InnerAtlasShell';
 import './AwarenessAtlas.css';
 
 // Content tree (Spirituality Hub → Awareness):
@@ -346,7 +347,7 @@ function groupConcepts(menuConcepts) {
   return groups;
 }
 
-export default function AwarenessAtlas({ onBack, initialSection }) {
+export default function AwarenessAtlas({ onBack, onSelectSection, initialSection }) {
   const [activeSearch, setActiveSearch] = useState('');
   const [activeConceptId, setActiveConceptId] = useState(
     () => (initialSection && concepts.some((c) => c.id === initialSection) ? initialSection : concepts[0].id)
@@ -403,154 +404,160 @@ export default function AwarenessAtlas({ onBack, initialSection }) {
   };
 
   return (
-    <div className="aw-root">
-      <div className="aw-grid-overlay" aria-hidden="true" />
+    <InnerAtlasShell
+      activeId="awareness"
+      onBack={onBack}
+      onSelectSection={onSelectSection}
+      title="Awareness & Presence"
+      container={false}
+    >
+      <div className="aw-root">
+        <div className="aw-grid-overlay" aria-hidden="true" />
 
-      <div className="aw-app">
-        <button onClick={onBack} className="aw-back">← Back</button>
-
-        {/* Hero */}
-        <header className="aw-hero">
-          <div>
-            <div className="aw-eyebrow">✦ Awareness & Presence</div>
-            <h1>Awareness, Meditation & Inner Practice</h1>
-            <p>
-              A calm learning hub for the art of paying attention — what awareness is, how
-              meditation shifts the mind and brain, and the inner practices of breath, body,
-              and emotion. Each topic has its own explanation, key ideas, a simple practice,
-              and a grounding note.
-            </p>
-            <div className="aw-notice">
-              This hub treats awareness and meditation as reflective wellness practices — not as
-              medical or psychiatric treatment. Use it as an educational map, and seek
-              professional support for serious concerns.
-            </div>
-          </div>
-          <div className="aw-orb-card" aria-hidden="true">
-            <div className="aw-rings" />
-            <div className="aw-orb" />
-          </div>
-        </header>
-
-        {/* Layout */}
-        <main className="aw-layout" style={{ marginTop: '24px' }}>
-          {/* Sidebar */}
-          <aside className="aw-sidebar">
-            <div className="aw-sidebar-header">
-              <h2>Topic Pages</h2>
-              <p>Every topic in the hub is listed here. Click one to open its full explanation.</p>
-              <input
-                className="aw-search aw-sidebar-search"
-                type="search"
-                value={activeSearch}
-                onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Search topics..."
-              />
-            </div>
-            <div className="aw-concept-list">
-              {visible.length === 0 ? (
-                <div className="aw-sidebar-empty">No topics found.</div>
-              ) : (
-                groupedVisible.map((group) => {
-                  const isOpen = hasSearch || openGroups.has(group.key) || group.key === activeConcept.category;
-                  return (
-                    <div key={group.key} className="aw-menu-group">
-                      <button
-                        type="button"
-                        className={`aw-menu-group-toggle${isOpen ? ' open' : ''}`}
-                        onClick={() => toggleGroup(group.key)}
-                        aria-expanded={isOpen}
-                      >
-                        <span>
-                          <strong>{group.label}</strong>
-                          <em>{group.concepts.length} topics</em>
-                        </span>
-                        <b>{group.concepts.length}</b>
-                      </button>
-                      {isOpen && (
-                        <div className="aw-menu-group-items">
-                          {group.concepts.map((c) => (
-                            <button
-                              key={c.id}
-                              className={`aw-concept-link${activeConceptId === c.id ? ' active' : ''}`}
-                              onClick={() => selectConcept(c.id)}
-                            >
-                              <div className="aw-mini-icon">{c.icon}</div>
-                              <div>
-                                <strong>{c.title}</strong>
-                                <span>{c.category}</span>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </aside>
-
-          {/* Main */}
-          <section className="aw-main">
-            {/* Detail */}
-            <article
-              id="aw-detail"
-              className="aw-detail"
-              style={{ '--detailGlow': activeConcept.color }}
-            >
-              <div className="aw-detail-hero">
-                <div className="aw-detail-kicker">{activeConcept.category}</div>
-                <h2>{activeConcept.icon} {activeConcept.title}</h2>
-                <p className="aw-detail-summary">{activeConcept.summary}</p>
+        <div className="aw-app">
+          {/* Hero */}
+          <header className="aw-hero">
+            <div>
+              <div className="aw-eyebrow">✦ Awareness & Presence</div>
+              <h1>Awareness, Meditation & Inner Practice</h1>
+              <p>
+                A calm learning hub for the art of paying attention — what awareness is, how
+                meditation shifts the mind and brain, and the inner practices of breath, body,
+                and emotion. Each topic has its own explanation, key ideas, a simple practice,
+                and a grounding note.
+              </p>
+              <div className="aw-notice">
+                This hub treats awareness and meditation as reflective wellness practices — not as
+                medical or psychiatric treatment. Use it as an educational map, and seek
+                professional support for serious concerns.
               </div>
+            </div>
+            <div className="aw-orb-card" aria-hidden="true">
+              <div className="aw-rings" />
+              <div className="aw-orb" />
+            </div>
+          </header>
 
-              <div className="aw-detail-body">
-                <section className="aw-section aw-full">
-                  <h3>Expanded Explanation</h3>
-                  <p>{activeConcept.overview}</p>
-                </section>
-
-                {activeConcept.illustration === 'mindFrequencies' && <MindFrequencies />}
-
-                <section className="aw-section">
-                  <h3>Core Ideas</h3>
-                  <ul>
-                    {activeConcept.keyIdeas.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-
-                <section className="aw-section">
-                  <h3>Related Keywords</h3>
-                  <div className="aw-pill-row">
-                    {getKeywords(activeConcept).map((kw) => (
-                      <span key={kw} className="aw-pill">{kw}</span>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="aw-section aw-full">
-                  <h3>Simple Practice</h3>
-                  <div className="aw-practice">
-                    {activeConcept.practice.map((step) => (
-                      <div key={step} className="aw-step">
-                        <span>{step}</span>
+          {/* Layout */}
+          <main className="aw-layout" style={{ marginTop: '24px' }}>
+            {/* Sidebar */}
+            <aside className="aw-sidebar">
+              <div className="aw-sidebar-header">
+                <h2>Topic Pages</h2>
+                <p>Every topic in the hub is listed here. Click one to open its full explanation.</p>
+                <input
+                  className="aw-search aw-sidebar-search"
+                  type="search"
+                  value={activeSearch}
+                  onChange={(e) => handleSearch(e.target.value)}
+                  placeholder="Search topics..."
+                />
+              </div>
+              <div className="aw-concept-list">
+                {visible.length === 0 ? (
+                  <div className="aw-sidebar-empty">No topics found.</div>
+                ) : (
+                  groupedVisible.map((group) => {
+                    const isOpen = hasSearch || openGroups.has(group.key) || group.key === activeConcept.category;
+                    return (
+                      <div key={group.key} className="aw-menu-group">
+                        <button
+                          type="button"
+                          className={`aw-menu-group-toggle${isOpen ? ' open' : ''}`}
+                          onClick={() => toggleGroup(group.key)}
+                          aria-expanded={isOpen}
+                        >
+                          <span>
+                            <strong>{group.label}</strong>
+                            <em>{group.concepts.length} topics</em>
+                          </span>
+                          <b>{group.concepts.length}</b>
+                        </button>
+                        {isOpen && (
+                          <div className="aw-menu-group-items">
+                            {group.concepts.map((c) => (
+                              <button
+                                key={c.id}
+                                className={`aw-concept-link${activeConceptId === c.id ? ' active' : ''}`}
+                                onClick={() => selectConcept(c.id)}
+                              >
+                                <div className="aw-mini-icon">{c.icon}</div>
+                                <div>
+                                  <strong>{c.title}</strong>
+                                  <span>{c.category}</span>
+                                </div>
+                              </button>
+                            ))}
+                          </div>
+                        )}
                       </div>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="aw-section aw-full">
-                  <h3>Grounding Note</h3>
-                  <p>{activeConcept.cautions}</p>
-                </section>
+                    );
+                  })
+                )}
               </div>
-            </article>
-          </section>
-        </main>
+            </aside>
+
+            {/* Main */}
+            <section className="aw-main">
+              {/* Detail */}
+              <article
+                id="aw-detail"
+                className="aw-detail"
+                style={{ '--detailGlow': activeConcept.color }}
+              >
+                <div className="aw-detail-hero">
+                  <div className="aw-detail-kicker">{activeConcept.category}</div>
+                  <h2>{activeConcept.icon} {activeConcept.title}</h2>
+                  <p className="aw-detail-summary">{activeConcept.summary}</p>
+                </div>
+
+                <div className="aw-detail-body">
+                  <section className="aw-section aw-full">
+                    <h3>Expanded Explanation</h3>
+                    <p>{activeConcept.overview}</p>
+                  </section>
+
+                  {activeConcept.illustration === 'mindFrequencies' && <MindFrequencies />}
+
+                  <section className="aw-section">
+                    <h3>Core Ideas</h3>
+                    <ul>
+                      {activeConcept.keyIdeas.map((item) => (
+                        <li key={item}>{item}</li>
+                      ))}
+                    </ul>
+                  </section>
+
+                  <section className="aw-section">
+                    <h3>Related Keywords</h3>
+                    <div className="aw-pill-row">
+                      {getKeywords(activeConcept).map((kw) => (
+                        <span key={kw} className="aw-pill">{kw}</span>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="aw-section aw-full">
+                    <h3>Simple Practice</h3>
+                    <div className="aw-practice">
+                      {activeConcept.practice.map((step) => (
+                        <div key={step} className="aw-step">
+                          <span>{step}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  <section className="aw-section aw-full">
+                    <h3>Grounding Note</h3>
+                    <p>{activeConcept.cautions}</p>
+                  </section>
+                </div>
+              </article>
+            </section>
+          </main>
+        </div>
       </div>
-    </div>
+    </InnerAtlasShell>
   );
 }
