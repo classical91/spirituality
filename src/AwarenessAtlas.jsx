@@ -347,6 +347,9 @@ function groupConcepts(menuConcepts) {
   return groups;
 }
 
+// Every topic, grouped — the mobile selector always lists the full set.
+const allGroups = groupConcepts(concepts);
+
 export default function AwarenessAtlas({ onBack, onSelectSection, initialSection }) {
   const [activeSearch, setActiveSearch] = useState('');
   const [activeConceptId, setActiveConceptId] = useState(
@@ -437,6 +440,25 @@ export default function AwarenessAtlas({ onBack, onSelectSection, initialSection
               <div className="aw-orb" />
             </div>
           </header>
+
+          {/* Topic selector — the sidebar is hidden below 860px, so on small
+              screens the topic list collapses into this single control instead
+              of a full-height card between the hero and the content. */}
+          <div className="aw-mobile-nav">
+            <select
+              aria-label="Select topic"
+              value={activeConceptId}
+              onChange={(e) => selectConcept(e.target.value)}
+            >
+              {allGroups.map((group) => (
+                <optgroup key={group.key} label={group.label}>
+                  {group.concepts.map((c) => (
+                    <option key={c.id} value={c.id}>{c.icon} {c.title}</option>
+                  ))}
+                </optgroup>
+              ))}
+            </select>
+          </div>
 
           {/* Layout */}
           <main className="aw-layout" style={{ marginTop: '24px' }}>
