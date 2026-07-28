@@ -199,6 +199,11 @@
   align-items: start;
 }
 
+/* Shown only below 860px, where the sidebar is hidden. */
+.aw-mobile-nav {
+  display: none;
+}
+
 .aw-sidebar {
   position: sticky;
   top: 18px;
@@ -786,13 +791,44 @@
     height: 220px;
   }
 
+  /* The topic list becomes a single selector rather than a tall card. */
   .aw-sidebar {
-    position: relative;
-    top: 0;
+    display: none;
   }
 
-  .aw-concept-list {
-    max-height: 280px;
+  .aw-mobile-nav {
+    display: block;
+    margin-top: 18px;
+  }
+
+  .aw-mobile-nav select {
+    width: 100%;
+    padding: 12px 40px 12px 14px;
+    border-radius: 14px;
+    border: 1px solid rgba(255,255,255,.16);
+    background-color: rgba(255,255,255,.06);
+    color: #eefcf8;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237ee7d4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+  }
+
+  .aw-mobile-nav select:focus-visible {
+    outline: 2px solid rgba(126,231,212,.7);
+    outline-offset: 2px;
+  }
+
+  /* Native dropdowns render options with the OS palette — keep them legible. */
+  .aw-mobile-nav select option,
+  .aw-mobile-nav select optgroup {
+    background: #0b1018;
+    color: #eefcf8;
   }
 
   .aw-freq-row {
