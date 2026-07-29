@@ -15,7 +15,9 @@ const innerAtlasSections = [
   { id: 'manifestation', label: 'Manifestation' },
 ];
 
-export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title, backLabel = 'InnerAtlas' }) {
+// `subNav` is an optional second row for a section's own topics, so a section
+// can hand its internal navigation to the bar instead of keeping a sidebar.
+export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title, backLabel = 'InnerAtlas', subNav }) {
   return (
     <div className="sticky top-0 z-50 border-b border-white/10 bg-[#080b14]/85 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
@@ -67,6 +69,12 @@ export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title
           })}
         </nav>
       </div>
+
+      {subNav && (
+        <div className="border-t border-white/10 bg-black/20">
+          <div className="mx-auto max-w-7xl px-4 py-2.5">{subNav}</div>
+        </div>
+      )}
     </div>
   );
 }

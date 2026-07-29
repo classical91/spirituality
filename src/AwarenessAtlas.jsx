@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useState } from 'react';
 import MindFrequencies from './MindFrequencies';
 import InnerAtlasShell from './components/InnerAtlasShell';
 import './AwarenessAtlas.css';
@@ -347,64 +347,42 @@ function groupConcepts(menuConcepts) {
   return groups;
 }
 
-// Every topic, grouped — the mobile selector always lists the full set.
+// Every topic, grouped by category — the topic nav always lists the full set.
 const allGroups = groupConcepts(concepts);
 
 export default function AwarenessAtlas({ onBack, onSelectSection, initialSection }) {
-  const [activeSearch, setActiveSearch] = useState('');
   const [activeConceptId, setActiveConceptId] = useState(
     () => (initialSection && concepts.some((c) => c.id === initialSection) ? initialSection : concepts[0].id)
   );
-  const [openGroups, setOpenGroups] = useState(() => {
-    const initialConcept = concepts.find((c) => c.id === initialSection) || concepts[0];
-    return new Set([initialConcept.category]);
-  });
-
-  const visible = useMemo(() => {
-    const q = activeSearch.trim().toLowerCase();
-    return concepts.filter((c) => {
-      const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return !q || haystack.includes(q);
-    });
-  }, [activeSearch]);
-  const groupedVisible = useMemo(() => groupConcepts(visible), [visible]);
 
   const activeConcept = concepts.find((c) => c.id === activeConceptId) || concepts[0];
-  const hasSearch = activeSearch.trim().length > 0;
 
   const selectConcept = (id) => {
     setActiveConceptId(id);
-    const concept = concepts.find((c) => c.id === id);
-    if (concept) {
-      setOpenGroups((current) => {
-        const next = new Set(current);
-        next.add(concept.category);
-        return next;
-      });
-    }
     document.getElementById('aw-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const toggleGroup = (key) => {
-    setOpenGroups((current) => {
-      const next = new Set(current);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
-
-  const handleSearch = (query) => {
-    setActiveSearch(query);
-    const q = query.trim().toLowerCase();
-    const vis = concepts.filter((c) => {
-      const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return !q || haystack.includes(q);
-    });
-    if (vis.length && !vis.some((c) => c.id === activeConceptId)) {
-      setActiveConceptId(vis[0].id);
-    }
-  };
+  // The topic picker lives in the InnerAtlas nav bar rather than in a sidebar,
+  // so it stays reachable while you scroll and costs no space in the page.
+  const topicNav = (
+    <div className="aw-topic-nav">
+      <label htmlFor="aw-topic-select">Topic</label>
+      <select
+        id="aw-topic-select"
+        value={activeConceptId}
+        onChange={(e) => selectConcept(e.target.value)}
+      >
+        {allGroups.map((group) => (
+          <optgroup key={group.key} label={group.label}>
+            {group.concepts.map((c) => (
+              <option key={c.id} value={c.id}>{c.icon} {c.title}</option>
+            ))}
+          </optgroup>
+        ))}
+      </select>
+      <span className="aw-topic-count">{concepts.length} topics</span>
+    </div>
+  );
 
   return (
     <InnerAtlasShell
@@ -412,6 +390,7 @@ export default function AwarenessAtlas({ onBack, onSelectSection, initialSection
       onBack={onBack}
       onSelectSection={onSelectSection}
       title="Awareness & Presence"
+      subNav={topicNav}
       container={false}
     >
       <div className="aw-root">
@@ -441,142 +420,64 @@ export default function AwarenessAtlas({ onBack, onSelectSection, initialSection
             </div>
           </header>
 
-          {/* Topic selector — the sidebar is hidden below 860px, so on small
-              screens the topic list collapses into this single control instead
-              of a full-height card between the hero and the content. */}
-          <div className="aw-mobile-nav">
-            <select
-              aria-label="Select topic"
-              value={activeConceptId}
-              onChange={(e) => selectConcept(e.target.value)}
+          {/* Main — the topic picker now lives in the nav bar, so the detail
+              panel gets the full width instead of sharing it with a sidebar. */}
+          <main className="aw-main">
+            {/* Detail */}
+            <article
+              id="aw-detail"
+              className="aw-detail"
+              style={{ '--detailGlow': activeConcept.color }}
             >
-              {allGroups.map((group) => (
-                <optgroup key={group.key} label={group.label}>
-                  {group.concepts.map((c) => (
-                    <option key={c.id} value={c.id}>{c.icon} {c.title}</option>
-                  ))}
-                </optgroup>
-              ))}
-            </select>
-          </div>
-
-          {/* Layout */}
-          <main className="aw-layout" style={{ marginTop: '24px' }}>
-            {/* Sidebar */}
-            <aside className="aw-sidebar">
-              <div className="aw-sidebar-header">
-                <h2>Topic Pages</h2>
-                <p>Every topic in the hub is listed here. Click one to open its full explanation.</p>
-                <input
-                  className="aw-search aw-sidebar-search"
-                  type="search"
-                  value={activeSearch}
-                  onChange={(e) => handleSearch(e.target.value)}
-                  placeholder="Search topics..."
-                />
+              <div className="aw-detail-hero">
+                <div className="aw-detail-kicker">{activeConcept.category}</div>
+                <h2>{activeConcept.icon} {activeConcept.title}</h2>
+                <p className="aw-detail-summary">{activeConcept.summary}</p>
               </div>
-              <div className="aw-concept-list">
-                {visible.length === 0 ? (
-                  <div className="aw-sidebar-empty">No topics found.</div>
-                ) : (
-                  groupedVisible.map((group) => {
-                    const isOpen = hasSearch || openGroups.has(group.key) || group.key === activeConcept.category;
-                    return (
-                      <div key={group.key} className="aw-menu-group">
-                        <button
-                          type="button"
-                          className={`aw-menu-group-toggle${isOpen ? ' open' : ''}`}
-                          onClick={() => toggleGroup(group.key)}
-                          aria-expanded={isOpen}
-                        >
-                          <span>
-                            <strong>{group.label}</strong>
-                            <em>{group.concepts.length} topics</em>
-                          </span>
-                          <b>{group.concepts.length}</b>
-                        </button>
-                        {isOpen && (
-                          <div className="aw-menu-group-items">
-                            {group.concepts.map((c) => (
-                              <button
-                                key={c.id}
-                                className={`aw-concept-link${activeConceptId === c.id ? ' active' : ''}`}
-                                onClick={() => selectConcept(c.id)}
-                              >
-                                <div className="aw-mini-icon">{c.icon}</div>
-                                <div>
-                                  <strong>{c.title}</strong>
-                                  <span>{c.category}</span>
-                                </div>
-                              </button>
-                            ))}
-                          </div>
-                        )}
+
+              <div className="aw-detail-body">
+                <section className="aw-section aw-full">
+                  <h3>Expanded Explanation</h3>
+                  <p>{activeConcept.overview}</p>
+                </section>
+
+                {activeConcept.illustration === 'mindFrequencies' && <MindFrequencies />}
+
+                <section className="aw-section">
+                  <h3>Core Ideas</h3>
+                  <ul>
+                    {activeConcept.keyIdeas.map((item) => (
+                      <li key={item}>{item}</li>
+                    ))}
+                  </ul>
+                </section>
+
+                <section className="aw-section">
+                  <h3>Related Keywords</h3>
+                  <div className="aw-pill-row">
+                    {getKeywords(activeConcept).map((kw) => (
+                      <span key={kw} className="aw-pill">{kw}</span>
+                    ))}
+                  </div>
+                </section>
+
+                <section className="aw-section aw-full">
+                  <h3>Simple Practice</h3>
+                  <div className="aw-practice">
+                    {activeConcept.practice.map((step) => (
+                      <div key={step} className="aw-step">
+                        <span>{step}</span>
                       </div>
-                    );
-                  })
-                )}
+                    ))}
+                  </div>
+                </section>
+
+                <section className="aw-section aw-full">
+                  <h3>Grounding Note</h3>
+                  <p>{activeConcept.cautions}</p>
+                </section>
               </div>
-            </aside>
-
-            {/* Main */}
-            <section className="aw-main">
-              {/* Detail */}
-              <article
-                id="aw-detail"
-                className="aw-detail"
-                style={{ '--detailGlow': activeConcept.color }}
-              >
-                <div className="aw-detail-hero">
-                  <div className="aw-detail-kicker">{activeConcept.category}</div>
-                  <h2>{activeConcept.icon} {activeConcept.title}</h2>
-                  <p className="aw-detail-summary">{activeConcept.summary}</p>
-                </div>
-
-                <div className="aw-detail-body">
-                  <section className="aw-section aw-full">
-                    <h3>Expanded Explanation</h3>
-                    <p>{activeConcept.overview}</p>
-                  </section>
-
-                  {activeConcept.illustration === 'mindFrequencies' && <MindFrequencies />}
-
-                  <section className="aw-section">
-                    <h3>Core Ideas</h3>
-                    <ul>
-                      {activeConcept.keyIdeas.map((item) => (
-                        <li key={item}>{item}</li>
-                      ))}
-                    </ul>
-                  </section>
-
-                  <section className="aw-section">
-                    <h3>Related Keywords</h3>
-                    <div className="aw-pill-row">
-                      {getKeywords(activeConcept).map((kw) => (
-                        <span key={kw} className="aw-pill">{kw}</span>
-                      ))}
-                    </div>
-                  </section>
-
-                  <section className="aw-section aw-full">
-                    <h3>Simple Practice</h3>
-                    <div className="aw-practice">
-                      {activeConcept.practice.map((step) => (
-                        <div key={step} className="aw-step">
-                          <span>{step}</span>
-                        </div>
-                      ))}
-                    </div>
-                  </section>
-
-                  <section className="aw-section aw-full">
-                    <h3>Grounding Note</h3>
-                    <p>{activeConcept.cautions}</p>
-                  </section>
-                </div>
-              </article>
-            </section>
+            </article>
           </main>
         </div>
       </div>

@@ -173,217 +173,73 @@
   to { transform: rotate(360deg); }
 }
 
-/* ── Controls ────────────────────────────────────────────────────────────── */
+/* ── Topic nav (lives in the InnerAtlas nav bar) ──────────────────────────── */
 
-.aw-search {
-  width: 100%;
-  padding: 14px 18px;
-  border-radius: 18px;
-  border: 1px solid rgba(255,255,255,.15);
-  background: rgba(255,255,255,.07);
-  color: #eefcf8;
-  outline: none;
-  font-size: 15px;
+.aw-topic-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
 }
 
-.aw-search::placeholder {
-  color: rgba(238,252,248,.45);
+.aw-topic-nav label {
+  flex-shrink: 0;
+  font-size: 0.68rem;
+  font-weight: 700;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: rgba(238,252,248,.5);
+}
+
+.aw-topic-nav select {
+  flex: 1;
+  min-width: 0;
+  max-width: 420px;
+  padding: 9px 38px 9px 13px;
+  border-radius: 12px;
+  border: 1px solid rgba(126,231,212,.3);
+  background-color: rgba(126,231,212,.1);
+  color: #eefcf8;
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237ee7d4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 13px center;
+}
+
+.aw-topic-nav select:hover {
+  border-color: rgba(126,231,212,.5);
+}
+
+.aw-topic-nav select:focus-visible {
+  outline: 2px solid rgba(126,231,212,.7);
+  outline-offset: 2px;
+}
+
+/* Native dropdowns render options with the OS palette — keep them legible. */
+.aw-topic-nav select option,
+.aw-topic-nav select optgroup {
+  background: #0b1018;
+  color: #eefcf8;
+}
+
+.aw-topic-count {
+  flex-shrink: 0;
+  font-size: 12px;
+  font-weight: 600;
+  color: rgba(238,252,248,.4);
 }
 
 /* ── Layout ──────────────────────────────────────────────────────────────── */
 
-.aw-layout {
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 24px;
-  align-items: start;
-}
-
-/* Shown only below 860px, where the sidebar is hidden. */
-.aw-mobile-nav {
-  display: none;
-}
-
-.aw-sidebar {
-  position: sticky;
-  top: 18px;
-  border: 1px solid rgba(255,255,255,.14);
-  border-radius: 24px;
-  background: rgba(255,255,255,.06);
-  backdrop-filter: blur(18px);
-  overflow: hidden;
-  box-shadow: 0 24px 80px rgba(0,0,0,.45);
-}
-
-.aw-sidebar-header {
-  padding: 18px 20px;
-  border-bottom: 1px solid rgba(255,255,255,.11);
-}
-
-.aw-sidebar-header h2 {
-  margin: 0 0 5px;
-  font-size: 18px;
-  color: #eefcf8;
-}
-
-.aw-sidebar-header p {
-  margin: 0;
-  color: #a9c4c0;
-  font-size: 13px;
-  line-height: 1.55;
-}
-
-.aw-sidebar-search {
-  margin-top: 14px;
-  padding: 11px 13px;
-  border-radius: 14px;
-  font-size: 13px;
-}
-
-.aw-concept-list {
-  max-height: 640px;
-  overflow-y: auto;
-  padding: 8px;
-}
-
-.aw-menu-group {
-  border-bottom: 1px solid rgba(255,255,255,.07);
-  padding: 4px 0;
-}
-
-.aw-menu-group:last-child {
-  border-bottom: 0;
-}
-
-.aw-menu-group-toggle {
-  position: relative;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 1fr auto;
-  gap: 10px;
-  align-items: center;
-  border: 1px solid transparent;
-  border-radius: 14px;
-  padding: 10px 10px 10px 24px;
-  background: transparent;
-  color: #eefcf8;
-  cursor: pointer;
-  text-align: left;
-  transition: .2s ease;
-}
-
-.aw-menu-group-toggle:hover,
-.aw-menu-group-toggle.open {
-  border-color: rgba(255,255,255,.12);
-  background: rgba(255,255,255,.075);
-}
-
-.aw-menu-group-toggle span {
+.aw-main {
   min-width: 0;
-  display: grid;
-  gap: 2px;
 }
 
-.aw-menu-group-toggle strong {
-  color: #d4fbf2;
-  font-size: 13px;
-  line-height: 1.2;
-}
-
-.aw-menu-group-toggle em {
-  color: #a9c4c0;
-  font-size: 11px;
-  font-style: normal;
-  line-height: 1.2;
-}
-
-.aw-menu-group-toggle b {
-  min-width: 28px;
-  height: 24px;
-  display: grid;
-  place-items: center;
-  border-radius: 999px;
-  border: 1px solid rgba(255,255,255,.12);
-  background: rgba(255,255,255,.07);
-  color: #7ee7d4;
-  font-size: 11px;
-}
-
-.aw-menu-group-toggle::before {
-  content: "▸";
-  color: #7ee7d4;
-  font-size: 12px;
-  position: absolute;
-  left: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  opacity: .8;
-}
-
-.aw-menu-group-toggle.open::before {
-  content: "▾";
-}
-
-.aw-menu-group-items {
-  display: grid;
-  gap: 2px;
-  padding: 2px 0 6px 8px;
-}
-
-.aw-concept-link {
-  width: 100%;
-  display: grid;
-  grid-template-columns: 36px 1fr;
-  gap: 10px;
-  align-items: center;
-  border: 1px solid transparent;
-  border-radius: 16px;
-  padding: 10px;
-  color: #eefcf8;
-  background: transparent;
-  cursor: pointer;
-  text-align: left;
-  transition: .2s ease;
-}
-
-.aw-concept-link:hover,
-.aw-concept-link.active {
-  background: rgba(255,255,255,.09);
-  border-color: rgba(255,255,255,.12);
-}
-
-.aw-concept-link.active {
-  box-shadow: inset 0 0 0 1px rgba(126,231,212,.32);
-}
-
-.aw-mini-icon {
-  width: 36px;
-  height: 36px;
-  display: grid;
-  place-items: center;
-  border-radius: 12px;
-  background: rgba(255,255,255,.09);
-  font-size: 17px;
-}
-
-.aw-concept-link strong {
-  display: block;
-  font-size: 13px;
-  margin-bottom: 2px;
-}
-
-.aw-concept-link span {
-  display: block;
-  color: #a9c4c0;
-  font-size: 11px;
-}
-
-.aw-sidebar-empty {
-  padding: 18px 12px;
-  color: #a9c4c0;
-  font-size: 13px;
-  line-height: 1.5;
-}
 
 /* ── Cards ───────────────────────────────────────────────────────────────── */
 
@@ -764,15 +620,8 @@
 
 /* ── Responsive ──────────────────────────────────────────────────────────── */
 
-@media (max-width: 1100px) {
-  .aw-layout {
-    grid-template-columns: 280px 1fr;
-  }
-}
-
 @media (max-width: 860px) {
   .aw-hero,
-  .aw-layout,
   .aw-detail-body {
     grid-template-columns: 1fr;
   }
@@ -791,44 +640,16 @@
     height: 220px;
   }
 
-  /* The topic list becomes a single selector rather than a tall card. */
-  .aw-sidebar {
+  .aw-topic-nav label {
     display: none;
   }
 
-  .aw-mobile-nav {
-    display: block;
-    margin-top: 18px;
+  .aw-topic-count {
+    display: none;
   }
 
-  .aw-mobile-nav select {
-    width: 100%;
-    padding: 12px 40px 12px 14px;
-    border-radius: 14px;
-    border: 1px solid rgba(255,255,255,.16);
-    background-color: rgba(255,255,255,.06);
-    color: #eefcf8;
-    font-family: inherit;
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-    appearance: none;
-    -webkit-appearance: none;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='%237ee7d4' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: right 14px center;
-  }
-
-  .aw-mobile-nav select:focus-visible {
-    outline: 2px solid rgba(126,231,212,.7);
-    outline-offset: 2px;
-  }
-
-  /* Native dropdowns render options with the OS palette — keep them legible. */
-  .aw-mobile-nav select option,
-  .aw-mobile-nav select optgroup {
-    background: #0b1018;
-    color: #eefcf8;
+  .aw-topic-nav select {
+    max-width: none;
   }
 
   .aw-freq-row {

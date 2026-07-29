@@ -12,6 +12,7 @@ export default function InnerAtlasShell({
   onSelectSection,
   title,
   backLabel,
+  subNav,
   container = true,
   children,
 }) {
@@ -23,6 +24,7 @@ export default function InnerAtlasShell({
         onSelectSection={onSelectSection}
         title={title}
         backLabel={backLabel}
+        subNav={subNav}
       />
       {container ? <div className="ia-container">{children}</div> : children}
     </div>
