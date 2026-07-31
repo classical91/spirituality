@@ -20,7 +20,10 @@ const innerAtlasSections = [
 export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title, backLabel = 'InnerAtlas', subNav }) {
   return (
     <div className="sticky top-0 z-50 border-b border-white/10 bg-[#080b14]/85 backdrop-blur-xl">
-      <div className="mx-auto flex max-w-7xl flex-col gap-2 px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3">
+      <div
+        className="mx-auto flex w-full flex-col gap-2 px-4 py-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-3"
+        style={{ maxWidth: 'var(--ia-max, 1280px)' }}
+      >
         <div className="flex items-center gap-3">
           <button
             type="button"
@@ -72,7 +75,7 @@ export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title
 
       {subNav && (
         <div className="border-t border-white/10 bg-black/20">
-          <div className="mx-auto max-w-7xl px-4 py-2.5">{subNav}</div>
+          <div className="mx-auto w-full px-4 py-2.5" style={{ maxWidth: 'var(--ia-max, 1280px)' }}>{subNav}</div>
         </div>
       )}
     </div>

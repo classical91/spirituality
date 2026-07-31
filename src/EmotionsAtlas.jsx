@@ -814,7 +814,7 @@ export default function EmotionsAtlas({ onBack, onSelectSection, initialFamily }
       </style>
       <InnerAtlasNav activeId="emotions" onBack={onBack} onSelectSection={onSelectSection} title="Emotions & Guidance Spiral" />
 
-      <main style={{ maxWidth: 1240, margin: '0 auto', padding: '38px 24px 72px' }}>
+      <main style={{ maxWidth: 'var(--ia-max, 1280px)', margin: '0 auto', padding: '38px 24px 72px' }}>
         <header style={{
           display: 'grid',
           gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',

@@ -92,10 +92,16 @@
 }
 
 /* ── body layout ── */
+/* Capped and centred so the sidebar + main column line up with the InnerAtlas
+   nav above them. Left uncapped, `.iba-main` stretched edge-to-edge on wide
+   monitors and the long text lines made the page look zoomed in. */
 .iba-body {
   display: flex;
   flex: 1;
   min-height: 0;
+  width: 100%;
+  max-width: var(--ia-max, 1280px);
+  margin: 0 auto;
 }
 
 /* ── sidebar ── */

@@ -6,6 +6,15 @@
    while each section keeps its own colour identity.
    ─────────────────────────────────────────────────────────────────────────── */
 
+/* One page width for the whole atlas. The nav and every section's content
+   container measure against this, so the frame lines up at any display width
+   instead of each section picking its own (1120/1240/1440/full-bleed) — which
+   made wide monitors read as if the page had been zoomed in. Defined on :root
+   so sections with their own wrapper (.aw-app, .iba) can use it too. */
+:root {
+  --ia-max: 1280px;
+}
+
 .ia-root {
   /* Per-section accent — overridden inline by InnerAtlasShell. Emerald default. */
   --ia-accent: #86efac;
@@ -50,7 +59,7 @@
 
 /* Page content container */
 .ia-container {
-  max-width: 1120px;
+  max-width: var(--ia-max, 1280px);
   margin: 0 auto;
   padding: 40px 24px 72px;
 }
