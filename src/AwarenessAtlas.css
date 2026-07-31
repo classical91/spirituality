@@ -29,7 +29,7 @@
 }
 
 .aw-app {
-  width: min(1440px, calc(100% - 32px));
+  width: min(var(--ia-max, 1280px), calc(100% - 32px));
   margin: 0 auto;
   padding: 28px 0 80px;
 }

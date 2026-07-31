@@ -598,7 +598,7 @@ export default function ConsciousnessMap({ onBack, onSelectSection, initialSecti
         borderBottom: '1px solid rgba(255,255,255,0.08)',
         padding: '16px 20px',
       }}>
-        <div>
+        <div style={{ maxWidth: 'var(--ia-max, 1280px)', margin: '0 auto' }}>
           <div style={{ fontSize: 11, letterSpacing: 2, color: '#6d28d9', textTransform: 'uppercase', fontWeight: 700 }}>
             Consciousness Studies
           </div>
@@ -611,11 +611,15 @@ export default function ConsciousnessMap({ onBack, onSelectSection, initialSecti
         </div>
       </div>
 
-      {/* Tabs */}
+      {/* Tabs — full-bleed rule, capped row, so it lines up with the nav above. */}
+      <div style={{
+        borderBottom: '1px solid rgba(255,255,255,0.07)',
+        overflowX: 'auto',
+      }}>
       <div style={{
         display: 'flex', gap: 0,
-        borderBottom: '1px solid rgba(255,255,255,0.07)',
-        padding: '0 20px', overflowX: 'auto',
+        padding: '0 20px',
+        maxWidth: 'var(--ia-max, 1280px)', margin: '0 auto',
       }}>
         {tabs.map(([id, label]) => (
           <button key={id} onClick={() => { setTab(id); setSelected(null); }} style={{
@@ -627,6 +631,7 @@ export default function ConsciousnessMap({ onBack, onSelectSection, initialSecti
             whiteSpace: 'nowrap',
           }}>{label}</button>
         ))}
+      </div>
       </div>
 
       <div style={{ maxWidth: 760, margin: '0 auto', padding: '24px 16px 48px' }}>
