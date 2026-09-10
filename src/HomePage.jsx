@@ -2,14 +2,9 @@ import { useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
-import { prayerPool } from './prayerPool';
-import { dayOfYear } from './lib/dateUtils';
+import { getDailyPrayer } from './lib/daily.js';
 import { getDailyReading, READING_POOL } from './lib/dailyReading';
 import './HomePage.css';
-
-function getDailyPrayer() {
-  return prayerPool[dayOfYear() % prayerPool.length];
-}
 
 // Pick a different reading than the one currently shown, for the shuffle button.
 function getRandomReading(excludeTitle) {

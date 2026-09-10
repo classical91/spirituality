@@ -4,10 +4,10 @@
 import {
   planets, signs, houses, aspects, formulas, angles,
   dignityTerms, dignityTable, configurations, glossary,
-} from './astrologyData';
+} from './astrologyData.js';
 import {
   NUMBER_MEANINGS, concepts as numerologyConcepts,
-} from './numerologyData';
+} from './numerologyData.js';
 
 const ASTRO_COLOR = 'rgba(126,231,255,.20)';
 const NUM_COLOR = 'rgba(255,212,121,.20)';

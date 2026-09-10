@@ -4,6 +4,11 @@ import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
 import { recordPortalVisit, setLastPortal } from './lib/storage';
 import { getDailyReading } from './lib/dailyReading';
+import {
+  BIBLICAL_ROUTE,
+  SACRED_SYSTEMS_PORTAL_IDS,
+  portalPath,
+} from './lib/portalPath.js';
 
 const Chakra3DVisualizer = lazy(() => import('./Chakra3DVisualizer'));
 const BibleConceptAtlas = lazy(() => import('./BibleConceptAtlas'));
@@ -18,11 +23,6 @@ const DailyPracticePortal = lazy(() => import('./DailyPracticePortal'));
 const RelationshipHub = lazy(() => import('./RelationshipHub'));
 const TopicsPortal = lazy(() => import('./TopicsPortal'));
 
-const BIBLICAL_ROUTE = '/sacred-moral-atlas';
-const EMBEDDED_BIBLICAL_SECTIONS = {
-  demonology: 'demonology-atlas',
-  infernalcodex: 'infernal-codex',
-};
 
 const RELATIONSHIP_SECTION_REDIRECTS = new Set([
   'relationship-clarity', 'relationship-patterns',
@@ -62,9 +62,6 @@ const COMPONENTS = {
   topics: TopicsPortal,
 };
 
-// Natal Chart Decoder and Numerology used to be standalone portals; they now
-// live inside the Sacred Systems Atlas as tabs.
-const SACRED_SYSTEMS_PORTAL_IDS = new Set(['astrology', 'numerology']);
 
 // A persistent way back to the hub from anywhere in the site. Sits below modal
 // overlays (z 50+) so it never covers a dialog, above ordinary page content.
@@ -147,36 +144,18 @@ export default function App() {
 
   const goPortal = useCallback(
     (portalId, { section } = {}) => {
-      if (EMBEDDED_BIBLICAL_SECTIONS[portalId]) {
-        const embeddedSection =
-          portalId === 'demonology' && section
-            ? section
-            : EMBEDDED_BIBLICAL_SECTIONS[portalId];
-        navigate(`${BIBLICAL_ROUTE}?section=${encodeURIComponent(embeddedSection)}`);
-        return;
-      }
-      // Legacy internal contract used by relationship sub-portals; route to the hub.
-      if (portalId === 'relationships') {
-        navigate(section ? `/relationship-hub?section=${encodeURIComponent(section)}` : '/relationship-hub');
-        return;
-      }
-      // Natal Chart Decoder and Numerology now live as tabs inside the Sacred
-      // Systems Atlas. Route straight there instead of through the routeHidden
-      // /astrology and /numerology aliases — those are excluded from
-      // portalsByPath, so landing on them (then rewriting the URL at render
-      // time) never registers a "recently viewed" visit at all.
-      if (SACRED_SYSTEMS_PORTAL_IDS.has(portalId)) {
-        const target = section || (portalId === 'astrology' ? 'natal-chart' : 'numerology');
-        navigate(`/sacred-systems?section=${encodeURIComponent(target)}`);
+      // portalPath owns the folded-in portals: the two Sacred Moral Atlas
+      // sections, the relationship hub, and the Sacred Systems tabs. It returns
+      // null only for an unknown id or a portal that is really an outside link.
+      const target = portalPath(portalId, { section });
+      if (target) {
+        navigate(target);
         return;
       }
       const portal = portalsById[portalId];
-      if (!portal) return;
-      if (portal.external && portal.externalUrl) {
+      if (portal?.external && portal.externalUrl) {
         window.open(portal.externalUrl, '_blank', 'noopener,noreferrer');
-        return;
       }
-      navigate(section ? `${portal.path}?section=${encodeURIComponent(section)}` : portal.path);
     },
     [navigate]
   );
