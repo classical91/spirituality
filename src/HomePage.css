@@ -60,6 +60,21 @@
   gap: 10px;
 }
 
+.refreshing-affirmation-line {
+  animation: refreshing-affirmation-fade 0.5s ease;
+}
+
+@keyframes refreshing-affirmation-fade {
+  from { opacity: 0; transform: translateY(2px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .refreshing-affirmation-line {
+    animation: none;
+  }
+}
+
 @media (max-width: 960px) {
   .home-page-stage {
     display: flex;

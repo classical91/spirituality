@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
@@ -72,6 +72,20 @@ const REFRESHING_AFFIRMATIONS = [
 function getRefreshingAffirmation() {
   return REFRESHING_AFFIRMATIONS[Math.floor(Math.random() * REFRESHING_AFFIRMATIONS.length)];
 }
+
+// Pick a different affirmation than the one currently shown, for auto-rotation
+// and the manual shuffle button — same "don't repeat what's already on screen"
+// rule the Daily Reading shuffle uses.
+function getNextAffirmation(excludeLine) {
+  if (REFRESHING_AFFIRMATIONS.length <= 1) return REFRESHING_AFFIRMATIONS[0];
+  let pick;
+  do {
+    pick = getRefreshingAffirmation();
+  } while (pick.line === excludeLine);
+  return pick;
+}
+
+const AFFIRMATION_REFRESH_MS = 12000;
 
 function DailyPrayerCard() {
   const prayer = getDailyPrayer();
@@ -220,10 +234,16 @@ function DailyReadingCard({ onNavigate }) {
   );
 }
 
-function RefreshingAffirmationCard({ affirmation }) {
+function RefreshingAffirmationCard({ affirmation, onShuffle }) {
+  const shuffle = (e) => {
+    e.stopPropagation();
+    onShuffle();
+  };
+
   return (
     <aside
       aria-label="Refreshing affirmation"
+      aria-live="polite"
       style={{
         width: '100%',
         maxWidth: '360px',
@@ -247,26 +267,46 @@ function RefreshingAffirmationCard({ affirmation }) {
         }}>
           Refreshing Affirmation
         </p>
-        <span style={{
-          flexShrink: 0,
-          border: '1px solid rgba(196,165,255,0.18)',
-          background: 'rgba(196,165,255,0.1)',
-          color: '#d8ceff',
-          borderRadius: '999px',
-          padding: '3px 8px',
-          fontSize: '0.66rem',
-          fontWeight: 800,
-        }}>
-          {affirmation.title}
+        <span style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+          <span style={{
+            flexShrink: 0,
+            border: '1px solid rgba(196,165,255,0.18)',
+            background: 'rgba(196,165,255,0.1)',
+            color: '#d8ceff',
+            borderRadius: '999px',
+            padding: '3px 8px',
+            fontSize: '0.66rem',
+            fontWeight: 800,
+          }}>
+            {affirmation.title}
+          </span>
+          <button
+            type="button"
+            onClick={shuffle}
+            aria-label="Show a different affirmation"
+            title="Show a different affirmation"
+            style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: '22px', height: '22px', borderRadius: '999px', flexShrink: 0,
+              border: '1px solid rgba(196,165,255,0.18)', background: 'rgba(196,165,255,0.1)',
+              color: '#d8ceff', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: 0,
+            }}
+          >
+            ⟳
+          </button>
         </span>
       </div>
-      <p style={{
-        margin: 0,
-        color: '#f1eeff',
-        fontSize: 'clamp(0.9rem, 1.7vw, 1rem)',
-        lineHeight: 1.55,
-        fontWeight: 750,
-      }}>
+      <p
+        key={affirmation.line}
+        className="refreshing-affirmation-line"
+        style={{
+          margin: 0,
+          color: '#f1eeff',
+          fontSize: 'clamp(0.9rem, 1.7vw, 1rem)',
+          lineHeight: 1.55,
+          fontWeight: 750,
+        }}
+      >
         {affirmation.line}
       </p>
     </aside>
@@ -332,7 +372,21 @@ function DailyShortcuts({ onNavigate }) {
 
 export default function HomePage({ onNavigate }) {
   const [query, setQuery] = useState('');
-  const [refreshingAffirmation] = useState(() => getRefreshingAffirmation());
+  const [refreshingAffirmation, setRefreshingAffirmation] = useState(() => getRefreshingAffirmation());
+
+  // "Refreshing" isn't just a name — it rotates on its own so the card never
+  // goes stale on a long-open tab. A manual shuffle (below) restarts the clock
+  // so a deliberate click isn't immediately overwritten by a pending tick.
+  useEffect(() => {
+    const id = setInterval(() => {
+      setRefreshingAffirmation((current) => getNextAffirmation(current.line));
+    }, AFFIRMATION_REFRESH_MS);
+    return () => clearInterval(id);
+  }, [refreshingAffirmation]);
+
+  const shuffleAffirmation = () => {
+    setRefreshingAffirmation((current) => getNextAffirmation(current.line));
+  };
 
   const { portals: filtered, sections: sectionResults } = useMemo(
     () => searchEverything(query),
@@ -438,7 +492,7 @@ export default function HomePage({ onNavigate }) {
               alignContent: 'center',
             }}
           >
-            <RefreshingAffirmationCard affirmation={refreshingAffirmation} />
+            <RefreshingAffirmationCard affirmation={refreshingAffirmation} onShuffle={shuffleAffirmation} />
             <DailyPrayerCard />
             <DailyReadingCard onNavigate={onNavigate} />
           </div>
