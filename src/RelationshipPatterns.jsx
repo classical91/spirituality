@@ -165,8 +165,19 @@ function PatternDetail({ pattern, index, onOpen, onAllPatterns }) {
 }
 
 export default function RelationshipPatterns({ onBack, onOpenSection, initialSection }) {
-  const validInitialSection = relationshipPatternsById[initialSection] ? initialSection : null;
-  const [activeId, setActiveId] = useState(validInitialSection);
+  // The hub addresses each pattern by ?section=, so the incoming section wins
+  // whenever there is one. `localId` only covers the case where this page is
+  // rendered without a router to push URLs to, and is reset whenever the
+  // section changes so it can never hold a stale pattern.
+  const routedId = relationshipPatternsById[initialSection] ? initialSection : null;
+  const [localId, setLocalId] = useState(routedId);
+  const [lastSection, setLastSection] = useState(initialSection);
+  if (initialSection !== lastSection) {
+    setLastSection(initialSection);
+    setLocalId(routedId);
+  }
+
+  const activeId = routedId ?? localId;
   const activePattern = activeId ? relationshipPatternsById[activeId] : null;
   const activeIndex = useMemo(
     () => activePattern ? relationshipPatterns.findIndex((pattern) => pattern.id === activePattern.id) : -1,
@@ -178,12 +189,12 @@ export default function RelationshipPatterns({ onBack, onOpenSection, initialSec
   }, [activeId]);
 
   const openPattern = (id) => {
-    if (relationshipPatternsById[id]) setActiveId(id);
+    if (relationshipPatternsById[id]) setLocalId(id);
     onOpenSection?.(id);
   };
 
   const openAllPatterns = () => {
-    setActiveId(null);
+    setLocalId(null);
     onOpenSection?.('patterns');
   };
 

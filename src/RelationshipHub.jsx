@@ -8,32 +8,22 @@
 // deep-link routing, and global search cannot drift apart. The full
 // educational content stays in the tab components (Clarity, Patterns,
 // Practice, Foundations).
-import { useState } from "react";
+//
+// Every screen in the hub is addressed by ?section= and nothing is copied into
+// component state: tabs, concepts, and patterns are all derived from the URL
+// through resolveSection(). Switching tabs pushes a new URL, so each step gets
+// its own history entry and back/forward/refresh/sharing all behave.
 import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
 import RelationshipPractice from "./RelationshipPractice";
-import { relationshipCategories, resolveOwner } from "./data/relationshipIndex";
+import { relationshipCategories } from "./data/relationshipIndex";
+import { resolveSection, sectionForTab } from "./lib/relationshipRouting";
 
 const TABS = [
   { id: "clarity", label: "Relationship Clarity" },
   { id: "patterns", label: "Relationship Patterns" },
   { id: "practice", label: "Relationship Practice" },
 ];
-
-// Resolve an incoming ?section= value to { tab, sub }. Ownership is derived
-// from relationshipIndex.js, so adding a section there is all that is needed
-// to make its deep link route to the correct tab.
-function resolveSection(section) {
-  if (!section) return { tab: "overview", sub: null };
-  if (section === "patterns" || section === "relationship-patterns") return { tab: "patterns", sub: null };
-  if (section === "clarity" || section === "relationship-clarity") return { tab: "clarity", sub: null };
-  if (section === "practice" || section === "relationship-practice") return { tab: "practice", sub: null };
-  const owner = resolveOwner(section);
-  if (owner === "clarity") return { tab: "clarity", sub: section };
-  if (owner === "patterns") return { tab: "patterns", sub: section };
-  if (owner === "practice") return { tab: "practice", sub: section };
-  return { tab: "overview", sub: null };
-}
 
 function Overview({ onOpenTab, onOpenSection }) {
   return (
@@ -98,28 +88,27 @@ function Overview({ onOpenTab, onOpenSection }) {
 }
 
 export default function RelationshipHub({ onBack, onNavigate, initialSection }) {
-  const initial = resolveSection(initialSection);
-  const [tab, setTab] = useState(initial.tab);
-  const [claritySub, setClaritySub] = useState(initial.sub);
+  const { tab, sub } = resolveSection(initialSection);
 
-  // Overview chips deep-link through the app router (?section=…) so browser
-  // back/forward and refresh preserve the selected section.
+  // Every move inside the hub goes through the app router (?section=…), so the
+  // URL always describes what is on screen and browser back/forward walk the
+  // steps the visitor actually took.
   const openSection = (section) => {
-    if (onNavigate) onNavigate("relationshiphub", { section });
+    if (onNavigate) onNavigate("relationshiphub", section ? { section } : {});
   };
+  const openTab = (id) => openSection(sectionForTab(id));
 
   if (tab === "clarity") {
     return (
       <RelationshipClarityPortal
-        onBack={() => { setClaritySub(null); setTab("overview"); }}
+        onBack={() => openSection(null)}
         onNavigate={(id, opts) => {
-          if (id === "relationships") {
-            setClaritySub(opts?.section ?? null);
-          } else {
-            onNavigate?.(id, opts);
-          }
+          // Clarity asks for a concept ("relationships" + section) or for its
+          // own index (no section); both are ?section= targets on this hub.
+          if (id === "relationships") openSection(opts?.section ?? "clarity");
+          else onNavigate?.(id, opts);
         }}
-        initialSection={claritySub}
+        initialSection={sub}
       />
     );
   }
@@ -127,12 +116,9 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
   if (tab === "patterns") {
     return (
       <RelationshipPatterns
-        onBack={() => {
-          if (onNavigate) onNavigate("relationshiphub");
-          else setTab("overview");
-        }}
+        onBack={() => openSection(null)}
         onOpenSection={openSection}
-        initialSection={initial.sub}
+        initialSection={sub}
       />
     );
   }
@@ -145,12 +131,12 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
           <div className="absolute right-[-12%] top-[18%] h-[30rem] w-[30rem] rounded-full bg-violet-600/15 blur-3xl" />
         </div>
         <button
-          onClick={() => setTab("overview")}
+          onClick={() => openSection(null)}
           className="fixed left-4 top-4 z-50 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
         >
           ← Back
         </button>
-        <RelationshipPractice initialSection={initial.sub} />
+        <RelationshipPractice initialSection={sub} onOpenSection={openSection} />
       </div>
     );
   }
@@ -172,7 +158,7 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
       <nav className="sticky top-0 z-40 flex justify-center gap-2 border-b border-white/10 bg-[#0a0511]/90 px-5 py-3 backdrop-blur">
         <button
           type="button"
-          onClick={() => setTab("overview")}
+          onClick={() => openSection(null)}
           className="rounded-2xl bg-white px-4 py-2 text-sm font-bold text-slate-950"
         >
           Overview
@@ -181,14 +167,14 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
           <button
             key={t.id}
             type="button"
-            onClick={() => setTab(t.id)}
+            onClick={() => openTab(t.id)}
             className="rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-bold text-white/80 transition hover:bg-white/[0.1] hover:text-white"
           >
             {t.label}
           </button>
         ))}
       </nav>
-      <Overview onOpenTab={setTab} onOpenSection={openSection} />
+      <Overview onOpenTab={openTab} onOpenSection={openSection} />
     </div>
   );
 }

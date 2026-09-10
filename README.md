@@ -74,13 +74,20 @@ npm run preview    # preview the production build locally
 npm run lint
 ```
 
-## Continuous integration
-
-GitHub Actions runs `npm ci`, `npm run lint`, and `npm run build` on every push to `main` and every pull request — see `.github/workflows/ci.yml`.
+## Tests
 
 ```bash
 npm test           # node's own test runner, no framework
 ```
+
+The suite is deliberately narrow: this app is mostly data, so the tests pin the
+invariants that break navigation silently — daily rotation coverage, portal
+paths, and the `?section=` routing contracts the portals depend on. They are
+plain Node tests over the data and `src/lib` modules, with no DOM or renderer.
+
+## Continuous integration
+
+GitHub Actions runs `npm ci`, `npm run lint`, `npm test`, and `npm run build` on every push to `main` and every pull request — see `.github/workflows/ci.yml`. A red test fails the build, so a change that breaks a routing or data invariant cannot merge green.
 
 ## Deployment
 
@@ -180,17 +187,19 @@ The Hub has three content tabs, each owned by one component:
 | Tab | Owner value | Component | What it holds |
 |-----|-------------|-----------|---------------|
 | Relationship Clarity | `clarity` | [`src/RelationshipClarityPortal.jsx`](src/RelationshipClarityPortal.jsx) | Understanding what is happening — reflections, red flags, standards, inventories, tools. |
-| Relationship Patterns | `patterns` | [`src/RelationshipPatterns.jsx`](src/RelationshipPatterns.jsx) | Repeating psychological dynamics. |
+| Relationship Patterns | `patterns` | [`src/RelationshipPatterns.jsx`](src/RelationshipPatterns.jsx) (content in [`src/data/relationshipPatterns.js`](src/data/relationshipPatterns.js)) | Repeating psychological dynamics, one page per pattern. |
 | Relationship Practice | `practice` | [`src/RelationshipPractice.jsx`](src/RelationshipPractice.jsx) (+ [`RelationshipFoundations.jsx`](src/RelationshipFoundations.jsx)) | Healthy skills and lived application — foundations, skills, marriage, dynamics, scripts. |
 
 Navigation metadata is centralized in [`src/data/relationshipIndex.js`](src/data/relationshipIndex.js). That module holds **navigation + search metadata only** — the full educational content stays in the components above. It exports:
 
-- `claritySectionIds`, `patternSectionIds`, `practiceSectionIds` — the authoritative routable `?section=` IDs per tab. `resolveOwner(section)` maps a section to its owning tab, and [`RelationshipHub.jsx`](src/RelationshipHub.jsx) uses it to route deep links.
+- `claritySectionIds`, `patternSectionIds`, `practiceSectionIds` — the authoritative routable `?section=` IDs per tab. `resolveOwner(section)` maps a section to its owning tab, and [`src/lib/relationshipRouting.js`](src/lib/relationshipRouting.js) builds on it: `resolveSection(section)` returns the `{ tab, sub }` the hub renders, and `sectionForTab(tab)` is the `?section=` value that opens a tab's own index.
 - `relationshipSections` — curated nav entries (`{ id, title, category, owner, section, summary, tags }`) that back the overview chips and global search.
 - `relationshipCategories` — the overview categories with their clickable topic chips, derived from `relationshipSections`.
 - `relationshipSearchEntries` — generated global-search entries (see below).
 
 Each section id must appear in exactly one owner's `*SectionIds` list so a `?section=` value never routes ambiguously.
+
+**The URL owns the hub's navigation state.** Every screen inside the hub — each tab, each Clarity concept, each pattern, each Practice tab — has its own `?section=` value, and the components derive what they render from it rather than keeping their own copy. Tab switches push a new URL through `onNavigate`, so each step gets a browser history entry and back/forward, refresh, and shared links all land on the screen the visitor was actually looking at. A control that changes what is on screen without publishing a `?section=` breaks that; [`src/lib/__tests__/relationshipRouting.test.js`](src/lib/__tests__/relationshipRouting.test.js) pins the resolve/round-trip contract.
 
 ### How to add a Clarity topic
 
@@ -200,13 +209,13 @@ Each section id must appear in exactly one owner's `*SectionIds` list so a `?sec
 
 ### How to add a Pattern
 
-1. Append a pattern object to `RELATIONSHIP_PATTERNS` in [`RelationshipPatterns.jsx`](src/RelationshipPatterns.jsx) with a stable `id`, `name`, `color`, `keyInsight`, `items`, and optional `note` (safety callout). Arriving with `initialSection` matching the `id` scrolls the card into view and highlights it — no modal.
-2. Add the `id` to `patternSectionIds` in [`relationshipIndex.js`](src/data/relationshipIndex.js).
+1. Append a pattern object to `relationshipPatterns` in [`src/data/relationshipPatterns.js`](src/data/relationshipPatterns.js). Each pattern is its own page, so it needs a stable kebab-case `id`, `name`, `kicker`, `icon`, `color`, `keyInsight`, `intro`, `items` (`{ label, desc }`), `whyItForms`, `practices`, `reflection`, `related` (`{ id, label }` pointing at other routable sections), and optionally `note` (safety callout) and `sources` (`{ label, url }`). `RelationshipPatterns.jsx` renders the library and the detail page from that data — there is no content to add to the component.
+2. Add the `id` to `patternSectionIds` in [`relationshipIndex.js`](src/data/relationshipIndex.js) so `/relationship-hub?section=<id>` opens the page. [`src/data/relationshipPatterns.test.js`](src/data/relationshipPatterns.test.js) fails if you skip this, or if a `related` entry points at a section nothing owns.
 3. Optionally add a `relationshipSections` entry with `owner: 'patterns'` for an overview chip.
 
 ### How to add a Practice section
 
-1. Add a tab to `PRACTICE_TABS` in [`RelationshipPractice.jsx`](src/RelationshipPractice.jsx) and render it from `renderTab()`.
+1. Add a tab to `PRACTICE_TABS` in [`RelationshipPractice.jsx`](src/RelationshipPractice.jsx) and render it from `renderTab()`. The tab id is the `?section=` value, and switching tabs publishes it.
 2. Add the tab `id` to `practiceSectionIds` in [`relationshipIndex.js`](src/data/relationshipIndex.js) so `/relationship-hub?section=<id>` opens that tab.
 3. Optionally add a `relationshipSections` entry with `owner: 'practice'`.
 
