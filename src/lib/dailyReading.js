@@ -1,5 +1,5 @@
-import { searchIndex } from '../data/searchIndex';
-import { dayOfYear } from './dateUtils';
+import { searchIndex } from '../data/searchIndex.js';
+import { dayOfYear } from './dateUtils.js';
 
 // Deterministic shuffle so consecutive days don't walk through same-portal
 // entries in order. Fixed seed → same rotation order for everyone, every day.
@@ -35,7 +35,11 @@ export const READING_POOL = (() => {
 
 // +1 offset keeps consecutive days from repeating when DST shifts caused two
 // calendar days to land on the same pool index before the fix was deployed.
-export function getDailyReading() {
+export function getDailyReadingFor(dayIndex) {
   if (READING_POOL.length === 0) return null;
-  return READING_POOL[(dayOfYear() + 1) % READING_POOL.length];
+  return READING_POOL[(dayIndex + 1) % READING_POOL.length];
+}
+
+export function getDailyReading(date = new Date()) {
+  return getDailyReadingFor(dayOfYear(date));
 }

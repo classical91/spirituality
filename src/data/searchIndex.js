@@ -1,7 +1,7 @@
 // Curated cross-portal content index for Deep Search.
-import { sacredSystemsSearchEntries } from './sacredSystemsCards';
-import { spiritualTopicSearchEntries } from './spiritualTopics';
-import { relationshipSearchEntries } from './relationshipIndex';
+import { sacredSystemsSearchEntries } from './sacredSystemsCards.js';
+import { spiritualTopicSearchEntries } from './spiritualTopics.js';
+import { relationshipSearchEntries } from './relationshipIndex.js';
 //
 // Each entry surfaces a section *inside* a portal, so a query like
 // "abandonment" can return Heart Chakra, Attachment Theory, and the

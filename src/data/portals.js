@@ -1,5 +1,5 @@
 // Portal catalog. Single source of truth for HomePage cards, routing, and search.
-import { searchSections } from './searchIndex';
+import { searchSections } from './searchIndex.js';
 
 // Categories group the home grid by purpose rather than just topic.
 export const CATEGORIES = [

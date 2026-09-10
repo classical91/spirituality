@@ -66,7 +66,7 @@ npm run build      # outputs to /dist
 npm run preview    # preview the production build locally
 ```
 
-`preview` runs `vite preview --host 0.0.0.0` and respects the `PORT` env var via Vite defaults. `start` runs `serve dist -s` and respects `PORT` via the `serve` CLI defaults.
+`preview` runs `vite preview --host 0.0.0.0` and respects the `PORT` env var via Vite defaults. `start` runs `node server.mjs`, which serves `/dist` with SPA fallback and hosts the daily API below. It respects `PORT` and defaults to 3000.
 
 ## Linting
 
@@ -78,14 +78,57 @@ npm run lint
 
 GitHub Actions runs `npm ci`, `npm run lint`, and `npm run build` on every push to `main` and every pull request — see `.github/workflows/ci.yml`.
 
+```bash
+npm test           # node's own test runner, no framework
+```
+
 ## Deployment
 
-This is a fully static SPA. Deploy `/dist` to any static host that supports SPA fallback (so that `/chakra`, `/psychology`, etc. resolve to `index.html`):
+The app itself is a static SPA. `server.mjs` serves it — with the SPA fallback that makes `/chakra`, `/psychology` and friends resolve to `index.html` — and adds the one read-only endpoint under [Daily API](#daily-api). Deploy the repo, not just `/dist`, anywhere that runs Node 22+:
 
-- **Railway** — uses the included `railway.json`; `serve -s` already handles SPA fallback.
+- **Railway** — uses the included `railway.json`, which runs `npm run start`.
 - **Netlify** — drag-and-drop `/dist`, or connect via Git with build command `npm run build` and publish directory `dist`. Add a `_redirects` file with `/* /index.html 200` if needed.
 - **Vercel** — framework preset Vite; SPA rewrites are automatic.
 - **GitHub Pages** — push `/dist` contents to a `gh-pages` branch (note: nested routes need a 404 fallback hack).
+
+The last three serve `/dist` as static files, which is still fine for the app — it only loses `/api/daily`, and nothing in the app itself calls it.
+
+## Daily API
+
+`GET /api/daily?date=YYYY-MM-DD`
+
+Today's prayer and today's reading, the same two the home screen shows.
+
+```json
+{
+  "date": "2026-09-10",
+  "dayOfYear": 253,
+  "prayer": { "type": "Virtue", "title": "Faith", "prayer": "…" },
+  "reading": {
+    "id": "wis-shinn",
+    "lens": "Symbolic",
+    "title": "Florence Scovel Shinn",
+    "summary": "…",
+    "path": "/wisdom/teachers?section=shinn"
+  }
+}
+```
+
+`date` is the **caller's** calendar day and defaults to the server's. Main Hub's
+Daily Dashboard asks in Vancouver time, so it sends one.
+
+This endpoint exists so the dashboard does not have to run a second rotation of
+its own — a copy in another repository would drift from this one the first time
+a prayer was added. Both rotations now resolve in `src/lib/daily.js`, which the
+home screen and the server both read.
+
+`reading.path` is produced by `src/lib/portalPath.js`, the same resolver
+`App.jsx` navigates with, so an "Open Reading →" link lands exactly where
+tapping the card here lands — including for the portals that were folded into
+other pages.
+
+There is no authentication, because there is nothing personal here: every
+visitor to the home screen already sees both of these.
 
 ## Project structure
 
