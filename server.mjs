@@ -20,6 +20,27 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 const distPath = join(__dirname, 'dist');
 const port = Number(process.env.PORT || 3000);
 
+// Caching policy for the static build, and the only copy of it. Vite fingerprints
+// everything under /assets, so those files can be cached forever — their names
+// change when their contents do. index.html is what points at the current
+// fingerprints, so it must never be cached: a stale copy sends visitors to
+// asset URLs that no longer exist after a deploy.
+//
+// This used to live in public/serve.json, which read like configuration but was
+// not: serve-handler only applies headers passed to it programmatically, and
+// nothing passed them. The file was copied into the build and ignored, so every
+// response fell back to serve-handler's defaults.
+const staticHeaders = [
+  {
+    source: '**/*.html',
+    headers: [{ key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' }],
+  },
+  {
+    source: 'assets/**',
+    headers: [{ key: 'Cache-Control', value: 'public, max-age=31536000, immutable' }],
+  },
+];
+
 const sendJson = (response, status, body) => {
   const payload = JSON.stringify(body);
   response.writeHead(status, {
@@ -97,6 +118,10 @@ const server = createServer((request, response) => {
     public: distPath,
     cleanUrls: false,
     rewrites: [{ source: '**', destination: '/index.html' }],
+    headers: staticHeaders,
+    // Nothing here is a directory to browse; a missing path is the SPA's to
+    // resolve, which the rewrite above already handles.
+    directoryListing: false,
   }).catch((error) => {
     console.error('Static request failed:', error);
     if (response.headersSent) {

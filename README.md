@@ -100,6 +100,8 @@ The app itself is a static SPA. `server.mjs` serves it — with the SPA fallback
 
 The last three serve `/dist` as static files, which is still fine for the app — it only loses `/api/daily`, and nothing in the app itself calls it.
 
+`server.mjs` also owns the caching policy, in `staticHeaders`: fingerprinted files under `/assets` are immutable for a year, and HTML is never cached so a deploy can't leave a visitor pointed at asset URLs that no longer exist. A static host serving `/dist` applies its own defaults instead, so set the equivalent rules there if you deploy that way.
+
 ## Daily API
 
 `GET /api/daily?date=YYYY-MM-DD`
