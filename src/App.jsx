@@ -1,8 +1,8 @@
-import { lazy, Suspense, useCallback, useEffect, useMemo } from 'react';
+import { lazy, Suspense, useCallback, useMemo } from 'react';
 import HomePage from './HomePage';
+import PortalErrorBoundary from './components/PortalErrorBoundary';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
-import { recordPortalVisit, setLastPortal } from './lib/storage';
 import { getDailyReading } from './lib/dailyReading';
 import {
   BIBLICAL_ROUTE,
@@ -160,21 +160,17 @@ export default function App() {
     [navigate]
   );
 
-  useEffect(() => {
-    const portal = portalsByPath[path];
-    if (portal) {
-      recordPortalVisit(portal.id);
-      setLastPortal(portal.id);
-    }
-  }, [path]);
-
   // `homeView` is set true only by the final HomePage fallback below, so the
   // floating Home button shows on every other screen but not on home itself.
   let homeView = false;
   const content = renderRoute();
   return (
     <>
-      <Suspense fallback={<AppLoadingScreen />}>{content}</Suspense>
+      {/* Keyed on the route so navigating away clears a previous failure: the
+          boundary remounts and the new page gets a clean render. */}
+      <PortalErrorBoundary key={path} onGoHome={goHome}>
+        <Suspense fallback={<AppLoadingScreen />}>{content}</Suspense>
+      </PortalErrorBoundary>
       {!homeView && <FloatingHomeButton onClick={goHome} />}
     </>
   );

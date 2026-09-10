@@ -66,7 +66,7 @@ npm run build      # outputs to /dist
 npm run preview    # preview the production build locally
 ```
 
-`preview` runs `vite preview --host 0.0.0.0` and respects the `PORT` env var via Vite defaults. `start` runs `node server.mjs`, which serves `/dist` with SPA fallback and hosts the daily API below. It respects `PORT` and defaults to 3000.
+`preview` runs `vite preview --host 0.0.0.0`, which serves on Vite's preview port (4173) and ignores `PORT` — pass `--port` to change it. `start` runs `node server.mjs`, which serves `/dist` with SPA fallback and hosts the daily API below; that one does respect `PORT`, defaulting to 3000, and is what production runs.
 
 ## Linting
 
@@ -144,7 +144,7 @@ visitor to the home screen already sees both of these.
 ```
 src/
   App.jsx                    # Routing shell — maps URL → portal
-  HomePage.jsx               # Landing page with search and recents
+  HomePage.jsx               # Landing page with search and the daily cards
   main.jsx
   index.css
   Chakra3DVisualizer.jsx
@@ -157,6 +157,7 @@ src/
   components/
     PortalCard.jsx           # Home grid card
     GlobalSearch.jsx         # Cross-portal search bar
+    PortalErrorBoundary.jsx  # Recovery screen when a lazy portal fails to load
     TopicCard.jsx            # Topic browse card
     TopicDetail.jsx          # Topic full-page detail view
     SafetyNote.jsx           # Reusable wellness / symbolic disclaimer
@@ -171,7 +172,8 @@ src/
   hooks/
     useRoute.js              # History-API routing hook
   lib/
-    storage.js               # localStorage helpers (recents, last portal, recent topics)
+    relationshipRouting.js   # Relationship Hub ?section= resolution
+    storage.js               # localStorage helpers (recent topics)
 ```
 
 ## Routing
@@ -289,7 +291,9 @@ A **topic entry** is a concise concept guide (definition, comparison, a few prac
 
 ## Persistence
 
-The home page remembers the last few portals visited via `localStorage` (key prefix `sacred-pathways:`). The Topics portal separately remembers recently viewed topics under `sacred-pathways:recent-topics`. Nothing is sent anywhere — it's local-only progress for a smoother return visit.
+The Topics portal remembers recently viewed topics under `sacred-pathways:recent-topics` (key prefix `sacred-pathways:`). Nothing is sent anywhere — it's local-only progress for a smoother return visit.
+
+The home page used to keep a recent-portals list of its own. That UI is gone, so the writes and readers behind it were removed rather than left storing data nothing reads; `getRecentTopics`/`recordTopicVisit` are what remain in `storage.js`.
 
 ## Content safety
 
