@@ -525,9 +525,23 @@ function renderSkills() {
   );
 }
 
-export default function RelationshipPractice({ initialSection }) {
-  const initial = PRACTICE_TABS.some((t) => t.id === initialSection) ? initialSection : "foundations";
-  const [tab, setTab] = useState(initial);
+export default function RelationshipPractice({ initialSection, onOpenSection }) {
+  // Each practice tab id is a routable ?section= value, so when the hub gives
+  // us a router the URL owns the visible tab and every switch is a history
+  // entry. `localTab` is the fallback for a router-less render.
+  const routedTab = PRACTICE_TABS.some((t) => t.id === initialSection) ? initialSection : null;
+  const [localTab, setLocalTab] = useState(routedTab ?? "foundations");
+  const [lastSection, setLastSection] = useState(initialSection);
+  if (initialSection !== lastSection) {
+    setLastSection(initialSection);
+    setLocalTab(routedTab ?? "foundations");
+  }
+
+  const tab = routedTab ?? localTab;
+  const setTab = (id) => {
+    setLocalTab(id);
+    onOpenSection?.(id);
+  };
 
   const renderTab = () => {
     if (tab === "skills") return renderSkills();
