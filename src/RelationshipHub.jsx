@@ -125,7 +125,16 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
   }
 
   if (tab === "patterns") {
-    return <RelationshipPatterns onBack={() => setTab("overview")} initialSection={initial.sub} />;
+    return (
+      <RelationshipPatterns
+        onBack={() => {
+          if (onNavigate) onNavigate("relationshiphub");
+          else setTab("overview");
+        }}
+        onOpenSection={openSection}
+        initialSection={initial.sub}
+      />
+    );
   }
 
   if (tab === "practice") {

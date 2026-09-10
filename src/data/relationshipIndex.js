@@ -28,7 +28,7 @@
 export const claritySectionIds = [
   // Reflection
   "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "secure-alternative",
-  "pedestalizing", "trauma-bond-vs-true-love",
+  "trauma-bond-vs-true-love",
   // Dating & attraction
   "attracted-vs-infatuated", "attraction-pitfalls", "limerence",
   "dating-operant-conditioning", "investment-vs-vulnerability", "emotional-immaturity",
@@ -55,7 +55,7 @@ export const claritySectionIds = [
 ];
 
 export const patternSectionIds = [
-  "attachment-styles", "neediness-loop", "ghosting-wounds", "emotional-independence",
+  "attachment-styles", "neediness-loop", "ghosting-wounds", "pedestalizing", "emotional-independence",
   "secure-love", "early-trauma-confessional",
   // new
   "codependency-vs-interdependence", "pursuer-distancer-cycle", "conflict-patterns",
@@ -519,7 +519,7 @@ export const relationshipSections = [
     id: "pedestalizing",
     title: "Pedestalizing",
     category: "Relationship Patterns",
-    owner: "clarity",
+    owner: "patterns",
     section: "pedestalizing",
     summary: "Placing someone above you until you disappear — equality is the correction.",
     tags: ["pedestalizing", "idolizing", "self-worth", "equality"],
