@@ -33,32 +33,6 @@ export function writeJSON(key, value) {
   safeSet(key, JSON.stringify(value));
 }
 
-const RECENTS_KEY = 'recents';
-const MAX_RECENTS = 5;
-
-export function getRecentPortals() {
-  const list = readJSON(RECENTS_KEY, []);
-  return Array.isArray(list) ? list : [];
-}
-
-export function recordPortalVisit(portalId) {
-  if (!portalId) return;
-  const current = getRecentPortals().filter((id) => id !== portalId);
-  current.unshift(portalId);
-  writeJSON(RECENTS_KEY, current.slice(0, MAX_RECENTS));
-}
-
-const LAST_PORTAL_KEY = 'last-portal';
-
-export function getLastPortal() {
-  return safeGet(LAST_PORTAL_KEY);
-}
-
-export function setLastPortal(portalId) {
-  if (!portalId) return;
-  safeSet(LAST_PORTAL_KEY, portalId);
-}
-
 // Recently viewed Spiritual Topics (Topics & Dictionary portal). Stored under
 // sacred-pathways:recent-topics — most-recent first, capped.
 const RECENT_TOPICS_KEY = 'recent-topics';

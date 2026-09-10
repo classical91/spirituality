@@ -88,11 +88,16 @@
     <div id="root">
       <main class="boot-fallback" id="boot-fallback">
         <h1 class="boot-fallback__title">Sacred <span>Pathways</span></h1>
-        <section class="boot-fallback__card" aria-labelledby="brave-recovery-title">
-          <p class="boot-fallback__eyebrow">Browser recovery</p>
-          <h2 id="brave-recovery-title">Brave has paused the app</h2>
-          <p>Tap the orange lion in the address bar, turn Shields off for this site, then reload the page.</p>
-          <a href="/?reload=20260727">Reload Sacred Pathways</a>
+        <!-- Shown only while the app has not started: main.jsx replaces #root on
+             boot, so this stays visible exactly when something stopped the
+             scripts from running. That could be a network problem, a failed
+             build, or a blocker — Brave's Shields being the one that has come up
+             — so the heading names the symptom rather than guessing the cause. -->
+        <section class="boot-fallback__card" aria-labelledby="boot-recovery-title">
+          <p class="boot-fallback__eyebrow">Recovery</p>
+          <h2 id="boot-recovery-title">Sacred Pathways couldn&rsquo;t start</h2>
+          <p>Reloading usually fixes it. If it keeps happening, check your connection, or try turning off any browser shields or blockers for this site &mdash; in Brave, tap the orange lion in the address bar and switch Shields off.</p>
+          <a href="/?reload=20260910">Reload Sacred Pathways</a>
         </section>
       </main>
     </div>

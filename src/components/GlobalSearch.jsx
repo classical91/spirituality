@@ -1,5 +1,12 @@
 // Single global search bar that filters the portal grid AND surfaces
 // matching sections from inside each portal.
+//
+// The home page renders this twice — once for the mobile layout, once for the
+// desktop one — and hides whichever does not apply in CSS. Both stay in the
+// DOM, so the label and input are tied together by a useId() value rather than
+// a fixed id: two elements sharing one id is invalid, and it lets a click on
+// the visible label focus the hidden copy's input instead.
+import { useId } from 'react';
 import { portalsById } from '../data/portals';
 
 export default function GlobalSearch({
@@ -10,6 +17,8 @@ export default function GlobalSearch({
   sectionResults = [],
   onSectionPick,
 }) {
+  const inputId = useId();
+
   return (
     <div
       style={{
@@ -19,7 +28,7 @@ export default function GlobalSearch({
       }}
     >
       <label
-        htmlFor="sacred-search"
+        htmlFor={inputId}
         style={{
           position: 'relative',
           display: 'flex',
@@ -38,7 +47,7 @@ export default function GlobalSearch({
           ⌕
         </span>
         <input
-          id="sacred-search"
+          id={inputId}
           type="search"
           placeholder="Search across portals — try 'shadow work', 'oxytocin', 'attachment'"
           value={value}
