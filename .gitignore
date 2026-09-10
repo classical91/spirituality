@@ -12,6 +12,13 @@ dist
 dist-ssr
 *.local
 
+# Local environment files. Nothing in the app reads these today — the app is a
+# static SPA and server.mjs takes only PORT — but an ignored .env is what keeps
+# a future one out of a public repository.
+.env
+.env.*
+!.env.example
+
 .claude/
 
 # Editor directories and files
