@@ -14,6 +14,7 @@ import { createServer } from 'node:http';
 import { dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import handler from 'serve-handler';
+import { REFRESHING_AFFIRMATIONS } from './src/lib/affirmations.js';
 import { resolveDaily } from './src/lib/daily.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -98,11 +99,42 @@ const handleDaily = (request, response, url) => {
   });
 };
 
+/**
+ * Every refreshing affirmation, as the home screen has them.
+ *
+ * The whole list rather than one pick, because the picking is the feature: the
+ * home screen rotates every twelve seconds and shuffles on demand, and a caller
+ * that had to ask the server for each new line would be making a request every
+ * twelve seconds to do it. These are sixty short strings and they do not change
+ * between deploys, so the caller can hold them and do its own rotating.
+ *
+ * Not part of /api/daily, which answers "what is true about this date". An
+ * affirmation is not a property of the day — it is the same list every day.
+ */
+const handleAffirmations = (request, response) => {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return sendJson(response, 405, {
+      error: 'method_not_allowed',
+      message: 'Only GET is supported for the affirmations.',
+    });
+  }
+
+  return sendJson(response, 200, {
+    count: REFRESHING_AFFIRMATIONS.length,
+    affirmations: REFRESHING_AFFIRMATIONS,
+  });
+};
+
 const server = createServer((request, response) => {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
 
   if (url.pathname === '/api/daily') {
     handleDaily(request, response, url);
+    return;
+  }
+
+  if (url.pathname === '/api/affirmations') {
+    handleAffirmations(request, response);
     return;
   }
 
