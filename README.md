@@ -139,6 +139,95 @@ other pages.
 There is no authentication, because there is nothing personal here: every
 visitor to the home screen already sees both of these.
 
+## Cosmic Theme API
+
+`GET /api/cosmic?date=YYYY-MM-DD`
+
+One theme for the day, read from today's transits against a natal chart. Main
+Hub's Daily Dashboard shows it beside the prayer.
+
+The chart in this example is an invented one, as it is in the tests — see below
+for why there is not a real one anywhere in this repository.
+
+```json
+{
+  "date": "2026-09-14",
+  "theme": "Public tides",
+  "interpretation": "Moon stands opposite your natal Sun in Taurus today — it stirs your work where people can see it. In the sky today the Moon is square Pluto and letting go through the day: an old reaction comes up at full size. Underneath it, Jupiter is still conjunct your natal Ascendant in Leo: more room than usual, for as long as it lasts.",
+  "badges": [
+    { "label": "Love", "active": false },
+    { "label": "Career", "active": true },
+    { "label": "Money", "active": false },
+    { "label": "Inner Work", "active": true }
+  ],
+  "transits": [
+    "Transiting Moon in Scorpio opposite natal Sun in Taurus",
+    "Moon square transiting Pluto, 0.2° and separating",
+    "Transiting Jupiter in Leo conjunct natal Ascendant in Leo"
+  ],
+  "path": "/sacred-systems?section=natal-chart"
+}
+```
+
+`date` is the caller's calendar day, exactly as it is for `/api/daily`.
+
+### The chart lives in the environment, not in this repository
+
+**`NATAL_CHART`** holds it, as JSON. This repository is public and a birth chart
+is not: committing one here would publish it, and go on publishing it from the
+history even if it were taken back out. So the deployment has the chart and the
+source has the shape of one.
+
+```
+NATAL_CHART={"placements":[{"body":"Sun","sign":"Taurus","house":10},{"body":"Moon","sign":"Pisces","house":8}]}
+```
+
+Each placement is a body, the sign it is in, and the house it is in — the three
+things a whole-sign reading needs, and no birth time or birth place among them.
+`Ascendant` and `Midheaven` are placements like any other. Anything the reader
+cannot make sense of (a sign that is not a sign, a house outside 1–12) is
+dropped rather than failing the chart, and a chart with nothing readable left is
+treated as no chart at all.
+
+**No chart set is a setup step, not an outage.** The endpoint still answers
+`200`, with an empty `theme` and a `message` naming the variable to set, so a
+dashboard shows a sentence rather than a red error over something nobody has
+filled in yet. The boot log says the same thing.
+
+### Where a theme comes from
+
+`src/lib/ephemeris.js` says where the planets are. Closed-form series rather
+than an ephemeris service, because a theme for the day should not stop being
+available because a third party is down: Meeus' low-precision Sun, the standard
+truncated lunar series, and JPL's Keplerian elements for the planets. That is
+accurate to well under a degree, and "which sign, and is it retrograde" is not a
+question that needs arcseconds. Retrograde is measured rather than looked up — a
+body is retrograde when its longitude is shrinking — so it is right on the days
+either side of a station, which a table of dates would not be.
+
+`src/lib/cosmicTheme.js` reads those positions against the chart, in three
+layers, because **aspects do not produce a new theme every twenty-four hours**
+and a card that changed daily because it was supposed to would be making it up:
+
+| Layer | What it is | How often it moves |
+| --- | --- | --- |
+| The chapter | The slowest body contacting the chart — Saturn, Pluto and the rest | Months |
+| The day | The Moon's contact with the chart, by sign | Every two or three days |
+| The hour | The Moon's aspects to the other moving bodies, by degree and orb | Within a day |
+
+The theme is named from the day layer: where in a life it lands, then what the
+Moon is doing there. The paragraph carries all three, so two mornings in one
+week do not read identically even when the theme itself has not moved.
+
+Everything is a table. There is no generated prose and no randomness — the same
+chart and the same date give the same theme, today and in ten years — and a day
+is read at midday UTC, so it has exactly one sky however often it is asked.
+
+**Every answer names the transits it was read from**, and the card prints them
+under "Read from". That line is the whole difference between a reading and a
+horoscope, and it is what makes this endpoint checkable: the positions are in
+the response, and anyone with an ephemeris can see whether they are right.
+
 ## Project structure
 
 ```
