@@ -13,13 +13,20 @@ import {
   randomTeacher,
   teacherMatches,
 } from './data/wisdomTeachers';
+import {
+  cachedProfile,
+  loadAllProfiles,
+  loadProfile,
+  mergeProfile,
+} from './data/wisdomProfiles/index.js';
 
 // Wisdom Atlas — a reflective library of spiritual teachers and inner-work
 // traditions. Each teacher is offered in three layers: a compact card with
 // the essence, an expandable panel with key ideas and practice, and a
 // dedicated page (/wisdom?section=<id>) with the complete wisdom profile.
-// The teacher content itself lives in src/data/wisdomTeachers.js; this file
-// keeps only the rendering.
+// The teacher content itself lives in src/data/wisdomTeachers.js (cards) and
+// src/data/wisdomProfiles/<id>.js (the long-form profile, one chunk each,
+// fetched on demand); this file keeps only the rendering.
 // (CSS class names keep the historical `fa-` prefix; they are internal.)
 
 // Tabs split the atlas into focused views instead of one long scroll.
@@ -156,7 +163,7 @@ function ProfileSection({ title, subtitle, collapsible = false, defaultOpen = tr
 /* ─── TeacherProfile: the complete wisdom profile body ─── */
 /* Shared by each teacher's dedicated page. Every section is guarded so   */
 /* teachers with a lighter record still read cleanly.                     */
-function TeacherProfile({ t, onOpenRelated }) {
+function TeacherProfile({ t, onOpenRelated, profileLoading = false }) {
   const related = relatedTeachersOf(t);
   const reading = readingListOf(t);
   const ctx = t.context;
@@ -169,6 +176,13 @@ function TeacherProfile({ t, onOpenRelated }) {
     <div className="fa-profile">
       {/* 1 · essence */}
       {t.essence && <div className="fa-modal-essence">"{t.essence}"</div>}
+
+      {/* The long-form half of this teacher is its own chunk. Until it lands
+          every section below is empty, so say that rather than showing a page
+          that looks like it has nothing in it. */}
+      {profileLoading && (
+        <p className="fa-profile-loading" role="status">Loading the full profile…</p>
+      )}
 
       {/* 2 · overview */}
       {t.overview?.length > 0 && (
@@ -395,7 +409,7 @@ function TeacherProfile({ t, onOpenRelated }) {
 
 /* ─── TeacherPage: a teacher's own dedicated reading page ─── */
 /* Reached at /wisdom?section=<id> — where "Reading for Today" jumps in. */
-function TeacherPage({ t, onHome, onBackToAtlas, onOpenRelated }) {
+function TeacherPage({ t, onHome, onBackToAtlas, onOpenRelated, profileLoading = false }) {
   return (
     <div className="fa">
       {/* top bar */}
@@ -420,7 +434,7 @@ function TeacherPage({ t, onHome, onBackToAtlas, onOpenRelated }) {
           </header>
 
           <div className="fa-modal-body">
-            <TeacherProfile t={t} onOpenRelated={onOpenRelated} />
+            <TeacherProfile t={t} onOpenRelated={onOpenRelated} profileLoading={profileLoading} />
           </div>
 
           <button className="fa-btn" onClick={onBackToAtlas}>← Back to all teachers</button>
@@ -453,7 +467,43 @@ export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   const activeId = isTeacherId(initialSection) ? initialSection : localId;
-  const activeTeacher = activeId ? teacherById[activeId] : null;
+  const activeCard = activeId ? teacherById[activeId] : null;
+
+  // A teacher's own page is the only thing that reads the long-form layer, and
+  // that layer is a separate chunk per teacher. Fetch it when the id changes:
+  // the card header renders immediately either way, and the profile sections
+  // fill in when it arrives. `fetched` exists to re-render once the chunk lands;
+  // the cache is what the value below is actually read from, so a teacher opened
+  // twice — or already pulled in by the search warm-up — costs no second fetch.
+  const [fetched, setFetched] = useState(null);
+  useEffect(() => {
+    if (!activeId) return undefined;
+    let alive = true;
+    loadProfile(activeId).then((profile) => {
+      if (alive) setFetched({ id: activeId, profile });
+    });
+    return () => { alive = false; };
+  }, [activeId]);
+
+  const activeProfile = activeId
+    ? cachedProfile(activeId) ?? (fetched?.id === activeId ? fetched.profile : null)
+    : null;
+  const activeTeacher = activeCard ? mergeProfile(activeCard, activeProfile) : null;
+
+  // The library search matches the long-form text too (see SEARCHABLE_KEYS), and
+  // that text is not bundled with the atlas. So the first keystroke starts the
+  // fetch — from the change handler rather than an effect, since typing is the
+  // event that needs it — and the filter re-runs over the merged teachers once
+  // the chunks are in. Until then it matches the cards, which is why results can
+  // widen a moment after typing. Anyone who only browses never pays for this.
+  const [deepSearch, setDeepSearch] = useState('idle');
+
+  function changeQuery(value) {
+    setQuery(value);
+    if (!value.trim() || deepSearch !== 'idle') return;
+    setDeepSearch('loading');
+    loadAllProfiles().then(() => setDeepSearch('ready'));
+  }
 
   // Open a teacher's own page. Push the section URL when we can so the page is
   // shareable; the local id keeps it responsive before the URL settles.
@@ -469,13 +519,22 @@ export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
   // Start each tab at the top rather than wherever the last one was scrolled.
   useEffect(() => { window.scrollTo({ top: 0 }); }, [tab]);
 
-  // Search runs over the flattened profile text (see teacherSearchText), so
-  // terms from the expanded sections are findable too.
-  const filtered = useMemo(() => teachers.filter((t) => (
+  // What the search runs over: cards until the profiles arrive, then each card
+  // merged with its profile so terms from the long-form sections are findable
+  // too. Built once per state rather than per keystroke, which also keeps the
+  // flattened-text cache in wisdomTeachers.js effective.
+  const searchable = useMemo(() => (
+    deepSearch === 'ready'
+      ? teachers.map((card) => mergeProfile(card, cachedProfile(card.id)))
+      : teachers
+  ), [deepSearch]);
+
+
+  const filtered = useMemo(() => searchable.filter((t) => (
     teacherMatches(t, query)
       && (categoryFilter === 'all' || t.category === categoryFilter)
       && (lineageFilter  === 'all' || t.lineage  === lineageFilter)
-  )), [query, categoryFilter, lineageFilter]);
+  )), [searchable, query, categoryFilter, lineageFilter]);
 
   const catTeachers = teachersInCategory(activeCategory);
 
@@ -493,6 +552,7 @@ export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
         onHome={onBack}
         onBackToAtlas={backToAtlas}
         onOpenRelated={openTeacher}
+        profileLoading={!activeProfile}
       />
     );
   }
@@ -584,9 +644,12 @@ export default function WisdomAtlas({ onBack, onNavigate, initialSection }) {
               <input
                 className="fa-input"
                 value={query}
-                onChange={(e) => setQuery(e.target.value)}
+                onChange={(e) => changeQuery(e.target.value)}
                 placeholder="Try: imagination, surrender, shadow, subconscious, assumption..."
               />
+              {deepSearch === 'loading' && (
+                <span className="fa-search-note" role="status">Searching the full profiles…</span>
+              )}
             </div>
             <div className="fa-field">
               <label>Tradition</label>

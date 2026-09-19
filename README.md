@@ -255,6 +255,9 @@ src/
     portals.js               # Portal catalog (routes, copy, search terms)
     searchIndex.js           # Curated cross-portal Deep Search index
     spiritualTopics.js       # Topics & Dictionary content (pure data module)
+    wisdomTeachers.js        # Wisdom Atlas teacher cards + helpers (card layer)
+    wisdomProfiles/          # One long-form teacher profile per file, loaded on demand
+      index.js               #   loader + session cache; see "Wisdom Atlas" below
     hinduChakras.js
     raChakras.js
     baileyChakras.js
@@ -268,6 +271,35 @@ src/
 ## Routing
 
 Each portal has a real URL (`/chakra`, `/astrology`, etc.) backed by `window.history.pushState` — back/forward buttons work, links are shareable, and unknown paths fall back to the home page.
+
+## Wisdom Atlas (`/wisdom/teachers`)
+
+Each teacher is stored in two layers, in two places:
+
+| Layer | Where | Read by |
+|-------|-------|---------|
+| Card — `id`, `name`, `era`, `tradition`, `category`, `lineage`, `color`, `essence`, `core`, `keyIdeas`, `practice`, `bestFor`, `misunderstanding`, `complements`, `relatedTeachers`, `trap`, `prompt`, `books`, `note` | `teachers` in [`src/data/wisdomTeachers.js`](src/data/wisdomTeachers.js) | the library cards, Traditions, Compare, and the atlas chunk |
+| Profile — `overview`, `context`, `teachings`, `practiceSteps`, `example`, `distinctions`, `cautions`, `relatedNotes`, `reading`, `reflectionQuestions` | one file per teacher in [`src/data/wisdomProfiles/`](src/data/wisdomProfiles) | only that teacher's page at `?section=<id>` |
+
+The profile layer is 86% of the atlas's data — about 490 kB of 570 kB across 53
+teachers — and nothing that browses the library needs it. So it is not bundled
+with the atlas: each profile is its own chunk, fetched when that teacher's page
+opens (~9 kB) and cached for the session. Keeping the atlas chunk at ~120 kB
+instead of ~620 kB is the whole point of the split, so **don't put profile
+fields back in `wisdomTeachers.js`** — a test fails if you do.
+
+The one thing that reads across both layers is the library search, which matches
+the long-form text as well as the cards. It can't do that from the atlas chunk
+alone, so the first keystroke fetches the profile chunks in parallel and re-runs
+the filter: shallow matches appear immediately, deeper ones a moment later.
+Anyone who only browses never downloads them.
+
+### How to add a teacher
+
+1. Append the card to `teachers` in [`wisdomTeachers.js`](src/data/wisdomTeachers.js) with a stable kebab-case `id` and a `category` from the `categories` list.
+2. Create `src/data/wisdomProfiles/<id>.js` exporting the profile layer as its default export — copy the shape from a neighbour.
+3. Add `'<id>': () => import('./<id>.js'),` to the `loaders` map in [`wisdomProfiles/index.js`](src/data/wisdomProfiles/index.js). The map is written out by hand rather than globbed so each import gets its own chunk and Node can load it in a test.
+4. `npm test` checks all of it: one profile per teacher and no orphans, a file on disk for every id in the map, no field in the wrong layer, and the long-form shape (`teachings` needing `title`/`explanation`/`significance`, and so on) — see [`src/data/__tests__/wisdomTeachers.test.js`](src/data/__tests__/wisdomTeachers.test.js).
 
 ## Relationship Hub (`/relationship-hub`)
 

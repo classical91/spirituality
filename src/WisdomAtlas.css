@@ -389,6 +389,20 @@
   margin: 0 0 7px 3px;
 }
 
+/* Shown while the profile chunks are in flight: on a teacher page until that
+   teacher's long-form half lands, and under the search box while the first
+   keystroke pulls the profiles the deep search needs. */
+.fa-search-note,
+.fa-profile-loading {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  letter-spacing: .02em;
+}
+
+.fa-search-note { margin: 7px 0 0 3px; }
+.fa-profile-loading { margin: 0 0 18px; }
+
 .fa-input, .fa-select {
   width: 100%;
   color: var(--txt);
