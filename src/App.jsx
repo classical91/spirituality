@@ -22,6 +22,7 @@ const SexualEnergyDashboard = lazy(() => import('./SexualEnergyDashboard'));
 const DailyPracticePortal = lazy(() => import('./DailyPracticePortal'));
 const RelationshipHub = lazy(() => import('./RelationshipHub'));
 const TopicsPortal = lazy(() => import('./TopicsPortal'));
+const SettingsPortal = lazy(() => import('./SettingsPortal'));
 
 
 const RELATIONSHIP_SECTION_REDIRECTS = new Set([
@@ -141,6 +142,7 @@ export default function App() {
   }, [search]);
 
   const goHome = useCallback(() => navigate('/'), [navigate]);
+  const goSettings = useCallback(() => navigate('/settings'), [navigate]);
 
   const goPortal = useCallback(
     (portalId, { section } = {}) => {
@@ -176,6 +178,13 @@ export default function App() {
   );
 
   function renderRoute() {
+  // Settings is not a portal: it edits the library the portals draw from
+  // rather than being a place to read, so it stays out of the home grid and
+  // the search index and is reached from the home screen's gear instead.
+  if (path === '/settings') {
+    return <SettingsPortal onBack={goHome} initialSection={initialSection} />;
+  }
+
   const activePortal = portalsByPath[path];
   if (activePortal) {
     // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
@@ -269,7 +278,7 @@ export default function App() {
     if (typeof window !== 'undefined') {
       window.history.replaceState({}, '', '/');
     }
-    return <HomePage onNavigate={goPortal} />;
+    return <HomePage onNavigate={goPortal} onOpenSettings={goSettings} />;
   }
 
   // Backward-compat: old standalone routes redirect into InnerAtlas
@@ -339,6 +348,6 @@ export default function App() {
   }
 
   homeView = true;
-  return <HomePage onNavigate={goPortal} />;
+  return <HomePage onNavigate={goPortal} onOpenSettings={goSettings} />;
   }
 }

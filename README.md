@@ -263,10 +263,28 @@ src/
     baileyChakras.js
   hooks/
     useRoute.js              # History-API routing hook
+  SettingsPortal.jsx         # Settings — manage prayers and affirmations (/settings)
   lib/
     relationshipRouting.js   # Relationship Hub ?section= resolution
+    library.js               # The editable prayer/affirmation library (see below)
     storage.js               # localStorage helpers (recent topics)
 ```
+
+## Settings — your library (`/settings`)
+
+`prayerPool.js` and `src/lib/affirmations.js` are the lists the app ships with. Settings is the screen that makes them yours: it lists every prayer and every affirmation and lets you **add** your own, **edit** the wording, **delete** what you do not use, and **restore** anything you removed. The home screen's Daily Prayer and Refreshing Affirmation rotate through whatever is left, so an edit shows up there immediately — no reload, and across tabs.
+
+Reached from the home screen's "Manage prayers & affirmations" button, or directly at `/settings` (`?section=affirmations` opens that tab). It is deliberately not a portal: it edits the content the portals draw from rather than being a place to read, so it stays out of the home grid and the search index.
+
+`src/lib/library.js` owns the whole thing:
+
+- **Shipped entries are never rewritten.** Deleting one hides it and editing one stores the new wording beside it, so "restore" can always put the original back — and so the next release's edits to the source files still land.
+- **Ids come from the text**, not from the array index, so inserting a prayer above a hidden one cannot move somebody's "hidden" flag onto a different prayer.
+- **Your own entries** are stored whole and are deleted outright.
+- Everything lives in `localStorage` under `sacred-pathways:library:prayers` and `sacred-pathways:library:affirmations`. "Reset to defaults" throws the overlay away.
+- Screens subscribe with `subscribe()` and read the cached snapshot through `useSyncExternalStore`; `reloadFromStorage()` is for changes made behind the module's back (another tab, a test).
+
+The `/api/daily` and `/api/affirmations` endpoints keep serving the **shipped** lists. The library is per-browser and the server has neither `localStorage` nor a single user, so `lib/daily.js` reads `prayerPool` directly and is unaffected by anything done in Settings.
 
 ## Routing
 
@@ -413,6 +431,8 @@ A **topic entry** is a concise concept guide (definition, comparison, a few prac
 ## Persistence
 
 The Topics portal remembers recently viewed topics under `sacred-pathways:recent-topics` (key prefix `sacred-pathways:`). Nothing is sent anywhere — it's local-only progress for a smoother return visit.
+
+Settings stores the prayer and affirmation library under `sacred-pathways:library:prayers` and `sacred-pathways:library:affirmations` — your own entries, your edits to the shipped ones, and the ones you removed. Same local-only deal: clearing site data returns the lists to what the app ships with.
 
 The home page used to keep a recent-portals list of its own. That UI is gone, so the writes and readers behind it were removed rather than left storing data nothing reads; `getRecentTopics`/`recordTopicVisit` are what remain in `storage.js`.
 

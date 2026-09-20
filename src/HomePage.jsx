@@ -1,11 +1,17 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useSyncExternalStore } from 'react';
 import PortalCard from './components/PortalCard';
 import GlobalSearch from './components/GlobalSearch';
 import { portals, portalsById, searchEverything, groupPortalsByCategory } from './data/portals';
-import { getDailyPrayer } from './lib/daily.js';
+
 import { getDailyReading, READING_POOL } from './lib/dailyReading';
 import './HomePage.css';
-import { getRefreshingAffirmation, getNextAffirmation } from './lib/affirmations.js';
+import {
+  affirmationLibrary,
+  getLibraryAffirmation,
+  getLibraryDailyPrayer,
+  getRevision,
+  subscribe as subscribeToLibrary,
+} from './lib/library.js';
 
 // Pick a different reading than the one currently shown, for the shuffle button.
 function getRandomReading(excludeTitle) {
@@ -34,8 +40,41 @@ const LENS_COLORS = {
 
 const AFFIRMATION_REFRESH_MS = 12000;
 
-function DailyPrayerCard() {
-  const prayer = getDailyPrayer();
+// The prayer and the affirmation both come from the editable library rather
+// than straight from the source lists, so what Settings adds, edits, or removes
+// is what the home screen shows — without a reload, and across tabs.
+function useLibraryRevision() {
+  return useSyncExternalStore(subscribeToLibrary, getRevision, getRevision);
+}
+
+function EmptyLibraryCard({ label, onOpenSettings }) {
+  return (
+    <div style={{
+      width: '100%', maxWidth: '680px', borderRadius: '20px',
+      border: '1px dashed rgba(255,255,255,0.16)', background: 'rgba(255,255,255,0.03)',
+      padding: 'clamp(16px, 3vw, 22px)', textAlign: 'left',
+    }}>
+      <div style={{ fontSize: '0.72rem', fontWeight: 700, letterSpacing: '0.12em', textTransform: 'uppercase', color: '#7a7096', marginBottom: '8px' }}>
+        ✦ {label}
+      </div>
+      <p style={{ margin: 0, fontSize: '0.9rem', lineHeight: 1.6, color: '#a89ec4' }}>
+        Your library is empty.{' '}
+        <button
+          type="button"
+          onClick={onOpenSettings}
+          style={{ background: 'none', border: 'none', padding: 0, color: '#c4b5fd', font: 'inherit', fontWeight: 800, cursor: 'pointer', textDecoration: 'underline' }}
+        >
+          Add one in Settings
+        </button>{' '}
+        or restore the defaults.
+      </p>
+    </div>
+  );
+}
+
+function DailyPrayerCard({ onOpenSettings }) {
+  useLibraryRevision(); // re-render when Settings changes the library
+  const prayer = getLibraryDailyPrayer();
   const typeColors = {
     'Commandment':    { border: 'rgba(251,191,36,0.28)',  bg: 'rgba(251,191,36,0.07)',  badge: 'rgba(251,191,36,0.15)',  badgeBorder: 'rgba(251,191,36,0.35)',  badgeText: '#fde68a' },
     'Virtue':         { border: 'rgba(52,211,153,0.28)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.15)',  badgeBorder: 'rgba(52,211,153,0.35)',  badgeText: '#6ee7b7' },
@@ -43,6 +82,9 @@ function DailyPrayerCard() {
     "Dante's Inferno":{ border: 'rgba(167,139,250,0.28)', bg: 'rgba(167,139,250,0.07)', badge: 'rgba(167,139,250,0.15)', badgeBorder: 'rgba(167,139,250,0.35)', badgeText: '#c4b5fd' },
     'Traditional':    { border: 'rgba(96,165,250,0.28)',  bg: 'rgba(96,165,250,0.07)',  badge: 'rgba(96,165,250,0.15)',  badgeBorder: 'rgba(96,165,250,0.35)',  badgeText: '#93c5fd' },
   };
+  // The library can be emptied from Settings. Rather than vanish, the card says
+  // where the prayers went and how to get them back.
+  if (!prayer) return <EmptyLibraryCard label="Daily Prayer" onOpenSettings={onOpenSettings} />;
   const c = typeColors[prayer.type] || typeColors['Commandment'];
 
   return (
@@ -317,22 +359,38 @@ function DailyShortcuts({ onNavigate }) {
   );
 }
 
-export default function HomePage({ onNavigate }) {
+export default function HomePage({ onNavigate, onOpenSettings }) {
   const [query, setQuery] = useState('');
-  const [refreshingAffirmation, setRefreshingAffirmation] = useState(() => getRefreshingAffirmation());
+  const [refreshingAffirmation, setRefreshingAffirmation] = useState(() => getLibraryAffirmation());
 
   // "Refreshing" isn't just a name — it rotates on its own so the card never
   // goes stale on a long-open tab. A manual shuffle (below) restarts the clock
   // so a deliberate click isn't immediately overwritten by a pending tick.
   useEffect(() => {
     const id = setInterval(() => {
-      setRefreshingAffirmation((current) => getNextAffirmation(current.line));
+      setRefreshingAffirmation((current) => getLibraryAffirmation(current?.line));
     }, AFFIRMATION_REFRESH_MS);
     return () => clearInterval(id);
   }, [refreshingAffirmation]);
 
+  // Editing the library in Settings can delete or reword the line on screen.
+  // Leaving it up would show an affirmation that no longer exists, so the card
+  // moves to a current one as soon as its own is gone.
+  useEffect(
+    () =>
+      subscribeToLibrary(() => {
+        setRefreshingAffirmation((current) => {
+          const live = affirmationLibrary.active();
+          const stillThere =
+            current && live.some((entry) => entry.id === current.id && entry.line === current.line);
+          return stillThere ? current : getLibraryAffirmation();
+        });
+      }),
+    []
+  );
+
   const shuffleAffirmation = () => {
-    setRefreshingAffirmation((current) => getNextAffirmation(current.line));
+    setRefreshingAffirmation((current) => getLibraryAffirmation(current?.line));
   };
 
   const { portals: filtered, sections: sectionResults } = useMemo(
@@ -430,6 +488,29 @@ export default function HomePage({ onNavigate }) {
                 Pathways
               </span>
             </h1>
+            <button
+              type="button"
+              onClick={onOpenSettings}
+              aria-label="Open settings — manage prayers and affirmations"
+              style={{
+                marginTop: '14px',
+                display: 'inline-flex',
+                alignItems: 'center',
+                gap: '8px',
+                borderRadius: '999px',
+                border: '1px solid rgba(255,255,255,0.14)',
+                background: 'rgba(255,255,255,0.05)',
+                color: '#d8ceff',
+                padding: '8px 14px',
+                fontFamily: 'inherit',
+                fontSize: '0.78rem',
+                fontWeight: 800,
+                cursor: 'pointer',
+              }}
+            >
+              <span aria-hidden="true">⚙</span>
+              Manage prayers &amp; affirmations
+            </button>
           </div>
 
           <div
@@ -439,8 +520,12 @@ export default function HomePage({ onNavigate }) {
               alignContent: 'center',
             }}
           >
-            <RefreshingAffirmationCard affirmation={refreshingAffirmation} onShuffle={shuffleAffirmation} />
-            <DailyPrayerCard />
+            {refreshingAffirmation ? (
+              <RefreshingAffirmationCard affirmation={refreshingAffirmation} onShuffle={shuffleAffirmation} />
+            ) : (
+              <EmptyLibraryCard label="Refreshing Affirmation" onOpenSettings={onOpenSettings} />
+            )}
+            <DailyPrayerCard onOpenSettings={onOpenSettings} />
             <DailyReadingCard onNavigate={onNavigate} />
           </div>
           </section>
