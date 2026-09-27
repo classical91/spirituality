@@ -22,6 +22,10 @@ import handler from 'serve-handler';
 import { REFRESHING_AFFIRMATIONS } from './src/lib/affirmations.js';
 import { resolveDaily } from './src/lib/daily.js';
 import { parseNatalChart, resolveCosmicTheme } from './src/lib/cosmicTheme.js';
+import {
+  DEFAULT_HOUR, DEFAULT_MINUTE, FORECAST_FUTURE_DAYS, MAX_FUTURE_DAYS,
+  isDateKey, isTimeZone, resolveTransitForecast,
+} from './src/lib/transitForecast.js';
 import { portalPath } from './src/lib/portalPath.js';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -210,6 +214,109 @@ const handleCosmic = (request, response, url) => {
   });
 };
 
+/**
+ * The zone a forecast day is read in when the caller does not name one.
+ *
+ * FORECAST_TIMEZONE if set, else the process's own TZ, else UTC. Main Hub
+ * names its zone explicitly, so this is only the fallback for a bare request.
+ */
+const forecastTimeZone = [process.env.FORECAST_TIMEZONE, process.env.TZ, 'UTC']
+  .find((zone) => isTimeZone(zone));
+
+/** Today's calendar day in a zone, as YYYY-MM-DD. */
+const todayIn = (timeZone) => new Intl.DateTimeFormat('en-CA', {
+  timeZone, year: 'numeric', month: '2-digit', day: '2-digit',
+}).format(new Date());
+
+/** An optional whole-number query parameter within a range; undefined if absent, NaN if bad. */
+const intParam = (url, name, min, max) => {
+  const raw = url.searchParams.get(name);
+  if (raw === null || raw.trim() === '') return undefined;
+  if (!/^\d+$/.test(raw.trim())) return Number.NaN;
+  const value = Number(raw);
+  return value >= min && value <= max ? value : Number.NaN;
+};
+
+/**
+ * Only what a card needs from one transit. The natal longitude is deliberately
+ * left behind: over a fortnight the Moon alone touches nearly every placement,
+ * so passing each contact's natal degree on would publish the whole chart one
+ * contact at a time.
+ */
+const publicTransit = ({
+  transit, natal, aspect, transitLongitude, orb, allowedOrb, applying, retrograde, tone, worth,
+}) => ({ transit, natal, aspect, transitLongitude, orb, allowedOrb, applying, retrograde, tone, worth });
+
+const publicSnapshot = ({ strongestPositive, strongestNegative, transits, ...totals }) => ({
+  ...totals,
+  strongestPositive: strongestPositive && publicTransit(strongestPositive),
+  strongestNegative: strongestNegative && publicTransit(strongestNegative),
+  transits: transits.map(publicTransit),
+});
+
+/**
+ * Every natal transit for today and the next fourteen days, each scored.
+ *
+ * A separate reading from /api/cosmic, which stays exactly as it was: that one
+ * names the day, this one counts it. Query: date (YYYY-MM-DD), days (future
+ * days, default 14), hour and minute (local wall clock, default 12:00) and
+ * timezone (IANA, default FORECAST_TIMEZONE). The chart stays here; see
+ * publicTransit for what leaves.
+ */
+const handleTransits = (request, response, url) => {
+  if (request.method !== 'GET' && request.method !== 'HEAD') {
+    return sendJson(response, 405, {
+      error: 'method_not_allowed',
+      message: 'Only GET is supported for the transit forecast.',
+    });
+  }
+
+  const timeZone = url.searchParams.get('timezone')?.trim() || forecastTimeZone;
+  if (!isTimeZone(timeZone)) {
+    return sendJson(response, 400, { error: 'invalid_timezone', message: 'timezone must be an IANA zone such as America/Vancouver.' });
+  }
+
+  const startDate = url.searchParams.get('date')?.trim() || todayIn(timeZone);
+  if (!isDateKey(startDate)) {
+    return sendJson(response, 400, { error: 'invalid_date', message: 'date must be a real calendar day in YYYY-MM-DD form.' });
+  }
+
+  const days = intParam(url, 'days', 0, MAX_FUTURE_DAYS) ?? FORECAST_FUTURE_DAYS;
+  const hour = intParam(url, 'hour', 0, 23) ?? DEFAULT_HOUR;
+  const minute = intParam(url, 'minute', 0, 59) ?? DEFAULT_MINUTE;
+  if (Number.isNaN(days)) {
+    return sendJson(response, 400, { error: 'invalid_days', message: `days must be a whole number from 0 to ${MAX_FUTURE_DAYS}.` });
+  }
+  if (Number.isNaN(hour) || Number.isNaN(minute)) {
+    return sendJson(response, 400, { error: 'invalid_time', message: 'hour must be 0–23 and minute 0–59.' });
+  }
+
+  // Same stance as /api/cosmic: no chart is a setup step, so a 200 that says so.
+  if (!natalChart) {
+    return sendJson(response, 200, {
+      startDate, futureDays: days, timezone: timeZone, snapshots: [],
+      message: `No natal chart is set on Sacred Pathways — set NATAL_CHART on this service to read one. (${natalChartError})`,
+    });
+  }
+
+  const forecast = resolveTransitForecast(natalChart, { startDate, days, hour, minute, timeZone });
+  return sendJson(response, 200, {
+    startDate: forecast.startDate,
+    futureDays: forecast.futureDays,
+    includeStartDate: forecast.includeStartDate,
+    hour: forecast.hour,
+    minute: forecast.minute,
+    timezone: forecast.timeZone,
+    precision: natalChart.precision,
+    ...(forecast.natalPointsUsed ? {} : {
+      message: 'The natal chart has no exact degrees, so no exact-orb transits can be read. Add degree or longitude to each placement.',
+    }),
+    worthModel: 'Approximation inspired by Café Astrology\'s transit presentation; not their unpublished formula.',
+    snapshots: forecast.snapshots.map(publicSnapshot),
+    path: portalPath('astrology'),
+  });
+};
+
 const server = createServer((request, response) => {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
 
@@ -225,6 +332,11 @@ const server = createServer((request, response) => {
 
   if (url.pathname === '/api/cosmic') {
     handleCosmic(request, response, url);
+    return;
+  }
+
+  if (url.pathname === '/api/transits') {
+    handleTransits(request, response, url);
     return;
   }
 

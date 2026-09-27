@@ -26,6 +26,7 @@
 // Everything here is a table. There is no generated prose and no randomness: the
 // same chart and the same date give the same theme, today and in ten years.
 
+import { MAJOR_ASPECTS, separation } from './aspects.js';
 import { BODIES, SIGNS, positionsFor } from './ephemeris.js';
 
 /** The four parts of a life the card carries badges for. */
@@ -48,13 +49,19 @@ const ASPECTS = {
   6: { name: 'opposite', verb: 'stands opposite', tone: 'hard', weight: 0.9 },
 };
 
-/** Exact longitude aspects used when every natal placement carries a degree. */
+/**
+ * Exact longitude aspects used when every natal placement carries a degree.
+ *
+ * The angles come from aspects.js, which the transit forecast reads too; what
+ * this module adds is its own vocabulary and its own weights for choosing a
+ * lead. The printed names ("conjunct", "opposite") are the card's, unchanged.
+ */
 const EXACT_ASPECTS = [
-  { angle: 0, name: 'conjunct', verb: 'sits on', tone: 'charged', weight: 1.0 },
-  { angle: 60, name: 'sextile', verb: 'angles toward', tone: 'easy', weight: 0.55 },
-  { angle: 90, name: 'square', verb: 'squares', tone: 'hard', weight: 0.85 },
-  { angle: 120, name: 'trine', verb: 'trines', tone: 'easy', weight: 0.8 },
-  { angle: 180, name: 'opposite', verb: 'stands opposite', tone: 'hard', weight: 0.9 },
+  { angle: MAJOR_ASPECTS.conjunction.angle, name: 'conjunct', verb: 'sits on', tone: 'charged', weight: 1.0 },
+  { angle: MAJOR_ASPECTS.sextile.angle, name: 'sextile', verb: 'angles toward', tone: 'easy', weight: 0.55 },
+  { angle: MAJOR_ASPECTS.square.angle, name: 'square', verb: 'squares', tone: 'hard', weight: 0.85 },
+  { angle: MAJOR_ASPECTS.trine.angle, name: 'trine', verb: 'trines', tone: 'easy', weight: 0.8 },
+  { angle: MAJOR_ASPECTS.opposition.angle, name: 'opposite', verb: 'stands opposite', tone: 'hard', weight: 0.9 },
 ];
 
 // Cafe Astrology's compact transit table is deliberately tight. Keeping this
@@ -170,13 +177,7 @@ const HOUSE_QUALIFIER = {
  * thirteen degrees a day is a window of about half a day. This is the layer
  * that makes one morning different from the next.
  */
-const DEGREE_ASPECTS = [
-  { angle: 0, name: 'conjunct', tone: 'charged' },
-  { angle: 60, name: 'sextile', tone: 'easy' },
-  { angle: 90, name: 'square', tone: 'hard' },
-  { angle: 120, name: 'trine', tone: 'easy' },
-  { angle: 180, name: 'opposite', tone: 'hard' },
-];
+const DEGREE_ASPECTS = EXACT_ASPECTS.map(({ angle, name, tone }) => ({ angle, name, tone }));
 
 const MOON_ORB = 6;
 
@@ -354,12 +355,6 @@ function contactsFor(chart, instant) {
   return contacts.sort((a, b) => b.weight - a.weight
     || BODIES.indexOf(a.transit) - BODIES.indexOf(b.transit)
     || String(a.natal).localeCompare(String(b.natal)));
-}
-
-/** The separation between two longitudes, folded into 0–180. */
-function separation(a, b) {
-  const delta = Math.abs(((a - b) % 360 + 360) % 360);
-  return delta > 180 ? 360 - delta : delta;
 }
 
 /** The Moon's tightest aspect to another moving body: the day's own weather. */

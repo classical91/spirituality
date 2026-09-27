@@ -31,6 +31,37 @@ describe('the ephemeris', () => {
     }
   });
 
+  it('stays on Swiss Ephemeris across several dates, including the 0° Aries wrap', () => {
+    // More independent benchmarks in the same style as the one above, computed
+    // with Swiss Ephemeris (pyswisseph, Moshier mode). The transit forecast
+    // reads every one of its positions through positionsFor(), so this is what
+    // its orbs ultimately rest on. The 2025 March equinox instant puts the Sun
+    // at 359.999° and Neptune at 359.6°, so the wrap is measured, not assumed.
+    const benchmarks = {
+      '2025-03-20T09:00:00Z': {
+        Sun: 359.999, Moon: 246.3446, Mercury: 7.8912, Venus: 4.3249, Mars: 110.2494,
+        Jupiter: 74.3183, Saturn: 353.075, Uranus: 54.2622, Neptune: 359.6173, Pluto: 303.3449,
+      },
+      '2026-01-01T00:00:00Z': {
+        Sun: 280.5686, Moon: 66.7158, Mercury: 268.6516, Venus: 279.2065, Mars: 282.6882,
+        Jupiter: 111.3577, Saturn: 356.1673, Uranus: 57.9493, Neptune: 359.5068, Pluto: 302.7185,
+      },
+      '2027-06-15T18:30:00Z': {
+        Sun: 84.4455, Moon: 227.2137, Mercury: 95.4616, Venus: 68.8396, Mars: 164.1745,
+        Jupiter: 142.5516, Saturn: 25.4125, Uranus: 66.8916, Neptune: 6.4997, Pluto: 306.8604,
+      },
+    };
+
+    for (const [moment, expected] of Object.entries(benchmarks)) {
+      const sky = Object.fromEntries(positionsFor(new Date(moment)).map((p) => [p.body, p.longitude]));
+      for (const [body, longitude] of Object.entries(expected)) {
+        // Folded so 359.999° against 0.001° reads as a hundredth, not 360.
+        const error = Math.abs(((sky[body] - longitude) % 360 + 540) % 360 - 180);
+        assert.ok(error < 0.01, `${body} at ${moment} missed by ${error.toFixed(4)}°`);
+      }
+    }
+  });
+
   it('crosses the equinox points on the days the calendar says', () => {
     // The strongest check available without a second ephemeris to compare
     // against: the equinoxes are *defined* as the Sun reaching 0° Aries and 0°
