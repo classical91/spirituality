@@ -173,7 +173,7 @@ describe("today's cosmic theme", () => {
     assert.equal(reading.precision, 'exact-degree');
     assert.equal(reading.theme, 'Material accounting');
     assert.match(reading.interpretation, /^Saturn stands opposite your natal Moon/);
-    assert.match(reading.transits[0], /Saturn in Aries opposite natal Moon in Libra, 0\.4° orb/);
+    assert.match(reading.transits[0], /Saturn in Aries opposite natal Moon in Libra, 0\.6° orb/);
     assert.doesNotMatch(reading.transits[0], /Moon in Aries opposite natal Moon/);
   });
 });

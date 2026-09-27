@@ -15,6 +15,22 @@ import {
 } from '../ephemeris.js';
 
 describe('the ephemeris', () => {
+  it('matches published high-precision geocentric longitudes closely enough for exact orbs', () => {
+    // Swiss Ephemeris positions for 2026-09-27 12:00 UTC. These are an
+    // independent benchmark, not values copied from this implementation.
+    const instant = new Date('2026-09-27T12:00:00Z');
+    const expected = {
+      Sun: 184.4033, Moon: 14.5418, Mercury: 205.9211, Venus: 217.8610,
+      Mars: 119.6364, Jupiter: 138.9562, Saturn: 11.8514,
+      Uranus: 65.5794, Neptune: 2.9588, Pluto: 303.1495,
+    };
+
+    for (const [body, longitude] of Object.entries(expected)) {
+      const error = Math.abs(longitudeOf(body, instant) - longitude);
+      assert.ok(error < 0.01, `${body} missed the benchmark by ${error.toFixed(4)}°`);
+    }
+  });
+
   it('crosses the equinox points on the days the calendar says', () => {
     // The strongest check available without a second ephemeris to compare
     // against: the equinoxes are *defined* as the Sun reaching 0° Aries and 0°

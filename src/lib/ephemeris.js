@@ -3,21 +3,14 @@
 // The Cosmic Theme is a reading of today's sky against a natal chart, so
 // something has to say where today's sky actually is. This does, and it does it
 // here rather than by asking an ephemeris service: a theme for the day must not
-// stop being available because a third party is down, and the positions a whole-
-// sign reading needs — which sign a planet is in, and whether it is retrograde —
-// are well within what closed-form formulae give.
-//
-// Accuracy, and why this much is enough. The Sun is Meeus' low-precision series
-// (better than a hundredth of a degree); the Moon is the standard truncated
-// lunar series (a few tenths); the planets come from JPL's "Approximate
-// Positions of the Major Planets" Keplerian elements, which the JPL notes give
-// under an arcminute for the inner planets and a few arcminutes for the outer
-// ones between 1800 and 2050. A reading that asks "which sign, and is it
-// retrograde" needs degrees, not arcseconds — the one case where a tenth of a
-// degree could change an answer is a planet within a tenth of a degree of a
-// sign boundary, and that planet changes the answer for a few hours at most.
+// stop being available because a third party is down. Astronomy Engine ships
+// its VSOP87/ELP numerical model with the app, so exact-degree natal contacts do
+// not depend on a network service and stay within a few arcseconds of Swiss
+// Ephemeris for the dates this dashboard reads.
 //
 // Nothing here is a chart. It is longitudes; cosmicTheme.js is what reads them.
+
+import { Body, Ecliptic, GeoVector } from 'astronomy-engine';
 
 const DEG = Math.PI / 180;
 const TWO_PI = Math.PI * 2;
@@ -191,10 +184,17 @@ export const BODIES = [
 
 /** One body's geocentric longitude in degrees. */
 export function longitudeOf(body, date) {
-  if (body === 'Sun') return sunLongitude(date);
-  if (body === 'Moon') return moonLongitude(date);
-  if (!ELEMENTS[body] || body === 'Earth') throw new Error(`No ephemeris for ${body}.`);
-  return planetLongitude(body, date);
+  const astronomyBody = Body[body];
+  if (!astronomyBody || body === 'Earth') throw new Error(`No ephemeris for ${body}.`);
+  try {
+    return Ecliptic(GeoVector(astronomyBody, date, true)).elon;
+  } catch {
+    // The bundled closed-form implementation remains an offline fallback for
+    // an unexpected numerical failure rather than turning the whole card red.
+    if (body === 'Sun') return sunLongitude(date);
+    if (body === 'Moon') return moonLongitude(date);
+    return planetLongitude(body, date);
+  }
 }
 
 /** Which sign a longitude falls in, and how far into it. */

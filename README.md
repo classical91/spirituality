@@ -203,14 +203,12 @@ filled in yet. The boot log says the same thing.
 
 ### Where a theme comes from
 
-`src/lib/ephemeris.js` says where the planets are. Closed-form series rather
-than an ephemeris service, because a theme for the day should not stop being
-available because a third party is down: Meeus' low-precision Sun, the standard
-truncated lunar series, and JPL's Keplerian elements for the planets. That is
-accurate to well under a degree, and "which sign, and is it retrograde" is not a
-question that needs arcseconds. Retrograde is measured rather than looked up — a
-body is retrograde when its longitude is shrinking — so it is right on the days
-either side of a station, which a table of dates would not be.
+`src/lib/ephemeris.js` says where the planets are. Astronomy Engine's bundled
+VSOP87/ELP model is used rather than a network ephemeris, because a theme for the
+day should not stop being available because a third party is down. A benchmark
+test holds all ten transiting bodies within 0.01° of independent Swiss Ephemeris
+positions. Retrograde is measured rather than looked up — a body is retrograde
+when its longitude is shrinking — so it remains correct around station dates.
 
 `src/lib/cosmicTheme.js` reads those positions against the chart. An exact chart
 first ranks active natal contacts by orb, transiting-body weight, and natal-point
