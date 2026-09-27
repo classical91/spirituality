@@ -229,6 +229,59 @@ Everything is a table. There is no generated prose and no randomness — the sam
 chart and the same date give the same theme, today and in ten years — and a day
 is read at midday UTC, so it has exactly one sky however often it is asked.
 
+## Transit Forecast API
+
+`GET /api/transits?date=YYYY-MM-DD&days=14&hour=12&minute=0&timezone=America/Vancouver`
+
+A separate, quantitative layer beside the Cosmic Theme — which stays exactly as
+it is. The Cosmic Theme names the day from one lead contact; the forecast lists
+**every** natal transit within orb for the start date plus the next `days` days
+(default 14, so fifteen snapshots), each with a signed Worth, and totals each day.
+
+All parameters are optional. `hour`/`minute` are the local wall-clock time each
+day is read at (default 12:00) in `timezone` (IANA; default `FORECAST_TIMEZONE`,
+then `TZ`, then UTC), converted to UTC before any position is calculated.
+
+```json
+{
+  "startDate": "2026-09-27", "futureDays": 14, "includeStartDate": true,
+  "hour": 12, "minute": 0, "timezone": "America/Vancouver",
+  "precision": "exact-degree",
+  "worthModel": "Approximation inspired by Café Astrology's transit presentation; not their unpublished formula.",
+  "snapshots": [{
+    "date": "2026-09-27", "instant": "2026-09-27T19:00:00.000Z",
+    "positive": 556, "negative": -829, "total": -273, "transitCount": 14,
+    "strongestPositive": { "...": "a transit" }, "strongestNegative": { "...": "a transit" },
+    "transits": [{
+      "transit": "Saturn", "natal": "Moon", "aspect": "opposition",
+      "transitLongitude": 11.826, "orb": 0.626, "allowedOrb": 3,
+      "applying": true, "retrograde": true, "tone": "negative", "worth": -338
+    }]
+  }],
+  "path": "/sacred-systems?section=natal-chart"
+}
+```
+
+`negative` is a signed sum (never an absolute value) and `total = positive +
+negative`. Transits are sorted by absolute Worth. Only placements with an exact
+degree are used. The engine's records also carry `natalLongitude`; the endpoint
+drops it so the chart is not published one contact at a time.
+
+**Worth is not Café Astrology's number.** Their coefficients are not public.
+`src/lib/transitForecast.js` computes
+
+```
+worth = round(polarity × 500 × TRANSIT_PLANET_WEIGHT × NATAL_POINT_WEIGHT
+              × ASPECT_WEIGHT × (1 − orb / allowedOrb)^ORB_DECAY_EXPONENT)
+```
+
+with every coefficient in a named table. Trines and sextiles are positive,
+squares and oppositions negative; a conjunction's polarity comes from
+`CONJUNCTION_RULES`, and one no rule covers is reported as `neutral` with Worth
+0. Allowed orbs come from `TRANSIT_ORBS` × per-body/per-point factors. The
+aspect angles themselves live in `src/lib/aspects.js`, shared with the Cosmic
+Theme.
+
 **Every answer names the transits it was read from**, and the card prints them
 under "Read from". That line is the whole difference between a reading and a
 horoscope, and it is what makes this endpoint checkable: the positions are in
