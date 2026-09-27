@@ -152,6 +152,7 @@ for why there is not a real one anywhere in this repository.
 ```json
 {
   "date": "2026-09-14",
+  "precision": "exact-degree",
   "theme": "Public tides",
   "interpretation": "Moon stands opposite your natal Sun in Taurus today — it stirs your work where people can see it. In the sky today the Moon is square Pluto and letting go through the day: an old reaction comes up at full size. Underneath it, Jupiter is still conjunct your natal Ascendant in Leo: more room than usual, for as long as it lasts.",
   "badges": [
@@ -179,15 +180,21 @@ history even if it were taken back out. So the deployment has the chart and the
 source has the shape of one.
 
 ```
-NATAL_CHART={"placements":[{"body":"Sun","sign":"Taurus","house":10},{"body":"Moon","sign":"Pisces","house":8}]}
+NATAL_CHART={"placements":[{"body":"Sun","sign":"Taurus","degree":8.42,"house":10},{"body":"Moon","sign":"Pisces","degree":21.07,"house":8}]}
 ```
 
-Each placement is a body, the sign it is in, and the house it is in — the three
-things a whole-sign reading needs, and no birth time or birth place among them.
-`Ascendant` and `Midheaven` are placements like any other. Anything the reader
-cannot make sense of (a sign that is not a sign, a house outside 1–12) is
-dropped rather than failing the chart, and a chart with nothing readable left is
-treated as no chart at all.
+Each placement is a body, sign, degree within that sign, and house. `longitude`
+(0–360) may be supplied instead of `degree` (0–30). When every placement has a
+valid degree, natal aspects use exact longitudes, a tight three-degree orb, and
+the highest-impact close contact names the theme. The response then says
+`"precision":"exact-degree"` and prints each natal orb under **Read from**.
+
+Legacy sign-and-house charts remain readable and say `"precision":"whole-sign"`;
+they keep the earlier broad daily-theme behaviour rather than pretending to
+have exact orbs. `Ascendant` and `Midheaven` are placements like any other.
+Anything the reader cannot make sense of (a sign that is not a sign, a house
+outside 1–12) is dropped rather than failing the chart, and a chart with nothing
+readable left is treated as no chart at all.
 
 **No chart set is a setup step, not an outage.** The endpoint still answers
 `200`, with an empty `theme` and a `message` naming the variable to set, so a
@@ -205,9 +212,10 @@ question that needs arcseconds. Retrograde is measured rather than looked up —
 body is retrograde when its longitude is shrinking — so it is right on the days
 either side of a station, which a table of dates would not be.
 
-`src/lib/cosmicTheme.js` reads those positions against the chart, in three
-layers, because **aspects do not produce a new theme every twenty-four hours**
-and a card that changed daily because it was supposed to would be making it up:
+`src/lib/cosmicTheme.js` reads those positions against the chart. An exact chart
+first ranks active natal contacts by orb, transiting-body weight, and natal-point
+weight; the strongest contact names the theme. A legacy sign-only chart keeps
+the earlier three-layer reading until its private configuration is upgraded:
 
 | Layer | What it is | How often it moves |
 | --- | --- | --- |

@@ -48,6 +48,20 @@ const ASPECTS = {
   6: { name: 'opposite', verb: 'stands opposite', tone: 'hard', weight: 0.9 },
 };
 
+/** Exact longitude aspects used when every natal placement carries a degree. */
+const EXACT_ASPECTS = [
+  { angle: 0, name: 'conjunct', verb: 'sits on', tone: 'charged', weight: 1.0 },
+  { angle: 60, name: 'sextile', verb: 'angles toward', tone: 'easy', weight: 0.55 },
+  { angle: 90, name: 'square', verb: 'squares', tone: 'hard', weight: 0.85 },
+  { angle: 120, name: 'trine', verb: 'trines', tone: 'easy', weight: 0.8 },
+  { angle: 180, name: 'opposite', verb: 'stands opposite', tone: 'hard', weight: 0.9 },
+];
+
+// Cafe Astrology's compact transit table is deliberately tight. Keeping this
+// at three degrees prevents a same-sign or opposite-sign relationship from
+// being described as an active transit when the two bodies are far apart.
+const NATAL_ORB = 3;
+
 /**
  * How much a transiting body counts.
  *
@@ -232,11 +246,28 @@ export function parseNatalChart(value) {
   if (!raw || typeof raw !== 'object') return { chart: null, error: 'The chart is not an object.' };
 
   const placements = (Array.isArray(raw.placements) ? raw.placements : [])
-    .map((entry) => ({
-      body: String(entry?.body ?? '').trim(),
-      sign: String(entry?.sign ?? '').trim(),
-      house: Number(entry?.house),
-    }))
+    .map((entry) => {
+      const sign = String(entry?.sign ?? '').trim();
+      const signPosition = signIndex(sign);
+      const suppliedDegree = entry?.degree !== undefined && entry?.degree !== null
+        && String(entry.degree).trim() !== '' ? Number(entry.degree) : null;
+      const suppliedLongitude = entry?.longitude !== undefined && entry?.longitude !== null
+        && String(entry.longitude).trim() !== '' ? Number(entry.longitude) : null;
+      const longitude = Number.isFinite(suppliedLongitude)
+        && suppliedLongitude >= 0 && suppliedLongitude < 360
+        ? suppliedLongitude
+        : Number.isFinite(suppliedDegree) && suppliedDegree >= 0 && suppliedDegree < 30
+          && signPosition >= 0
+          ? signPosition * 30 + suppliedDegree
+          : null;
+
+      return {
+        body: String(entry?.body ?? '').trim(),
+        sign,
+        house: Number(entry?.house),
+        ...(longitude === null ? {} : { longitude }),
+      };
+    })
     .filter((entry) => entry.body
       && signIndex(entry.sign) >= 0
       && Number.isInteger(entry.house)
@@ -246,7 +277,8 @@ export function parseNatalChart(value) {
     return { chart: null, error: 'The chart has no placements this app can read.' };
   }
 
-  return { chart: { placements }, error: null };
+  const exact = placements.every((entry) => Number.isFinite(entry.longitude));
+  return { chart: { placements, precision: exact ? 'exact-degree' : 'whole-sign' }, error: null };
 }
 
 /**
@@ -264,16 +296,40 @@ export function instantFor(dateKey) {
 /** Every contact between the day's sky and the chart, strongest first. */
 function contactsFor(chart, instant) {
   const sky = positionsFor(instant);
+  const soon = chart.precision === 'exact-degree'
+    ? Object.fromEntries(positionsFor(new Date(instant.getTime() + 3600000))
+      .map((entry) => [entry.body, entry]))
+    : null;
   const contacts = [];
 
   for (const position of sky) {
     for (const placement of chart.placements) {
-      const aspect = aspectBetween(position.sign, placement.sign);
+      let aspect;
+      let orb = null;
+      let applying = null;
+
+      if (chart.precision === 'exact-degree') {
+        aspect = EXACT_ASPECTS
+          .map((candidate) => ({
+            ...candidate,
+            orb: Math.abs(separation(position.longitude, placement.longitude) - candidate.angle),
+          }))
+          .sort((a, b) => a.orb - b.orb)[0];
+        if (!aspect || aspect.orb > NATAL_ORB) continue;
+        orb = aspect.orb;
+        const orbSoon = Math.abs(
+          separation(soon[position.body].longitude, placement.longitude) - aspect.angle,
+        );
+        applying = orbSoon < orb;
+      } else {
+        aspect = aspectBetween(position.sign, placement.sign);
+      }
       if (!aspect) continue;
 
-      const weight = aspect.weight
+      const baseWeight = aspect.weight
         * (TRANSIT_WEIGHT[position.body] ?? 0.5)
         * (NATAL_WEIGHT[placement.body] ?? 0.5);
+      const weight = orb === null ? baseWeight : baseWeight * (1 - orb / NATAL_ORB);
 
       contacts.push({
         transit: position.body,
@@ -286,6 +342,8 @@ function contactsFor(chart, instant) {
         verb: aspect.verb,
         tone: aspect.tone,
         weight,
+        orb,
+        applying,
         fast: DAY_BODIES.has(position.body),
       });
     }
@@ -345,8 +403,11 @@ function weatherFor(instant) {
 /** The line the card prints under "Read from". */
 function describe(contact) {
   const retrograde = contact.retrograde ? ' retrograde' : '';
+  const exact = contact.orb === null
+    ? ''
+    : `, ${contact.orb.toFixed(1)}° orb and ${contact.applying ? 'applying' : 'separating'}`;
   return `Transiting${retrograde} ${contact.transit} in ${contact.transitSign} `
-    + `${contact.aspect} natal ${contact.natal} in ${contact.natalSign}`;
+    + `${contact.aspect} natal ${contact.natal} in ${contact.natalSign}${exact}`;
 }
 
 /** Which parts of a life a contact touches. */
@@ -370,14 +431,16 @@ export function resolveCosmicTheme(chart, dateKey) {
   const contacts = contactsFor(chart, instant);
   if (!contacts.length) return null;
 
-  // The Moon names the theme, because the Moon is what makes a day a day. Only
-  // when it is touching nothing does a slower body get to speak for one.
-  const lead = contacts.find((contact) => contact.transit === 'Moon')
-    ?? contacts.find((contact) => contact.fast)
-    ?? contacts[0];
+  // An exact chart lets the closest, highest-impact transit speak first. A
+  // legacy sign-only chart keeps the old Moon-led daily-theme behaviour until
+  // its private configuration is upgraded with degrees.
+  const lead = chart.precision === 'exact-degree'
+    ? contacts[0]
+    : contacts.find((contact) => contact.transit === 'Moon')
+      ?? contacts.find((contact) => contact.fast)
+      ?? contacts[0];
 
-  const backdrop = contacts.find((contact) => !contact.fast && contact.natal !== lead.natal)
-    ?? contacts.find((contact) => !contact.fast)
+  const backdrop = contacts.find((contact) => contact !== lead && !contact.fast)
     ?? null;
 
   const weather = weatherFor(instant);
@@ -427,6 +490,7 @@ export function resolveCosmicTheme(chart, dateKey) {
   if (backdrop) readFrom.push(describe(backdrop));
 
   return {
+    precision: chart.precision,
     theme: `${qualifier} ${noun}`,
     // Three sentences: the chapter, the day, and what is underneath it. A card
     // has room for a paragraph, and a reading that needs five sentences is two

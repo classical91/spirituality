@@ -40,6 +40,22 @@ const days = (count, from = Date.UTC(2026, 8, 14)) => Array.from({ length: count
 describe('reading a natal chart', () => {
   it('takes a chart as an object or as the JSON a variable holds it in', () => {
     assert.deepEqual(chartOf(FIXTURE), chartOf(JSON.stringify(FIXTURE)));
+    assert.equal(chartOf(FIXTURE).precision, 'whole-sign');
+  });
+
+  it('keeps valid natal degrees private in the parsed chart and marks it exact', () => {
+    const chart = chartOf({
+      placements: [
+        { body: 'Sun', sign: 'Capricorn', degree: 6.1, house: 4 },
+        { body: 'Moon', sign: 'Libra', longitude: 191.2, house: 2 },
+      ],
+    });
+
+    assert.equal(chart.precision, 'exact-degree');
+    assert.deepEqual(chart.placements.map(({ body, longitude }) => ({ body, longitude })), [
+      { body: 'Sun', longitude: 276.1 },
+      { body: 'Moon', longitude: 191.2 },
+    ]);
   });
 
   it('says what is wrong rather than guessing', () => {
@@ -140,5 +156,24 @@ describe("today's cosmic theme", () => {
         assert.doesNotMatch(line, /natal (?!Sun)/, `"${line}" is about a placement this chart has not got`);
       }
     }
+  });
+
+  it('uses exact orbs and lets the strongest exact transit lead', () => {
+    const chart = chartOf({
+      placements: [
+        // Saturn is at 11.55° Aries on this date, making this opposition tight.
+        { body: 'Moon', sign: 'Libra', degree: 11.2, house: 2 },
+        // Uranus is at 5.20° Gemini, making this trine even closer by orb but
+        // less personally weighted than Saturn contacting the natal Moon.
+        { body: 'Saturn', sign: 'Aquarius', degree: 5.25, house: 5 },
+      ],
+    });
+
+    const reading = resolveCosmicTheme(chart, '2026-09-27');
+    assert.equal(reading.precision, 'exact-degree');
+    assert.equal(reading.theme, 'Material accounting');
+    assert.match(reading.interpretation, /^Saturn stands opposite your natal Moon/);
+    assert.match(reading.transits[0], /Saturn in Aries opposite natal Moon in Libra, 0\.4° orb/);
+    assert.doesNotMatch(reading.transits[0], /Moon in Aries opposite natal Moon/);
   });
 });
