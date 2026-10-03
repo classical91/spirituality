@@ -316,18 +316,22 @@ describe('the fourteen-day window', () => {
 describe('the moment each day is read', () => {
   it('turns a wall-clock time in a zone into the right UTC instant', () => {
     assert.equal(zonedInstant('2026-09-27', 14, 0, 'America/Vancouver').toISOString(), '2026-09-27T21:00:00.000Z');
-    assert.equal(zonedInstant('2026-12-01', 14, 0, 'America/Vancouver').toISOString(), '2026-12-01T22:00:00.000Z');
+    // Winter time from a zone whose rules are settled in every tz release.
+    // (Not Vancouver: newer tzdata keeps British Columbia on UTC−7 all year
+    // from November 2026, older releases fall back — the code follows
+    // whichever the runtime ships, so a test must not pin either.)
+    assert.equal(zonedInstant('2026-12-01', 14, 0, 'America/New_York').toISOString(), '2026-12-01T19:00:00.000Z');
     assert.equal(zonedInstant('2026-09-27', 12, 0, 'UTC').toISOString(), '2026-09-27T12:00:00.000Z');
     assert.equal(zonedInstant('2026-09-27', 9, 30, 'Asia/Kolkata').toISOString(), '2026-09-27T04:00:00.000Z');
   });
 
   it('keeps local noon across a daylight-saving change', () => {
-    // Vancouver leaves PDT for PST on 2026-11-01.
+    // New York leaves EDT for EST on 2026-11-01.
     const result = resolveTransitForecast(chart, {
-      startDate: '2026-10-31', days: 1, timeZone: 'America/Vancouver',
+      startDate: '2026-10-31', days: 1, timeZone: 'America/New_York',
     });
     assert.deepEqual(result.snapshots.map((s) => s.instant),
-      ['2026-10-31T19:00:00.000Z', '2026-11-01T20:00:00.000Z']);
+      ['2026-10-31T16:00:00.000Z', '2026-11-01T17:00:00.000Z']);
   });
 
   it('reads the Moon where it is at the requested hour, not at noon UTC', () => {
