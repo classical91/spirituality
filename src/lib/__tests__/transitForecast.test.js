@@ -9,12 +9,12 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 
 import { MAJOR_ASPECTS, separation } from '../aspects.js';
-import { parseNatalChart } from '../cosmicTheme.js';
+import { instantFor, parseNatalChart, resolveCosmicTheme } from '../cosmicTheme.js';
 import { longitudeOf, positionsFor } from '../ephemeris.js';
 import {
   ASPECT_WEIGHT, FORECAST_FUTURE_DAYS, INCLUDE_START_DATE, NATAL_POINT_WEIGHT,
   TRANSIT_ORBS, TRANSIT_PLANET_WEIGHT, WORTH_BASE_SCALE,
-  addDays, allowedOrb, calculateTransitWorth, orbStrength,
+  addDays, allowedOrb, calculateTransitWorth, conjunctionPolarity, orbStrength,
   resolveTransitForecast, summarize, transitsAt, zonedInstant,
 } from '../transitForecast.js';
 
@@ -207,9 +207,25 @@ describe('Worth', () => {
     assert.ok(conj('Jupiter', 'Sun').worth > 0);
     assert.equal(conj('Saturn', 'Sun').tone, 'negative');
     assert.ok(conj('Saturn', 'Sun').worth < 0);
-    const unruled = conj('Uranus', 'Sun');
-    assert.equal(unruled.tone, 'neutral');
-    assert.equal(unruled.worth, 0);
+    // An outer planet leans by tradition, at fractional strength.
+    assert.equal(conj('Uranus', 'Sun').tone, 'negative');
+    const full = Math.abs(calculateTransitWorth({ transit: 'Saturn', natal: 'Sun', aspect: 'conjunction', orb: 0 }));
+    const uranus = Math.abs(calculateTransitWorth({ transit: 'Uranus', natal: 'Sun', aspect: 'conjunction', orb: 0 }));
+    assert.ok(uranus < full);
+    // A body no rule covers is still neutral rather than guessed at.
+    assert.equal(conjunctionPolarity('Vulcan', 'Sun'), 0);
+    assert.equal(calculateTransitWorth({ transit: 'Vulcan', natal: 'Sun', aspect: 'conjunction', orb: 0, allowed: 3 }), 0);
+  });
+
+  it('never scores the Cosmic Theme’s lead transit as neutral', () => {
+    const conj = { conjunct: 'conjunction', opposite: 'opposition' };
+    for (let i = 0; i < 60; i += 1) {
+      const date = addDays('2026-10-03', i);
+      const theme = resolveCosmicTheme(chart, date);
+      const m = /Transiting(?: retrograde)? (\w+) in \w+ (\w+) natal (.+?) in /.exec(theme.transits[0]);
+      const worth = calculateTransitWorth({ transit: m[1], natal: m[3], aspect: conj[m[2]] ?? m[2], orb: 0 });
+      assert.notEqual(worth, 0, `${date}: ${theme.transits[0]}`);
+    }
   });
 
   it('weighs a slow planet above the Moon for the same contact', () => {
@@ -300,18 +316,22 @@ describe('the fourteen-day window', () => {
 describe('the moment each day is read', () => {
   it('turns a wall-clock time in a zone into the right UTC instant', () => {
     assert.equal(zonedInstant('2026-09-27', 14, 0, 'America/Vancouver').toISOString(), '2026-09-27T21:00:00.000Z');
-    assert.equal(zonedInstant('2026-12-01', 14, 0, 'America/Vancouver').toISOString(), '2026-12-01T22:00:00.000Z');
+    // Winter time from a zone whose rules are settled in every tz release.
+    // (Not Vancouver: newer tzdata keeps British Columbia on UTC−7 all year
+    // from November 2026, older releases fall back — the code follows
+    // whichever the runtime ships, so a test must not pin either.)
+    assert.equal(zonedInstant('2026-12-01', 14, 0, 'America/New_York').toISOString(), '2026-12-01T19:00:00.000Z');
     assert.equal(zonedInstant('2026-09-27', 12, 0, 'UTC').toISOString(), '2026-09-27T12:00:00.000Z');
     assert.equal(zonedInstant('2026-09-27', 9, 30, 'Asia/Kolkata').toISOString(), '2026-09-27T04:00:00.000Z');
   });
 
   it('keeps local noon across a daylight-saving change', () => {
-    // Vancouver leaves PDT for PST on 2026-11-01.
+    // New York leaves EDT for EST on 2026-11-01.
     const result = resolveTransitForecast(chart, {
-      startDate: '2026-10-31', days: 1, timeZone: 'America/Vancouver',
+      startDate: '2026-10-31', days: 1, timeZone: 'America/New_York',
     });
     assert.deepEqual(result.snapshots.map((s) => s.instant),
-      ['2026-10-31T19:00:00.000Z', '2026-11-01T20:00:00.000Z']);
+      ['2026-10-31T16:00:00.000Z', '2026-11-01T17:00:00.000Z']);
   });
 
   it('reads the Moon where it is at the requested hour, not at noon UTC', () => {
@@ -324,5 +344,34 @@ describe('the moment each day is read', () => {
     const expected = longitudeOf('Moon', new Date('2026-09-27T21:00:00Z'));
     assert.ok(Math.abs(moon.transitLongitude - expected) < 0.001);
     assert.notEqual(noonUtc?.transitLongitude, moon.transitLongitude);
+  });
+});
+
+describe('reading the same sky as the Cosmic Theme', () => {
+  it('reads the theme at noon UTC by default, exactly as before', () => {
+    const date = '2026-10-03';
+    assert.deepEqual(
+      resolveCosmicTheme(chart, date),
+      resolveCosmicTheme(chart, date, { instant: instantFor(date) }),
+    );
+  });
+
+  it('lets the theme and the forecast read one instant, so they agree on every orb', () => {
+    for (let i = 0; i < 30; i += 1) {
+      const date = addDays('2026-10-03', i);
+      const instant = zonedInstant(date, 12, 0, 'America/Vancouver');
+      const theme = resolveCosmicTheme(chart, date, { instant });
+      const day = resolveTransitForecast(chart, { startDate: date, days: 0, timeZone: 'America/Vancouver' }).snapshots[0];
+      assert.equal(day.instant, instant.toISOString());
+      for (const line of theme.transits.filter((l) => l.startsWith('Transiting'))) {
+        const m = /Transiting(?: retrograde)? (\w+) in \w+ (\w+) natal (.+?) in \w+, ([\d.]+)° orb and (\w+)/.exec(line);
+        const aspect = { conjunct: 'conjunction', opposite: 'opposition' }[m[2]] ?? m[2];
+        const record = find(day.transits, m[1], m[3], aspect);
+        assert.ok(record, `${date}: ${line} is missing from the forecast`);
+        // The theme prints one decimal; the forecast keeps three.
+        assert.ok(Math.abs(record.orb - Number(m[4])) <= 0.051, `${line} vs ${record.orb}`);
+        assert.equal(record.applying, m[5] === 'applying', line);
+      }
+    }
   });
 });

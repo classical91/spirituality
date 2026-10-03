@@ -228,6 +228,8 @@ week do not read identically even when the theme itself has not moved.
 Everything is a table. There is no generated prose and no randomness — the same
 chart and the same date give the same theme, today and in ten years — and a day
 is read at midday UTC, so it has exactly one sky however often it is asked.
+A caller may pass `timezone` (IANA) to read it at local noon in that zone instead
+— Main Hub does, so the theme and `/api/transits` read the same sky.
 
 ## Transit Forecast API
 
@@ -277,8 +279,8 @@ worth = round(polarity × 500 × TRANSIT_PLANET_WEIGHT × NATAL_POINT_WEIGHT
 
 with every coefficient in a named table. Trines and sextiles are positive,
 squares and oppositions negative; a conjunction's polarity comes from
-`CONJUNCTION_RULES`, and one no rule covers is reported as `neutral` with Worth
-0. Allowed orbs come from `TRANSIT_ORBS` × per-body/per-point factors. The
+`CONJUNCTION_RULES` — specific pairs first, then a fractional lean for each
+transiting body — and one no rule covers is reported as `neutral` with Worth 0. Allowed orbs come from `TRANSIT_ORBS` × per-body/per-point factors. The
 aspect angles themselves live in `src/lib/aspects.js`, shared with the Cosmic
 Theme.
 

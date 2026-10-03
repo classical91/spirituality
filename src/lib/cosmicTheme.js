@@ -416,13 +416,15 @@ function domainsOf(contact) {
 /**
  * The reading.
  *
+ * Read at midday UTC unless the caller names the instant — Main Hub passes its
+ * own local noon so the theme and the transit forecast read the same sky.
+ *
  * Returns null only when the chart and the sky share no aspect at all, which
  * over ten bodies and a dozen placements does not happen — but a card that
  * invents a theme on the day it did would be exactly the thing this module
  * exists not to do.
  */
-export function resolveCosmicTheme(chart, dateKey) {
-  const instant = instantFor(dateKey);
+export function resolveCosmicTheme(chart, dateKey, { instant = instantFor(dateKey) } = {}) {
   const contacts = contactsFor(chart, instant);
   if (!contacts.length) return null;
 
