@@ -141,7 +141,8 @@ export const ORB_DECAY_EXPONENT = 1;
  * depends on which two. Rules are checked in order, first match wins, and
  * `'*'` matches any body. `polarity` is signed and may be fractional to soften
  * a lean. No match means the conjunction is reported as neutral with Worth 0 —
- * not guessed at.
+ * not guessed at; every body in the ephemeris now has a rule, so that is left
+ * for points a later table adds.
  */
 export const CONJUNCTION_RULES = [
   // Specific pairs first.
@@ -164,6 +165,18 @@ export const CONJUNCTION_RULES = [
   { transit: 'Moon', natal: 'Saturn', polarity: -1 },
   { transit: 'Mercury', natal: 'Saturn', polarity: -1 },
   { transit: 'Sun', natal: 'Saturn', polarity: -1 },
+  // Every other transiting body leans one way on its own, held to a fractional
+  // polarity because the lean is a tradition, not a certainty: the lights and
+  // Mercury bring focus, Mars friction, and the outer planets upheaval. These
+  // close the gap where the Cosmic Theme could headline a conjunction that
+  // scored 0 here.
+  { transit: 'Sun', natal: '*', polarity: 0.5 },
+  { transit: 'Moon', natal: '*', polarity: 0.25 },
+  { transit: 'Mercury', natal: '*', polarity: 0.25 },
+  { transit: 'Mars', natal: '*', polarity: -0.5 },
+  { transit: 'Uranus', natal: '*', polarity: -0.5 },
+  { transit: 'Neptune', natal: '*', polarity: -0.5 },
+  { transit: 'Pluto', natal: '*', polarity: -0.75 },
 ];
 
 /** The polarity of one conjunction, or 0 when no rule covers it. */

@@ -24,7 +24,7 @@ import { resolveDaily } from './src/lib/daily.js';
 import { parseNatalChart, resolveCosmicTheme } from './src/lib/cosmicTheme.js';
 import {
   DEFAULT_HOUR, DEFAULT_MINUTE, FORECAST_FUTURE_DAYS, MAX_FUTURE_DAYS,
-  isDateKey, isTimeZone, resolveTransitForecast,
+  isDateKey, isTimeZone, resolveTransitForecast, zonedInstant,
 } from './src/lib/transitForecast.js';
 import { portalPath } from './src/lib/portalPath.js';
 
@@ -194,7 +194,16 @@ const handleCosmic = (request, response, url) => {
     });
   }
 
-  const reading = resolveCosmicTheme(natalChart, dateKey);
+  // Optional: read the day at local noon in a named zone rather than at noon
+  // UTC, so the theme reads the same sky as /api/transits for that caller.
+  // Without it the reading is exactly what it has always been.
+  const zone = url.searchParams.get('timezone')?.trim();
+  if (zone && !isTimeZone(zone)) {
+    return sendJson(response, 400, { error: 'invalid_timezone', message: 'timezone must be an IANA zone such as America/Vancouver.' });
+  }
+  const instant = zone ? zonedInstant(dateKey, DEFAULT_HOUR, DEFAULT_MINUTE, zone) : undefined;
+
+  const reading = resolveCosmicTheme(natalChart, dateKey, instant ? { instant } : {});
   if (!reading) {
     return sendJson(response, 200, {
       date: dateKey,
