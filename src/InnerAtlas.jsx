@@ -3,6 +3,7 @@ import InnerBalanceAtlasBase from './InnerBalanceAtlasBase';
 import PsychologyPortal from './PsychologyPortal';
 import ColorPsychologyAtlas from './ColorPsychologyAtlas';
 import EmotionsAtlas from './EmotionsAtlas';
+import { EMOTIONS_SECTION, resolveEmotionSection } from './data/emotions';
 import AwarenessAtlas from './AwarenessAtlas';
 import ConsciousnessMap from './ConsciousnessMap';
 import InnerAtlasShell from './components/InnerAtlasShell';
@@ -24,20 +25,9 @@ const SECTION_MAP = {
   'cognitive-reappraisal': { id: 'thought-patterns',      sub: null },
   'negative-thoughts':     { id: 'thought-patterns',      sub: null },
   'detox':                 { id: 'detox',                 sub: null },
-  'emotions':              { id: 'emotions',              sub: null },
-  'emotion-glossary':      { id: 'emotions',              sub: null },
-  'guidance-spiral':       { id: 'emotions',              sub: null },
-  // Emotion-family deep links (from the daily reading & search) open the
-  // glossary focused on the family the reading is actually about.
-  'emotions-basic':        { id: 'emotions',              sub: 'basic' },
-  'emotions-sad':          { id: 'emotions',              sub: 'sad' },
-  'emotions-angry':        { id: 'emotions',              sub: 'angry' },
-  'emotions-fear':         { id: 'emotions',              sub: 'fear' },
-  'emotions-love':         { id: 'emotions',              sub: 'love' },
-  'emotions-self':         { id: 'emotions',              sub: 'self' },
-  'emotions-social':       { id: 'emotions',              sub: 'social' },
-  'emotions-calm':         { id: 'emotions',              sub: 'calm' },
-  'emotions-mixed':        { id: 'emotions',              sub: 'mixed' },
+  // Emotions pages (emotions, emotions-angry, emotion-resentment,
+  // emotion-glossary, guidance-spiral) are resolved from the emotions catalog
+  // in sectionFor() below rather than listed here.
   // Legacy InnerBalance Atlas tab IDs
   psychophysiology:  { id: 'nervous-system',      sub: 'psychophysiology' },
   stress:            { id: 'nervous-system',      sub: 'stress' },
@@ -1004,6 +994,12 @@ function Hub({ onBack, onSelect }) {
   );
 }
 
+function sectionFor(section) {
+  if (SECTION_MAP[section]) return SECTION_MAP[section];
+  // Emotion sections keep the whole ?section= value: EmotionsAtlas resolves it.
+  return resolveEmotionSection(section) ? { id: 'emotions', sub: section } : null;
+}
+
 // ─── Main component ──────────────────────────────────────────────────────────
 
 export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
@@ -1016,7 +1012,7 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
     }
   }, [redirectRelationship, initialSection, onNavigate]);
 
-  const mapped = SECTION_MAP[initialSection] ?? null;
+  const mapped = sectionFor(initialSection);
   const [activeSection, setActiveSection] = useState(mapped?.id ?? null);
   // The deep-linked sub-section belongs to the section the link aimed at. Once
   // the nav takes you somewhere else, drop it so the new section opens clean.
@@ -1026,19 +1022,31 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
     setActiveSection(null);
   };
 
+  // The Emotions pages live in the URL (so refresh and back/forward return to
+  // the same family or concept); every other section switches in place.
+  const navigateEmotions = onNavigate
+    ? (section) => onNavigate('inneratlas', { section })
+    : null;
+  // Setting state too covers the URL already reading ?section=emotions (the
+  // visitor moved on in place), where navigating would be a no-op.
+  const openSection = (id) => {
+    setActiveSection(id);
+    if (id === 'emotions') navigateEmotions?.(EMOTIONS_SECTION);
+  };
+
   if (redirectRelationship) {
     return null;
   }
 
   if (!activeSection) {
-    return <Hub onBack={onBack} onSelect={setActiveSection} />;
+    return <Hub onBack={onBack} onSelect={openSection} />;
   }
 
   if (activeSection === 'psychology') {
     return (
       <PsychologyPortal
         onBack={goHub}
-        onSelectSection={setActiveSection}
+        onSelectSection={openSection}
         onNavigate={(id, opts) => {
           if (id === 'inneratlas' || id === 'innerbalance') {
             goHub();
@@ -1052,36 +1060,46 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   }
 
   if (activeSection === 'regulation') {
-    return <RegulationTools onBack={goHub} onSelectSection={setActiveSection} />;
+    return <RegulationTools onBack={goHub} onSelectSection={openSection} />;
   }
 
   if (activeSection === 'thought-patterns') {
-    return <ThoughtPatterns onBack={goHub} onSelectSection={setActiveSection} />;
+    return <ThoughtPatterns onBack={goHub} onSelectSection={openSection} />;
   }
 
   if (activeSection === 'emotions') {
-    return <EmotionsAtlas onBack={goHub} onSelectSection={setActiveSection} initialFamily={deepSub} />;
+    return (
+      <EmotionsAtlas
+        onBack={() => {
+          goHub();
+          onNavigate?.('inneratlas');
+        }}
+        onSelectSection={openSection}
+        onNavigateSection={navigateEmotions}
+        initialView={deepSub}
+      />
+    );
   }
 
   if (activeSection === 'awareness') {
-    return <AwarenessAtlas onBack={goHub} onSelectSection={setActiveSection} initialSection={deepSub} />;
+    return <AwarenessAtlas onBack={goHub} onSelectSection={openSection} initialSection={deepSub} />;
   }
 
   if (activeSection === 'consciousness-map') {
-    return <ConsciousnessMap onBack={goHub} onSelectSection={setActiveSection} initialSection={deepSub} />;
+    return <ConsciousnessMap onBack={goHub} onSelectSection={openSection} initialSection={deepSub} />;
   }
 
   if (activeSection === 'detox') {
-    return <DetoxGuide onBack={goHub} onSelectSection={setActiveSection} />;
+    return <DetoxGuide onBack={goHub} onSelectSection={openSection} />;
   }
 
   if (activeSection === 'manifestation') {
-    return <ManifestationBlocks onBack={goHub} onSelectSection={setActiveSection} />;
+    return <ManifestationBlocks onBack={goHub} onSelectSection={openSection} />;
   }
 
   // nervous-system | mood-neurochemistry | lifestyle → InnerBalanceAtlasBase
   if (activeSection === 'colorpsychology') {
-    return <ColorPsychologyAtlas onBack={goHub} onSelectSection={setActiveSection} />;
+    return <ColorPsychologyAtlas onBack={goHub} onSelectSection={openSection} />;
   }
 
   const defaultSub = {
@@ -1093,7 +1111,7 @@ export default function InnerAtlas({ onBack, onNavigate, initialSection }) {
   return (
     <InnerBalanceAtlasBase
       onBack={goHub}
-      onSelectSection={setActiveSection}
+      onSelectSection={openSection}
       activeSectionId={activeSection}
       onNavigate={null}
       initialSection={deepSub || defaultSub}
