@@ -194,13 +194,58 @@ export default function GuidanceSpiral({ go }) {
 
   const selectEmotion = (emotion) => {
     setSelectedId(emotion.id);
-    document.getElementById('emotion-detail')?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   };
 
   return (
     <PageMain>
       <style>
         {`
+          .spiral-layout {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) minmax(280px, 330px);
+            gap: 24px;
+            align-items: start;
+          }
+
+          .spiral-detail {
+            position: sticky;
+            z-index: 10;
+            top: 108px;
+            max-height: calc(100vh - 124px);
+            overflow-y: auto;
+          }
+
+          /* Narrow screens: one column, and the detail rides along the bottom of
+             the viewport so picking a state never means scrolling to find it. */
+          @media (max-width: 1023px) {
+            .spiral-layout {
+              grid-template-columns: minmax(0, 1fr);
+            }
+
+            .spiral-detail {
+              top: auto;
+              bottom: 12px;
+              max-height: 36vh;
+              padding: 14px 16px !important;
+              box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.55);
+              background-color: rgba(11, 13, 24, 0.94) !important;
+              backdrop-filter: blur(14px);
+            }
+
+            .spiral-detail h2 {
+              font-size: 24px !important;
+            }
+
+            .spiral-detail .spiral-detail-explanation {
+              margin-top: 8px !important;
+            }
+
+            .spiral-detail .spiral-detail-note,
+            .spiral-detail .spiral-detail-rule {
+              display: none;
+            }
+          }
+
           @media (max-width: 760px) {
             .spiral-diagram-grid {
               grid-template-columns: minmax(0, 1fr) !important;
@@ -222,40 +267,156 @@ export default function GuidanceSpiral({ go }) {
       </style>
       <Breadcrumbs go={go} trail={[{ label: 'Emotions', section: EMOTIONS_SECTION }, { label: 'Guidance spiral' }]} />
 
-      <header style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
-        gap: 28,
-        alignItems: 'center',
-        marginBottom: 28,
-      }}>
-        <div>
-          <div style={{ color: '#f472b6', fontSize: 12, fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
-            Guidance spiral
+      <header style={{ marginBottom: 28 }}>
+        <div style={{ color: '#f472b6', fontSize: 12, fontWeight: 900, letterSpacing: '0.18em', textTransform: 'uppercase', marginBottom: 10 }}>
+          Guidance spiral
+        </div>
+        <h1 style={{ margin: 0, color: '#fff', fontSize: 'clamp(2.1rem, 5vw, 4.8rem)', lineHeight: 0.96, letterSpacing: '-0.035em' }}>
+          Map the feeling on the spiral.
+        </h1>
+        <p style={{ maxWidth: 640, color: 'rgba(255,255,255,0.58)', fontSize: '1rem', lineHeight: 1.75, margin: '18px 0 0' }}>
+          Ascending states sit above the boredom midline, descending states below it, and crisis language is clearly marked at the floor.
+        </p>
+      </header>
+
+      <div className="spiral-layout">
+        <div style={{ minWidth: 0 }}>
+          <div id="emotion-spiral-map" style={{ marginBottom: 28 }}>
+            <EmotionalSpiralDiagram selectedId={selectedEmotion.id} onSelect={selectEmotion} />
           </div>
-          <h1 style={{ margin: 0, color: '#fff', fontSize: 'clamp(2.1rem, 5vw, 4.8rem)', lineHeight: 0.96, letterSpacing: '-0.035em' }}>
-            Map the feeling on the spiral.
-          </h1>
-          <p style={{ maxWidth: 640, color: 'rgba(255,255,255,0.58)', fontSize: '1rem', lineHeight: 1.75, margin: '18px 0 0' }}>
-            Ascending states sit above the boredom midline, descending states below it, and crisis language is clearly marked at the floor.
-          </p>
+
+          <section id="emotion-spiral-list" style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
+            gap: 20,
+            alignItems: 'start',
+          }}>
+            <div style={{ position: 'sticky', top: 76, display: 'grid', gap: 14 }}>
+              <CrisisNote />
+              <div style={{
+                borderRadius: 20,
+                border: '1px solid rgba(255,255,255,0.1)',
+                background: 'rgba(255,255,255,0.035)',
+                padding: 16,
+              }}>
+                <div style={{ color: '#fff', fontSize: 14, fontWeight: 900, marginBottom: 10 }}>How to use it</div>
+                <p style={{ margin: 0, color: 'rgba(255,255,255,0.55)', fontSize: 13, lineHeight: 1.7 }}>
+                  Find the nearest word, then look one or two bands upward. The next useful move is usually not the top of the chart; it is the closest believable improvement in state.
+                </p>
+              </div>
+            </div>
+
+            <div>
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: 'minmax(0, 1fr)',
+                gap: 12,
+                marginBottom: 18,
+              }}>
+                <input
+                  value={query}
+                  onChange={(event) => setQuery(event.target.value)}
+                  type="search"
+                  aria-label="Search the spiral"
+                  placeholder="Search shame, hopefulness, courage, jealousy, integrity..."
+                  style={{
+                    width: '100%',
+                    boxSizing: 'border-box',
+                    border: '1px solid rgba(255,255,255,0.12)',
+                    background: 'rgba(255,255,255,0.055)',
+                    color: '#fff',
+                    borderRadius: 16,
+                    padding: '14px 16px',
+                    fontSize: 16,
+                    outline: 'none',
+                    fontFamily: 'inherit',
+                  }}
+                />
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
+                  {[
+                    { id: 'all', label: 'All', color: '#ffffff' },
+                    { id: 'ascending', label: 'Ascending', color: directionMeta.ascending.color },
+                    { id: 'neutral', label: 'Midline', color: directionMeta.neutral.color },
+                    { id: 'descending', label: 'Descending', color: directionMeta.descending.color },
+                  ].map((filter) => (
+                    <button
+                      key={filter.id}
+                      type="button"
+                      onClick={() => setActiveDirection(filter.id)}
+                      aria-pressed={activeDirection === filter.id}
+                      style={{
+                        border: `1px solid ${filter.id === 'all' ? 'rgba(255,255,255,0.14)' : `${filter.color}55`}`,
+                        background: activeDirection === filter.id ? `${filter.color}24` : 'rgba(255,255,255,0.035)',
+                        color: activeDirection === filter.id ? '#fff' : 'rgba(255,255,255,0.68)',
+                        borderRadius: 999,
+                        padding: '8px 12px',
+                        cursor: 'pointer',
+                        fontSize: 12,
+                        fontWeight: 800,
+                        fontFamily: 'inherit',
+                      }}
+                    >
+                      {filter.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {groupedVisible.length === 0 ? (
+                <div style={{ border: '1px dashed rgba(255,255,255,0.18)', borderRadius: 20, padding: 30, color: 'rgba(255,255,255,0.5)', textAlign: 'center' }}>
+                  No emotions found. Try another word.
+                </div>
+              ) : groupedVisible.map((group) => (
+                <section key={group.id} style={{ marginBottom: 22 }}>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
+                    <h3 style={{ color: '#fff', margin: 0, fontSize: 20 }}>{group.name}</h3>
+                    <span style={{ color: group.color, fontSize: 12, fontWeight: 800 }}>{group.emotions.length}</span>
+                  </div>
+                  <p style={{ margin: '0 0 12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.6, fontSize: 13 }}>{group.summary}</p>
+                  <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(230px, 100%), 1fr))', gap: 10 }}>
+                    {group.emotions.map((emotion) => (
+                      <button
+                        key={emotion.id}
+                        type="button"
+                        onClick={() => selectEmotion(emotion)}
+                        style={{
+                          textAlign: 'left',
+                          border: `1px solid ${emotion.id === selectedEmotion.id ? emotion.color : 'rgba(255,255,255,0.09)'}`,
+                          borderRadius: 16,
+                          background: emotion.id === selectedEmotion.id ? `${emotion.color}18` : 'rgba(255,255,255,0.035)',
+                          padding: 14,
+                          cursor: 'pointer',
+                          color: '#fff',
+                          minHeight: 122,
+                          fontFamily: 'inherit',
+                        }}
+                      >
+                        <strong style={{ color: emotion.color, fontSize: 14 }}>{emotion.name}</strong>
+                        <p style={{ color: 'rgba(255,255,255,0.56)', lineHeight: 1.55, fontSize: 12.5, margin: '7px 0 0' }}>{emotion.definition}</p>
+                        <p style={{ color: 'rgba(255,255,255,0.34)', lineHeight: 1.45, fontSize: 11.5, margin: '8px 0 0' }}>{emotion.levelName}</p>
+                      </button>
+                    ))}
+                  </div>
+                </section>
+              ))}
+            </div>
+          </section>
         </div>
 
-        <aside id="emotion-detail" style={{
+        <aside id="emotion-detail" className="spiral-detail" aria-live="polite" style={{
           border: `1px solid ${selectedEmotion.color}55`,
           borderRadius: 24,
           background: `linear-gradient(135deg, ${selectedEmotion.color}18, rgba(255,255,255,0.035))`,
           padding: 22,
-          scrollMarginTop: 96,
         }}>
           <div style={{ color: selectedEmotion.color, fontSize: 12, fontWeight: 900, textTransform: 'uppercase', letterSpacing: '0.14em' }}>
             {selectedEmotion.directionLabel} / {selectedEmotion.levelName}
           </div>
           <h2 style={{ margin: '8px 0 8px', color: '#fff', fontSize: 34, letterSpacing: '-0.03em' }}>{selectedEmotion.name}</h2>
           <p style={{ color: 'rgba(255,255,255,0.78)', fontSize: 16, lineHeight: 1.65, margin: 0 }}>{selectedEmotion.definition}</p>
-          <div style={{ height: 1, background: `${selectedEmotion.color}44`, margin: '18px 0' }} />
-          <h3 style={{ margin: '0 0 8px', color: '#fff', fontSize: 14 }}>Spiral reading</h3>
-          <p style={{ color: 'rgba(255,255,255,0.58)', fontSize: 14, lineHeight: 1.7, margin: 0 }}>{selectedEmotion.explanation}</p>
+          <div className="spiral-detail-rule" style={{ height: 1, background: `${selectedEmotion.color}44`, margin: '18px 0' }} />
+          <h3 className="spiral-detail-rule" style={{ margin: '0 0 8px', color: '#fff', fontSize: 14 }}>Spiral reading</h3>
+          <p className="spiral-detail-explanation" style={{ color: 'rgba(255,255,255,0.58)', fontSize: 14, lineHeight: 1.7, margin: 0 }}>{selectedEmotion.explanation}</p>
           <EmotionLink
             section={conceptSection(selectedEmotion.slug)}
             go={go}
@@ -263,130 +424,9 @@ export default function GuidanceSpiral({ go }) {
           >
             Open {selectedEmotion.name} →
           </EmotionLink>
-          <ReflectionNote />
+          <div className="spiral-detail-note"><ReflectionNote /></div>
         </aside>
-      </header>
-
-      <div id="emotion-spiral-map" style={{ marginBottom: 28 }}>
-        <EmotionalSpiralDiagram selectedId={selectedEmotion.id} onSelect={selectEmotion} />
       </div>
-
-      <section id="emotion-spiral-list" style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(min(340px, 100%), 1fr))',
-        gap: 20,
-        alignItems: 'start',
-      }}>
-        <div style={{ position: 'sticky', top: 76, display: 'grid', gap: 14 }}>
-          <CrisisNote />
-          <div style={{
-            borderRadius: 20,
-            border: '1px solid rgba(255,255,255,0.1)',
-            background: 'rgba(255,255,255,0.035)',
-            padding: 16,
-          }}>
-            <div style={{ color: '#fff', fontSize: 14, fontWeight: 900, marginBottom: 10 }}>How to use it</div>
-            <p style={{ margin: 0, color: 'rgba(255,255,255,0.55)', fontSize: 13, lineHeight: 1.7 }}>
-              Find the nearest word, then look one or two bands upward. The next useful move is usually not the top of the chart; it is the closest believable improvement in state.
-            </p>
-          </div>
-        </div>
-
-        <div>
-          <div style={{
-            display: 'grid',
-            gridTemplateColumns: 'minmax(0, 1fr)',
-            gap: 12,
-            marginBottom: 18,
-          }}>
-            <input
-              value={query}
-              onChange={(event) => setQuery(event.target.value)}
-              type="search"
-              aria-label="Search the spiral"
-              placeholder="Search shame, hopefulness, courage, jealousy, integrity..."
-              style={{
-                width: '100%',
-                boxSizing: 'border-box',
-                border: '1px solid rgba(255,255,255,0.12)',
-                background: 'rgba(255,255,255,0.055)',
-                color: '#fff',
-                borderRadius: 16,
-                padding: '14px 16px',
-                fontSize: 16,
-                outline: 'none',
-                fontFamily: 'inherit',
-              }}
-            />
-            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 8 }}>
-              {[
-                { id: 'all', label: 'All', color: '#ffffff' },
-                { id: 'ascending', label: 'Ascending', color: directionMeta.ascending.color },
-                { id: 'neutral', label: 'Midline', color: directionMeta.neutral.color },
-                { id: 'descending', label: 'Descending', color: directionMeta.descending.color },
-              ].map((filter) => (
-                <button
-                  key={filter.id}
-                  type="button"
-                  onClick={() => setActiveDirection(filter.id)}
-                  aria-pressed={activeDirection === filter.id}
-                  style={{
-                    border: `1px solid ${filter.id === 'all' ? 'rgba(255,255,255,0.14)' : `${filter.color}55`}`,
-                    background: activeDirection === filter.id ? `${filter.color}24` : 'rgba(255,255,255,0.035)',
-                    color: activeDirection === filter.id ? '#fff' : 'rgba(255,255,255,0.68)',
-                    borderRadius: 999,
-                    padding: '8px 12px',
-                    cursor: 'pointer',
-                    fontSize: 12,
-                    fontWeight: 800,
-                    fontFamily: 'inherit',
-                  }}
-                >
-                  {filter.label}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          {groupedVisible.length === 0 ? (
-            <div style={{ border: '1px dashed rgba(255,255,255,0.18)', borderRadius: 20, padding: 30, color: 'rgba(255,255,255,0.5)', textAlign: 'center' }}>
-              No emotions found. Try another word.
-            </div>
-          ) : groupedVisible.map((group) => (
-            <section key={group.id} style={{ marginBottom: 22 }}>
-              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 10 }}>
-                <h3 style={{ color: '#fff', margin: 0, fontSize: 20 }}>{group.name}</h3>
-                <span style={{ color: group.color, fontSize: 12, fontWeight: 800 }}>{group.emotions.length}</span>
-              </div>
-              <p style={{ margin: '0 0 12px', color: 'rgba(255,255,255,0.42)', lineHeight: 1.6, fontSize: 13 }}>{group.summary}</p>
-              <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(min(230px, 100%), 1fr))', gap: 10 }}>
-                {group.emotions.map((emotion) => (
-                  <button
-                    key={emotion.id}
-                    type="button"
-                    onClick={() => selectEmotion(emotion)}
-                    style={{
-                      textAlign: 'left',
-                      border: `1px solid ${emotion.id === selectedEmotion.id ? emotion.color : 'rgba(255,255,255,0.09)'}`,
-                      borderRadius: 16,
-                      background: emotion.id === selectedEmotion.id ? `${emotion.color}18` : 'rgba(255,255,255,0.035)',
-                      padding: 14,
-                      cursor: 'pointer',
-                      color: '#fff',
-                      minHeight: 122,
-                      fontFamily: 'inherit',
-                    }}
-                  >
-                    <strong style={{ color: emotion.color, fontSize: 14 }}>{emotion.name}</strong>
-                    <p style={{ color: 'rgba(255,255,255,0.56)', lineHeight: 1.55, fontSize: 12.5, margin: '7px 0 0' }}>{emotion.definition}</p>
-                    <p style={{ color: 'rgba(255,255,255,0.34)', lineHeight: 1.45, fontSize: 11.5, margin: '8px 0 0' }}>{emotion.levelName}</p>
-                  </button>
-                ))}
-              </div>
-            </section>
-          ))}
-        </div>
-      </section>
     </PageMain>
   );
 }
