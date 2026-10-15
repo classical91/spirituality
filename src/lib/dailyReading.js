@@ -19,9 +19,12 @@ const READING_POOL_SKIP = new Set(['masturbation', 'celibacy', 'urges', 'tracker
 // A well-spread reading rotation drawn from every readable section in the hub.
 // Prayer themes are excluded — they already have their own Daily Prayer card.
 // Intimate sexual-health journal sections are excluded for the same reason.
+// Entries marked readingPool: false (one-word emotion concept pages) are search
+// targets, not readings.
 export const READING_POOL = (() => {
   const arr = searchIndex.filter(
     (entry) =>
+      entry.readingPool !== false &&
       !(entry.portalId === 'biblical' && entry.section === 'prayers') &&
       !(entry.portalId === 'sexualenergy' && READING_POOL_SKIP.has(entry.section))
   );

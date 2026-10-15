@@ -2,6 +2,7 @@
 import { sacredSystemsSearchEntries } from './sacredSystemsCards.js';
 import { spiritualTopicSearchEntries } from './spiritualTopics.js';
 import { relationshipSearchEntries } from './relationshipIndex.js';
+import { emotionSearchEntries } from './emotions.js';
 //
 // Each entry surfaces a section *inside* a portal, so a query like
 // "abandonment" can return Heart Chakra, Attachment Theory, and the
@@ -94,8 +95,8 @@ export const searchIndex = [
   { id: 'ia-cool-compress', portalId: 'inneratlas', section: 'dailyrituals', title: 'Cool Compress / Ice Pack', summary: 'A gentle self-care reset using a wrapped cool cloth or ice pack with short intervals and safety limits.', tags: ['ice pack on head','cool compress','cold cloth','self care','head cooling','face cooling','safety'], lens: 'Wellness' },
 
   // ─── InnerAtlas — Emotions & Guidance Spiral ─────────────────────────
-  { id: 'ia-emotions',        portalId: 'inneratlas', section: 'emotions', title: 'Emotion Glossary',            summary: 'Simple definitions and explanations for emotional vocabulary.',                       tags: ['emotions','emotion','feelings','definitions','glossary','name it','emotional awareness'], lens: 'Reflection' },
-  { id: 'ia-guidance-spiral', portalId: 'inneratlas', section: 'emotions', title: 'Emotional Guidance Spiral',   summary: 'Upward and downward spiral map for noticing emotional direction.',                     tags: ['emotional guidance scale','guidance spiral','upward spiral','downward spiral','spiral','regulation'], lens: 'Reflection' },
+  { id: 'ia-emotions',        portalId: 'inneratlas', section: 'emotion-glossary', title: 'Emotion Glossary',            summary: 'Simple definitions and explanations for emotional vocabulary.',                       tags: ['emotions','emotion','feelings','definitions','glossary','name it','emotional awareness'], lens: 'Reflection' },
+  { id: 'ia-guidance-spiral', portalId: 'inneratlas', section: 'guidance-spiral', title: 'Emotional Guidance Spiral',   summary: 'Upward and downward spiral map for noticing emotional direction.',                     tags: ['emotional guidance scale','guidance spiral','upward spiral','downward spiral','spiral','regulation'], lens: 'Reflection' },
   { id: 'ia-basic-emotions',  portalId: 'inneratlas', section: 'emotions-basic', title: 'Basic Emotions',              summary: 'Joy, happiness, excitement, contentment, peace, gratitude, hope, and pride.',           tags: ['joy','happiness','excitement','contentment','peace','gratitude','hope','pride'], lens: 'Reflection' },
   { id: 'ia-sad-emotions',    portalId: 'inneratlas', section: 'emotions-sad', title: 'Sad Emotions',                summary: 'Sadness, grief, loneliness, disappointment, regret, heartbreak, hopelessness, and emptiness.', tags: ['sadness','grief','loneliness','disappointment','regret','heartbreak','hopelessness','emptiness'], lens: 'Reflection' },
   { id: 'ia-angry-emotions',  portalId: 'inneratlas', section: 'emotions-angry', title: 'Angry Emotions',              summary: 'Anger, frustration, irritation, annoyance, resentment, bitterness, rage, hatred, and contempt.', tags: ['anger','frustration','irritation','annoyance','resentment','bitterness','rage','hatred','contempt'], lens: 'Reflection' },
@@ -306,6 +307,9 @@ export const searchIndex = [
   // Generated from src/data/spiritualTopics.js — one entry per topic. Adding a
   // topic there automatically surfaces it in global search; nothing to edit here.
   ...spiritualTopicSearchEntries,
+  // One entry per emotion concept page (Resentment, Victor, Acceptance…), built
+  // from the emotions catalog so a new word there is searchable automatically.
+  ...emotionSearchEntries,
 ];
 
 // Search the index. Returns up to `limit` ranked results.
