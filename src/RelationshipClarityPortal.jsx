@@ -1401,7 +1401,7 @@ function ClarityCheck() {
           onChange={(event) => setScenario(event.target.value)}
           placeholder="e.g., She replied warmly to my message after two days of silence, but then went quiet again..."
           rows={3}
-          className="mt-3 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/30 focus:border-white/30 sm:text-sm"
+          className="mt-3 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/40 focus:border-white/30 sm:text-sm"
         />
       </div>
 
@@ -1411,7 +1411,7 @@ function ClarityCheck() {
           return (
             <li key={item.id} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
               <p className="flex gap-3 text-[15px] font-semibold leading-6 text-white">
-                <span className="text-white/35">{index + 1}.</span>
+                <span className="text-white/55">{index + 1}.</span>
                 <span>{item.prompt}</span>
               </p>
               <div className="mt-3 flex gap-2 pl-7">
@@ -1527,7 +1527,7 @@ function PauseCheck() {
           onChange={(event) => setMessage(event.target.value)}
           placeholder="Paste the draft here..."
           rows={4}
-          className="mt-3 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/30 focus:border-white/30 sm:text-sm"
+          className="mt-3 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/40 focus:border-white/30 sm:text-sm"
         />
       </div>
 
@@ -1604,7 +1604,7 @@ function ChapterIndex({ onOpenSection }) {
       <section aria-labelledby="clarity-chapters" className="mt-12">
         <div className="mb-4 flex items-baseline justify-between gap-4">
           <h2 id="clarity-chapters" className="text-xl font-semibold text-white sm:text-2xl">Chapters</h2>
-          <p className="text-xs font-medium text-white/45">{clarityChapters.length} chapters · {topicCount} topics</p>
+          <p className="text-xs font-medium text-white/55">{clarityChapters.length} chapters · {topicCount} topics</p>
         </div>
         <ol className="grid gap-3 md:grid-cols-2">
           {clarityChapters.map((chapter, index) => (
@@ -1614,7 +1614,7 @@ function ChapterIndex({ onOpenSection }) {
                 onClick={() => onOpenSection(chapter.id)}
                 className="group flex h-full w-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-left transition hover:border-rose-300/30 hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60"
               >
-                <span className="flex items-center justify-between gap-3 text-xs font-semibold text-white/40">
+                <span className="flex items-center justify-between gap-3 text-xs font-semibold text-white/55">
                   <span>Chapter {pad(index + 1)}</span>
                   <span>{chapter.concepts.length} topics</span>
                 </span>
@@ -1646,8 +1646,11 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
     document.getElementById(focusId)?.scrollIntoView({ block: "start" });
   }, [focusId]);
 
+  // Scroll to a topic and move focus to its heading, so keyboard and screen
+  // reader users continue reading from there rather than from the chip.
   const jumpTo = (id) => {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+    document.getElementById(`${id}-title`)?.focus({ preventScroll: true });
   };
 
   return (
@@ -1656,7 +1659,7 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
         <button
           type="button"
           onClick={() => onOpenSection("clarity")}
-          className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-200/75 transition hover:text-white"
+          className="-my-2 py-2 text-xs font-semibold uppercase tracking-[0.22em] text-rose-200/75 transition hover:text-white"
         >
           Clarity · Chapter {pad(chapterIndex + 1)} of {pad(clarityChapters.length)}
         </button>
@@ -1667,16 +1670,16 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
 
       <div className="mt-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
         <nav aria-label="In this chapter" className="lg:sticky lg:top-24 lg:self-start">
-          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">In this chapter</p>
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/55">In this chapter</p>
           <ol className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] lg:mx-0 lg:block lg:space-y-0.5 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
             {chapterConcepts.map((concept, i) => (
               <li key={concept.id} className="shrink-0">
                 <button
                   type="button"
                   onClick={() => jumpTo(concept.id)}
-                  className="whitespace-nowrap rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[13px] font-medium text-white/75 transition hover:bg-white/[0.1] hover:text-white lg:flex lg:w-full lg:gap-2 lg:whitespace-normal lg:rounded-lg lg:border-0 lg:bg-transparent lg:px-2 lg:py-1.5 lg:text-left lg:text-sm"
+                  className="min-h-9 whitespace-nowrap rounded-full border border-white/12 bg-white/[0.05] px-3 py-2 text-[13px] font-medium text-white/75 transition hover:bg-white/[0.1] hover:text-white lg:flex lg:w-full lg:gap-2 lg:whitespace-normal lg:rounded-lg lg:border-0 lg:bg-transparent lg:px-2 lg:py-1.5 lg:text-left lg:text-sm"
                 >
-                  <span className="hidden text-white/35 lg:inline">{i + 1}.</span>
+                  <span className="hidden text-white/55 lg:inline">{i + 1}.</span>
                   {concept.label}
                 </button>
               </li>
@@ -1692,10 +1695,10 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
               aria-labelledby={`${concept.id}-title`}
               className="scroll-mt-36 border-t border-white/10 pt-8 first:border-t-0 first:pt-0 lg:scroll-mt-24"
             >
-              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/55">
                 {chapterIndex + 1}.{i + 1} · {conceptType(concept)}
               </p>
-              <h2 id={`${concept.id}-title`} className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">{concept.label}</h2>
+              <h2 id={`${concept.id}-title`} tabIndex={-1} className="mt-2 text-2xl outline-none font-bold tracking-tight text-white sm:text-3xl">{concept.label}</h2>
               <p className="mt-2 text-[15px] leading-7 text-white/60 sm:text-base">{concept.short}</p>
               <div className="mt-6">
                 <ConceptBody concept={concept} />
@@ -1712,7 +1715,7 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
             onClick={() => onOpenSection(prevChapter.id)}
             className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.08]"
           >
-            <span className="block text-xs font-semibold text-white/45">← Previous chapter</span>
+            <span className="block text-xs font-semibold text-white/55">← Previous chapter</span>
             <span className="mt-1 block text-base font-semibold text-white">{prevChapter.title}</span>
           </button>
         ) : (
@@ -1721,7 +1724,7 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
             onClick={() => onOpenSection("clarity")}
             className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.08]"
           >
-            <span className="block text-xs font-semibold text-white/45">← Back to</span>
+            <span className="block text-xs font-semibold text-white/55">← Back to</span>
             <span className="mt-1 block text-base font-semibold text-white">All chapters</span>
           </button>
         )}
@@ -1731,7 +1734,7 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
             onClick={() => onOpenSection(nextChapter.id)}
             className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-right transition hover:border-white/25 hover:bg-white/[0.08]"
           >
-            <span className="block text-xs font-semibold text-white/45">Next chapter →</span>
+            <span className="block text-xs font-semibold text-white/55">Next chapter →</span>
             <span className="mt-1 block text-base font-semibold text-white">{nextChapter.title}</span>
           </button>
         ) : (
@@ -1740,7 +1743,7 @@ function ChapterPage({ chapter, focusId, onOpenSection }) {
             onClick={() => onOpenSection("clarity")}
             className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-right transition hover:border-white/25 hover:bg-white/[0.08]"
           >
-            <span className="block text-xs font-semibold text-white/45">Finished →</span>
+            <span className="block text-xs font-semibold text-white/55">Finished →</span>
             <span className="mt-1 block text-base font-semibold text-white">All chapters</span>
           </button>
         )}

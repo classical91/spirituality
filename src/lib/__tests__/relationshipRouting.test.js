@@ -7,6 +7,7 @@ import {
   claritySectionIds,
   patternSectionIds,
   practiceSectionIds,
+  relationshipSections,
 } from '../../data/relationshipIndex.js';
 
 // These tests pin the contract the Relationship Hub relies on: the URL is the
@@ -90,6 +91,20 @@ describe('relationship hub section routing', () => {
     clarityChapters.forEach((chapter) => {
       assert.deepEqual(resolveSection(chapter.id), { tab: 'clarity', sub: chapter.id });
       assert.equal(clarityChapterFor(chapter.id), chapter);
+    });
+  });
+
+  it('opens every overview chip on the tab its entry names', () => {
+    // A chip whose section no tab owns falls back to the overview, so clicking
+    // it would look like nothing happened.
+    relationshipSections.forEach((entry) => {
+      assert.equal(resolveSection(entry.section).tab, entry.owner, `${entry.id} opens the wrong tab`);
+    });
+  });
+
+  it('routes each skill area to the Practice tab as its own screen', () => {
+    ['skills-communication', 'skills-conflict-repair', 'skills-consent'].forEach((id) => {
+      assert.deepEqual(resolveSection(id), { tab: 'practice', sub: id });
     });
   });
 });

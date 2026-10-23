@@ -164,21 +164,26 @@ function FoundationCard({ concept }) {
 
   return (
     <article className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-5 transition-all hover:border-rose-400/25">
-      <button
-        onClick={() => setOpen((v) => !v)}
-        className="flex w-full items-start justify-between gap-3 text-left"
-      >
-        <div className="flex items-center gap-3">
-          <span className="text-xl text-rose-300">{concept.icon}</span>
-          <h3 className="text-base font-bold text-white">{concept.title}</h3>
-        </div>
-        <span className="mt-0.5 shrink-0 text-xs text-slate-600">{open ? '▲' : '▼'}</span>
-      </button>
+      <h3 className="text-base font-bold text-white">
+        <button
+          type="button"
+          aria-expanded={open}
+          aria-controls={`foundation-${concept.id}`}
+          onClick={() => setOpen((v) => !v)}
+          className="flex min-h-10 w-full items-center justify-between gap-3 text-left"
+        >
+          <span className="flex items-center gap-3">
+            <span aria-hidden className="text-xl font-normal text-rose-300">{concept.icon}</span>
+            {concept.title}
+          </span>
+          <span aria-hidden className="shrink-0 text-xs text-slate-400">{open ? '▲' : '▼'}</span>
+        </button>
+      </h3>
 
       <p className="mt-3 text-sm leading-relaxed text-slate-400">{concept.description}</p>
 
       {open && (
-        <div className="mt-4 space-y-3 border-t border-white/10 pt-4">
+        <div id={`foundation-${concept.id}`} className="mt-4 space-y-3 border-t border-white/10 pt-4">
           <div>
             <span className="text-[10px] font-black uppercase tracking-wider text-rose-400/70">
               Shadow pattern
