@@ -1,6 +1,7 @@
 // How sexual energy and devotion are expressed inside a relationship —
-// foundations, marriage, dynamics, and scripting. Lives inside the
-// Relationship Hub alongside Clarity and Patterns.
+// foundations, skills, marriage, dynamics, and scripting. Lives inside the
+// Relationship Hub alongside Clarity and Patterns; the hub owns the page
+// chrome (background, top bar, back button).
 import { useState } from "react";
 import RelationshipFoundations from "./RelationshipFoundations";
 
@@ -302,8 +303,8 @@ function Card({ children, className = "" }) {
 function SectionTitle({ eyebrow, title, text }) {
   return (
     <div className="mb-6">
-      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.28em] text-cyan-300/80">{eyebrow}</p>
-      <h2 className="text-2xl font-bold text-white md:text-3xl">{title}</h2>
+      <p className="mb-2 text-xs font-semibold uppercase tracking-[0.22em] text-rose-200/75">{eyebrow}</p>
+      <h2 className="text-2xl font-bold tracking-tight text-white md:text-3xl">{title}</h2>
       {text && <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-300 md:text-base">{text}</p>}
     </div>
   );
@@ -552,23 +553,29 @@ export default function RelationshipPractice({ initialSection, onOpenSection }) 
   };
 
   return (
-    <div className="mx-auto max-w-6xl px-5 py-10 sm:px-8">
-      <SectionTitle
-        eyebrow="Inside the relationship"
-        title="Relationship Practice"
-        text="Marriage, dynamics, and scripting — how devotion and sexual energy are meant to be expressed inside a relationship, with honesty and without losing yourself to it."
-      />
-      <nav className="mb-8 flex flex-wrap gap-2">
-        {PRACTICE_TABS.map((t) => (
-          <button
-            key={t.id}
-            type="button"
-            onClick={() => setTab(t.id)}
-            className={`rounded-2xl border px-4 py-2 text-sm font-bold transition ${tab === t.id ? "border-white/15 bg-white text-slate-950" : "border-white/15 bg-white/[0.06] text-white/80 hover:bg-white/[0.1] hover:text-white"}`}
-          >
-            {t.label}
-          </button>
-        ))}
+    <div className="mx-auto max-w-6xl px-4 pb-24 pt-8 sm:px-6 sm:pt-12">
+      <header className="mb-6 max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-200/75">Inside the relationship</p>
+        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl">How do I do this well?</h1>
+        <p className="mt-4 text-[15px] leading-7 text-white/65 sm:text-lg sm:leading-8">
+          Foundations, everyday skills, marriage, dynamics, and scripting — how to live love out with honesty, and without losing yourself in it.
+        </p>
+      </header>
+      <nav aria-label="Practice sections" className="sticky top-[6.8rem] z-30 -mx-4 mb-8 border-y border-white/10 bg-[#0a0511]/85 px-4 py-2.5 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border md:top-[4.5rem]">
+        <ul className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {PRACTICE_TABS.map((t) => (
+            <li key={t.id} className="shrink-0">
+              <button
+                type="button"
+                aria-current={tab === t.id ? "page" : undefined}
+                onClick={() => setTab(t.id)}
+                className={`whitespace-nowrap rounded-full border px-3.5 py-1.5 text-[13px] font-semibold transition ${tab === t.id ? "border-white bg-white text-slate-950" : "border-white/15 bg-white/[0.05] text-white/75 hover:bg-white/[0.1] hover:text-white"}`}
+              >
+                {t.label}
+              </button>
+            </li>
+          ))}
+        </ul>
       </nav>
       {renderTab()}
     </div>

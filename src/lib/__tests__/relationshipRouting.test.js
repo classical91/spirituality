@@ -2,6 +2,8 @@ import assert from 'node:assert/strict';
 import { describe, it } from 'node:test';
 import { resolveSection, sectionForTab, TAB_IDS } from '../relationshipRouting.js';
 import {
+  clarityChapterFor,
+  clarityChapters,
   claritySectionIds,
   patternSectionIds,
   practiceSectionIds,
@@ -70,5 +72,24 @@ describe('relationship hub section routing', () => {
   it('keeps section ids unique across tabs so ownership is unambiguous', () => {
     const all = [...claritySectionIds, ...patternSectionIds, ...practiceSectionIds];
     assert.equal(new Set(all).size, all.length);
+  });
+
+  it('places every Clarity concept in exactly one chapter', () => {
+    // A concept link opens its chapter, so a concept left out of every chapter
+    // would fall back to the chapter index and its link would show nothing.
+    const chapterIds = new Set(clarityChapters.map((c) => c.id));
+    const inChapters = clarityChapters.flatMap((c) => c.concepts);
+    assert.equal(new Set(inChapters).size, inChapters.length, 'a concept is listed in two chapters');
+    claritySectionIds
+      .filter((id) => !chapterIds.has(id))
+      .forEach((id) => assert.ok(clarityChapterFor(id), `${id} has no chapter`));
+    inChapters.forEach((id) => assert.equal(resolveSection(id).tab, 'clarity', `${id} does not route to Clarity`));
+  });
+
+  it('routes a chapter id to Clarity and resolves it to that chapter', () => {
+    clarityChapters.forEach((chapter) => {
+      assert.deepEqual(resolveSection(chapter.id), { tab: 'clarity', sub: chapter.id });
+      assert.equal(clarityChapterFor(chapter.id), chapter);
+    });
   });
 });

@@ -1,4 +1,5 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { clarityChapterFor, clarityChapters } from "./data/relationshipIndex";
 
 const concepts = [
   {
@@ -96,30 +97,6 @@ const concepts = [
     ],
     practice:
       "Catch yourself in one of the four — chasing, forcing, proving, or performing — and name it out loud. Then choose its secure alternative for your very next action: invite instead of chase, trust instead of force, know instead of prove, show up instead of perform.",
-  },
-  {
-    id: "pedestalizing",
-    label: "Pedestalizing",
-    kicker: "Reflection",
-    group: "Reflection",
-    short: "When you put them on a pedestal, you take yourself off one.",
-    question: "Am I seeing this person clearly, or am I worshipping an image I built?",
-    explanation:
-      "Pedestalizing feels like love but functions like fear. It turns the other person into a fantasy you must perform for, and it puts you in a posture of trying to earn rather than meeting as equals. Real love requires seeing the actual human — gifts, flaws, and ordinary moments.",
-    fear: [
-      "Treating their attention as proof of your value.",
-      "Filtering out their flaws so the dream stays intact.",
-      "Adjusting your personality to keep them interested.",
-      "Feeling lucky to be considered, instead of mutually chosen.",
-    ],
-    secure: [
-      "Holding yourself in the same regard you hold them in.",
-      "Letting their ordinary moments be ordinary.",
-      "Speaking honestly about what you see, including disappointment.",
-      "Trusting that the right person doesn't need you to shrink.",
-    ],
-    practice:
-      "List three actual flaws you've ignored or excused. Not to weaponize — to come back to ground. You can still want someone after you see them clearly. That want is more solid than the worship version.",
   },
   {
     id: "trauma-bond-vs-true-love",
@@ -1255,127 +1232,102 @@ const concepts = [
 ];
 
 const conceptsById = Object.fromEntries(concepts.map((c) => [c.id, c]));
-const CONCEPT_GROUPS = ["Reflection", "Red Flags", "Standards", "Communication", "Inventory", "Tools"];
 
-function SectionCard({ concept, onSelect }) {
+function conceptType(concept) {
+  if (concept.interactive) return "Interactive check";
+  if (concept.inventory) return "Inventory";
+  if (concept.redflag) return "Red flag";
+  return "Reflection";
+}
+
+function BulletList({ label, items, tone }) {
+  const tones = {
+    rose: { box: "border-rose-300/15 bg-rose-500/[0.07]", label: "text-rose-200/85", dot: "bg-rose-300/80" },
+    emerald: { box: "border-emerald-300/15 bg-emerald-500/[0.07]", label: "text-emerald-200/85", dot: "bg-emerald-300/80" },
+  };
+  const t = tones[tone];
   return (
-    <button
-      type="button"
-      onClick={() => onSelect(concept.id)}
-      className="group flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-left transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.09]"
-    >
-      <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-white/40">{concept.kicker}</p>
-      <h3 className="text-xl font-black text-white">{concept.label}</h3>
-      <p className="mt-3 flex-1 text-sm leading-6 text-white/65">{concept.short}</p>
-      <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white/70 transition group-hover:text-white">
-        Open <span aria-hidden>→</span>
-      </span>
-    </button>
+    <div className={`rounded-2xl border p-4 sm:p-5 ${t.box}`}>
+      <p className={`text-xs font-semibold uppercase tracking-[0.18em] ${t.label}`}>{label}</p>
+      <ul className="mt-3 space-y-2.5">
+        {items.map((item) => (
+          <li key={item} className="flex gap-3 text-sm leading-6 text-white/78">
+            <span aria-hidden className={`mt-2 inline-block h-1.5 w-1.5 shrink-0 rounded-full ${t.dot}`} />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
   );
 }
 
 function InfoBox({ label, tone = "white", children }) {
   const tones = {
-    white: "border-white/10 bg-white/[0.05] text-white/72",
-    rose: "border-rose-300/15 bg-rose-500/10 text-white/78",
+    white: "border-white/10 bg-white/[0.05] text-white/75",
+    rose: "border-rose-300/15 bg-rose-500/10 text-white/80",
     emerald: "border-emerald-300/15 bg-emerald-500/10 text-white/80",
-    violet: "border-violet-300/15 bg-violet-500/10 text-white/76",
+    violet: "border-violet-300/15 bg-violet-500/10 text-white/80",
+    amber: "border-amber-300/20 bg-amber-500/10 text-white/80",
   };
   return (
-    <div className={`rounded-2xl border p-4 ${tones[tone] || tones.white}`}>
-      <p className="text-xs font-bold uppercase tracking-[0.22em] opacity-60">{label}</p>
+    <div className={`rounded-2xl border p-4 sm:p-5 ${tones[tone] || tones.white}`}>
+      <p className="text-xs font-semibold uppercase tracking-[0.18em] opacity-70">{label}</p>
       <div className="mt-2 text-sm leading-7">{children}</div>
     </div>
   );
 }
 
-function ReflectionConcept({ concept }) {
+function CoreQuestion({ concept }) {
+  return (
+    <>
+      <blockquote className="border-l-2 border-rose-300/50 pl-4 text-lg font-semibold leading-snug text-white sm:text-xl">
+        {concept.question}
+      </blockquote>
+      <p className="max-w-3xl text-[15px] leading-7 text-white/68 sm:text-base sm:leading-8">{concept.explanation}</p>
+    </>
+  );
+}
+
+function ReflectionBody({ concept }) {
   return (
     <div className="space-y-5">
-      <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6 md:p-8">
-        <p className="text-xs font-black uppercase tracking-[0.35em] text-rose-200/70">Core question</p>
-        <p className="mt-4 text-2xl font-black leading-snug text-white md:text-3xl">{concept.question}</p>
-        <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 md:text-lg md:leading-8">{concept.explanation}</p>
+      <CoreQuestion concept={concept} />
+      <div className="grid gap-3 md:grid-cols-2">
+        <BulletList label="From fear" items={concept.fear} tone="rose" />
+        <BulletList label="From security" items={concept.secure} tone="emerald" />
       </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-3xl border border-rose-300/15 bg-rose-500/[0.08] p-5">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-rose-200/80">From fear</p>
-          <ul className="mt-4 space-y-3">
-            {concept.fear.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-6 text-white/78">
-                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-rose-300/80" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="rounded-3xl border border-emerald-300/15 bg-emerald-500/[0.08] p-5">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-emerald-200/80">From security</p>
-          <ul className="mt-4 space-y-3">
-            {concept.secure.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-6 text-white/82">
-                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/80" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       <InfoBox label="Practice" tone="violet">{concept.practice}</InfoBox>
-
-      {concept.note && (
-        <div className="rounded-2xl border border-amber-300/20 bg-amber-500/10 p-4 text-sm leading-6 text-white/80">
-          <span className="mr-1 font-black text-amber-200/90">Safety note.</span>
-          {concept.note}
-        </div>
-      )}
+      {concept.note && <InfoBox label="Safety note" tone="amber">{concept.note}</InfoBox>}
     </div>
   );
 }
 
-function RedFlagConcept({ concept }) {
+function RedFlagBody({ concept }) {
   return (
     <div className="space-y-5">
-      <div className="rounded-[2rem] border border-rose-300/20 bg-gradient-to-br from-rose-600/20 via-white/[0.05] to-rose-500/10 p-6 md:p-8">
-        <p className="inline-flex items-center gap-2 text-xs font-black uppercase tracking-[0.35em] text-rose-200/80">
-          <span aria-hidden>⚑</span> Core question
-        </p>
-        <p className="mt-4 text-2xl font-black leading-snug text-white md:text-3xl">{concept.question}</p>
-        <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 md:text-lg md:leading-8">{concept.explanation}</p>
+      <CoreQuestion concept={concept} />
+      <div className="grid gap-3 md:grid-cols-2">
+        <BulletList label="⚑ Red flags" items={concept.flags} tone="rose" />
+        <BulletList label="✓ Green flags" items={concept.green} tone="emerald" />
       </div>
-
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-3xl border border-rose-300/20 bg-rose-500/[0.1] p-5">
-          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.28em] text-rose-200/80">
-            <span aria-hidden>⚑</span> Red flags
-          </p>
-          <ul className="mt-4 space-y-3">
-            {concept.flags.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-6 text-white/78">
-                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-rose-300/80" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="rounded-3xl border border-emerald-300/15 bg-emerald-500/[0.08] p-5">
-          <p className="flex items-center gap-2 text-xs font-black uppercase tracking-[0.28em] text-emerald-200/80">
-            <span aria-hidden>✓</span> Green flags
-          </p>
-          <ul className="mt-4 space-y-3">
-            {concept.green.map((item) => (
-              <li key={item} className="flex gap-3 text-sm leading-6 text-white/82">
-                <span className="mt-1 inline-block h-1.5 w-1.5 shrink-0 rounded-full bg-emerald-300/80" />
-                <span>{item}</span>
-              </li>
-            ))}
-          </ul>
-        </div>
-      </div>
-
       <InfoBox label="Practice" tone="rose">{concept.practice}</InfoBox>
+    </div>
+  );
+}
+
+function InventoryBody({ concept }) {
+  return (
+    <div className="space-y-5">
+      {concept.intro && <p className="max-w-3xl text-[15px] leading-7 text-white/68 sm:text-base sm:leading-8">{concept.intro}</p>}
+      <div className="grid gap-2.5 sm:grid-cols-2">
+        {concept.items.map((item) => (
+          <div key={item.name} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+            <p className="text-[15px] font-semibold text-white">{item.name}</p>
+            {item.note && <p className="mt-1.5 text-sm leading-6 text-white/62">{item.note}</p>}
+          </div>
+        ))}
+      </div>
+      {concept.note && <InfoBox label="Grounding note" tone="amber">{concept.note}</InfoBox>}
     </div>
   );
 }
@@ -1436,58 +1388,60 @@ function ClarityCheck() {
   }, [score]);
 
   return (
-    <div className="space-y-5">
-      <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6">
-        <p className="text-xs font-black uppercase tracking-[0.35em] text-rose-200/70">How it works</p>
-        <p className="mt-3 text-white/72">Describe one recent interaction in a sentence or two. Then answer the five calibration questions. The pattern of answers — not any single one — tells you what to do next.</p>
-      </div>
+    <div className="space-y-4">
+      <p className="max-w-3xl text-[15px] leading-7 text-white/68">
+        Describe one recent interaction in a sentence or two, then answer the five calibration questions. The pattern of answers — not any single one — tells you what to do next.
+      </p>
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-        <label className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">The interaction</label>
+      <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
+        <label htmlFor="clarity-check-scenario" className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">The interaction</label>
         <textarea
+          id="clarity-check-scenario"
           value={scenario}
           onChange={(event) => setScenario(event.target.value)}
           placeholder="e.g., She replied warmly to my message after two days of silence, but then went quiet again..."
           rows={3}
-          className="mt-3 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-white/30 focus:border-white/30"
+          className="mt-3 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/30 focus:border-white/30 sm:text-sm"
         />
       </div>
 
-      <div className="space-y-3">
-        {CLARITY_PROMPTS.map((item) => {
+      <ol className="space-y-2.5">
+        {CLARITY_PROMPTS.map((item, index) => {
           const answer = answers[item.id];
           return (
-            <div key={item.id} className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-              <p className="font-bold text-white">{item.prompt}</p>
-              <div className="mt-3 flex gap-2">
-                <button
-                  type="button"
-                  onClick={() => setAnswers((prev) => ({ ...prev, [item.id]: "yes" }))}
-                  className={`rounded-2xl border px-4 py-2 text-sm font-black transition ${
-                    answer === "yes" ? "border-emerald-300/40 bg-emerald-500/20 text-white" : "border-white/10 bg-black/20 text-white/60 hover:bg-white/[0.08]"
-                  }`}
-                >
-                  Yes
-                </button>
-                <button
-                  type="button"
-                  onClick={() => setAnswers((prev) => ({ ...prev, [item.id]: "no" }))}
-                  className={`rounded-2xl border px-4 py-2 text-sm font-black transition ${
-                    answer === "no" ? "border-rose-300/40 bg-rose-500/20 text-white" : "border-white/10 bg-black/20 text-white/60 hover:bg-white/[0.08]"
-                  }`}
-                >
-                  No
-                </button>
+            <li key={item.id} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
+              <p className="flex gap-3 text-[15px] font-semibold leading-6 text-white">
+                <span className="text-white/35">{index + 1}.</span>
+                <span>{item.prompt}</span>
+              </p>
+              <div className="mt-3 flex gap-2 pl-7">
+                {["yes", "no"].map((value) => (
+                  <button
+                    key={value}
+                    type="button"
+                    aria-pressed={answer === value}
+                    onClick={() => setAnswers((prev) => ({ ...prev, [item.id]: value }))}
+                    className={`min-w-16 rounded-xl border px-4 py-2 text-sm font-semibold capitalize transition ${
+                      answer === value
+                        ? value === "yes"
+                          ? "border-emerald-300/40 bg-emerald-500/20 text-white"
+                          : "border-rose-300/40 bg-rose-500/20 text-white"
+                        : "border-white/10 bg-black/20 text-white/65 hover:bg-white/[0.08]"
+                    }`}
+                  >
+                    {value}
+                  </button>
+                ))}
               </div>
               {answer && (
-                <p className="mt-4 rounded-2xl border border-white/10 bg-black/25 p-3 text-sm leading-6 text-white/75">
+                <p className="ml-7 mt-3 rounded-xl border border-white/10 bg-black/25 p-3 text-sm leading-6 text-white/75">
                   {answer === "yes" ? item.yes : item.no}
                 </p>
               )}
-            </div>
+            </li>
           );
         })}
-      </div>
+      </ol>
 
       {verdict && (
         <InfoBox label="Reading" tone={verdict.tone}>
@@ -1499,7 +1453,7 @@ function ClarityCheck() {
         <button
           type="button"
           onClick={reset}
-          className="rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-bold text-white/70 transition hover:bg-white/[0.1] hover:text-white"
+          className="rounded-xl border border-white/15 bg-white/[0.06] px-4 py-2 text-sm font-semibold text-white/70 transition hover:bg-white/[0.1] hover:text-white"
         >
           Reset
         </button>
@@ -1520,6 +1474,30 @@ const PAUSE_SIGNALS = [
   { id: "rested", label: "I've eaten, slept, and moved my body recently.", tone: "secure" },
 ];
 
+function SignalGroup({ label, tone, checks, onToggle }) {
+  const styles = tone === "fear"
+    ? { box: "border-rose-300/15 bg-rose-500/[0.07]", label: "text-rose-200/85", accent: "accent-rose-400" }
+    : { box: "border-emerald-300/15 bg-emerald-500/[0.07]", label: "text-emerald-200/85", accent: "accent-emerald-400" };
+  return (
+    <fieldset className={`rounded-2xl border p-4 sm:p-5 ${styles.box}`}>
+      <legend className={`float-left mb-3 w-full text-xs font-semibold uppercase tracking-[0.18em] ${styles.label}`}>{label}</legend>
+      <div className="clear-left space-y-2">
+        {PAUSE_SIGNALS.filter((s) => s.tone === tone).map((signal) => (
+          <label key={signal.id} className="flex cursor-pointer items-start gap-3 rounded-xl border border-white/10 bg-black/20 p-3 text-sm leading-6 text-white/80 transition hover:bg-white/[0.05]">
+            <input
+              type="checkbox"
+              checked={!!checks[signal.id]}
+              onChange={() => onToggle(signal.id)}
+              className={`mt-1 h-4 w-4 shrink-0 ${styles.accent}`}
+            />
+            <span>{signal.label}</span>
+          </label>
+        ))}
+      </div>
+    </fieldset>
+  );
+}
+
 function PauseCheck() {
   const [message, setMessage] = useState("");
   const [checks, setChecks] = useState({});
@@ -1536,56 +1514,26 @@ function PauseCheck() {
   }, [fearCount, secureCount]);
 
   return (
-    <div className="space-y-5">
-      <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6">
-        <p className="text-xs font-black uppercase tracking-[0.35em] text-rose-200/70">Before you press send</p>
-        <p className="mt-3 text-white/72">Paste the message you're about to send. Check the boxes that apply. The mix of fear and security signals tells you whether to send, rewrite, or wait.</p>
-      </div>
+    <div className="space-y-4">
+      <p className="max-w-3xl text-[15px] leading-7 text-white/68">
+        Paste the message you're about to send and tick the statements that apply. The mix of fear and security signals tells you whether to send, rewrite, or wait.
+      </p>
 
-      <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-        <label className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">The message you almost sent</label>
+      <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-4 sm:p-5">
+        <label htmlFor="pause-check-message" className="text-xs font-semibold uppercase tracking-[0.18em] text-white/50">The message you almost sent</label>
         <textarea
+          id="pause-check-message"
           value={message}
           onChange={(event) => setMessage(event.target.value)}
           placeholder="Paste the draft here..."
           rows={4}
-          className="mt-3 w-full rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-sm leading-6 text-white outline-none placeholder:text-white/30 focus:border-white/30"
+          className="mt-3 w-full rounded-xl border border-white/10 bg-black/30 px-4 py-3 text-base leading-6 text-white outline-none placeholder:text-white/30 focus:border-white/30 sm:text-sm"
         />
       </div>
 
-      <div className="grid gap-4 lg:grid-cols-2">
-        <div className="rounded-3xl border border-rose-300/15 bg-rose-500/[0.08] p-5">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-rose-200/80">Fear signals</p>
-          <div className="mt-4 space-y-2">
-            {PAUSE_SIGNALS.filter((s) => s.tone === "fear").map((signal) => (
-              <label key={signal.id} className="flex cursor-pointer items-start gap-3 rounded-2xl border border-white/10 bg-black/20 p-3 text-sm leading-6 text-white/78 transition hover:bg-white/[0.05]">
-                <input
-                  type="checkbox"
-                  checked={!!checks[signal.id]}
-                  onChange={() => toggle(signal.id)}
-                  className="mt-1 h-4 w-4 shrink-0 accent-rose-400"
-                />
-                <span>{signal.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
-        <div className="rounded-3xl border border-emerald-300/15 bg-emerald-500/[0.08] p-5">
-          <p className="text-xs font-black uppercase tracking-[0.28em] text-emerald-200/80">Security signals</p>
-          <div className="mt-4 space-y-2">
-            {PAUSE_SIGNALS.filter((s) => s.tone === "secure").map((signal) => (
-              <label key={signal.id} className="flex cursor-pointer items-start gap-3 rounded-2xl border border-white/10 bg-black/20 p-3 text-sm leading-6 text-white/82 transition hover:bg-white/[0.05]">
-                <input
-                  type="checkbox"
-                  checked={!!checks[signal.id]}
-                  onChange={() => toggle(signal.id)}
-                  className="mt-1 h-4 w-4 shrink-0 accent-emerald-400"
-                />
-                <span>{signal.label}</span>
-              </label>
-            ))}
-          </div>
-        </div>
+      <div className="grid gap-3 lg:grid-cols-2">
+        <SignalGroup label="Fear signals" tone="fear" checks={checks} onToggle={toggle} />
+        <SignalGroup label="Security signals" tone="secure" checks={checks} onToggle={toggle} />
       </div>
 
       {verdict && (
@@ -1597,260 +1545,218 @@ function PauseCheck() {
   );
 }
 
-function InventoryConcept({ concept }) {
-  return (
-    <div className="space-y-5">
-      <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 via-white/[0.05] to-violet-500/10 p-6 md:p-8">
-        <p className="text-xs font-black uppercase tracking-[0.35em] text-rose-200/70">Inventory</p>
-        <p className="mt-4 text-2xl font-black leading-snug text-white md:text-3xl">{concept.short}</p>
-        {concept.intro && (
-          <p className="mt-5 max-w-3xl text-base leading-7 text-white/70 md:text-lg md:leading-8">{concept.intro}</p>
-        )}
-      </div>
-
-      <div className="grid gap-3 md:grid-cols-2">
-        {concept.items.map((item) => (
-          <div key={item.name} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
-            <p className="text-base font-black text-white">{item.name}</p>
-            {item.note && <p className="mt-2 text-sm leading-6 text-white/70">{item.note}</p>}
-          </div>
-        ))}
-      </div>
-
-      {concept.note && (
-        <div className="rounded-2xl border border-amber-300/20 bg-amber-500/10 p-4 text-sm leading-6 text-white/80">
-          <span className="mr-1 font-black text-amber-200/90">Grounding note.</span>
-          {concept.note}
-        </div>
-      )}
-    </div>
-  );
-}
-
-function renderConcept(concept) {
+function ConceptBody({ concept }) {
   if (concept.interactive === "clarity-check") return <ClarityCheck />;
   if (concept.interactive === "pause-check") return <PauseCheck />;
-  if (concept.inventory) return <InventoryConcept concept={concept} />;
-  if (concept.redflag) return <RedFlagConcept concept={concept} />;
-  return <ReflectionConcept concept={concept} />;
+  if (concept.inventory) return <InventoryBody concept={concept} />;
+  if (concept.redflag) return <RedFlagBody concept={concept} />;
+  return <ReflectionBody concept={concept} />;
 }
 
-function NavDropdown({ onSelect, currentId }) {
-  const [open, setOpen] = useState(false);
-  const ref = useRef(null);
+const pad = (n) => String(n).padStart(2, "0");
 
-  useEffect(() => {
-    if (!open) return;
-    const handleClick = (event) => {
-      if (ref.current && !ref.current.contains(event.target)) setOpen(false);
-    };
-    const handleKey = (event) => {
-      if (event.key === "Escape") setOpen(false);
-    };
-    document.addEventListener("mousedown", handleClick);
-    document.addEventListener("keydown", handleKey);
-    return () => {
-      document.removeEventListener("mousedown", handleClick);
-      document.removeEventListener("keydown", handleKey);
-    };
-  }, [open]);
-
+function ChapterIndex({ onOpenSection }) {
+  const topicCount = clarityChapters.reduce((sum, chapter) => sum + chapter.concepts.length, 0);
   return (
-    <div ref={ref} className="relative">
-      <button
-        type="button"
-        onClick={() => setOpen((value) => !value)}
-        aria-expanded={open}
-        aria-haspopup="menu"
-        className="flex items-center gap-2 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
-      >
-        <span>Browse concepts</span>
-        <span className={`text-xs transition-transform ${open ? "rotate-180" : ""}`}>▾</span>
-      </button>
-      {open && (
-        <div
-          role="menu"
-          className="absolute right-0 z-50 mt-2 max-h-96 w-80 overflow-y-auto rounded-2xl border border-white/15 bg-[#120710]/95 p-2 shadow-2xl shadow-black/60 backdrop-blur"
-        >
-          {CONCEPT_GROUPS.map((group) => {
-            const groupConcepts = concepts.filter((c) => c.group === group);
-            if (!groupConcepts.length) return null;
-            return (
-              <div key={group} className="mb-2 last:mb-0">
-                <p className="px-3 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">{group}</p>
-                {groupConcepts.map((concept) => (
-                  <button
-                    key={concept.id}
-                    type="button"
-                    role="menuitem"
-                    onClick={() => { onSelect(concept.id); setOpen(false); }}
-                    className={`block w-full rounded-xl px-3 py-2 text-left text-sm font-semibold transition hover:bg-white/[0.08] hover:text-white ${
-                      currentId === concept.id ? "bg-white/[0.1] text-white" : "text-white/75"
-                    }`}
-                  >
-                    {concept.label}
-                  </button>
-                ))}
-              </div>
-            );
-          })}
+    <div className="mx-auto max-w-6xl px-4 pb-24 pt-8 sm:px-6 sm:pt-12">
+      <header className="max-w-3xl">
+        <p className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-200/75">Relationship Clarity</p>
+        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl">
+          What is actually happening in this connection?
+        </h1>
+        <p className="mt-4 text-[15px] leading-7 text-white/65 sm:text-lg sm:leading-8">
+          {clarityChapters.length} short chapters for the moments a connection feels confusing — mixed signals, attraction, red flags, standards,
+          and what to say next. Each chapter gathers related topics on one page so you can read them together.
+        </p>
+      </header>
+
+      <dl className="mt-8 grid grid-cols-2 gap-2.5 lg:grid-cols-4">
+        {[
+          ["From security", "Your state is sourced from you, not their next move."],
+          ["From standards", "The love you say you're living in is the floor."],
+          ["From honesty", "Direct, calm, and once — not hinting or testing."],
+          ["From rest", "Decide from a settled body, not a flooded one."],
+        ].map(([word, desc]) => (
+          <div key={word} className="rounded-2xl border border-white/10 bg-white/[0.04] p-3.5 sm:p-4">
+            <dt className="text-sm font-semibold text-white">{word}</dt>
+            <dd className="mt-1 text-xs leading-5 text-white/55 sm:text-sm sm:leading-6">{desc}</dd>
+          </div>
+        ))}
+      </dl>
+
+      <section aria-labelledby="clarity-start" className="mt-6 flex flex-col gap-4 rounded-2xl border border-rose-300/20 bg-gradient-to-br from-rose-500/15 to-violet-500/10 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+        <div>
+          <h2 id="clarity-start" className="text-base font-semibold text-white sm:text-lg">Short on time? Start here.</h2>
+          <p className="mt-1 text-sm leading-6 text-white/65">
+            Read <strong className="font-semibold text-white">Security vs Fear</strong> — the question behind every other topic — then run a recent interaction through the Clarity Check.
+          </p>
         </div>
-      )}
-    </div>
-  );
-}
+        <div className="flex shrink-0 flex-wrap gap-2">
+          <button type="button" onClick={() => onOpenSection("security-vs-fear")} className="rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-slate-950 transition hover:bg-white/90">
+            Security vs Fear
+          </button>
+          <button type="button" onClick={() => onOpenSection("clarity-check")} className="rounded-xl border border-white/15 bg-white/[0.06] px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-white/[0.12]">
+            Clarity Check
+          </button>
+        </div>
+      </section>
 
-export default function RelationshipClarityPortal({ onBack, onNavigate, initialSection }) {
-  const current = initialSection ? conceptsById[initialSection] : null;
-  const currentIndex = current ? concepts.findIndex((c) => c.id === current.id) : -1;
-  const prevConcept = currentIndex > 0 ? concepts[currentIndex - 1] : null;
-  const nextConcept = currentIndex >= 0 && currentIndex < concepts.length - 1 ? concepts[currentIndex + 1] : null;
-
-  const goToConcept = (id) => {
-    if (onNavigate) onNavigate("relationships", { section: id });
-  };
-  const goToOverview = () => {
-    if (onNavigate) onNavigate("relationships");
-  };
-
-  return (
-    <div className="min-h-screen bg-[#0a0511] text-white">
-      <div className="pointer-events-none fixed inset-0 overflow-hidden">
-        <div className="absolute left-[-10%] top-[-10%] h-[32rem] w-[32rem] rounded-full bg-rose-500/20 blur-3xl" />
-        <div className="absolute right-[-12%] top-[18%] h-[30rem] w-[30rem] rounded-full bg-violet-600/15 blur-3xl" />
-        <div className="absolute bottom-[-10%] left-[20%] h-[28rem] w-[28rem] rounded-full bg-pink-500/10 blur-3xl" />
-      </div>
-
-      {onBack && (
-        <button
-          onClick={onBack}
-          className="fixed left-4 top-4 z-50 rounded-2xl border border-white/15 bg-white/[0.08] px-4 py-2 text-sm font-bold text-white backdrop-blur transition hover:bg-white/[0.14]"
-        >
-          ← Back
-        </button>
-      )}
-
-      <main className="relative mx-auto max-w-7xl px-5 py-8 sm:px-8 lg:px-10">
-        <header className="mb-8 overflow-hidden rounded-[2.5rem] border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/30 backdrop-blur md:p-10">
-          <nav className="mb-8 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <button type="button" onClick={goToOverview} className="flex items-center gap-3 text-left">
-              <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-rose-400 to-pink-500 text-2xl text-white">♡</div>
-              <div>
-                <p className="text-sm font-black tracking-wide text-white">Relationship Clarity Portal</p>
-                <p className="text-xs text-white/45">Standards • Security • Direct Communication</p>
-              </div>
-            </button>
-            <NavDropdown onSelect={goToConcept} currentId={current?.id} />
-          </nav>
-
-          {current ? (
-            <div>
+      <section aria-labelledby="clarity-chapters" className="mt-12">
+        <div className="mb-4 flex items-baseline justify-between gap-4">
+          <h2 id="clarity-chapters" className="text-xl font-semibold text-white sm:text-2xl">Chapters</h2>
+          <p className="text-xs font-medium text-white/45">{clarityChapters.length} chapters · {topicCount} topics</p>
+        </div>
+        <ol className="grid gap-3 md:grid-cols-2">
+          {clarityChapters.map((chapter, index) => (
+            <li key={chapter.id}>
               <button
                 type="button"
-                onClick={goToOverview}
-                className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-white/45 transition hover:text-white"
+                onClick={() => onOpenSection(chapter.id)}
+                className="group flex h-full w-full flex-col rounded-2xl border border-white/10 bg-white/[0.04] p-5 text-left transition hover:border-rose-300/30 hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60"
               >
-                <span aria-hidden>←</span> All concepts
+                <span className="flex items-center justify-between gap-3 text-xs font-semibold text-white/40">
+                  <span>Chapter {pad(index + 1)}</span>
+                  <span>{chapter.concepts.length} topics</span>
+                </span>
+                <span className="mt-3 text-lg font-semibold text-white">{chapter.title}</span>
+                <span className="mt-1 text-sm font-medium text-rose-100/80">{chapter.question}</span>
+                <span className="mt-3 flex-1 text-sm leading-6 text-white/58">{chapter.summary}</span>
+                <span className="mt-4 inline-flex items-center gap-1 text-sm font-semibold text-white/70 transition group-hover:text-white">
+                  Read chapter <span aria-hidden>→</span>
+                </span>
               </button>
-              <p className="mb-3 text-xs font-black uppercase tracking-[0.45em] text-rose-200/70">{current.group} · {current.kicker}</p>
-              <h1 className="text-4xl font-black leading-[0.98] tracking-[-0.045em] text-white md:text-6xl">{current.label}</h1>
-              <p className="mt-5 max-w-3xl text-base leading-7 text-white/65 md:text-lg md:leading-8">{current.short}</p>
-            </div>
-          ) : (
-            <div className="grid gap-8 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
-              <div>
-                <p className="mb-4 text-xs font-black uppercase tracking-[0.45em] text-rose-200/70">Connection · Clarity · Choice</p>
-                <h1 className="text-5xl font-black leading-[0.95] tracking-[-0.05em] text-white md:text-7xl">
-                  Does this connection match the love I say I'm living in?
-                </h1>
-                <p className="mt-6 max-w-2xl text-lg leading-8 text-white/65">
-                  A focused dashboard for the moments when a connection feels confusing — texting urges, mixed signals, anxious decoding. Each concept is its own page: a reflection, a standard, a communication move, or an interactive check.
-                </p>
-              </div>
-
-              <div className="rounded-[2rem] border border-white/10 bg-black/25 p-5">
-                <div className="rounded-[1.5rem] bg-gradient-to-br from-rose-500/20 to-violet-500/10 p-5">
-                  <p className="mb-4 text-xs font-bold uppercase tracking-[0.3em] text-white/40">Core stance</p>
-                  <div className="space-y-3">
-                    {[
-                      ["From security", "Your state is sourced from you, not their next move."],
-                      ["From standards", "The love you say you're living in is the floor, not the ceiling."],
-                      ["From honesty", "Direct, calm, and once — not hinting, testing, or chasing."],
-                      ["From rest", "Decide from a settled body, not a flooded one."],
-                    ].map(([word, desc]) => (
-                      <div key={word} className="rounded-2xl border border-white/10 bg-black/30 p-4">
-                        <p className="font-black text-white">{word}</p>
-                        <p className="mt-1 text-sm text-white/55">{desc}</p>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-          )}
-        </header>
-
-        {current ? (
-          <>
-            <div className="mb-8">{renderConcept(current)}</div>
-
-            <nav className="grid gap-3 md:grid-cols-2">
-              {prevConcept ? (
-                <button
-                  type="button"
-                  onClick={() => goToConcept(prevConcept.id)}
-                  className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-left transition hover:border-white/25 hover:bg-white/[0.09]"
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/40">← Previous</p>
-                  <p className="mt-2 text-lg font-black text-white">{prevConcept.label}</p>
-                </button>
-              ) : <div />}
-              {nextConcept ? (
-                <button
-                  type="button"
-                  onClick={() => goToConcept(nextConcept.id)}
-                  className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-right transition hover:border-white/25 hover:bg-white/[0.09]"
-                >
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/40">Next →</p>
-                  <p className="mt-2 text-lg font-black text-white">{nextConcept.label}</p>
-                </button>
-              ) : <div />}
-            </nav>
-          </>
-        ) : (
-          <>
-            {CONCEPT_GROUPS.map((group) => {
-              const groupConcepts = concepts.filter((c) => c.group === group);
-              if (!groupConcepts.length) return null;
-              return (
-                <section key={group} className="mb-10">
-                  <div className="mb-5 flex items-baseline justify-between">
-                    <h2 className="text-2xl font-black text-white">{group}</h2>
-                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/35">{groupConcepts.length} {groupConcepts.length === 1 ? "concept" : "concepts"}</p>
-                  </div>
-                  <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                    {groupConcepts.map((concept) => (
-                      <SectionCard key={concept.id} concept={concept} onSelect={goToConcept} />
-                    ))}
-                  </div>
-                </section>
-              );
-            })}
-
-            <section className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-rose-500/15 to-violet-500/10 p-6 md:p-8">
-              <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/45">Start Here</p>
-              <h2 className="mt-2 text-3xl font-black text-white">If you only have five minutes</h2>
-              <p className="mt-4 max-w-2xl text-base leading-7 text-white/70">
-                Open <strong className="text-white">Security vs Fear</strong> first — the one question behind every other concept here. Then run a recent interaction through the <strong className="text-white">Connection Clarity Check</strong>.
-              </p>
-              <div className="mt-6 flex flex-wrap gap-3">
-                <button onClick={() => goToConcept("security-vs-fear")} className="rounded-2xl bg-white px-5 py-3 text-sm font-black text-slate-950 transition hover:scale-[1.02]">Open Security vs Fear</button>
-                <button onClick={() => goToConcept("clarity-check")} className="rounded-2xl border border-white/15 bg-white/[0.06] px-5 py-3 text-sm font-black text-white transition hover:bg-white/[0.1]">Run Clarity Check</button>
-              </div>
-            </section>
-          </>
-        )}
-      </main>
+            </li>
+          ))}
+        </ol>
+      </section>
     </div>
   );
+}
+
+function ChapterPage({ chapter, focusId, onOpenSection }) {
+  const chapterIndex = clarityChapters.findIndex((c) => c.id === chapter.id);
+  const prevChapter = clarityChapters[chapterIndex - 1] ?? null;
+  const nextChapter = clarityChapters[chapterIndex + 1] ?? null;
+  const chapterConcepts = chapter.concepts.map((id) => conceptsById[id]).filter(Boolean);
+
+  // A concept's own link opens its chapter; bring that concept into view.
+  // The router has already scrolled to the top by the time this runs.
+  useEffect(() => {
+    if (!focusId) return;
+    document.getElementById(focusId)?.scrollIntoView({ block: "start" });
+  }, [focusId]);
+
+  const jumpTo = (id) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" });
+  };
+
+  return (
+    <div className="mx-auto max-w-6xl px-4 pb-24 pt-8 sm:px-6 sm:pt-12">
+      <header className="max-w-3xl">
+        <button
+          type="button"
+          onClick={() => onOpenSection("clarity")}
+          className="text-xs font-semibold uppercase tracking-[0.22em] text-rose-200/75 transition hover:text-white"
+        >
+          Clarity · Chapter {pad(chapterIndex + 1)} of {pad(clarityChapters.length)}
+        </button>
+        <h1 className="mt-3 text-3xl font-bold leading-tight tracking-tight text-white sm:text-5xl">{chapter.title}</h1>
+        <p className="mt-3 text-lg font-medium text-rose-100/85 sm:text-xl">{chapter.question}</p>
+        <p className="mt-3 text-[15px] leading-7 text-white/60 sm:text-base">{chapter.summary}</p>
+      </header>
+
+      <div className="mt-8 lg:grid lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-12">
+        <nav aria-label="In this chapter" className="lg:sticky lg:top-24 lg:self-start">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-[0.18em] text-white/40">In this chapter</p>
+          <ol className="-mx-4 flex gap-2 overflow-x-auto px-4 pb-2 [scrollbar-width:none] lg:mx-0 lg:block lg:space-y-0.5 lg:overflow-visible lg:px-0 [&::-webkit-scrollbar]:hidden">
+            {chapterConcepts.map((concept, i) => (
+              <li key={concept.id} className="shrink-0">
+                <button
+                  type="button"
+                  onClick={() => jumpTo(concept.id)}
+                  className="whitespace-nowrap rounded-full border border-white/12 bg-white/[0.05] px-3 py-1.5 text-[13px] font-medium text-white/75 transition hover:bg-white/[0.1] hover:text-white lg:flex lg:w-full lg:gap-2 lg:whitespace-normal lg:rounded-lg lg:border-0 lg:bg-transparent lg:px-2 lg:py-1.5 lg:text-left lg:text-sm"
+                >
+                  <span className="hidden text-white/35 lg:inline">{i + 1}.</span>
+                  {concept.label}
+                </button>
+              </li>
+            ))}
+          </ol>
+        </nav>
+
+        <article className="mt-6 min-w-0 space-y-12 lg:mt-0">
+          {chapterConcepts.map((concept, i) => (
+            <section
+              key={concept.id}
+              id={concept.id}
+              aria-labelledby={`${concept.id}-title`}
+              className="scroll-mt-36 border-t border-white/10 pt-8 first:border-t-0 first:pt-0 lg:scroll-mt-24"
+            >
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-white/40">
+                {chapterIndex + 1}.{i + 1} · {conceptType(concept)}
+              </p>
+              <h2 id={`${concept.id}-title`} className="mt-2 text-2xl font-bold tracking-tight text-white sm:text-3xl">{concept.label}</h2>
+              <p className="mt-2 text-[15px] leading-7 text-white/60 sm:text-base">{concept.short}</p>
+              <div className="mt-6">
+                <ConceptBody concept={concept} />
+              </div>
+            </section>
+          ))}
+        </article>
+      </div>
+
+      <nav aria-label="Chapters" className="mt-16 grid gap-3 border-t border-white/10 pt-8 sm:grid-cols-2">
+        {prevChapter ? (
+          <button
+            type="button"
+            onClick={() => onOpenSection(prevChapter.id)}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.08]"
+          >
+            <span className="block text-xs font-semibold text-white/45">← Previous chapter</span>
+            <span className="mt-1 block text-base font-semibold text-white">{prevChapter.title}</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onOpenSection("clarity")}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-white/25 hover:bg-white/[0.08]"
+          >
+            <span className="block text-xs font-semibold text-white/45">← Back to</span>
+            <span className="mt-1 block text-base font-semibold text-white">All chapters</span>
+          </button>
+        )}
+        {nextChapter ? (
+          <button
+            type="button"
+            onClick={() => onOpenSection(nextChapter.id)}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-right transition hover:border-white/25 hover:bg-white/[0.08]"
+          >
+            <span className="block text-xs font-semibold text-white/45">Next chapter →</span>
+            <span className="mt-1 block text-base font-semibold text-white">{nextChapter.title}</span>
+          </button>
+        ) : (
+          <button
+            type="button"
+            onClick={() => onOpenSection("clarity")}
+            className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-right transition hover:border-white/25 hover:bg-white/[0.08]"
+          >
+            <span className="block text-xs font-semibold text-white/45">Finished →</span>
+            <span className="mt-1 block text-base font-semibold text-white">All chapters</span>
+          </button>
+        )}
+      </nav>
+    </div>
+  );
+}
+
+// Renders inside the Relationship Hub, which owns the page chrome (background,
+// top bar, back button). `initialSection` is a chapter id, a concept id (opens
+// its chapter scrolled to that concept), or empty for the chapter index.
+export default function RelationshipClarityPortal({ initialSection, onOpenSection }) {
+  const chapter = clarityChapterFor(initialSection);
+  const open = (section) => onOpenSection?.(section);
+
+  if (!chapter) return <ChapterIndex onOpenSection={open} />;
+  const focusId = conceptsById[initialSection] ? initialSection : null;
+  return <ChapterPage chapter={chapter} focusId={focusId} onOpenSection={open} />;
 }
