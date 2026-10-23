@@ -4,7 +4,7 @@ import './RelationshipPatterns.css';
 
 function PatternLibrary({ onOpen }) {
   return (
-    <main className="rp-library rp-page-enter">
+    <div className="rp-library rp-page-enter">
       <header className="rp-library-hero">
         <p className="rp-eyebrow">A field guide to connection</p>
         <h1>Relationship<br />Patterns</h1>
@@ -38,7 +38,7 @@ function PatternLibrary({ onOpen }) {
         <span>Use this as a mirror, not a label.</span>
         These concepts describe common protective moves. They are not diagnoses, and context always matters.
       </aside>
-    </main>
+    </div>
   );
 }
 
@@ -56,7 +56,7 @@ function PatternDetail({ pattern, index, onOpen, onAllPatterns }) {
   const next = relationshipPatterns[(index + 1) % relationshipPatterns.length];
 
   return (
-    <main className="rp-detail rp-page-enter" style={{ '--pattern-color': pattern.color }}>
+    <div className="rp-detail rp-page-enter" style={{ '--pattern-color': pattern.color }}>
       <header className="rp-detail-hero">
         <div className="rp-hero-orbit" aria-hidden="true"><span>{pattern.icon}</span></div>
         <div className="rp-detail-heading">
@@ -160,7 +160,7 @@ function PatternDetail({ pattern, index, onOpen, onAllPatterns }) {
           <span>Next →</span><strong>{next.name}</strong>
         </button>
       </nav>
-    </main>
+    </div>
   );
 }
 

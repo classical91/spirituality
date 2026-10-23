@@ -16,6 +16,7 @@
 //
 // The hub owns the page chrome for every tab — background and the sticky top
 // bar with the back button and tab switcher — so the tabs render content only.
+import { useEffect } from "react";
 import RelationshipClarityPortal from "./RelationshipClarityPortal";
 import RelationshipPatterns from "./RelationshipPatterns";
 import RelationshipPractice from "./RelationshipPractice";
@@ -85,7 +86,8 @@ function describeScreen(tab, sub) {
       : { title: "Relationship Patterns", back: { label: "Overview", section: null } };
   }
   if (tab === "practice") {
-    const title = relationshipSectionsById[sub]?.title;
+    // A skill-area link ("skills-consent") is still the Skills screen.
+    const title = relationshipSectionsById[sub?.startsWith("skills-") ? "skills" : sub]?.title;
     return { title: title ? `Practice · ${title}` : "Relationship Practice", back: { label: "Overview", section: null } };
   }
   return { title: "Overview", back: null };
@@ -122,7 +124,7 @@ function HubTopBar({ tab, title, backLabel, onBackClick, onSelectTab }) {
                 type="button"
                 aria-current={active ? "page" : undefined}
                 onClick={() => onSelectTab(t.id)}
-                className={`rounded-full px-2 py-1.5 text-[13px] font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60 md:px-4 ${
+                className={`min-h-9 rounded-full px-2 py-2 text-[13px] font-semibold transition focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60 md:px-4 ${
                   active ? "bg-white text-slate-950 shadow" : "text-white/65 hover:bg-white/[0.08] hover:text-white"
                 }`}
               >
@@ -158,7 +160,7 @@ function Overview({ onOpenTab, onOpenSection }) {
                 onClick={() => onOpenTab(part.id)}
                 className={`group flex h-full w-full flex-col rounded-2xl border border-white/10 bg-gradient-to-br ${part.accent} to-white/[0.03] p-5 text-left transition hover:border-white/25 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60`}
               >
-                <span className="flex items-center justify-between text-xs font-semibold text-white/45">
+                <span className="flex items-center justify-between text-xs font-semibold text-white/55">
                   <span>Part {index + 1} · {part.label}</span>
                   <span>{part.meta}</span>
                 </span>
@@ -183,7 +185,7 @@ function Overview({ onOpenTab, onOpenSection }) {
               onClick={() => onOpenSection(tool.section)}
               className="rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-left transition hover:border-rose-300/30 hover:bg-white/[0.07] focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/60"
             >
-              <span className="block text-[15px] font-semibold text-white">{tool.title} <span aria-hidden className="text-white/40">→</span></span>
+              <span className="block text-[15px] font-semibold text-white">{tool.title} <span aria-hidden className="text-white/55">→</span></span>
               <span className="mt-1 block text-sm leading-6 text-white/58">{tool.text}</span>
             </button>
           ))}
@@ -206,7 +208,7 @@ function Overview({ onOpenTab, onOpenSection }) {
                     key={chip.id}
                     type="button"
                     onClick={() => onOpenSection(chip.section)}
-                    className="rounded-full border border-rose-300/20 bg-rose-500/10 px-3 py-1.5 text-xs font-semibold text-rose-100/85 transition hover:border-rose-300/50 hover:bg-rose-500/20 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/70"
+                    className="min-h-8 rounded-full border border-rose-300/20 bg-rose-500/10 px-3 py-1.5 text-xs font-semibold text-rose-100/85 transition hover:border-rose-300/50 hover:bg-rose-500/20 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/70"
                   >
                     {chip.title}
                   </button>
@@ -232,6 +234,16 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
   const openTab = (id) => openSection(sectionForTab(id));
 
   const screen = describeScreen(tab, sub);
+
+  // Name the tab after the screen so history, bookmarks, and shared links read
+  // as the page they open. The previous title comes back when the hub closes.
+  useEffect(() => {
+    const previous = document.title;
+    document.title = tab === "overview"
+      ? "Relationship Hub · Sacred Pathways"
+      : `${screen.title} · Relationship Hub · Sacred Pathways`;
+    return () => { document.title = previous; };
+  }, [tab, screen.title]);
   const back = screen.back
     ? { label: screen.back.label, onClick: () => openSection(screen.back.section) }
     : onBack
@@ -262,7 +274,7 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
         onBackClick={back?.onClick}
         onSelectTab={(id) => openTab(id === "overview" ? null : id)}
       />
-      <div className="relative">{content}</div>
+      <main id="main" className="relative">{content}</main>
     </div>
   );
 }

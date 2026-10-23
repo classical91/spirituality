@@ -2,7 +2,7 @@
 // foundations, skills, marriage, dynamics, and scripting. Lives inside the
 // Relationship Hub alongside Clarity and Patterns; the hub owns the page
 // chrome (background, top bar, back button).
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RelationshipFoundations from "./RelationshipFoundations";
 
 const marriageThemes = [
@@ -345,7 +345,7 @@ function renderMarriage() {
       </div>
 
       <div className="mt-6 rounded-3xl border border-white/10 bg-white/[0.03] p-5">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Ways to use these themes</p>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Ways to use these themes</p>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-4">
           {marriageUseCases.map(([title, desc]) => (
             <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
@@ -357,7 +357,7 @@ function renderMarriage() {
       </div>
 
       <div className="mt-6">
-        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Emotions of Being Together</p>
+        <p className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Emotions of Being Together</p>
         <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
           {togethernessEmotions.map((e) => (
             <div key={e.name} className="rounded-2xl border border-rose-400/20 bg-rose-400/[0.05] p-4">
@@ -470,67 +470,77 @@ function renderSkills() {
 
       <div className="space-y-6">
         {skillAreas.map((area) => (
-          <Card key={area.id}>
-            <div className="mb-5 flex items-start gap-3">
-              <span className="text-2xl leading-none">{area.icon}</span>
-              <div>
-                <h3 className="text-lg font-bold text-white">{area.title}</h3>
-                <p className="mt-1 text-xs leading-5 text-slate-400">{area.description}</p>
-              </div>
-            </div>
-
-            {area.principles && (
-              <div className="mb-5 rounded-2xl border p-4" style={{ borderColor: `${area.accent}30`, background: `${area.accent}0f` }}>
-                <SkillList label="The ground rules of consent" items={area.principles} accent={area.accent} />
-              </div>
-            )}
-
-            <div className="grid gap-5 md:grid-cols-2">
-              {area.skills && <SkillList label="Skills to practice" items={area.skills} accent={area.accent} />}
-
-              {area.scripts && (
+          <section key={area.id} id={`${SKILL_SECTION_PREFIX}${area.id}`} aria-label={area.title} className="scroll-mt-48 md:scroll-mt-36">
+            <Card>
+              <div className="mb-5 flex items-start gap-3">
+                <span className="text-2xl leading-none">{area.icon}</span>
                 <div>
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em]" style={{ color: area.accent }}>Scripts to borrow</p>
-                  <div className="space-y-2">
-                    {area.scripts.map((line) => (
-                      <p key={line} className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm leading-6 text-slate-200">{line}</p>
-                    ))}
+                  <h3 className="text-lg font-bold text-white">{area.title}</h3>
+                  <p className="mt-1 text-xs leading-5 text-slate-400">{area.description}</p>
+                </div>
+              </div>
+
+              {area.principles && (
+                <div className="mb-5 rounded-2xl border p-4" style={{ borderColor: `${area.accent}30`, background: `${area.accent}0f` }}>
+                  <SkillList label="The ground rules of consent" items={area.principles} accent={area.accent} />
+                </div>
+              )}
+
+              <div className="grid gap-5 md:grid-cols-2">
+                {area.skills && <SkillList label="Skills to practice" items={area.skills} accent={area.accent} />}
+
+                {area.scripts && (
+                  <div>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em]" style={{ color: area.accent }}>Scripts to borrow</p>
+                    <div className="space-y-2">
+                      {area.scripts.map((line) => (
+                        <p key={line} className="rounded-xl border border-white/10 bg-white/[0.04] px-3 py-2 text-sm leading-6 text-slate-200">{line}</p>
+                      ))}
+                    </div>
                   </div>
-                </div>
-              )}
+                )}
 
-              {area.apology && (
-                <div>
-                  <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em]" style={{ color: area.accent }}>Anatomy of a complete apology</p>
-                  <ol className="space-y-2">
-                    {area.apology.map((step, i) => (
-                      <li key={step} className="flex gap-2.5 text-sm leading-6 text-slate-300">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold" style={{ background: `${area.accent}22`, color: area.accent }}>{i + 1}</span>
-                        <span>{step}</span>
-                      </li>
-                    ))}
-                  </ol>
-                </div>
-              )}
-            </div>
+                {area.apology && (
+                  <div>
+                    <p className="mb-3 text-xs font-semibold uppercase tracking-[0.22em]" style={{ color: area.accent }}>Anatomy of a complete apology</p>
+                    <ol className="space-y-2">
+                      {area.apology.map((step, i) => (
+                        <li key={step} className="flex gap-2.5 text-sm leading-6 text-slate-300">
+                          <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full text-[11px] font-bold" style={{ background: `${area.accent}22`, color: area.accent }}>{i + 1}</span>
+                          <span>{step}</span>
+                        </li>
+                      ))}
+                    </ol>
+                  </div>
+                )}
+              </div>
 
-            {area.note && (
-              <p className="mt-5 rounded-2xl border border-rose-400/25 bg-rose-500/10 p-4 text-xs leading-6 text-slate-200">
-                <span className="mr-1 font-black text-rose-300">Safety note.</span>{area.note}
-              </p>
-            )}
-          </Card>
+              {area.note && (
+                <p className="mt-5 rounded-2xl border border-rose-400/25 bg-rose-500/10 p-4 text-xs leading-6 text-slate-200">
+                  <span className="mr-1 font-black text-rose-300">Safety note.</span>{area.note}
+                </p>
+              )}
+            </Card>
+          </section>
         ))}
       </div>
     </div>
   );
 }
 
+// Each skill area is also addressable on its own ("skills-consent", …) so a
+// link about one skill opens the Skills tab scrolled to the area that covers it.
+const SKILL_SECTION_PREFIX = "skills-";
+const skillAreaSections = new Set(skillAreas.map((area) => `${SKILL_SECTION_PREFIX}${area.id}`));
+
 export default function RelationshipPractice({ initialSection, onOpenSection }) {
   // Each practice tab id is a routable ?section= value, so when the hub gives
   // us a router the URL owns the visible tab and every switch is a history
   // entry. `localTab` is the fallback for a router-less render.
-  const routedTab = PRACTICE_TABS.some((t) => t.id === initialSection) ? initialSection : null;
+  const focusArea = skillAreaSections.has(initialSection) ? initialSection : null;
+  const routedTab = focusArea
+    ? "skills"
+    : PRACTICE_TABS.some((t) => t.id === initialSection) ? initialSection : null;
   const [localTab, setLocalTab] = useState(routedTab ?? "foundations");
   const [lastSection, setLastSection] = useState(initialSection);
   if (initialSection !== lastSection) {
@@ -539,6 +549,11 @@ export default function RelationshipPractice({ initialSection, onOpenSection }) 
   }
 
   const tab = routedTab ?? localTab;
+
+  // The router has already scrolled to the top by the time this runs.
+  useEffect(() => {
+    if (focusArea) document.getElementById(focusArea)?.scrollIntoView({ block: "start" });
+  }, [focusArea]);
   const setTab = (id) => {
     setLocalTab(id);
     onOpenSection?.(id);
@@ -561,7 +576,7 @@ export default function RelationshipPractice({ initialSection, onOpenSection }) 
           Foundations, everyday skills, marriage, dynamics, and scripting — how to live love out with honesty, and without losing yourself in it.
         </p>
       </header>
-      <nav aria-label="Practice sections" className="sticky top-[6.8rem] z-30 -mx-4 mb-8 border-y border-white/10 bg-[#0a0511]/85 px-4 py-2.5 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border md:top-[4.5rem]">
+      <nav aria-label="Practice sections" className="sticky top-[7.125rem] z-30 -mx-4 mb-8 border-y border-white/10 bg-[#0a0511]/85 px-4 py-2.5 backdrop-blur-xl sm:mx-0 sm:rounded-2xl sm:border md:top-[4.5rem]">
         <ul className="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
           {PRACTICE_TABS.map((t) => (
             <li key={t.id} className="shrink-0">
