@@ -35,7 +35,7 @@ export default function InnerAtlasNav({ activeId, onBack, onSelectSection, title
 
           <div className="min-w-0">
             <div className="text-sm font-black" style={{ color: 'var(--ia-accent, #86efac)' }}>InnerAtlas</div>
-            {title && <div className="truncate text-xs font-semibold text-slate-500">{title}</div>}
+            {title && <div className="truncate text-xs font-semibold text-slate-400">{title}</div>}
           </div>
         </div>
 

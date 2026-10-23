@@ -960,7 +960,7 @@ function SectionShell({ id, kicker, title, description, children, className = ""
     <section id={id} className={`scroll-mt-8 mb-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 shadow-2xl shadow-black/20 md:p-8 ${className}`}>
       <div className="mb-6 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">{kicker}</p>
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55">{kicker}</p>
           <h2 className="mt-2 text-3xl font-black text-white">{title}</h2>
         </div>
         {description && <p className="max-w-xl text-sm leading-6 text-white/55">{description}</p>}
@@ -1010,11 +1010,11 @@ function SceneCanvas({ selected }) {
       <div className="relative z-10">
         <div className="mb-6 flex items-center justify-between gap-3">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Selected Framework</p>
+            <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55">Selected Framework</p>
             <h2 className="mt-2 text-3xl font-black tracking-tight text-white">{selected.title}</h2>
           </div>
           <div className="hidden rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-right sm:block">
-            <p className="text-xs text-white/45">Mode</p>
+            <p className="text-xs text-white/55">Mode</p>
             <p className="font-bold text-white">Practice View</p>
           </div>
         </div>
@@ -1023,7 +1023,7 @@ function SceneCanvas({ selected }) {
 
         <div className="mt-8 grid gap-4 lg:grid-cols-[1fr_0.9fr]">
           <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-            <h4 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-white/45">How to use it</h4>
+            <h4 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-white/55">How to use it</h4>
             <div className="space-y-3">
               {selected.steps.map((step, index) => (
                 <div key={step} className="flex gap-3 rounded-2xl border border-white/10 bg-black/20 p-3">
@@ -1035,12 +1035,12 @@ function SceneCanvas({ selected }) {
           </div>
 
           <div className="rounded-3xl border border-white/10 bg-white/[0.06] p-5">
-            <h4 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-white/45">Demonstration</h4>
+            <h4 className="mb-4 text-sm font-black uppercase tracking-[0.24em] text-white/55">Demonstration</h4>
             <div className="rounded-2xl bg-black/25 p-5">
               <p className="text-sm leading-7 text-white/75">{selected.example}</p>
             </div>
             <div className="mt-4 rounded-2xl border border-dashed border-white/20 p-4">
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Core instruction</p>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/55">Core instruction</p>
               <p className="mt-2 text-lg font-black text-white">Do not stare at lack. Practice being the fulfilled self.</p>
             </div>
           </div>
@@ -1059,7 +1059,7 @@ function ModernParallels() {
       description="Connect modern self-development language with Neville's original style so the ideas feel easier to use."
     >
       <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/20">
-        <div className="hidden grid-cols-[1fr_1.2fr_1.6fr_1.1fr] border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/40 md:grid">
+        <div className="hidden grid-cols-[1fr_1.2fr_1.6fr_1.1fr] border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/55 md:grid">
           <span>Modern Term</span>
           <span>Neville's Language</span>
           <span>Description</span>
@@ -1068,19 +1068,19 @@ function ModernParallels() {
         {keyParallels.map((item) => (
           <div key={item.modern} className="grid gap-3 border-b border-white/10 p-5 last:border-b-0 md:grid-cols-[1fr_1.2fr_1.6fr_1.1fr] md:items-start">
             <div>
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/30 md:hidden">Modern Term</p>
+              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/55 md:hidden">Modern Term</p>
               <p className="font-black text-white">{item.modern}</p>
             </div>
             <div>
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/30 md:hidden">Neville's Language</p>
+              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/55 md:hidden">Neville's Language</p>
               <p className="text-white/78">"{item.neville}"</p>
             </div>
             <div>
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/30 md:hidden">Description</p>
+              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/55 md:hidden">Description</p>
               <p className="text-sm leading-7 text-white/62">{item.description}</p>
             </div>
             <div>
-              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/30 md:hidden">Use Case</p>
+              <p className="mb-1 text-xs font-bold uppercase tracking-[0.22em] text-white/55 md:hidden">Use Case</p>
               <p className="text-sm leading-7 text-white/55">{item.use}</p>
             </div>
           </div>
@@ -1162,7 +1162,7 @@ function SubconsciousResponseStack() {
     >
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/20">
-          <div className="hidden grid-cols-[0.9fr_1fr_1.5fr] border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/40 md:grid">
+          <div className="hidden grid-cols-[0.9fr_1fr_1.5fr] border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/55 md:grid">
             <span>Element</span>
             <span>Strength</span>
             <span>Neville Meaning</span>
@@ -1205,7 +1205,7 @@ function EmotionalToneDistinction() {
     >
       <div className="grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/20">
-          <div className="grid grid-cols-2 border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/40">
+          <div className="grid grid-cols-2 border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/55">
             <span>Emotional Tone</span>
             <span>State</span>
           </div>
@@ -1255,7 +1255,7 @@ function BridgeStateDetector() {
             >
               <div className="flex items-center justify-between gap-3">
                 <span className="text-lg font-black text-white">⚠️ {item.word}</span>
-                <span className="rounded-full bg-black/25 px-3 py-1 text-xs text-white/45">{item.warning}</span>
+                <span className="rounded-full bg-black/25 px-3 py-1 text-xs text-white/55">{item.warning}</span>
               </div>
               <p className="mt-2 text-sm text-white/55">{item.energy}</p>
             </button>
@@ -1337,7 +1337,7 @@ function WordVerdictMapper() {
     >
       <div className="grid gap-5 lg:grid-cols-[1.1fr_0.9fr]">
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/20">
-          <div className="grid grid-cols-[1fr_1fr_1.2fr] border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/40">
+          <div className="grid grid-cols-[1fr_1fr_1.2fr] border-b border-white/10 bg-white/[0.05] px-5 py-4 text-xs font-black uppercase tracking-[0.22em] text-white/55">
             <span>Word</span>
             <span>Verdict</span>
             <span>Why</span>
@@ -1389,7 +1389,7 @@ function AgreeingConsentSection() {
     >
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
-          <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Agreement Ladder</p>
+          <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/55">Agreement Ladder</p>
           <div className="mt-4 flex flex-col gap-3 md:flex-row md:items-center">
             {agreementLadder.map((step, index) => (
               <React.Fragment key={step}>
@@ -1500,7 +1500,7 @@ function PhraseAnalyzer() {
       className="bg-gradient-to-br from-emerald-500/10 via-white/[0.05] to-cyan-500/10"
     >
       <div className="mb-4 flex flex-wrap items-center gap-3">
-        <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">Pronoun presets</span>
+        <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Pronoun presets</span>
         <div className="flex flex-wrap gap-1 rounded-full border border-white/10 bg-white/5 p-1">
           {PRONOUN_PRESETS.map((p) => (
             <button
@@ -1518,7 +1518,7 @@ function PhraseAnalyzer() {
 
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
         <div className="rounded-[1.5rem] border border-white/10 bg-black/25 p-5">
-          <label className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Your phrase</label>
+          <label className="text-xs font-bold uppercase tracking-[0.25em] text-white/55">Your phrase</label>
           <textarea
             value={phrase}
             onChange={(event) => setPhrase(event.target.value)}
@@ -1538,7 +1538,7 @@ function PhraseAnalyzer() {
           </div>
 
           <div className="mt-5 flex flex-wrap items-center gap-3">
-            <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">Rewrite mode</span>
+            <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Rewrite mode</span>
             <div className="flex flex-wrap gap-1 rounded-full border border-white/10 bg-white/5 p-1">
               {ANALYZER_MODES.map((m) => (
                 <button
@@ -1575,14 +1575,14 @@ function PhraseAnalyzer() {
 
           {saved.length > 0 && (
             <div className="mt-4 rounded-2xl border border-white/10 bg-black/20 p-4">
-              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/45">Saved phrases ({saved.length})</p>
+              <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Saved phrases ({saved.length})</p>
               <ul className="mt-2 space-y-2">
                 {saved.map((s) => (
                   <li key={s.text} className="flex items-start justify-between gap-3 text-sm text-white/80">
                     <span className="leading-6">{s.text}</span>
                     <button
                       onClick={() => removeSaved(s.text)}
-                      className="rounded-md px-2 py-1 text-xs text-white/35 transition hover:text-white"
+                      className="rounded-md px-2 py-1 text-xs text-white/55 transition hover:text-white"
                       aria-label="Remove saved phrase"
                     >
                       ✕
@@ -1597,11 +1597,11 @@ function PhraseAnalyzer() {
         <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/70 p-5">
           <div className="mb-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Verdict · {analysis.category}</p>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/55">Verdict · {analysis.category}</p>
               <h3 className="mt-2 text-3xl font-black text-white">{analysis.verdict}</h3>
             </div>
             <div className="rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-right">
-              <p className="text-xs text-white/40">Identity</p>
+              <p className="text-xs text-white/55">Identity</p>
               <p className="text-xl font-black text-white">{analysis.identityScore}/100</p>
             </div>
           </div>
@@ -1635,7 +1635,7 @@ function PhraseAnalyzer() {
           <div className="mt-4 grid gap-3 md:grid-cols-2">
             {checks.map((check) => (
               <div key={check.label} className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/35">{check.label}</p>
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">{check.label}</p>
                 <p className="mt-2 text-sm leading-6 text-white/70">
                   {check.active ? check.good : check.bad}
                 </p>
@@ -1689,7 +1689,7 @@ function PhraseAnalyzer() {
       </div>
 
       <div className="mt-6 overflow-hidden rounded-[1.5rem] border border-white/10">
-        <div className="grid grid-cols-2 border-b border-white/10 bg-white/5 text-xs font-black uppercase tracking-[0.2em] text-white/45">
+        <div className="grid grid-cols-2 border-b border-white/10 bg-white/5 text-xs font-black uppercase tracking-[0.2em] text-white/55">
           <div className="p-3">From wanting</div>
           <div className="border-l border-white/10 p-3">To being</div>
         </div>
@@ -1697,7 +1697,7 @@ function PhraseAnalyzer() {
           <div key={row.before} className="grid grid-cols-1 border-b border-white/10 last:border-b-0 sm:grid-cols-2">
             <div className="bg-slate-950/50 p-3">
               <p className="text-sm font-bold text-white/75">{row.before}</p>
-              <p className="mt-1 text-[11px] leading-4 text-white/40">{row.note}</p>
+              <p className="mt-1 text-[11px] leading-4 text-white/55">{row.note}</p>
             </div>
             <div className="flex items-start justify-between gap-3 border-white/10 bg-cyan-300/5 p-3 sm:border-l">
               <button
@@ -1751,13 +1751,15 @@ function StateBuilder() {
     const next = [entry, ...saved].slice(0, 5);
     setSaved(next);
     if (typeof window !== "undefined") {
-      window.localStorage.setItem("neville-state-builder", JSON.stringify(next));
+      try { window.localStorage.setItem("neville-state-builder", JSON.stringify(next)); } catch { /* storage unavailable — keep going */ }
     }
   };
 
   const clearSaved = () => {
     setSaved([]);
-    if (typeof window !== "undefined") window.localStorage.removeItem("neville-state-builder");
+    if (typeof window !== "undefined") {
+      try { window.localStorage.removeItem("neville-state-builder"); } catch { /* storage unavailable — keep going */ }
+    }
   };
 
   const fields = [
@@ -1782,7 +1784,7 @@ function StateBuilder() {
           <div className="grid gap-4 md:grid-cols-2">
             {fields.map((field) => (
               <label key={field.key} className={field.key === "sats" || field.key === "revision" || field.key === "mentalDiet" ? "md:col-span-2" : ""}>
-                <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/35">{field.label}</span>
+                <span className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">{field.label}</span>
                 <textarea
                   value={form[field.key]}
                   onChange={(event) => updateField(field.key, event.target.value)}
@@ -1800,7 +1802,7 @@ function StateBuilder() {
         <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/70 p-5">
           <div className="mb-5 flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Generated Practice</p>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/55">Generated Practice</p>
               <h3 className="mt-2 text-3xl font-black text-white">Your fulfilled-state card</h3>
             </div>
             <CopyTextButton
@@ -1818,13 +1820,13 @@ function StateBuilder() {
           {saved.length > 0 && (
             <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-4">
               <div className="mb-3 flex items-center justify-between gap-3">
-                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/35">Saved locally</p>
-                <button onClick={clearSaved} className="text-xs font-bold text-white/40 hover:text-white">Clear</button>
+                <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Saved locally</p>
+                <button onClick={clearSaved} className="text-xs font-bold text-white/55 hover:text-white">Clear</button>
               </div>
               <div className="space-y-3">
                 {saved.map((entry) => (
                   <div key={entry.id} className="rounded-xl border border-white/10 bg-black/20 p-3">
-                    <p className="text-xs text-white/35">{entry.created}</p>
+                    <p className="text-xs text-white/55">{entry.created}</p>
                     <p className="mt-1 text-sm font-bold text-white/75">{entry.generated.assumption}</p>
                   </div>
                 ))}
@@ -1861,7 +1863,7 @@ function SimpleFormula() {
                   <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-lg font-black text-slate-950 shadow-lg">{item.step}</span>
                   <span>
                     <span className="block text-xl font-black text-white">{item.title}</span>
-                    <span className="mt-1 block text-xs text-white/45">{item.subtitle}</span>
+                    <span className="mt-1 block text-xs text-white/55">{item.subtitle}</span>
                   </span>
                 </button>
                 {index < simpleFormula.length - 1 && <span className="hidden text-3xl font-light text-white/30 md:block">→</span>}
@@ -1873,7 +1875,7 @@ function SimpleFormula() {
           <div className="mb-4 flex items-center gap-3">
             <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-xl font-black text-slate-950">{selected.step}</span>
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/35">Current Step</p>
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-white/55">Current Step</p>
               <h3 className="text-2xl font-black text-white">{selected.title}</h3>
             </div>
           </div>
@@ -1900,7 +1902,7 @@ function PowerLadder() {
     >
       <div className="grid gap-5 lg:grid-cols-[1.25fr_0.75fr]">
         <div className="overflow-hidden rounded-3xl border border-white/10 bg-black/20">
-          <div className="grid grid-cols-[0.55fr_1fr_1.15fr_1.25fr] border-b border-white/10 bg-white/[0.05] px-4 py-3 text-xs font-black uppercase tracking-[0.22em] text-white/40">
+          <div className="grid grid-cols-[0.55fr_1fr_1.15fr_1.25fr] border-b border-white/10 bg-white/[0.05] px-4 py-3 text-xs font-black uppercase tracking-[0.22em] text-white/55">
             <span>Rank</span>
             <span>Phrase</span>
             <span>Power Level</span>
@@ -1912,7 +1914,7 @@ function PowerLadder() {
               onClick={() => setSelectedRank(item.rank)}
               className={`grid w-full grid-cols-[0.55fr_1fr_1.15fr_1.25fr] items-center gap-3 border-b border-white/10 px-4 py-4 text-left transition last:border-b-0 ${selected.rank === item.rank ? "bg-white/[0.12]" : "hover:bg-white/[0.06]"}`}
             >
-              <span className="text-sm font-black text-white/40">{item.rank}</span>
+              <span className="text-sm font-black text-white/55">{item.rank}</span>
               <span className="text-base font-black text-white md:text-lg">{item.phrase}</span>
               <span className="text-sm text-white/75 md:text-base"><span className="mr-2">{item.symbol}</span>{item.level}</span>
               <span className="text-sm leading-5 text-white/58 md:text-base">{item.note}</span>
@@ -1922,7 +1924,7 @@ function PowerLadder() {
         <div className="rounded-[1.5rem] border border-white/10 bg-slate-950/70 p-5">
           <div className="mb-5 flex items-center justify-between gap-3">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/35">Selected Phrase</p>
+              <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/55">Selected Phrase</p>
               <h3 className="mt-2 text-3xl font-black text-white">{selected.phrase}</h3>
             </div>
             <div className="flex h-14 w-14 items-center justify-center rounded-2xl bg-white text-3xl">{selected.symbol}</div>
@@ -2021,7 +2023,7 @@ function DemosSection() {
     <section className="mb-8">
       <div className="mb-5 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Demonstrations</p>
+          <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55">Demonstrations</p>
           <h2 className="mt-2 text-3xl font-black text-white">Before and after inner-state examples</h2>
         </div>
         <p className="max-w-xl text-sm leading-6 text-white/55">Each demo shows the shift from wanting, fearing, or replaying lack into a clean fulfilled-state practice.</p>
@@ -2142,7 +2144,7 @@ function NavDropdown({ items, onSelect, currentId }) {
             if (!groupItems.length) return null;
             return (
               <div key={group} className="mb-2 last:mb-0">
-                <p className="px-3 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/35">{group}</p>
+                <p className="px-3 pb-1 pt-2 text-[10px] font-black uppercase tracking-[0.22em] text-white/55">{group}</p>
                 {groupItems.map((item) => (
                   <button
                     key={item.id}
@@ -2175,7 +2177,7 @@ function SectionCard({ section, onSelect }) {
       onClick={() => onSelect(section.id)}
       className="group flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-left transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.09]"
     >
-      <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-white/40">{section.kicker}</p>
+      <p className="mb-2 text-xs font-bold uppercase tracking-[0.28em] text-white/55">{section.kicker}</p>
       <h3 className="text-xl font-black text-white">{section.label}</h3>
       <p className="mt-3 flex-1 text-sm leading-6 text-white/65">{section.short}</p>
       <span className="mt-4 inline-flex items-center gap-1 text-sm font-bold text-white/70 transition group-hover:text-white">
@@ -2227,7 +2229,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
               <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-2xl">✦</div>
               <div>
                 <p className="text-sm font-black tracking-wide text-white">Neville Goddard Portal</p>
-                <p className="text-xs text-white/45">Frameworks • Tools • Inner Practice</p>
+                <p className="text-xs text-white/55">Frameworks • Tools • Inner Practice</p>
               </div>
             </button>
             <NavDropdown items={SECTIONS} onSelect={(item) => goToSection(item.id)} currentId={currentSection?.id} />
@@ -2238,7 +2240,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
               <button
                 type="button"
                 onClick={goToOverview}
-                className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-white/45 transition hover:text-white"
+                className="mb-4 inline-flex items-center gap-2 text-xs font-bold uppercase tracking-[0.22em] text-white/55 transition hover:text-white"
               >
                 <span aria-hidden>←</span> All concepts
               </button>
@@ -2261,7 +2263,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
               <div className="rounded-[2rem] border border-white/10 bg-black/25 p-5">
                 <div className="rounded-[1.5rem] bg-gradient-to-br from-white/14 to-white/[0.03] p-5">
                   <div className="mb-5 flex items-center justify-between">
-                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/40">Core Map</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/55">Core Map</p>
                     <span className="rounded-full bg-emerald-400/15 px-3 py-1 text-xs font-bold text-emerald-100/80">Active</span>
                   </div>
                   <div className="space-y-3">
@@ -2275,7 +2277,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
                         <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-white text-sm font-black text-slate-950">{index + 1}</div>
                         <div>
                           <p className="font-black text-white">{word}</p>
-                          <p className="text-sm text-white/45">{desc}</p>
+                          <p className="text-sm text-white/55">{desc}</p>
                         </div>
                       </div>
                     ))}
@@ -2297,7 +2299,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
                   onClick={() => goToSection(prevSection.id)}
                   className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-left transition hover:border-white/25 hover:bg-white/[0.09]"
                 >
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/40">← Previous</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/55">← Previous</p>
                   <p className="mt-2 text-lg font-black text-white">{prevSection.label}</p>
                 </button>
               ) : <div />}
@@ -2307,7 +2309,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
                   onClick={() => goToSection(nextSection.id)}
                   className="rounded-3xl border border-white/10 bg-white/[0.06] p-5 text-right transition hover:border-white/25 hover:bg-white/[0.09]"
                 >
-                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/40">Next →</p>
+                  <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/55">Next →</p>
                   <p className="mt-2 text-lg font-black text-white">{nextSection.label}</p>
                 </button>
               ) : <div />}
@@ -2322,7 +2324,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
                 <section key={group} className="mb-10">
                   <div className="mb-5 flex items-baseline justify-between">
                     <h2 className="text-2xl font-black text-white">{group}</h2>
-                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/35">{groupSections.length} {groupSections.length === 1 ? "concept" : "concepts"}</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.28em] text-white/55">{groupSections.length} {groupSections.length === 1 ? "concept" : "concepts"}</p>
                   </div>
                   <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
                     {groupSections.map((section) => (
@@ -2335,7 +2337,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
 
             <section className="grid gap-4 lg:grid-cols-3">
               <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 lg:col-span-2">
-                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/40">Study Notes</p>
+                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55">Study Notes</p>
                 <h2 className="mt-2 text-3xl font-black text-white">How to read Neville without getting lost</h2>
                 <div className="mt-5 grid gap-4 md:grid-cols-3">
                   <div className="rounded-3xl bg-black/20 p-5">
@@ -2354,7 +2356,7 @@ export default function NevilleGoddardPortal({ onBack, onNavigate, initialSectio
               </div>
 
               <div className="rounded-[2rem] border border-white/10 bg-gradient-to-br from-violet-500/20 to-cyan-500/10 p-6">
-                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/45">Start Here</p>
+                <p className="text-xs font-bold uppercase tracking-[0.35em] text-white/55">Start Here</p>
                 <h2 className="mt-2 text-2xl font-black text-white">New to Neville?</h2>
                 <p className="mt-4 text-sm leading-7 text-white/65">
                   Begin with <strong className="text-white">Living in the End</strong> — the central framework — then move into <strong className="text-white">Feeling Is the Secret</strong> and <strong className="text-white">SATS</strong> to practice it.

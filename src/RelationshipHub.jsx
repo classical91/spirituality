@@ -236,13 +236,12 @@ export default function RelationshipHub({ onBack, onNavigate, initialSection }) 
   const screen = describeScreen(tab, sub);
 
   // Name the tab after the screen so history, bookmarks, and shared links read
-  // as the page they open. The previous title comes back when the hub closes.
+  // as the page they open. App sets the portal-level title before this runs
+  // (a layout effect) and sets the next page's title when the hub closes.
   useEffect(() => {
-    const previous = document.title;
     document.title = tab === "overview"
       ? "Relationship Hub · Sacred Pathways"
       : `${screen.title} · Relationship Hub · Sacred Pathways`;
-    return () => { document.title = previous; };
   }, [tab, screen.title]);
   const back = screen.back
     ? { label: screen.back.label, onClick: () => openSection(screen.back.section) }

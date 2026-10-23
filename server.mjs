@@ -15,9 +15,11 @@
 // something only when a chart has been set — in this service's environment,
 // never in this repository, which anyone can read.
 
+import { readFile, stat } from 'node:fs/promises';
 import { createServer } from 'node:http';
-import { dirname, join } from 'node:path';
+import { dirname, extname, join, normalize, sep } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { brotliCompressSync, constants as zlibConstants, gzipSync } from 'node:zlib';
 import handler from 'serve-handler';
 import { REFRESHING_AFFIRMATIONS } from './src/lib/affirmations.js';
 import { resolveDaily } from './src/lib/daily.js';
@@ -326,6 +328,85 @@ const handleTransits = (request, response, url) => {
   });
 };
 
+/**
+ * Compressed copies of the build's text files.
+ *
+ * serve-handler sends every file as it is on disk, so the main script went out
+ * at its full ~500 KB when brotli makes it ~130 KB. Text files that the browser
+ * says it can take compressed are answered here instead; everything else
+ * (images, fonts, clients that ask for no encoding) still goes to serve-handler.
+ *
+ * Compressed once per file and encoding, then held in memory: the build only
+ * changes on a deploy, which restarts this process, and the whole of dist is a
+ * few megabytes.
+ */
+const COMPRESSIBLE_TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'text/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.svg': 'image/svg+xml',
+  '.json': 'application/json; charset=utf-8',
+  '.txt': 'text/plain; charset=utf-8',
+};
+const compressedCache = new Map();
+
+const pickEncoding = (acceptEncoding = '') => {
+  if (/\bbr\b/.test(acceptEncoding)) return 'br';
+  if (/\bgzip\b/.test(acceptEncoding)) return 'gzip';
+  return null;
+};
+
+/** The dist file a request maps to, or index.html for a route the SPA owns. */
+const resolveDistFile = async (pathname) => {
+  let decoded;
+  try {
+    decoded = decodeURIComponent(pathname);
+  } catch {
+    return null;
+  }
+  const candidate = join(distPath, normalize(decoded));
+  if (candidate !== distPath && !candidate.startsWith(distPath + sep)) return null;
+  try {
+    if ((await stat(candidate)).isFile()) return candidate;
+  } catch {
+    // Not a file in the build: fall through to the SPA, as the rewrite does.
+  }
+  return join(distPath, 'index.html');
+};
+
+/** Answer with a compressed copy if this request can take one; false if not. */
+const serveCompressed = async (request, response, pathname) => {
+  if (request.method !== 'GET' && request.method !== 'HEAD') return false;
+  const encoding = pickEncoding(request.headers['accept-encoding']);
+  if (!encoding) return false;
+
+  const file = await resolveDistFile(pathname);
+  const type = file && COMPRESSIBLE_TYPES[extname(file)];
+  if (!type) return false;
+
+  const key = `${encoding}:${file}`;
+  let body = compressedCache.get(key);
+  if (!body) {
+    const raw = await readFile(file);
+    body = encoding === 'br'
+      ? brotliCompressSync(raw, { params: { [zlibConstants.BROTLI_PARAM_QUALITY]: 9 } })
+      : gzipSync(raw, { level: 9 });
+    compressedCache.set(key, body);
+  }
+
+  const isAsset = file.startsWith(join(distPath, 'assets') + sep);
+  response.writeHead(200, {
+    'Content-Type': type,
+    'Content-Encoding': encoding,
+    'Content-Length': body.length,
+    Vary: 'Accept-Encoding',
+    // The same policy as staticHeaders: fingerprinted assets forever, pages never.
+    'Cache-Control': isAsset ? 'public, max-age=31536000, immutable' : 'no-cache, no-store, must-revalidate',
+  });
+  response.end(request.method === 'HEAD' ? undefined : body);
+  return true;
+};
+
 const server = createServer((request, response) => {
   const url = new URL(request.url, `http://${request.headers.host || 'localhost'}`);
 
@@ -356,15 +437,10 @@ const server = createServer((request, response) => {
 
   // Everything else is the app, exactly as `serve dist -s` served it: real
   // files where they exist, index.html everywhere else so the History API
-  // router can take over.
-  handler(request, response, {
-    public: distPath,
-    cleanUrls: false,
-    rewrites: [{ source: '**', destination: '/index.html' }],
-    headers: staticHeaders,
-    // Nothing here is a directory to browse; a missing path is the SPA's to
-    // resolve, which the rewrite above already handles.
-    directoryListing: false,
+  // router can take over. Compressed when the browser accepts it.
+  serveCompressed(request, response, url.pathname).then((served) => {
+    if (served) return undefined;
+    return serveStatic(request, response);
   }).catch((error) => {
     console.error('Static request failed:', error);
     if (response.headersSent) {
@@ -375,6 +451,18 @@ const server = createServer((request, response) => {
     response.end('Something went wrong.');
   });
 });
+
+const serveStatic = (request, response) => (
+  handler(request, response, {
+    public: distPath,
+    cleanUrls: false,
+    rewrites: [{ source: '**', destination: '/index.html' }],
+    headers: staticHeaders,
+    // Nothing here is a directory to browse; a missing path is the SPA's to
+    // resolve, which the rewrite above already handles.
+    directoryListing: false,
+  })
+);
 
 server.listen(port, () => {
   console.log(`Sacred Pathways listening on port ${port}`);

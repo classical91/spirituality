@@ -90,7 +90,7 @@ function Dashboard() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div className="iba-hero">
         <div>
-          <h2>Understand Your Mind, Body &amp; Spirit</h2>
+          <h1>Understand Your Mind, Body &amp; Spirit</h1>
           <p>Explore how your nervous system, hormones, neurotransmitters, habits, and spiritual practices work together to shape your well-being.</p>
         </div>
         <div className="iba-hero-art" />
@@ -279,7 +279,7 @@ function PsychophysiologyMap() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div className="iba-hero">
         <div>
-          <h2>Psychophysiology of Vitamins &amp; Minerals</h2>
+          <h1>Psychophysiology of Vitamins &amp; Minerals</h1>
           <p>How nutrients support body systems that influence mood, attention, energy, stress resilience, sleep, and neurochemical balance.</p>
         </div>
         <div className="iba-hero-art" />
@@ -431,7 +431,7 @@ function Neurotransmitters() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div className="iba-hero">
         <div>
-          <h2>Understand Your Neurotransmitters</h2>
+          <h1>Understand Your Neurotransmitters</h1>
           <p>Your brain's chemical messengers influence mood, focus, calm, motivation, sleep, and connection. Learn how they work together — and how daily choices can support balance.</p>
         </div>
         <div className="iba-hero-art" />
@@ -579,7 +579,7 @@ function MoodUplift() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div className="iba-hero">
         <div>
-          <h2>Uplift Your Mood on All Levels</h2>
+          <h1>Uplift Your Mood on All Levels</h1>
           <p>Strengthen your well-being through mind, body, lifestyle, and spirit. Small, mindful actions create lasting light from within.</p>
         </div>
         <div className="iba-hero-art" />
@@ -894,7 +894,7 @@ function PhysicalActivity() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Physical Activity</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Health Benefits by Practice</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Health Benefits by Practice</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Evidence-based benefits of physical and daily practices — grouped by type.</p>
       </div>
       <ActivityTable groups={groups} />
@@ -942,7 +942,7 @@ function Sleep() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Sleep</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of Rest</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of Rest</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Sleep is the most powerful recovery tool available — shaping memory, immunity, mood, and metabolism every night.</p>
       </div>
 
@@ -1059,7 +1059,7 @@ function Nutrition() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Nutrition</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Eat for Your Nervous System</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Eat for Your Nervous System</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Food is information for the brain and body. What you eat shapes your neurotransmitters, hormones, and energy every day.</p>
       </div>
       <ActivityTable groups={categories.map(c => ({
@@ -1283,7 +1283,7 @@ function StressRecovery() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Stress & Recovery</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Managing the Stress Response</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Managing the Stress Response</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Stress is not the enemy — unmanaged, unrecovered stress is. Understanding the types of stress and the disorders they can produce helps you recognise what you are dealing with and respond effectively.</p>
       </div>
 
@@ -1434,7 +1434,7 @@ function DailyRituals() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Daily Rituals</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of a Good Day</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Architecture of a Good Day</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 560 }}>Daily rituals are not productivity hacks — they are the biological and psychological conditions under which your best self can show up consistently.</p>
       </div>
 
@@ -1718,7 +1718,7 @@ function HerbsAdaptogens() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Herbs & Adaptogens</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Plants for Mood, Stress & Emotional Balance</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Plants for Mood, Stress & Emotional Balance</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>These herbs are commonly used to support mood, relaxation, stress balance, sleep, and emotional well-being. They are not replacements for medical treatment — they are tools with varying levels of evidence and real safety considerations.</p>
       </div>
 
@@ -1841,7 +1841,7 @@ function HairHealth() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Hair & Scalp Health</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Growing Strong Hair from the Inside</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Growing Strong Hair from the Inside</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Hair follicles are among the most metabolically active cells in the body. They require a consistent supply of protein, vitamins, and minerals to produce healthy strands. Diet is one of the most modifiable factors in hair health.</p>
       </div>
 
@@ -1968,7 +1968,7 @@ function GratitudePractice() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Gratitude Practice</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Practice of Noticing What Is Good</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Practice of Noticing What Is Good</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Gratitude is not a personality trait — it is a trainable skill. Research consistently shows that deliberate gratitude practice changes brain structure, improves mood, strengthens relationships, and builds the kind of resilience that sustains wellbeing over time.</p>
       </div>
 
@@ -2108,7 +2108,7 @@ function HeatColdTherapy() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--sage)', marginBottom: 8 }}>Heat &amp; Cold Therapy</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Temperature as a Gentle Reset</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Temperature as a Gentle Reset</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Warmth and cool are two of the oldest and simplest ways to shift how the body feels. Used gently, they can support relaxation, recovery, and a quick change of state — complementing, not replacing, sleep, movement, and care.</p>
       </div>
 
@@ -2206,7 +2206,7 @@ function Journaling() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 8 }}>Journaling</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Thinking on Paper</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Thinking on Paper</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Journaling is one of the simplest, lowest-cost tools for emotional clarity. There is no right way to do it — only the way that gets you writing. This is a reflective practice, not a substitute for support during serious distress.</p>
       </div>
 
@@ -2291,7 +2291,7 @@ function StatesOfMind() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--lavender)', marginBottom: 8 }}>States of Mind</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Reading &amp; Shifting Your Inner Weather</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Reading &amp; Shifting Your Inner Weather</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>A state of mind is the passing condition of your attention, mood, and body at any moment. Most states have recognisable body signatures and gentle levers that help shift them. This is a map for everyday self-regulation, not a clinical guide.</p>
       </div>
 
@@ -2378,7 +2378,7 @@ function Productivity() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Productivity &amp; Focus</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Doing What Matters, Sustainably</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Doing What Matters, Sustainably</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Real productivity is not about doing more — it is about protecting your attention for what matters and building the brain and habits that make focus repeatable. These are tools, not pressure; rest is part of the system.</p>
       </div>
 
@@ -2477,7 +2477,7 @@ function PurposeMeaning() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>Purpose &amp; Meaning</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Purpose in Life</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Purpose in Life</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>A sense of purpose is one of the strongest predictors of wellbeing, resilience, and even longevity. It is less a destination to arrive at and more a direction you keep choosing — discovered through reflection and, above all, through doing.</p>
       </div>
 
@@ -2564,7 +2564,7 @@ function MyCore() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--gold)', marginBottom: 8 }}>My Core</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Self Beneath the Roles</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>The Self Beneath the Roles</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Your core is the steady centre underneath your changing moods, roles, and circumstances — your values, authentic needs, and sense of self. Knowing it gives you a place to return to when life pulls you in many directions.</p>
       </div>
 
@@ -2652,7 +2652,7 @@ function VirtuesTalents() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--lavender)', marginBottom: 8 }}>Virtues &amp; Talents</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Virtues, Gifts, Paths &amp; States</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Virtues, Gifts, Paths &amp; States</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>A gentle map of the inner life: the virtues worth cultivating, the spiritual talents many people carry, the modalities or paths that develop them, and the states of being they open onto. Drawn from shared wisdom traditions, offered as reflection rather than doctrine.</p>
       </div>
 
@@ -2738,7 +2738,7 @@ function SoundFrequency() {
     <div style={{ display: 'grid', gap: 28 }}>
       <div>
         <div style={{ fontSize: '0.75rem', fontWeight: 700, letterSpacing: '0.1em', textTransform: 'uppercase', color: 'var(--blue)', marginBottom: 8 }}>Sound &amp; Frequency</div>
-        <h2 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Tones, Tuning &amp; the Solfeggio Scale</h2>
+        <h1 style={{ margin: '0 0 8px', fontFamily: 'Georgia, serif', fontSize: 'clamp(22px, 3.5vw, 34px)', fontWeight: 500, color: 'var(--deep)', lineHeight: 1.15 }}>Tones, Tuning &amp; the Solfeggio Scale</h1>
         <p style={{ margin: 0, color: 'var(--muted)', fontSize: 15, lineHeight: 1.65, maxWidth: 580 }}>Sound is one of the oldest tools for shifting inner state. The Solfeggio frequencies are a set of tones used widely in modern sound-healing and meditation. Many people find them calming and focusing as listening anchors.</p>
       </div>
 

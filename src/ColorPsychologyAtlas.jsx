@@ -224,7 +224,7 @@ export default function ColorPsychologyAtlas({ onBack, onSelectSection }) {
                 <div className="h-14 w-14 rounded-2xl border border-white/15 shadow-lg" style={{ backgroundColor: color.hex }} />
                 <div>
                   <h2 className="text-xl font-black text-white">{color.name}</h2>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-500">{color.energy}</p>
+                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-slate-400">{color.energy}</p>
                 </div>
               </div>
               <p className="text-sm leading-7 text-slate-300">{color.psychology}</p>

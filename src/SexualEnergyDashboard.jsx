@@ -407,7 +407,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
               <ProgressBar value={completion} />
             </div>
             <div className="rounded-2xl bg-slate-950/60 p-4">
-              <p className="text-xs uppercase tracking-widest text-slate-500">Current trigger</p>
+              <p className="text-xs uppercase tracking-widest text-slate-400">Current trigger</p>
               <p className="mt-1 font-semibold text-white">{selectedTrigger}</p>
             </div>
           </div>
@@ -419,7 +419,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
           <Card key={group.label}>
             <Badge tone={group.color}>{group.label}</Badge>
             <ul className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-              {group.items.map((item) => <li key={item} className="flex gap-3"><span className="mt-1 text-slate-500">•</span><span>{item}</span></li>)}
+              {group.items.map((item) => <li key={item} className="flex gap-3"><span className="mt-1 text-slate-400">•</span><span>{item}</span></li>)}
             </ul>
           </Card>
         ))}
@@ -566,7 +566,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
           <div className="rounded-3xl border border-white/10 bg-slate-950/50 p-5">
             <div className="mb-4 flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs uppercase tracking-widest text-slate-500">Days completed</p>
+                <p className="text-xs uppercase tracking-widest text-slate-400">Days completed</p>
                 <p className="text-3xl font-black text-white">{days}</p>
               </div>
               <input type="range" min="0" max="120" value={days} onChange={(e) => setDays(Number(e.target.value))} className="w-48" />
@@ -673,7 +673,7 @@ export default function SexualEnergyDashboard({ onBack, onNavigate, initialSecti
                 ["Next move", "Simplify", "Remove one trigger, add one support."],
               ].map(([label, value, note]) => (
                 <div key={label} className="rounded-2xl border border-white/10 bg-slate-950/50 p-4">
-                  <p className="text-xs uppercase tracking-widest text-slate-500">{label}</p>
+                  <p className="text-xs uppercase tracking-widest text-slate-400">{label}</p>
                   <p className="mt-2 text-lg font-bold text-white">{value}</p>
                   <p className="mt-2 text-xs leading-5 text-slate-400">{note}</p>
                 </div>

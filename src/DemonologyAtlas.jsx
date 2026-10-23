@@ -231,7 +231,7 @@ function IntroPanel() {
           "Demon" means very different things in different worlds. The English word flattens these
           distinctions; comparison restores them.
         </p>
-        <div className="dm-table-wrap">
+        <div className="dm-table-wrap" tabIndex={0} role="region" aria-label="Comparison table — scroll sideways for more">
           <table className="dm-table">
             <thead>
               <tr>

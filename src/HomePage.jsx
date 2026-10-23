@@ -145,11 +145,11 @@ function DailyReadingCard({ onNavigate }) {
     onNavigate(reading.portalId, reading.section ? { section: reading.section } : undefined);
 
   return (
+    // The whole card is a mouse target; the "Read today's page" button inside
+    // is the keyboard and screen-reader one, since a clickable card can't hold
+    // the shuffle button and also be a button itself.
     <div
       onClick={open}
-      role="button"
-      tabIndex={0}
-      onKeyDown={(e) => { if (e.key === 'Enter') open(); }}
       style={{
         width: '100%',
         maxWidth: '680px',
@@ -199,20 +199,25 @@ function DailyReadingCard({ onNavigate }) {
         </button>
       </div>
 
-      <h3 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 900, color: '#f1eeff', margin: '0 0 8px' }}>
+      <h2 style={{ fontSize: 'clamp(1.15rem, 2.5vw, 1.4rem)', fontWeight: 900, color: '#f1eeff', margin: '0 0 8px' }}>
         {reading.title}
-      </h3>
+      </h2>
       <p style={{ fontSize: 'clamp(0.9rem, 2vw, 1rem)', lineHeight: 1.7, color: '#c4bbe0', margin: '0 0 16px' }}>
         {reading.summary}
       </p>
 
       <div style={{ display: 'flex', alignItems: 'center', gap: '10px', flexWrap: 'wrap' }}>
-        <span style={{
-          display: 'inline-flex', alignItems: 'center', gap: '6px',
-          fontSize: '0.85rem', fontWeight: 700, color: c.badgeText,
-        }}>
+        <button
+          type="button"
+          onClick={(e) => { e.stopPropagation(); open(); }}
+          style={{
+            display: 'inline-flex', alignItems: 'center', gap: '6px',
+            minHeight: '32px', padding: 0, border: 0, background: 'none', cursor: 'pointer',
+            fontFamily: 'inherit', fontSize: '0.85rem', fontWeight: 700, color: c.badgeText,
+          }}
+        >
           Read today's page →
-        </span>
+        </button>
         {portal && (
           <span style={{ marginLeft: 'auto', fontSize: '0.74rem', color: '#7a7096' }}>
             in {portal.titleFlat}
@@ -491,7 +496,6 @@ export default function HomePage({ onNavigate, onOpenSettings }) {
             <button
               type="button"
               onClick={onOpenSettings}
-              aria-label="Open settings — manage prayers and affirmations"
               style={{
                 marginTop: '14px',
                 display: 'inline-flex',

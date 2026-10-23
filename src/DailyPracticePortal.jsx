@@ -262,7 +262,7 @@ export default function DailyPracticePortal({ onBack, onNavigate }) {
           <h2 className="mb-1 text-xs font-black uppercase tracking-[0.16em] text-amber-300">
             Why this works
           </h2>
-          <p className="mb-4 text-xs leading-relaxed text-slate-500">
+          <p className="mb-4 text-xs leading-relaxed text-slate-400">
             The principles behind an intentional day — why the morning matters most and how steady practice reshapes your mental baseline.
           </p>
           <div className="grid gap-2.5 sm:grid-cols-2">
@@ -272,7 +272,7 @@ export default function DailyPracticePortal({ onBack, onNavigate }) {
                 className="rounded-xl border border-white/10 bg-white/[0.03] p-3.5"
               >
                 <p className="text-sm font-bold text-slate-200">{item.theme}</p>
-                <p className="mt-1 text-xs leading-relaxed text-slate-500">{item.insight}</p>
+                <p className="mt-1 text-xs leading-relaxed text-slate-400">{item.insight}</p>
               </div>
             ))}
           </div>
@@ -286,7 +286,7 @@ export default function DailyPracticePortal({ onBack, onNavigate }) {
             </span>
             <button
               onClick={resetDay}
-              className="text-xs text-slate-600 transition-colors hover:text-slate-400"
+              className="text-xs text-slate-400 transition-colors hover:text-slate-400"
             >
               Reset day
             </button>
@@ -324,7 +324,7 @@ export default function DailyPracticePortal({ onBack, onNavigate }) {
                     {period.label}
                   </h2>
                   {periodDone && (
-                    <span className="ml-1 text-xs text-slate-600">◆ done</span>
+                    <span className="ml-1 text-xs text-slate-400">◆ done</span>
                   )}
                 </div>
 
@@ -389,12 +389,12 @@ function PracticeCard({ practice, done, accent, accentBg, accentBorder, onToggle
             >
               {practice.title}
             </h3>
-            <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-slate-500">
+            <span className="rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-slate-400">
               {practice.duration}
             </span>
           </div>
 
-          <p className="mt-1.5 text-xs leading-relaxed text-slate-500">
+          <p className="mt-1.5 text-xs leading-relaxed text-slate-400">
             {practice.description}
           </p>
         </div>
