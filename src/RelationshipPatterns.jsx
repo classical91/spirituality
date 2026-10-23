@@ -164,7 +164,9 @@ function PatternDetail({ pattern, index, onOpen, onAllPatterns }) {
   );
 }
 
-export default function RelationshipPatterns({ onBack, onOpenSection, initialSection }) {
+// Renders inside the Relationship Hub, whose top bar provides the back button
+// and tab switcher.
+export default function RelationshipPatterns({ onOpenSection, initialSection }) {
   // The hub addresses each pattern by ?section=, so the incoming section wins
   // whenever there is one. `localId` only covers the case where this page is
   // rendered without a router to push URLs to, and is reset whenever the
@@ -202,12 +204,6 @@ export default function RelationshipPatterns({ onBack, onOpenSection, initialSec
     <div className="rp-shell">
       <div className="rp-ambient rp-ambient-one" aria-hidden="true" />
       <div className="rp-ambient rp-ambient-two" aria-hidden="true" />
-      <nav className="rp-topbar">
-        {onBack && <button type="button" className="rp-back" onClick={onBack}><span aria-hidden="true">←</span> Relationship Hub</button>}
-        <button type="button" className="rp-wordmark" onClick={openAllPatterns}>Relationship Patterns</button>
-        {activePattern && <button type="button" className="rp-all-link" onClick={openAllPatterns}>All patterns <span aria-hidden="true">↗</span></button>}
-      </nav>
-
       {activePattern ? (
         <PatternDetail pattern={activePattern} index={activeIndex} onOpen={openPattern} onAllPatterns={openAllPatterns} />
       ) : (

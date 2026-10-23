@@ -25,7 +25,107 @@
 // Clarity concept id lives here so deep links never break. New content appends
 // its id to the matching list.
 
+// ── Clarity chapters ───────────────────────────────────────────────────────
+// Clarity's concepts are read in themed chapters rather than one page each:
+// a chapter page holds every concept in its `concepts` list, in order, and a
+// concept's own ?section= opens its chapter scrolled to that concept. Each
+// chapter id is itself a routable section (appended to claritySectionIds
+// below). Every Clarity concept belongs to exactly one chapter.
+export const clarityChapters = [
+  {
+    id: "reading-the-connection",
+    title: "Reading the Connection",
+    question: "What is actually happening between us?",
+    summary: "Security versus fear, mixed signals, chasing, and the states that make a connection feel confusing.",
+    concepts: [
+      "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "secure-alternative",
+      "investment-vs-vulnerability", "emotional-immaturity", "trauma-bond-vs-true-love",
+    ],
+  },
+  {
+    id: "attraction-and-dating",
+    title: "Attraction & Dating",
+    question: "Is this attraction, infatuation, or a real fit?",
+    summary: "Chemistry, crushes, limerence, and how to tell a strong pull from a good match.",
+    concepts: [
+      "attracted-vs-infatuated", "crush-vs-love", "limerence", "attraction-pitfalls",
+      "dating-operant-conditioning", "closeness-vs-compatibility", "compatibility-and-choosing",
+      "datable", "courting-vs-dating",
+    ],
+  },
+  {
+    id: "red-and-green-flags",
+    title: "Red & Green Flags",
+    question: "Is this connection safe?",
+    summary: "Love bombing, control, gaslighting, contempt, possessiveness, and broken promises — with the healthy version of each.",
+    concepts: [
+      "reading-red-flags", "love-bombing", "control-and-isolation", "gaslighting",
+      "contempt-and-criticism", "jealousy-and-possessiveness", "future-faking",
+    ],
+  },
+  {
+    id: "standards-and-boundaries",
+    title: "Standards & Boundaries",
+    question: "What do I need, and what will I accept?",
+    summary: "Being chosen, being a priority, safety, money, boundaries, and devotion as the floor of the love you want.",
+    concepts: [
+      "standards", "chosen-and-wanted", "being-a-priority", "safety-as-standard",
+      "seen-and-valued", "being-together-emotionally", "financial-partnership",
+      "boundaries", "devotion",
+    ],
+  },
+  {
+    id: "communication-and-check-ins",
+    title: "Communication & Check-ins",
+    question: "What do I say — and should I send it?",
+    summary: "Honest, direct communication, texting urges, and two interactive checks to run before you act.",
+    concepts: ["honest-direct", "texting-urges", "pause-check", "clarity-check"],
+  },
+  {
+    id: "love-and-intimacy",
+    title: "Love & Intimacy",
+    question: "What kinds of love and closeness are there?",
+    summary: "The forms love takes, how relationships move through stages, the kinds of intimacy, and companionship.",
+    concepts: [
+      "forms-of-love", "relationship-lifecycle", "types-of-intimacy", "companionship",
+      "core-beliefs-for-sex",
+    ],
+  },
+  {
+    id: "bonding-together",
+    title: "Bonding Together",
+    question: "What does closeness look like day to day?",
+    summary: "Affection, touch, quality time, shared experiences, milestones, and play — the inventory of a shared life.",
+    concepts: [
+      "gestures-of-affection", "types-of-kisses", "forms-of-cuddling", "quality-time",
+      "shared-experiences", "mutual-interests", "milestones", "forms-of-connection",
+      "emotions-of-being-together", "forms-of-playfulness",
+    ],
+  },
+  {
+    id: "heartbreak-and-healing",
+    title: "Heartbreak & Healing",
+    question: "How do I let go — or rebuild?",
+    summary: "Breakups, grief, and closure, and the conditions real reconciliation and trust repair require.",
+    concepts: ["breakups-grief-and-closure", "reconciliation-and-trust-repair"],
+  },
+];
+
+const chapterBySection = new Map();
+clarityChapters.forEach((chapter) => {
+  chapterBySection.set(chapter.id, chapter);
+  chapter.concepts.forEach((id) => chapterBySection.set(id, chapter));
+});
+
+// The chapter a Clarity section belongs to: the chapter itself for a chapter
+// id, the containing chapter for a concept id, or null.
+export function clarityChapterFor(section) {
+  return chapterBySection.get(section) ?? null;
+}
+
 export const claritySectionIds = [
+  // Chapters
+  ...clarityChapters.map((chapter) => chapter.id),
   // Reflection
   "security-vs-fear", "mixed-signals", "chasing-vs-receiving", "secure-alternative",
   "trauma-bond-vs-true-love",
