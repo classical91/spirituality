@@ -820,7 +820,7 @@ function ReflectionModal({ prompts, title, tone, onClose }) {
         <div className="space-y-4 p-6">
           {prompts.map((prompt, i) => (
             <div key={i} className={`rounded-2xl border p-5 ${t.card}`}>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Prompt {i + 1}</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Prompt {i + 1}</p>
               <p className="text-sm leading-7 text-slate-200">{prompt}</p>
             </div>
           ))}
@@ -874,14 +874,14 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
             { label: "Example", value: item.example },
           ].map(({ label, value }) => (
             <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">{label}</div>
               <p className="text-sm leading-7 text-slate-200">{value}</p>
             </div>
           ))}
 
           {item.attachmentStyles && (
             <div className="space-y-3">
-              <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The three attachment styles</div>
+              <div className="text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">The three attachment styles</div>
               {item.attachmentStyles.map(({ style, tone: styleTone, icon, tagline, traits, emotional, patterns, growthEdge }) => {
                 const st = tones[styleTone] || tones.cyan;
                 return (
@@ -898,15 +898,15 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
                     </div>
                     <div className="space-y-2">
                       <div>
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Emotional experience</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Emotional experience</p>
                         <p className="text-xs leading-5 text-slate-300">{emotional}</p>
                       </div>
                       <div>
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Relationship patterns</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Relationship patterns</p>
                         <p className="text-xs leading-5 text-slate-300">{patterns}</p>
                       </div>
                       <div>
-                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-500">Growth edge</p>
+                        <p className="mb-0.5 text-[10px] font-bold uppercase tracking-widest text-slate-400">Growth edge</p>
                         <p className="text-xs leading-5 text-slate-300">{growthEdge}</p>
                       </div>
                     </div>
@@ -918,7 +918,7 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
 
           {item.avoidantGuide && (
             <div className={`rounded-2xl border p-4 ${t.card}`}>
-              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Overcoming avoidant attachment — 9 steps toward security</div>
+              <div className="mb-4 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Overcoming avoidant attachment — 9 steps toward security</div>
               <div className="space-y-3">
                 {item.avoidantGuide.map(({ step, title, body }) => (
                   <div key={step} className="rounded-xl border border-white/10 bg-black/20 p-4">
@@ -938,7 +938,7 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
           <div className="space-y-4 px-5 pb-2">
             {item.avoidanceForms && (
               <div className={`rounded-2xl border p-4 ${t.card}`}>
-                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Common forms of avoidance</div>
+                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Common forms of avoidance</div>
                 <div className="grid gap-2 sm:grid-cols-2">
                   {item.avoidanceForms.map(({ form, icon, tone: ft, desc }) => {
                     const ft2 = tones[ft] || tones.cyan;
@@ -957,7 +957,7 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
             )}
             {item.avoidanceVsRegulation && (
               <div className={`rounded-2xl border p-4 ${t.card}`}>
-                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Avoidance vs regulation</div>
+                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Avoidance vs regulation</div>
                 <div className="grid gap-3 sm:grid-cols-2">
                   {Object.values(item.avoidanceVsRegulation).map(({ label, statement, desc }) => (
                     <div key={label} className="rounded-xl border border-white/10 bg-black/20 p-4">
@@ -971,7 +971,7 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
             )}
             {item.avoidanceBlocks && (
               <div className={`rounded-2xl border p-4 ${t.card}`}>
-                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">What avoidance blocks</div>
+                <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">What avoidance blocks</div>
                 <ul className="space-y-2">
                   {item.avoidanceBlocks.map((block) => (
                     <li key={block} className="flex items-start gap-2 text-xs leading-5 text-slate-300">
@@ -984,7 +984,7 @@ function DetailModal({ item, onClose, onReflect, onNavigate }) {
             )}
             {item.avoidanceAntidote && (
               <div className={`rounded-2xl border p-5 ${t.card}`}>
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The antidote</div>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">The antidote</div>
                 <p className="text-sm leading-7 text-slate-200">{item.avoidanceAntidote}</p>
               </div>
             )}
@@ -1090,12 +1090,12 @@ function BrainRegionModal({ item, onClose, onReflect }) {
         <div className="space-y-4 p-5">
           {[{ label: "Connected to", value: item.connected }, { label: "Spiritual theme", value: item.theme }].map(({ label, value }) => (
             <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">{label}</div>
               <p className="text-sm leading-7 text-slate-200">{value}</p>
             </div>
           ))}
           <div className={`rounded-2xl border p-4 ${t.card}`}>
-            <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">Practices that strengthen it</div>
+            <div className="mb-3 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">Practices that strengthen it</div>
             <div className="flex flex-wrap gap-2">{item.practices.map((p) => <span key={p} className={`inline-flex rounded-full border px-3 py-1 text-xs font-medium ${t.pill}`}>{p}</span>)}</div>
           </div>
         </div>
@@ -1134,7 +1134,7 @@ function EmotionStepModal({ item, onClose, onReflect }) {
         </div>
         <div className="space-y-4 p-5">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">How to practice it</div>
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">How to practice it</div>
             <p className="text-sm leading-7 text-slate-200">{item.details}</p>
           </div>
         </div>
@@ -1163,7 +1163,7 @@ function ShadowModal({ item, onClose, onReflect }) {
             <div>
               <div className="flex items-center gap-2">
                 <span className={`text-sm font-semibold ${t.accent}`}>{item.shadow}</span>
-                <span className="text-slate-500">→</span>
+                <span className="text-slate-400">→</span>
                 <span className="text-lg font-bold text-white">{item.growth}</span>
               </div>
               <p className={`mt-1 text-xs font-medium ${t.accent}`}>{item.qualities}</p>
@@ -1176,7 +1176,7 @@ function ShadowModal({ item, onClose, onReflect }) {
         </div>
         <div className="space-y-4 p-5">
           <div className={`rounded-2xl border p-4 ${t.card}`}>
-            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">The pattern</div>
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">The pattern</div>
             <p className="text-sm leading-7 text-slate-200">{item.description}</p>
           </div>
         </div>
@@ -1217,7 +1217,7 @@ function ManifestModal({ item, onClose, onReflect }) {
         </div>
         <div className="p-5">
           <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">How it works</div>
+            <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">How it works</div>
             <p className="text-sm leading-7 text-slate-200">{item.detail}</p>
           </div>
         </div>
@@ -1264,7 +1264,7 @@ function ImaginationModal({ item, onClose, onReflect }) {
             { label: "When it fails — switch to", value: item.whenItFails },
           ].map(({ label, value }) => (
             <div key={label} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{label}</div>
+              <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">{label}</div>
               <p className="text-sm leading-7 text-slate-200">{value}</p>
             </div>
           ))}
@@ -1328,12 +1328,12 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
       mentalDiet: "This is the old state. I return to the fulfilled one.",
     };
     setTodayCard(card);
-    window.localStorage.setItem("psychology-today-card", JSON.stringify(card));
+    try { window.localStorage.setItem("psychology-today-card", JSON.stringify(card)); } catch { /* storage unavailable — keep going */ }
   };
   const toggleCheckin = (slot) => {
     setCheckins((current) => {
       const next = { ...current, [slot]: !current[slot] };
-      window.localStorage.setItem("psychology-checkins", JSON.stringify(next));
+      try { window.localStorage.setItem("psychology-checkins", JSON.stringify(next)); } catch { /* storage unavailable — keep going */ }
       return next;
     });
   };
@@ -1369,7 +1369,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
             </div>
 
             <div className="mt-4 space-y-2">
-              <div className="px-2 text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Frameworks</div>
+              <div className="px-2 text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Frameworks</div>
               {frameworks.map((f) => {
                 const t = tones[f.tone] || tones.cyan;
                 return (
@@ -1393,7 +1393,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                 <span className="text-lg">◍</span>
                 <div>
                   <div className="font-semibold text-white">InnerAtlas</div>
-                  <div className="text-xs text-slate-500">Explore the full inner map →</div>
+                  <div className="text-xs text-slate-400">Explore the full inner map →</div>
                 </div>
               </button>
             )}
@@ -1522,7 +1522,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                   <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
                     {powerStack.map((p) => (
                       <div key={p.layer} className={`rounded-2xl border bg-gradient-to-b ${p.color} ${p.border} p-4`}>
-                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{p.layer}</p>
+                        <p className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">{p.layer}</p>
                         <p className={`mt-1 text-sm font-black ${p.accent}`}>{p.framework}</p>
                       </div>
                     ))}
@@ -1595,7 +1595,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                           </div>
                           <div className="flex-1">
                             <div className="flex flex-wrap items-center gap-3">
-                              <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">{p.layer} layer</span>
+                              <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">{p.layer} layer</span>
                               <span className={`text-lg font-black ${p.accent}`}>{p.framework}</span>
                             </div>
                             <p className="mt-2 text-sm leading-7 text-slate-300">{p.role}</p>
@@ -1857,7 +1857,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                           <div key={name} className="flex items-start justify-between gap-3 border-t border-white/[0.06] pt-3 first:border-t-0 first:pt-0">
                             <div>
                               <p className="text-xs font-bold text-slate-200">{name}</p>
-                              <p className="text-xs leading-5 text-slate-500">{foods}</p>
+                              <p className="text-xs leading-5 text-slate-400">{foods}</p>
                             </div>
                             <span className="shrink-0 text-xs font-bold text-emerald-400">{label}</span>
                           </div>
@@ -1876,7 +1876,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                           <div key={name} className="flex items-start justify-between gap-3 border-t border-white/[0.06] pt-3 first:border-t-0 first:pt-0">
                             <div>
                               <p className="text-xs font-bold text-slate-200">{name}</p>
-                              <p className="text-xs leading-5 text-slate-500">{foods}</p>
+                              <p className="text-xs leading-5 text-slate-400">{foods}</p>
                             </div>
                             <span className="shrink-0 text-xs font-bold text-amber-400">{label}</span>
                           </div>
@@ -2032,7 +2032,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                     return (
                       <button key={pattern.id} onClick={() => setShadowModal(pattern)} className="group relative flex h-full flex-col rounded-3xl border border-white/10 bg-white/[0.04] p-5 text-left shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
                         <div className="mb-4 flex items-center justify-between gap-3"><span className={`text-2xl ${t.accent}`}>{pattern.icon}</span><span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span></div>
-                        <div className="flex items-center gap-2"><span className="text-sm font-semibold text-slate-400">{pattern.shadow}</span><span className="text-slate-500">→</span><span className="text-sm font-bold text-white">{pattern.growth}</span></div>
+                        <div className="flex items-center gap-2"><span className="text-sm font-semibold text-slate-400">{pattern.shadow}</span><span className="text-slate-400">→</span><span className="text-sm font-bold text-white">{pattern.growth}</span></div>
                         <p className={`mt-1 text-xs font-medium ${t.accent}`}>{pattern.qualities}</p>
                         <p className="mt-3 line-clamp-2 text-sm leading-6 text-slate-300">{pattern.description}</p>
                       </button>
@@ -2070,7 +2070,7 @@ export default function PsychologyPortal({ onBack, onNavigate, onSelectSection, 
                           <div className="mt-4 space-y-1.5">
                             {[path.seed, ...path.chain].map((step, i) => (
                               <div key={step} className="flex items-center gap-2 text-sm font-semibold text-slate-200">
-                                <span className="w-3 text-center text-slate-500">{i === 0 ? "●" : "↓"}</span>
+                                <span className="w-3 text-center text-slate-400">{i === 0 ? "●" : "↓"}</span>
                                 {step}
                               </div>
                             ))}

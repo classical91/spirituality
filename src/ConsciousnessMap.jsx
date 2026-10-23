@@ -313,15 +313,15 @@ function LevelDetail({ level, onClose }) {
           <div style={{ fontSize: 26, fontWeight: 800, color: level.color, lineHeight: 1.1 }}>
             {level.score}
           </div>
-          <div style={{ fontSize: 18, fontWeight: 700, color: '#f1f5f9', marginTop: 2 }}>
+          <h2 style={{ margin: '2px 0 0', fontSize: 18, fontWeight: 700, color: '#f1f5f9' }}>
             {level.emotion}
-          </div>
+          </h2>
           <div style={{ fontSize: 13, color: '#94a3b8', marginTop: 2 }}>
             {level.title} · {level.keywords.join(' · ')}
           </div>
         </div>
         <button onClick={onClose} style={{
-          background: 'none', border: 'none', color: '#475569', cursor: 'pointer',
+          background: 'none', border: 'none', color: '#94a3b8', cursor: 'pointer',
           fontSize: 20, lineHeight: 1, padding: 4,
         }}>✕</button>
       </div>
@@ -332,7 +332,7 @@ function LevelDetail({ level, onClose }) {
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 16 }}>
         <div>
-          <div style={{ fontSize: 11, letterSpacing: 1.5, color: '#64748b', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>
+          <div style={{ fontSize: 11, letterSpacing: 1.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>
             How It Shows Up
           </div>
           <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -345,7 +345,7 @@ function LevelDetail({ level, onClose }) {
           </ul>
         </div>
         <div>
-          <div style={{ fontSize: 11, letterSpacing: 1.5, color: '#64748b', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>
+          <div style={{ fontSize: 11, letterSpacing: 1.5, color: '#94a3b8', textTransform: 'uppercase', fontWeight: 600, marginBottom: 8 }}>
             Moving Higher
           </div>
           <ul style={{ margin: 0, padding: 0, listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 6 }}>
@@ -367,7 +367,7 @@ function MapView({ levels, selected, setSelected }) {
 
   return (
     <div>
-      <div style={{ textAlign: 'center', marginBottom: 20, color: '#64748b', fontSize: 13 }}>
+      <div style={{ textAlign: 'center', marginBottom: 20, color: '#94a3b8', fontSize: 13 }}>
         Tap any level to explore it
       </div>
 
@@ -389,7 +389,7 @@ function MapView({ levels, selected, setSelected }) {
                   width: '100%', borderTop: '1px dashed #b4530988', margin: '4px 0',
                   display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8,
                 }}>
-                  <span style={{ fontSize: 10, letterSpacing: 1.5, color: '#b45309', background: '#0a0a0f', padding: '0 8px', textTransform: 'uppercase', fontWeight: 700 }}>
+                  <span style={{ fontSize: 10, letterSpacing: 1.5, color: '#e08a2c', background: '#0a0a0f', padding: '0 8px', textTransform: 'uppercase', fontWeight: 700 }}>
                     Threshold of Courage — 200
                   </span>
                 </div>
@@ -477,9 +477,9 @@ function ExploreView({ levels, selected, setSelected }) {
                   <div style={{ display: 'flex', alignItems: 'baseline', gap: 8 }}>
                     <span style={{ fontSize: 20, fontWeight: 800, color: level.color }}>{level.score}</span>
                     <span style={{ fontSize: 15, fontWeight: 700, color: '#f1f5f9' }}>{level.emotion}</span>
-                    <span style={{ fontSize: 12, color: '#64748b' }}>· {level.title}</span>
+                    <span style={{ fontSize: 12, color: '#94a3b8' }}>· {level.title}</span>
                   </div>
-                  <div style={{ fontSize: 12, color: '#475569', marginTop: 3 }}>
+                  <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 3 }}>
                     {level.keywords.join(' · ')}
                   </div>
                 </div>
@@ -602,10 +602,10 @@ export default function ConsciousnessMap({ onBack, onSelectSection, initialSecti
           <div style={{ fontSize: 11, letterSpacing: 2, color: '#6d28d9', textTransform: 'uppercase', fontWeight: 700 }}>
             Consciousness Studies
           </div>
-          <div style={{ fontSize: 22, fontWeight: 800, color: '#f1f5f9', lineHeight: 1.2 }}>
+          <h1 style={{ margin: 0, fontSize: 22, fontWeight: 800, color: '#f1f5f9', lineHeight: 1.2 }}>
             Map of Consciousness
-          </div>
-          <div style={{ fontSize: 12, color: '#475569', marginTop: 2 }}>
+          </h1>
+          <div style={{ fontSize: 12, color: '#94a3b8', marginTop: 2 }}>
             David R. Hawkins · <em>Power vs. Force</em>
           </div>
         </div>

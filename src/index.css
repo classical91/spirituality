@@ -1,5 +1,21 @@
 @import "tailwindcss";
 
+/* The floating Home button (App.jsx). Padding lives here, not inline, so the
+   phone layout can shrink it to an icon that covers less of the page. */
+.floating-home {
+  padding: 11px 16px;
+}
+@media (max-width: 640px) {
+  .floating-home {
+    width: 44px;
+    height: 44px;
+    padding: 0;
+  }
+  .floating-home-label {
+    display: none;
+  }
+}
+
 @keyframes chakraSway {
   0%, 100% { transform: perspective(900px) rotateY(0deg); }
   50% { transform: perspective(900px) rotateY(9deg); }

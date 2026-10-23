@@ -349,7 +349,7 @@ function ManifestationBlocks({ onBack, onSelectSection }) {
     <InnerAtlasShell activeId="manifestation" onBack={onBack} onSelectSection={onSelectSection} title="Manifestation Blocks">
       <div className="ia-section-head">
         <div className="ia-eyebrow">Law of attraction</div>
-        <h2 className="ia-title">Manifestation Blocks</h2>
+        <h1 className="ia-title">Manifestation Blocks</h1>
         <p className="ia-lede">
           The 10 core barriers that delay or prevent manifestations — and how to clear each one. Tap any block to see what drives it and how to release it.
         </p>
@@ -581,7 +581,7 @@ function DetoxGuide({ onBack, onSelectSection }) {
     <InnerAtlasShell activeId="detox" onBack={onBack} onSelectSection={onSelectSection} title="Detox Guide">
       <div className="ia-section-head">
         <div className="ia-eyebrow">Cleansing & reset</div>
-        <h2 className="ia-title">Detox Guide</h2>
+        <h1 className="ia-title">Detox Guide</h1>
         <p className="ia-lede">
           19 recognized detox types — physical, herbal, lifestyle, and medical. Tap any to see ingredients and a smoothie recipe.
         </p>
@@ -751,7 +751,7 @@ function RegulationTools({ onBack, onSelectSection }) {
     <InnerAtlasShell activeId="regulation" onBack={onBack} onSelectSection={onSelectSection} title="Regulation Tools">
       <div className="ia-section-head">
         <div className="ia-eyebrow">Nervous-system reset</div>
-        <h2 className="ia-title">Regulation Tools</h2>
+        <h1 className="ia-title">Regulation Tools</h1>
         <p className="ia-lede">
           Direct, practical techniques for calming the nervous system, breaking the anxiety loop, and returning to yourself.
         </p>
@@ -874,7 +874,7 @@ function ThoughtPatterns({ onBack, onSelectSection }) {
     <InnerAtlasShell activeId="thought-patterns" onBack={onBack} onSelectSection={onSelectSection} title="Thought Patterns">
       <div className="ia-section-head">
         <div className="ia-eyebrow">Cognitive reappraisal</div>
-        <h2 className="ia-title">Identifying Negative Automatic Thought Patterns</h2>
+        <h1 className="ia-title">Identifying Negative Automatic Thought Patterns</h1>
         <p className="ia-lede">
           Sometimes we get stuck interpreting distressing situations the same way without examining the evidence.
           Below are twelve common negative thinking patterns — see if any sound familiar. When you catch yourself
@@ -969,7 +969,7 @@ function Hub({ onBack, onSelect }) {
             >
               <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 12 }}>
                 <span style={{ fontSize: '1.5rem', lineHeight: 1, color: p.c }}>{s.icon}</span>
-                <h3 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', margin: 0 }}>{s.title}</h3>
+                <h2 style={{ fontSize: '1rem', fontWeight: 700, color: '#fff', margin: 0 }}>{s.title}</h2>
               </div>
               <p style={{ fontSize: '0.875rem', color: 'var(--ia-text-dim)', margin: '0 0 14px', lineHeight: 1.65 }}>
                 {s.description}

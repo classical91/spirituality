@@ -640,8 +640,14 @@
     height: 220px;
   }
 
+  /* Hidden from view but still the select's accessible name. */
   .aw-topic-nav label {
-    display: none;
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   .aw-topic-count {

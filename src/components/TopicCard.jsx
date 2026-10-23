@@ -71,9 +71,9 @@ export default function TopicCard({ topic, onOpen }) {
           )}
         </div>
 
-        <h3 style={{ fontSize: '0.98rem', fontWeight: 900, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.2 }}>
+        <h2 style={{ fontSize: '0.98rem', fontWeight: 900, letterSpacing: '-0.02em', margin: 0, lineHeight: 1.2 }}>
           {topic.title}
-        </h3>
+        </h2>
 
         {topic.tags?.length > 0 && (
           <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4 }}>

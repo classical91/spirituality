@@ -1,4 +1,4 @@
-import { lazy, Suspense, useCallback, useMemo } from 'react';
+import { lazy, Suspense, useCallback, useLayoutEffect, useMemo } from 'react';
 import HomePage from './HomePage';
 import PortalErrorBoundary from './components/PortalErrorBoundary';
 import { portals, portalsById, portalsByPath } from './data/portals';
@@ -24,6 +24,9 @@ const RelationshipHub = lazy(() => import('./RelationshipHub'));
 const TopicsPortal = lazy(() => import('./TopicsPortal'));
 const SettingsPortal = lazy(() => import('./SettingsPortal'));
 
+
+// The home page's title, as index.html ships it.
+const DEFAULT_TITLE = 'Sacred Pathways | Personal Spiritual Toolkit';
 
 const RELATIONSHIP_SECTION_REDIRECTS = new Set([
   'relationship-clarity', 'relationship-patterns',
@@ -73,6 +76,7 @@ function FloatingHomeButton({ onClick }) {
       onClick={onClick}
       aria-label="Go to home"
       title="Home"
+      className="floating-home"
       style={{
         position: 'fixed',
         right: 'max(16px, env(safe-area-inset-right))',
@@ -80,8 +84,8 @@ function FloatingHomeButton({ onClick }) {
         zIndex: 45,
         display: 'inline-flex',
         alignItems: 'center',
+        justifyContent: 'center',
         gap: 8,
-        padding: '11px 16px',
         borderRadius: 999,
         border: '1px solid rgba(255,255,255,0.18)',
         background: 'rgba(10,12,20,0.72)',
@@ -96,7 +100,7 @@ function FloatingHomeButton({ onClick }) {
       }}
     >
       <span style={{ fontSize: 16, lineHeight: 1 }} aria-hidden="true">⌂</span>
-      Home
+      <span className="floating-home-label">Home</span>
     </button>
   );
 }
@@ -140,6 +144,20 @@ export default function App() {
       return undefined;
     }
   }, [search]);
+
+  // Name the browser tab after the page. Read from window.location rather than
+  // `path` because legacy routes rewrite the URL while rendering. A layout
+  // effect, so a portal's own (passive) effect can refine it afterwards, as the
+  // Relationship Hub does for its screens.
+  useLayoutEffect(() => {
+    const current = window.location.pathname;
+    const portal = portalsByPath[current];
+    document.title = portal
+      ? `${portal.titleFlat} · Sacred Pathways`
+      : current === '/settings'
+        ? 'Settings · Sacred Pathways'
+        : DEFAULT_TITLE;
+  }, [path, search]);
 
   const goHome = useCallback(() => navigate('/'), [navigate]);
   const goSettings = useCallback(() => navigate('/settings'), [navigate]);
@@ -186,6 +204,13 @@ export default function App() {
   }
 
   const activePortal = portalsByPath[path];
+  // An external portal (Natal Affirmations) is a separate app that only keeps a
+  // path here for its card. Someone landing on that path directly wants that
+  // app, and there is no component to render for it.
+  if (activePortal?.external) {
+    if (typeof window !== 'undefined') window.location.replace(activePortal.externalUrl);
+    return <AppLoadingScreen />;
+  }
   if (activePortal) {
     // Normalize legacy alias paths (e.g. /frameworks) to the canonical route.
     if (path !== activePortal.path && typeof window !== 'undefined') {

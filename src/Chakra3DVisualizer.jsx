@@ -104,7 +104,7 @@ function BodyModel({ chakras, selectedId, onOrbClick, rotate }) {
       ))}
 
       {/* Label */}
-      <div className="absolute left-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium text-white/40"
+      <div className="absolute left-5 top-5 z-10 rounded-full px-3 py-1 text-xs font-medium text-white/55"
            style={{ border: '1px solid rgba(255,255,255,0.07)', background: 'rgba(255,255,255,0.03)' }}>
         Energy Body
       </div>
@@ -285,7 +285,7 @@ function AffirmationWindow({ chakra, onClose }) {
         <div className="grid gap-3 p-5 sm:p-6">
           {chakra.affirmations.map((affirmation, index) => (
             <div key={affirmation} className="rounded-[1.5rem] border border-white/10 bg-slate-950/35 p-5 shadow-lg">
-              <p className="mb-2 text-xs uppercase tracking-[0.2em] text-slate-500">Affirmation {index + 1}</p>
+              <p className="mb-2 text-xs uppercase tracking-[0.2em] text-slate-400">Affirmation {index + 1}</p>
               <p className="text-lg font-semibold leading-relaxed text-slate-50">{affirmation}</p>
             </div>
           ))}
@@ -586,7 +586,9 @@ function DetailPanel({ chakra, system, onOpenExpanded, onOpenAffirmations, onOpe
             type="button"
             onClick={onOpenAffirmations}
             className="rounded-2xl border border-white/15 px-5 py-4 font-semibold text-white shadow-xl transition hover:brightness-110 active:scale-[0.99]"
-            style={{ background: chakra.color, boxShadow: `0 0 26px ${chakra.glow}` }}
+            // Darkened so white text stays readable on the light chakra colors
+            // (yellow, green); the hue still reads as the chakra's own.
+            style={{ background: `linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.45)), ${chakra.color}`, boxShadow: `0 0 26px ${chakra.glow}` }}
           >
             Open affirmations
           </button>
@@ -1196,7 +1198,8 @@ function ExpandedChakraPage({ chakra, chakras, system, onClose, onSelect, onOpen
 
 export default function Chakra3DVisualizer({ onBack, onNavigate, initialSection }) {
   const [systemId, setSystemId] = useState("hindu");
-  const [selectedId, setSelectedId] = useState(() => initialSection || "heart");
+  // "thirdeye" is the id the search index once linked to; keep those links working.
+  const [selectedId, setSelectedId] = useState(() => (initialSection === "thirdeye" ? "third-eye" : initialSection) || "heart");
   const [rotate, setRotate] = useState(true);
   const [expandedOpen, setExpandedOpen] = useState(false);
   const [affirmationOpen, setAffirmationOpen] = useState(false);

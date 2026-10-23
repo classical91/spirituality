@@ -281,10 +281,10 @@ function ConceptStudyModal({ concept, onClose }) {
 
         <div className="mt-6 grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
           <div className={cx('rounded-2xl border p-5', CONCEPT_ACCENTS[concept.accent])}>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/45">Core frame</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Core frame</p>
             <p className="mt-3 text-sm leading-7 text-white/78">{concept.explanation}</p>
             <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-4">
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Example</p>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Example</p>
               <p className="mt-2 text-sm leading-6 text-white/78">{concept.example}</p>
             </div>
           </div>
@@ -300,7 +300,7 @@ function ConceptStudyModal({ concept, onClose }) {
         </div>
 
         <div className="mt-5 rounded-2xl border border-white/10 bg-black/25 p-5">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-white/40">Four-step application</p>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-white/55">Four-step application</p>
           <ol className="mt-4 grid gap-3 md:grid-cols-2">
             {concept.steps.map((step, index) => (
               <li key={step} className="flex gap-3 text-sm leading-6 text-white/72">
@@ -421,13 +421,13 @@ function DailyAlignmentTab() {
       mentalDiet: 'That is the old state. I return to the fulfilled one.',
     };
     setTodayCard(card);
-    window.localStorage.setItem('neville-today-card', JSON.stringify(card));
+    try { window.localStorage.setItem('neville-today-card', JSON.stringify(card)); } catch { /* storage unavailable — keep going */ }
   };
 
   const toggleCheckin = (slot) => {
     setCheckins((current) => {
       const next = { ...current, [slot]: !current[slot] };
-      window.localStorage.setItem('neville-checkins', JSON.stringify(next));
+      try { window.localStorage.setItem('neville-checkins', JSON.stringify(next)); } catch { /* storage unavailable — keep going */ }
       return next;
     });
   };
@@ -435,7 +435,7 @@ function DailyAlignmentTab() {
   return (
     <div className="space-y-4">
       <nav className="flex flex-wrap items-center gap-2 rounded-3xl border border-white/10 bg-white/[0.04] p-3">
-        <span className="px-2 text-[11px] font-black uppercase tracking-[0.22em] text-white/40">On this tab</span>
+        <span className="px-2 text-[11px] font-black uppercase tracking-[0.22em] text-white/55">On this tab</span>
         {DAILY_SECTIONS.map(([id, label], i) => (
           <a
             key={id}
@@ -669,7 +669,7 @@ function RevisionTab() {
     };
     const next = [entry, ...revisions].slice(0, 20);
     setRevisions(next);
-    window.localStorage.setItem('neville-revisions', JSON.stringify(next));
+    try { window.localStorage.setItem('neville-revisions', JSON.stringify(next)); } catch { /* storage unavailable — keep going */ }
     setEvent('');
     setRevised('');
   };
@@ -677,7 +677,7 @@ function RevisionTab() {
   const remove = (id) => {
     const next = revisions.filter((r) => r.id !== id);
     setRevisions(next);
-    window.localStorage.setItem('neville-revisions', JSON.stringify(next));
+    try { window.localStorage.setItem('neville-revisions', JSON.stringify(next)); } catch { /* storage unavailable — keep going */ }
   };
 
   return (
@@ -744,7 +744,7 @@ function RevisionTab() {
                   </div>
                   <button
                     onClick={() => remove(r.id)}
-                    className="text-xs text-white/30 hover:text-white/60"
+                    className="text-xs text-white/55 hover:text-white/60"
                   >
                     ✕
                   </button>
@@ -775,7 +775,7 @@ function MentalDietTab() {
   const intercept = () => {
     setCatches((c) => {
       const next = { ...c, count: c.count + 1 };
-      window.localStorage.setItem('neville-mental-diet', JSON.stringify(next));
+      try { window.localStorage.setItem('neville-mental-diet', JSON.stringify(next)); } catch { /* storage unavailable — keep going */ }
       return next;
     });
   };
@@ -888,7 +888,7 @@ function ConceptsTab({ initialSection }) {
           The same inner work runs through modern psychology and coaching — Neville simply named it first. Here is how the familiar terms map onto his language.
         </p>
         <div className="mt-4 overflow-hidden rounded-2xl border border-white/10">
-          <div className="hidden grid-cols-[0.9fr_1.1fr_1.3fr] border-b border-white/10 bg-white/5 px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-white/45 sm:grid">
+          <div className="hidden grid-cols-[0.9fr_1.1fr_1.3fr] border-b border-white/10 bg-white/5 px-4 py-3 text-[11px] font-black uppercase tracking-[0.18em] text-white/55 sm:grid">
             <div>Modern term</div>
             <div>Neville's language</div>
             <div>Description</div>
@@ -929,7 +929,7 @@ function ConceptsTab({ initialSection }) {
                   <span className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-white/60">{c.tag}</span>
                   <h3 className="mt-3 text-xl font-black text-white">{c.title}</h3>
                 </div>
-                <span className="text-lg text-white/40">{open ? '−' : '+'}</span>
+                <span className="text-lg text-white/55">{open ? '−' : '+'}</span>
               </div>
               <p className="mt-2 text-sm leading-6 text-white/70">{c.short}</p>
 
@@ -937,17 +937,17 @@ function ConceptsTab({ initialSection }) {
                 <div className="mt-4 grid gap-4 border-t border-white/10 pt-4">
                   <p className="text-sm leading-6 text-white/75">{c.explanation}</p>
                   <div>
-                    <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-white/45">How to use it</p>
+                    <p className="mb-2 text-xs font-bold uppercase tracking-[0.22em] text-white/55">How to use it</p>
                     <ul className="grid gap-1.5">
                       {c.steps.map((s, i) => (
                         <li key={i} className="flex gap-2 text-sm text-white/70">
-                          <span className="text-white/35">{i + 1}.</span>{s}
+                          <span className="text-white/55">{i + 1}.</span>{s}
                         </li>
                       ))}
                     </ul>
                   </div>
                   <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/40">Example</p>
+                    <p className="text-xs font-bold uppercase tracking-[0.22em] text-white/55">Example</p>
                     <p className="mt-1.5 text-sm leading-6 text-white/75">{c.example}</p>
                   </div>
                 </div>

@@ -1107,7 +1107,7 @@ function PrayerModal({ prayers, title, type, onClose }) {
         <div className="space-y-4 p-6">
           {prayers.map((prayer, i) => (
             <div key={i} className={`rounded-2xl border p-5 ${borderAccent}`}>
-              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-500">Prayer {i + 1}</p>
+              <p className="mb-2 text-xs font-semibold uppercase tracking-[0.2em] text-slate-400">Prayer {i + 1}</p>
               <p className="text-sm leading-7 text-slate-200">{prayer}</p>
             </div>
           ))}
@@ -1133,7 +1133,7 @@ function Pill({ children, tone = "default" }) {
 function AngelDetailBody({ angel }) {
   const a = angel;
   const box = "rounded-2xl border border-white/10 bg-white/[0.03] p-4";
-  const label = "mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500";
+  const label = "mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400";
   const assoc = a.associations || {};
   const joinMaybe = (v) => (Array.isArray(v) ? v.join(", ") : v);
   return (
@@ -1178,10 +1178,10 @@ function AngelDetailBody({ angel }) {
         <div className={box}>
           <div className={label}>Associations</div>
           <div className="grid gap-3 sm:grid-cols-2">
-            {assoc.element && <div><div className="text-xs text-slate-500">Element</div><p className="text-sm text-slate-200">{joinMaybe(assoc.element)}</p></div>}
-            {assoc.day && <div><div className="text-xs text-slate-500">Day</div><p className="text-sm text-slate-200">{joinMaybe(assoc.day)}</p></div>}
-            {assoc.colors && <div><div className="text-xs text-slate-500">Colors</div><p className="text-sm text-slate-200">{joinMaybe(assoc.colors)}</p></div>}
-            {assoc.symbols && <div><div className="text-xs text-slate-500">Symbols</div><p className="text-sm text-slate-200">{joinMaybe(assoc.symbols)}</p></div>}
+            {assoc.element && <div><div className="text-xs text-slate-400">Element</div><p className="text-sm text-slate-200">{joinMaybe(assoc.element)}</p></div>}
+            {assoc.day && <div><div className="text-xs text-slate-400">Day</div><p className="text-sm text-slate-200">{joinMaybe(assoc.day)}</p></div>}
+            {assoc.colors && <div><div className="text-xs text-slate-400">Colors</div><p className="text-sm text-slate-200">{joinMaybe(assoc.colors)}</p></div>}
+            {assoc.symbols && <div><div className="text-xs text-slate-400">Symbols</div><p className="text-sm text-slate-200">{joinMaybe(assoc.symbols)}</p></div>}
           </div>
         </div>
       )}
@@ -1244,7 +1244,7 @@ function DetailModal({ item, onClose, type, onPray }) {
           ) : (
             entries.map(([key, value]) => (
               <div key={key} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
-                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-500">{key.replace(/([A-Z])/g, " $1")}</div>
+                <div className="mb-2 text-xs font-semibold uppercase tracking-[0.25em] text-slate-400">{key.replace(/([A-Z])/g, " $1")}</div>
                 <p className="text-sm leading-7 text-slate-200">{String(value)}</p>
               </div>
             ))
@@ -1409,7 +1409,7 @@ function PrayersSection({ openPrayer }) {
 
       <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-[1fr_1fr_auto] lg:items-end">
         <label className="flex flex-col gap-1.5">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Filter by category</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Filter by category</span>
           <select
             value={categoryId}
             onChange={(e) => setCategoryId(e.target.value)}
@@ -1423,7 +1423,7 @@ function PrayersSection({ openPrayer }) {
         </label>
 
         <label className="flex flex-col gap-1.5">
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-500">Jump to a prayer theme</span>
+          <span className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">Jump to a prayer theme</span>
           <select
             value=""
             onChange={(e) => openTheme(e.target.value)}
@@ -1558,7 +1558,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
                   <tr key={row.sin} className="border-b border-white/10 bg-white/[0.03] align-top last:border-b-0">
                     <td className="p-4">
                       <Pill tone="red">{row.sin}</Pill>
-                      <p className="mt-2 text-xs italic text-slate-500">{row.latin}</p>
+                      <p className="mt-2 text-xs italic text-slate-400">{row.latin}</p>
                     </td>
                     <td className="p-4 text-sm font-semibold text-red-100">{row.binsfeld}</td>
                     <td className="p-4 text-sm font-semibold text-red-100">
@@ -1624,7 +1624,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
               <div key={cat}>
                 <div className="mb-3 flex items-center gap-3">
                   <Pill tone="cyan">{cat}</Pill>
-                  <span className="text-xs text-slate-500">{items.length} {items.length === 1 ? "being" : "beings"}</span>
+                  <span className="text-xs text-slate-400">{items.length} {items.length === 1 ? "being" : "beings"}</span>
                 </div>
                 <GridView items={items} type="angels" onOpen={openModal} onPray={openPrayer} />
               </div>
@@ -1869,7 +1869,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
                     <span style={{ color: d.accent }} className="text-xl font-bold">{d.symbol}</span>
                     <h3 style={{ color: d.accent }} className="text-lg font-black">{d.name}</h3>
                   </div>
-                  <div className="mt-1 flex gap-2 text-xs text-slate-500">
+                  <div className="mt-1 flex gap-2 text-xs text-slate-400">
                     <span>{d.tradition}</span>
                     {d.roman !== '—' && <><span>·</span><span>Roman: {d.roman}</span></>}
                   </div>
@@ -1885,7 +1885,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
 
               <p className="mb-3 text-sm leading-6 text-slate-300">{d.desc}</p>
 
-              <p style={{ borderLeftColor: `${d.accent}40` }} className="border-l-2 pl-3 text-xs italic leading-5 text-slate-500">{d.note}</p>
+              <p style={{ borderLeftColor: `${d.accent}40` }} className="border-l-2 pl-3 text-xs italic leading-5 text-slate-400">{d.note}</p>
             </div>
           ))}
         </div>
@@ -1977,11 +1977,15 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
             >
               ← Sacred Moral & Mythic Atlas
             </button>
-            <span className="text-xs text-slate-500">{tab.icon} {tab.label}</span>
+            <span className="text-xs text-slate-400">{tab.icon} {tab.label}</span>
           </div>
         </div>
 
-        <div className="mx-auto max-w-7xl px-4 py-8">
+        <main className="mx-auto max-w-7xl px-4 py-8">
+          {/* The page's name for screen readers and the document outline; the
+              section's own SectionHeader is the visible title. The embedded
+              atlases (Demonology, Infernal Codex) carry their own h1. */}
+          {showSectionSearch && <h1 className="sr-only">{tab.label}</h1>}
           {showSectionSearch && (
             <section className="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl backdrop-blur-xl">
               <div className="p-6 md:p-8">
@@ -1990,6 +1994,7 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
                     placeholder="Search concepts..."
+                    aria-label={`Search ${tab.label}`}
                     className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-amber-300/60"
                   />
                   <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
@@ -2010,7 +2015,7 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
               embeddedInitialSection={normalizedInitial.childSection}
             />
           </section>
-        </div>
+        </main>
 
         <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
         {prayerModal && (
@@ -2037,7 +2042,7 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
             >
               ← Back to Home
             </button>
-            <span className="text-xs text-slate-500">Sacred Moral & Mythic Atlas</span>
+            <span className="text-xs text-slate-400">Sacred Moral & Mythic Atlas</span>
           </div>
         </div>
       )}

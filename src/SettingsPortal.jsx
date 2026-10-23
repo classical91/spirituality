@@ -265,7 +265,7 @@ function EntryRow({ collection, entry, isEditing, onEdit, onCancelEdit, onChange
                   collection.library.restore(entry.id);
                   onChanged('original wording restored');
                 }}
-                className="rounded-full border border-white/10 px-3 py-1.5 text-xs font-semibold text-slate-500 transition-colors hover:text-slate-300"
+                className="rounded-full border border-white/10 px-3 py-1.5 text-xs font-semibold text-slate-400 transition-colors hover:text-slate-300"
               >
                 Undo edits
               </button>
@@ -309,7 +309,7 @@ function CollectionPanel({ collection, onChanged }) {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-500">
+      <div className="flex flex-wrap items-center gap-2 text-xs text-slate-400">
         <span>
           <strong className="text-slate-300">{counts.total}</strong> in rotation
         </span>
@@ -323,7 +323,7 @@ function CollectionPanel({ collection, onChanged }) {
             collection.library.reset();
             onChanged(`${collection.plural} reset to defaults`);
           }}
-          className="ml-auto text-xs text-slate-600 transition-colors hover:text-slate-400"
+          className="ml-auto text-xs text-slate-400 transition-colors hover:text-slate-400"
         >
           Reset to defaults
         </button>
@@ -373,7 +373,7 @@ function CollectionPanel({ collection, onChanged }) {
       )}
 
       {visible.length === 0 ? (
-        <p className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-6 text-center text-sm text-slate-500">
+        <p className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-6 text-center text-sm text-slate-400">
           {query ? `Nothing matched "${query}".` : `No ${collection.plural} yet — add one above.`}
         </p>
       ) : (
@@ -435,7 +435,7 @@ export default function SettingsPortal({ onBack, initialSection }) {
               or remove the ones that are not yours — the home screen's Daily Prayer and
               Refreshing Affirmation rotate through whatever is left here.
             </p>
-            <p className="mt-2 text-xs text-slate-600">
+            <p className="mt-2 text-xs text-slate-400">
               Saved in this browser only. Clearing site data resets the library to the defaults.
             </p>
           </div>

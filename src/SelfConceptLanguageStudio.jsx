@@ -792,7 +792,7 @@ function ToneTrapWords() {
           <article key={group.title} className="rounded-[1.5rem] border border-white/10 bg-white/[0.045] p-4">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-500">{group.tag}</p>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-400">{group.tag}</p>
                 <h3 className="mt-1 text-lg font-black text-white">{group.title}</h3>
               </div>
               <span className="rounded-full border border-white/10 bg-black/20 px-2.5 py-1 text-[10px] font-bold uppercase tracking-[0.14em] text-slate-400">
@@ -886,7 +886,7 @@ function PowerLadder() {
               <div className="flex items-start justify-between gap-3">
                 <div>
                   <p className="text-sm font-semibold leading-6 text-slate-200">{rung.note}</p>
-                  <p className="mt-1 text-xs italic leading-5 text-slate-500">e.g. {rung.example}</p>
+                  <p className="mt-1 text-xs italic leading-5 text-slate-400">e.g. {rung.example}</p>
                 </div>
                 <CopyButton text={rung.example} />
               </div>
@@ -895,7 +895,7 @@ function PowerLadder() {
         })}
       </div>
 
-      <p className="mt-4 text-xs leading-6 text-slate-500">
+      <p className="mt-4 text-xs leading-6 text-slate-400">
         Rule of thumb: when a sentence feels shaky, climb one rung. “I am realizing I'm loved” becomes “I'm aware I'm loved,” then simply “I am loved.” Drop the scaffolding the moment it stops being honest — the cleanest rung you can say without flinching is the right one.
       </p>
     </section>
@@ -936,7 +936,7 @@ function WantTeachings() {
         ))}
       </div>
 
-      <p className="mt-4 text-xs leading-6 text-slate-500">
+      <p className="mt-4 text-xs leading-6 text-slate-400">
         The throughline: wanting is a useful compass, not a resting place. Name the desire once, then live from “I am” / “I have” — the language the studio above is built to help you find.
       </p>
     </section>
@@ -980,7 +980,7 @@ function DoubtTells() {
         ))}
       </div>
 
-      <p className="mt-4 text-xs leading-6 text-slate-500">
+      <p className="mt-4 text-xs leading-6 text-slate-400">
         The phrase lab above flags these hedges live — type “maybe” or “I think, but I could be wrong” and watch the identity score and misalignment notes respond.
       </p>
     </section>
@@ -988,6 +988,7 @@ function DoubtTells() {
 }
 
 export default function SelfConceptLanguageStudio({ onBack, embedded, initialSection }) {
+  const TitleTag = embedded ? "h2" : "h1";
   const [input, setInput] = useState("I am her man");
   const [mode, setMode] = useState("Identity");
 
@@ -1028,9 +1029,10 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
               <span className="h-2 w-2 rounded-full bg-cyan-300" />
               Self-Concept Language Studio
             </div>
-            <h1 className="max-w-4xl text-4xl font-black tracking-tight text-white sm:text-6xl">
+            {/* Embedded in the Neville portal, whose page title is already the h1. */}
+            <TitleTag className="max-w-4xl text-4xl font-black tracking-tight text-white sm:text-6xl">
               Turn messy inner wording into clean identity language.
-            </h1>
+            </TitleTag>
             <p className="mt-5 max-w-2xl text-base leading-7 text-slate-300 sm:text-lg">
               Build native-sounding self-concept sentences, check present tense, spot passive voice, and separate identity from temporary emotional experience.
             </p>
@@ -1040,7 +1042,7 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
             <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
               {["I am", "I have", "Being", "Native"].map((item) => (
                 <div key={item} className="rounded-2xl border border-white/10 bg-slate-950/60 p-4">
-                  <p className="text-xs uppercase tracking-[0.25em] text-slate-500">Check</p>
+                  <p className="text-xs uppercase tracking-[0.25em] text-slate-400">Check</p>
                   <p className="mt-2 text-lg font-black text-white">{item}</p>
                 </div>
               ))}
@@ -1239,7 +1241,7 @@ export default function SelfConceptLanguageStudio({ onBack, embedded, initialSec
                 <div key={row.before} className="grid grid-cols-1 border-b border-white/10 last:border-b-0 sm:grid-cols-[1fr_1fr]">
                   <div className="bg-slate-950/50 p-4">
                     <p className="font-bold text-slate-300">{row.before}</p>
-                    <p className="mt-2 text-xs leading-5 text-slate-500">{row.note}</p>
+                    <p className="mt-2 text-xs leading-5 text-slate-400">{row.note}</p>
                   </div>
                   <div className="border-white/10 bg-cyan-300/5 p-4 sm:border-l">
                     <div className="flex items-start justify-between gap-3">
