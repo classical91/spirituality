@@ -809,10 +809,47 @@ function ConceptPage({ concept, onOpenConcept, onOpenLibrary }) {
   );
 }
 
+const COLLAPSE_STORAGE_KEY = 'ssa-library-open-groups';
+
+function readOpenGroups() {
+  try {
+    const raw = window.sessionStorage.getItem(COLLAPSE_STORAGE_KEY);
+    const parsed = raw ? JSON.parse(raw) : null;
+    return Array.isArray(parsed) ? new Set(parsed) : new Set();
+  } catch {
+    return new Set();
+  }
+}
+
 function LibraryIndex({ onBack, onOpenConcept }) {
   const [search, setSearch] = useState('');
   const q = search.trim().toLowerCase();
   const groups = useMemo(() => groupConcepts(concepts.filter((c) => matchesSearch(c, q))), [q]);
+
+  // Groups start collapsed so the library reads as a table of contents. The
+  // open set is kept for the session so returning from a concept page keeps
+  // the visitor's place. While searching, every matching group is shown open.
+  const [openGroups, setOpenGroups] = useState(readOpenGroups);
+  useEffect(() => {
+    try {
+      window.sessionStorage.setItem(COLLAPSE_STORAGE_KEY, JSON.stringify([...openGroups]));
+    } catch {
+      // Storage unavailable (private mode, blocked site data): state stays in memory.
+    }
+  }, [openGroups]);
+
+  const searching = q.length > 0;
+  const isOpen = (key) => searching || openGroups.has(key);
+  const toggleGroup = (key) => {
+    setOpenGroups((prev) => {
+      const next = new Set(prev);
+      if (next.has(key)) next.delete(key);
+      else next.add(key);
+      return next;
+    });
+  };
+  const allOpen = groups.length > 0 && groups.every((g) => openGroups.has(g.key));
+  const setAll = (open) => setOpenGroups(open ? new Set(groups.map((g) => g.key)) : new Set());
 
   return (
     <>
@@ -847,40 +884,63 @@ function LibraryIndex({ onBack, onOpenConcept }) {
           placeholder="Search concepts..."
           aria-label="Search concepts"
         />
+        {!searching && groups.length > 1 && (
+          <div className="ssa-collapse-controls">
+            <button type="button" onClick={() => setAll(!allOpen)}>
+              {allOpen ? 'Collapse all' : 'Expand all'}
+            </button>
+          </div>
+        )}
       </div>
 
       {groups.length === 0 ? (
         <div className="ssa-empty">No concepts found.</div>
       ) : (
         <div className="ssa-index">
-          {groups.map((group) => (
-            <section key={group.key} className="ssa-index-group">
-              <div className="ssa-index-group-header">
-                <h2>
-                  {group.label}
-                  {group.label !== group.category && <em>{group.category}</em>}
-                </h2>
-                <span>{group.concepts.length}</span>
-              </div>
-              <div className="ssa-index-grid">
-                {group.concepts.map((c) => (
+          {groups.map((group) => {
+            const open = isOpen(group.key);
+            const panelId = `ssa-group-${group.key}`.replace(/[^a-zA-Z0-9_-]+/g, '-');
+            return (
+              <section key={group.key} className={`ssa-index-group${open ? ' open' : ''}`}>
+                <h2 className="ssa-index-group-header">
                   <button
-                    key={c.id}
                     type="button"
-                    className="ssa-index-card"
-                    style={{ '--cardGlow': c.color }}
-                    onClick={() => onOpenConcept(c.id)}
+                    className="ssa-index-toggle"
+                    aria-expanded={open}
+                    aria-controls={panelId}
+                    disabled={searching}
+                    onClick={() => toggleGroup(group.key)}
                   >
-                    <div className="ssa-mini-icon" aria-hidden="true">{c.icon}</div>
-                    <div>
-                      <strong>{c.title}</strong>
-                      <span>{c.summary}</span>
-                    </div>
+                    <span className="ssa-index-chevron" aria-hidden="true">▸</span>
+                    <span className="ssa-index-title">
+                      {group.label}
+                      {group.label !== group.category && <em>{group.category}</em>}
+                    </span>
+                    <span className="ssa-index-count">{group.concepts.length}</span>
                   </button>
-                ))}
-              </div>
-            </section>
-          ))}
+                </h2>
+                {open && (
+                  <div id={panelId} className="ssa-index-grid">
+                    {group.concepts.map((c) => (
+                      <button
+                        key={c.id}
+                        type="button"
+                        className="ssa-index-card"
+                        style={{ '--cardGlow': c.color }}
+                        onClick={() => onOpenConcept(c.id)}
+                      >
+                        <div className="ssa-mini-icon" aria-hidden="true">{c.icon}</div>
+                        <div>
+                          <strong>{c.title}</strong>
+                          <span>{c.summary}</span>
+                        </div>
+                      </button>
+                    ))}
+                  </div>
+                )}
+              </section>
+            );
+          })}
         </div>
       )}
     </>
