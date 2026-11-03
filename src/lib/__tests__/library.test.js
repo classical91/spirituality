@@ -22,12 +22,16 @@ const { prayerPool } = await import('../../prayerPool.js');
 const { REFRESHING_AFFIRMATIONS } = await import('../affirmations.js');
 const {
   affirmationLibrary,
+  getAffirmationSettings,
   getLibraryAffirmation,
   getLibraryDailyPrayer,
   prayerBuiltinId,
   prayerLibrary,
   reloadFromStorage,
+  resetAffirmationSettings,
+  rotatingAffirmations,
   subscribe,
+  updateAffirmationSettings,
 } = await import('../library.js');
 
 beforeEach(() => {
@@ -170,5 +174,46 @@ describe('subscribers', () => {
     prayerLibrary.add({ title: 'Later', prayer: 'Not counted.' });
 
     assert.equal(calls, 3);
+  });
+});
+
+describe('affirmation display settings', () => {
+  it('default to rotating every 12 seconds across every theme', () => {
+    assert.deepEqual(getAffirmationSettings(), { autoRotate: true, intervalSeconds: 12, themes: [] });
+    assert.equal(rotatingAffirmations().length, affirmationLibrary.active().length);
+  });
+
+  it('save on/off and speed, and reject speeds Settings does not offer', () => {
+    updateAffirmationSettings({ autoRotate: false, intervalSeconds: 60 });
+    assert.equal(getAffirmationSettings().autoRotate, false);
+    assert.equal(getAffirmationSettings().intervalSeconds, 60);
+
+    updateAffirmationSettings({ intervalSeconds: 7 });
+    assert.equal(getAffirmationSettings().intervalSeconds, 12);
+  });
+
+  it('narrow the rotation to the chosen themes', () => {
+    updateAffirmationSettings({ themes: ['Peace', 'Clarity'] });
+    const pool = rotatingAffirmations();
+    assert.ok(pool.length > 0);
+    assert.ok(pool.every((entry) => entry.title === 'Peace' || entry.title === 'Clarity'));
+    for (let attempt = 0; attempt < 50; attempt += 1) {
+      assert.ok(['Peace', 'Clarity'].includes(getLibraryAffirmation().title));
+    }
+  });
+
+  it('fall back to every theme when the chosen ones have nothing left', () => {
+    updateAffirmationSettings({ themes: ['Peace'] });
+    for (const entry of affirmationLibrary.active().filter((item) => item.title === 'Peace')) {
+      affirmationLibrary.remove(entry.id);
+    }
+    assert.equal(rotatingAffirmations().length, affirmationLibrary.active().length);
+    assert.notEqual(getLibraryAffirmation(), null);
+  });
+
+  it('reset back to the defaults', () => {
+    updateAffirmationSettings({ autoRotate: false, intervalSeconds: 300, themes: ['Peace'] });
+    resetAffirmationSettings();
+    assert.deepEqual(getAffirmationSettings(), { autoRotate: true, intervalSeconds: 12, themes: [] });
   });
 });

@@ -6,10 +6,11 @@ import { portals, portalsById, searchEverything, groupPortalsByCategory } from '
 import { getDailyReading, READING_POOL } from './lib/dailyReading';
 import './HomePage.css';
 import {
-  affirmationLibrary,
+  getAffirmationSettings,
   getLibraryAffirmation,
   getLibraryDailyPrayer,
   getRevision,
+  rotatingAffirmations,
   subscribe as subscribeToLibrary,
 } from './lib/library.js';
 
@@ -37,8 +38,6 @@ const LENS_COLORS = {
   Wellness:      { border: 'rgba(52,211,153,0.30)',  bg: 'rgba(52,211,153,0.07)',  badge: 'rgba(52,211,153,0.16)',  badgeText: '#6ee7b7' },
   Reflection:    { border: 'rgba(244,114,182,0.30)', bg: 'rgba(244,114,182,0.07)', badge: 'rgba(244,114,182,0.16)', badgeText: '#fbcfe8' },
 };
-
-const AFFIRMATION_REFRESH_MS = 12000;
 
 // The prayer and the affirmation both come from the editable library rather
 // than straight from the source lists, so what Settings adds, edits, or removes
@@ -228,7 +227,7 @@ function DailyReadingCard({ onNavigate }) {
   );
 }
 
-function RefreshingAffirmationCard({ affirmation, onShuffle }) {
+function RefreshingAffirmationCard({ affirmation, onShuffle, onAdjust }) {
   const shuffle = (e) => {
     e.stopPropagation();
     onShuffle();
@@ -287,6 +286,23 @@ function RefreshingAffirmationCard({ affirmation, onShuffle }) {
             }}
           >
             ⟳
+          </button>
+          <button
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onAdjust();
+            }}
+            aria-label="Adjust affirmations in Settings"
+            title="Adjust affirmations"
+            style={{
+              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+              width: '22px', height: '22px', borderRadius: '999px', flexShrink: 0,
+              border: '1px solid rgba(196,165,255,0.18)', background: 'rgba(196,165,255,0.1)',
+              color: '#d8ceff', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: 0,
+            }}
+          >
+            ⚙
           </button>
         </span>
       </div>
@@ -367,25 +383,32 @@ function DailyShortcuts({ onNavigate }) {
 export default function HomePage({ onNavigate, onOpenSettings }) {
   const [query, setQuery] = useState('');
   const [refreshingAffirmation, setRefreshingAffirmation] = useState(() => getLibraryAffirmation());
+  // Read through the library revision so a change in Settings (here or in
+  // another tab) re-renders with the new speed / on-off straight away.
+  useLibraryRevision();
+  const { autoRotate, intervalSeconds } = getAffirmationSettings();
 
-  // "Refreshing" isn't just a name — it rotates on its own so the card never
-  // goes stale on a long-open tab. A manual shuffle (below) restarts the clock
-  // so a deliberate click isn't immediately overwritten by a pending tick.
+  // "Refreshing" isn't just a name — by default it rotates on its own so the
+  // card never goes stale on a long-open tab. Settings can slow it, speed it,
+  // or switch it off. A manual shuffle (below) restarts the clock so a
+  // deliberate click isn't immediately overwritten by a pending tick.
   useEffect(() => {
+    if (!autoRotate) return undefined;
     const id = setInterval(() => {
       setRefreshingAffirmation((current) => getLibraryAffirmation(current?.line));
-    }, AFFIRMATION_REFRESH_MS);
+    }, intervalSeconds * 1000);
     return () => clearInterval(id);
-  }, [refreshingAffirmation]);
+  }, [refreshingAffirmation, autoRotate, intervalSeconds]);
 
-  // Editing the library in Settings can delete or reword the line on screen.
-  // Leaving it up would show an affirmation that no longer exists, so the card
-  // moves to a current one as soon as its own is gone.
+  // Editing the library in Settings can delete or reword the line on screen,
+  // or narrow the themes so it no longer belongs. Leaving it up would show an
+  // affirmation that is no longer in rotation, so the card moves to a current
+  // one as soon as its own is gone.
   useEffect(
     () =>
       subscribeToLibrary(() => {
         setRefreshingAffirmation((current) => {
-          const live = affirmationLibrary.active();
+          const live = rotatingAffirmations();
           const stillThere =
             current && live.some((entry) => entry.id === current.id && entry.line === current.line);
           return stillThere ? current : getLibraryAffirmation();
@@ -525,9 +548,13 @@ export default function HomePage({ onNavigate, onOpenSettings }) {
             }}
           >
             {refreshingAffirmation ? (
-              <RefreshingAffirmationCard affirmation={refreshingAffirmation} onShuffle={shuffleAffirmation} />
+              <RefreshingAffirmationCard
+                affirmation={refreshingAffirmation}
+                onShuffle={shuffleAffirmation}
+                onAdjust={() => onOpenSettings('affirmations')}
+              />
             ) : (
-              <EmptyLibraryCard label="Refreshing Affirmation" onOpenSettings={onOpenSettings} />
+              <EmptyLibraryCard label="Refreshing Affirmation" onOpenSettings={() => onOpenSettings('affirmations')} />
             )}
             <DailyPrayerCard onOpenSettings={onOpenSettings} />
             <DailyReadingCard onNavigate={onNavigate} />
