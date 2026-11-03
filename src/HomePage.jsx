@@ -293,16 +293,16 @@ function RefreshingAffirmationCard({ affirmation, onShuffle, onAdjust }) {
               e.stopPropagation();
               onAdjust();
             }}
-            aria-label="Adjust affirmations in Settings"
-            title="Adjust affirmations"
+            title="Adjust affirmations in Settings"
             style={{
               display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
-              width: '22px', height: '22px', borderRadius: '999px', flexShrink: 0,
+              height: '22px', borderRadius: '999px', flexShrink: 0,
               border: '1px solid rgba(196,165,255,0.18)', background: 'rgba(196,165,255,0.1)',
-              color: '#d8ceff', cursor: 'pointer', fontSize: '0.75rem', lineHeight: 1, padding: 0,
+              color: '#d8ceff', cursor: 'pointer', fontFamily: 'inherit',
+              fontSize: '0.66rem', fontWeight: 800, lineHeight: 1, padding: '0 9px',
             }}
           >
-            ⚙
+            Settings
           </button>
         </span>
       </div>
