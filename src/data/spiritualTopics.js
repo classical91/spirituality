@@ -30,12 +30,22 @@
 // To add a topic: append an object to `spiritualTopics`. Search entries and the
 // deep link are generated automatically — no routing or component changes.
 
+// Ordered inner → outer: the foundation you stand on, the feelings that move
+// through you, the awareness that holds them, then how it all shows up with
+// other people. The browse view groups topics in this order.
 export const TOPIC_CATEGORIES = [
-  'Love & Relationships',
   'Inner Foundation',
   'Emotional Life',
   'Awareness & Spirit',
+  'Love & Relationships',
 ];
+
+export const TOPIC_CATEGORY_DESCRIPTIONS = {
+  'Inner Foundation': 'The ground you stand on — wholeness, self-trust, and authorship of your own life.',
+  'Emotional Life': 'Telling apart the feelings that look alike — desire and desperation, longing and knowing.',
+  'Awareness & Spirit': 'Attention, presence, intuition, and surrender — the quieter side of the inner life.',
+  'Love & Relationships': 'How love works in practice — receiving, choosing, communicating, repairing, and letting go.',
+};
 
 export const spiritualTopics = [
   // ── Love & Relationships ────────────────────────────────────────────────
@@ -972,6 +982,281 @@ export const spiritualTopics = [
     ],
     tags: ['sovereignty', 'self-governance', 'agency', 'power', 'values', 'autonomy', 'boundaries'],
     lens: 'Reflection',
+  },
+  // ── Awareness & Spirit ──────────────────────────────────────────────────
+  {
+    id: 'presence',
+    title: 'Presence',
+    category: 'Awareness & Spirit',
+    type: 'concept',
+    summary:
+      'Being fully here — attention resting in this moment rather than replaying the past or rehearsing the future.',
+    definition: [
+      'Presence is attention that is available to what is actually happening: the body you are in, the person in front of you, the task at hand. It is less a special state than the absence of being elsewhere.',
+      'It is not a feeling of calm you have to manufacture. You can be present with restlessness, grief, or boredom; presence is the willingness to be with whatever is here.',
+    ],
+    keyIdea:
+      'You cannot force presence, but you can return to it. Every time you notice you have drifted and come back, that noticing is the practice — not a failure of it.',
+    distinctions: [
+      {
+        label: 'Presence vs relaxation',
+        explanation:
+          'Relaxation lowers arousal. Presence is about where attention is, and can happen while alert, active, or uncomfortable.',
+      },
+      {
+        label: 'Presence vs zoning out',
+        explanation:
+          'Zoning out is attention gone missing. Presence is attention fully arrived, even if the mind is quiet.',
+      },
+    ],
+    signs: {
+      balanced: [
+        'You notice sensations, sounds, and people around you without straining.',
+        'Conversations feel like listening rather than waiting to speak.',
+        'You come back from distraction quickly and without self-criticism.',
+      ],
+      imbalanced: [
+        'You live mostly in planning, replaying, or imagined conversations.',
+        'Meals, walks, and time with people pass without registering.',
+        'Stillness feels unbearable, so you fill every gap with input.',
+      ],
+    },
+    practices: [
+      'Three times today, stop and name three things you can hear.',
+      'Eat the first three bites of a meal without screens or conversation.',
+      'When you notice you have drifted, say “here” silently and return.',
+    ],
+    reflectionQuestions: [
+      'Where does my attention go when nothing is demanding it?',
+      'What am I avoiding by being somewhere other than here?',
+    ],
+    relatedTopicIds: ['awareness-vs-rumination', 'contentment-vs-fulfillment', 'gratitude'],
+    portalLinks: [
+      { portalId: 'inneratlas', section: 'presence', label: 'Presence (Awareness)' },
+      { portalId: 'inneratlas', section: 'returning-attention', label: 'Returning attention' },
+      { portalId: 'inneratlas', section: 'stillness-spaciousness-silence', label: 'Stillness, spaciousness, silence' },
+    ],
+    tags: ['presence', 'mindfulness', 'attention', 'here and now', 'meditation', 'being', 'now'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'awareness-vs-rumination',
+    title: 'Awareness vs Rumination',
+    category: 'Awareness & Spirit',
+    type: 'comparison',
+    summary:
+      'The difference between noticing a thought and getting caught in it — observing the loop versus living inside it.',
+    definition: [
+      'Awareness notices what the mind is doing: “there is worry,” “there is a replay of that conversation.” Rumination is being inside the content — going over it again and again as though thinking harder will resolve it.',
+      'Both can involve the same thoughts. The difference is your relationship to them: one has a little space around it, the other has none.',
+    ],
+    keyIdea:
+      'Rumination feels like problem-solving but rarely produces a decision. A useful test: if the last ten minutes of thinking did not change anything you will do, you were ruminating.',
+    distinctions: [
+      {
+        label: 'Reflection vs rumination',
+        explanation:
+          'Reflection asks a question, reaches an insight, and stops. Rumination circles the same question without landing.',
+      },
+      {
+        label: 'Noticing vs suppressing',
+        explanation:
+          'Awareness does not push thoughts away. It names them and lets them be there without following every one.',
+      },
+    ],
+    signs: {
+      balanced: [
+        'You can say “I am worrying again” and feel a little space open.',
+        'Thinking about a problem leads to a next step or a decision to let it rest.',
+        'Painful thoughts come and go rather than taking over the day.',
+      ],
+      imbalanced: [
+        'You replay the same conversation or mistake for hours.',
+        'Going over it feels necessary, as though stopping would be careless.',
+        'Sleep is delayed by loops that never resolve.',
+      ],
+    },
+    practices: [
+      'When a loop starts, label it in one word — “replaying,” “worrying,” “rehearsing.”',
+      'Ask: is there one action I can take? If yes, write it down. If no, return to the breath.',
+      'Set a fifteen-minute “worry window” and postpone loops to it.',
+    ],
+    reflectionQuestions: [
+      'What am I hoping rumination will protect me from?',
+      'Which thought, if I simply noticed it, would lose most of its grip?',
+    ],
+    relatedTopicIds: ['presence', 'anxiety-and-receiving', 'longing-vs-inner-knowing'],
+    portalLinks: [
+      { portalId: 'inneratlas', section: 'awareness-vs-rumination', label: 'Awareness vs rumination' },
+      { portalId: 'inneratlas', section: 'returning-attention', label: 'Returning attention' },
+    ],
+    tags: ['rumination', 'overthinking', 'awareness', 'worry', 'thought loops', 'mindfulness', 'observer'],
+    lens: 'Psychological',
+    note: 'Persistent rumination that disrupts sleep, work, or mood can be part of anxiety or depression. A therapist can help; it is not a failure of willpower.',
+  },
+  {
+    id: 'intuition-vs-fear',
+    title: 'Intuition vs Fear',
+    category: 'Awareness & Spirit',
+    type: 'comparison',
+    summary:
+      'Telling a quiet inner knowing apart from the loud urgency of anxiety — both can feel like a “gut feeling.”',
+    definition: [
+      'Intuition is fast, pattern-based knowing that tends to arrive calmly and stay steady. Fear is a protective alarm that tends to arrive with urgency, catastrophic stories, and a push to act right now.',
+      'Both are real signals worth listening to. The skill is not ignoring either one but knowing which one is speaking.',
+    ],
+    keyIdea:
+      'Intuition usually informs; fear usually insists. Intuition is often quiet and neutral in tone. Fear escalates, repeats itself, and demands certainty.',
+    distinctions: [
+      {
+        label: 'Calm knowing vs urgent alarm',
+        explanation:
+          'A clear “no” that does not need to argue is often intuition. A racing, looping “what if” is more often fear.',
+      },
+      {
+        label: 'Intuition vs wishful thinking',
+        explanation:
+          'Intuition can tell you things you do not want to hear. Wishful thinking only ever agrees with what you already want.',
+      },
+    ],
+    signs: {
+      balanced: [
+        'Your inner sense stays the same when you revisit it on a calmer day.',
+        'You can hold a hunch lightly and check it against the facts.',
+        'You notice red flags early without spiraling into worst-case stories.',
+      ],
+      imbalanced: [
+        'Every anxious feeling gets treated as a prophetic warning.',
+        'You override a steady inner “no” because it is inconvenient.',
+        'You need certainty before acting and never feel you have enough.',
+      ],
+    },
+    practices: [
+      'Before a decision, ask: does this feeling get louder or quieter as I breathe slowly?',
+      'Revisit a strong hunch after sleep and see if it is still there.',
+      'Write the fear story and the quiet sense side by side, and notice the tone of each.',
+    ],
+    reflectionQuestions: [
+      'When has my intuition been right, and how did it feel at the time?',
+      'Is this sense asking me to look closer, or demanding that I act now?',
+    ],
+    relatedTopicIds: ['self-trust', 'longing-vs-inner-knowing', 'anxiety-and-receiving'],
+    portalLinks: [
+      { portalId: 'chakra', section: 'third-eye', label: 'Third Eye Chakra — intuition and insight' },
+      { portalId: 'inneratlas', section: 'discernment', label: 'Discernment (psychology)' },
+      { portalId: 'inneratlas', section: 'emotional-awareness', label: 'Emotional awareness' },
+    ],
+    tags: ['intuition', 'gut feeling', 'fear', 'anxiety', 'discernment', 'inner knowing', 'third eye'],
+    lens: 'Reflection',
+    note: 'If a situation feels unsafe, act on safety first and sort out whether it was fear or intuition afterward.',
+  },
+  {
+    id: 'surrender-vs-resignation',
+    title: 'Surrender vs Resignation',
+    category: 'Awareness & Spirit',
+    type: 'comparison',
+    summary:
+      'Letting go of control while staying engaged, versus giving up because you believe nothing will change.',
+    definition: [
+      'Surrender is releasing the need to control outcomes you cannot control, while still doing your part with care. It tends to bring relief and openness.',
+      'Resignation looks similar from the outside — you stop pushing — but it is driven by hopelessness. It tends to bring heaviness, withdrawal, and a quiet “why bother.”',
+    ],
+    keyIdea:
+      'Surrender lets go of the outcome but keeps the heart open. Resignation lets go of the heart and calls it acceptance.',
+    distinctions: [
+      {
+        label: 'Acceptance vs approval',
+        explanation:
+          'Accepting what is happening does not mean you like it or agree with it. It means you stop arguing with reality so you can respond to it.',
+      },
+      {
+        label: 'Letting go vs giving up',
+        explanation:
+          'Letting go loosens your grip and frees energy. Giving up withdraws effort and leaves you smaller.',
+      },
+    ],
+    signs: {
+      balanced: [
+        'You act on what is yours to do, then rest about the rest.',
+        'Releasing control brings relief rather than despair.',
+        'You stay open to good things arriving in forms you did not plan.',
+      ],
+      imbalanced: [
+        'You call it “letting go” but feel numb and defeated.',
+        'You use surrender to avoid a hard conversation or action.',
+        'You cannot rest until every outcome is guaranteed.',
+      ],
+    },
+    practices: [
+      'Divide a worry into two lists: what is mine to do, and what is not.',
+      'Do one thing on the first list, then say “the rest is not mine to carry.”',
+      'Notice whether letting go feels lighter or heavier. Lighter is surrender.',
+    ],
+    reflectionQuestions: [
+      'What am I still trying to control that was never mine to control?',
+      'Am I letting go from trust, or from exhaustion?',
+    ],
+    relatedTopicIds: ['devotion-vs-attachment', 'contentment-vs-fulfillment', 'presence'],
+    portalLinks: [
+      { portalId: 'chakra', section: 'crown', label: 'Crown Chakra — surrender and meaning' },
+      { portalId: 'inneratlas', section: 'acceptance', label: 'Acceptance (Map of Consciousness)' },
+    ],
+    tags: ['surrender', 'resignation', 'letting go', 'acceptance', 'control', 'trust', 'faith'],
+    lens: 'Reflection',
+  },
+  {
+    id: 'gratitude',
+    title: 'Gratitude',
+    category: 'Awareness & Spirit',
+    type: 'concept',
+    summary:
+      'Noticing and receiving what is already good — a practice of attention, not a demand to feel positive.',
+    definition: [
+      'Gratitude is the act of noticing what is already supporting you — people, moments, the body, small comforts — and letting that register. It trains attention toward what is present rather than only what is missing.',
+      'It is not forced positivity. Real gratitude can sit beside grief, frustration, or want; it simply refuses to let those be the whole picture.',
+    ],
+    keyIdea:
+      'Specific beats general. “I am grateful for my friend” fades quickly; “I am grateful she texted to check on me this morning” actually lands.',
+    distinctions: [
+      {
+        label: 'Gratitude vs toxic positivity',
+        explanation:
+          'Gratitude adds to the picture without denying pain. Toxic positivity tells you that you should not feel what you feel.',
+      },
+      {
+        label: 'Gratitude vs indebtedness',
+        explanation:
+          'Gratitude receives freely. Indebtedness turns every gift into something you owe back.',
+      },
+    ],
+    signs: {
+      balanced: [
+        'You notice small good things without needing them to be big.',
+        'You can thank people without immediately repaying them.',
+        'Gratitude sits alongside hard feelings without cancelling them.',
+      ],
+      imbalanced: [
+        'You use gratitude to shame yourself for feeling bad.',
+        'Only what is missing feels real.',
+        'Receiving kindness makes you uneasy until you have returned it.',
+      ],
+    },
+    practices: [
+      'Each evening, write three specific things from today — one sentence each.',
+      'Thank one person directly for something small and concrete.',
+      'When you notice a good moment, pause for one breath to let it land.',
+    ],
+    reflectionQuestions: [
+      'What good thing in my life have I stopped noticing?',
+      'Where am I waiting for “enough” before letting myself appreciate what is here?',
+    ],
+    relatedTopicIds: ['contentment-vs-fulfillment', 'receptivity', 'presence'],
+    portalLinks: [
+      { portalId: 'inneratlas', section: 'gratitude', label: 'Gratitude (Mood & neurochemistry)' },
+      { portalId: 'chakra', section: 'heart', label: 'Heart Chakra — giving and receiving' },
+    ],
+    tags: ['gratitude', 'appreciation', 'thankfulness', 'contentment', 'noticing', 'receiving', 'journaling'],
+    lens: 'Wellness',
   },
 ];
 

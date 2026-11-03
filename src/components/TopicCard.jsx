@@ -4,7 +4,7 @@ import { useState } from 'react';
 // Compact by design: the summary ("what it's about") lives behind the "!" info
 // button so the card stays small. The whole card opens the topic; the "!" is a
 // sibling button (not nested) so it toggles its popover without opening the topic.
-export default function TopicCard({ topic, onOpen }) {
+export default function TopicCard({ topic, onOpen, hideCategory = false }) {
   const [hovered, setHovered] = useState(false);
   const [infoOpen, setInfoOpen] = useState(false);
 
@@ -37,7 +37,8 @@ export default function TopicCard({ topic, onOpen }) {
           transition: 'all 0.18s ease',
         }}
       >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', paddingRight: 26 }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', paddingRight: 26, minHeight: 18 }}>
+          {!hideCategory && (
           <span
             style={{
               fontSize: '0.58rem',
@@ -52,6 +53,7 @@ export default function TopicCard({ topic, onOpen }) {
           >
             {topic.category}
           </span>
+          )}
           {topic.type === 'comparison' && (
             <span
               style={{
