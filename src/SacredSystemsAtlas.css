@@ -662,7 +662,7 @@
 }
 
 .ssa-related-header span,
-.ssa-index-group-header span {
+.ssa-index-count {
   min-width: 28px;
   height: 24px;
   display: grid;
@@ -705,33 +705,118 @@
 
 .ssa-index {
   display: grid;
-  gap: 22px;
+  gap: 10px;
+}
+
+.ssa-index-group {
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 20px;
+  background: rgba(255,255,255,.03);
+  transition: background .18s ease, border-color .18s ease;
+}
+
+.ssa-index-group.open {
+  background: rgba(255,255,255,.045);
+  border-color: rgba(255,255,255,.14);
 }
 
 .ssa-index-group-header {
+  margin: 0;
+  font-size: inherit;
+}
+
+.ssa-index-toggle {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 10px;
-  margin: 0 4px 12px;
-}
-
-.ssa-index-group-header h2 {
-  margin: 0;
-  display: flex;
-  align-items: baseline;
-  gap: 8px;
-  font-size: 20px;
-  letter-spacing: -.02em;
+  padding: 14px 16px;
+  border: 0;
+  border-radius: 20px;
+  background: transparent;
   color: #fff8df;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
 }
 
-.ssa-index-group-header em {
+.ssa-index-toggle:hover:not(:disabled) {
+  background: rgba(255,255,255,.05);
+}
+
+.ssa-index-toggle:focus-visible {
+  outline: 2px solid rgba(255,212,121,.7);
+  outline-offset: 2px;
+}
+
+.ssa-index-toggle:disabled {
+  cursor: default;
+}
+
+.ssa-index-chevron {
+  flex: none;
+  width: 16px;
+  color: #ffd479;
+  font-size: 14px;
+  transition: transform .18s ease;
+}
+
+.ssa-index-group.open .ssa-index-chevron {
+  transform: rotate(90deg);
+}
+
+.ssa-index-toggle:disabled .ssa-index-chevron {
+  visibility: hidden;
+}
+
+.ssa-index-title {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 8px;
+  min-width: 0;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -.02em;
+}
+
+.ssa-index-title em {
   color: #b8acd8;
   font-size: 12px;
   font-style: normal;
   font-weight: 700;
   letter-spacing: .08em;
   text-transform: uppercase;
+}
+
+.ssa-index-count {
+  flex: none;
+  padding: 0 8px;
+}
+
+.ssa-index-group > .ssa-index-grid {
+  padding: 0 14px 14px;
+}
+
+.ssa-collapse-controls {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.ssa-collapse-controls button {
+  padding: 6px 12px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  color: #ffd479;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 800;
+  cursor: pointer;
+}
+
+.ssa-collapse-controls button:hover {
+  background: rgba(255,255,255,.1);
 }
 
 .ssa-index-grid {
