@@ -309,8 +309,75 @@ export function getLibraryDailyPrayer(date = new Date()) {
   return entries[dayOfYear(date) % entries.length];
 }
 
-export function getLibraryAffirmation(excludeLine) {
+// How the home screen's Refreshing Affirmation behaves, as opposed to which
+// lines it draws from: whether it rotates on its own, how often, and whether it
+// sticks to a few themes. Kept under the same "library:" prefix as the lists so
+// the cross-tab listener above picks up a change made in another tab.
+const AFFIRMATION_SETTINGS_KEY = 'library:affirmation-settings';
+
+/** The rotation speeds Settings offers, in seconds. */
+export const AFFIRMATION_INTERVALS = [6, 12, 30, 60, 300];
+
+export const DEFAULT_AFFIRMATION_SETTINGS = Object.freeze({
+  autoRotate: true,
+  intervalSeconds: 12,
+  // Empty means every theme — so a theme added later is included by default.
+  themes: [],
+});
+
+function normalizeAffirmationSettings(stored) {
+  const source = stored && typeof stored === 'object' ? stored : {};
+  const interval = Number(source.intervalSeconds);
+  return {
+    autoRotate: typeof source.autoRotate === 'boolean' ? source.autoRotate : DEFAULT_AFFIRMATION_SETTINGS.autoRotate,
+    intervalSeconds: AFFIRMATION_INTERVALS.includes(interval) ? interval : DEFAULT_AFFIRMATION_SETTINGS.intervalSeconds,
+    themes: Array.isArray(source.themes)
+      ? [...new Set(source.themes.map(cleanText).filter(Boolean))]
+      : [],
+  };
+}
+
+let cachedSettings = null;
+let cachedSettingsRevision = -1;
+
+/** The current affirmation display settings. Cached per revision, like the lists. */
+export function getAffirmationSettings() {
+  if (cachedSettingsRevision !== getRevision() || cachedSettings === null) {
+    cachedSettings = normalizeAffirmationSettings(readJSON(AFFIRMATION_SETTINGS_KEY, null));
+    cachedSettingsRevision = getRevision();
+  }
+  return cachedSettings;
+}
+
+export function updateAffirmationSettings(patch) {
+  const next = normalizeAffirmationSettings({ ...getAffirmationSettings(), ...patch });
+  writeJSON(AFFIRMATION_SETTINGS_KEY, next);
+  notify();
+  return next;
+}
+
+export function resetAffirmationSettings() {
+  writeJSON(AFFIRMATION_SETTINGS_KEY, { ...DEFAULT_AFFIRMATION_SETTINGS, themes: [] });
+  notify();
+}
+
+/**
+ * The affirmations the home card may show: everything not hidden, narrowed to
+ * the chosen themes. If that narrows to nothing — every line in the chosen
+ * themes was deleted, say — it falls back to the whole list rather than leaving
+ * the card blank over a filter the person may have forgotten about.
+ */
+export function rotatingAffirmations() {
   const entries = affirmationLibrary.active();
+  const { themes } = getAffirmationSettings();
+  if (themes.length === 0) return entries;
+  const wanted = new Set(themes);
+  const focused = entries.filter((entry) => wanted.has(entry.title));
+  return focused.length > 0 ? focused : entries;
+}
+
+export function getLibraryAffirmation(excludeLine) {
+  const entries = rotatingAffirmations();
   if (entries.length === 0) return null;
   if (entries.length === 1) return entries[0];
   let pick;

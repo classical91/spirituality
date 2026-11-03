@@ -160,7 +160,13 @@ export default function App() {
   }, [path, search]);
 
   const goHome = useCallback(() => navigate('/'), [navigate]);
-  const goSettings = useCallback(() => navigate('/settings'), [navigate]);
+  // Called straight from onClick too, so anything but a string (the click
+  // event) means "Settings, default tab".
+  const goSettings = useCallback(
+    (section) =>
+      navigate(typeof section === 'string' ? `/settings?section=${encodeURIComponent(section)}` : '/settings'),
+    [navigate]
+  );
 
   const goPortal = useCallback(
     (portalId, { section } = {}) => {

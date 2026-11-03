@@ -1,11 +1,17 @@
 import { useMemo, useState, useSyncExternalStore } from 'react';
 
 import {
+  AFFIRMATION_INTERVALS,
   affirmationLibrary,
   affirmationThemes,
+  getAffirmationSettings,
+  getRevision,
   prayerLibrary,
   prayerTypes,
+  resetAffirmationSettings,
+  rotatingAffirmations,
   subscribe,
+  updateAffirmationSettings,
 } from './lib/library.js';
 
 // Settings: the prayers and affirmations, and everything you can do to them.
@@ -65,6 +71,160 @@ const COLLECTIONS = {
 // after a write here — or after one in another tab.
 function useLibraryEntries(collection) {
   return useSyncExternalStore(subscribe, collection.library.all, collection.library.all);
+}
+
+function intervalLabel(seconds) {
+  return seconds < 60 ? `${seconds}s` : `${seconds / 60} min`;
+}
+
+// How the home screen's Refreshing Affirmation behaves — on/off, speed, and
+// which themes it draws from. The list below this edits the lines themselves.
+function AffirmationDisplayPanel({ accent, onChanged }) {
+  useSyncExternalStore(subscribe, getRevision, getRevision);
+  const settings = getAffirmationSettings();
+  const themes = affirmationThemes().filter((theme) =>
+    affirmationLibrary.active().some((entry) => entry.title === theme)
+  );
+  const chosen = new Set(settings.themes);
+  const inRotation = rotatingAffirmations().length;
+  const filterFellBack =
+    settings.themes.length > 0 && !affirmationLibrary.active().some((entry) => chosen.has(entry.title));
+
+  const toggleTheme = (theme) => {
+    const next = chosen.has(theme)
+      ? settings.themes.filter((item) => item !== theme)
+      : [...settings.themes, theme];
+    updateAffirmationSettings({ themes: next });
+    onChanged(next.length === 0 ? 'showing every theme' : 'themes updated');
+  };
+
+  const pill = (active) => ({
+    borderColor: active ? `${accent}80` : 'rgba(255,255,255,0.10)',
+    background: active ? `${accent}26` : 'rgba(255,255,255,0.03)',
+    color: active ? accent : '#94a3b8',
+  });
+
+  return (
+    <section
+      aria-label="Affirmation display"
+      className="mb-6 space-y-4 rounded-2xl border border-white/10 bg-white/[0.04] p-4"
+    >
+      <div className="flex items-start justify-between gap-3">
+        <div>
+          <h2 className="text-sm font-black text-white">On the home screen</h2>
+          <p className="mt-1 text-xs text-slate-400">
+            How the Refreshing Affirmation card behaves. {inRotation} affirmation{inRotation === 1 ? '' : 's'} in rotation.
+          </p>
+        </div>
+        <button
+          type="button"
+          onClick={() => {
+            resetAffirmationSettings();
+            onChanged('display settings reset');
+          }}
+          className="shrink-0 text-xs text-slate-400 transition-colors hover:text-slate-200"
+        >
+          Reset
+        </button>
+      </div>
+
+      <label className="flex items-center justify-between gap-3">
+        <span>
+          <span className="block text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: accent }}>
+            Auto-rotate
+          </span>
+          <span className="text-xs text-slate-400">
+            {settings.autoRotate ? 'Changes on its own.' : 'Stays put until you tap ⟳.'}
+          </span>
+        </span>
+        <input
+          type="checkbox"
+          checked={settings.autoRotate}
+          onChange={(event) => {
+            updateAffirmationSettings({ autoRotate: event.target.checked });
+            onChanged(event.target.checked ? 'auto-rotate on' : 'auto-rotate off');
+          }}
+          className="h-5 w-5 cursor-pointer"
+          style={{ accentColor: accent }}
+        />
+      </label>
+
+      <div>
+        <span className="mb-2 block text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: accent }}>
+          Change every
+        </span>
+        <div className="flex flex-wrap gap-2" role="radiogroup" aria-label="Rotation speed">
+          {AFFIRMATION_INTERVALS.map((seconds) => {
+            const active = settings.intervalSeconds === seconds;
+            return (
+              <button
+                key={seconds}
+                type="button"
+                role="radio"
+                aria-checked={active}
+                disabled={!settings.autoRotate}
+                onClick={() => {
+                  updateAffirmationSettings({ intervalSeconds: seconds });
+                  onChanged(`rotating every ${intervalLabel(seconds)}`);
+                }}
+                className="rounded-full border px-3 py-1.5 text-xs font-bold transition-colors disabled:cursor-not-allowed disabled:opacity-40"
+                style={pill(active)}
+              >
+                {intervalLabel(seconds)}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      <div>
+        <div className="mb-2 flex items-center justify-between gap-3">
+          <span className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: accent }}>
+            Themes
+          </span>
+          {settings.themes.length > 0 && (
+            <button
+              type="button"
+              onClick={() => {
+                updateAffirmationSettings({ themes: [] });
+                onChanged('showing every theme');
+              }}
+              className="text-xs text-slate-400 transition-colors hover:text-slate-200"
+            >
+              Show all
+            </button>
+          )}
+        </div>
+        <p className="mb-2 text-xs text-slate-400">
+          {settings.themes.length === 0
+            ? 'Drawing from every theme. Pick some to focus on just those.'
+            : `Focused on ${settings.themes.length} theme${settings.themes.length === 1 ? '' : 's'}.`}
+        </p>
+        {filterFellBack && (
+          <p className="mb-2 text-xs font-semibold text-amber-300">
+            None of the chosen themes have affirmations left, so every theme is showing.
+          </p>
+        )}
+        <div className="flex flex-wrap gap-2">
+          {themes.map((theme) => {
+            const active = chosen.has(theme);
+            return (
+              <button
+                key={theme}
+                type="button"
+                aria-pressed={active}
+                onClick={() => toggleTheme(theme)}
+                className="rounded-full border px-3 py-1.5 text-xs font-bold transition-colors"
+                style={pill(active)}
+              >
+                {theme}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+    </section>
+  );
 }
 
 function Field({ field, value, onChange, groupOptions, accent }) {
@@ -433,7 +593,8 @@ export default function SettingsPortal({ onBack, initialSection }) {
             <p className="mt-2 max-w-lg text-sm leading-relaxed text-slate-400">
               Every prayer and affirmation the app draws from. Add your own, edit the wording,
               or remove the ones that are not yours — the home screen's Daily Prayer and
-              Refreshing Affirmation rotate through whatever is left here.
+              Refreshing Affirmation rotate through whatever is left here. The Affirmations
+              tab also sets how often the affirmation changes and which themes it shows.
             </p>
             <p className="mt-2 text-xs text-slate-400">
               Saved in this browser only. Clearing site data resets the library to the defaults.
@@ -470,6 +631,8 @@ export default function SettingsPortal({ onBack, initialSection }) {
             </p>
           )}
         </div>
+
+        {tab === 'affirmations' && <AffirmationDisplayPanel accent={collection.accent} onChanged={announce} />}
 
         <CollectionPanel key={tab} collection={collection} onChanged={announce} />
       </div>
