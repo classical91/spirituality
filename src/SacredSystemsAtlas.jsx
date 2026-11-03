@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import './SacredSystemsAtlas.css';
 import { astrologyCards, numerologyCards, ASTROLOGY_KEYWORDS, NUMEROLOGY_KEYWORDS } from './data/sacredSystemsCards';
 
@@ -468,14 +468,6 @@ function resolveInitialConceptId(section) {
   return null;
 }
 
-function resolveInitialFilter(section) {
-  const conceptId = resolveInitialConceptId(section);
-  if (conceptId) {
-    return concepts.find((c) => c.id === conceptId)?.category || 'All';
-  }
-  return 'All';
-}
-
 const KEYWORDS = {
   Crystals: ['intention', 'minerals', 'altar', 'ritual', 'meditation', 'energy focus'],
   'Sacred Geometry': ['patterns', 'circles', 'creation', 'harmony', 'symbols', 'grid work'],
@@ -535,220 +527,266 @@ function groupConcepts(menuConcepts) {
   return groups;
 }
 
-export default function SacredSystemsAtlas({ onBack, initialSection }) {
-  const initialConceptId = useMemo(() => resolveInitialConceptId(initialSection), [initialSection]);
-  const initialFilter = useMemo(() => resolveInitialFilter(initialSection), [initialSection]);
-  const [activeSearch, setActiveSearch] = useState('');
-  const [activeConceptId, setActiveConceptId] = useState(() => {
-    if (initialConceptId) return initialConceptId;
-    if (initialFilter !== 'All') {
-      const firstInFilter = concepts.find((c) => c.category === initialFilter);
-      if (firstInFilter) return firstInFilter.id;
-    }
-    return 'crystals-overview';
-  });
-  const [openGroups, setOpenGroups] = useState(() => {
-    const initialConcept = concepts.find((c) => c.id === initialConceptId)
-      || concepts.find((c) => c.category === initialFilter)
-      || concepts[0];
-    return new Set([getConceptMenuGroup(initialConcept).key]);
-  });
+const conceptsById = new Map(concepts.map((c) => [c.id, c]));
+const allGroups = groupConcepts(concepts);
+const groupsByKey = new Map(allGroups.map((g) => [g.key, g]));
 
-  const visible = useMemo(() => {
-    const q = activeSearch.trim().toLowerCase();
-    return concepts.filter((c) => {
-      const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return !q || haystack.includes(q);
-    });
-  }, [activeSearch]);
-  const groupedVisible = useMemo(() => groupConcepts(visible), [visible]);
+function matchesSearch(concept, q) {
+  if (!q) return true;
+  const haystack = [concept.title, concept.category, concept.summary, concept.overview, ...concept.keyIdeas]
+    .join(' ')
+    .toLowerCase();
+  return haystack.includes(q);
+}
 
-  const activeConcept = concepts.find((c) => c.id === activeConceptId) || concepts[0];
-  const activeGroupKey = getConceptMenuGroup(activeConcept).key;
-  const hasSearch = activeSearch.trim().length > 0;
-
-  const selectConcept = (id) => {
-    setActiveConceptId(id);
-    const concept = concepts.find((c) => c.id === id);
-    if (concept) {
-      setOpenGroups((current) => {
-        const next = new Set(current);
-        next.add(getConceptMenuGroup(concept).key);
-        return next;
-      });
-    }
-    if (typeof window !== 'undefined') {
-      window.history.replaceState({}, '', `/sacred-systems?section=${encodeURIComponent(id)}`);
-    }
-    document.getElementById('ssa-detail')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+// Neighbours inside the concept's own group, wrapping around so House 12 leads
+// back to House 1 and Pisces back to Aries.
+function getSiblings(concept) {
+  const group = groupsByKey.get(getConceptMenuGroup(concept).key);
+  if (!group || group.concepts.length < 2) return { group, prev: null, next: null };
+  const list = group.concepts;
+  const i = list.findIndex((c) => c.id === concept.id);
+  return {
+    group,
+    prev: list[(i - 1 + list.length) % list.length],
+    next: list[(i + 1) % list.length],
   };
+}
 
-  const toggleGroup = (key) => {
-    setOpenGroups((current) => {
-      const next = new Set(current);
-      if (next.has(key)) next.delete(key);
-      else next.add(key);
-      return next;
-    });
-  };
+export default function SacredSystemsAtlas({ onBack, onNavigate, initialSection }) {
+  const conceptId = useMemo(() => resolveInitialConceptId(initialSection), [initialSection]);
+  const concept = conceptId ? conceptsById.get(conceptId) : null;
 
-  const handleSearch = (query) => {
-    setActiveSearch(query);
-    const q = query.trim().toLowerCase();
-    const vis = concepts.filter((c) => {
-      const haystack = [c.title, c.category, c.summary, c.overview, ...c.keyIdeas].join(' ').toLowerCase();
-      return !q || haystack.includes(q);
-    });
-    if (vis.length && !vis.some((c) => c.id === activeConceptId)) {
-      setActiveConceptId(vis[0].id);
-    }
-  };
+  // Each concept is its own page with its own history entry, so the browser's
+  // back button returns to wherever the visitor came from (the library, the
+  // previous concept, or the home page's reading card).
+  const openConcept = useCallback(
+    (id) => {
+      if (onNavigate) onNavigate('sacredsystems', { section: id });
+      else window.location.assign(`/sacred-systems?section=${encodeURIComponent(id)}`);
+    },
+    [onNavigate]
+  );
+  const openLibrary = useCallback(() => {
+    if (onNavigate) onNavigate('sacredsystems');
+    else window.location.assign('/sacred-systems');
+  }, [onNavigate]);
+
+  useEffect(() => {
+    if (concept) document.title = `${concept.title} · Sacred Systems · Sacred Pathways`;
+  }, [concept]);
 
   return (
     <div className="ssa-root">
       <div className="ssa-grid-overlay" aria-hidden="true" />
-
       <div className="ssa-app">
-        <button onClick={onBack} className="ssa-back">← Back</button>
-
-        {/* Hero */}
-        <header className="ssa-hero">
-          <div>
-            <div className="ssa-eyebrow">✦ Sacred Systems Library</div>
-            <h1>Energy, Geometry & Inner Alchemy</h1>
-            <p>
-              A visual learning library for crystals, sacred geometry, chakras, the pineal gland,
-              Mer-Ka-Ba, prana, and dimensional consciousness. Each concept has its own explanation,
-              key ideas, simple practice, and grounding note.
-            </p>
-            <div className="ssa-notice">
-              This library treats these topics as spiritual, symbolic, and wellness concepts — not as
-              medical advice. Use it as an educational and reflective map.
-            </div>
-          </div>
-          <div className="ssa-orb-card" aria-hidden="true">
-            <div className="ssa-rings" />
-            <div className="ssa-orb" />
-          </div>
-        </header>
-
-        {/* Layout */}
-        <main className="ssa-layout" style={{ marginTop: '24px' }}>
-          {/* Sidebar */}
-          <aside className="ssa-sidebar">
-            <div className="ssa-sidebar-header">
-              <h2>Concept Pages</h2>
-              <p>Every topic is listed here. Click one to open its full explanation.</p>
-              <input
-                className="ssa-search ssa-sidebar-search"
-                type="search"
-                value={activeSearch}
-                onChange={(e) => handleSearch(e.target.value)}
-                placeholder="Search concepts..."
-              />
-            </div>
-            <div className="ssa-concept-list">
-              {visible.length === 0 ? (
-                <div className="ssa-sidebar-empty">No concepts found.</div>
-              ) : (
-                groupedVisible.map((group) => {
-                  const isOpen = hasSearch || openGroups.has(group.key) || group.key === activeGroupKey;
-                  return (
-                    <div key={group.key} className="ssa-menu-group">
-                      <button
-                        type="button"
-                        className={`ssa-menu-group-toggle${isOpen ? ' open' : ''}`}
-                        onClick={() => toggleGroup(group.key)}
-                        aria-expanded={isOpen}
-                      >
-                        <span>
-                          <strong>{group.label}</strong>
-                          <em>{group.category}</em>
-                        </span>
-                        <b>{group.concepts.length}</b>
-                      </button>
-                      {isOpen && (
-                        <div className="ssa-menu-group-items">
-                          {group.concepts.map((c) => (
-                            <button
-                              key={c.id}
-                              className={`ssa-concept-link${activeConceptId === c.id ? ' active' : ''}`}
-                              onClick={() => selectConcept(c.id)}
-                            >
-                              <div className="ssa-mini-icon">{c.icon}</div>
-                              <div>
-                                <strong>{c.title}</strong>
-                                <span>{c.category}</span>
-                              </div>
-                            </button>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  );
-                })
-              )}
-            </div>
-          </aside>
-
-          {/* Main */}
-          <section className="ssa-main">
-            {/* Detail */}
-            <article
-              id="ssa-detail"
-              className="ssa-detail"
-              style={{ '--detailGlow': activeConcept.color }}
-            >
-              <div className="ssa-detail-hero">
-                <div className="ssa-detail-kicker">{activeConcept.category}</div>
-                <h2>{activeConcept.icon} {activeConcept.title}</h2>
-                <p className="ssa-detail-summary">{activeConcept.summary}</p>
-              </div>
-
-              <div className="ssa-detail-body">
-                <section className="ssa-section ssa-full">
-                  <h3>Expanded Explanation</h3>
-                  <p>{activeConcept.overview}</p>
-                </section>
-
-                <section className="ssa-section">
-                  <h3>Core Ideas</h3>
-                  <ul>
-                    {activeConcept.keyIdeas.map((item) => (
-                      <li key={item}>{item}</li>
-                    ))}
-                  </ul>
-                </section>
-
-                <section className="ssa-section">
-                  <h3>Related Keywords</h3>
-                  <div className="ssa-pill-row">
-                    {getKeywords(activeConcept).map((kw) => (
-                      <span key={kw} className="ssa-pill">{kw}</span>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="ssa-section ssa-full">
-                  <h3>Simple Practice</h3>
-                  <div className="ssa-practice">
-                    {activeConcept.practice.map((step) => (
-                      <div key={step} className="ssa-step">
-                        <span>{step}</span>
-                      </div>
-                    ))}
-                  </div>
-                </section>
-
-                <section className="ssa-section ssa-full">
-                  <h3>Grounding Note</h3>
-                  <p>{activeConcept.cautions}</p>
-                </section>
-              </div>
-            </article>
-          </section>
-        </main>
+        {concept ? (
+          <ConceptPage concept={concept} onOpenConcept={openConcept} onOpenLibrary={openLibrary} />
+        ) : (
+          <LibraryIndex onBack={onBack} onOpenConcept={openConcept} />
+        )}
       </div>
     </div>
+  );
+}
+
+function ConceptPage({ concept, onOpenConcept, onOpenLibrary }) {
+  const { group, prev, next } = getSiblings(concept);
+  const groupLabel = group?.label || concept.category;
+  const showCategory = group && group.label !== concept.category;
+
+  return (
+    <>
+      <nav className="ssa-topbar" aria-label="Breadcrumb">
+        <button type="button" onClick={onOpenLibrary} className="ssa-back">← Sacred Systems</button>
+        <ol className="ssa-crumbs">
+          <li>
+            <button type="button" onClick={onOpenLibrary}>Library</button>
+          </li>
+          {showCategory && <li>{concept.category}</li>}
+          <li>{groupLabel}</li>
+        </ol>
+      </nav>
+
+      <div className="ssa-concept-layout">
+        <div className="ssa-main">
+          <article className="ssa-detail" style={{ '--detailGlow': concept.color }}>
+            <header className="ssa-detail-hero">
+              <div className="ssa-detail-kicker">
+                {showCategory ? `${concept.category} · ${groupLabel}` : groupLabel}
+              </div>
+              <h1>
+                <span aria-hidden="true">{concept.icon}</span> {concept.title}
+              </h1>
+              <p className="ssa-detail-summary">{concept.summary}</p>
+            </header>
+
+            <div className="ssa-detail-body">
+              <section className="ssa-section ssa-full">
+                <h2>Expanded Explanation</h2>
+                <p>{concept.overview}</p>
+              </section>
+
+              <section className="ssa-section">
+                <h2>Core Ideas</h2>
+                <ul>
+                  {concept.keyIdeas.map((item) => (
+                    <li key={item}>{item}</li>
+                  ))}
+                </ul>
+              </section>
+
+              <section className="ssa-section">
+                <h2>Related Keywords</h2>
+                <div className="ssa-pill-row">
+                  {getKeywords(concept).map((kw) => (
+                    <span key={kw} className="ssa-pill">{kw}</span>
+                  ))}
+                </div>
+              </section>
+
+              <section className="ssa-section ssa-full">
+                <h2>Simple Practice</h2>
+                <ol className="ssa-practice">
+                  {concept.practice.map((step) => (
+                    <li key={step} className="ssa-step">
+                      <span>{step}</span>
+                    </li>
+                  ))}
+                </ol>
+              </section>
+
+              <section className="ssa-section ssa-full">
+                <h2>Grounding Note</h2>
+                <p>{concept.cautions}</p>
+              </section>
+            </div>
+          </article>
+
+          {prev && next && (
+            <nav className="ssa-pager" aria-label={`More ${groupLabel}`}>
+              <button type="button" className="ssa-pager-link" onClick={() => onOpenConcept(prev.id)}>
+                <span>← Previous</span>
+                <strong>{prev.icon} {prev.title}</strong>
+              </button>
+              <button type="button" className="ssa-pager-link next" onClick={() => onOpenConcept(next.id)}>
+                <span>Next →</span>
+                <strong>{next.icon} {next.title}</strong>
+              </button>
+            </nav>
+          )}
+
+          <p className="ssa-footnote">
+            Spiritual, symbolic, and wellness concepts for reflection — not medical advice.
+          </p>
+        </div>
+
+        {group && group.concepts.length > 1 && (
+          <aside className="ssa-related" aria-label={`All ${groupLabel}`}>
+            <div className="ssa-related-header">
+              <h2>All {groupLabel}</h2>
+              <span>{group.concepts.length}</span>
+            </div>
+            <div className="ssa-related-list">
+              {group.concepts.map((c) => (
+                <button
+                  key={c.id}
+                  type="button"
+                  className={`ssa-concept-link${c.id === concept.id ? ' active' : ''}`}
+                  aria-current={c.id === concept.id ? 'page' : undefined}
+                  onClick={() => c.id !== concept.id && onOpenConcept(c.id)}
+                >
+                  <div className="ssa-mini-icon" aria-hidden="true">{c.icon}</div>
+                  <div>
+                    <strong>{c.title}</strong>
+                  </div>
+                </button>
+              ))}
+            </div>
+            <button type="button" className="ssa-related-all" onClick={onOpenLibrary}>
+              Browse the full library →
+            </button>
+          </aside>
+        )}
+      </div>
+    </>
+  );
+}
+
+function LibraryIndex({ onBack, onOpenConcept }) {
+  const [search, setSearch] = useState('');
+  const q = search.trim().toLowerCase();
+  const groups = useMemo(() => groupConcepts(concepts.filter((c) => matchesSearch(c, q))), [q]);
+
+  return (
+    <>
+      <button type="button" onClick={onBack} className="ssa-back">← Back</button>
+
+      <header className="ssa-hero">
+        <div>
+          <div className="ssa-eyebrow">✦ Sacred Systems Library</div>
+          <h1>Energy, Geometry & Inner Alchemy</h1>
+          <p>
+            A visual learning library for crystals, sacred geometry, chakras, the pineal gland,
+            Mer-Ka-Ba, prana, dimensional consciousness, astrology, and numerology. Every concept
+            has its own page with an explanation, key ideas, a simple practice, and a grounding note.
+          </p>
+          <div className="ssa-notice">
+            This library treats these topics as spiritual, symbolic, and wellness concepts — not as
+            medical advice. Use it as an educational and reflective map.
+          </div>
+        </div>
+        <div className="ssa-orb-card" aria-hidden="true">
+          <div className="ssa-rings" />
+          <div className="ssa-orb" />
+        </div>
+      </header>
+
+      <div className="ssa-controls">
+        <input
+          className="ssa-search"
+          type="search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          placeholder="Search concepts..."
+          aria-label="Search concepts"
+        />
+      </div>
+
+      {groups.length === 0 ? (
+        <div className="ssa-empty">No concepts found.</div>
+      ) : (
+        <div className="ssa-index">
+          {groups.map((group) => (
+            <section key={group.key} className="ssa-index-group">
+              <div className="ssa-index-group-header">
+                <h2>
+                  {group.label}
+                  {group.label !== group.category && <em>{group.category}</em>}
+                </h2>
+                <span>{group.concepts.length}</span>
+              </div>
+              <div className="ssa-index-grid">
+                {group.concepts.map((c) => (
+                  <button
+                    key={c.id}
+                    type="button"
+                    className="ssa-index-card"
+                    style={{ '--cardGlow': c.color }}
+                    onClick={() => onOpenConcept(c.id)}
+                  >
+                    <div className="ssa-mini-icon" aria-hidden="true">{c.icon}</div>
+                    <div>
+                      <strong>{c.title}</strong>
+                      <span>{c.summary}</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
+      )}
+    </>
   );
 }
