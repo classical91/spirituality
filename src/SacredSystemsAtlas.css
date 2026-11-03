@@ -350,6 +350,124 @@
 .ssa-section ul {
   margin: 0;
   padding-left: 18px;
+  list-style: disc;
+}
+
+.ssa-section ul li::marker {
+  color: rgba(255,212,121,.7);
+}
+
+.ssa-section ul li + li {
+  margin-top: 4px;
+}
+
+.ssa-jump {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 16px;
+}
+
+.ssa-jump button {
+  padding: 6px 11px;
+  border: 1px solid rgba(255,255,255,.14);
+  border-radius: 999px;
+  background: rgba(255,255,255,.06);
+  color: #f4f1ff;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.ssa-jump button:hover {
+  border-color: rgba(255,212,121,.5);
+  background: rgba(255,212,121,.11);
+}
+
+.ssa-section {
+  scroll-margin-top: 16px;
+}
+
+.ssa-tone-light {
+  border-color: rgba(126,231,255,.22);
+}
+
+.ssa-tone-shadow {
+  border-color: rgba(255,143,199,.22);
+  background: rgba(40,0,30,.18);
+}
+
+.ssa-inline-link {
+  padding: 0;
+  border: 0;
+  background: none;
+  color: #ffd479;
+  font: inherit;
+  font-weight: 800;
+  text-align: left;
+  cursor: pointer;
+}
+
+.ssa-inline-link:hover {
+  text-decoration: underline;
+}
+
+.ssa-facts {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 10px;
+  margin: 0;
+}
+
+.ssa-fact {
+  padding: 10px 12px;
+  border-radius: 14px;
+  border: 1px solid rgba(255,255,255,.09);
+  background: rgba(255,255,255,.05);
+}
+
+.ssa-fact dt {
+  margin-bottom: 3px;
+  color: rgba(184,172,216,.8);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+}
+
+.ssa-fact dd {
+  margin: 0;
+  color: #f4f1ff;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1.5;
+}
+
+.ssa-link-rows {
+  display: grid;
+  gap: 8px;
+}
+
+.ssa-link-row {
+  display: grid;
+  grid-template-columns: 110px 1fr;
+  gap: 12px;
+  align-items: baseline;
+  padding: 10px 12px;
+  border-radius: 14px;
+  background: rgba(255,255,255,.04);
+}
+
+.ssa-link-row p {
+  margin: 0;
+}
+
+@media (max-width: 480px) {
+  .ssa-link-row {
+    grid-template-columns: 1fr;
+    gap: 2px;
+  }
 }
 
 .ssa-pill-row {

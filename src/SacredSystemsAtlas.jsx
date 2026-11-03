@@ -590,6 +590,85 @@ export default function SacredSystemsAtlas({ onBack, onNavigate, initialSection 
   );
 }
 
+const sectionAnchor = (title) => `ssa-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+
+// A link to another concept page, or plain text when that concept doesn't exist.
+function ConceptLink({ linkId, children, onOpenConcept }) {
+  if (!linkId || !conceptsById.has(linkId)) return <span>{children}</span>;
+  return (
+    <button type="button" className="ssa-inline-link" onClick={() => onOpenConcept(linkId)}>
+      {children}
+    </button>
+  );
+}
+
+// Optional extra sections a card can carry beyond the standard shape (used by
+// the astrology house pages): facts, text, list, steps, and links.
+function ExtraSection({ section, onOpenConcept }) {
+  const className = [
+    'ssa-section',
+    section.half ? '' : 'ssa-full',
+    section.tone ? `ssa-tone-${section.tone}` : '',
+  ].filter(Boolean).join(' ');
+
+  let body = null;
+  if (section.kind === 'text') {
+    body = <p>{section.text}</p>;
+  } else if (section.kind === 'list') {
+    body = (
+      <ul>
+        {section.items.map((item) => <li key={item}>{item}</li>)}
+      </ul>
+    );
+  } else if (section.kind === 'steps') {
+    body = (
+      <ol className="ssa-practice">
+        {section.items.map((item) => (
+          <li key={item} className="ssa-step"><span>{item}</span></li>
+        ))}
+      </ol>
+    );
+  } else if (section.kind === 'facts') {
+    body = (
+      <dl className="ssa-facts">
+        {section.items.map((fact) => (
+          <div key={fact.label} className="ssa-fact">
+            <dt>{fact.label}</dt>
+            <dd>
+              {fact.links
+                ? fact.links.map((link, i) => (
+                    <span key={link.text}>
+                      {i > 0 && ' · '}
+                      <ConceptLink linkId={link.linkId} onOpenConcept={onOpenConcept}>{link.text}</ConceptLink>
+                    </span>
+                  ))
+                : fact.value}
+            </dd>
+          </div>
+        ))}
+      </dl>
+    );
+  } else if (section.kind === 'links') {
+    body = (
+      <div className="ssa-link-rows">
+        {section.items.map((item) => (
+          <div key={item.label} className="ssa-link-row">
+            <ConceptLink linkId={item.linkId} onOpenConcept={onOpenConcept}>{item.label}</ConceptLink>
+            <p>{item.text}</p>
+          </div>
+        ))}
+      </div>
+    );
+  }
+
+  return (
+    <section id={sectionAnchor(section.title)} className={className}>
+      <h2>{section.title}</h2>
+      {body}
+    </section>
+  );
+}
+
 function ConceptPage({ concept, onOpenConcept, onOpenLibrary }) {
   const { group, prev, next } = getSiblings(concept);
   const groupLabel = group?.label || concept.category;
@@ -619,6 +698,19 @@ function ConceptPage({ concept, onOpenConcept, onOpenLibrary }) {
                 <span aria-hidden="true">{concept.icon}</span> {concept.title}
               </h1>
               <p className="ssa-detail-summary">{concept.summary}</p>
+              {concept.sections?.length > 0 && (
+                <nav className="ssa-jump" aria-label="Jump to section">
+                  {[...concept.sections.map((sec) => sec.title), 'Simple Practice'].map((title) => (
+                    <button
+                      key={title}
+                      type="button"
+                      onClick={() => document.getElementById(sectionAnchor(title))?.scrollIntoView({ behavior: 'smooth', block: 'start' })}
+                    >
+                      {title}
+                    </button>
+                  ))}
+                </nav>
+              )}
             </header>
 
             <div className="ssa-detail-body">
@@ -645,7 +737,11 @@ function ConceptPage({ concept, onOpenConcept, onOpenLibrary }) {
                 </div>
               </section>
 
-              <section className="ssa-section ssa-full">
+              {concept.sections?.map((section) => (
+                <ExtraSection key={section.title} section={section} onOpenConcept={onOpenConcept} />
+              ))}
+
+              <section id={sectionAnchor('Simple Practice')} className="ssa-section ssa-full">
                 <h2>Simple Practice</h2>
                 <ol className="ssa-practice">
                   {concept.practice.map((step) => (

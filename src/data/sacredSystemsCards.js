@@ -1,6 +1,6 @@
 // Builds Sacred Systems Library card objects (the {id, title, icon, category,
 // color, summary, overview, keyIdeas, practice, cautions} shape used by
-// SacredSystemsAtlas.jsx) from the raw astrology and numerology data.
+// SacredSystemsAtlas.jsx, plus optional extra `sections`) from the raw astrology and numerology data.
 import {
   planets, signs, houses, aspects, formulas, angles,
   dignityTerms, dignityTable, configurations, glossary,
@@ -8,6 +8,11 @@ import {
 import {
   NUMBER_MEANINGS, concepts as numerologyConcepts,
 } from './numerologyData.js';
+import {
+  HOUSE_DEPTH, HOUSE_NATURAL_SIGNS, HOUSE_CUSP_ANGLES, PLANETARY_JOYS, HOUSE_TYPES,
+  HOUSE_ELEMENT_GROUPS, houseType, houseElement, oppositeHouse, houseAxis,
+  houseHemisphere, houseQuadrant,
+} from './astrologyHouseDepth.js';
 
 const ASTRO_COLOR = 'rgba(126,231,255,.20)';
 const NUM_COLOR = 'rgba(255,212,121,.20)';
@@ -72,23 +77,95 @@ const signCards = signs.map((s) => ({
   cautions: s.watch,
 }));
 
-const houseCards = houses.map((h) => ({
-  id: `astro-house-${h.symbol}`,
-  title: `House ${h.symbol}: ${h.modernTitle}`,
-  icon: '🏛️',
-  category: 'Astrology',
-  color: ASTRO_COLOR,
-  summary: h.meaning,
-  overview: `${h.beginner} ${h.deeper}`,
-  keyIdeas: [
-    `Latin: ${h.latin} (${h.latinMeaning})`,
-    `Modern title: ${h.modernTitle}`,
-    `Keywords: ${h.keywords}`,
-    `Example: ${h.example}`,
-  ],
-  practice: GENERIC_ASTRO_PRACTICE(h.example),
-  cautions: h.watch,
-}));
+const signId = (name) => `astro-sign-${name.toLowerCase()}`;
+const planetId = (name) => `astro-planet-${name.toLowerCase()}`;
+
+function houseSections(h) {
+  const n = Number(h.symbol);
+  const depth = HOUSE_DEPTH[n];
+  if (!depth) return [];
+  const natural = HOUSE_NATURAL_SIGNS[n];
+  const type = houseType(n);
+  const element = houseElement(n);
+  const group = HOUSE_ELEMENT_GROUPS[element];
+  const opposite = houses.find((x) => Number(x.symbol) === oppositeHouse(n));
+  const axis = houseAxis(n);
+  const angle = HOUSE_CUSP_ANGLES[n];
+  const joy = PLANETARY_JOYS[n];
+  const ord = ordinal(n);
+
+  const facts = [
+    { label: 'Natural sign', links: [{ text: natural.sign, linkId: signId(natural.sign) }] },
+    {
+      label: natural.rulers.length > 1 ? 'Natural rulers' : 'Natural ruler',
+      links: natural.rulers.map((r) => ({ text: r, linkId: planetId(r) })),
+    },
+    { label: 'House type', value: type },
+    { label: 'Element group', value: `${element} · ${group.name}` },
+    { label: 'Axis', value: axis.name },
+    opposite && {
+      label: 'Opposite house',
+      links: [{ text: `House ${opposite.symbol}: ${opposite.modernTitle}`, linkId: `astro-house-${opposite.symbol}` }],
+    },
+    angle && { label: 'Cusp', links: [{ text: angle, linkId: `astro-angle-${angle.toLowerCase()}` }] },
+    joy && { label: 'Planetary joy', links: [{ text: `${joy} rejoices here`, linkId: planetId(joy) }] },
+    { label: 'Latin name', value: `${h.latin} (${h.latinMeaning})` },
+  ].filter(Boolean);
+
+  return [
+    { title: 'At a Glance', kind: 'facts', items: facts },
+    { title: 'Inner & Spiritual Meaning', kind: 'text', text: depth.innerTheme },
+    { title: 'Life Areas', kind: 'list', items: depth.lifeAreas, half: true },
+    {
+      title: 'How It Fits the Chart',
+      kind: 'list',
+      half: true,
+      items: [HOUSE_TYPES[type], group.text, houseHemisphere(n), houseQuadrant(n)],
+    },
+    { title: 'Healthy Expression', kind: 'list', items: depth.healthy, half: true, tone: 'light' },
+    { title: 'Shadow Expression', kind: 'list', items: depth.shadow, half: true, tone: 'shadow' },
+    { title: `The ${axis.name} Axis`, kind: 'text', text: axis.text },
+    {
+      title: `Planets in the ${ord} House`,
+      kind: 'links',
+      items: planets.map((p) => ({ label: `${p.symbol} ${p.name}`, linkId: planetId(p.name), text: p.houses[n - 1] })),
+    },
+    { title: 'When Planets Transit Here', kind: 'text', text: depth.transits },
+    {
+      title: `Reading Your Own ${ord} House`,
+      kind: 'steps',
+      items: [
+        `Find the sign on the ${ord} House cusp. It describes the style or attitude you bring to this area of life.`,
+        `Find the planet that rules that sign and where it sits in your chart. Its house shows where the story of your ${ord} House gets played out.`,
+        `Note any planets inside the ${ord} House. They are the active characters here; read each one above.`,
+        'No planets here? An empty house is not an empty life area. It simply works more quietly, through its ruler and through transits.',
+      ],
+    },
+    { title: 'Journal Questions', kind: 'list', items: depth.questions },
+  ];
+}
+
+const houseCards = houses.map((h) => {
+  const depth = HOUSE_DEPTH[Number(h.symbol)];
+  return {
+    id: `astro-house-${h.symbol}`,
+    title: `House ${h.symbol}: ${h.modernTitle}`,
+    icon: '🏛️',
+    category: 'Astrology',
+    color: ASTRO_COLOR,
+    summary: h.meaning,
+    overview: `${h.beginner} ${h.deeper}`,
+    keyIdeas: [
+      `Latin: ${h.latin} (${h.latinMeaning})`,
+      `Modern title: ${h.modernTitle}`,
+      `Keywords: ${h.keywords}`,
+      `Example: ${h.example}`,
+    ],
+    sections: houseSections(h),
+    practice: depth?.practice || GENERIC_ASTRO_PRACTICE(h.example),
+    cautions: h.watch,
+  };
+});
 
 const aspectCards = aspects.map((a) => ({
   id: `astro-aspect-${a.name.toLowerCase()}`,
