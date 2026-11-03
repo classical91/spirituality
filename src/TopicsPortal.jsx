@@ -8,7 +8,7 @@
 // (App re-renders this portal with the new initialSection). No custom history
 // handling lives here.
 import { useEffect, useMemo, useState } from 'react';
-import { spiritualTopics, spiritualTopicsById, TOPIC_CATEGORIES } from './data/spiritualTopics';
+import { spiritualTopics, spiritualTopicsById, TOPIC_CATEGORIES, TOPIC_CATEGORY_DESCRIPTIONS } from './data/spiritualTopics';
 import { portalsById } from './data/portals';
 import { getRecentTopics, recordTopicVisit } from './lib/storage';
 import TopicCard from './components/TopicCard';
@@ -19,6 +19,14 @@ const PORTAL_TITLES = Object.fromEntries(
 );
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+const slug = (s) => s.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+
+// Categories that actually hold topics, with counts — empty ones never show.
+const CATEGORY_COUNTS = TOPIC_CATEGORIES.map((c) => ({
+  name: c,
+  count: spiritualTopics.filter((t) => t.category === c).length,
+})).filter((c) => c.count > 0);
 
 function matchesQuery(topic, q) {
   if (!q) return true;
@@ -56,6 +64,17 @@ function BrowseView({ onOpen, notFoundId }) {
       .sort((a, b) => a.title.localeCompare(b.title));
   }, [q, category, letter]);
 
+  // Group by category (in TOPIC_CATEGORIES order) so the library reads as
+  // themes rather than one long alphabetical wall.
+  const groups = useMemo(
+    () =>
+      CATEGORY_COUNTS.map(({ name }) => ({
+        name,
+        topics: results.filter((t) => t.category === name),
+      })).filter((g) => g.topics.length > 0),
+    [results]
+  );
+
   const recentTopics = recentIds
     .map((id) => spiritualTopicsById[id])
     .filter(Boolean)
@@ -90,9 +109,9 @@ function BrowseView({ onOpen, notFoundId }) {
           Spiritual Topics &amp; Dictionary
         </h1>
         <p style={{ fontSize: '1.02rem', lineHeight: 1.65, color: '#9890b8', maxWidth: 640, margin: 0 }}>
-          Definitions, comparisons, practices, and reflection questions for the spiritual, emotional,
-          relationship, and self-concept terms used across Sacred Pathways — each one linking out to the
-          portals where you can go deeper.
+          A plain-language dictionary for the ideas that come up across Sacred Pathways. Each topic gives
+          a short definition, the distinctions that matter (“X vs Y”), signs, small practices, and
+          reflection questions — then links to the portal where you can go deeper.
         </p>
       </header>
 
@@ -113,7 +132,7 @@ function BrowseView({ onOpen, notFoundId }) {
             type="search"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            placeholder="Search topics — try 'receptivity', 'sovereignty', 'contentment'"
+            placeholder="Search topics — try 'presence', 'sovereignty', 'closure'"
             style={{ flex: 1, background: 'transparent', border: 'none', outline: 'none', color: '#f1eeff', fontSize: '0.95rem', fontFamily: 'inherit' }}
           />
           {query && (
@@ -128,9 +147,9 @@ function BrowseView({ onOpen, notFoundId }) {
         <button type="button" aria-pressed={category === 'All'} onClick={() => setCategory('All')} style={chipStyle(category === 'All')}>
           All categories
         </button>
-        {TOPIC_CATEGORIES.map((c) => (
-          <button key={c} type="button" aria-pressed={category === c} onClick={() => setCategory(c)} style={chipStyle(category === c)}>
-            {c}
+        {CATEGORY_COUNTS.map(({ name, count }) => (
+          <button key={name} type="button" aria-pressed={category === name} onClick={() => setCategory(name)} style={chipStyle(category === name)}>
+            {name} <span style={{ opacity: 0.6, fontWeight: 600 }}>{count}</span>
           </button>
         ))}
       </div>
@@ -184,9 +203,31 @@ function BrowseView({ onOpen, notFoundId }) {
       </p>
 
       {results.length > 0 ? (
-        <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 210px), 1fr))' }}>
-          {results.map((topic) => (
-            <TopicCard key={topic.id} topic={topic} onOpen={onOpen} />
+        <div style={{ display: 'grid', gap: 30 }}>
+          {groups.map((group) => (
+            <section key={group.name} aria-labelledby={`topic-group-${slug(group.name)}`}>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
+                <h2
+                  id={`topic-group-${slug(group.name)}`}
+                  style={{ fontSize: '1.15rem', fontWeight: 900, letterSpacing: '-0.02em', margin: 0, color: '#f1eeff' }}
+                >
+                  {group.name}
+                </h2>
+                <span style={{ fontSize: '0.74rem', fontWeight: 700, color: '#7a7096' }}>
+                  {group.topics.length} {group.topics.length === 1 ? 'topic' : 'topics'}
+                </span>
+              </div>
+              {TOPIC_CATEGORY_DESCRIPTIONS[group.name] && (
+                <p style={{ fontSize: '0.86rem', lineHeight: 1.55, color: '#9890b8', margin: '0 0 12px', maxWidth: 640 }}>
+                  {TOPIC_CATEGORY_DESCRIPTIONS[group.name]}
+                </p>
+              )}
+              <div style={{ display: 'grid', gap: 12, gridTemplateColumns: 'repeat(auto-fill, minmax(min(100%, 210px), 1fr))' }}>
+                {group.topics.map((topic) => (
+                  <TopicCard key={topic.id} topic={topic} onOpen={onOpen} hideCategory />
+                ))}
+              </div>
+            </section>
           ))}
         </div>
       ) : (
