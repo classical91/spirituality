@@ -38,7 +38,7 @@ Sacred Pathways is an interactive, browser-based reflection toolkit built with V
 | Path | Portal | What it's for |
 |------|--------|----------------|
 | `/chakra` | **Chakra Visualizer** | Seven energy centers across three traditions (Hindu, Ra / Law of One, Alice Bailey), with affirmations, blockage patterns, and stretch references. |
-| `/sacred-systems` | **Sacred Systems Atlas** | Crystals, sacred geometry, the pineal gland, Mer-Ka-Ba, prana, dimensions, the full natal chart (planets, signs, houses, aspects), and numerology — as a browsable card library. |
+| `/sacred-systems` | **Sacred Systems Atlas** | Crystals, sacred geometry, the pineal gland, Mer-Ka-Ba, prana, dimensions, the full natal chart (planets, signs, houses, aspects), and numerology — a browsable library where every concept has its own page (`?section=<concept-id>`, e.g. `astro-house-12`). |
 
 Each portal carries its own symbolic / wellness safety note — content is for personal reflection and study, not for medical, psychiatric, religious, or spiritual authority.
 
