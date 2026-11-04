@@ -31,7 +31,7 @@ Sacred Pathways is an interactive, browser-based reflection toolkit built with V
 | Path | Portal | What it's for |
 |------|--------|----------------|
 | `/topics` | **Spiritual Topics & Dictionary** | A searchable concept library — definitions, comparisons ("contentment vs fulfillment"), practices, and reflection questions for spiritual, emotional, relationship, and self-concept terms. Acts as an index and navigation layer that links out to the deeper portals rather than duplicating them. |
-| `/sacred-moral-atlas` | **Sacred Moral & Mythic Atlas** | Biblical foundations, Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, angelology, demonology, and the Infernal & Mythic Codex. (Legacy `/biblical`, `/angelology`, `/demonology`, `/infernal-codex` redirect here.) |
+| `/sacred-moral-atlas` | **Sacred Moral & Mythic Atlas** | Biblical foundations, Ten Commandments, seven deadly sins, antidote virtues, Dante's Inferno, angelology, demonology, and the Infernal & Mythic Codex. Every section has its own URL (`?section=<id>`, e.g. `virtues`), and the list sections and comparison maps switch between cards and a sortable table. (Legacy `/biblical`, `/angelology`, `/demonology`, `/infernal-codex` redirect here.) |
 | `/wisdom` | **Wisdom Atlas** | Spiritual teachers and inner-work traditions — Neville Goddard, Joseph Murphy, Florence Scovel Shinn, Emmet Fox, Thomas Troward, Ernest Holmes, Abdullah, Carl Jung, Alan Watts, Michael Singer, Joe Dispenza — plus the esoteric Ascended Masters library. (Legacy `/frameworks` redirects here.) |
 
 **Symbolic Systems**
