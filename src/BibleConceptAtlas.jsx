@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
 import { angels, ANGEL_FILTERS } from "./data/angels";
 import { demons as demonologyArticles } from "./data/demonology";
@@ -1081,16 +1081,16 @@ function PrayerModal({ prayers, title, type, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/90 px-4 backdrop-blur-md"
+      className="fixed inset-0 z-[70] flex items-center justify-center bg-[#07090f]/85 px-4 backdrop-blur-md"
       role="dialog"
       aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="max-h-[88vh] w-full max-w-xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl"
+        className="max-h-[88vh] w-full max-w-xl overflow-auto rounded-[28px] border border-violet-300/20 bg-[#0c0e18] shadow-[0_22px_65px_rgba(0,0,0,0.45)]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 px-6 py-5 backdrop-blur">
+        <div className="sticky top-0 border-b border-white/10 bg-[#0c0e18]/95 px-6 py-5 backdrop-blur">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className={`text-xs font-bold uppercase tracking-[0.3em] ${accentClass}`}>Prayers</p>
@@ -1216,8 +1216,8 @@ function DetailModal({ item, onClose, type, onPray }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
-      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-3xl border border-white/15 bg-slate-950 shadow-2xl" onClick={(event) => event.stopPropagation()}>
-        <div className="sticky top-0 border-b border-white/10 bg-slate-950/95 p-5 backdrop-blur">
+      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-[28px] border border-violet-300/20 bg-[#0c0e18] shadow-[0_22px_65px_rgba(0,0,0,0.45)]" onClick={(event) => event.stopPropagation()}>
+        <div className="sticky top-0 border-b border-white/10 bg-[#0c0e18]/95 p-5 backdrop-blur">
           <div className="flex items-start justify-between gap-4">
             <div>
               <Pill tone={type === "demons" ? "red" : type === "angels" ? "cyan" : type === "virtues" ? "green" : type === "inferno" ? "violet" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold"}>{type}</Pill>
@@ -1273,15 +1273,15 @@ function ConceptCard({ item, type, onOpen, onPray }) {
   const prayers = getPrayers(item, type);
 
   return (
-    <div className="group relative h-full rounded-3xl border border-white/10 bg-white/[0.04] shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-white/25 hover:bg-white/[0.07]">
+    <div className="group relative h-full rounded-[22px] border border-white/10 bg-white/[0.035] shadow-xl shadow-black/20 transition hover:-translate-y-1 hover:border-violet-300/35 hover:bg-white/[0.06] hover:shadow-[0_18px_44px_rgba(168,85,247,0.12)]">
       <button onClick={() => onOpen(item, type)} className="block w-full p-5 text-left">
         <div className="mb-4 flex items-center justify-between gap-3">
           <Pill tone={tone}>{item.scripture || item.category || item.tag || item.latin || item.opposite || item.sin || (item.circle ? `Circle ${item.circle}` : type)}</Pill>
           <span className="text-xl opacity-60 transition group-hover:opacity-100">↗</span>
         </div>
         <h3 className="text-lg font-bold text-white">{item.circle ? `${item.circle}. ${title}` : title}</h3>
-        {subtitle && <p className="mt-1 text-sm text-slate-400">{subtitle}</p>}
-        <p className="mt-4 line-clamp-4 text-sm leading-6 text-slate-300">{body}</p>
+        {subtitle && <p className="mt-1 text-sm text-[#a89ec4]">{subtitle}</p>}
+        <p className="mt-4 line-clamp-4 text-sm leading-6 text-[#d4cef0]/85">{body}</p>
       </button>
       {prayers && (
         <div className="border-t border-white/[0.06] px-5 pb-4 pt-3">
@@ -1300,9 +1300,9 @@ function ConceptCard({ item, type, onOpen, onPray }) {
 function SectionHeader({ eyebrow, title, children }) {
   return (
     <div className="mb-6">
-      <div className="text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">{eyebrow}</div>
-      <h2 className="mt-2 text-3xl font-black tracking-tight text-white md:text-4xl">{title}</h2>
-      {children && <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-300">{children}</p>}
+      <div className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#a89ec4]">{eyebrow}</div>
+      <h2 className="mt-2 text-3xl font-black tracking-[-0.04em] text-white md:text-4xl">{title}</h2>
+      {children && <p className="mt-3 max-w-3xl text-sm leading-7 text-[#c8c0e0]">{children}</p>}
     </div>
   );
 }
@@ -1373,7 +1373,7 @@ function PrayerThemeCard({ theme, catLabel, tone, onPray }) {
 }
 
 const prayerSelectClass =
-  "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white outline-none transition-colors hover:border-white/30 focus:border-amber-300/60 [&>option]:bg-slate-900 [&>optgroup]:bg-slate-900 [&>optgroup]:font-bold";
+  "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white outline-none transition-colors hover:border-white/30 focus:border-violet-300/60 [&>option]:bg-[#0c0e18] [&>optgroup]:bg-[#0c0e18] [&>optgroup]:font-bold";
 
 function PrayersSection({ openPrayer }) {
   const [categoryId, setCategoryId] = useState("all");
@@ -1457,7 +1457,7 @@ function PrayersSection({ openPrayer }) {
           const tc = toneClasses[cat.tone] || toneClasses.blue;
           return (
             <div key={cat.id}>
-              <div className={`mb-1 text-xs font-bold uppercase tracking-[0.35em] ${tc.eyebrow}`}>{cat.eyebrow}</div>
+              <div className={`mb-1 text-xs font-bold uppercase tracking-[0.14em] ${tc.eyebrow}`}>{cat.eyebrow}</div>
               <h3 className="mb-2 text-2xl font-black text-white">{cat.label}</h3>
               <p className="mb-6 max-w-2xl text-sm leading-6 text-slate-400">{cat.description}</p>
               <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -1726,14 +1726,14 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         </div>
 
         <div className="mb-8">
-          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">Soul · Personality</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-amber-300/80">Soul · Personality</div>
           <h3 className="mb-4 text-2xl font-black text-white">The 5 Soul Issues</h3>
           <GridView items={searchable.wheelSoulIssues} type="wheel-soul" onOpen={openModal} onPray={openPrayer} />
         </div>
 
         <div className="mb-8 grid gap-6 md:grid-cols-2">
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">Soul · Mind Patterns</div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-amber-300/80">Soul · Mind Patterns</div>
             <div className="grid gap-3">
               {searchable.wheelMindPatterns.map((item) => (
                 <ConceptCard key={item.title} item={item} type="wheel-mind" onOpen={openModal} onPray={openPrayer} />
@@ -1741,7 +1741,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
             </div>
           </div>
           <div>
-            <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-amber-300/80">Soul · Emotional Patterns</div>
+            <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-amber-300/80">Soul · Emotional Patterns</div>
             <div className="grid gap-3">
               {searchable.wheelEmotions.map((item) => (
                 <ConceptCard key={item.title} item={item} type="wheel-emotion" onOpen={openModal} onPray={openPrayer} />
@@ -1754,13 +1754,13 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         </div>
 
         <div className="mb-8">
-          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-sky-300/80">Spirit · Redemptive Realities</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-sky-300/80">Spirit · Redemptive Realities</div>
           <h3 className="mb-4 text-2xl font-black text-white">The 5 Spirit Realities</h3>
           <GridView items={searchable.wheelSpirit} type="wheel-spirit" onOpen={openModal} onPray={openPrayer} />
         </div>
 
         <div className="mb-8">
-          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-emerald-300/80">Body · Psychosomatic Symptoms</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-emerald-300/80">Body · Psychosomatic Symptoms</div>
           <h3 className="mb-4 text-2xl font-black text-white">Body Manifestations</h3>
           <div className="mb-4 rounded-3xl border border-emerald-300/20 bg-emerald-500/10 p-5 text-sm leading-7 text-emerald-50/90">
             These physical symptoms are recognized psychosomatic patterns — real physiological suffering produced by chronic psychological and spiritual stress. This framework is for spiritual reflection only; all health concerns require qualified medical care.
@@ -1769,7 +1769,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         </div>
 
         <div>
-          <div className="mb-4 text-xs font-bold uppercase tracking-[0.35em] text-white/60">Integration</div>
+          <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-white/60">Integration</div>
           <h3 className="mb-4 text-2xl font-black text-white">Soul Issue → Spirit Answer</h3>
           <div className="overflow-hidden rounded-3xl border border-white/10">
             <div className="hidden grid-cols-3 gap-0 border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300 lg:grid">
@@ -1896,7 +1896,55 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
   return null;
 }
 
-const BG = "min-h-screen bg-[radial-gradient(circle_at_top_left,#3b1d05,transparent_34%),radial-gradient(circle_at_top_right,#1e1b4b,transparent_30%),linear-gradient(180deg,#020617,#0f172a_45%,#020617)] text-slate-100";
+// Matches the home screen: near-black base, violet/blue/pink glows, and a faint
+// 52px grid. The glow layers are fixed so long sections keep them in view.
+function PageShell({ children }) {
+  return (
+    <div className="relative min-h-screen bg-[#07090f] font-[Inter,ui-sans-serif,system-ui,-apple-system,sans-serif] text-[#f1eeff]">
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0"
+        style={{
+          background: `
+            radial-gradient(circle at 18% 18%, rgba(168,85,247,0.22), transparent 34%),
+            radial-gradient(circle at 82% 12%, rgba(87,184,255,0.16), transparent 30%),
+            radial-gradient(circle at 50% 92%, rgba(255,114,200,0.13), transparent 32%)
+          `,
+        }}
+      />
+      <div
+        aria-hidden="true"
+        className="pointer-events-none fixed inset-0 opacity-[0.18]"
+        style={{
+          backgroundImage:
+            "linear-gradient(rgba(255,255,255,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.04) 1px, transparent 1px)",
+          backgroundSize: "52px 52px",
+        }}
+      />
+      <div className="relative z-10">{children}</div>
+    </div>
+  );
+}
+
+// The home sidebar's glass panel.
+const PANEL =
+  "rounded-[28px] border border-violet-300/20 bg-[rgba(12,14,24,0.72)] shadow-[0_22px_65px_rgba(0,0,0,0.24)] backdrop-blur-[18px]";
+
+const TOP_BAR = "sticky top-0 z-40 border-b border-white/[0.08] bg-[#07090f]/75 backdrop-blur-xl";
+const PILL_BUTTON =
+  "inline-flex items-center gap-2 rounded-full border border-white/[0.14] bg-white/[0.05] px-4 py-2 text-sm font-extrabold text-[#d8ceff] transition hover:border-violet-300/40 hover:bg-white/10";
+
+const GRADIENT_TEXT = "bg-[linear-gradient(100deg,#c084fc_0%,#f0abfc_40%,#93c5fd_100%)] bg-clip-text text-transparent";
+
+// Overview tiles double as shortcuts into their section.
+const OVERVIEW_TILES = [
+  { id: "commandments", num: "10", label: "Commandments", text: "Outer law and inner allegiance", tone: "gold" },
+  { id: "virtues", num: "12", label: "Virtues", text: "Antidotes and character formation", tone: "green" },
+  { id: "sins", num: "7", label: "Deadly Sins", text: "Distorted desire patterns", tone: "red" },
+  { id: "inferno", num: "9", label: "Inferno Circles", text: "Dante's symbolic moral descent", tone: "violet" },
+  { id: "demonology-atlas", num: "Atlas", label: "Demonology", text: "Long-form articles and tradition comparison", tone: "red" },
+  { id: "infernal-codex", num: "A–Z", label: "Infernal Codex", text: "Searchable entity and concept database", tone: "gold" },
+];
 
 export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }) {
   // Allow deep-linking into a tab. Legacy routes map onto embedded sections.
@@ -1908,8 +1956,16 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
   const [modal, setModal] = useState(null);
   const [prayerModal, setPrayerModal] = useState(null);
 
+  const activeChipRef = useRef(null);
+
   useEffect(() => {
     window.scrollTo(0, 0);
+    // Bring the current section's chip into view in the scrollable strip.
+    const chip = activeChipRef.current;
+    const strip = chip?.parentElement;
+    if (chip && strip) {
+      strip.scrollLeft = chip.offsetLeft - (strip.clientWidth - chip.offsetWidth) / 2;
+    }
   }, [subPage]);
 
   const searchable = useMemo(() => {
@@ -1963,49 +2019,93 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
     setQuery("");
   };
 
+  const modals = (
+    <>
+      <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
+      {prayerModal && (
+        <PrayerModal
+          prayers={prayerModal.prayers}
+          title={prayerModal.title}
+          type={prayerModal.type}
+          onClose={() => setPrayerModal(null)}
+        />
+      )}
+    </>
+  );
+
   // Sub-page view
   if (subPage) {
     const tab = tabs.find((t) => t.id === subPage);
     const showSectionSearch = !embeddedAtlasTabs.has(subPage);
     return (
-      <div className={BG}>
-        <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
-            <button
-              onClick={goHome}
-              className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
-            >
-              ← Sacred Moral & Mythic Atlas
+      <PageShell>
+        <div className={TOP_BAR}>
+          <div className="mx-auto flex max-w-[1440px] items-center gap-3 px-4 py-3 sm:px-6 lg:px-10">
+            <button onClick={goHome} className={`${PILL_BUTTON} min-w-0`}>
+              <span aria-hidden="true">←</span>
+              <span className="truncate">
+                <span className="sm:hidden">Atlas</span>
+                <span className="hidden sm:inline">Sacred Moral &amp; Mythic Atlas</span>
+              </span>
             </button>
-            <span className="text-xs text-slate-400">{tab.icon} {tab.label}</span>
+            <span className="min-w-0 truncate text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#a89ec4]">
+              <span aria-hidden="true">{tab.icon}</span> {tab.label}
+            </span>
           </div>
+          {/* Every section one tap away, so moving between them doesn't need a
+              trip back to the overview. */}
+          <nav aria-label="Atlas sections" className="mx-auto max-w-[1440px] px-4 pb-3 sm:px-6 lg:px-10">
+            <div className="relative flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              {tabs.map((t) => {
+                const active = t.id === subPage;
+                return (
+                  <button
+                    key={t.id}
+                    ref={active ? activeChipRef : undefined}
+                    onClick={() => (t.id === "overview" ? goHome() : navigateTo(t.id))}
+                    aria-current={active ? "page" : undefined}
+                    className={`flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-xs font-bold transition ${
+                      active
+                        ? "border-violet-300/50 bg-violet-300/15 text-white"
+                        : "border-white/10 bg-white/[0.03] text-[#a89ec4] hover:border-violet-300/30 hover:text-white"
+                    }`}
+                  >
+                    <span aria-hidden="true">{t.icon}</span>
+                    {t.label}
+                  </button>
+                );
+              })}
+            </div>
+          </nav>
         </div>
 
-        <main className="mx-auto max-w-7xl px-4 py-8">
+        <main className="mx-auto max-w-[1440px] px-4 py-6 sm:px-6 md:py-8 lg:px-10">
           {/* The page's name for screen readers and the document outline; the
               section's own SectionHeader is the visible title. The embedded
               atlases (Demonology, Infernal Codex) carry their own h1. */}
           {showSectionSearch && <h1 className="sr-only">{tab.label}</h1>}
           {showSectionSearch && (
-            <section className="mb-6 overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl backdrop-blur-xl">
-              <div className="p-6 md:p-8">
-                <div className="flex flex-col gap-3 md:flex-row">
-                  <input
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Search concepts..."
-                    aria-label={`Search ${tab.label}`}
-                    className="w-full rounded-2xl border border-white/10 bg-white/10 px-5 py-4 text-sm text-white outline-none placeholder:text-slate-500 focus:border-amber-300/60"
-                  />
-                  <button onClick={() => setQuery("")} className="rounded-2xl border border-white/10 bg-white/5 px-5 py-4 text-sm font-semibold text-slate-200 hover:bg-white/10">
-                    Clear
-                  </button>
-                </div>
-              </div>
-            </section>
+            <div className="mb-6 flex items-center gap-3 rounded-full border border-white/[0.14] bg-white/[0.06] py-2 pl-5 pr-2 backdrop-blur-xl focus-within:border-violet-300/50">
+              <span aria-hidden="true" className="text-lg text-[#a89ec4]">⌕</span>
+              <input
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder={`Search ${tab.label.toLowerCase()}…`}
+                aria-label={`Search ${tab.label}`}
+                className="min-w-0 flex-1 bg-transparent py-2 text-[0.95rem] text-[#f1eeff] outline-none placeholder:text-[#7a7096]"
+              />
+              {query && (
+                <button
+                  onClick={() => setQuery("")}
+                  className="rounded-full border border-white/[0.12] bg-white/[0.08] px-4 py-1.5 text-xs font-bold text-[#d8ceff] transition hover:bg-white/[0.14]"
+                >
+                  Clear
+                </button>
+              )}
+            </div>
           )}
 
-          <section className="rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
+          <section className={`${PANEL} p-5 sm:p-6 md:p-8`}>
             <SectionPageContent
               tabId={subPage}
               searchable={searchable}
@@ -2017,121 +2117,150 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
           </section>
         </main>
 
-        <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
-        {prayerModal && (
-          <PrayerModal
-            prayers={prayerModal.prayers}
-            title={prayerModal.title}
-            type={prayerModal.type}
-            onClose={() => setPrayerModal(null)}
-          />
-        )}
-      </div>
+        {modals}
+      </PageShell>
     );
   }
 
   // Home / overview view
   return (
-    <div className={BG}>
+    <PageShell>
       {onBack && (
-        <div className="sticky top-0 z-40 border-b border-white/10 bg-slate-950/80 backdrop-blur-xl">
-          <div className="mx-auto flex max-w-7xl items-center gap-4 px-4 py-3">
-            <button
-              onClick={onBack}
-              className="flex items-center gap-2 rounded-2xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-semibold text-slate-200 transition hover:bg-white/10"
-            >
-              ← Back to Home
+        <div className={TOP_BAR}>
+          <div className="mx-auto flex max-w-[1440px] items-center gap-3 px-4 py-3 sm:px-6 lg:px-10">
+            <button onClick={onBack} className={PILL_BUTTON}>
+              <span aria-hidden="true">←</span> Back to Home
             </button>
-            <span className="text-xs text-slate-400">Sacred Moral & Mythic Atlas</span>
+            <span className="hidden truncate text-[0.72rem] font-bold uppercase tracking-[0.12em] text-[#a89ec4] sm:inline">
+              Sacred Moral &amp; Mythic Atlas
+            </span>
           </div>
         </div>
       )}
 
-      <div className="mx-auto flex w-full max-w-7xl flex-col gap-6 px-4 py-6 lg:flex-row">
-        <aside className="lg:sticky lg:top-[3.5rem] lg:h-[calc(100vh-3.5rem)] lg:w-72">
-          <div className="rounded-[2rem] border border-white/10 bg-black/25 p-4 shadow-2xl backdrop-blur-xl">
-            <div className="rounded-3xl border border-amber-300/20 bg-amber-300/10 p-4">
-              <div className="text-3xl">✠</div>
-              <h1 className="mt-3 text-2xl font-black leading-tight text-white">Sacred Moral & Mythic Atlas</h1>
-              <p className="mt-2 text-sm leading-6 text-amber-50/75">Biblical foundations, virtue ethics, angelology, demonology, Dante's symbolic hell, and mythic codex references.</p>
+      <div className="mx-auto grid w-full max-w-[1440px] gap-6 px-4 py-6 sm:px-6 md:py-10 lg:grid-cols-[minmax(300px,360px)_minmax(0,1fr)] lg:gap-10 lg:px-10">
+        <aside className="lg:sticky lg:top-[4.5rem] lg:self-start">
+          <div className={`${PANEL} p-5 sm:p-6`}>
+            <div className="flex items-center gap-3">
+              <span
+                aria-hidden="true"
+                className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl border border-amber-300/30 bg-[linear-gradient(135deg,rgba(251,191,36,0.32),rgba(168,85,247,0.22))] text-xl text-amber-100"
+              >
+                ✠
+              </span>
+              <span className="rounded-full border border-amber-300/30 bg-amber-300/10 px-3 py-1 text-[0.7rem] font-bold tracking-[0.04em] text-amber-100">
+                Sacred Traditions Atlas
+              </span>
             </div>
+            <h1 className="mt-5 text-[2.4rem] font-black leading-[0.92] tracking-[-0.06em] text-white sm:text-[2.75rem]">
+              Sacred Moral
+              <span className={`block ${GRADIENT_TEXT}`}>&amp; Mythic Atlas</span>
+            </h1>
+            <p className="mt-4 text-sm leading-6 text-[#c8c0e0]">
+              Biblical foundations, virtue ethics, angelology, demonology, Dante's symbolic hell, and mythic codex references.
+            </p>
 
-            <div className="mt-4 space-y-2">
-              {tabs.map((tab) => (
-                <button
-                  key={tab.id}
-                  onClick={() => tab.id !== "overview" && navigateTo(tab.id)}
-                  className={`flex w-full items-center gap-3 rounded-2xl px-4 py-3 text-left text-sm transition ${
-                    tab.id === "overview"
-                      ? "bg-white text-slate-950 shadow-lg"
-                      : "text-slate-300 hover:bg-white/10 hover:text-white"
-                  }`}
-                >
-                  <span className="text-lg">{tab.icon}</span>
-                  <span className="font-semibold">{tab.label}</span>
-                  {tab.id !== "overview" && <span className="ml-auto opacity-40">→</span>}
-                </button>
-              ))}
-            </div>
+            <div className="mt-6 mb-3 text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#7a7096]">Sections</div>
+            <nav aria-label="Atlas sections" className="grid grid-cols-2 gap-2 lg:grid-cols-1 lg:gap-1">
+              {tabs.map((tab) => {
+                const active = tab.id === "overview";
+                return (
+                  <button
+                    key={tab.id}
+                    onClick={() => !active && navigateTo(tab.id)}
+                    aria-current={active ? "page" : undefined}
+                    className={`group flex min-w-0 items-center gap-2.5 rounded-2xl border px-3 py-2.5 text-left text-[0.82rem] transition lg:px-4 lg:text-sm ${
+                      active
+                        ? "border-violet-300/40 bg-violet-300/[0.14] text-white"
+                        : "border-white/[0.06] bg-white/[0.02] text-[#c8c0e0] hover:border-violet-300/30 hover:bg-white/[0.06] hover:text-white lg:border-transparent lg:bg-transparent"
+                    }`}
+                  >
+                    <span aria-hidden="true" className="w-5 shrink-0 text-center text-base text-[#c4b5fd]">{tab.icon}</span>
+                    <span className="min-w-0 font-bold leading-tight">{tab.label}</span>
+                    {!active && (
+                      <span aria-hidden="true" className="ml-auto hidden text-[#7a7096] transition group-hover:translate-x-0.5 group-hover:text-[#c4b5fd] lg:inline">
+                        →
+                      </span>
+                    )}
+                  </button>
+                );
+              })}
+            </nav>
 
-            <div className="mt-4 rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-xs leading-6 text-slate-400">
-              <strong className="text-slate-200">Note:</strong> This separates biblical text, Christian moral tradition, Dante's literature, angelology, demonology, and mythic catalogues. The cards are association maps, not official doctrine.
+            <div className="mt-5 rounded-[18px] border border-dashed border-white/[0.14] bg-white/[0.03] p-4 text-xs leading-6 text-[#a89ec4]">
+              <strong className="text-[#e9e3ff]">Note:</strong> This separates biblical text, Christian moral tradition, Dante's literature, angelology, demonology, and mythic catalogues. The cards are association maps, not official doctrine.
             </div>
           </div>
         </aside>
 
-        <main className="flex-1">
-          <section className="overflow-hidden rounded-[2rem] border border-white/10 bg-black/25 shadow-2xl backdrop-blur-xl">
-            <div className="relative p-6 md:p-8">
-              <div className="absolute right-6 top-6 hidden rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs text-slate-300 md:block">Study Mode · Concept Atlas</div>
-              <div className="max-w-3xl">
-                <div className="mb-4 flex flex-wrap gap-2">
-                  <Pill tone="gold">Exodus 20</Pill>
-                  <Pill tone="green">Virtue Ethics</Pill>
-                  <Pill tone="red">Deadly Sins</Pill>
-                  <Pill tone="violet">Dante</Pill>
-                  <Pill tone="cyan">Angelology</Pill>
-                  <Pill tone="red">Demonology</Pill>
-                </div>
-                <h2 className="text-4xl font-black tracking-tight text-white md:text-6xl">A frontend for moral patterns, spiritual beings, and mythic associations.</h2>
-                <p className="mt-5 max-w-2xl text-base leading-8 text-slate-300">Use this like an interactive study board: click a card, compare a sin to its antidote virtue, trace commandments into inner patterns, then move into angelology, demonology, Dante, and the codex as symbolic or historical layers.</p>
+        <main className="flex min-w-0 flex-col gap-6">
+          <section className={`${PANEL} relative overflow-hidden p-6 md:p-10`}>
+            <div
+              aria-hidden="true"
+              className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full bg-[radial-gradient(circle,rgba(251,191,36,0.16),transparent_65%)]"
+            />
+            <div className="relative max-w-3xl">
+              <div className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#a89ec4]">Study Mode · Concept Atlas</div>
+              <h2 className="mt-4 text-[2.1rem] font-black leading-[0.98] tracking-[-0.05em] text-white sm:text-5xl md:text-[3.5rem]">
+                Moral patterns, spiritual beings &amp;{" "}
+                <span className={GRADIENT_TEXT}>mythic associations.</span>
+              </h2>
+              <p className="mt-5 max-w-2xl text-[0.98rem] leading-8 text-[#d4cef0]/90">
+                Use this like an interactive study board: click a card, compare a sin to its antidote virtue, trace commandments into inner patterns, then move into angelology, demonology, Dante, and the codex as symbolic or historical layers.
+              </p>
+              <div className="mt-6 flex flex-wrap gap-2">
+                <Pill tone="gold">Exodus 20</Pill>
+                <Pill tone="green">Virtue Ethics</Pill>
+                <Pill tone="red">Deadly Sins</Pill>
+                <Pill tone="violet">Dante</Pill>
+                <Pill tone="cyan">Angelology</Pill>
+                <Pill tone="red">Demonology</Pill>
               </div>
             </div>
           </section>
 
-          <section className="mt-6 rounded-[2rem] border border-white/10 bg-black/25 p-6 shadow-2xl backdrop-blur-xl md:p-8">
+          <section className={`${PANEL} p-6 md:p-8`}>
             <SectionHeader eyebrow="Start here" title="The whole structure at a glance">
               Think of this app as one broad study atlas: commandments show sacred boundaries, virtues show formed character, sins show distorted desire, and the angelology, demonology, Dante, and codex layers show how traditions personify spiritual reality.
             </SectionHeader>
-            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-              {[
-                ["10", "Commandments", "Outer law and inner allegiance", "gold"],
-                ["12", "Virtues", "Antidotes and character formation", "green"],
-                ["7", "Deadly Sins", "Distorted desire patterns", "red"],
-                ["9", "Inferno Circles", "Dante's symbolic moral descent", "violet"],
-                ["Atlas", "Demonology", "Long-form articles and tradition comparison", "red"],
-                ["A-Z", "Infernal Codex", "Searchable entity and concept database", "gold"],
-              ].map(([num, label, text, tone]) => (
-                <div key={label} className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                  <Pill tone={tone}>{label}</Pill>
-                  <div className="mt-5 text-5xl font-black text-white">{num}</div>
-                  <p className="mt-3 text-sm leading-6 text-slate-300">{text}</p>
-                </div>
+            <div className="grid gap-3.5 sm:grid-cols-2 xl:grid-cols-3">
+              {OVERVIEW_TILES.map((tile) => (
+                <button
+                  key={tile.id}
+                  onClick={() => navigateTo(tile.id)}
+                  className="group rounded-[22px] border border-white/10 bg-white/[0.035] p-5 text-left transition hover:-translate-y-1 hover:border-violet-300/35 hover:bg-white/[0.06] hover:shadow-[0_18px_44px_rgba(168,85,247,0.12)]"
+                >
+                  <div className="flex items-center justify-between gap-3">
+                    <Pill tone={tile.tone}>{tile.label}</Pill>
+                    <span aria-hidden="true" className="text-[#7a7096] transition group-hover:translate-x-0.5 group-hover:text-[#c4b5fd]">→</span>
+                  </div>
+                  <div className="mt-4 text-4xl font-black tracking-[-0.05em] text-white md:text-5xl">{tile.num}</div>
+                  <p className="mt-2 text-sm leading-6 text-[#c8c0e0]">{tile.text}</p>
+                </button>
               ))}
             </div>
 
-            <div className="mt-6 grid gap-4 lg:grid-cols-2">
-              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                <h3 className="text-xl font-bold text-white">Best user flow</h3>
-                <ol className="mt-4 space-y-3 text-sm leading-6 text-slate-300">
-                  <li><strong className="text-white">1.</strong> Start with a commandment.</li>
-                  <li><strong className="text-white">2.</strong> Open the related sin pattern.</li>
-                  <li><strong className="text-white">3.</strong> Compare it to the antidote virtue.</li>
-                  <li><strong className="text-white">4.</strong> Optionally view Dante/demonology as symbolic imagination.</li>
+            <div className="mt-6 grid gap-3.5 lg:grid-cols-2">
+              <div className="rounded-[22px] border border-white/10 bg-white/[0.035] p-6">
+                <div className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#a89ec4]">Best user flow</div>
+                <ol className="mt-4 space-y-3 text-sm leading-6 text-[#d4cef0]/90">
+                  {[
+                    "Start with a commandment.",
+                    "Open the related sin pattern.",
+                    "Compare it to the antidote virtue.",
+                    "Optionally view Dante/demonology as symbolic imagination.",
+                  ].map((step, i) => (
+                    <li key={step} className="flex gap-3">
+                      <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-violet-300/30 bg-violet-300/10 text-xs font-black text-[#c4b5fd]">
+                        {i + 1}
+                      </span>
+                      <span>{step}</span>
+                    </li>
+                  ))}
                 </ol>
               </div>
-              <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-6">
-                <h3 className="text-xl font-bold text-white">Included reference layers</h3>
+              <div className="rounded-[22px] border border-white/10 bg-white/[0.035] p-6">
+                <div className="text-[0.72rem] font-bold uppercase tracking-[0.14em] text-[#a89ec4]">Included reference layers</div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   <Pill>Scripture lookup</Pill>
                   <Pill>Demonology timeline</Pill>
@@ -2146,15 +2275,7 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
         </main>
       </div>
 
-      <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
-      {prayerModal && (
-        <PrayerModal
-          prayers={prayerModal.prayers}
-          title={prayerModal.title}
-          type={prayerModal.type}
-          onClose={() => setPrayerModal(null)}
-        />
-      )}
-    </div>
+      {modals}
+    </PageShell>
   );
 }
