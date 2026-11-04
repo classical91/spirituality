@@ -1,9 +1,14 @@
-import { useEffect, useMemo, useRef, useState } from "react";
+import { lazy, Suspense, useEffect, useId, useMemo, useRef, useState } from "react";
 import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
 import { angels, ANGEL_FILTERS } from "./data/angels";
-import { demons as demonologyArticles } from "./data/demonology";
-import DemonologyAtlas from "./DemonologyAtlas";
-import InfernalCodex from "./InfernalCodex";
+import { demonologyArticleIds } from "./data/demonologyIds";
+import { readJSON, writeJSON } from "./lib/storage";
+import { filterByQuery, nextSort, normalizeInitialSection, sortRows } from "./lib/moralAtlas";
+
+// The two embedded atlases (and the 180 KB demonology article set behind the
+// first) load only when their section is opened.
+const DemonologyAtlas = lazy(() => import("./DemonologyAtlas"));
+const InfernalCodex = lazy(() => import("./InfernalCodex"));
 
 const tabs = [
   { id: "overview", label: "Overview", icon: "✦" },
@@ -22,16 +27,10 @@ const tabs = [
 ];
 
 const embeddedAtlasTabs = new Set(["demonology-atlas", "infernal-codex"]);
-const demonologyArticleIds = new Set(demonologyArticles.map((entry) => entry.id));
-
-function normalizeInitialSection(section) {
-  if (section === "angelology") return { tab: "angels" };
-  if (section === "demonology-atlas" || section === "demonology-portal") return { tab: "demonology-atlas" };
-  if (section === "infernal-codex" || section === "infernalcodex") return { tab: "infernal-codex" };
-  if (demonologyArticleIds.has(section)) return { tab: "demonology-atlas", childSection: section };
-  if (tabs.some((tab) => tab.id === section)) return { tab: section };
-  return { tab: null };
-}
+const SECTION_LINKS = {
+  tabIds: new Set(tabs.map((tab) => tab.id)),
+  articleIds: new Set(demonologyArticleIds),
+};
 
 const commandments = [
   {
@@ -1054,12 +1053,47 @@ function getPrayers(item, type) {
   return prayerData[type]?.[key] || null;
 }
 
-function PrayerModal({ prayers, title, type, onClose }) {
+const FOCUSABLE =
+  'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+
+// Modal dialog behaviour: focus moves into the dialog when it opens and back to
+// whatever opened it when it closes; Escape closes it and Tab stays inside.
+// Keys are handled on the dialog itself rather than the window, so with the
+// prayer dialog stacked over a detail dialog, Escape closes only the top one.
+function useDialog(onClose) {
+  const ref = useRef(null);
   useEffect(() => {
-    const handler = (e) => { if (e.key === "Escape") onClose(); };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
-  }, [onClose]);
+    const opener = document.activeElement;
+    ref.current?.focus();
+    return () => {
+      if (opener instanceof HTMLElement && opener.isConnected) opener.focus();
+    };
+  }, []);
+  const onKeyDown = (event) => {
+    if (event.key === "Escape") {
+      event.stopPropagation();
+      onClose();
+      return;
+    }
+    if (event.key !== "Tab" || !ref.current) return;
+    const focusable = [...ref.current.querySelectorAll(FOCUSABLE)];
+    if (focusable.length === 0) return;
+    const first = focusable[0];
+    const last = focusable[focusable.length - 1];
+    if (event.shiftKey && (document.activeElement === first || document.activeElement === ref.current)) {
+      event.preventDefault();
+      last.focus();
+    } else if (!event.shiftKey && document.activeElement === last) {
+      event.preventDefault();
+      first.focus();
+    }
+  };
+  return [ref, onKeyDown];
+}
+
+function PrayerModal({ prayers, title, type, onClose }) {
+  const [dialogRef, onDialogKeyDown] = useDialog(onClose);
+  const titleId = useId();
 
   if (!prayers) return null;
 
@@ -1082,19 +1116,23 @@ function PrayerModal({ prayers, title, type, onClose }) {
   return (
     <div
       className="fixed inset-0 z-[70] flex items-center justify-center bg-[#07090f]/85 px-4 backdrop-blur-md"
-      role="dialog"
-      aria-modal="true"
       onClick={onClose}
     >
       <div
-        className="max-h-[88vh] w-full max-w-xl overflow-auto rounded-[28px] border border-violet-300/20 bg-[#0c0e18] shadow-[0_22px_65px_rgba(0,0,0,0.45)]"
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        onKeyDown={onDialogKeyDown}
+        className="max-h-[88vh] w-full max-w-xl overflow-auto rounded-[28px] border border-violet-300/20 bg-[#0c0e18] shadow-[0_22px_65px_rgba(0,0,0,0.45)] outline-none"
         onClick={(e) => e.stopPropagation()}
       >
         <div className="sticky top-0 border-b border-white/10 bg-[#0c0e18]/95 px-6 py-5 backdrop-blur">
           <div className="flex items-start justify-between gap-4">
             <div>
               <p className={`text-xs font-bold uppercase tracking-[0.3em] ${accentClass}`}>Prayers</p>
-              <h2 className="mt-1 text-xl font-black text-white">{title}</h2>
+              <h2 id={titleId} className="mt-1 text-xl font-black text-white">{title}</h2>
             </div>
             <button
               className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-slate-200 hover:bg-white/10"
@@ -1207,8 +1245,10 @@ function AngelDetailBody({ angel }) {
   );
 }
 
+// Rendered only while open, so useDialog's mount/unmount tracks open/close.
 function DetailModal({ item, onClose, type, onPray }) {
-  if (!item) return null;
+  const [dialogRef, onDialogKeyDown] = useDialog(onClose);
+  const titleId = useId();
 
   const entries = Object.entries(item).filter(([key]) => !["id", "title", "name", "circle"].includes(key));
   const heading = item.title || item.name || `Circle ${item.circle}`;
@@ -1216,12 +1256,21 @@ function DetailModal({ item, onClose, type, onPray }) {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm" onClick={onClose}>
-      <div className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-[28px] border border-violet-300/20 bg-[#0c0e18] shadow-[0_22px_65px_rgba(0,0,0,0.45)]" onClick={(event) => event.stopPropagation()}>
+      <div
+        ref={dialogRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby={titleId}
+        tabIndex={-1}
+        onKeyDown={onDialogKeyDown}
+        className="max-h-[86vh] w-full max-w-3xl overflow-auto rounded-[28px] border border-violet-300/20 bg-[#0c0e18] shadow-[0_22px_65px_rgba(0,0,0,0.45)] outline-none"
+        onClick={(event) => event.stopPropagation()}
+      >
         <div className="sticky top-0 border-b border-white/10 bg-[#0c0e18]/95 p-5 backdrop-blur">
           <div className="flex items-start justify-between gap-4">
             <div>
               <Pill tone={type === "demons" ? "red" : type === "angels" ? "cyan" : type === "virtues" ? "green" : type === "inferno" ? "violet" : type === "wheel-spirit" ? "blue" : type === "wheel-body" ? "green" : "gold"}>{type}</Pill>
-              <h2 className="mt-3 text-2xl font-bold text-white">{item.circle ? `Circle ${item.circle}: ${heading}` : heading}</h2>
+              <h2 id={titleId} className="mt-3 text-2xl font-bold text-white">{item.circle ? `Circle ${item.circle}: ${heading}` : heading}</h2>
             </div>
             <div className="flex shrink-0 gap-2">
               {prayers && (
@@ -1307,7 +1356,263 @@ function SectionHeader({ eyebrow, title, children }) {
   );
 }
 
+function EmptyResults() {
+  return (
+    <p className="rounded-2xl border border-dashed border-white/[0.14] bg-white/[0.03] p-5 text-sm text-[#a89ec4]">
+      No entries match your search. Try fewer or different words, or clear the search.
+    </p>
+  );
+}
+
+const joinList = (value) => (Array.isArray(value) ? value.join(", ") : value);
+
+// Column sets for the Table view of each card section. `value` feeds sorting
+// and the cell text; `render` overrides the cell's markup.
+const TABLE_COLUMNS = {
+  commandments: [
+    { key: "id", label: "No.", value: (r) => r.id, className: "w-12 text-slate-400" },
+    { key: "title", label: "Commandment", value: (r) => r.title, primary: true },
+    { key: "scripture", label: "Scripture", value: (r) => r.scripture },
+    { key: "virtue", label: "Virtue", value: (r) => r.virtue, className: "text-emerald-100" },
+    { key: "linkedSin", label: "Linked sin", value: (r) => r.linkedSin, className: "text-red-100" },
+    { key: "plain", label: "In plain words", value: (r) => r.plain, wide: true },
+  ],
+  virtues: [
+    { key: "title", label: "Virtue", value: (r) => r.title, primary: true },
+    { key: "family", label: "Family", value: (r) => r.family },
+    { key: "opposite", label: "Opposes", value: (r) => r.opposite, className: "text-red-100" },
+    { key: "summary", label: "Summary", value: (r) => r.summary, wide: true },
+  ],
+  sins: [
+    { key: "title", label: "Sin", value: (r) => r.title, primary: true },
+    { key: "latin", label: "Latin", value: (r) => r.latin, className: "italic text-slate-400" },
+    { key: "antidote", label: "Antidote", value: (r) => r.antidote, className: "text-emerald-100" },
+    { key: "commandment", label: "Commandment", value: (r) => r.commandment },
+    { key: "demon", label: "Demon (Binsfeld)", value: (r) => r.demon, className: "text-red-100" },
+    { key: "watch", label: "Watch for", value: (r) => r.watch, wide: true },
+  ],
+  inferno: [
+    { key: "circle", label: "Circle", value: (r) => r.circle, className: "w-16 text-slate-400" },
+    { key: "title", label: "Name", value: (r) => r.title, primary: true },
+    { key: "category", label: "Category", value: (r) => r.category },
+    { key: "meaning", label: "Meaning", value: (r) => r.meaning, wide: true },
+  ],
+  demons: [
+    { key: "name", label: "Name", value: (r) => r.name, primary: true },
+    { key: "sin", label: "Sin", value: (r) => r.sin, className: "text-red-100" },
+    { key: "tradition", label: "Tradition / source", value: (r) => r.tradition },
+    { key: "association", label: "Association", value: (r) => r.association, wide: true },
+  ],
+  angels: [
+    { key: "name", label: "Name", value: (r) => r.name, primary: true },
+    { key: "category", label: "Category", value: (r) => r.category },
+    { key: "traditions", label: "Traditions", value: (r) => r.traditions },
+    { key: "role", label: "Role", value: (r) => r.role, wide: true },
+    { key: "texts", label: "Texts & sources", value: (r) => r.texts, wide: true },
+  ],
+};
+
+const DEMON_CLASSIFICATION_COLUMNS = [
+  { key: "sin", label: "Deadly sin", value: (r) => r.sin, primary: true },
+  { key: "latin", label: "Latin", value: (r) => r.latin, className: "italic text-slate-400" },
+  { key: "binsfeld", label: "Binsfeld (1589)", value: (r) => r.binsfeld, className: "font-semibold text-red-100" },
+  {
+    key: "lanterne",
+    label: "Lanterne of Light (c.1409)",
+    value: (r) => r.lanterne,
+    className: "font-semibold text-red-100",
+    render: (r) => (
+      <>
+        {r.lanterne}
+        {!r.agree && (
+          <span className="ml-2 inline-flex rounded-full border border-amber-300/30 bg-amber-300/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200">
+            differs
+          </span>
+        )}
+      </>
+    ),
+  },
+  { key: "virtue", label: "Antidote virtue", value: (r) => r.virtue, className: "font-semibold text-emerald-100" },
+  { key: "dante", label: "Dante's Inferno", value: (r) => r.dante, wide: true },
+];
+
+const SIN_MAP_COLUMNS = [
+  { key: "sin", label: "Sin", value: (r) => r.sin, primary: true },
+  { key: "antidote", label: "Antidote", value: (r) => r.antidote, className: "font-semibold text-emerald-100" },
+  { key: "commandment", label: "Commandment watch", value: (r) => r.commandment },
+  { key: "dante", label: "Dante layer", value: (r) => r.dante, wide: true },
+  { key: "demon", label: "Demonology", value: (r) => r.demon, className: "font-semibold text-red-100" },
+  { key: "watch", label: "Watch for", value: (r) => r.watch, wide: true },
+];
+
+const WHEEL_CONNECTION_COLUMNS = [
+  { key: "soul", label: "Soul issue", value: (r) => r.soul, primary: true },
+  { key: "spirit", label: "Spirit reality (answer)", value: (r) => r.spirit, className: "font-semibold text-sky-100" },
+  { key: "scripture", label: "Key scripture", value: (r) => r.scripture },
+];
+
+const SORT_GLYPH = { asc: "↑", desc: "↓" };
+
+// A sortable reference table. On narrow screens each row becomes a stacked
+// card with its column labels, so wide tables never need sideways scrolling.
+// `onRowClick` makes rows open their detail entry; the primary cell is a real
+// button so the table works from the keyboard.
+function DataTable({ caption, columns, rows, rowKey, onRowClick }) {
+  const [sort, setSort] = useState(null);
+  const sorted = useMemo(() => {
+    if (!sort) return rows;
+    const column = columns.find((c) => c.key === sort.key);
+    return column ? sortRows(rows, column.value, sort.direction) : rows;
+  }, [rows, columns, sort]);
+
+  if (rows.length === 0) return <EmptyResults />;
+
+  const cell = (column, row) => (column.render ? column.render(row) : joinList(column.value(row)));
+  const primaryCell = (column, row) =>
+    onRowClick ? (
+      <button
+        type="button"
+        onClick={(event) => {
+          event.stopPropagation();
+          onRowClick(row);
+        }}
+        className="text-left font-bold text-white underline decoration-violet-300/30 underline-offset-4 hover:decoration-violet-300"
+      >
+        {cell(column, row)}
+      </button>
+    ) : (
+      <span className="font-bold text-white">{cell(column, row)}</span>
+    );
+
+  return (
+    <>
+      <div className="hidden overflow-x-auto rounded-3xl border border-white/10 md:block">
+        <table className="w-full border-collapse text-left">
+          <caption className="sr-only">
+            {caption}
+            {sort ? `, sorted by ${columns.find((c) => c.key === sort.key)?.label} (${sort.direction === "asc" ? "ascending" : "descending"})` : ""}
+          </caption>
+          <thead>
+            <tr className="border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.16em] text-slate-300">
+              {columns.map((column) => {
+                const active = sort?.key === column.key;
+                return (
+                  <th
+                    key={column.key}
+                    scope="col"
+                    aria-sort={active ? (sort.direction === "asc" ? "ascending" : "descending") : undefined}
+                    className="p-0 font-bold"
+                  >
+                    {column.sortable === false ? (
+                      <span className="block p-4">{column.label}</span>
+                    ) : (
+                      <button
+                        type="button"
+                        onClick={() => setSort((current) => nextSort(current, column.key))}
+                        className={`flex w-full items-center gap-1.5 p-4 text-left uppercase tracking-[0.16em] transition hover:text-white ${active ? "text-white" : ""}`}
+                      >
+                        {column.label}
+                        <span aria-hidden="true" className={active ? "text-violet-300" : "text-white/20"}>
+                          {active ? SORT_GLYPH[sort.direction] : "↕"}
+                        </span>
+                      </button>
+                    )}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((row) => (
+              <tr
+                key={rowKey(row)}
+                onClick={onRowClick ? () => onRowClick(row) : undefined}
+                className={`border-b border-white/10 bg-white/[0.03] align-top last:border-b-0 ${onRowClick ? "cursor-pointer transition hover:bg-white/[0.07]" : ""}`}
+              >
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className={`p-4 text-sm leading-6 text-slate-300 ${column.wide ? "min-w-[16rem]" : ""} ${column.className || ""}`}
+                  >
+                    {column.primary ? primaryCell(column, row) : cell(column, row)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      <ul className="grid gap-3 md:hidden" aria-label={caption}>
+        {sorted.map((row) => {
+          const primary = columns.find((c) => c.primary) || columns[0];
+          return (
+            <li key={rowKey(row)} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+              <div className="text-base">{primaryCell(primary, row)}</div>
+              <dl className="mt-3 grid gap-2">
+                {columns
+                  .filter((c) => c !== primary)
+                  .map((column) => {
+                    const content = cell(column, row);
+                    if (content == null || content === "") return null;
+                    return (
+                      <div key={column.key}>
+                        <dt className="text-[0.68rem] font-bold uppercase tracking-[0.16em] text-[#7a7096]">{column.label}</dt>
+                        <dd className={`text-sm leading-6 text-slate-300 ${column.className || ""}`}>{content}</dd>
+                      </div>
+                    );
+                  })}
+              </dl>
+            </li>
+          );
+        })}
+      </ul>
+    </>
+  );
+}
+
+// Card or table, for the sections that list one kind of entry.
+function EntryView({ view, items, type, caption, onOpen, onPray }) {
+  if (view === "table" && TABLE_COLUMNS[type]) {
+    return (
+      <DataTable
+        caption={caption}
+        columns={TABLE_COLUMNS[type]}
+        rows={items}
+        rowKey={(row) => row.id ?? row.title ?? row.name}
+        onRowClick={(row) => onOpen(row, type)}
+      />
+    );
+  }
+  return <GridView items={items} type={type} onOpen={onOpen} onPray={onPray} />;
+}
+
+function ViewToggle({ view, onChange }) {
+  return (
+    <div role="group" aria-label="Display as" className="inline-flex shrink-0 self-start rounded-full sm:self-auto border border-white/[0.14] bg-white/[0.04] p-1">
+      {[
+        { id: "cards", label: "Cards", icon: "▦" },
+        { id: "table", label: "Table", icon: "☰" },
+      ].map((option) => (
+        <button
+          key={option.id}
+          type="button"
+          aria-pressed={view === option.id}
+          onClick={() => onChange(option.id)}
+          className={`flex items-center gap-1.5 rounded-full px-3.5 py-1.5 text-xs font-bold transition ${
+            view === option.id ? "bg-violet-300/20 text-white" : "text-[#a89ec4] hover:text-white"
+          }`}
+        >
+          <span aria-hidden="true">{option.icon}</span>
+          {option.label}
+        </button>
+      ))}
+    </div>
+  );
+}
+
 function GridView({ items, type, onOpen, onPray }) {
+  if (items.length === 0) return <EmptyResults />;
   return (
     <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
       {items.map((item, index) => (
@@ -1375,7 +1680,7 @@ function PrayerThemeCard({ theme, catLabel, tone, onPray }) {
 const prayerSelectClass =
   "w-full rounded-2xl border border-white/15 bg-white/[0.06] px-4 py-3 text-sm font-semibold text-white outline-none transition-colors hover:border-white/30 focus:border-violet-300/60 [&>option]:bg-[#0c0e18] [&>optgroup]:bg-[#0c0e18] [&>optgroup]:font-bold";
 
-function PrayersSection({ openPrayer }) {
+function PrayersSection({ openPrayer, query }) {
   const [categoryId, setCategoryId] = useState("all");
 
   const themesWithPrayers = useMemo(
@@ -1386,10 +1691,13 @@ function PrayersSection({ openPrayer }) {
     []
   );
 
-  const visibleCategories =
+  const visibleCategories = (
     categoryId === "all"
       ? prayerThemesCategories
-      : prayerThemesCategories.filter((cat) => cat.id === categoryId);
+      : prayerThemesCategories.filter((cat) => cat.id === categoryId)
+  )
+    .map((cat) => ({ ...cat, themes: filterByQuery(cat.themes, query) }))
+    .filter((cat) => cat.themes.length > 0);
 
   const pickRandom = () => {
     if (themesWithPrayers.length === 0) return;
@@ -1452,6 +1760,7 @@ function PrayersSection({ openPrayer }) {
         </button>
       </div>
 
+      {visibleCategories.length === 0 && <EmptyResults />}
       <div className="space-y-12">
         {visibleCategories.map((cat) => {
           const tc = toneClasses[cat.tone] || toneClasses.blue;
@@ -1473,14 +1782,28 @@ function PrayersSection({ openPrayer }) {
   );
 }
 
-function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbeddedNavigate, embeddedInitialSection }) {
+function EmbeddedLoading({ label }) {
+  return (
+    <div role="status" aria-live="polite" className="py-16 text-center text-sm font-bold uppercase tracking-[0.12em] text-[#a89ec4]">
+      <span aria-hidden="true">✦</span> Opening the {label}…
+    </div>
+  );
+}
+
+function SectionPageContent({ tabId, searchable, query, view, openModal, openPrayer, onEmbeddedNavigate, embeddedInitialSection }) {
+  // Comparison-table rows are keyed by sin name; open that sin's full entry.
+  const openSinByTitle = (row) => {
+    const sin = sins.find((entry) => entry.title === row.sin);
+    if (sin) openModal(sin, "sins");
+  };
+
   if (tabId === "commandments") {
     return (
       <div>
         <SectionHeader eyebrow="Bible foundation" title="The 10 Commandments">
           A clean card view for Exodus 20, with each commandment translated into a moral focus, a reflection question, linked virtue, and linked sin pattern.
         </SectionHeader>
-        <GridView items={searchable.commandments} type="commandments" onOpen={openModal} onPray={openPrayer} />
+        <EntryView view={view} items={searchable.commandments} type="commandments" caption="The 10 Commandments" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -1491,7 +1814,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         <SectionHeader eyebrow="Character formation" title="Virtues as antidotes">
           Includes the seven heavenly virtues plus major cardinal/theological virtues so the app has more depth than only "sin vs punishment."
         </SectionHeader>
-        <GridView items={searchable.virtues} type="virtues" onOpen={openModal} onPray={openPrayer} />
+        <EntryView view={view} items={searchable.virtues} type="virtues" caption="Virtues" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -1502,7 +1825,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         <SectionHeader eyebrow="Distorted desire" title="The 7 Deadly Sins">
           Each sin is framed as a good desire bent out of order. This makes it easier to study psychologically, spiritually, and symbolically.
         </SectionHeader>
-        <GridView items={searchable.sins} type="sins" onOpen={openModal} onPray={openPrayer} />
+        <EntryView view={view} items={searchable.sins} type="sins" caption="The 7 Deadly Sins" onOpen={openModal} onPray={openPrayer} />
       </div>
     );
   }
@@ -1513,13 +1836,13 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         <SectionHeader eyebrow="Literary layer" title="Dante's Inferno circles">
           Dante's Inferno is not a simple Bible chart. It is medieval Christian poetry with symbolic punishments, moral categories, and a dramatic descent through disordered love.
         </SectionHeader>
-        <div className="grid gap-4 lg:grid-cols-3">
-          <div className="rounded-3xl border border-violet-300/20 bg-violet-500/10 p-5 lg:col-span-1">
+        <div className={view === "table" ? "grid gap-4" : "grid gap-4 lg:grid-cols-3"}>
+          <div className={`rounded-3xl border border-violet-300/20 bg-violet-500/10 p-5 ${view === "table" ? "" : "lg:col-span-1"}`}>
             <h3 className="text-lg font-bold text-white">Descent logic</h3>
             <p className="mt-3 text-sm leading-7 text-slate-300">Dante moves from less deliberate disorders of appetite into deeper forms of malice: heresy, violence, fraud, and treachery. The bottom is not fire, but frozen betrayal.</p>
           </div>
-          <div className="lg:col-span-2">
-            <GridView items={searchable.inferno} type="inferno" onOpen={openModal} onPray={openPrayer} />
+          <div className={view === "table" ? "" : "lg:col-span-2"}>
+            <EntryView view={view} items={searchable.inferno} type="inferno" caption="Dante's Inferno circles" onOpen={openModal} onPray={openPrayer} />
           </div>
         </div>
       </div>
@@ -1535,47 +1858,20 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         <div className="mb-6 rounded-3xl border border-red-300/20 bg-red-500/10 p-5 text-sm leading-7 text-red-50/90">
           <strong>Design rule:</strong> Keep "Biblical figure/name," "Dante character," and "later demonology association" as separate labels. That makes the frontend feel trustworthy instead of conspiracy-board messy.
         </div>
-        <GridView items={searchable.demons} type="demons" onOpen={openModal} onPray={openPrayer} />
+        <EntryView view={view} items={searchable.demons} type="demons" caption="Demonology associations" onOpen={openModal} onPray={openPrayer} />
 
         <div className="mt-10">
           <SectionHeader eyebrow="Classification grid" title="Seven deadly sins → demon princes">
             A comprehensive cross-reference of the seven deadly sins and the demon "prince" assigned to each by the two most influential historical schemes: Peter Binsfeld's <em>Tractatus de confessionibus maleficorum et sagarum</em> (1589) and the earlier Lollard tract the <em>Lanterne of Light</em> (c. 1409–1410). Where the two disagree, the row is marked so you can see the tradition is not a single fixed doctrine.
           </SectionHeader>
 
-          <div className="overflow-x-auto rounded-3xl border border-white/10">
-            <table className="w-full min-w-[760px] border-collapse text-left">
-              <thead>
-                <tr className="border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
-                  <th className="p-4 font-bold">Deadly Sin</th>
-                  <th className="p-4 font-bold">Binsfeld (1589)</th>
-                  <th className="p-4 font-bold">Lanterne of Light (c.1409)</th>
-                  <th className="p-4 font-bold">Antidote Virtue</th>
-                  <th className="p-4 font-bold">Dante's Inferno</th>
-                </tr>
-              </thead>
-              <tbody>
-                {demonClassification.map((row) => (
-                  <tr key={row.sin} className="border-b border-white/10 bg-white/[0.03] align-top last:border-b-0">
-                    <td className="p-4">
-                      <Pill tone="red">{row.sin}</Pill>
-                      <p className="mt-2 text-xs italic text-slate-400">{row.latin}</p>
-                    </td>
-                    <td className="p-4 text-sm font-semibold text-red-100">{row.binsfeld}</td>
-                    <td className="p-4 text-sm font-semibold text-red-100">
-                      {row.lanterne}
-                      {!row.agree && (
-                        <span className="ml-2 inline-flex rounded-full border border-amber-300/30 bg-amber-300/10 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wider text-amber-200">
-                          differs
-                        </span>
-                      )}
-                    </td>
-                    <td className="p-4 text-sm font-semibold text-emerald-100">{row.virtue}</td>
-                    <td className="p-4 text-sm leading-6 text-slate-300">{row.dante}</td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+          <DataTable
+            caption="Seven deadly sins mapped to demon princes by Binsfeld and the Lanterne of Light"
+            columns={DEMON_CLASSIFICATION_COLUMNS}
+            rows={searchable.demonClassification}
+            rowKey={(row) => row.sin}
+            onRowClick={openSinByTitle}
+          />
 
           <div className="mt-6 grid gap-4 md:grid-cols-2">
             <div className="rounded-3xl border border-emerald-300/20 bg-emerald-500/[0.07] p-5">
@@ -1617,7 +1913,9 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
           <strong>Design rule:</strong> These cards present angels as each tradition describes them — not as a single doctrine. Names, ranks, and associations vary widely between Scripture, later Jewish and Christian writings, Islam, Zoroastrianism, and esoteric texts. Treat the esoteric and apocryphal material as tradition, not canon.
         </div>
         {groups.length === 0 ? (
-          <p className="text-sm text-slate-400">No angels match your search.</p>
+          <EmptyResults />
+        ) : view === "table" ? (
+          <EntryView view={view} items={groups.flatMap((g) => g.items)} type="angels" caption="Angelology" onOpen={openModal} onPray={openPrayer} />
         ) : (
           <div className="space-y-8">
             {groups.map(({ cat, items }) => (
@@ -1637,25 +1935,29 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
 
   if (tabId === "demonology-atlas") {
     return (
-      <DemonologyAtlas
-        embedded
-        initialSection={embeddedInitialSection}
-        onNavigate={onEmbeddedNavigate}
-      />
+      <Suspense fallback={<EmbeddedLoading label="Demonology Atlas" />}>
+        <DemonologyAtlas
+          embedded
+          initialSection={embeddedInitialSection}
+          onNavigate={onEmbeddedNavigate}
+        />
+      </Suspense>
     );
   }
 
   if (tabId === "infernal-codex") {
     return (
-      <InfernalCodex
-        embedded
-        onNavigate={onEmbeddedNavigate}
-      />
+      <Suspense fallback={<EmbeddedLoading label="Infernal Codex" />}>
+        <InfernalCodex
+          embedded
+          onNavigate={onEmbeddedNavigate}
+        />
+      </Suspense>
     );
   }
 
   if (tabId === "prayers") {
-    return <PrayersSection openPrayer={openPrayer} />;
+    return <PrayersSection openPrayer={openPrayer} query={query} />;
   }
 
   if (tabId === "map") {
@@ -1664,24 +1966,13 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         <SectionHeader eyebrow="Comparison mode" title="Sin → virtue → commandment → Dante → demonology">
           This is the page that makes the whole system click. It turns the lists into a relationship map.
         </SectionHeader>
-        <div className="overflow-hidden rounded-3xl border border-white/10">
-          <div className="hidden grid-cols-5 gap-0 border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300 lg:grid">
-            <div className="p-4">Sin</div>
-            <div className="p-4">Antidote</div>
-            <div className="p-4">Commandment Watch</div>
-            <div className="p-4">Dante Layer</div>
-            <div className="p-4">Demonology</div>
-          </div>
-          {sinMap.map((row) => (
-            <div key={row.sin} className="grid gap-0 border-b border-white/10 bg-white/[0.03] last:border-b-0 lg:grid-cols-5">
-              <div className="p-4"><Pill tone="red">{row.sin}</Pill><p className="mt-3 text-xs leading-5 text-slate-400">{row.watch}</p></div>
-              <div className="p-4 text-sm font-semibold text-emerald-100">{row.antidote}</div>
-              <div className="p-4 text-sm leading-6 text-slate-300">{row.commandment}</div>
-              <div className="p-4 text-sm leading-6 text-slate-300">{row.dante}</div>
-              <div className="p-4 text-sm font-semibold text-red-100">{row.demon}</div>
-            </div>
-          ))}
-        </div>
+        <DataTable
+          caption="Each deadly sin with its antidote, commandment, Dante layer, and demonology association"
+          columns={SIN_MAP_COLUMNS}
+          rows={searchable.sinMap}
+          rowKey={(row) => row.sin}
+          onRowClick={openSinByTitle}
+        />
       </div>
     );
   }
@@ -1771,20 +2062,12 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         <div>
           <div className="mb-4 text-xs font-bold uppercase tracking-[0.14em] text-white/60">Integration</div>
           <h3 className="mb-4 text-2xl font-black text-white">Soul Issue → Spirit Answer</h3>
-          <div className="overflow-hidden rounded-3xl border border-white/10">
-            <div className="hidden grid-cols-3 gap-0 border-b border-white/10 bg-white/10 text-xs font-bold uppercase tracking-[0.2em] text-slate-300 lg:grid">
-              <div className="p-4">Soul Issue</div>
-              <div className="p-4">Spirit Reality (Answer)</div>
-              <div className="p-4">Key Scripture</div>
-            </div>
-            {wheelConnectionMap.map((row) => (
-              <div key={row.soul} className="grid gap-0 border-b border-white/10 bg-white/[0.03] last:border-b-0 lg:grid-cols-3">
-                <div className="p-4"><Pill tone="gold">{row.soul}</Pill></div>
-                <div className="p-4 text-sm font-semibold text-sky-100">{row.spirit}</div>
-                <div className="p-4 text-sm leading-6 text-slate-300">{row.scripture}</div>
-              </div>
-            ))}
-          </div>
+          <DataTable
+            caption="Soul issues and the spirit reality that answers each"
+            columns={WHEEL_CONNECTION_COLUMNS}
+            rows={searchable.wheelConnections}
+            rowKey={(row) => row.soul}
+          />
         </div>
       </div>
     );
@@ -1853,6 +2136,7 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
         note: 'As both a nurturing mother figure and a wild, sensual force, Hathor embodied the full range of the feminine divine — from tender care to ecstatic celebration.',
       },
     ];
+    const visibleDeities = filterByQuery(deities, query);
 
     return (
       <div>
@@ -1860,8 +2144,9 @@ function SectionPageContent({ tabId, searchable, openModal, openPrayer, onEmbedd
           Divine figures from six world traditions who embody love, desire, beauty, and passion. Each reflects how a culture understood the transformative — and sometimes dangerous — power of attraction and union.
         </SectionHeader>
 
+        {visibleDeities.length === 0 && <EmptyResults />}
         <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {deities.map((d) => (
+          {visibleDeities.map((d) => (
             <div key={d.name} style={{ borderColor: `${d.accent}30` }} className="rounded-3xl border bg-white/[0.04] p-6">
               <div className="mb-4 flex items-start justify-between gap-3">
                 <div>
@@ -1946,15 +2231,28 @@ const OVERVIEW_TILES = [
   { id: "infernal-codex", num: "A–Z", label: "Infernal Codex", text: "Searchable entity and concept database", tone: "gold" },
 ];
 
+const VIEW_STORAGE_KEY = "moral-atlas-view";
+
+function readStoredView() {
+  return readJSON(VIEW_STORAGE_KEY, "cards") === "table" ? "table" : "cards";
+}
+
 export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }) {
   // Allow deep-linking into a tab. Legacy routes map onto embedded sections.
-  const normalizedInitial = normalizeInitialSection(initialSection);
+  const normalizedInitial = normalizeInitialSection(initialSection, SECTION_LINKS);
+  // Only used when there is no router (onNavigate) to put the section in the
+  // URL; with one, App remounts this component per ?section= value.
   const [subPage, setSubPage] = useState(
     normalizedInitial.tab
   );
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [prayerModal, setPrayerModal] = useState(null);
+  const [view, setViewState] = useState(readStoredView);
+  const setView = (next) => {
+    setViewState(next);
+    writeJSON(VIEW_STORAGE_KEY, next);
+  };
 
   const activeChipRef = useRef(null);
 
@@ -1968,12 +2266,13 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
     }
   }, [subPage]);
 
+  useEffect(() => {
+    const tab = tabs.find((t) => t.id === subPage);
+    if (tab) document.title = `${tab.label} · Sacred Moral Atlas · Sacred Pathways`;
+  }, [subPage]);
+
   const searchable = useMemo(() => {
-    const lower = query.trim().toLowerCase();
-    const filterItems = (items) => {
-      if (!lower) return items;
-      return items.filter((item) => JSON.stringify(item).toLowerCase().includes(lower));
-    };
+    const filterItems = (items) => filterByQuery(items, query);
     return {
       commandments: filterItems(commandments),
       virtues: filterItems(virtues),
@@ -1986,6 +2285,9 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
       wheelEmotions: filterItems(wheelEmotions),
       wheelSpirit: filterItems(wheelSpiritRealities),
       wheelBody: filterItems(wheelBodySymptoms),
+      wheelConnections: filterItems(wheelConnectionMap),
+      demonClassification: filterItems(demonClassification),
+      sinMap: filterItems(sinMap),
     };
   }, [query]);
 
@@ -1997,7 +2299,13 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
     setPrayerModal({ prayers, title, type });
   };
 
+  // Each section is its own URL (?section=virtues), so it can be bookmarked or
+  // shared and the browser's Back/Forward move between sections.
   const navigateTo = (tabId) => {
+    if (onNavigate) {
+      onNavigate("biblical", { section: tabId });
+      return;
+    }
     setSubPage(tabId);
     setQuery("");
   };
@@ -2015,13 +2323,17 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
   };
 
   const goHome = () => {
+    if (onNavigate) {
+      onNavigate("biblical");
+      return;
+    }
     setSubPage(null);
     setQuery("");
   };
 
   const modals = (
     <>
-      <DetailModal item={modal?.item} type={modal?.type} onClose={() => setModal(null)} onPray={openPrayer} />
+      {modal && <DetailModal item={modal.item} type={modal.type} onClose={() => setModal(null)} onPray={openPrayer} />}
       {prayerModal && (
         <PrayerModal
           prayers={prayerModal.prayers}
@@ -2085,7 +2397,8 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
               atlases (Demonology, Infernal Codex) carry their own h1. */}
           {showSectionSearch && <h1 className="sr-only">{tab.label}</h1>}
           {showSectionSearch && (
-            <div className="mb-6 flex items-center gap-3 rounded-full border border-white/[0.14] bg-white/[0.06] py-2 pl-5 pr-2 backdrop-blur-xl focus-within:border-violet-300/50">
+            <div className="mb-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <div className="flex min-w-0 flex-1 items-center gap-3 rounded-full border border-white/[0.14] bg-white/[0.06] py-2 pl-5 pr-2 backdrop-blur-xl focus-within:border-violet-300/50">
               <span aria-hidden="true" className="text-lg text-[#a89ec4]">⌕</span>
               <input
                 value={query}
@@ -2103,12 +2416,16 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
                 </button>
               )}
             </div>
+            {TABLE_COLUMNS[subPage] && <ViewToggle view={view} onChange={setView} />}
+            </div>
           )}
 
           <section className={`${PANEL} p-5 sm:p-6 md:p-8`}>
             <SectionPageContent
               tabId={subPage}
               searchable={searchable}
+              query={query}
+              view={view}
               openModal={openModal}
               openPrayer={openPrayer}
               onEmbeddedNavigate={navigateEmbedded}
