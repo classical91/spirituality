@@ -425,13 +425,51 @@
 }
 .ic-empty-icon { font-size: 2.4rem; margin-bottom: 0.6rem; }
 
+/* ── Expansion: aliases, actions, mobile index ─────────────── */
+h2.ic-group-name { margin: 0; }
+.ic-card-aliases {
+  font-size: 0.74rem;
+  color: #a89ec4;
+  margin: -0.25rem 0 0.5rem;
+}
+.ic-card-actions { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.ic-article-link { border-color: rgba(253,230,138,0.35); color: #fde68a; }
+.ic-toggle:focus-visible,
+.ic-chip:focus-visible,
+.ic-az-letter:focus-visible,
+.ic-index-item:focus-visible,
+.ic-index-toggle:focus-visible {
+  outline: 2px solid #fde68a;
+  outline-offset: 2px;
+}
+.ic-index-toggle {
+  display: none;
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 14px;
+  padding: 0.7rem 1rem;
+  color: #e9e3ff;
+  font: inherit;
+  font-size: 0.88rem;
+  cursor: pointer;
+}
+.ic-index-toggle-arrow { transition: transform 0.2s; }
+.ic-index-toggle-arrow.open { transform: rotate(180deg); }
+
 /* ── Responsive ───────────────────────────────────────────── */
 @media (max-width: 900px) {
   .ic-layout { grid-template-columns: 1fr; padding: 0.75rem 1rem 2.5rem; }
+  .ic-index-toggle { display: flex; }
+  /* Collapsed by default: ~140 names would otherwise push the cards far down. */
   .ic-index {
+    display: none;
     position: static;
-    max-height: 260px;
+    max-height: 320px;
   }
+  .ic-index.ic-index-open { display: block; }
   .ic-hero-title { font-size: 1.7rem; }
 }
 @media (max-width: 600px) {

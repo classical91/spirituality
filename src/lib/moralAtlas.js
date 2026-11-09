@@ -100,13 +100,25 @@ export function nextSort(current, key) {
 
 // ── Section deep links ─────────────────────────────────────────────────────
 
+// Prefix for a deep link to one Infernal Codex card: ?section=codex-<entry-id>.
+export const CODEX_SECTION_PREFIX = 'codex-';
+
+/** The `?section=` value that opens one Codex card. */
+export function codexSection(entryId) {
+  return `${CODEX_SECTION_PREFIX}${entryId}`;
+}
+
 /**
- * Map a `?section=` value onto an atlas tab, plus the article to open inside
- * an embedded atlas when the value names one. Unknown values open the
- * overview (tab: null).
+ * Map a `?section=` value onto an atlas tab, plus the article (or Codex card)
+ * to open inside an embedded atlas when the value names one. Unknown values
+ * open the overview (tab: null). An unknown Codex card still opens the Codex;
+ * the Codex itself ignores an id it does not have.
  */
 export function normalizeInitialSection(section, { tabIds, articleIds }) {
   if (!section) return { tab: null };
+  if (section.startsWith(CODEX_SECTION_PREFIX) && section.length > CODEX_SECTION_PREFIX.length) {
+    return { tab: 'infernal-codex', childSection: section.slice(CODEX_SECTION_PREFIX.length) };
+  }
   if (section === 'angelology') return { tab: 'angels' };
   if (section === 'demonology-atlas' || section === 'demonology-portal') return { tab: 'demonology-atlas' };
   if (section === 'infernal-codex' || section === 'infernalcodex') return { tab: 'infernal-codex' };

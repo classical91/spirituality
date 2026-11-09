@@ -16,9 +16,22 @@
 //   symbolism    "Symbolism"
 //   tags         "Associated titles / tags"
 //
+//   aliases      alternate names / spellings (searched, diacritic-insensitive)
+//   article      id of the long-form Demonology Atlas article, when one exists
+//                (defaults to the entry's own id if the Atlas has that id)
+//   goetia       { n, rank } for the 72 spirits of the Ars Goetia
+//   alsoIn       extra categories an entry is listed under (e.g. Asmodeus is a
+//                Seven Princes entry that is also Goetia spirit 32)
+//
 // "Classification" is rendered as `${type} · ${category}` in the UI.
+//
+// The 72 Goetic spirits come from ./goetia.js: spirits that already had a
+// card here keep it (and its id), the rest are generated as concise cards.
 
-export const codexEntries = [
+import { GOETIA_SPIRITS } from './goetia.js';
+import { demonologyArticleIds } from './demonologyIds.js';
+
+const baseEntries = [
   // ── Ars Goetia ──────────────────────────────────────────────────────────
   {
     id: 'agares', name: 'Agares', type: 'Goetia', category: 'Ars Goetia',
@@ -38,11 +51,11 @@ export const codexEntries = [
   },
   {
     id: 'baal', name: 'Baal', type: 'Goetia', category: 'Ars Goetia',
-    title: 'King / Duke / First Spirit of the Ars Goetia',
-    explanation: 'A major Goetic spirit associated with rulership, invisibility, command, and ancient Near Eastern divine imagery.',
+    title: 'King · First Spirit of the Ars Goetia',
+    explanation: 'The first spirit of the Ars Goetia ("Bael"), a king the grimoire credits with making people invisible and wise; the name is that of the Canaanite storm-god Baal, demonized in biblical polemic.',
     tradition: 'Ars Goetia and Near Eastern deity-name traditions',
     symbolism: 'Authority, concealment, kingship, command.',
-    tags: ['Sigil of Baal', 'King', 'Duke of Hell'],
+    tags: ['Sigil of Baal', 'King', 'Bael'],
   },
   {
     id: 'ars-goetia-list', name: 'List of Demons in the Ars Goetia', type: 'Text', category: 'Ars Goetia',
@@ -93,8 +106,8 @@ export const codexEntries = [
   {
     id: 'asmodeus', name: 'Asmodeus', type: 'Prince', category: 'Seven Princes of Hell',
     title: 'Prince of Lust',
-    explanation: 'Associated with lust, destructive desire, gambling, wrath, and domination by appetite.',
-    tradition: 'Jewish, Christian, Islamic, and occult traditions',
+    explanation: 'The demon of Tobit and the Talmud (Ashmedai), later paired with lust in Binsfeld\'s scheme and listed as the 32nd spirit (Asmoday, a king) of the Ars Goetia.',
+    tradition: 'Jewish (Tobit, Talmud), Christian, and grimoire traditions',
     symbolism: 'Compulsion, obsession, uncontrolled passion.',
     tags: ['Lust', 'Prince', 'Desire'],
   },
@@ -246,7 +259,7 @@ export const codexEntries = [
     explanation: 'A rank used in grimoires and demonological hierarchies to classify certain spirits by title, dignity, or authority.',
     tradition: 'Christian demonology and Solomonic grimoires',
     symbolism: 'Rank, hierarchy, delegated power.',
-    tags: ['Agares', 'Astaroth', 'Baal'],
+    tags: ['Agares', 'Astaroth', 'Gremory'],
   },
   {
     id: 'types-of-angels-and-demons', name: 'Types of Angels and Demons', type: 'Concept', category: 'Angels & Demons',
@@ -426,7 +439,320 @@ export const codexEntries = [
   },
 ];
 
-// Category buttons + grouping order (matches the source design).
+// ── Expansion: figures with long-form Atlas articles ───────────────────────
+// Concise A–Z cards; the full history lives in the Demonology Atlas article
+// with the same id.
+const expansionEntries = [
+  // Figures (Biblical & Jewish)
+  {
+    id: 'leviathan', name: 'Leviathan', aliases: ['Livyatan', 'Lotan'], type: 'Entity', category: 'Figures',
+    title: 'Sea-Dragon of Chaos / Prince of Envy',
+    explanation: 'The primeval sea-serpent of Job, Psalms and Isaiah, inherited from the Ugaritic Lôtan; Binsfeld (1589) later made Leviathan the demon prince of envy.',
+    tradition: 'Ugaritic myth, Hebrew Bible, rabbinic lore, Christian demonology',
+    symbolism: 'Chaos, the deep, the mouth of hell.',
+    tags: ['Chaos', 'Envy', 'Sea', 'Binsfeld'],
+  },
+  {
+    id: 'abaddon', name: 'Abaddon / Apollyon', aliases: ['Apollyon', 'Abbadon'], type: 'Entity', category: 'Figures',
+    title: 'Angel of the Abyss',
+    explanation: 'A Hebrew name for the realm of destruction, personified in Revelation 9:11 as the angel-king of the abyss whose Greek name is Apollyon, "Destroyer." Whether he is fallen or an agent of judgment is debated.',
+    tradition: 'Hebrew wisdom literature, Book of Revelation, Bunyan',
+    symbolism: 'Destruction, the pit, the locust swarm.',
+    tags: ['Destruction', 'Abyss', 'Revelation'],
+  },
+  {
+    id: 'samael', name: 'Samael', aliases: ['Sammael'], type: 'Entity', category: 'Figures',
+    title: 'Angel of Death / Accuser',
+    explanation: 'A post-biblical figure: angel of death and tempter in midrash, a name of the blind creator in Gnostic texts, and Lilith\'s consort in medieval Kabbalah.',
+    tradition: 'Ascension of Isaiah, Nag Hammadi, midrash, Zohar',
+    symbolism: 'Death, accusation, temptation within divine limits.',
+    tags: ['Death', 'Kabbalah', 'Lilith'],
+  },
+  {
+    id: 'naamah', name: 'Naamah', type: 'Entity', category: 'Figures',
+    title: 'Kabbalistic Queen of Demons',
+    explanation: 'Named once in Genesis 4:22 as Tubal-cain\'s sister; the Zohar later makes her a seductive demoness and Kabbalistic lists a queen of demons.',
+    tradition: 'Genesis, Genesis Rabbah, Zohar',
+    symbolism: 'Beauty, song, seduction.',
+    tags: ['Kabbalah', 'Seduction', 'Genesis'],
+  },
+  {
+    id: 'watchers', name: 'The Watchers', aliases: ['Grigori', 'Egregoroi'], type: 'Entity', category: 'Figures',
+    title: 'Fallen Angels of 1 Enoch',
+    explanation: 'Two hundred angels who, in 1 Enoch, descend on Mount Hermon, take human wives and teach forbidden arts; their giant offspring\'s spirits become demons.',
+    tradition: '1 Enoch, Jubilees, Dead Sea Scrolls',
+    symbolism: 'Transgressed boundaries, forbidden knowledge.',
+    tags: ['Watchers', 'Enoch', 'Fallen Angels'],
+  },
+  {
+    id: 'nephilim', name: 'Nephilim', aliases: ['Nefilim'], type: 'Entity', category: 'Figures',
+    title: 'Giants of Genesis 6',
+    explanation: 'The "mighty men of old" of Genesis 6:4; Enochic texts make them the violent offspring of the Watchers whose disembodied spirits become evil spirits.',
+    tradition: 'Genesis, Numbers, 1 Enoch, Book of Giants',
+    symbolism: 'Unbounded power and appetite.',
+    tags: ['Giants', 'Watchers', 'Genesis'],
+  },
+  {
+    id: 'shedim', name: 'Shedim', aliases: ['Shed', 'Mazzikin'], type: 'Spirit Class', category: 'Figures',
+    title: 'Demons of Rabbinic Judaism',
+    explanation: 'Invisible beings that the Talmud describes as part angel-like and part human-like — dangerous, mortal, and subject to God.',
+    tradition: 'Hebrew Bible, Talmud, Jewish folklore',
+    symbolism: 'Everyday danger, ruins, night.',
+    tags: ['Talmud', 'Ashmedai', 'Folklore'],
+  },
+
+  // Mesopotamian Spirits
+  {
+    id: 'lamashtu', name: 'Lamashtu', aliases: ['Lamaštu', 'Dimme'], type: 'Entity', category: 'Mesopotamian Spirits',
+    title: 'Demoness of Childbirth Danger',
+    explanation: 'Daughter of the sky-god Anu, feared for attacking pregnant women and infants; warded off by incantations and Pazuzu amulets.',
+    tradition: 'Babylonian and Assyrian incantations',
+    symbolism: 'The perils of birth and infancy.',
+    tags: ['Mesopotamia', 'Childbirth', 'Incantation'],
+  },
+  {
+    id: 'pazuzu', name: 'Pazuzu', type: 'Entity', category: 'Mesopotamian Spirits',
+    title: 'King of the Wind-Demons',
+    explanation: 'A wind-demon whose image was worn as a protective amulet against Lamashtu — dangerous and protective at once.',
+    tradition: 'Neo-Assyrian and Neo-Babylonian amulets',
+    symbolism: 'Wind, fever, danger turned to protection.',
+    tags: ['Wind', 'Amulet', 'Protection'],
+  },
+  {
+    id: 'gallu', name: 'Gallû (Galla)', aliases: ['Galla', 'Gallu'], type: 'Spirit Class', category: 'Mesopotamian Spirits',
+    title: 'Underworld Constables',
+    explanation: 'The incorruptible beings who, in "Inanna\'s Descent," seize Dumuzi for the netherworld; later listed among evil demons.',
+    tradition: 'Sumerian myth, Utukkū Lemnūtu',
+    symbolism: 'Death\'s inevitability.',
+    tags: ['Underworld', 'Inanna', 'Dumuzi'],
+  },
+  {
+    id: 'utukku', name: 'Utukku', aliases: ['Udug'], type: 'Spirit Class', category: 'Mesopotamian Spirits',
+    title: 'Spirit (Good or Evil)',
+    explanation: 'A general Mesopotamian word for a spirit; the great exorcism series is named for the "evil utukku," implying good ones existed too.',
+    tradition: 'Udug-hul / Utukkū Lemnūtu series',
+    symbolism: 'Unseen causes of illness.',
+    tags: ['Exorcism', 'Spirits', 'Mesopotamia'],
+  },
+
+  // Islamic Traditions
+  {
+    id: 'iblis', name: 'Iblīs', aliases: ['Iblis', 'Eblis'], type: 'Entity', category: 'Islamic Traditions',
+    title: 'The One Who Refused to Bow',
+    explanation: 'In the Quran Iblīs refuses to prostrate before Adam out of pride and is granted respite to mislead humanity; whether he was an angel or a jinn is debated.',
+    tradition: 'Quran, tafsir, Sufism',
+    symbolism: 'Pride of origin, the whisper.',
+    tags: ['Pride', 'Quran', 'Adam'],
+  },
+  {
+    id: 'shayatin', name: 'Shayṭān / Shayāṭīn', aliases: ['Shaytan', 'Shaitan', 'Shayatin'], type: 'Spirit Class', category: 'Islamic Traditions',
+    title: 'The Whisperers',
+    explanation: 'Al-Shayṭān names Iblīs after his fall; the shayāṭīn are rebellious beings of jinn and humankind who whisper evil suggestions.',
+    tradition: 'Quran and hadith',
+    symbolism: 'Intrusive suggestion, temptation.',
+    tags: ['Waswasa', 'Temptation', 'Quran'],
+  },
+  {
+    id: 'jinn', name: 'Jinn', aliases: ['Djinn', 'Jinni', 'Genie'], type: 'Spirit Class', category: 'Islamic Traditions',
+    title: 'Beings of Smokeless Fire',
+    explanation: 'A free-willed created order beside angels and humans; some jinn are believers and some are not, so jinn are not demons by definition.',
+    tradition: 'Pre-Islamic Arabia, Quran, folk Islam',
+    symbolism: 'The hidden, unseen world.',
+    tags: ['Quran', 'Smokeless Fire', 'Free Will'],
+  },
+  {
+    id: 'ifrit', name: 'ʿIfrīt', aliases: ['Ifrit', 'Efreet', 'Afrit'], type: 'Spirit Class', category: 'Islamic Traditions',
+    title: 'Powerful Jinn',
+    explanation: 'A mighty kind of jinn: in Quran 27:39 one offers to fetch Sheba\'s throne for Solomon; later tales make ʿafārīt formidable and often hostile.',
+    tradition: 'Quran, Thousand and One Nights, Egyptian folklore',
+    symbolism: 'Raw power, the sealed vessel.',
+    tags: ['Jinn', 'Solomon', 'Folklore'],
+  },
+
+  // South Asian & Buddhist
+  {
+    id: 'mara', name: 'Māra', aliases: ['Mara', 'Namuci', 'Papiyas'], type: 'Entity', category: 'South Asian & Buddhist',
+    title: 'Buddhist Lord of Death and Desire',
+    explanation: 'The figure who assails and tempts the Buddha beneath the bodhi tree; in Buddhism a personification of death, craving and the defilements — not a fallen angel.',
+    tradition: 'Pali Canon, Buddhacarita, Mahāyāna',
+    symbolism: 'Temptation, death, the earth-touching gesture.',
+    tags: ['Buddhism', 'Temptation', 'Death'],
+  },
+  {
+    id: 'asuras', name: 'Asuras', aliases: ['Asura', 'Ashura'], type: 'Spirit Class', category: 'South Asian & Buddhist',
+    title: 'Rivals of the Gods',
+    explanation: 'Once an honorific for Vedic gods, later the rivals of the devas; Hindu asuras include tyrants and devotees, Buddhist asuras inhabit a realm of jealousy, Jain asurakumāras are gods.',
+    tradition: 'Vedic, Purāṇic, Buddhist, Jain',
+    symbolism: 'Power in conflict with harmony.',
+    tags: ['Devas', 'War', 'Rebirth'],
+  },
+  {
+    id: 'rakshasas', name: 'Rākṣasas', aliases: ['Rakshasa', 'Rakshasi'], type: 'Spirit Class', category: 'South Asian & Buddhist',
+    title: 'Shape-Shifters of the Epics',
+    explanation: 'Night-roaming, shape-shifting beings — Rāvaṇa\'s people in the Rāmāyaṇa — yet the epics include the righteous Vibhīṣaṇa and the hero Ghaṭotkaca.',
+    tradition: 'Vedas, Rāmāyaṇa, Mahābhārata, Jain and Buddhist texts',
+    symbolism: 'Illusion and appetite.',
+    tags: ['Ramayana', 'Ravana', 'Shape-shifting'],
+  },
+  {
+    id: 'pretas', name: 'Pretas (Hungry Ghosts)', aliases: ['Preta', 'Peta', 'Gaki', 'Egui'], type: 'Spirit Class', category: 'South Asian & Buddhist',
+    title: 'The Hungry Dead',
+    explanation: 'In Hindu ritual the newly dead awaiting ancestorhood; in Buddhism beings reborn into insatiable hunger through greed — fed and pitied, not fought.',
+    tradition: 'Hindu funerary rites, Petavatthu, East Asian Buddhism',
+    symbolism: 'Unsatisfiable craving.',
+    tags: ['Hungry Ghosts', 'Rebirth', 'Offerings'],
+  },
+
+  // East Asian Folklore
+  {
+    id: 'chinese-hungry-ghosts', name: 'Hungry Ghosts (China)', aliases: ['Egui', 'Ghost Month', 'Zhongyuan', 'Yulanpen'], type: 'Spirit Class', category: 'East Asian Folklore',
+    title: 'The Neglected Dead',
+    explanation: 'Ghosts without descendants or proper rites, fed during the seventh-month Ghost Festival (Buddhist Yulanpen, Daoist Zhongyuan).',
+    tradition: 'Chinese popular religion, Buddhism, Daoism',
+    symbolism: 'Obligations to the forgotten dead.',
+    tags: ['Ghost Festival', 'Ancestors', 'China'],
+  },
+  {
+    id: 'jiangshi', name: 'Jiangshi', aliases: ['Jiang shi', 'Hopping vampire', 'Kyonshi'], type: 'Folklore Being', category: 'East Asian Folklore',
+    title: 'Stiff Corpse',
+    explanation: 'A reanimated corpse of Qing-era tales that drains life-force; the "hopping vampire" image comes from 1980s Hong Kong film.',
+    tradition: 'Qing strange tales, Chinese folklore',
+    symbolism: 'Death without ritual closure.',
+    tags: ['Revenant', 'China', 'Talisman'],
+  },
+  {
+    id: 'yokai', name: 'Yōkai', aliases: ['Yokai', 'Youkai', 'Bakemono'], type: 'Spirit Class', category: 'East Asian Folklore',
+    title: 'The Uncanny Beings of Japan',
+    explanation: 'An umbrella term for Japan\'s strange creatures and spirits — some harmful, many mischievous, some lucky.',
+    tradition: 'Japanese folklore, Toriyama Sekien, modern media',
+    symbolism: 'The uncanny in everyday life.',
+    tags: ['Japan', 'Folklore', 'Night Parade'],
+  },
+  {
+    id: 'oni', name: 'Oni', type: 'Folklore Being', category: 'East Asian Folklore',
+    title: 'Horned Ogre-Demon',
+    explanation: 'Horned, club-wielding beings: hell wardens in Buddhist imagery, raiders in legend, expelled at Setsubun — and protective on roof tiles.',
+    tradition: 'Japanese folklore and Buddhism',
+    symbolism: 'Misfortune to be expelled; punishment.',
+    tags: ['Japan', 'Setsubun', 'Hell Warden'],
+  },
+  {
+    id: 'tengu', name: 'Tengu', type: 'Folklore Being', category: 'East Asian Folklore',
+    title: 'Mountain Goblin / Guardian',
+    explanation: 'Bird-like obstructors of Buddhism who punished proud monks, later long-nosed mountain guardians venerated as kami.',
+    tradition: 'Japanese Buddhism, Shugendō, folklore',
+    symbolism: 'Pride and its correction.',
+    tags: ['Japan', 'Mountains', 'Pride'],
+  },
+  {
+    id: 'kitsune', name: 'Kitsune', aliases: ['Nine-tailed fox'], type: 'Folklore Being', category: 'East Asian Folklore',
+    title: 'Fox Spirit',
+    explanation: 'Shape-shifting foxes: sacred messengers of Inari, but also tricksters and seductresses such as Tamamo-no-Mae.',
+    tradition: 'Japanese folklore, Inari worship, Chinese fox lore',
+    symbolism: 'Transformation, cleverness.',
+    tags: ['Japan', 'Inari', 'Trickster'],
+  },
+  {
+    id: 'jorogumo', name: 'Jorōgumo', aliases: ['Jorogumo'], type: 'Folklore Being', category: 'East Asian Folklore',
+    title: 'Spider Woman',
+    explanation: 'An Edo-period yōkai: a spider that becomes a beautiful woman to lure and bind men.',
+    tradition: 'Edo folklore, Toriyama Sekien',
+    symbolism: 'Deceptive allure.',
+    tags: ['Japan', 'Spider', 'Yokai'],
+  },
+
+  // Southeast Asian Folklore
+  {
+    id: 'pontianak', name: 'Pontianak', aliases: ['Puntianak', 'Matianak', 'Langsuir'], type: 'Folklore Being', category: 'Southeast Asian Folklore',
+    title: 'Malay Ghost of Childbirth Death',
+    explanation: 'In Malaysia, Singapore and Brunei, the vengeful ghost of a woman who died in pregnancy or childbirth; older Malay lore (Skeat, 1900) called the mother langsuir and the stillborn child pontianak.',
+    tradition: 'Malay folklore and cinema',
+    symbolism: 'Maternal death, vengeance.',
+    tags: ['Malaysia', 'Ghost', 'Frangipani'],
+  },
+  {
+    id: 'kuntilanak', name: 'Kuntilanak', aliases: ['Kuntianak', 'Kunti'], type: 'Folklore Being', category: 'Southeast Asian Folklore',
+    title: 'Indonesian Female Ghost',
+    explanation: 'The Indonesian counterpart of the pontianak — a female ghost linked with death in childbirth, said to haunt trees — with its own regional lore, including the founding legend of the city of Pontianak.',
+    tradition: 'Indonesian (Malay, Javanese, Sundanese) folklore',
+    symbolism: 'Grief, vengeance, the liminal tree.',
+    tags: ['Indonesia', 'Ghost', 'Pontianak'],
+    article: 'pontianak',
+  },
+  {
+    id: 'krasue', name: 'Krasue', aliases: ['Penanggalan', 'Ap', 'Kasu'], type: 'Folklore Being', category: 'Southeast Asian Folklore',
+    title: 'Floating Head',
+    explanation: 'A woman by day whose head and entrails fly by night in search of blood; related figures are the Khmer ap, Lao kasu and Malay penanggalan.',
+    tradition: 'Thai, Khmer, Lao and Malay folklore',
+    symbolism: 'Hidden hunger; danger to birth.',
+    tags: ['Thailand', 'Phi', 'Ghost'],
+  },
+  {
+    id: 'manananggal', name: 'Manananggal', aliases: ['Mananangal', 'Aswang'], type: 'Folklore Being', category: 'Southeast Asian Folklore',
+    title: 'Self-Segmenting Flyer',
+    explanation: 'A Philippine aswang-type creature that detaches her upper body and flies at night to prey on pregnant women.',
+    tradition: 'Tagalog and Visayan folklore',
+    symbolism: 'Threats to pregnancy; the community\'s margins.',
+    tags: ['Philippines', 'Aswang', 'Shape-shifter'],
+  },
+];
+
+// Codex entries whose detailed Atlas article has a different id.
+const ARTICLE_ALIASES = {
+  'ars-goetia-list': 'ars-goetia',
+  'seven-deadly-sins': 'sins-overview',
+  'classification-of-demons': 'classification',
+  'celtic-names': 'names-celtic',
+};
+
+const ATLAS_IDS = new Set(demonologyArticleIds);
+
+function goetiaCard(spirit) {
+  const rank = spirit.rank.join(' & ');
+  return {
+    id: spirit.id,
+    name: spirit.name,
+    aliases: spirit.aliases,
+    type: 'Goetia',
+    category: 'Ars Goetia',
+    title: `${rank} · Spirit ${spirit.n} of the Ars Goetia`,
+    explanation: `The Ars Goetia describes ${spirit.name} as ${spirit.appearance}, and credits the spirit with ${spirit.offices}.`,
+    tradition: spirit.weyer === false
+      ? 'Ars Goetia (Lemegeton, 17th c.) — one of four spirits not in Weyer\'s "Pseudomonarchia Daemonum"'
+      : 'Ars Goetia (Lemegeton, 17th c.), after Weyer\'s "Pseudomonarchia Daemonum" (1577)',
+    symbolism: spirit.origin || 'Grimoire imagery; the name has no documented history outside early-modern magical texts.',
+    tags: [...spirit.rank, `Goetia #${spirit.n}`],
+  };
+}
+
+function buildCodex() {
+  const entries = [...baseEntries, ...expansionEntries];
+  const byId = new Map(entries.map((e) => [e.id, e]));
+  for (const spirit of GOETIA_SPIRITS) {
+    const goetia = { n: spirit.n, rank: spirit.rank };
+    const existing = byId.get(spirit.id);
+    if (existing) {
+      const aliases = [...new Set([...(existing.aliases || []), spirit.name, ...spirit.aliases])]
+        .filter((a) => a !== existing.name);
+      byId.set(spirit.id, {
+        ...existing,
+        aliases,
+        goetia,
+        ...(existing.category === 'Ars Goetia' ? {} : { alsoIn: ['Ars Goetia'] }),
+      });
+    } else {
+      byId.set(spirit.id, { ...goetiaCard(spirit), goetia });
+    }
+  }
+  return [...byId.values()].map((entry) => {
+    const article = entry.article || ARTICLE_ALIASES[entry.id] || (ATLAS_IDS.has(entry.id) ? entry.id : undefined);
+    return article ? { ...entry, article } : entry;
+  });
+}
+
+export const codexEntries = buildCodex();
+
+// Category buttons + grouping order.
 export const CODEX_CATEGORIES = [
   'Ars Goetia',
   'Texts',
@@ -437,6 +763,11 @@ export const CODEX_CATEGORIES = [
   'Angels & Demons',
   'Figures',
   'Ancient Deities',
+  'Mesopotamian Spirits',
+  'Islamic Traditions',
+  'South Asian & Buddhist',
+  'East Asian Folklore',
+  'Southeast Asian Folklore',
   'Deity Lists',
   'Celtic Mythology',
   'Comparative Mythology',
@@ -450,16 +781,26 @@ export const CODEX_TYPES = [
   'Concept',
   'Deity List',
   'Entity',
+  'Folklore Being',
   'Goetia',
   'Prince',
   'Rank',
   'Seal',
   'Sin',
+  'Spirit Class',
   'Text',
 ];
 
-// Reference stats shown in the header strip.
+// Reference stats shown in the header strip. Goetia coverage is counted, not
+// asserted: it is the number of the 72 spirits that actually have a card.
+const CODEX_IDS = new Set(codexEntries.map((e) => e.id));
 export const CODEX_STATS = {
-  goetiaReference: 72,
+  goetiaReference: GOETIA_SPIRITS.length,
+  goetiaCovered: GOETIA_SPIRITS.filter((s) => CODEX_IDS.has(s.id)).length,
   princesAndSins: 7,
 };
+
+/** True when an entry belongs under a category (its own or an `alsoIn`). */
+export function inCodexCategory(entry, category) {
+  return entry.category === category || (entry.alsoIn || []).includes(category);
+}
