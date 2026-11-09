@@ -3,9 +3,9 @@ import { prayerThemesCategories, prayerTextByTitle } from "./data/prayerThemes";
 import { angels, ANGEL_FILTERS } from "./data/angels";
 import { demonologyArticleIds } from "./data/demonologyIds";
 import { readJSON, writeJSON } from "./lib/storage";
-import { filterByQuery, nextSort, normalizeInitialSection, sortRows } from "./lib/moralAtlas";
+import { codexSection, filterByQuery, nextSort, normalizeInitialSection, sortRows } from "./lib/moralAtlas";
 
-// The two embedded atlases (and the 180 KB demonology article set behind the
+// The two embedded atlases (and the ~300 KB demonology article set behind the
 // first) load only when their section is opened.
 const DemonologyAtlas = lazy(() => import("./DemonologyAtlas"));
 const InfernalCodex = lazy(() => import("./InfernalCodex"));
@@ -1950,6 +1950,7 @@ function SectionPageContent({ tabId, searchable, query, view, openModal, openPra
       <Suspense fallback={<EmbeddedLoading label="Infernal Codex" />}>
         <InfernalCodex
           embedded
+          initialEntry={embeddedInitialSection}
           onNavigate={onEmbeddedNavigate}
         />
       </Suspense>
@@ -2245,6 +2246,9 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
   const [subPage, setSubPage] = useState(
     normalizedInitial.tab
   );
+  // Article / Codex card to open inside an embedded atlas when there is no
+  // router to carry it in the URL.
+  const [localChildSection, setLocalChildSection] = useState(normalizedInitial.childSection);
   const [query, setQuery] = useState("");
   const [modal, setModal] = useState(null);
   const [prayerModal, setPrayerModal] = useState(null);
@@ -2306,17 +2310,21 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
       onNavigate("biblical", { section: tabId });
       return;
     }
-    setSubPage(tabId);
+    const target = normalizeInitialSection(tabId, SECTION_LINKS);
+    setSubPage(target.tab ?? tabId);
+    setLocalChildSection(target.childSection);
     setQuery("");
   };
 
-  const navigateEmbedded = (portalId) => {
+  // Cross-links between the embedded atlases: an Atlas article can open its
+  // Codex card ({ entry }) and a Codex card its Atlas article ({ section }).
+  const navigateEmbedded = (portalId, { section, entry } = {}) => {
     if (portalId === "demonology") {
-      navigateTo("demonology-atlas");
+      navigateTo(section || "demonology-atlas");
       return;
     }
     if (portalId === "infernalcodex") {
-      navigateTo("infernal-codex");
+      navigateTo(entry ? codexSection(entry) : "infernal-codex");
       return;
     }
     onNavigate?.(portalId);
@@ -2429,7 +2437,7 @@ export default function BibleConceptAtlas({ onBack, onNavigate, initialSection }
               openModal={openModal}
               openPrayer={openPrayer}
               onEmbeddedNavigate={navigateEmbedded}
-              embeddedInitialSection={normalizedInitial.childSection}
+              embeddedInitialSection={onNavigate ? normalizedInitial.childSection : localChildSection}
             />
           </section>
         </main>

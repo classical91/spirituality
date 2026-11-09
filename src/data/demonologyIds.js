@@ -1,6 +1,7 @@
 // Article ids from ./demonology.js, kept apart so the Sacred Moral Atlas can
 // resolve a deep link (?section=<article-id>) without loading the full
-// 180 KB article set. src/lib/__tests__/moralAtlas.test.js fails if the two drift.
+// article set. src/lib/__tests__/moralAtlas.test.js fails if the two drift.
+// Ids are permanent: never rename or remove one, only append.
 export const demonologyArticleIds = [
   'demonology', 'what-is-a-demon', 'personification-vs-embodiment', 'wickedness', 'temptation',
   'sin-and-corruption', 'satan', 'devil', 'lucifer', 'beelzebub', 'belial', 'mammon', 'azazel',
@@ -16,5 +17,9 @@ export const demonologyArticleIds = [
   'comparative-overview', 'demons-christianity', 'demons-judaism', 'demons-islam',
   'demons-gnosticism', 'demons-mesopotamia', 'demons-greek', 'demons-celtic',
   'demons-as-archetypes', 'jungian-shadow', 'symbolic-evil', 'inner-temptation',
-  'spiritual-warfare',
+  'spiritual-warfare', 'leviathan', 'abaddon', 'samael', 'naamah', 'watchers', 'nephilim',
+  'shedim', 'paimon', 'lamashtu', 'pazuzu', 'gallu', 'utukku', 'iblis', 'shayatin', 'jinn',
+  'ifrit', 'demons-south-asia', 'mara', 'asuras', 'rakshasas', 'pretas', 'demons-east-asia',
+  'chinese-hungry-ghosts', 'jiangshi', 'yokai', 'oni', 'tengu', 'kitsune', 'jorogumo',
+  'demons-southeast-asia', 'pontianak', 'krasue', 'manananggal',
 ];
