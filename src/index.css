@@ -20,3 +20,18 @@
   0%, 100% { transform: perspective(900px) rotateY(0deg); }
   50% { transform: perspective(900px) rotateY(9deg); }
 }
+
+/* "Last updated …" under every page (components/PageUpdated.jsx). Its own
+   strip, because it sits after the page's root and so outside the page's
+   background; the hairline makes that edge read as a footer rather than a seam.
+   Centred text never reaches the floating Home button in the corner, so the
+   strip does not need to be tall enough to clear it. */
+.page-updated {
+  padding: 20px 72px calc(20px + env(safe-area-inset-bottom));
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  background: #07090f;
+  color: rgba(216, 206, 255, 0.55);
+  font-size: 12px;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
