@@ -9,7 +9,8 @@
     "lint": "eslint .",
     "preview": "vite preview --host 0.0.0.0",
     "start": "node server.mjs",
-    "test": "node --test \"src/**/*.test.js\""
+    "test": "node --test \"src/**/*.test.js\"",
+    "stamp-pages": "node scripts/pageUpdates.mjs"
   },
   "engines": {
     "node": ">=22.12.0"

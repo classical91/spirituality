@@ -1,5 +1,6 @@
 import { lazy, Suspense, useCallback, useLayoutEffect, useMemo } from 'react';
 import HomePage from './HomePage';
+import PageUpdated from './components/PageUpdated';
 import PortalErrorBoundary from './components/PortalErrorBoundary';
 import { portals, portalsById, portalsByPath } from './data/portals';
 import { useRoute } from './hooks/useRoute';
@@ -190,16 +191,33 @@ export default function App() {
   // floating Home button shows on every other screen but not on home itself.
   let homeView = false;
   const content = renderRoute();
+  const pageId = currentPageId();
   return (
     <>
       {/* Keyed on the route so navigating away clears a previous failure: the
           boundary remounts and the new page gets a clean render. */}
       <PortalErrorBoundary key={path} onGoHome={goHome}>
-        <Suspense fallback={<AppLoadingScreen />}>{content}</Suspense>
+        {/* Inside Suspense so the date arrives with the page, not under the
+            loading screen. */}
+        <Suspense fallback={<AppLoadingScreen />}>
+          {content}
+          <PageUpdated pageId={pageId} />
+        </Suspense>
       </PortalErrorBoundary>
       {!homeView && <FloatingHomeButton onClick={goHome} />}
     </>
   );
+
+  // Which page ended up on screen, for its "Last updated" line. Read after
+  // renderRoute() because legacy routes rewrite the URL while rendering, so
+  // /psychology has already become /inner-atlas by now.
+  function currentPageId() {
+    if (typeof window === 'undefined') return null;
+    const current = window.location.pathname;
+    if (current === '/') return 'home';
+    if (current === '/settings') return 'settings';
+    return portalsByPath[current]?.id ?? null;
+  }
 
   function renderRoute() {
   // Settings is not a portal: it edits the library the portals draw from

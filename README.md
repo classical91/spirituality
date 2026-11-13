@@ -85,6 +85,25 @@ invariants that break navigation silently — daily rotation coverage, portal
 paths, and the `?section=` routing contracts the portals depend on. They are
 plain Node tests over the data and `src/lib` modules, with no DOM or renderer.
 
+## Page dates
+
+Every page ends with **Last updated** and a date. The dates live in
+`src/data/pageUpdates.json`, one per page, each with a hash of every file the
+page is built from: its component and everything it imports, data and CSS
+included. After changing a page, run:
+
+```bash
+npm run stamp-pages   # gives each changed page today's date (Vancouver time)
+```
+
+and commit the JSON with the change. `npm test` fails while a page's files no
+longer match its hash, so a change cannot merge green with a stale date.
+
+The dates are committed rather than read from git at build time because the
+production build has no history to read — Railway builds from a snapshot, and
+CI checks out a single commit. `node scripts/pageUpdates.mjs --from-git`
+rebuilds every date from git history, given a full clone.
+
 ## Continuous integration
 
 GitHub Actions runs `npm ci`, `npm run lint`, `npm test`, and `npm run build` on every push to `main` and every pull request — see `.github/workflows/ci.yml`. A red test fails the build, so a change that breaks a routing or data invariant cannot merge green.
