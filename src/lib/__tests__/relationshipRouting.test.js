@@ -9,6 +9,7 @@ import {
   practiceSectionIds,
   relationshipSections,
 } from '../../data/relationshipIndex.js';
+import { clarityConcepts, clarityConceptsById } from '../../data/clarityConcepts.js';
 
 // These tests pin the contract the Relationship Hub relies on: the URL is the
 // only place the visible tab and concept live. App.jsx re-keys the portal on
@@ -76,8 +77,9 @@ describe('relationship hub section routing', () => {
   });
 
   it('places every Clarity concept in exactly one chapter', () => {
-    // A concept link opens its chapter, so a concept left out of every chapter
-    // would fall back to the chapter index and its link would show nothing.
+    // A topic page sits inside its chapter (sidebar, previous/next), so a
+    // concept left out of every chapter would fall back to the chapter index
+    // and its link would show nothing.
     const chapterIds = new Set(clarityChapters.map((c) => c.id));
     const inChapters = clarityChapters.flatMap((c) => c.concepts);
     assert.equal(new Set(inChapters).size, inChapters.length, 'a concept is listed in two chapters');
@@ -85,6 +87,22 @@ describe('relationship hub section routing', () => {
       .filter((id) => !chapterIds.has(id))
       .forEach((id) => assert.ok(clarityChapterFor(id), `${id} has no chapter`));
     inChapters.forEach((id) => assert.equal(resolveSection(id).tab, 'clarity', `${id} does not route to Clarity`));
+  });
+
+  it('gives every chapter topic content, a route, and a page of its own', () => {
+    // Each chapter lists topics by id; a topic page renders the concept with
+    // that id, so an id with no content would be a dead card in its chapter.
+    const routable = new Set(claritySectionIds);
+    clarityChapters.forEach((chapter) => {
+      chapter.concepts.forEach((id) => {
+        assert.ok(clarityConceptsById[id], `${chapter.id} lists ${id}, which has no content`);
+        assert.ok(routable.has(id), `${id} is not a routable Clarity section`);
+        assert.deepEqual(resolveSection(id), { tab: 'clarity', sub: id });
+      });
+    });
+    clarityConcepts.forEach((concept) => {
+      assert.ok(clarityChapterFor(concept.id), `${concept.id} has content but no chapter`);
+    });
   });
 
   it('routes a chapter id to Clarity and resolves it to that chapter', () => {

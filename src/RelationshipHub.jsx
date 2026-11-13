@@ -26,6 +26,7 @@ import {
   relationshipCategories,
   relationshipSectionsById,
 } from "./data/relationshipIndex";
+import { clarityConceptsById } from "./data/clarityConcepts";
 import { relationshipPatterns, relationshipPatternsById } from "./data/relationshipPatterns";
 import { resolveSection, sectionForTab } from "./lib/relationshipRouting";
 
@@ -71,10 +72,14 @@ const QUICK_TOOLS = [
 
 // Where the top bar's back button goes, and what the bar names the screen.
 // Back always moves up one level: a chapter or pattern goes to its tab index,
-// a tab goes to the overview, and the overview leaves the hub.
+// a Clarity topic goes to its chapter, a tab goes to the overview, and the
+// overview leaves the hub.
 function describeScreen(tab, sub) {
   if (tab === "clarity") {
+    // A topic goes back to its chapter, a chapter to the Clarity index.
     const chapter = clarityChapterFor(sub);
+    const concept = clarityConceptsById[sub];
+    if (concept && chapter) return { title: concept.label, back: { label: chapter.title, section: chapter.id } };
     return chapter
       ? { title: chapter.title, back: { label: "Clarity", section: "clarity" } }
       : { title: "Relationship Clarity", back: { label: "Overview", section: null } };
