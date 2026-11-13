@@ -3,7 +3,8 @@
 //
 // This module holds NAVIGATION + SEARCH METADATA ONLY. The full educational
 // content still lives in the portal components:
-//   • src/RelationshipClarityPortal.jsx   (owner: 'clarity')
+//   • src/RelationshipClarityPortal.jsx   (owner: 'clarity'; topic content in
+//     src/data/clarityConcepts.js)
 //   • src/RelationshipPatterns.jsx        (owner: 'patterns')
 //   • src/RelationshipPractice.jsx        (owner: 'practice')
 //   • src/RelationshipFoundations.jsx     (a tab inside Practice)
@@ -26,11 +27,12 @@
 // its id to the matching list.
 
 // ── Clarity chapters ───────────────────────────────────────────────────────
-// Clarity's concepts are read in themed chapters rather than one page each:
-// a chapter page holds every concept in its `concepts` list, in order, and a
-// concept's own ?section= opens its chapter scrolled to that concept. Each
-// chapter id is itself a routable section (appended to claritySectionIds
-// below). Every Clarity concept belongs to exactly one chapter.
+// Clarity's concepts are grouped into themed chapters. Each concept has a
+// page of its own (?section=<concept id>); a chapter page lists its
+// `concepts`, in order, and links to each. Each chapter id is itself a
+// routable section (appended to claritySectionIds below). Every Clarity
+// concept belongs to exactly one chapter. Concept content lives in
+// src/data/clarityConcepts.js.
 export const clarityChapters = [
   {
     id: "reading-the-connection",
